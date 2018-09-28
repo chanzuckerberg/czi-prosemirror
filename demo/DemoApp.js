@@ -1,13 +1,17 @@
 // @flow
 
+import DemoAppHTMLTemplate from './DemoAppHTMLTemplate';
+import DemoAppTollbar from './DemoAppTollbar';
 import React from 'react';
-import {EDITOR_SCHEMA, EDITOR_PLUGINS, EDITOR_EMPTY_STATE} from '../src/configs';
+import {DOMParser} from 'prosemirror-model';
 import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
-import {Schema, DOMParser} from 'prosemirror-model';
-import {addListNodes} from "prosemirror-schema-list";
-import {baseKeymap} from 'prosemirror-commands';
-import {schema} from 'prosemirror-schema-basic';
+
+import {
+  EDITOR_EMPTY_STATE,
+  EDITOR_PLUGINS,
+  EDITOR_SCHEMA,
+} from '../src/configs';
 
 import 'prosemirror-view/style/prosemirror.css';
 import 'prosemirror-gapcursor/style/gapcursor.css';
@@ -18,6 +22,7 @@ import 'prosemirror-example-setup/style/style.css';
 import './DemoApp.css';
 
 type Transaction = any;
+
 
 class DemoApp extends React.PureComponent<any, any, any> {
 
@@ -51,13 +56,16 @@ class DemoApp extends React.PureComponent<any, any, any> {
   }
 
   render(): React.Element<any> {
+    const {editorState} = this.state;
+    const editorView = this._editorView;
     return (
-      <div>
-        <div id={this._id + 'template'} className="template">
-          <h1>Editor Example</h1>
-          <h2>H2 Header</h2>
-          <p>paragraph</p>
-        </div>
+      <div className="demo-app">
+        <DemoAppHTMLTemplate id={this._id} />
+        <DemoAppTollbar
+          editorState={editorState}
+          editorView={editorView}
+          dispatch={this._dispatchTransaction}
+        />
         <div id={this._id} className="editor" />
       </div>
     );
@@ -67,7 +75,7 @@ class DemoApp extends React.PureComponent<any, any, any> {
     const {onChange} = this.props;
     const editorState = this.state.editorState.apply(transaction);
     const editorView = this._editorView;
-    if (editorView ) {
+    if (editorView) {
       this.setState({editorState});
       editorView .updateState(editorState);
     }

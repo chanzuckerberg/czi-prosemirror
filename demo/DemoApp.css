@@ -10,17 +10,34 @@ body {
   margin: 0;
 }
 
-.template {
+.demo-app-template {
   display: none;
 }
 
-.ProseMirror {
+.demo-app {
   background: #fff;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
   box-sizing: border-box;
-  margin: auto;
-  max-width: 1020px;
-  min-height: 100vh;
+  margin: 20px auto;
+  width: 21cm;
+}
+
+.demo-app-toolbar {
+  background: #d0d0d0;
+  padding: 16px;
+}
+
+.ProseMirror {
+  min-height: 29.7cm;
   outline: none;
   padding: 16px;
-  width: 100vw;
+}
+
+.command-button-component {
+  cursor: pointer;
+  padding: 12px 6px;
+}
+
+.command-button-component[disabled] {
+  cursor: default;
 }
