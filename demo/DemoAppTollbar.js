@@ -9,9 +9,17 @@ import {Transform} from 'prosemirror-transform';
 import {
   HISTORY_REDO,
   HISTORY_UNDO,
+  H1,
+  H2,
+  H3,
+  H4,
 } from '../src/configs';
 
 const Commands = {
+  'H1': H1,
+  'H2': H2,
+  'H3': H3,
+  'H4': H4,
   'Undo': HISTORY_UNDO,
   'Redo': HISTORY_REDO,
 };

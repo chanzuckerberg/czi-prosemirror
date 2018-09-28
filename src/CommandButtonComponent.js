@@ -2,6 +2,7 @@
 
 import Command from '../src/Command';
 import React from 'react';
+import cx from 'classnames';
 import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
 import {Transform} from 'prosemirror-transform';
@@ -9,17 +10,23 @@ import {Transform} from 'prosemirror-transform';
 class CommandButtonTemplate extends React.PureComponent<any, any, any> {
   render(): React.Element<any> {
     const {
-      label,
+      active,
       disabled,
-      onMouseUp,
+      label,
       onMouseDown,
+      onMouseUp,
     } = this.props;
+
+    const className = cx({
+      'command-button-component': true,
+      'active': active,
+    });
     return (
       <button
         disabled={disabled}
         onMouseDown={onMouseDown}
         onMouseUp={onMouseUp}
-        className="command-button-component">
+        className={className}>
         {label}
       </button>
     )
@@ -42,6 +49,7 @@ class CommandButtonComponent extends React.PureComponent<any, any, any> {
     const {label, command, editorState} = this.props;
     return (
       <CommandButtonTemplate
+        active={command.isActive(editorState)}
         disabled={!command.isEnabled(editorState)}
         label={label}
         onMouseDown={this._onMouseDown}

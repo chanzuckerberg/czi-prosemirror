@@ -34,10 +34,16 @@ body {
 }
 
 .command-button-component {
+  background-color: #fff;
   cursor: pointer;
   padding: 12px 6px;
 }
 
+.command-button-component.active {
+  background-color: #aaa;
+}
+
 .command-button-component[disabled] {
+  background-color: #ccc;
   cursor: default;
 }
