@@ -8,6 +8,7 @@ import {EditorView} from 'prosemirror-view';
 import {Transform} from 'prosemirror-transform';
 
 class CommandButtonTemplate extends React.PureComponent<any, any, any> {
+
   render(): React.Element<any> {
     const {
       active,
@@ -15,20 +16,27 @@ class CommandButtonTemplate extends React.PureComponent<any, any, any> {
       label,
       onMouseDown,
       onMouseUp,
+      pressed,
     } = this.props;
 
     const className = cx({
-      'command-button-component': true,
       'active': active,
+      'command-button-component': true,
+      'disabled': disabled,
+      'pressed': pressed,
     });
+
     return (
-      <button
-        disabled={disabled}
-        onMouseDown={onMouseDown}
-        onMouseUp={onMouseUp}
-        className={className}>
+      <span
+        aria-pressed={pressed}
+        className={className}
+        onKeyPress={disabled ? null : onMouseUp}
+        onMouseDown={disabled ? null : onMouseDown}
+        onMouseUp={disabled ? null : onMouseUp}
+        role="button"
+        tabIndex={0}>
         {label}
-      </button>
+      </span>
     )
   }
 }
@@ -45,8 +53,11 @@ class CommandButtonComponent extends React.PureComponent<any, any, any> {
 
   _pressedTarget = null;
 
+  state = {pressed: false};
+
   render(): React.Element<any> {
     const {label, command, editorState} = this.props;
+    const {pressed} = this.state;
     return (
       <CommandButtonTemplate
         active={command.isActive(editorState)}
@@ -54,20 +65,24 @@ class CommandButtonComponent extends React.PureComponent<any, any, any> {
         label={label}
         onMouseDown={this._onMouseDown}
         onMouseUp={this._onMouseUp}
+        pressed={pressed}
       />
     );
   }
+
   _onMouseDown = (e: SyntheticEvent): void => {
     e.preventDefault();
+    this.setState({pressed: true});
     this._pressedTarget = e.currentTarget;
   };
 
   _onMouseUp = (e: SyntheticEvent): void => {
     e.preventDefault();
-    if (e.currentTarget === this._pressedTarget) {
+    if (e.currentTarget === this._pressedTarget || e.type === 'keypress') {
       const {command, editorState, dispatch, editorView} = this.props;
       command.execute(editorState, dispatch, editorView);
     }
+    this.setState({pressed: false});
     this._pressedTarget = null;
   };
 }

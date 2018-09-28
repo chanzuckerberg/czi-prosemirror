@@ -24,7 +24,28 @@ body {
 
 .demo-app-toolbar {
   background: #d0d0d0;
-  padding: 16px;
+  padding: 16px 0;
+  display: flex;
+  direction: row;
+}
+
+.demo-app-toolbar-buttons-group {
+  margin: 0 16px;
+  white-space: nowrap;
+}
+
+.demo-app-toolbar-buttons-group > .command-button-component:first-child {
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+.demo-app-toolbar-buttons-group > .command-button-component:last-child {
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.demo-app-toolbar-buttons-group + .demo-app-toolbar-buttons-group {
+  margin-left: 0;
 }
 
 .ProseMirror {
@@ -35,15 +56,36 @@ body {
 
 .command-button-component {
   background-color: #fff;
+  border: solid 1px #ccc;
+  color: #666;
   cursor: pointer;
-  padding: 12px 6px;
+  display: inline-block;
+  font-family: "Helvetica";
+  font-size: 12px;
+  padding: 6px 12px;
+  position: relative;
+  user-select: none;
+  vertical-align: top;
+}
+
+.command-button-component:hover {
+  border-color: #aaa;
 }
 
 .command-button-component.active {
-  background-color: #aaa;
+  border-color: #666;
+  color: #000;
 }
 
-.command-button-component[disabled] {
-  background-color: #ccc;
+.command-button-component.pressed {
+  background-color: #e0e0e0;
+}
+
+.command-button-component.disabled,
+.command-button-component.disabled:hover {
+  background: #d0d0d0;
+  border-color: #ccc;
+  color: #888;
   cursor: default;
+  pointer-events: none;
 }

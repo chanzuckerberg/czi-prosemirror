@@ -1,5 +1,6 @@
 // @flow
 
+import Command from '../src/Command';
 import CommandButtonComponent from '../src/CommandButtonComponent';
 import React from 'react';
 import {EditorState} from 'prosemirror-state';
@@ -15,14 +16,18 @@ import {
   H4,
 } from '../src/configs';
 
-const Commands = {
-  'H1': H1,
-  'H2': H2,
-  'H3': H3,
-  'H4': H4,
-  'Undo': HISTORY_UNDO,
-  'Redo': HISTORY_REDO,
-};
+const CommandGroups = [
+  {
+    'H1': H1,
+    'H2': H2,
+    'H3': H3,
+    'H4': H4,
+  },
+  {
+    'Undo': HISTORY_UNDO,
+    'Redo': HISTORY_REDO,
+  },
+];
 
 class DemoAppTollbar extends React.PureComponent<any, any, any> {
 
@@ -33,15 +38,26 @@ class DemoAppTollbar extends React.PureComponent<any, any, any> {
   };
 
   render(): React.Element<any> {
-    const buttons = Object.keys(Commands).map(this._renderButton);
     return (
       <div className="demo-app-toolbar">
+        {CommandGroups.map(this._renderButtonsGroup)}
+      </div>
+    );
+  }
+
+  _renderButtonsGroup = (group: Object, index: number): React.Element<any> => {
+    const buttons = Object.keys(group).map(label => {
+      const command = group[label];
+      return this._renderButton(label, command);
+    });
+    return (
+      <div key={'g' + String(index)} className="demo-app-toolbar-buttons-group">
         {buttons}
       </div>
-    )
-  }
-  _renderButton = (label: string): React.Element<any> => {
-    const command = Commands[label];
+    );
+  };
+
+  _renderButton = (label: string, command: Command): React.Element<any> => {
     const {editorState, editorView, dispatch} = this.props;
     return (
       <CommandButtonComponent
