@@ -1,0 +1,16 @@
+[include]
+.*/src/.*
+.*/demo/.*
+
+[ignore]
+.*/bin/.*
+.*/node_modules/flow-webpack-plugin/.*
+.*/node_modules/postcss-modules-extract-imports/.*
+.*/node_modules/postcss-modules-local-by-default/.*
+.*/node_modules/postcss-modules-scope/.*
+.*/node_modules/postcss-modules-values/.*
+
+[libs]
+./flow-typed/.*
+
+[options]

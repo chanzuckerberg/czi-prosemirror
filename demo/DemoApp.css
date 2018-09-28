@@ -1,0 +1,26 @@
+html {
+  background: #c0c0c0;
+  border: 0;
+  border: none;
+  margin: 0;
+}
+
+body {
+  border: none;
+  margin: 0;
+}
+
+.template {
+  display: none;
+}
+
+.ProseMirror {
+  background: #fff;
+  box-sizing: border-box;
+  margin: auto;
+  max-width: 1020px;
+  min-height: 100vh;
+  outline: none;
+  padding: 16px;
+  width: 100vw;
+}
