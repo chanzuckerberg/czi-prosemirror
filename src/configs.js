@@ -3,8 +3,10 @@
 import HeadingCommand from './HeadingCommand';
 import HistoryRedoCommand from './HistoryRedoCommand';
 import HistoryUndoCommand from './HistoryUndoCommand';
+import ListToggleCommand from './ListToggleCommand';
 import {EditorState, Plugin} from 'prosemirror-state';
 import {Schema, DOMParser} from 'prosemirror-model';
+import {addListNodes} from 'prosemirror-schema-list';
 import {baseKeymap} from 'prosemirror-commands';
 import {buildInputRules, buildKeymap} from 'prosemirror-example-setup';
 import {dropCursor} from 'prosemirror-dropcursor';
@@ -35,8 +37,8 @@ function buildPlugins(options: Object): Array<Plugin> {
 
 // Schema
 export const EDITOR_SCHEMA = new Schema({
-  // addListNodes(schema.spec.nodes, "paragraph block*", "block"),s
-  nodes: schema.spec.nodes,
+  // https://github.com/ProseMirror/prosemirror-schema-list/blob/master/src/schema-list.js
+  nodes: addListNodes(schema.spec.nodes, 'paragraph block*', 'block'),
   marks: schema.spec.marks,
 });
 
@@ -58,3 +60,5 @@ export const H3 = new HeadingCommand(EDITOR_SCHEMA, 3);
 export const H4 = new HeadingCommand(EDITOR_SCHEMA, 4);
 export const H5 = new HeadingCommand(EDITOR_SCHEMA, 5);
 export const H6 = new HeadingCommand(EDITOR_SCHEMA, 6);
+export const OL = new ListToggleCommand(EDITOR_SCHEMA, true);
+export const UL = new ListToggleCommand(EDITOR_SCHEMA, false);
