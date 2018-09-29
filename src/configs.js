@@ -67,12 +67,15 @@ function buildPlugins(schema: Schema): Array<Plugin> {
 }
 
 // Schema
+
+const nodes = [
+  BulletListNodeSpec,
+  ListItemNodeSpec,
+  OrderedListNodeSpec,
+].reduce((memo, spec) => { memo[spec.name] = spec; return memo;}, {});
+
 export const EDITOR_SCHEMA = new Schema({
-  nodes: schema.spec.nodes.append({
-    bullet_list: BulletListNodeSpec,
-    list_item: ListItemNodeSpec,
-    ordered_list: OrderedListNodeSpec,
-  }),
+  nodes: schema.spec.nodes.append(nodes),
   marks: schema.spec.marks,
 });
 

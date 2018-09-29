@@ -9,7 +9,16 @@ class DemoAppHTMLTemplate extends React.PureComponent<any, any, any> {
       <div id={id + 'template'} className="demo-app-template">
         <h1>Editor Example</h1>
         <h2>H2 Header</h2>
-        <p>paragraph</p>
+        <p>
+          Lorem ipsum dolor sit amet, phaedrum efficiantur pri cu, te quem
+          aliquando est. Viris aliquando definiebas duo et. Usu everti iriure 
+        </p>
+        <p>
+          posidonium in. Te mea nonumes detracto legendos. Nulla essent causae
+          et per, in cibo sententiae est. Sit tamquam petentium an. Quo id p
+          ersecuti dissentias, cu sed diam prompta meliore, ne nominavi conv
+          enire principes pro.
+        </p>
         <ol>
           <li>Item A</li>
           <li>Item B</li>
