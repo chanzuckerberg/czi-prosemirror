@@ -44,11 +44,6 @@ class HeadingCommand extends Command {
     );
   };
 
-  isEnabled = (state: EditorState): boolean => {
-    const {selection} = state;
-    return !!(this._findHeading(selection) || this._findParagraph(selection));
-  };
-
   execute = (
     state: EditorState,
     dispatch: ?(tr: Transform) => void,

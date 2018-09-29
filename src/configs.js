@@ -1,30 +1,61 @@
 'use strict';
 
+import BulletListNodeSpec from './BulletListNodeSpec';
 import HeadingCommand from './HeadingCommand';
 import HistoryRedoCommand from './HistoryRedoCommand';
 import HistoryUndoCommand from './HistoryUndoCommand';
+import Keymap from 'browserkeymap';
+import ListItemNodeSpec from './ListItemNodeSpec';
 import ListToggleCommand from './ListToggleCommand';
+import OrderedListNodeSpec from './OrderedListNodeSpec';
 import {EditorState, Plugin} from 'prosemirror-state';
 import {Schema, DOMParser} from 'prosemirror-model';
-import {addListNodes} from 'prosemirror-schema-list';
 import {baseKeymap} from 'prosemirror-commands';
-import {buildInputRules, buildKeymap} from 'prosemirror-example-setup';
+import {buildInputRules} from 'prosemirror-example-setup';
 import {dropCursor} from 'prosemirror-dropcursor';
 import {gapCursor} from 'prosemirror-gapcursor';
 import {history} from 'prosemirror-history';
 import {keymap} from 'prosemirror-keymap';
 import {menuBar} from 'prosemirror-menu';
 import {schema} from 'prosemirror-schema-basic';
+import {splitListItem} from 'prosemirror-schema-list';
 
-function buildPlugins(options: Object): Array<Plugin> {
+import {
+  KEY_REDO,
+  KEY_UNDO,
+  KEY_SPLIT_LIST_ITEM,
+} from './keymaps';
+
+type UserKeyCommand = (
+  state: EditorState,
+  dispatch: ?(tr: Transform) => void,
+  view: ?EditorView,
+) => void;
+
+type UserKeyMap = {
+  [key: string]: UserKeyCommand,
+};
+
+function buildKeymap(schema: Schema): UserKeyMap {
+  const result = {...baseKeymap};
+  result[KEY_REDO.common] = HISTORY_REDO.execute;
+  result[KEY_UNDO.common] = HISTORY_UNDO.execute;
+  if (schema.nodes.list_item) {
+    result[KEY_SPLIT_LIST_ITEM.common] = splitListItem(schema.nodes.list_item);
+  }
+  return result;
+}
+
+function buildPlugins(schema: Schema): Array<Plugin> {
+
   const plugins = [
-    buildInputRules(options.schema),
+    buildInputRules(schema),
     dropCursor(),
     gapCursor(),
     history(),
-    keymap(baseKeymap),
-    keymap(buildKeymap(options.schema, options.mapKeys)),
+    keymap(buildKeymap(schema)),
   ];
+
   plugins.push(
     new Plugin({
       props: {
@@ -37,18 +68,12 @@ function buildPlugins(options: Object): Array<Plugin> {
 
 // Schema
 export const EDITOR_SCHEMA = new Schema({
-  // https://github.com/ProseMirror/prosemirror-schema-list/blob/master/src/schema-list.js
-  nodes: addListNodes(schema.spec.nodes, 'paragraph block*', 'block'),
+  nodes: schema.spec.nodes.append({
+    bullet_list: BulletListNodeSpec,
+    list_item: ListItemNodeSpec,
+    ordered_list: OrderedListNodeSpec,
+  }),
   marks: schema.spec.marks,
-});
-
-// Plugin
-export const EDITOR_PLUGINS = buildPlugins({schema: EDITOR_SCHEMA});
-
-// EditorState
-export const EDITOR_EMPTY_STATE = EditorState.create({
-  schema: EDITOR_SCHEMA,
-  plugins: EDITOR_PLUGINS,
 });
 
 // Command
@@ -62,3 +87,12 @@ export const H5 = new HeadingCommand(EDITOR_SCHEMA, 5);
 export const H6 = new HeadingCommand(EDITOR_SCHEMA, 6);
 export const OL = new ListToggleCommand(EDITOR_SCHEMA, true);
 export const UL = new ListToggleCommand(EDITOR_SCHEMA, false);
+
+// Plugin
+export const EDITOR_PLUGINS = buildPlugins(EDITOR_SCHEMA);
+
+// EditorState
+export const EDITOR_EMPTY_STATE = EditorState.create({
+  schema: EDITOR_SCHEMA,
+  plugins: EDITOR_PLUGINS,
+});
