@@ -1,6 +1,7 @@
 // @flow
 
 import Command from './Command';
+import lift from './lift';
 import nullthrows from 'nullthrows';
 import toggleList from './toggleList';
 import {EditorState, Selection} from 'prosemirror-state';
@@ -9,7 +10,6 @@ import {Schema, NodeType} from 'prosemirror-model';
 import {Transform} from 'prosemirror-transform';
 import {findParentNodeOfType} from 'prosemirror-utils';
 import {setBlockType} from 'prosemirror-commands';
-import lift from './lift';
 
 import type {ExecuteCall, FindNodeTypeInSelectionCall} from './Command';
 
@@ -60,14 +60,18 @@ class ListToggleCommand extends Command {
     dispatch: ?(tr: Transform) => void,
     view: ?EditorView,
   ): boolean => {
+    const {selection} = state;
+    // const node = this._ordered ?
+    //   this._findOrderedList(selection) :
+    //   this._findBulletList(selection);
     const tr = toggleList(
       state.tr,
-      state.selection,
       this._schema,
       this._nodeType,
+      selection,
     );
     if (tr.docChanged) {
-      dispatch && dispatch(tr);
+      dispatch && dispatch(tr.scrollIntoView());
       return true;
     } else {
       return false;

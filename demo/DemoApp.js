@@ -9,8 +9,8 @@ import {EditorView} from 'prosemirror-view';
 
 import {
   EDITOR_EMPTY_STATE,
-  EDITOR_PLUGINS,
-  EDITOR_SCHEMA,
+  PLUGINS,
+  SCHEMA,
 } from '../src/configs';
 
 import 'prosemirror-view/style/prosemirror.css';
@@ -41,8 +41,8 @@ class DemoApp extends React.PureComponent<any, any, any> {
     if (editorNode) {
       // Reference: http://prosemirror.net/examples/basic/
       const editorState = EditorState.create({
-        doc: DOMParser.fromSchema(EDITOR_SCHEMA).parse(templateNode),
-        plugins: EDITOR_PLUGINS,
+        doc: DOMParser.fromSchema(SCHEMA).parse(templateNode),
+        plugins: PLUGINS,
       });
 
       this.setState({editorState});

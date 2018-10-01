@@ -6,6 +6,7 @@ import HistoryRedoCommand from './HistoryRedoCommand';
 import HistoryUndoCommand from './HistoryUndoCommand';
 import Keymap from 'browserkeymap';
 import ListItemNodeSpec from './ListItemNodeSpec';
+import ListSplitCommand from './ListSplitCommand';
 import ListToggleCommand from './ListToggleCommand';
 import OrderedListNodeSpec from './OrderedListNodeSpec';
 import {EditorState, Plugin} from 'prosemirror-state';
@@ -18,7 +19,6 @@ import {history} from 'prosemirror-history';
 import {keymap} from 'prosemirror-keymap';
 import {menuBar} from 'prosemirror-menu';
 import {schema} from 'prosemirror-schema-basic';
-import {splitListItem} from 'prosemirror-schema-list';
 
 import {
   KEY_REDO,
@@ -37,12 +37,10 @@ type UserKeyMap = {
 };
 
 function buildKeymap(schema: Schema): UserKeyMap {
-  const result = {...baseKeymap};
+  const result = {};
   result[KEY_REDO.common] = HISTORY_REDO.execute;
   result[KEY_UNDO.common] = HISTORY_UNDO.execute;
-  if (schema.nodes.list_item) {
-    result[KEY_SPLIT_LIST_ITEM.common] = splitListItem(schema.nodes.list_item);
-  }
+  result[KEY_SPLIT_LIST_ITEM.common] = LIST_SPLIT.execute;
   return result;
 }
 
@@ -54,6 +52,7 @@ function buildPlugins(schema: Schema): Array<Plugin> {
     gapCursor(),
     history(),
     keymap(buildKeymap(schema)),
+    keymap(baseKeymap),
   ];
 
   plugins.push(
@@ -74,28 +73,30 @@ const nodes = [
   OrderedListNodeSpec,
 ].reduce((memo, spec) => { memo[spec.name] = spec; return memo;}, {});
 
-export const EDITOR_SCHEMA = new Schema({
+export const SCHEMA = new Schema({
   nodes: schema.spec.nodes.append(nodes),
+  // nodes: addListNodes(schema.spec.nodes, 'paragraph block*', 'block'),
   marks: schema.spec.marks,
 });
 
 // Command
-export const HISTORY_UNDO = new HistoryUndoCommand();
+export const H1 = new HeadingCommand(SCHEMA, 1);
+export const H2 = new HeadingCommand(SCHEMA, 2);
+export const H3 = new HeadingCommand(SCHEMA, 3);
+export const H4 = new HeadingCommand(SCHEMA, 4);
+export const H5 = new HeadingCommand(SCHEMA, 5);
+export const H6 = new HeadingCommand(SCHEMA, 6);
 export const HISTORY_REDO = new HistoryRedoCommand();
-export const H1 = new HeadingCommand(EDITOR_SCHEMA, 1);
-export const H2 = new HeadingCommand(EDITOR_SCHEMA, 2);
-export const H3 = new HeadingCommand(EDITOR_SCHEMA, 3);
-export const H4 = new HeadingCommand(EDITOR_SCHEMA, 4);
-export const H5 = new HeadingCommand(EDITOR_SCHEMA, 5);
-export const H6 = new HeadingCommand(EDITOR_SCHEMA, 6);
-export const OL = new ListToggleCommand(EDITOR_SCHEMA, true);
-export const UL = new ListToggleCommand(EDITOR_SCHEMA, false);
+export const HISTORY_UNDO = new HistoryUndoCommand();
+export const LIST_SPLIT = new ListSplitCommand(SCHEMA);
+export const OL = new ListToggleCommand(SCHEMA, true);
+export const UL = new ListToggleCommand(SCHEMA, false);
 
 // Plugin
-export const EDITOR_PLUGINS = buildPlugins(EDITOR_SCHEMA);
+export const PLUGINS = buildPlugins(SCHEMA);
 
 // EditorState
 export const EDITOR_EMPTY_STATE = EditorState.create({
-  schema: EDITOR_SCHEMA,
-  plugins: EDITOR_PLUGINS,
+  schema: SCHEMA,
+  plugins: PLUGINS,
 });

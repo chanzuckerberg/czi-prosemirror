@@ -11,7 +11,7 @@ class DemoAppHTMLTemplate extends React.PureComponent<any, any, any> {
         <h2>H2 Header</h2>
         <p>
           Lorem ipsum dolor sit amet, phaedrum efficiantur pri cu, te quem
-          aliquando est. Viris aliquando definiebas duo et. Usu everti iriure 
+          aliquando est. Viris aliquando definiebas duo et. Usu everti iriure
         </p>
         <p>
           posidonium in. Te mea nonumes detracto legendos. Nulla essent causae
@@ -19,7 +19,7 @@ class DemoAppHTMLTemplate extends React.PureComponent<any, any, any> {
           ersecuti dissentias, cu sed diam prompta meliore, ne nominavi conv
           enire principes pro.
         </p>
-        <ol>
+        <ol start="10">
           <li>Item A</li>
           <li>Item B</li>
           <li>Item C</li>

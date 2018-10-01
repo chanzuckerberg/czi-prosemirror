@@ -19,7 +19,7 @@ export default function lift(
   if (range) {
     const target = liftTarget(range);
     if (target !== null) {
-      tr = tr.lift(range, target).scrollIntoView();
+      tr = tr.lift(range, target);
     }
   }
   return tr;

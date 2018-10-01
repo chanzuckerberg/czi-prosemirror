@@ -1,23 +1,32 @@
 // @flow
+// https://bitbucket.org/atlassian/atlaskit/src/98fad88c63576f0464984d21057ac146d4ca131a/packages/editor-core/src/plugins/lists/index.ts?at=ED-870-list-plugin&fileviewer=file-view-default
+// https://bitbucket.org/atlassian/atlaskit/src/98fad88c63576f0464984d21057ac146d4ca131a/packages/editor-core/src/commands/index.ts?at=ED-870-list-plugin&fileviewer=file-view-default
 
+import canJoinDown from './canJoinDown';
+import canJoinUp from './canJoinUp';
+import findAncestorPosition from './findAncestorPosition';
 import getAdjustedSelection from './getAdjustedSelection';
 import getGroupsInRange from './getGroupsInRange';
 import isListNode from './isListNode';
 import isRangeOfType from './isRangeOfType';
 import isRangeWithList from './isRangeWithList';
+import joinDown from './joinDown';
+import joinUp from './joinUp';
+import lift from './lift';
+import liftSelection from './liftSelection';
 import nullthrows from 'nullthrows';
+import wrapInList from './wrapInList';
 import {Schema, NodeType, ResolvedPos} from 'prosemirror-model';
 import {Selection} from 'prosemirror-state';
 import {TextSelection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
-import lift from './lift';
+import liftListItem from './liftListItem';
 
-// https://bitbucket.org/atlassian/atlaskit/src/98fad88c63576f0464984d21057ac146d4ca131a/packages/editor-core/src/plugins/lists/index.ts?at=ED-870-list-plugin&fileviewer=file-view-default
 export default function toggleList(
   tr: Transform,
-  initialSelection: Selection,
   schema: Schema,
   nodeType: NodeType,
+  initialSelection: Selection,
 ): Transform {
   if (
     !schema.nodes.bullet_list ||
@@ -65,6 +74,7 @@ export default function toggleList(
   groups.forEach((group) => {
     tr = toggleListAtSelection(
       tr,
+      schema,
       nodeType,
       group.$from,
       group.$to,
@@ -73,12 +83,19 @@ export default function toggleList(
     );
   });
 
-  tr = tr.setSelection(initialSelection);
+  // Reset selection.
+  // tr = tr.setSelection(
+  //   new TextSelection(
+  //     initialSelection.$from,
+  //     initialSelection.$to,
+  //   ),
+  // );
   return tr;
 }
 
 function toggleListAtSelection(
   tr: Transform,
+  schema: Schema,
   nodeType: NodeType,
   $from: ResolvedPos,
   $to: ResolvedPos,
@@ -99,44 +116,60 @@ function toggleListAtSelection(
   }
 
   if (shouldUntoggle) {
+    // Disable List
     if ($from.parent === $to.parent) {
-      // commands.lift(pm, true);
       tr = lift(tr);
     }
-    // liftSelection(pm, adjustedSelection.$from, adjustedSelection.$to).applyAndScroll();
-    // this.resetSelection();
+    tr = liftSelection(
+      tr,
+      adjustedSelection.$from,
+      adjustedSelection.$to,
+    );
+
   } else if (shouldConvertToType) {
-  //   const tr = liftSelection(pm, adjustedSelection.$from, adjustedSelection.$to).applyAndScroll();
-  //   pm.setSelection(tr.selection);
-  //   commands.wrapInList(nodeType)(pm);
-  //
-  //   if (canJoinUp(pm, pm.selection, pm.doc, nodeType)) {
-  //     commands.joinUp(pm, true);
-  //   }
-  //
-  //   if (canJoinDown(pm, pm.selection, pm.doc, nodeType)) {
-  //     commands.joinDown(pm, true);
-  //   }
-  //
-  //   this.resetSelection();
-  // } else {
-  //   pm.setSelection(this.adjustSelection(pm.selection));
-  //   commands.wrapInList(nodeType)(pm);
-  //
-  //   if (canJoinUp(pm, pm.selection, pm.doc, nodeType)) {
-  //     commands.joinUp(pm, true);
-  //   }
-  //
-  //   if (canJoinDown(pm, pm.selection, pm.doc, nodeType)) {
-  //     /*
-  //      * joinDown expects the selection to be from the end of our last node to
-  //      * the beginning of the next. So we need to adjust our selection a bit.
-  //      * */
-  //     pm.setSelection(new TextSelection(pm.selection.$to, pm.doc.resolve(pm.selection.$to.after(findAncestorPosition(pm, pm.selection.$to).depth))));
-  //     commands.joinDown(pm, true);
-  //   }
-  //
-  //   this.resetSelection();
+    console.log(1111);
+    tr = tr.setSelection(adjustedSelection);
+
+    tr = liftSelection(
+      tr,
+      adjustedSelection.$from,
+      adjustedSelection.$to,
+    );
+
+    // TODO: It shall update initialSelection, too.
+    tr = wrapInList(tr, nodeType);
+
+    if (canJoinUp(tr.selection, tr.doc, nodeType)) {
+      tr = joinUp(tr);
+    }
+    if (canJoinDown(tr.selection, tr.doc, nodeType)) {
+      tr = joinDown(tr);
+    }
+  } else {
+    // Enable List
+    tr = tr.setSelection(adjustedSelection);
+    // TODO: provide param `attr` to `wrapInList()`, too.
+    tr = wrapInList(tr, nodeType);
+
+    if (canJoinUp(tr.selection, tr.doc, nodeType)) {
+      tr = joinUp(tr);
+    }
+
+    if (canJoinDown(tr.selection, tr.doc, nodeType)) {
+      /*
+      * joinDown expects the selection to be from the end of our last node to
+      * the beginning of the next. So we need to adjust our selection a bit.
+      * */
+      const ap = findAncestorPosition(tr.doc, tr.selection.$to);
+      tr = tr.setSelection(
+        new TextSelection(
+          tr.selection.$to,
+          tr.doc.resolve(tr.selection.$to.after(ap.depth)),
+        ),
+      );
+      tr = joinDown(tr);
+    }
+
   }
   return tr;
 }
