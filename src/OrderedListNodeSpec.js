@@ -1,6 +1,9 @@
 // @flow
-import type {NodeSpec} from 'prosemirror';
+
 import {Node} from 'prosemirror-model';
+
+import type {NodeSpec} from 'prosemirror';
+
 
 const DEFAULT_DOM = ['ol', 0];
 

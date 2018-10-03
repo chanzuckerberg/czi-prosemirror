@@ -5,6 +5,7 @@ import HeadingCommand from './HeadingCommand';
 import HistoryRedoCommand from './HistoryRedoCommand';
 import HistoryUndoCommand from './HistoryUndoCommand';
 import Keymap from 'browserkeymap';
+import ListIndentCommand from './ListIndentCommand';
 import ListItemNodeSpec from './ListItemNodeSpec';
 import ListSplitCommand from './ListSplitCommand';
 import ListToggleCommand from './ListToggleCommand';
@@ -89,6 +90,8 @@ export const H6 = new HeadingCommand(SCHEMA, 6);
 export const HISTORY_REDO = new HistoryRedoCommand();
 export const HISTORY_UNDO = new HistoryUndoCommand();
 export const LIST_SPLIT = new ListSplitCommand(SCHEMA);
+export const LIST_INDENT_MORE = new ListIndentCommand(SCHEMA, 1);
+export const LIST_INDENT_LESS = new ListIndentCommand(SCHEMA, -1);
 export const OL = new ListToggleCommand(SCHEMA, true);
 export const UL = new ListToggleCommand(SCHEMA, false);
 

@@ -127,7 +127,6 @@ function toggleListAtSelection(
     );
 
   } else if (shouldConvertToType) {
-    console.log(1111);
     tr = tr.setSelection(adjustedSelection);
 
     tr = liftSelection(

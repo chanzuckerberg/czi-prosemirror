@@ -16,6 +16,8 @@ import {
   HISTORY_UNDO,
   OL,
   UL,
+  LIST_INDENT_MORE,
+  LIST_INDENT_LESS,
 } from '../src/configs';
 
 const CommandGroups = [
@@ -28,6 +30,8 @@ const CommandGroups = [
   {
     'OL': OL,
     'UL': UL,
+    '->||': LIST_INDENT_MORE,
+    '||<-': LIST_INDENT_LESS,
   },
   {
     'Undo': HISTORY_UNDO,
