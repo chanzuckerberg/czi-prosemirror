@@ -67,6 +67,7 @@
     "invariant": "^2.2.4",
     "nullthrows": "^1.0.1",
     "prosemirror-commands": "^1.0.7",
+    "prosemirror-dev-tools": "^2.1.1",
     "prosemirror-example-setup": "^1.0.1",
     "prosemirror-schema-basic": "^1.0.0",
     "prosemirror-schema-list": "^1.0.1",

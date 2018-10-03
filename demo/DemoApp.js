@@ -6,6 +6,7 @@ import React from 'react';
 import {DOMParser} from 'prosemirror-model';
 import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
+import applyDevTools from "prosemirror-dev-tools";
 
 import {
   EDITOR_EMPTY_STATE,
@@ -52,6 +53,8 @@ class DemoApp extends React.PureComponent<any, any, any> {
         dispatchTransaction: this._dispatchTransaction,
         editable: () =>  true,
       });
+
+      applyDevTools(this._editorView);
     }
   }
 

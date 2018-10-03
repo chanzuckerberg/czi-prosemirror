@@ -103,3 +103,13 @@ body {
   cursor: default;
   pointer-events: none;
 }
+
+
+.editor ol,
+.editor ul {
+  outline: solid 1px blue;
+}
+
+.editor li {
+  outline: solid 1px red;
+}
