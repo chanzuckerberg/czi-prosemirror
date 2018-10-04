@@ -10,11 +10,12 @@ var webpack = require("webpack"),
     fileSystem = require("fs"),
     path = require("path");
 
-var isDev = env.NODE_ENV === "development";
+var isDev = env.NODE_ENV === "development" || 0;
 
 var options = {
   entry: {
     demo: path.join(__dirname, "demo", "index.js"),
+    playground: path.join(__dirname, "playground", "playground.js"),
   },
   output: {
     path: path.join(__dirname, "bin"),
@@ -60,6 +61,12 @@ var options = {
       template: path.join(__dirname, "demo", "index.html"),
       filename: "index.html",
       chunks: ["demo"],
+      inlineSource: isDev ? '$^' : '.(js|css)$'
+    }),
+    new HtmlWebpackPlugin({
+      template: path.join(__dirname, "demo", "index.html"),
+      filename: "playground.html",
+      chunks: ["playground"],
       inlineSource: isDev ? '$^' : '.(js|css)$'
     }),
     new HtmlWebpackInlineSourcePlugin(),
