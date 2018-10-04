@@ -1,6 +1,6 @@
 // @flow
 
-import {EditorState} from 'prosemirror-state';
+import {EditorState, Selection} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
 import {Transform} from 'prosemirror-transform';
 
@@ -13,6 +13,10 @@ export type ExecuteCall =  (
 export type IsActiveCall = (
   state: EditorState,
 ) => boolean;
+
+export type FindNodeTypeInSelectionCall = (
+  selection: Selection,
+) => Object;
 
 class Command {
 

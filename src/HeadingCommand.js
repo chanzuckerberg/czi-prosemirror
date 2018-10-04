@@ -9,13 +9,14 @@ import {Transform} from 'prosemirror-transform';
 import {findParentNodeOfType} from 'prosemirror-utils';
 import {setBlockType} from 'prosemirror-commands';
 
-import type {ExecuteCall} from './Command';
+import type {ExecuteCall, FindNodeTypeInSelectionCall} from './Command';
 
 class HeadingCommand extends Command {
 
   _disable: ExecuteCall;
   _enable: ExecuteCall;
-  _findHeading: (sel: Selection) => Object;
+  _findHeading: FindNodeTypeInSelectionCall;
+  _findParagraph: FindNodeTypeInSelectionCall;
   _level: number;
 
   constructor(
@@ -28,6 +29,7 @@ class HeadingCommand extends Command {
     const paragraph = nullthrows(schema.nodes.paragraph);
     this._level = level;
     this._findHeading = findParentNodeOfType(heading);
+    this._findParagraph = findParentNodeOfType(paragraph);
     this._enable = setBlockType(heading, {level});
     this._disable = setBlockType(paragraph, {});
   }
@@ -40,12 +42,6 @@ class HeadingCommand extends Command {
       result.node.attrs &&
       result.node.attrs.level === this._level
     );
-  };
-
-  isEnabled = (): boolean => {
-    // TODO: Find out when this should not be enabled.
-    // (e.g. Selection is an iamge or a list).
-    return true;
   };
 
   execute = (
