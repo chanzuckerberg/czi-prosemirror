@@ -1,42 +1,33 @@
 // @flow
 // https://github.com/ProseMirror/prosemirror-schema-list/blob/master/src/schema-list.js
 
-import canJoinDown from './canJoinDown';
-import canJoinUp from './canJoinUp';
-import findAncestorPosition from './findAncestorPosition';
-import getAdjustedSelection from './getAdjustedSelection';
-import getGroupsInRange from './getGroupsInRange';
-import isListNode from './isListNode';
-import isRangeOfType from './isRangeOfType';
-import isRangeWithList from './isRangeWithList';
-import joinDown from './joinDown';
-import joinUp from './joinUp';
-import lift from './lift';
-import liftSelection from './liftSelection';
+
+import deleteNode from './deleteNode';
+import findNodePosition from './findNodePosition';
 import nullthrows from 'nullthrows';
-import wrapInList from './wrapInList';
+import {Fragment, Schema, NodeType, ResolvedPos, Slice} from 'prosemirror-model';
+import {Node} from 'prosemirror-model';
 import {Selection} from 'prosemirror-state';
 import {TextSelection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
-import liftListItem from './liftListItem';
 import {findParentNodeOfType} from 'prosemirror-utils';
 
-function findNodePos(
+function sliceListNode(
   doc: Node,
-  target: Node,
-): number {
-  let result = -1;
-  doc.descendants((node, pos) => {
-    if (target === node) {
-      result = pos;
-      return false;
-    }
-  })
-  return result;
+  listNode: Node,
+  listItemNodes: Array<Node>,
+): ?Fragment {
+  if (listItemNodes.length == 0) {
+    return null;
+  }
+  const firstNode = listItemNodes[0];
+  const lastNode = listItemNodes[listItemNodes.length - 1];
+  const from = findNodePosition(doc, firstNode);
+  const to = findNodePosition(doc, lastNode) + lastNode.content.size;
+  const slice = doc.slice(from, to);
+  return Fragment.from(listNode.copy(slice.content));
 }
 
-// Create a command to sink the list item around the selection down
-// into an inner list.
 export default function sinkListItem(
   tr: Transform,
   schema: Schema,
@@ -76,12 +67,69 @@ export default function sinkListItem(
     return tr;
   }
   const listNode = fromResult.node;
-  const listPos = findNodePos(tr.doc, listNode);
-  console.log(    `
-    from ${listNode.type.name} : ${listPos} - ${listPos + listNode.content.size},
-    select ${$from.pos} - ${$to.pos}
-    `
-  );
+  const listPos = findNodePosition(tr.doc, listNode);
+  const itemStart = findParentNodeOfType(list_item)(fromSelection);
+  const itemEnd = findParentNodeOfType(list_item)(toSelection);
+
+  // console.log('list', listNode);
+  // console.log('itemStart', itemStart);
+  // console.log('itemEnd', itemEnd);
+
+  const listItemNodesBefore = [];
+  const listItemNodesSelected = [];
+  const listItemNodesAfter = [];
+  let listItemPos = listPos + 1;
+  for (let ii = 0, jj = listNode.childCount; ii < jj; ii ++) {
+    const listItemNode = listNode.child(ii);
+    if (listItemPos < itemStart.pos) {
+      listItemNodesBefore.push(listItemNode);
+    } else if (listItemPos > itemEnd.pos) {
+      listItemNodesAfter.push(listItemNode);
+    } else {
+      listItemNodesSelected.push(listItemNode);
+    }
+    listItemPos +=  listItemNode.content.size + 2;
+  }
+
+  // const text = x => x.textContent;\
+  // console.log('before', JSON.stringify(listItemNodesBefore.map(text).join(', ')));
+  // console.log('selected', JSON.stringify(listItemNodesSelected.map(text).join(', ')));
+  // console.log('after', JSON.stringify(listItemNodesAfter.map(text).join(', ')));
+
+  const {doc} = tr;
+  const listNodeBefore = sliceListNode(doc, listNode, listItemNodesBefore);
+  const listNodeSelected = sliceListNode(doc, listNode, listItemNodesSelected);
+  const listNodeAfter = sliceListNode(doc, listNode, listItemNodesAfter);
+
+
+  if (listNodeAfter) {
+    tr = tr.insert(listPos, listNodeAfter);
+  }
+  if (listNodeSelected) {
+    tr = tr.insert(listPos, listNodeSelected);
+  }
+  if (listNodeBefore) {
+    tr = tr.insert(listPos, listNodeBefore);
+  }
+
+  tr = deleteNode(tr, listNode);
+  tr = tr.setSelection(fromSelection);
+
+  // tr = tr.delete(listPos, listNode.content.size);
+  // console.log(listNodeSelected);
+
+
+  // while (ii < jj) {
+  //   try {
+  //     const item = listNode.child(kk);
+  //     console.log(`ii : ${ii}`);
+  //   } catch (ex) {
+  //     console.log(`ii : ${ii}`,  null, kk);
+  //   }
+  //
+  //   ii++;
+  //   kk++;
+  // }
   // const listItemNode = result.node;
   // const listNodePos = findNodePos(tr.doc, listItemNode);
   // const listNode = tr.doc.resolve(listNodePos).nodeBefore;

@@ -58,10 +58,16 @@ class CommandButtonComponent extends React.PureComponent<any, any, any> {
   render(): React.Element<any> {
     const {label, command, editorState} = this.props;
     const {pressed} = this.state;
+    let disabled = true;
+    try {
+       disabled = !command.isEnabled(editorState);
+    } catch (ex) {
+      //
+    }
     return (
       <CommandButtonTemplate
         active={command.isActive(editorState)}
-        disabled={!command.isEnabled(editorState)}
+        disabled={disabled}
         label={label}
         onMouseDown={this._onMouseDown}
         onMouseUp={this._onMouseUp}
