@@ -19,6 +19,11 @@ class DemoAppHTMLTemplate extends React.PureComponent<any, any, any> {
           ersecuti dissentias, cu sed diam prompta meliore, ne nominavi conv
           enire principes pro.
         </p>
+        <ul start="10">
+          <li>KKK</li>
+          <li>GGG</li>
+          <li>PPP</li>
+        </ul>
         <ol start="10">
           <li>Item A</li>
           <li>Item B</li>
@@ -26,17 +31,17 @@ class DemoAppHTMLTemplate extends React.PureComponent<any, any, any> {
         </ol>
         <h3>H3 Header</h3>
         <ol>
-          <li>Item A</li>
-          <li>Item B</li>
-          <li>Item C</li>
+          <li>AAAAA</li>
+          <li>BBBBB</li>
+          <li>CCCCC</li>
           <ul>
-            <li>Child Item A</li>
-            <li>Child Item B</li>
-            <li>Child Item C</li>
+            <li>XXXXX</li>
+            <li>YYYYY</li>
+            <li>ZZZZZ</li>
           </ul>
-          <li>Item D</li>
-          <li>Item E</li>
-          <li>Item F</li>
+          <li>AAAAA</li>
+          <li>BBBBB</li>
+          <li>CCCCC</li>
         </ol>
       </div>
     )

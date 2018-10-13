@@ -1,9 +1,9 @@
 // @flow
 
 import Command from './Command';
+import indentListItemMore from './indentListItemMore';
 import lift from './lift';
-import nullthrows from 'nullthrows';
-import sinkListItem from './sinkListItem';
+import noop from './noop';
 import toggleList from './toggleList';
 import {EditorState, Selection} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
@@ -25,12 +25,15 @@ class ListIndentCommand extends Command {
     delta: number,
   ) {
     super();
-    const bulletList = nullthrows(schema.nodes.bullet_list);
-    const orderedList = nullthrows(schema.nodes.ordered_list);
+    const {bullet_list, ordered_list} = schema.nodes;
     this._delta = delta;
     this._schema = schema;
-    this._findBulletList = findParentNodeOfType(bulletList);
-    this._findOrderedList = findParentNodeOfType(orderedList);
+    this._findBulletList = bullet_list ?
+      findParentNodeOfType(bullet_list) :
+      noop;
+    this._findOrderedList = ordered_list ?
+      findParentNodeOfType(ordered_list) :
+      noop;
   }
 
   isActive = (state: EditorState): boolean => {
@@ -41,6 +44,10 @@ class ListIndentCommand extends Command {
     );
   };
 
+  isEnabled = (): boolean => {
+    return true;
+  };
+
   execute = (
     state: EditorState,
     dispatch: ?(tr: Transform) => void,
@@ -48,7 +55,7 @@ class ListIndentCommand extends Command {
   ): boolean => {
     let {selection, tr} = state;
     tr = tr.setSelection(selection);
-    tr = sinkListItem(
+    tr = indentListItemMore(
       tr,
       this._schema,
     );

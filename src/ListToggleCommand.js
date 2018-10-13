@@ -10,6 +10,7 @@ import {Schema, NodeType} from 'prosemirror-model';
 import {Transform} from 'prosemirror-transform';
 import {findParentNodeOfType} from 'prosemirror-utils';
 import {setBlockType} from 'prosemirror-commands';
+import noop from './noop';
 
 import type {ExecuteCall, FindNodeTypeInSelectionCall} from './Command';
 
@@ -29,16 +30,22 @@ class ListToggleCommand extends Command {
     ordered: boolean,
   ) {
     super();
-
-    const bulletList = nullthrows(schema.nodes.bullet_list);
-    const orderedList = nullthrows(schema.nodes.ordered_list);
-    const paragraph = nullthrows(schema.nodes.paragraph);
+    const bulletList = schema.nodes.bullet_list;
+    const orderedList = schema.nodes.ordered_list;
+    const paragraph = schema.nodes.paragraph;
     this._ordered = ordered;
     this._nodeType = ordered ? orderedList : bulletList;
     this._schema = schema;
-    this._findBulletList = findParentNodeOfType(bulletList);
-    this._findOrderedList = findParentNodeOfType(orderedList);
-    this._findParagraph = findParentNodeOfType(paragraph);
+
+    if (bulletList && orderedList && paragraph) {
+      this._findBulletList = findParentNodeOfType(bulletList);
+      this._findOrderedList = findParentNodeOfType(orderedList);
+      this._findParagraph = findParentNodeOfType(paragraph);
+    } else {
+      this._findBulletList = noop;
+      this._findOrderedList = noop;
+      this._findParagraph = noop;
+    }
   }
 
   isActive = (state: EditorState): boolean => {
