@@ -9,6 +9,7 @@
   outline: solid 1px red;
 }
 
+/*
 .docs-editor ol::before,
 .docs-editor ul::before {
   content: attr(data-level);
@@ -17,7 +18,7 @@
   background: yellow;
   color: red;
 }
-
+*/
 
 .docs-editor ol[data-level="1"],
 .docs-editor ol[data-level="1"] {

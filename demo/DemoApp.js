@@ -26,6 +26,14 @@ import '../src/DocsEditor.css';
 
 type Transaction = any;
 
+function sleep(delay: number) {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve();
+    }, delay);
+  });
+}
+
 
 class DemoApp extends React.PureComponent<any, any, any> {
 
@@ -57,6 +65,18 @@ class DemoApp extends React.PureComponent<any, any, any> {
       });
 
       applyDevTools(this._editorView);
+
+      (async function() {
+        await sleep(500);
+        const el: any = document.querySelector('.__prosemirror-dev-tools__');
+        el && el.firstElementChild && el.firstElementChild.click();
+        await sleep(500);
+        Array.from(document.querySelectorAll('div')).some(el => {
+          if (el.textContent === 'Structure') {
+            el.click();
+          }
+        });
+      })();
     }
   }
 

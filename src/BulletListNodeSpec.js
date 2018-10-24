@@ -18,7 +18,7 @@ const BulletListNodeSpec: NodeSpec = {
       default: 1,
     },
     identifier: {
-      default: null,
+      default: '',
     },
   },
   name: 'bullet_list',

@@ -2,63 +2,16 @@
 // https://github.com/ProseMirror/prosemirror-schema-list/blob/master/src/schema-list.js
 // https://discuss.prosemirror.net/t/changing-doc-attrs/784/17
 
-import deleteNode from './deleteNode';
-import findNodePosition from './findNodePosition';
+import isListNode from './isListNode';
 import nullthrows from 'nullthrows';
-import setNodeAttrs from './setNodeAttrs';
 import {Fragment, Schema, NodeType, ResolvedPos, Slice} from 'prosemirror-model';
 import {Node} from 'prosemirror-model';
 import {Selection} from 'prosemirror-state';
 import {TextSelection} from 'prosemirror-state';
 import {Transform, Step, StepResult} from 'prosemirror-transform';
-import isListNode from './isListNode';
+import {findParentNodeOfType} from 'prosemirror-utils';
 
 const MAX_INDENT_LEVEL = 8;
-
-function findListNode(doc: Node, pos: number): ?Node {
-  const $pos = doc.resolve(pos);
-  const {path} = $pos;
-  let ii = path.length - 1;
-  while (ii > -1) {
-    const mm = path[ii];
-    if (mm instanceof Node && isListNode(mm)) {
-      return mm;
-    }
-    ii--;
-  }
-  return null;
-}
-
-function findListItemNode(doc: Node, pos: number): ?Node {
-  const $pos = doc.resolve(pos);
-  const {path} = $pos;
-  let ii = path.length - 1;
-  while (ii > -1) {
-    const mm = path[ii];
-    if (mm instanceof Node && mm.type && mm.type.name === 'list_item') {
-      return mm;
-    }
-    ii--;
-  }
-  return null;
-}
-
-
-function sliceListNode(
-  doc: Node,
-  listNode: Node,
-  listItemNodes: Array<Node>,
-): ?Fragment {
-  if (listItemNodes.length == 0) {
-    return null;
-  }
-  const firstNode = listItemNodes[0];
-  const lastNode = listItemNodes[listItemNodes.length - 1];
-  const from = findNodePosition(doc, firstNode);
-  const to = findNodePosition(doc, lastNode) + lastNode.content.size;
-  const slice = doc.slice(from, to);
-  return Fragment.from(listNode.copy(slice.content));
-}
 
 export default function indentListItemMore(
   tr: Transform,
@@ -73,98 +26,87 @@ export default function indentListItemMore(
     return tr;
   }
 
-  const {selection} = tr;
-  if (!selection) {
+  if (!tr.selection) {
+    return tr;
+  }
+
+  const result =
+    findParentNodeOfType(bullet_list)(tr.selection) ||
+    findParentNodeOfType(ordered_list)(tr.selection);
+
+  if (!result) {
     return tr;
   }
 
 
-
-  const fromListNode = findListNode(tr.doc, selection.from);
-  const toListNode = findListNode(tr.doc, selection.to);
-  if (!fromListNode || fromListNode !== toListNode) {
+  const initialSelection = tr.selection;
+  const listFromPos = result.pos;
+  const listToPos = result.pos + result.node.nodeSize;
+  if (tr.selection.to < listFromPos || tr.selection.to > listToPos) {
+    // Selection exceeds the bounday of the list node.
     return tr;
   }
 
+  let sliceFromPos = null;
+  let sliceToPos = null;
 
-  const itemStart = findListItemNode(tr.doc, selection.from);
-  const itemEnd = findListItemNode(tr.doc, selection.to);
-  if (!itemStart || !itemEnd) {
-    return tr;
-  }
-
-  const listNode = fromListNode;
-  const listPos = findNodePosition(tr.doc, listNode);
-  const itemStartPos = findNodePosition(tr.doc, itemStart);
-  const itemEndPos = findNodePosition(tr.doc, itemEnd);
-  const listItemNodesBefore = [];
-  const listItemNodesSelected = [];
-  const listItemNodesAfter = [];
-  let listItemPos = listPos + 1;
-  for (let ii = 0, jj = listNode.childCount; ii < jj; ii ++) {
-    const listItemNode = listNode.child(ii);
-    if (listItemPos < itemStartPos - 1) {
-      listItemNodesBefore.push(listItemNode);
-    } else if (listItemPos > itemEndPos) {
-      listItemNodesAfter.push(listItemNode);
-    } else {
-      listItemNodesSelected.push(listItemNode);
+  const listNode = tr.doc.nodeAt(listFromPos);
+  let itemPos = listFromPos + 1;
+  while (itemPos < listToPos - 1) {
+    const itemNode = tr.doc.nodeAt(itemPos);
+    const itemFromPos = itemPos;
+    const itemToPos = itemPos + itemNode.nodeSize;
+    if (tr.selection.from >= itemFromPos && tr.selection.from <= itemToPos) {
+      sliceFromPos = itemFromPos;
     }
-    listItemPos +=  listItemNode.content.size + 2;
+    if (tr.selection.to >= itemFromPos && tr.selection.to <= itemToPos) {
+      sliceToPos = itemToPos;
+    }
+    // console.log(itemFromPos, itemToPos, itemNode.type.name, itemNode);
+    itemPos = itemToPos;
   }
 
-  const fragmentBefore = sliceListNode(tr.doc, listNode, listItemNodesBefore);
-  const fragmentSelected = sliceListNode(tr.doc, listNode, listItemNodesSelected);
-  const fragmentAfter = sliceListNode(tr.doc, listNode, listItemNodesAfter);
-
-  let selectionPos = listPos;
-  if (fragmentAfter) {
-    tr = tr.insert(listPos, fragmentAfter);
+  if (sliceFromPos === null || sliceToPos === null) {
+    return tr;
   }
 
-  const identifier = {};
+  const sliceSelected = tr.doc.slice(sliceFromPos, sliceToPos);
+  const sliceBefore = (sliceFromPos > (listFromPos + 1)) ?
+    tr.doc.slice(listFromPos + 1, sliceFromPos) :
+    null;
 
-  if (fragmentSelected) {
-    tr = tr.insert(listPos, fragmentSelected);
-    const listNodeSelected = nullthrows(fragmentSelected.content[0]);
-    tr = setNodeAttrs(tr, listNodeSelected, {
+  const sliceAfter = (sliceToPos < (listToPos - 1)) ?
+    tr.doc.slice(sliceToPos, listToPos - 1) :
+    null;
+
+  if (sliceAfter) {
+    const frag = Fragment.from(listNode.copy(sliceAfter.content));
+    tr = tr.insert(listToPos, frag);
+  }
+
+  if (sliceSelected) {
+    const frag = Fragment.from(listNode.copy(sliceSelected.content));
+    tr = tr.insert(listToPos, frag);
+    tr = tr.setNodeMarkup(listToPos, null, {
+      ...listToPos.attrs,
       order: 1,
-      level: Math.min(listNodeSelected.attrs.level + 1,  MAX_INDENT_LEVEL),
-      identifier,
+      level: Math.min(listNode.attrs.level + 1,  MAX_INDENT_LEVEL),
     });
   }
 
-  if (fragmentBefore) {
-    tr = tr.insert(listPos, fragmentBefore);
+  if (sliceBefore) {
+    const frag = Fragment.from(listNode.copy(sliceBefore.content));
+    tr = tr.insert(listToPos, frag);
   }
 
-  tr = deleteNode(tr, listNode);
+  tr = tr.delete(listFromPos, listToPos);
 
-  const jj = Math.min(listPos + listNode.content.size, tr.doc.content.size - 1);
-  let ii =  Math.max(listPos - 3, 0);
-  let targetPos = -1;
-  while (ii < jj) {
-    const nn = tr.doc.nodeAt(ii);
-    if (isListNode(nn) && nn.attrs.identifier === identifier) {
-      targetPos = ii;
-      tr = setNodeAttrs(tr, nn, {identifier: null});
-      break;
-    }
-    ii++;
-  }
-
-  const listSelection = selection.from < selection.to ?
-    TextSelection.create(
-      tr.doc,
-      targetPos + 3,
-      targetPos + nullthrows(tr.doc.nodeAt(targetPos)).content.size - 1,
-    ) :
-    TextSelection.create(
-      tr.doc,
-      targetPos + 3,
-    );
-
-  tr = tr.setSelection(listSelection);
+  const offset = sliceBefore ? 2 : 0;
+  const selection = TextSelection.create(
+    tr.doc,
+    initialSelection.from + offset,
+    initialSelection.to + offset,
+  );
+  tr = tr.setSelection(selection);
   return tr;
-
 }
