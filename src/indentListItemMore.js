@@ -2,8 +2,6 @@
 // https://github.com/ProseMirror/prosemirror-schema-list/blob/master/src/schema-list.js
 // https://discuss.prosemirror.net/t/changing-doc-attrs/784/17
 
-import isListNode from './isListNode';
-import nullthrows from 'nullthrows';
 import {Fragment, Schema, NodeType, ResolvedPos, Slice} from 'prosemirror-model';
 import {Node} from 'prosemirror-model';
 import {Selection} from 'prosemirror-state';
@@ -11,7 +9,7 @@ import {TextSelection} from 'prosemirror-state';
 import {Transform, Step, StepResult} from 'prosemirror-transform';
 import {findParentNodeOfType} from 'prosemirror-utils';
 
-const MAX_INDENT_LEVEL = 8;
+export const MAX_INDENT_LEVEL = 8;
 
 export default function indentListItemMore(
   tr: Transform,
@@ -88,7 +86,7 @@ export default function indentListItemMore(
     const frag = Fragment.from(listNode.copy(sliceSelected.content));
     tr = tr.insert(listToPos, frag);
     tr = tr.setNodeMarkup(listToPos, null, {
-      ...listToPos.attrs,
+      ...listNode.attrs,
       order: 1,
       level: Math.min(listNode.attrs.level + 1,  MAX_INDENT_LEVEL),
     });

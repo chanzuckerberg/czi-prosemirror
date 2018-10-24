@@ -1,12 +1,14 @@
 // @flow
 
 import Command from './Command';
+import indentListItemLess from './indentListItemLess';
 import indentListItemMore from './indentListItemMore';
 import lift from './lift';
 import noop from './noop';
 import toggleList from './toggleList';
 import {EditorState, Selection} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
+import {MAX_INDENT_LEVEL} from './indentListItemMore';
 import {Schema, NodeType} from 'prosemirror-model';
 import {Transform} from 'prosemirror-transform';
 import {findParentNodeOfType} from 'prosemirror-utils';
@@ -38,14 +40,11 @@ class ListIndentCommand extends Command {
 
   isActive = (state: EditorState): boolean => {
     const {selection} = state;
-    return !!(
+    const found =
       this._findOrderedList(selection) ||
-      this._findBulletList(selection)
-    );
-  };
-
-  isEnabled = (): boolean => {
-    return true;
+      this._findBulletList(selection);
+    const level = found ? found.node.attrs.level : 0;
+    return level > 1;
   };
 
   execute = (
@@ -55,10 +54,18 @@ class ListIndentCommand extends Command {
   ): boolean => {
     let {selection, tr} = state;
     tr = tr.setSelection(selection);
-    tr = indentListItemMore(
-      tr,
-      this._schema,
-    );
+    if (this._delta > 0) {
+      tr = indentListItemMore(
+        tr,
+        this._schema,
+      );
+    } else if (this._delta < 0){
+      tr = indentListItemLess(
+        tr,
+        this._schema,
+      );
+    }
+
     if (tr.docChanged) {
       dispatch && dispatch(tr.scrollIntoView());
       return true;
