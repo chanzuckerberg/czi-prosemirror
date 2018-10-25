@@ -89,6 +89,7 @@ body {
 .command-button-component.active {
   border-color: #666;
   color: #000;
+  font-weight: bold;
 }
 
 .command-button-component.pressed {

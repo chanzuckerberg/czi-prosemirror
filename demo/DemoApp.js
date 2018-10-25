@@ -91,7 +91,7 @@ class DemoApp extends React.PureComponent<any, any, any> {
           editorView={editorView}
           dispatch={this._dispatchTransaction}
         />
-        <div id={this._id} className="docs-editor" />
+        <div id={this._id} className="cuneiform-editor" />
       </div>
     );
   }

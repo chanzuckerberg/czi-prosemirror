@@ -1,17 +1,17 @@
 
 
-.docs-editor ol,
-.docs-editor ul {
+.cuneiform-editor ol,
+.cuneiform-editor ul {
   outline: solid 1px blue;
 }
 
-.docs-editor li {
+.cuneiform-editor li {
   outline: solid 1px red;
 }
 
 /*
-.docs-editor ol::before,
-.docs-editor ul::before {
+.cuneiform-editor ol::before,
+.cuneiform-editor ul::before {
   content: attr(data-level);
   display: list-item;
   list-style: none;
@@ -20,42 +20,42 @@
 }
 */
 
-.docs-editor ol[data-level="1"],
-.docs-editor ol[data-level="1"] {
+.cuneiform-editor ol[data-level="1"],
+.cuneiform-editor ol[data-level="1"] {
   margin-left: 0;
 }
 
-.docs-editor ol[data-level="2"],
-.docs-editor ul[data-level="2"] {
+.cuneiform-editor ol[data-level="2"],
+.cuneiform-editor ul[data-level="2"] {
   margin-left: 24pt;
 }
 
-.docs-editor ol[data-level="3"],
-.docs-editor ul[data-level="3"] {
+.cuneiform-editor ol[data-level="3"],
+.cuneiform-editor ul[data-level="3"] {
   margin-left: 48pt;
 }
 
-.docs-editor ol[data-level="4"],
-.docs-editor ul[data-level="4"] {
+.cuneiform-editor ol[data-level="4"],
+.cuneiform-editor ul[data-level="4"] {
   margin-left: 72pt;
 }
 
-.docs-editor ol[data-level="5"],
-.docs-editor ul[data-level="5"] {
+.cuneiform-editor ol[data-level="5"],
+.cuneiform-editor ul[data-level="5"] {
   margin-left: 86pt;
 }
 
-.docs-editor ol[data-level="6"],
-.docs-editor ul[data-level="6"] {
+.cuneiform-editor ol[data-level="6"],
+.cuneiform-editor ul[data-level="6"] {
   margin-left: 104pt;
 }
 
-.docs-editor ol[data-level="7"],
-.docs-editor ul[data-level="7"] {
+.cuneiform-editor ol[data-level="7"],
+.cuneiform-editor ul[data-level="7"] {
   margin-left: 128pt;
 }
 
-.docs-editor ol[data-level="8"],
-.docs-editor ul[data-level="8"] {
+.cuneiform-editor ol[data-level="8"],
+.cuneiform-editor ul[data-level="8"] {
   margin-left: 156pt;
 }
