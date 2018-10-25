@@ -4,9 +4,8 @@ import React from 'react';
 
 class DemoAppHTMLTemplate extends React.PureComponent<any, any, any> {
   render(): React.Element<any> {
-    const {id} = this.props;
     return (
-      <div id={id + 'template'} className="demo-app-template">
+      <div className="demo-app-template">
         <h3>H3 Header</h3>
         <ol>
           <li>AAAAA</li>

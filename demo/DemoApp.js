@@ -4,6 +4,7 @@ import DemoAppHTMLTemplate from './DemoAppHTMLTemplate';
 import DemoAppTollbar from './DemoAppTollbar';
 import EditorComponent from '../src/EditorComponent';
 import React from 'react';
+import ReactDOM from 'react-dom';
 import applyDevTools from "prosemirror-dev-tools";
 import {DOMParser} from 'prosemirror-model';
 import {EditorState} from 'prosemirror-state';
@@ -27,36 +28,30 @@ function sleep(delay: number) {
   });
 }
 
-
 class DemoApp extends React.PureComponent<any, any, any> {
 
-  _id = `demo-app-editor-${Date.now()}`;
+  constructor(props: any, context: any) {
+    super(props, context);
 
-  state = {
-    editorView: null,
-    editorState: EDITOR_EMPTY_STATE,
-  };
+    const templateNode = document.createElement('div');
+    ReactDOM.render(<DemoAppHTMLTemplate />, templateNode);
 
-  componentDidMount(): void {
-    const editorNode = document.getElementById(this._id);
-    const templateNode = document.getElementById(this._id + 'template');
+    // Reference: http://prosemirror.net/examples/basic/
+    const editorState = EditorState.create({
+      doc: DOMParser.fromSchema(SCHEMA).parse(templateNode),
+      plugins: PLUGINS,
+    });
 
-    if (editorNode) {
-      // Reference: http://prosemirror.net/examples/basic/
-      const editorState = EditorState.create({
-        doc: DOMParser.fromSchema(SCHEMA).parse(templateNode),
-        plugins: PLUGINS,
-      });
-
-      this.setState({editorState});
-    }
+    this.state = {
+      editorState,
+      editorView: null,
+    };
   }
 
   render(): React.Element<any> {
     const {editorState, editorView} = this.state;
     return (
       <div className="demo-app">
-        <DemoAppHTMLTemplate id={this._id} />
         <DemoAppTollbar
           editorState={editorState}
           editorView={editorView}
@@ -77,6 +72,8 @@ class DemoApp extends React.PureComponent<any, any, any> {
 
   _onReady = (editorView: EditorView): void => {
     this.setState({editorView});
+
+    // Opens the debugger and select the "Structure" tab.
 
     applyDevTools(editorView);
 
