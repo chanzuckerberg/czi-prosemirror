@@ -5,6 +5,7 @@ import type {NodeSpec} from 'prosemirror';
 const ListItemNodeSpec: NodeSpec = {
   name: 'list_item',
   // content: 'paragraph block*',
+  // Do not allow nested items.
   content: 'paragraph',
   parseDOM: [{ tag: 'li' }],
   toDOM() {

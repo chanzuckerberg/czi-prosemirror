@@ -135,6 +135,8 @@ function toggleListAtSelection(
       adjustedSelection.$to,
     );
 
+    // TODO: Support indentation level.
+
     // TODO: It shall update initialSelection, too.
     tr = wrapInList(tr, nodeType);
 

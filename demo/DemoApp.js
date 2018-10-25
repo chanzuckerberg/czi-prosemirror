@@ -14,15 +14,25 @@ import {
   SCHEMA,
 } from '../src/configs';
 
+
 import 'prosemirror-view/style/prosemirror.css';
-import 'prosemirror-gapcursor/style/gapcursor.css';
-import 'prosemirror-view/style/prosemirror.css';
-import 'prosemirror-menu/style/menu.css';
-import 'prosemirror-example-setup/style/style.css';
+// import 'prosemirror-gapcursor/style/gapcursor.css';
+// import 'prosemirror-view/style/prosemirror.css';
+// import 'prosemirror-menu/style/menu.css';
+// import 'prosemirror-example-setup/style/style.css';
 
 import './DemoApp.css';
+import '../src/DocsEditor.css';
 
 type Transaction = any;
+
+function sleep(delay: number) {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve();
+    }, delay);
+  });
+}
 
 
 class DemoApp extends React.PureComponent<any, any, any> {
@@ -55,6 +65,18 @@ class DemoApp extends React.PureComponent<any, any, any> {
       });
 
       applyDevTools(this._editorView);
+
+      (async function() {
+        await sleep(500);
+        const el: any = document.querySelector('.__prosemirror-dev-tools__');
+        el && el.firstElementChild && el.firstElementChild.click();
+        await sleep(500);
+        Array.from(document.querySelectorAll('div')).some(el => {
+          if (el.textContent === 'Structure') {
+            el.click();
+          }
+        });
+      })();
     }
   }
 
@@ -69,7 +91,7 @@ class DemoApp extends React.PureComponent<any, any, any> {
           editorView={editorView}
           dispatch={this._dispatchTransaction}
         />
-        <div id={this._id} className="editor" />
+        <div id={this._id} className="cuneiform-editor" />
       </div>
     );
   }
@@ -80,7 +102,7 @@ class DemoApp extends React.PureComponent<any, any, any> {
     const editorView = this._editorView;
     if (editorView) {
       this.setState({editorState});
-      editorView .updateState(editorState);
+      editorView.updateState(editorState);
     }
   };
 }

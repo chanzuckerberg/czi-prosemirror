@@ -7,6 +7,12 @@ class DemoAppHTMLTemplate extends React.PureComponent<any, any, any> {
     const {id} = this.props;
     return (
       <div id={id + 'template'} className="demo-app-template">
+        <h3>H3 Header</h3>
+        <ol>
+          <li>AAAAA</li>
+          <li>BBB</li>
+          <li>CCCCC</li>
+        </ol>
         <h1>Editor Example</h1>
         <h2>H2 Header</h2>
         <p>
@@ -19,24 +25,15 @@ class DemoAppHTMLTemplate extends React.PureComponent<any, any, any> {
           ersecuti dissentias, cu sed diam prompta meliore, ne nominavi conv
           enire principes pro.
         </p>
+        <ul start="10">
+          <li>KKK</li>
+          <li>GGG</li>
+          <li>PPP</li>
+        </ul>
         <ol start="10">
           <li>Item A</li>
           <li>Item B</li>
           <li>Item C</li>
-        </ol>
-        <h3>H3 Header</h3>
-        <ol>
-          <li>Item A</li>
-          <li>Item B</li>
-          <li>Item C</li>
-          <ul>
-            <li>Child Item A</li>
-            <li>Child Item B</li>
-            <li>Child Item C</li>
-          </ul>
-          <li>Item D</li>
-          <li>Item E</li>
-          <li>Item F</li>
         </ol>
       </div>
     )

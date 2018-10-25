@@ -6,5 +6,8 @@ import isBulletListNode from './isBulletListNode';
 import isOrderedListNode from './isOrderedListNode';
 
 export default function isListNode(node: Node): boolean {
-  return isBulletListNode(node) || isOrderedListNode(node);
+  if (node instanceof Node) {
+    return isBulletListNode(node) || isOrderedListNode(node);
+  }
+  return false;
 }

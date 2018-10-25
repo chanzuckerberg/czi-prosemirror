@@ -89,6 +89,7 @@ body {
 .command-button-component.active {
   border-color: #666;
   color: #000;
+  font-weight: bold;
 }
 
 .command-button-component.pressed {
@@ -102,14 +103,4 @@ body {
   color: #888;
   cursor: default;
   pointer-events: none;
-}
-
-
-.editor ol,
-.editor ul {
-  outline: solid 1px blue;
-}
-
-.editor li {
-  outline: solid 1px red;
 }
