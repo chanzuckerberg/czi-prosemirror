@@ -2,11 +2,12 @@
 
 import DemoAppHTMLTemplate from './DemoAppHTMLTemplate';
 import DemoAppTollbar from './DemoAppTollbar';
+import EditorComponent from '../src/EditorComponent';
 import React from 'react';
+import applyDevTools from "prosemirror-dev-tools";
 import {DOMParser} from 'prosemirror-model';
 import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
-import applyDevTools from "prosemirror-dev-tools";
 
 import {
   EDITOR_EMPTY_STATE,
@@ -14,15 +15,7 @@ import {
   SCHEMA,
 } from '../src/configs';
 
-
-import 'prosemirror-view/style/prosemirror.css';
-// import 'prosemirror-gapcursor/style/gapcursor.css';
-// import 'prosemirror-view/style/prosemirror.css';
-// import 'prosemirror-menu/style/menu.css';
-// import 'prosemirror-example-setup/style/style.css';
-
 import './DemoApp.css';
-import '../src/DocsEditor.css';
 
 type Transaction = any;
 
@@ -39,9 +32,8 @@ class DemoApp extends React.PureComponent<any, any, any> {
 
   _id = `demo-app-editor-${Date.now()}`;
 
-  _editorView = null;
-
   state = {
+    editorView: null,
     editorState: EDITOR_EMPTY_STATE,
   };
 
@@ -57,53 +49,48 @@ class DemoApp extends React.PureComponent<any, any, any> {
       });
 
       this.setState({editorState});
-
-      this._editorView = new EditorView(editorNode, {
-        state: editorState,
-        dispatchTransaction: this._dispatchTransaction,
-        editable: () =>  true,
-      });
-
-      applyDevTools(this._editorView);
-
-      (async function() {
-        await sleep(500);
-        const el: any = document.querySelector('.__prosemirror-dev-tools__');
-        el && el.firstElementChild && el.firstElementChild.click();
-        await sleep(500);
-        Array.from(document.querySelectorAll('div')).some(el => {
-          if (el.textContent === 'Structure') {
-            el.click();
-          }
-        });
-      })();
     }
   }
 
   render(): React.Element<any> {
-    const {editorState} = this.state;
-    const editorView = this._editorView;
+    const {editorState, editorView} = this.state;
     return (
       <div className="demo-app">
         <DemoAppHTMLTemplate id={this._id} />
         <DemoAppTollbar
           editorState={editorState}
           editorView={editorView}
-          dispatch={this._dispatchTransaction}
+          onChange={this._onChange}
         />
-        <div id={this._id} className="cuneiform-editor" />
+        <EditorComponent
+          editorState={this.state.editorState}
+          onChange={this._onChange}
+          onReady={this._onReady}
+        />
       </div>
     );
   }
 
-  _dispatchTransaction = (transaction: Transaction): void => {
-    const {onChange} = this.props;
-    const editorState = this.state.editorState.apply(transaction);
-    const editorView = this._editorView;
-    if (editorView) {
-      this.setState({editorState});
-      editorView.updateState(editorState);
-    }
+  _onChange = (editorState: EditorState): void => {
+    this.setState({editorState});
+  };
+
+  _onReady = (editorView: EditorView): void => {
+    this.setState({editorView});
+
+    applyDevTools(editorView);
+
+    (async function() {
+      await sleep(500);
+      const el: any = document.querySelector('.__prosemirror-dev-tools__');
+      el && el.firstElementChild && el.firstElementChild.click();
+      await sleep(500);
+      Array.from(document.querySelectorAll('div')).some(el => {
+        if (el.textContent === 'Structure') {
+          el.click();
+        }
+      });
+    })();
   };
 }
 

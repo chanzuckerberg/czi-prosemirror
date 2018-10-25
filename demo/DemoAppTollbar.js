@@ -18,6 +18,7 @@ import {
   UL,
   LIST_INDENT_MORE,
   LIST_INDENT_LESS,
+  EDITOR_EMPTY_STATE,
 } from '../src/configs';
 
 const CommandGroups = [
@@ -42,9 +43,10 @@ const CommandGroups = [
 class DemoAppTollbar extends React.PureComponent<any, any, any> {
 
   props: {
-    dispatch: (tr: Transform) => void,
     editorState: EditorState,
     editorView: ?EditorView,
+    onChange?: ?(state: EditorState) => void,
+    onReady?: ?(view: EditorView) => void,
   };
 
   render(): React.Element<any> {
@@ -68,17 +70,23 @@ class DemoAppTollbar extends React.PureComponent<any, any, any> {
   };
 
   _renderButton = (label: string, command: Command): React.Element<any> => {
-    const {editorState, editorView, dispatch} = this.props;
+    const {editorState, editorView} = this.props;
     return (
       <CommandButtonComponent
         command={command}
-        editorState={editorState}
+        dispatch={this._dispatchTransaction}
+        editorState={editorState || EDITOR_EMPTY_STATE}
         editorView={editorView}
         key={label}
         label={label}
-        dispatch={dispatch}
       />
     );
+  };
+
+  _dispatchTransaction = (transaction: Transform): void => {
+    const {onChange, editorState} = this.props;
+    const nextState = (editorState || EDITOR_EMPTY_STATE).apply(transaction);
+    onChange && onChange(nextState);
   };
 }
 

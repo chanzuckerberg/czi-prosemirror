@@ -56,11 +56,11 @@ class CommandButtonComponent extends React.PureComponent<any, any, any> {
   state = {pressed: false};
 
   render(): React.Element<any> {
-    const {label, command, editorState} = this.props;
+    const {label, command, editorState, editorView} = this.props;
     const {pressed} = this.state;
     let disabled = true;
     try {
-       disabled = !command.isEnabled(editorState);
+       disabled = !editorView || !command.isEnabled(editorState);
     } catch (ex) {
       //
     }
