@@ -64,7 +64,6 @@
     "babel-runtime": "6.26.0",
     "browserkeymap": "^2.0.2",
     "classnames": "^2.2.6",
-    "docs-editor": "git+https://github.com/chanzuckerberg/docs-editor.git",
     "invariant": "^2.2.4",
     "nullthrows": "^1.0.1",
     "prosemirror-commands": "^1.0.7",
