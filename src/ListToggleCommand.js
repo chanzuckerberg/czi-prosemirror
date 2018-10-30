@@ -76,7 +76,7 @@ class ListToggleCommand extends Command {
       this._schema,
       this._nodeType,
     );
-    if (tr.docChanged) {
+    if (tr.docChanged || true) {
       dispatch && dispatch(tr.scrollIntoView());
       return true;
     } else {

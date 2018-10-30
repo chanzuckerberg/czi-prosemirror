@@ -11,6 +11,7 @@ class DemoAppHTMLTemplate extends React.PureComponent<any, any, any> {
           <li>AAAAA</li>
           <li>BBB</li>
           <li>CCCCC</li>
+          <li>DDDDDD</li>
         </ol>
         <h1>Editor Example</h1>
         <h2>H2 Header</h2>
@@ -28,11 +29,13 @@ class DemoAppHTMLTemplate extends React.PureComponent<any, any, any> {
           <li>KKK</li>
           <li>GGG</li>
           <li>PPP</li>
+          <li>QQQQQ</li>
         </ul>
         <ol start="10">
           <li>Item A</li>
           <li>Item B</li>
           <li>Item C</li>
+          <li>Item D</li>
         </ol>
       </div>
     )

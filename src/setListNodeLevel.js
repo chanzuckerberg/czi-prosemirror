@@ -2,6 +2,7 @@
 // https://github.com/ProseMirror/prosemirror-schema-list/blob/master/src/schema-list.js
 // https://discuss.prosemirror.net/t/changing-doc-attrs/784/17
 
+import joinListNode from './joinListNode';
 import {Fragment, Schema, NodeType, ResolvedPos, Slice} from 'prosemirror-model';
 import {Node} from 'prosemirror-model';
 import {Selection} from 'prosemirror-state';
@@ -11,15 +12,17 @@ import {findParentNodeOfType} from 'prosemirror-utils';
 
 export const MAX_INDENT_LEVEL = 8;
 
-export default function indentListItemMore(
+export default function setListNodeLevel(
   tr: Transform,
   schema: Schema,
+  delta: number,
 ): Transform {
   const {bullet_list, ordered_list, list_item} = schema.nodes;
   if (
     !bullet_list ||
     !ordered_list ||
-    !list_item
+    !list_item ||
+    delta === 0
   ) {
     return tr;
   }
@@ -81,13 +84,17 @@ export default function indentListItemMore(
     tr = tr.insert(listToPos, frag);
   }
 
+  const nextLevel = delta > 0 ?
+    Math.min(listNode.attrs.level + 1,  MAX_INDENT_LEVEL) :
+    Math.max(listNode.attrs.level - 1, 1);
+
   if (sliceSelected) {
     const frag = Fragment.from(listNode.copy(sliceSelected.content));
     tr = tr.insert(listToPos, frag);
     tr = tr.setNodeMarkup(listToPos, null, {
       ...listNode.attrs,
       order: 1,
-      level: Math.min(listNode.attrs.level + 1,  MAX_INDENT_LEVEL),
+      level: nextLevel,
     });
   }
 
@@ -105,5 +112,6 @@ export default function indentListItemMore(
     initialSelection.to + offset,
   );
   tr = tr.setSelection(selection);
+  tr = joinListNode(tr, schema, listFromPos);
   return tr;
 }

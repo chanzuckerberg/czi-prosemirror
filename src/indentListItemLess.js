@@ -2,8 +2,7 @@
 // https://github.com/ProseMirror/prosemirror-schema-list/blob/master/src/schema-list.js
 // https://discuss.prosemirror.net/t/changing-doc-attrs/784/17
 
-import joinDown from './joinDown';
-import joinUp from './joinUp';
+import joinListNode from './joinListNode';
 import {Fragment, Schema, NodeType, ResolvedPos, Slice} from 'prosemirror-model';
 import {Node} from 'prosemirror-model';
 import {Selection} from 'prosemirror-state';
@@ -54,32 +53,6 @@ export default function indentListItemLess(
     level: nextLevel,
   });
 
-  const $fromPos = tr.doc.resolve(listFromPos);
-  const $toPos = tr.doc.resolve(listToPos);
-  let selectionOffset = 0;
-  if (
-    $toPos.nodeAfter &&
-    $toPos.nodeAfter.type === listNode.type &&
-    $toPos.nodeAfter.attrs.level === nextLevel
-  ) {
-    tr = joinDown(tr);
-  }
-
-  if (
-    $fromPos.nodeBefore &&
-    $fromPos.nodeBefore.type === listNode.type &&
-    $fromPos.nodeBefore.attrs.level === nextLevel
-  ) {
-    selectionOffset -= 2;
-    tr = joinUp(tr);
-  }
-
-  const selection = TextSelection.create(
-    tr.doc,
-    initialSelection.from + selectionOffset ,
-    initialSelection.to + selectionOffset,
-  );
-
-  tr = tr.setSelection(selection);
+  tr = joinListNode(tr, schema, listFromPos);
   return tr;
 }
