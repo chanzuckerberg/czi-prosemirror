@@ -72,10 +72,9 @@ class ListToggleCommand extends Command {
     //   this._findOrderedList(selection) :
     //   this._findBulletList(selection);
     const tr = toggleList(
-      state.tr,
+      state.tr.setSelection(selection),
       this._schema,
       this._nodeType,
-      selection,
     );
     if (tr.docChanged) {
       dispatch && dispatch(tr.scrollIntoView());

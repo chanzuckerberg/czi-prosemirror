@@ -26,151 +26,75 @@ export default function toggleList(
   tr: Transform,
   schema: Schema,
   nodeType: NodeType,
-  initialSelection: Selection,
 ): Transform {
+  const {
+    bullet_list,
+    heading,
+    list_item,
+    ordered_list,
+    paragraph,
+  } = schema.nodes;
   if (
-    !schema.nodes.bullet_list ||
-    !schema.nodes.ordered_list ||
-    !schema.nodes.list_item
+    !bullet_list ||
+    !ordered_list ||
+    !list_item ||
+    !heading ||
+    !paragraph
   ) {
     return tr;
   }
 
-  const groups = getGroupsInRange(
-    tr.doc,
-    initialSelection.$from,
-    initialSelection.$to,
-    isListNode,
-  );
+  if (!tr.selection) {
+    return tr;
+  }
 
-  const {$from} = groups[0];
-  const {$to} = groups[groups.length - 1];
-  tr = tr.setSelection(new TextSelection($from, $to));
-
-  const adjustedSelection = getAdjustedSelection(
-    nullthrows(tr.doc),
-    nullthrows(tr.selection),
-  );
-
-  const shouldUntoggle = isRangeOfType(
-    tr.doc,
-    adjustedSelection.$from,
-    adjustedSelection.$to,
-    nodeType,
-  );
-
-  const rangeContainsList = isRangeWithList(
-    tr.doc,
-    adjustedSelection.$from,
-    adjustedSelection.$to,
-  );
-
-  const shouldConvertToType =
-    !shouldUntoggle &&
-    (isListNode(nullthrows($from.node(1))) || rangeContainsList);
-
-  // Quick-fix to keep positions
-  groups.reverse();
-  groups.forEach((group) => {
-    tr = toggleListAtSelection(
-      tr,
-      schema,
-      nodeType,
-      group.$from,
-      group.$to,
-      shouldUntoggle,
-      shouldConvertToType,
-    );
+  const initialSelection = tr.selection;
+  // const range = tr.selection.$from.blockRange(
+  //   tr.selection.$to,
+  //   node => {
+  //     console.log(node.type && node.type.name);
+  //     return node.isBlock;
+  //   },
+  // );
+  // console.log(range.$from.pos, range.$to.pos);
+  let fromNode;
+  let fromNodePos;
+  let toNode;
+  let toNodePos;
+  let hasInvalidNode;
+  const validNodeTypes = new Set([list_item, heading, paragraph]);
+  tr.doc.nodesBetween(tr.selection.from, tr.selection.to, (
+    node,
+    pos,
+    parentNode,
+    index,
+  ) => {
+    if (isListNode(node)) {
+      return true;
+    }
+    fromNode = fromNode || node;
+    fromNodePos = fromNodePos === undefined ? pos : fromNodePos;
+    toNode = node;
+    toNodePos = pos;
+    hasInvalidNode = hasInvalidNode || !validNodeTypes.has(node.type);
+    console.log(node.type && node.type.name, pos);
+    return false;
   });
 
-  // Reset selection.
-  // tr = tr.setSelection(
-  //   new TextSelection(
-  //     initialSelection.$from,
-  //     initialSelection.$to,
-  //   ),
-  // );
-  return tr;
-}
+  fromNode = fromNode || {type: {name: null}};
+  toNode = toNode || fromNode;
 
-function toggleListAtSelection(
-  tr: Transform,
-  schema: Schema,
-  nodeType: NodeType,
-  $from: ResolvedPos,
-  $to: ResolvedPos,
-  shouldUntoggle: boolean,
-  shouldConvertToType: boolean,
-): Transform {
-  tr = tr.setSelection(new TextSelection($from, $to));
+  console.log({
+    hasInvalidNode,
+    fromNode: fromNode.type.name,
+    fromNodePos,
+    toNode: toNode.type.name,
+    toNodePos,
+  });
 
-  const adjustedSelection = getAdjustedSelection(
-    nullthrows(tr.doc),
-    nullthrows(tr.selection),
-  );
-
-  if ($from === $to) {
-    tr = tr.setSelection(adjustedSelection);
-    $from = tr.selection.$from;
-    $to = tr.selection.$to;
+  if (hasInvalidNode) {
+    return tr;
   }
 
-  if (shouldUntoggle) {
-    // Disable List
-    if ($from.parent === $to.parent) {
-      tr = lift(tr);
-    }
-    tr = liftSelection(
-      tr,
-      adjustedSelection.$from,
-      adjustedSelection.$to,
-    );
-
-  } else if (shouldConvertToType) {
-    tr = tr.setSelection(adjustedSelection);
-
-    tr = liftSelection(
-      tr,
-      adjustedSelection.$from,
-      adjustedSelection.$to,
-    );
-
-    // TODO: Support indentation level.
-
-    // TODO: It shall update initialSelection, too.
-    tr = wrapInList(tr, nodeType);
-
-    if (canJoinUp(tr.selection, tr.doc, nodeType)) {
-      tr = joinUp(tr);
-    }
-    if (canJoinDown(tr.selection, tr.doc, nodeType)) {
-      tr = joinDown(tr);
-    }
-  } else {
-    // Enable List
-    tr = tr.setSelection(adjustedSelection);
-    // TODO: provide param `attr` to `wrapInList()`, too.
-    tr = wrapInList(tr, nodeType);
-
-    if (canJoinUp(tr.selection, tr.doc, nodeType)) {
-      tr = joinUp(tr);
-    }
-
-    if (canJoinDown(tr.selection, tr.doc, nodeType)) {
-      /*
-      * joinDown expects the selection to be from the end of our last node to
-      * the beginning of the next. So we need to adjust our selection a bit.
-      * */
-      const ap = findAncestorPosition(tr.doc, tr.selection.$to);
-      tr = tr.setSelection(
-        new TextSelection(
-          tr.selection.$to,
-          tr.doc.resolve(tr.selection.$to.after(ap.depth)),
-        ),
-      );
-      tr = joinDown(tr);
-    }
-
-  }
   return tr;
 }

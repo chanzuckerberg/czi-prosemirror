@@ -36,7 +36,6 @@ export default function indentListItemMore(
     return tr;
   }
 
-
   const initialSelection = tr.selection;
   const listFromPos = result.pos;
   const listToPos = result.pos + result.node.nodeSize;
