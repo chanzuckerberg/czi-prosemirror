@@ -14,6 +14,7 @@ import {
   H4,
   HISTORY_REDO,
   HISTORY_UNDO,
+  HR,
   OL,
   UL,
   LIST_INDENT_MORE,
@@ -33,6 +34,9 @@ const CommandGroups = [
     'UL': UL,
     '->||': LIST_INDENT_MORE,
     '||<-': LIST_INDENT_LESS,
+  },
+  {
+    'HR': HR,
   },
   {
     'Undo': HISTORY_UNDO,

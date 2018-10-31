@@ -4,6 +4,7 @@ import BulletListNodeSpec from './BulletListNodeSpec';
 import HeadingCommand from './HeadingCommand';
 import HistoryRedoCommand from './HistoryRedoCommand';
 import HistoryUndoCommand from './HistoryUndoCommand';
+import HorizontalRuleCommand from './HorizontalRuleCommand';
 import Keymap from 'browserkeymap';
 import ListIndentCommand from './ListIndentCommand';
 import ListItemNodeSpec from './ListItemNodeSpec';
@@ -97,6 +98,8 @@ export const H3 = new HeadingCommand(SCHEMA, 3);
 export const H4 = new HeadingCommand(SCHEMA, 4);
 export const H5 = new HeadingCommand(SCHEMA, 5);
 export const H6 = new HeadingCommand(SCHEMA, 6);
+export const HR = new HorizontalRuleCommand(SCHEMA);
+
 export const HISTORY_REDO = new HistoryRedoCommand();
 export const HISTORY_UNDO = new HistoryUndoCommand();
 export const LIST_SPLIT = new ListSplitCommand(SCHEMA);

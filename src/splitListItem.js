@@ -1,7 +1,8 @@
 // @flow
 
-import {Node, NodeType} from 'prosemirror-model';
 import {Fragment, Schema, Slice} from 'prosemirror-model';
+import {LIST_ITEM} from './NodeNames';
+import {Node, NodeType} from 'prosemirror-model';
 import {canSplit, Transform} from 'prosemirror-transform';
 
 // Build a command that splits a non-empty textblock at the top level
@@ -10,7 +11,7 @@ export default function splitListItem(
   tr: Transform,
   schema: Schema,
 ): Transform {
-  const nodeType = schema.nodes.listItem;
+  const nodeType = schema.nodes[LIST_ITEM];
   if (!nodeType) {
     return tr;
   }
