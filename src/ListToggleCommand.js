@@ -1,7 +1,6 @@
 // @flow
 
 import Command from './Command';
-import lift from './lift';
 import nullthrows from 'nullthrows';
 import toggleList from './toggleList';
 import {EditorState, Selection} from 'prosemirror-state';

@@ -1,7 +1,6 @@
 // @flow
 
 import Command from './Command';
-import lift from './lift';
 import noop from './noop';
 import setListNodeLevel from './setListNodeLevel';
 import toggleList from './toggleList';
