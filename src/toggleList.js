@@ -73,7 +73,6 @@ export function unwrapNodesFromList(
 
   const listNodeType = listNode.type;
   const attrs = {level: listNode.attrs.level, start: 1};
-  let selectionOffset = 0;
 
   if (contentBlocksAfter.length) {
     const nodes = contentBlocksAfter.map(block => {
@@ -96,7 +95,6 @@ export function unwrapNodesFromList(
     });
     const frag = Fragment.from(nodes);
     tr = tr.insert(listNodePos, frag);
-    selectionOffset -= 2;
   }
 
   if (contentBlocksBefore.length) {
@@ -108,13 +106,26 @@ export function unwrapNodesFromList(
       Fragment.from(nodes),
     ));
     tr = tr.insert(listNodePos, frag);
-    selectionOffset += 2;
+  }
+
+  let selFrom = initialSelection.from;
+  let selTo = initialSelection.to;
+
+  const bb = !!contentBlocksBefore.length;
+  const aa = !!contentBlocksAfter.length;
+  if (!aa && !bb) {
+    selFrom -= 2;
+    selTo -= listNode.childCount + 2;
+  } else if (aa && !bb) {
+    selFrom -= 2;
+  } else if (!aa && bb) {
+    selTo -= listNode.childCount;
   }
 
   const selection = TextSelection.create(
     tr.doc,
-    initialSelection.from + selectionOffset,
-    initialSelection.to + selectionOffset,
+    selFrom,
+    selTo,
   );
 
   tr = tr.setSelection(selection);
