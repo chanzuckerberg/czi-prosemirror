@@ -39,6 +39,7 @@ class ListToggleCommand extends Command {
     this._schema = schema;
 
     if (bulletList && orderedList) {
+
       this._findBulletList = findParentNodeOfType(bulletList);
       this._findOrderedList = findParentNodeOfType(orderedList);
     } else {

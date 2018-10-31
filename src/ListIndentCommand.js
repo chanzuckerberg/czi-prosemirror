@@ -24,7 +24,7 @@ class ListIndentCommand extends Command {
     delta: number,
   ) {
     super();
-    
+
     const {nodes} = schema;
     const bullet_list = nodes[BULLET_LIST];
     const ordered_list = nodes[ORDERED_LIST];

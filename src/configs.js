@@ -22,6 +22,14 @@ import {menuBar} from 'prosemirror-menu';
 import {schema} from 'prosemirror-schema-basic';
 
 import {
+  BULLET_LIST,
+  HEADING,
+  ORDERED_LIST,
+  LIST_ITEM,
+  PARAGRAPH,
+} from './NodeNames';
+
+import {
   KEY_INDENT_LIST_ITEM_LESS,
   KEY_INDENT_LIST_ITEM_MORE,
   KEY_REDO,
@@ -72,11 +80,11 @@ function buildPlugins(schema: Schema): Array<Plugin> {
 
 // Schema
 
-const nodes = [
-  BulletListNodeSpec,
-  ListItemNodeSpec,
-  OrderedListNodeSpec,
-].reduce((memo, spec) => { memo[spec.name] = spec; return memo;}, {});
+const nodes = {
+  [BULLET_LIST]: BulletListNodeSpec,
+  [LIST_ITEM]: ListItemNodeSpec,
+  [ORDERED_LIST]: OrderedListNodeSpec,
+};
 
 export const SCHEMA = new Schema({
   nodes: schema.spec.nodes.append(nodes),
