@@ -22,9 +22,11 @@ import {menuBar} from 'prosemirror-menu';
 import {schema} from 'prosemirror-schema-basic';
 
 import {
+  KEY_INDENT_LIST_ITEM_LESS,
+  KEY_INDENT_LIST_ITEM_MORE,
   KEY_REDO,
-  KEY_UNDO,
   KEY_SPLIT_LIST_ITEM,
+  KEY_UNDO,
 } from './keymaps';
 
 type UserKeyCommand = (
@@ -39,9 +41,11 @@ type UserKeyMap = {
 
 function buildKeymap(schema: Schema): UserKeyMap {
   const result = {};
+  result[KEY_INDENT_LIST_ITEM_LESS.common] = LIST_INDENT_LESS.execute;
+  result[KEY_INDENT_LIST_ITEM_MORE.common] = LIST_INDENT_MORE.execute;
   result[KEY_REDO.common] = HISTORY_REDO.execute;
-  result[KEY_UNDO.common] = HISTORY_UNDO.execute;
   result[KEY_SPLIT_LIST_ITEM.common] = LIST_SPLIT.execute;
+  result[KEY_UNDO.common] = HISTORY_UNDO.execute;
   return result;
 }
 

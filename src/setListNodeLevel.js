@@ -47,11 +47,19 @@ export default function setListNodeLevel(
     return tr;
   }
 
+  const listNode = tr.doc.nodeAt(listFromPos);
+  const nextLevel = delta > 0 ?
+    listNode.attrs.level + 1 :
+    listNode.attrs.level - 1;
+
+  if (nextLevel > MAX_INDENT_LEVEL || nextLevel < 1) {
+    return tr;
+  }
+
   let sliceFromPos = null;
   let sliceToPos = null;
-
-  const listNode = tr.doc.nodeAt(listFromPos);
   let itemPos = listFromPos + 1;
+
   while (itemPos < listToPos - 1) {
     const itemNode = tr.doc.nodeAt(itemPos);
     const itemFromPos = itemPos;
@@ -83,10 +91,6 @@ export default function setListNodeLevel(
     const frag = Fragment.from(listNode.copy(sliceAfter.content));
     tr = tr.insert(listToPos, frag);
   }
-
-  const nextLevel = delta > 0 ?
-    Math.min(listNode.attrs.level + 1,  MAX_INDENT_LEVEL) :
-    Math.max(listNode.attrs.level - 1, 1);
 
   if (sliceSelected) {
     const frag = Fragment.from(listNode.copy(sliceSelected.content));
