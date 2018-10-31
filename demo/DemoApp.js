@@ -28,22 +28,27 @@ function sleep(delay: number) {
   });
 }
 
+
+
+
+
+// Reference: http://prosemirror.net/examples/basic/
+const defaultEditorState = (function() {
+  const templateNode = document.createElement('div');
+  ReactDOM.render(<DemoAppHTMLTemplate />, templateNode);
+  return EditorState.create({
+    doc: DOMParser.fromSchema(SCHEMA).parse(templateNode),
+    plugins: PLUGINS,
+  });
+})();
+
 class DemoApp extends React.PureComponent<any, any, any> {
 
   constructor(props: any, context: any) {
     super(props, context);
 
-    const templateNode = document.createElement('div');
-    ReactDOM.render(<DemoAppHTMLTemplate />, templateNode);
-
-    // Reference: http://prosemirror.net/examples/basic/
-    const editorState = EditorState.create({
-      doc: DOMParser.fromSchema(SCHEMA).parse(templateNode),
-      plugins: PLUGINS,
-    });
-
     this.state = {
-      editorState,
+      editorState: defaultEditorState,
       editorView: null,
     };
   }
@@ -71,7 +76,9 @@ class DemoApp extends React.PureComponent<any, any, any> {
   };
 
   _onReady = (editorView: EditorView): void => {
-    this.setState({editorView});
+    if (editorView !== this.state.editorView) {
+      this.setState({editorView});
+    }
 
     // Opens the debugger and select the "Structure" tab.
 

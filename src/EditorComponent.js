@@ -6,6 +6,7 @@ import applyDevTools from 'prosemirror-dev-tools';
 import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
 import {Transform} from 'prosemirror-transform';
+import uuid from 'uuid/v1';
 
 import {
   EDITOR_EMPTY_STATE,
@@ -20,10 +21,11 @@ import 'prosemirror-menu/style/menu.css';
 import 'prosemirror-example-setup/style/style.css';
 
 import './EditorComponent.css';
-
+console.log(uuid())
+console.log(uuid())
 class EditorComponent extends React.PureComponent<any, any, any> {
 
-  _id = `demo-app-editor-${Date.now()}`;
+  _id = uuid();
 
   _editorView = null;
 
