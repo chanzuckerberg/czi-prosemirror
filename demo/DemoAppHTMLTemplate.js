@@ -8,7 +8,7 @@ class DemoAppHTMLTemplate extends React.PureComponent<any, any, any> {
       <div className="demo-app-template">
         <table>
           <tbody>
-            <tr><th colspan="3" data-colwidth="100,0,0">Wide header</th></tr>
+            <tr><th colSpan="3" data-colwidth="100,0,0">Wide header</th></tr>
             <tr><td>One</td><td>Two</td><td>Three</td></tr>
             <tr><td>Four</td><td>Five</td><td>Six</td></tr>
           </tbody>

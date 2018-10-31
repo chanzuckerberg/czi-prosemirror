@@ -17,10 +17,12 @@ import {baseKeymap} from 'prosemirror-commands';
 import {buildInputRules} from 'prosemirror-example-setup';
 import {dropCursor} from 'prosemirror-dropcursor';
 import {gapCursor} from 'prosemirror-gapcursor';
+import {goToNextCell} from 'prosemirror-tables';
 import {history} from 'prosemirror-history';
 import {keymap} from 'prosemirror-keymap';
 import {menuBar} from 'prosemirror-menu';
 import {schema} from 'prosemirror-schema-basic';
+import {tableEditing, columnResizing, tableNodes, fixTables} from 'prosemirror-tables';
 
 import {
   BULLET_LIST,
@@ -67,6 +69,15 @@ function buildPlugins(schema: Schema): Array<Plugin> {
     history(),
     keymap(buildKeymap(schema)),
     keymap(baseKeymap),
+
+    // Tables
+    // https://github.com/ProseMirror/prosemirror-tables/blob/master/demo.js
+    columnResizing(),
+    tableEditing(),
+    keymap({
+      'Tab': goToNextCell(1),
+      'Shift-Tab': goToNextCell(-1),
+    }),
   ];
 
   plugins.push(
@@ -80,14 +91,33 @@ function buildPlugins(schema: Schema): Array<Plugin> {
 }
 
 // Schema
-const nodes = {
-  [BULLET_LIST]: BulletListNodeSpec,
-  [LIST_ITEM]: ListItemNodeSpec,
-  [ORDERED_LIST]: OrderedListNodeSpec,
-};
+const nodes = schema.spec.nodes
+  .append({
+    [BULLET_LIST]: BulletListNodeSpec,
+    [LIST_ITEM]: ListItemNodeSpec,
+    [ORDERED_LIST]: OrderedListNodeSpec,
+  })
+  .append(tableNodes({
+    // https://github.com/ProseMirror/prosemirror-tables/blob/master/demo.js
+    tableGroup: 'block',
+    cellContent: 'block+',
+    cellAttributes: {
+      background: {
+        default: null,
+        getFromDOM(dom) {
+          return dom.style.backgroundColor || null;
+        },
+        setDOMAttr(value, attrs) {
+          if (value) {
+            attrs.style = (attrs.style || '') + `background-color: ${value};`;
+          }
+        },
+      },
+    },
+  }));
 
 export const SCHEMA = new Schema({
-  nodes: schema.spec.nodes.append(nodes),
+  nodes: nodes,
   marks: schema.spec.marks,
 });
 

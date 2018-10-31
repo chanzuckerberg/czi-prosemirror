@@ -21,6 +21,12 @@
 }
 */
 
+.cuneiform-editor .ProseMirror-focused {
+  outline: none;
+}
+
+/* List Styles */
+
 .cuneiform-editor ol[data-level="1"],
 .cuneiform-editor ol[data-level="1"] {
   margin-left: 0;
@@ -59,4 +65,57 @@
 .cuneiform-editor ol[data-level="8"],
 .cuneiform-editor ul[data-level="8"] {
   margin-left: 156pt;
+}
+
+.cuneiform-editor .tableWrapper {
+  overflow-x: auto;
+}
+
+/* Table Styles */
+
+.cuneiform-editor table {
+  border-collapse: collapse;
+  table-layout: fixed;
+  width: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+.cuneiform-editor td,
+.cuneiform-editor th {
+  border: 1px solid #ddd;
+  box-sizing: border-box;
+  min-width: 1em;
+  padding: 3px 5px;
+  position: relative;
+  vertical-align: top;
+}
+
+.cuneiform-editor  th {
+   font-weight: bold;
+   text-align: left;
+ }
+
+.cuneiform-editor .column-resize-handle {
+  position: absolute;
+  right: -2px; top: 0; bottom: 0;
+  width: 4px;
+  z-index: 20;
+  background-color: #adf;
+  pointer-events: none;
+}
+
+.cuneiform-editor.resize-cursor {
+  cursor: ew-resize;
+  cursor: col-resize;
+}
+
+/* Give selected cells a blue overlay */
+.cuneiform-editor .selectedCell:after {
+  z-index: 2;
+  position: absolute;
+  content: "";
+  left: 0; right: 0; top: 0; bottom: 0;
+  background: rgba(200, 200, 255, 0.4);
+  pointer-events: none;
 }
