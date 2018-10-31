@@ -6,6 +6,13 @@ class DemoAppHTMLTemplate extends React.PureComponent<any, any, any> {
   render(): React.Element<any> {
     return (
       <div className="demo-app-template">
+        <table>
+          <tbody>
+            <tr><th colspan="3" data-colwidth="100,0,0">Wide header</th></tr>
+            <tr><td>One</td><td>Two</td><td>Three</td></tr>
+            <tr><td>Four</td><td>Five</td><td>Six</td></tr>
+          </tbody>
+        </table>
         <h3>H3 Header</h3>
         <ol>
           <li>AAAAA</li>
