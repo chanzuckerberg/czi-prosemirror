@@ -6,6 +6,7 @@ import isListNode from './isListNode';
 import joinListNode from './joinListNode';
 import nullthrows from 'nullthrows';
 import {Fragment, Schema, Node, NodeType, ResolvedPos} from 'prosemirror-model';
+import {PARAGRAPH, HEADING, LIST_ITEM, ORDERED_LIST, BULLET_LIST} from './NodeNames';
 import {Selection} from 'prosemirror-state';
 import {TextSelection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
@@ -16,7 +17,10 @@ function unwrapNodesFromList(
   schema: Schema,
   listNodePos: number,
 ): Transform {
-  const {paragraph, list_item} = schema.nodes;
+  const {nodes} = schema;
+  const paragraph = nodes[PARAGRAPH];
+  const list_item = nodes[LIST_ITEM];
+
   if (!list_item || !paragraph) {
     return tr;
   }
@@ -120,7 +124,11 @@ function wrapNodeWithList(
   if (!tr.doc || !listNodeType) {
     return tr;
   }
-  const {paragraph, list_item} = schema.nodes;
+
+  const {nodes} = schema;
+  const paragraph = nodes[PARAGRAPH];
+  const list_item = nodes[LIST_ITEM];
+
   if (!list_item || !paragraph) {
     return tr;
   }
@@ -192,13 +200,13 @@ export default function toggleList(
   schema: Schema,
   listNodeType: NodeType,
 ): Transform {
-  const {
-    bullet_list,
-    heading,
-    list_item,
-    ordered_list,
-    paragraph,
-  } = schema.nodes;
+
+  const {nodes} = schema;
+  const bullet_list = nodes[BULLET_LIST];
+  const heading = nodes[HEADING];
+  const list_item = nodes[LIST_ITEM];
+  const ordered_list = nodes[ORDERED_LIST];
+  const paragraph = nodes[PARAGRAPH];
   if (
     !bullet_list ||
     !ordered_list ||

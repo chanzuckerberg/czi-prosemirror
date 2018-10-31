@@ -1,8 +1,8 @@
 // @flow
 
 import {Node} from 'prosemirror-model';
-import OrderedListNodeSpec from './OrderedListNodeSpec';
+import {ORDERED_LIST} from './NodeNames';
 
 export default function isOrderedListNode(node: Node): boolean {
-  return node.type.name === OrderedListNodeSpec.name;
+  return node.type.name === ORDERED_LIST;
 }

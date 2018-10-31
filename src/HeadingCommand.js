@@ -4,6 +4,7 @@ import Command from './Command';
 import nullthrows from 'nullthrows';
 import {EditorState, Selection} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
+import {HEADING, PARAGRAPH} from './NodeNames';
 import {Schema} from 'prosemirror-model';
 import {Transform} from 'prosemirror-transform';
 import {findParentNodeOfType} from 'prosemirror-utils';
@@ -25,8 +26,8 @@ class HeadingCommand extends Command {
   ) {
     super();
 
-    const heading = nullthrows(schema.nodes.heading);
-    const paragraph = nullthrows(schema.nodes.paragraph);
+    const heading = nullthrows(schema.nodes[HEADING]);
+    const paragraph = nullthrows(schema.nodes[PARAGRAPH]);
     this._level = level;
     this._findHeading = findParentNodeOfType(heading);
     this._findParagraph = findParentNodeOfType(paragraph);

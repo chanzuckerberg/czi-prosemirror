@@ -21,8 +21,7 @@ import 'prosemirror-menu/style/menu.css';
 import 'prosemirror-example-setup/style/style.css';
 
 import './EditorComponent.css';
-console.log(uuid())
-console.log(uuid())
+
 class EditorComponent extends React.PureComponent<any, any, any> {
 
   _id = uuid();

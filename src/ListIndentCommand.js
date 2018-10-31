@@ -4,12 +4,12 @@ import Command from './Command';
 import noop from './noop';
 import setListNodeLevel from './setListNodeLevel';
 import toggleList from './toggleList';
+import {BULLET_LIST, ORDERED_LIST} from './NodeNames';
 import {EditorState, Selection} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
 import {Schema, NodeType} from 'prosemirror-model';
 import {Transform} from 'prosemirror-transform';
 import {findParentNodeOfType} from 'prosemirror-utils';
-import {setBlockType} from 'prosemirror-commands';
 
 import type {ExecuteCall, FindNodeTypeInSelectionCall} from './Command';
 
@@ -24,7 +24,11 @@ class ListIndentCommand extends Command {
     delta: number,
   ) {
     super();
-    const {bullet_list, ordered_list} = schema.nodes;
+    
+    const {nodes} = schema;
+    const bullet_list = nodes[BULLET_LIST];
+    const ordered_list = nodes[ORDERED_LIST];
+
     this._delta = delta;
     this._schema = schema;
     this._findBulletList = bullet_list ?

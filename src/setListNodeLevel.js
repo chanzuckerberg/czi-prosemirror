@@ -3,6 +3,7 @@
 // https://discuss.prosemirror.net/t/changing-doc-attrs/784/17
 
 import joinListNode from './joinListNode';
+import {BULLET_LIST, ORDERED_LIST, LIST_ITEM} from './NodeNames';
 import {Fragment, Schema, NodeType, ResolvedPos, Slice} from 'prosemirror-model';
 import {Node} from 'prosemirror-model';
 import {Selection} from 'prosemirror-state';
@@ -17,7 +18,11 @@ export default function setListNodeLevel(
   schema: Schema,
   delta: number,
 ): Transform {
-  const {bullet_list, ordered_list, list_item} = schema.nodes;
+  const {nodes} = schema;
+  const bullet_list = nodes[BULLET_LIST];
+  const ordered_list = nodes[ORDERED_LIST];
+  const list_item = nodes[LIST_ITEM];
+
   if (
     !bullet_list ||
     !ordered_list ||

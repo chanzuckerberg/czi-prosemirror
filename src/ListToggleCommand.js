@@ -8,8 +8,8 @@ import {EditorView} from 'prosemirror-view';
 import {Schema, NodeType} from 'prosemirror-model';
 import {Transform} from 'prosemirror-transform';
 import {findParentNodeOfType} from 'prosemirror-utils';
-import {setBlockType} from 'prosemirror-commands';
 import noop from './noop';
+import {BULLET_LIST, ORDERED_LIST} from './NodeNames';
 
 import type {ExecuteCall, FindNodeTypeInSelectionCall} from './Command';
 
@@ -19,7 +19,6 @@ class ListToggleCommand extends Command {
 
   _findBulletList: FindNodeTypeInSelectionCall;
   _findOrderedList: FindNodeTypeInSelectionCall;
-  _findParagraph: FindNodeTypeInSelectionCall;
   _ordered: boolean;
   _schema: Schema;
   _nodeType: NodeType;
@@ -29,21 +28,22 @@ class ListToggleCommand extends Command {
     ordered: boolean,
   ) {
     super();
-    const bulletList = schema.nodes.bullet_list;
-    const orderedList = schema.nodes.ordered_list;
-    const paragraph = schema.nodes.paragraph;
+
+    const {nodes} = schema;
+
+    const bulletList = nodes[BULLET_LIST];
+    const orderedList = nodes[ORDERED_LIST];
+
     this._ordered = ordered;
     this._nodeType = ordered ? orderedList : bulletList;
     this._schema = schema;
 
-    if (bulletList && orderedList && paragraph) {
+    if (bulletList && orderedList) {
       this._findBulletList = findParentNodeOfType(bulletList);
       this._findOrderedList = findParentNodeOfType(orderedList);
-      this._findParagraph = findParentNodeOfType(paragraph);
     } else {
       this._findBulletList = noop;
       this._findOrderedList = noop;
-      this._findParagraph = noop;
     }
   }
 
@@ -55,11 +55,6 @@ class ListToggleCommand extends Command {
       return !!this._findBulletList(selection);
     }
   };
-
-  // isEnabled = (state: EditorState): boolean => {
-  //   const {selection} = state;
-  //   return this.isActive(state) || !!this._findParagraph(selection);
-  // };
 
   execute = (
     state: EditorState,

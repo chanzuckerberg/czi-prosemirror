@@ -24,7 +24,6 @@ const OrderedListNodeSpec: NodeSpec = {
       default: '',
     },
   },
-  name: 'ordered_list',
   group: 'block',
   content: 'list_item+',
   parseDOM: [{

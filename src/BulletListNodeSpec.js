@@ -21,7 +21,6 @@ const BulletListNodeSpec: NodeSpec = {
       default: '',
     },
   },
-  name: 'bullet_list',
   group: 'block',
   content: 'list_item+',
   parseDOM: [{
