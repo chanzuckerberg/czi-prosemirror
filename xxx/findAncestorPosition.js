@@ -5,8 +5,8 @@ import {Node, ResolvedPos} from 'prosemirror-model';
 
 const NESTABLE_BLOCKS = [
   'blockquote',
-  'bullet_list',
-  'ordered_list',
+  'bulletList',
+  'orderedList',
 ];
 
 /**

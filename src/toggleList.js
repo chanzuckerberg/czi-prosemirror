@@ -12,16 +12,17 @@ import {TextSelection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
 import {setBlockType} from 'prosemirror-commands';
 
-function unwrapNodesFromList(
+export function unwrapNodesFromList(
   tr: Transform,
   schema: Schema,
   listNodePos: number,
+  unwrapParagraphNode?: ?(Node) => Node,
 ): Transform {
   const {nodes} = schema;
   const paragraph = nodes[PARAGRAPH];
-  const list_item = nodes[LIST_ITEM];
+  const listItem= nodes[LIST_ITEM];
 
-  if (!list_item || !paragraph) {
+  if (!listItem|| !paragraph) {
     return tr;
   }
 
@@ -76,7 +77,7 @@ function unwrapNodesFromList(
 
   if (contentBlocksAfter.length) {
     const nodes = contentBlocksAfter.map(block => {
-      return list_item.create({}, Fragment.from(block.node));
+      return listItem.create({}, Fragment.from(block.node));
     });
     const frag = Fragment.from(listNodeType.create(
       attrs,
@@ -86,7 +87,13 @@ function unwrapNodesFromList(
   }
 
   if (contentBlocksSelected.length) {
-    const nodes = contentBlocksSelected.map(block => block.node);
+    const nodes = contentBlocksSelected.map(block => {
+      if (unwrapParagraphNode) {
+        return unwrapParagraphNode(block.node);
+      } else {
+        return block.node;
+      }
+    });
     const frag = Fragment.from(nodes);
     tr = tr.insert(listNodePos, frag);
     selectionOffset -= 2;
@@ -94,7 +101,7 @@ function unwrapNodesFromList(
 
   if (contentBlocksBefore.length) {
     const nodes = contentBlocksBefore.map(block => {
-      return list_item.create({}, Fragment.from(block.node));
+      return listItem.create({}, Fragment.from(block.node));
     });
     const frag = Fragment.from(listNodeType.create(
       attrs,
@@ -127,9 +134,9 @@ function wrapNodeWithList(
 
   const {nodes} = schema;
   const paragraph = nodes[PARAGRAPH];
-  const list_item = nodes[LIST_ITEM];
+  const listItem= nodes[LIST_ITEM];
 
-  if (!list_item || !paragraph) {
+  if (!listItem|| !paragraph) {
     return tr;
   }
 
@@ -139,7 +146,7 @@ function wrapNodeWithList(
   const to = from + node.nodeSize;
   const attrs = {level: 1, start: 1};
   const paragraphNode = paragraph.create({}, node.content, node.marks);
-  const listItemNode = list_item.create({}, Fragment.from(paragraphNode));
+  const listItemNode = listItem.create({}, Fragment.from(paragraphNode));
   const listNode = listNodeType.create(attrs, Fragment.from(listItemNode));
 
   tr = tr.delete(from, to);
@@ -182,7 +189,6 @@ function setBlockListNodeType(
         blockNode.attrs,
         blockNode.marks,
       );
-      // tr = joinListNode(tr, schema, pos);
     } else {
       tr = unwrapNodesFromList(tr, schema, pos);
     }
@@ -202,15 +208,15 @@ export default function toggleList(
 ): Transform {
 
   const {nodes} = schema;
-  const bullet_list = nodes[BULLET_LIST];
+  const bulletList = nodes[BULLET_LIST];
   const heading = nodes[HEADING];
-  const list_item = nodes[LIST_ITEM];
-  const ordered_list = nodes[ORDERED_LIST];
+  const listItem= nodes[LIST_ITEM];
+  const orderedList = nodes[ORDERED_LIST];
   const paragraph = nodes[PARAGRAPH];
   if (
-    !bullet_list ||
-    !ordered_list ||
-    !list_item ||
+    !bulletList ||
+    !orderedList ||
+    !listItem||
     !heading ||
     !paragraph
   ) {
@@ -234,7 +240,6 @@ export default function toggleList(
       parentNode,
       index,
     });
-
     return false;
   });
 
@@ -243,9 +248,9 @@ export default function toggleList(
   }
 
   const validNodeTypes = new Set([
-    bullet_list,
+    bulletList,
     heading,
-    ordered_list,
+    orderedList,
     paragraph,
   ]);
 
@@ -267,15 +272,18 @@ export default function toggleList(
         }
       }
     }
-    const pp = pos + offset;
+    const fromBefore = tr.selection.from;
     const sizeBefore = tr.doc.nodeSize;
+    const pp = pos + offset;
     tr = setBlockListNodeType(
       tr,
       schema,
       listNodeType,
       pp,
     );
+    const fromAfter = tr.selection.from;
     const sizeAfter = tr.doc.nodeSize;
+    offset += (fromAfter - fromBefore);
     offset += (sizeAfter - sizeBefore);
   });
 

@@ -28,9 +28,9 @@ export default function toggleList(
   nodeType: NodeType,
 ): Transform {
   if (
-    !schema.nodes.bullet_list ||
-    !schema.nodes.ordered_list ||
-    !schema.nodes.list_item ||
+    !schema.nodes.bulletList ||
+    !schema.nodes.orderedList ||
+    !schema.nodes.listItem||
     !tr.selection
   ) {
     return tr;

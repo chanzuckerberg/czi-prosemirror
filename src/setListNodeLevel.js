@@ -19,14 +19,14 @@ export default function setListNodeLevel(
   delta: number,
 ): Transform {
   const {nodes} = schema;
-  const bullet_list = nodes[BULLET_LIST];
-  const ordered_list = nodes[ORDERED_LIST];
-  const list_item = nodes[LIST_ITEM];
+  const bulletList = nodes[BULLET_LIST];
+  const orderedList = nodes[ORDERED_LIST];
+  const listItem= nodes[LIST_ITEM];
 
   if (
-    !bullet_list ||
-    !ordered_list ||
-    !list_item ||
+    !bulletList ||
+    !orderedList ||
+    !listItem||
     delta === 0
   ) {
     return tr;
@@ -37,8 +37,8 @@ export default function setListNodeLevel(
   }
 
   const result =
-    findParentNodeOfType(bullet_list)(tr.selection) ||
-    findParentNodeOfType(ordered_list)(tr.selection);
+    findParentNodeOfType(bulletList)(tr.selection) ||
+    findParentNodeOfType(orderedList)(tr.selection);
 
   if (!result) {
     return tr;

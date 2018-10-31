@@ -13,7 +13,7 @@ export default function liftListItem(
   if (!selection) {
     return tr;
   }
-  const itemType = schema.nodes.list_item;
+  const itemType = schema.nodes.listItem;
   if (!itemType) {
     return tr;
   }

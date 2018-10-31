@@ -3,7 +3,7 @@ import type {NodeSpec} from 'prosemirror';
 
 // https://bitbucket.org/atlassian/atlaskit/src/34facee3f461/packages/editor-core/src/schema/nodes/?at=master
 const ListItemNodeSpec: NodeSpec = {
-  name: 'list_item',
+  name: 'listItem',
   // content: 'paragraph block*',
   // Do not allow nested items.
   content: 'paragraph',

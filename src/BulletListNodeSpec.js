@@ -1,5 +1,6 @@
 // @flow
 
+import {LIST_ITEM} from './NodeNames';
 import {Node} from 'prosemirror-model';
 
 import type {NodeSpec} from 'prosemirror';
@@ -22,7 +23,7 @@ const BulletListNodeSpec: NodeSpec = {
     },
   },
   group: 'block',
-  content: 'list_item+',
+  content: LIST_ITEM + '+',
   parseDOM: [{
     tag: 'ul',
     getAttrs(dom: HTMLElement) {

@@ -1,15 +1,15 @@
 // @flow
 
 import Command from './Command';
+import noop from './noop';
 import nullthrows from 'nullthrows';
 import toggleList from './toggleList';
+import {BULLET_LIST, ORDERED_LIST} from './NodeNames';
 import {EditorState, Selection} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
 import {Schema, NodeType} from 'prosemirror-model';
 import {Transform} from 'prosemirror-transform';
 import {findParentNodeOfType} from 'prosemirror-utils';
-import noop from './noop';
-import {BULLET_LIST, ORDERED_LIST} from './NodeNames';
 
 import type {ExecuteCall, FindNodeTypeInSelectionCall} from './Command';
 
@@ -39,7 +39,6 @@ class ListToggleCommand extends Command {
     this._schema = schema;
 
     if (bulletList && orderedList) {
-
       this._findBulletList = findParentNodeOfType(bulletList);
       this._findOrderedList = findParentNodeOfType(orderedList);
     } else {
@@ -63,15 +62,12 @@ class ListToggleCommand extends Command {
     view: ?EditorView,
   ): boolean => {
     const {selection} = state;
-    // const node = this._ordered ?
-    //   this._findOrderedList(selection) :
-    //   this._findBulletList(selection);
     const tr = toggleList(
       state.tr.setSelection(selection),
       this._schema,
       this._nodeType,
     );
-    if (tr.docChanged || true) {
+    if (tr.docChanged) {
       dispatch && dispatch(tr.scrollIntoView());
       return true;
     } else {

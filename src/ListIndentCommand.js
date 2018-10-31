@@ -26,16 +26,16 @@ class ListIndentCommand extends Command {
     super();
 
     const {nodes} = schema;
-    const bullet_list = nodes[BULLET_LIST];
-    const ordered_list = nodes[ORDERED_LIST];
+    const bulletList = nodes[BULLET_LIST];
+    const orderedList = nodes[ORDERED_LIST];
 
     this._delta = delta;
     this._schema = schema;
-    this._findBulletList = bullet_list ?
-      findParentNodeOfType(bullet_list) :
+    this._findBulletList = bulletList ?
+      findParentNodeOfType(bulletList) :
       noop;
-    this._findOrderedList = ordered_list ?
-      findParentNodeOfType(ordered_list) :
+    this._findOrderedList = orderedList ?
+      findParentNodeOfType(orderedList) :
       noop;
   }
 

@@ -1,5 +1,6 @@
 // @flow
 
+import {LIST_ITEM} from './NodeNames';
 import {Node} from 'prosemirror-model';
 
 import type {NodeSpec} from 'prosemirror';
@@ -25,7 +26,7 @@ const OrderedListNodeSpec: NodeSpec = {
     },
   },
   group: 'block',
-  content: 'list_item+',
+  content: LIST_ITEM + '+',
   parseDOM: [{
     tag: 'ol',
     getAttrs(dom: HTMLElement) {

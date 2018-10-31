@@ -13,10 +13,10 @@ export default function liftListItem(
   }
 
   let { $from, $to } = selection;
-  let { list_item, paragraph } = schema.nodes;
+  let { listItem, paragraph } = schema.nodes;
   let range = $from.blockRange($to, (node) => {
     if (node && node.firstChild) {
-      return node.type === list_item && node.firstChild.type === paragraph;
+      return node.type === listItem&& node.firstChild.type === paragraph;
     }
     return false;
   });

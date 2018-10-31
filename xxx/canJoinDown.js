@@ -8,7 +8,7 @@ import findAncestorPosition from './findAncestorPosition';
 /**
  * Determines if content inside a selection can be joined with the next block.
  * We need this check since the built-in method for "joinDown" will join a
- * ordered_list with bullet_list.
+ * orderedList with bulletList.
  */
 export default function canJoinDown(
   selection: Selection,

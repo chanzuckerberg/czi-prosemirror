@@ -1,7 +1,9 @@
 // @flow
 
 import Command from './Command';
+import noop from './noop';
 import nullthrows from 'nullthrows';
+import toggleHeading from './toggleHeading';
 import {EditorState, Selection} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
 import {HEADING, PARAGRAPH} from './NodeNames';
@@ -14,11 +16,9 @@ import type {ExecuteCall, FindNodeTypeInSelectionCall} from './Command';
 
 class HeadingCommand extends Command {
 
-  _disable: ExecuteCall;
-  _enable: ExecuteCall;
   _findHeading: FindNodeTypeInSelectionCall;
-  _findParagraph: FindNodeTypeInSelectionCall;
   _level: number;
+  _schema: Schema;
 
   constructor(
     schema: Schema,
@@ -26,13 +26,11 @@ class HeadingCommand extends Command {
   ) {
     super();
 
-    const heading = nullthrows(schema.nodes[HEADING]);
-    const paragraph = nullthrows(schema.nodes[PARAGRAPH]);
+    const heading = schema.nodes[HEADING];
+
     this._level = level;
-    this._findHeading = findParentNodeOfType(heading);
-    this._findParagraph = findParentNodeOfType(paragraph);
-    this._enable = setBlockType(heading, {level});
-    this._disable = setBlockType(paragraph, {});
+    this._schema = schema;
+    this._findHeading = heading ? findParentNodeOfType(heading) : noop;
   }
 
   isActive = (state: EditorState): boolean => {
@@ -50,10 +48,17 @@ class HeadingCommand extends Command {
     dispatch: ?(tr: Transform) => void,
     view: ?EditorView,
   ): boolean => {
-    if (this.isActive(state)) {
-      return this._disable(state, dispatch);
+    const {selection} = state;
+    const tr = toggleHeading(
+      state.tr.setSelection(selection),
+      this._schema,
+      this._level,
+    );
+    if (tr.docChanged) {
+      dispatch && dispatch(tr.scrollIntoView());
+      return true;
     } else {
-      return this._enable(state, dispatch);
+      return false;
     }
   };
 }

@@ -6,7 +6,7 @@ import isListNode from '../src/isListNode';
 import {Node, ResolvedPos, NodeType} from 'prosemirror-model';
 /**
  * Step through block-nodes between $from and $to and return true if a node is a
- * bullet_list or ordered_list
+ * bulletList or orderedList
  */
 export default function isRangeWithList(
   doc: Node,

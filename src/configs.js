@@ -79,7 +79,6 @@ function buildPlugins(schema: Schema): Array<Plugin> {
 }
 
 // Schema
-
 const nodes = {
   [BULLET_LIST]: BulletListNodeSpec,
   [LIST_ITEM]: ListItemNodeSpec,
@@ -88,7 +87,6 @@ const nodes = {
 
 export const SCHEMA = new Schema({
   nodes: schema.spec.nodes.append(nodes),
-  // nodes: addListNodes(schema.spec.nodes, 'paragraph block*', 'block'),
   marks: schema.spec.marks,
 });
 

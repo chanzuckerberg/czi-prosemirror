@@ -10,7 +10,7 @@ export default function sinkListItem(
   tr: Transform,
   schema: Schema,
 ): Transform {
-  const itemType = schema.nodes.list_item;
+  const itemType = schema.nodes.listItem;
   if (!itemType) {
     return tr;
   }

@@ -10,7 +10,7 @@ export default function splitListItem(
   tr: Transform,
   schema: Schema,
 ): Transform {
-  const nodeType = schema.nodes.list_item;
+  const nodeType = schema.nodes.listItem;
   if (!nodeType) {
     return tr;
   }

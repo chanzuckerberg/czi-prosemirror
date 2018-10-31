@@ -34,7 +34,7 @@ export default function toggleList(
     ):
       // Disable type.
       const isNestedList = greatGrandParent &&
-        greatGrandParent.type === schema.nodes.list_item;
+        greatGrandParent.type === schema.nodes.listItem;
       if (!isNestedList) {
         // If this is not an nested list, disable the list.
         tr = liftListItem(tr, schema);
@@ -42,13 +42,13 @@ export default function toggleList(
       break;
     case (
       grandParent &&
-      grandParent.type === schema.nodes.bullet_list &&
-      nodeType === schema.nodes.ordered_list
+      grandParent.type === schema.nodes.bulletList &&
+      nodeType === schema.nodes.orderedList
     ):
     case (
       grandParent &&
-      grandParent.type === schema.nodes.ordered_list &&
-      nodeType === schema.nodes.bullet_list
+      grandParent.type === schema.nodes.orderedList &&
+      nodeType === schema.nodes.bulletList
     ):
       // Switch type.
       // const result = findParentNodeOfType(nodeType)(selection);
