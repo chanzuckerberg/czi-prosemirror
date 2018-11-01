@@ -3,12 +3,13 @@
 import isListNode from './isListNode';
 import nullthrows from 'nullthrows';
 import {Fragment, Schema, Node, NodeType, ResolvedPos} from 'prosemirror-model';
-import {PARAGRAPH, HEADING, LIST_ITEM, ORDERED_LIST, BULLET_LIST, TABLE} from './NodeNames';
+import {PARAGRAPH, HEADING, LIST_ITEM, ORDERED_LIST, BULLET_LIST} from './NodeNames';
 import {Selection} from 'prosemirror-state';
 import {TextSelection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
 import {setBlockType} from 'prosemirror-commands';
 import {unwrapNodesFromList} from './toggleList';
+import isTableNode from './isTableNode';
 
 function setBlockHeadingNodeType(
   tr: Transform,
@@ -67,17 +68,15 @@ export default function toggleHeading(
 ): Transform {
   const {nodes} = schema;
   const heading = nodes[HEADING];
-  const listItem= nodes[LIST_ITEM];
   const orderedList = nodes[ORDERED_LIST];
   const paragraph = nodes[PARAGRAPH];
   const bulletList = nodes[BULLET_LIST];
-  const table = nodes[TABLE];
 
   if (!tr.selection || !tr.doc || !heading) {
     return tr;
   }
 
-  let areAllNodestheSameHeadingLevel = true;
+  let allNodesAreTheSameHeadingLevel = true;
   const blocksBetween = [];
   tr.doc.nodesBetween(tr.selection.from, tr.selection.to, (
     node,
@@ -85,8 +84,13 @@ export default function toggleHeading(
     parentNode,
     index,
   ) => {
-    if (node.type !== heading || node.attrs.level !== level) {
-      areAllNodestheSameHeadingLevel = false;
+    const {type, attrs} = node;
+    if (isTableNode(node)) {
+      // It's a table node, look into its cell content.
+      return true;
+    }
+    if (type !== heading || attrs.level !== level) {
+      allNodesAreTheSameHeadingLevel = false;
     }
     blocksBetween.push({
       node,
@@ -106,7 +110,7 @@ export default function toggleHeading(
     heading,
     orderedList,
     paragraph,
-  ]);
+  ].filter(Boolean));
 
   const hasInvalidNode = blocksBetween.some(m => {
     return !m.node || !validNodeTypes.has(m.node.type);
@@ -116,12 +120,11 @@ export default function toggleHeading(
     return tr;
   }
 
-  const effectiveLevel = areAllNodestheSameHeadingLevel ? null : level;
+  const effectiveLevel = allNodesAreTheSameHeadingLevel ? null : level;
   let offset = 0;
 
   blocksBetween.forEach((memo, ii) => {
     const {node, pos} = memo;
-
     const pp = pos + offset;
     const fromBefore = tr.selection.from;
     const sizeBefore = tr.doc.nodeSize;

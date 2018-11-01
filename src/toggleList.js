@@ -3,6 +3,7 @@
 // https://bitbucket.org/atlassian/atlaskit/src/98fad88c63576f0464984d21057ac146d4ca131a/packages/editor-core/src/commands/index.ts?at=ED-870-list-plugin&fileviewer=file-view-default
 
 import isListNode from './isListNode';
+import isTableNode from './isTableNode';
 import joinListNode from './joinListNode';
 import nullthrows from 'nullthrows';
 import {Fragment, Schema, Node, NodeType, ResolvedPos} from 'prosemirror-model';
@@ -11,6 +12,97 @@ import {Selection} from 'prosemirror-state';
 import {TextSelection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
 import {setBlockType} from 'prosemirror-commands';
+
+export default function toggleList(
+  tr: Transform,
+  schema: Schema,
+  listNodeType: NodeType,
+): Transform {
+
+  const {nodes} = schema;
+  const bulletList = nodes[BULLET_LIST];
+  const heading = nodes[HEADING];
+  const listItem= nodes[LIST_ITEM];
+  const orderedList = nodes[ORDERED_LIST];
+  const paragraph = nodes[PARAGRAPH];
+  if (
+    !bulletList ||
+    !orderedList ||
+    !listItem ||
+    !paragraph
+  ) {
+    return tr;
+  }
+
+  if (!tr.selection || !tr.doc) {
+    return tr;
+  }
+
+  const blocksBetween = [];
+  tr.doc.nodesBetween(tr.selection.from, tr.selection.to, (
+    node,
+    pos,
+    parentNode,
+    index,
+  ) => {
+    if (isTableNode(node)) {
+      return true;
+    }
+    blocksBetween.push({
+      node,
+      pos,
+      parentNode,
+      index,
+    });
+    return false;
+  });
+
+  if (!blocksBetween.length) {
+    return tr;
+  }
+
+  const validNodeTypes = new Set([
+    bulletList,
+    heading,
+    orderedList,
+    paragraph,
+  ].filter(Boolean));
+
+  const hasInvalidNode = blocksBetween.some(m => {
+    return !m.node || !validNodeTypes.has(m.node.type);
+  });
+
+  if (hasInvalidNode) {
+    return tr;
+  }
+
+  let offset = 0;
+  blocksBetween.forEach((memo, ii) => {
+    const {node, pos} = memo;
+    if (ii === 0) {
+      if (isListNode(node)) {
+        if (node.type === listNodeType) {
+          listNodeType = null;
+        }
+      }
+    }
+    const fromBefore = tr.selection.from;
+    const sizeBefore = tr.doc.nodeSize;
+    const pp = pos + offset;
+    tr = setBlockListNodeType(
+      tr,
+      schema,
+      listNodeType,
+      pp,
+    );
+    const fromAfter = tr.selection.from;
+    const sizeAfter = tr.doc.nodeSize;
+    offset += (fromAfter - fromBefore);
+    offset += (sizeAfter - sizeBefore);
+  });
+
+  return tr;
+}
 
 export function unwrapNodesFromList(
   tr: Transform,
@@ -208,96 +300,6 @@ function setBlockListNodeType(
       tr = wrapNodeWithList(tr, schema, pos, listNodeType);
     }
   }
-
-  return tr;
-}
-
-export default function toggleList(
-  tr: Transform,
-  schema: Schema,
-  listNodeType: NodeType,
-): Transform {
-
-  const {nodes} = schema;
-  const bulletList = nodes[BULLET_LIST];
-  const heading = nodes[HEADING];
-  const listItem= nodes[LIST_ITEM];
-  const orderedList = nodes[ORDERED_LIST];
-  const paragraph = nodes[PARAGRAPH];
-  if (
-    !bulletList ||
-    !orderedList ||
-    !listItem||
-    !heading ||
-    !paragraph
-  ) {
-    return tr;
-  }
-
-  if (!tr.selection || !tr.doc) {
-    return tr;
-  }
-
-  const blocksBetween = [];
-  tr.doc.nodesBetween(tr.selection.from, tr.selection.to, (
-    node,
-    pos,
-    parentNode,
-    index,
-  ) => {
-    blocksBetween.push({
-      node,
-      pos,
-      parentNode,
-      index,
-    });
-    return false;
-  });
-
-  if (!blocksBetween.length) {
-    return tr;
-  }
-
-  const validNodeTypes = new Set([
-    bulletList,
-    heading,
-    orderedList,
-    paragraph,
-  ]);
-
-  const hasInvalidNode = blocksBetween.some(m => {
-    return !m.node || !validNodeTypes.has(m.node.type);
-  });
-
-  if (hasInvalidNode) {
-    return tr;
-  }
-
-  let offset = 0;
-  blocksBetween.forEach((memo, ii) => {
-    const {node, pos} = memo;
-    if (ii === 0) {
-      if (isListNode(node)) {
-        if (node.type === listNodeType) {
-          listNodeType = null;
-        }
-      }
-    }
-    const fromBefore = tr.selection.from;
-    const sizeBefore = tr.doc.nodeSize;
-    const pp = pos + offset;
-    tr = setBlockListNodeType(
-      tr,
-      schema,
-      listNodeType,
-      pp,
-    );
-    const fromAfter = tr.selection.from;
-    const sizeAfter = tr.doc.nodeSize;
-    offset += (fromAfter - fromBefore);
-    offset += (sizeAfter - sizeBefore);
-  });
-
 
   return tr;
 }

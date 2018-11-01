@@ -11,3 +11,6 @@ export const LIST_ITEM = 'list_item';
 export const ORDERED_LIST = 'ordered_list';
 export const PARAGRAPH = 'paragraph';
 export const TABLE = 'table';
+export const TABLE_CELL = 'table_cell';
+export const TABLE_HEADER = 'table_header';
+export const TABLE_ROW = 'table_row';
