@@ -2,14 +2,13 @@
 
 import isListNode from './isListNode';
 import nullthrows from 'nullthrows';
+import updateNodesInSelection from './updateNodesInSelection';
+import {PARAGRAPH, HEADING} from './NodeNames';
 import {Fragment, Schema, Node, NodeType, ResolvedPos} from 'prosemirror-model';
-import {CODE_BLOCK, PARAGRAPH, HEADING, LIST_ITEM, ORDERED_LIST, BULLET_LIST} from './NodeNames';
 import {Selection} from 'prosemirror-state';
-import {TextSelection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
 import {setBlockType} from 'prosemirror-commands';
 import {unwrapNodesFromList} from './toggleList';
-import isTableNode from './isTableNode';
 
 export default function toggleHeading(
   tr: Transform,
@@ -18,76 +17,35 @@ export default function toggleHeading(
 ): Transform {
   const {nodes} = schema;
 
-  const bulletList = nodes[BULLET_LIST];
   const heading = nodes[HEADING];
-  const orderedList = nodes[ORDERED_LIST];
   const paragraph = nodes[PARAGRAPH];
-  const codeBlock = nodes[CODE_BLOCK];
 
   if (!tr.selection || !tr.doc || !heading) {
     return tr;
   }
 
-  let allNodesAreTheSameHeadingLevel = true;
-  const blocksBetween = [];
-  tr.doc.nodesBetween(tr.selection.from, tr.selection.to, (
-    node,
-    pos,
-    parentNode,
-    index,
-  ) => {
-    const {type, attrs} = node;
-    if (isTableNode(node)) {
-      // It's a table node, look into its cell content.
+  let effectiveLevel = level;
+  tr = updateNodesInSelection(
+    tr,
+    schema,
+    (args) => {
+      return setBlockHeadingNodeType(
+        args.tr,
+        args.schema,
+        args.pos,
+        effectiveLevel,
+      );
+    },
+    (args) => {
+      const {type, attrs} = args.node;
+      if (args.index === 0 && type === heading &&  attrs.level === level) {
+        // If the very first node has the same type as the desired node type,
+        // assume this is a toggle-off action.
+        effectiveLevel = null;
+      }
       return true;
-    }
-    if (type !== heading || attrs.level !== level) {
-      allNodesAreTheSameHeadingLevel = false;
-    }
-    blocksBetween.push({
-      node,
-      pos,
-      parentNode,
-      index,
-    });
-    return false;
-  });
-
-  if (!blocksBetween.length) {
-    return tr;
-  }
-
-  const validNodeTypes = new Set([
-    bulletList,
-    codeBlock,
-    heading,
-    orderedList,
-    paragraph,
-  ].filter(Boolean));
-
-  const hasInvalidNode = blocksBetween.some(m => {
-    return !m.node || !validNodeTypes.has(m.node.type);
-  });
-
-  if (hasInvalidNode) {
-    return tr;
-  }
-
-  const effectiveLevel = allNodesAreTheSameHeadingLevel ? null : level;
-  let offset = 0;
-
-  blocksBetween.forEach((memo, ii) => {
-    const {node, pos} = memo;
-    const pp = pos + offset;
-    const fromBefore = tr.selection.from;
-    const sizeBefore = tr.doc.nodeSize;
-    tr = setBlockHeadingNodeType(tr, schema, pp, effectiveLevel);
-    const fromAfter = tr.selection.from;
-    const sizeAfter = tr.doc.nodeSize;
-    offset += (fromAfter - fromBefore);
-    offset += (sizeAfter - sizeBefore);
-  });
-
+    },
+  );
   return tr;
 }
 
@@ -101,6 +59,9 @@ function setBlockHeadingNodeType(
   const heading = nodes[HEADING];
   const paragraph = nodes[PARAGRAPH];
   const node = tr.doc.nodeAt(pos);
+  if (!node) {
+    return tr;
+  }
   if (isListNode(node)) {
     // Toggle list
     if (heading && level !== null) {

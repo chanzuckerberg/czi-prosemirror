@@ -3,11 +3,11 @@
 // https://bitbucket.org/atlassian/atlaskit/src/98fad88c63576f0464984d21057ac146d4ca131a/packages/editor-core/src/commands/index.ts?at=ED-870-list-plugin&fileviewer=file-view-default
 
 import isListNode from './isListNode';
-import isTableNode from './isTableNode';
 import joinListNode from './joinListNode';
 import nullthrows from 'nullthrows';
+import updateNodesInSelection from './updateNodesInSelection';
+import {PARAGRAPH, LIST_ITEM, ORDERED_LIST, BULLET_LIST} from './NodeNames';
 import {Fragment, Schema, Node, NodeType, ResolvedPos} from 'prosemirror-model';
-import {CODE_BLOCK, PARAGRAPH, HEADING, LIST_ITEM, ORDERED_LIST, BULLET_LIST} from './NodeNames';
 import {Selection} from 'prosemirror-state';
 import {TextSelection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
@@ -19,97 +19,28 @@ export default function toggleList(
   listNodeType: NodeType,
 ): Transform {
 
-  if (!tr.selection || !tr.doc) {
-    return tr;
-  }
-
-  const {nodes} = schema;
-  const codeBlock = nodes[CODE_BLOCK];
-  const bulletList = nodes[BULLET_LIST];
-  const heading = nodes[HEADING];
-  const listItem= nodes[LIST_ITEM];
-  const orderedList = nodes[ORDERED_LIST];
-  const paragraph = nodes[PARAGRAPH];
-  if (
-    !bulletList ||
-    !orderedList ||
-    !listItem ||
-    !paragraph
-  ) {
-    // If any of these core nodes needed are not available, we'd do nothing.
-    return tr;
-  }
-
-  // Find out all the selected blocks that could be formated as lists.
-  const blocksBetween = [];
-  tr.doc.nodesBetween(tr.selection.from, tr.selection.to, (
-    node,
-    pos,
-    parentNode,
-    index,
-  ) => {
-    if (isTableNode(node)) {
-      // This is a table node, we should continue to look inside until
-      // a non-table block node is found.
+  let allNodesAreTheSameHeadingLevel = true;
+  tr = updateNodesInSelection(
+    tr,
+    schema,
+    (args) => {
+      return setBlockListNodeType(
+        args.tr,
+        args.schema,
+        listNodeType,
+        args.pos,
+      );
+    },
+    (args) => {
+      const {node} = args;
+      if (args.index === 0 && isListNode(node) && node.type === listNodeType) {
+        // If the very first node has the same type as the desired node type,
+        // assume this is a toggle-off action.
+        listNodeType = null;
+      }
       return true;
-    }
-    blocksBetween.push({
-      node,
-      pos,
-      parentNode,
-      index,
-    });
-    return false;
-  });
-
-  if (!blocksBetween.length) {
-    return tr;
-  }
-
-  // These are the node types that could be selected and formatted as lists.
-  // If an unsupported block type is selected, we'd abandon the action.
-  const validNodeTypes = new Set([
-    bulletList,
-    codeBlock,
-    heading,
-    orderedList,
-    paragraph,
-  ].filter(Boolean));
-
-  const hasInvalidNode = blocksBetween.some(m => {
-    return !m.node || !validNodeTypes.has(m.node.type);
-  });
-
-  if (hasInvalidNode) {
-    return tr;
-  }
-
-  let offset = 0;
-  blocksBetween.forEach((memo, ii) => {
-    const {node, pos} = memo;
-    if (ii === 0 && isListNode(node) && node.type === listNodeType) {
-      // If the very first node has the same type as the desired node type,
-      // assume this is a toggle-off action.
-      listNodeType = null;
-    }
-
-    const fromBefore = tr.selection.from;
-    const sizeBefore = tr.doc.nodeSize;
-    // After each iteration, the recorded `pos` could have been moved.
-    // We need to keep track of the changes of the `pos`.
-    const pp = pos + offset;
-    tr = setBlockListNodeType(
-      tr,
-      schema,
-      listNodeType,
-      pp,
-    );
-    const fromAfter = tr.selection.from;
-    const sizeAfter = tr.doc.nodeSize;
-    offset += (fromAfter - fromBefore);
-    offset += (sizeAfter - sizeBefore);
-  });
-
+    },
+  );
   return tr;
 }
 
