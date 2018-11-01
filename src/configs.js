@@ -1,6 +1,7 @@
 'use strict';
 
 import BulletListNodeSpec from './BulletListNodeSpec';
+import CodeBlockCommand from './CodeBlockCommand';
 import HeadingCommand from './HeadingCommand';
 import HistoryRedoCommand from './HistoryRedoCommand';
 import HistoryUndoCommand from './HistoryUndoCommand';
@@ -118,7 +119,7 @@ const nodes = schema.spec.nodes
     },
   }));
 
-console.log(nodes.content);
+// console.log(nodes.content);
 
 export const SCHEMA = new Schema({
   nodes: nodes,
@@ -127,6 +128,7 @@ export const SCHEMA = new Schema({
 
 // Command
 
+export const CODE = new CodeBlockCommand(SCHEMA);
 export const H1 = new HeadingCommand(SCHEMA, 1);
 export const H2 = new HeadingCommand(SCHEMA, 2);
 export const H3 = new HeadingCommand(SCHEMA, 3);

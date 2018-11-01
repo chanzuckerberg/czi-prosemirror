@@ -7,7 +7,7 @@ import isTableNode from './isTableNode';
 import joinListNode from './joinListNode';
 import nullthrows from 'nullthrows';
 import {Fragment, Schema, Node, NodeType, ResolvedPos} from 'prosemirror-model';
-import {PARAGRAPH, HEADING, LIST_ITEM, ORDERED_LIST, BULLET_LIST} from './NodeNames';
+import {CODE_BLOCK, PARAGRAPH, HEADING, LIST_ITEM, ORDERED_LIST, BULLET_LIST} from './NodeNames';
 import {Selection} from 'prosemirror-state';
 import {TextSelection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
@@ -24,6 +24,7 @@ export default function toggleList(
   }
 
   const {nodes} = schema;
+  const codeBlock = nodes[CODE_BLOCK];
   const bulletList = nodes[BULLET_LIST];
   const heading = nodes[HEADING];
   const listItem= nodes[LIST_ITEM];
@@ -69,6 +70,7 @@ export default function toggleList(
   // If an unsupported block type is selected, we'd abandon the action.
   const validNodeTypes = new Set([
     bulletList,
+    codeBlock,
     heading,
     orderedList,
     paragraph,
@@ -133,7 +135,7 @@ export function unwrapNodesFromList(
   if (!isListNode(listNode)) {
     return tr;
   }
-  
+
   const initialSelection = tr.selection;
   const contentBlocksBefore = [];
   const contentBlocksSelected = [];

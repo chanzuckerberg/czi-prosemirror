@@ -8,6 +8,8 @@ import {EditorView} from 'prosemirror-view';
 import {Transform} from 'prosemirror-transform';
 
 import {
+  CODE,
+  EDITOR_EMPTY_STATE,
   H1,
   H2,
   H3,
@@ -15,11 +17,10 @@ import {
   HISTORY_REDO,
   HISTORY_UNDO,
   HR,
+  LIST_INDENT_LESS,
+  LIST_INDENT_MORE,
   OL,
   UL,
-  LIST_INDENT_MORE,
-  LIST_INDENT_LESS,
-  EDITOR_EMPTY_STATE,
 } from '../src/configs';
 
 const CommandGroups = [
@@ -34,6 +35,9 @@ const CommandGroups = [
     'UL': UL,
     '->||': LIST_INDENT_MORE,
     '||<-': LIST_INDENT_LESS,
+  },
+  {
+    '<code />': CODE,
   },
   {
     'HR': HR,

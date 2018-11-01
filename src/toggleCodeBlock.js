@@ -3,7 +3,7 @@
 import isListNode from './isListNode';
 import nullthrows from 'nullthrows';
 import {Fragment, Schema, Node, NodeType, ResolvedPos} from 'prosemirror-model';
-import {CODE_BLOCK, PARAGRAPH, HEADING, LIST_ITEM, ORDERED_LIST, BULLET_LIST} from './NodeNames';
+import {CODE_BLOCK, PARAGRAPH, HEADING} from './NodeNames';
 import {Selection} from 'prosemirror-state';
 import {TextSelection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
@@ -11,20 +11,17 @@ import {setBlockType} from 'prosemirror-commands';
 import {unwrapNodesFromList} from './toggleList';
 import isTableNode from './isTableNode';
 
-export default function toggleHeading(
+export default function toggleCodeBlock(
   tr: Transform,
   schema: Schema,
-  level: number,
 ): Transform {
+
   const {nodes} = schema;
-
-  const bulletList = nodes[BULLET_LIST];
-  const heading = nodes[HEADING];
-  const orderedList = nodes[ORDERED_LIST];
-  const paragraph = nodes[PARAGRAPH];
   const codeBlock = nodes[CODE_BLOCK];
+  const heading = nodes[HEADING];
+  const paragraph = nodes[PARAGRAPH];
 
-  if (!tr.selection || !tr.doc || !heading) {
+  if (!tr.selection || !tr.doc || !codeBlock) {
     return tr;
   }
 
@@ -41,9 +38,6 @@ export default function toggleHeading(
       // It's a table node, look into its cell content.
       return true;
     }
-    if (type !== heading || attrs.level !== level) {
-      allNodesAreTheSameHeadingLevel = false;
-    }
     blocksBetween.push({
       node,
       pos,
@@ -58,11 +52,9 @@ export default function toggleHeading(
   }
 
   const validNodeTypes = new Set([
-    bulletList,
-    codeBlock,
     heading,
-    orderedList,
     paragraph,
+    codeBlock,
   ].filter(Boolean));
 
   const hasInvalidNode = blocksBetween.some(m => {
@@ -73,15 +65,20 @@ export default function toggleHeading(
     return tr;
   }
 
-  const effectiveLevel = allNodesAreTheSameHeadingLevel ? null : level;
   let offset = 0;
+  let codeBlockEnabled = true;
 
   blocksBetween.forEach((memo, ii) => {
     const {node, pos} = memo;
+    if (ii === 0 && node.type === codeBlock) {
+      // If the very first node has the same type as the desired node type,
+      // assume this is a toggle-off action.
+      codeBlockEnabled = false;
+    }
     const pp = pos + offset;
     const fromBefore = tr.selection.from;
     const sizeBefore = tr.doc.nodeSize;
-    tr = setBlockHeadingNodeType(tr, schema, pp, effectiveLevel);
+    tr = setCodeBlockNodeEnabled(tr, schema, pp, codeBlockEnabled);
     const fromAfter = tr.selection.from;
     const sizeAfter = tr.doc.nodeSize;
     offset += (fromAfter - fromBefore);
@@ -91,50 +88,29 @@ export default function toggleHeading(
   return tr;
 }
 
-function setBlockHeadingNodeType(
+function setCodeBlockNodeEnabled(
   tr: Transform,
   schema: Schema,
   pos: number,
-  level: ?number,
+  enabled: boolean,
 ): Transform {
   const {nodes} = schema;
+  const codeBlock = nodes[CODE_BLOCK];
   const heading = nodes[HEADING];
   const paragraph = nodes[PARAGRAPH];
   const node = tr.doc.nodeAt(pos);
-  if (isListNode(node)) {
-    // Toggle list
-    if (heading && level !== null) {
-      tr = unwrapNodesFromList(tr, schema, pos, (paragraphNode) => {
-        const {content, marks} = paragraphNode;
-        return heading.create({level}, content, marks);
-      });
-    }
-  } else if (node.type === heading) {
-    // Toggle heading
-    if (level === null) {
-      if (paragraph) {
-        tr = tr.setNodeMarkup(
-          pos,
-          paragraph,
-          {},
-          node.marks,
-        );
-      }
-    } else {
-      if (heading) {
-        tr = tr.setNodeMarkup(
-          pos,
-          heading,
-          {level},
-          node.marks,
-        );
-      }
-    }
-  } else if (heading && paragraph && level && node.type !== heading) {
+  if (!enabled && paragraph && node.type === codeBlock) {
     tr = tr.setNodeMarkup(
       pos,
-      heading,
-      {level},
+      paragraph,
+      {},
+      node.marks,
+    );
+  } else if (enabled && codeBlock && node.type !== codeBlock) {
+    tr = tr.setNodeMarkup(
+      pos,
+      codeBlock,
+      {codeBlock},
       node.marks,
     );
   }
