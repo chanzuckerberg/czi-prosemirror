@@ -1,7 +1,6 @@
 // @flow
 
 declare module 'prosemirror' {
-
   declare type NodeSpec = {
     content: string,
     group?: ?string,

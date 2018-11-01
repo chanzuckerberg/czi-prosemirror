@@ -3,7 +3,7 @@
 import isListNode from './isListNode';
 import nullthrows from 'nullthrows';
 import {Fragment, Schema, Node, NodeType, ResolvedPos} from 'prosemirror-model';
-import {PARAGRAPH, HEADING, LIST_ITEM, ORDERED_LIST, BULLET_LIST} from './NodeNames';
+import {PARAGRAPH, HEADING, LIST_ITEM, ORDERED_LIST, BULLET_LIST, TABLE} from './NodeNames';
 import {Selection} from 'prosemirror-state';
 import {TextSelection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
@@ -71,6 +71,7 @@ export default function toggleHeading(
   const orderedList = nodes[ORDERED_LIST];
   const paragraph = nodes[PARAGRAPH];
   const bulletList = nodes[BULLET_LIST];
+  const table = nodes[TABLE];
 
   if (!tr.selection || !tr.doc || !heading) {
     return tr;
