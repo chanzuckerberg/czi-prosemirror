@@ -1,18 +1,18 @@
 
 /*
-.cuneiform-editor ol,
-.cuneiform-editor ul {
+.ProseMirror ol,
+.ProseMirror ul {
   outline: solid 1px blue;
 }
 
-.cuneiform-editor li {
+.ProseMirror li {
   outline: solid 1px red;
 }
 */
 
 /*
-.cuneiform-editor ol::before,
-.cuneiform-editor ul::before {
+.ProseMirror ol::before,
+.ProseMirror ul::before {
   content: attr(data-level);
   display: list-item;
   list-style: none;
@@ -21,59 +21,59 @@
 }
 */
 
-.cuneiform-editor .ProseMirror-focused {
+.ProseMirror-focused {
   outline: none;
 }
 
 /* List Styles */
 
-.cuneiform-editor ol[data-level="1"],
-.cuneiform-editor ol[data-level="1"] {
+.ProseMirror ol[data-level="1"],
+.ProseMirror ol[data-level="1"] {
   margin-left: 0;
 }
 
-.cuneiform-editor ol[data-level="2"],
-.cuneiform-editor ul[data-level="2"] {
+.ProseMirror ol[data-level="2"],
+.ProseMirror ul[data-level="2"] {
   margin-left: 24pt;
 }
 
-.cuneiform-editor ol[data-level="3"],
-.cuneiform-editor ul[data-level="3"] {
+.ProseMirror ol[data-level="3"],
+.ProseMirror ul[data-level="3"] {
   margin-left: 48pt;
 }
 
-.cuneiform-editor ol[data-level="4"],
-.cuneiform-editor ul[data-level="4"] {
+.ProseMirror ol[data-level="4"],
+.ProseMirror ul[data-level="4"] {
   margin-left: 72pt;
 }
 
-.cuneiform-editor ol[data-level="5"],
-.cuneiform-editor ul[data-level="5"] {
+.ProseMirror ol[data-level="5"],
+.ProseMirror ul[data-level="5"] {
   margin-left: 86pt;
 }
 
-.cuneiform-editor ol[data-level="6"],
-.cuneiform-editor ul[data-level="6"] {
+.ProseMirror ol[data-level="6"],
+.ProseMirror ul[data-level="6"] {
   margin-left: 104pt;
 }
 
-.cuneiform-editor ol[data-level="7"],
-.cuneiform-editor ul[data-level="7"] {
+.ProseMirror ol[data-level="7"],
+.ProseMirror ul[data-level="7"] {
   margin-left: 128pt;
 }
 
-.cuneiform-editor ol[data-level="8"],
-.cuneiform-editor ul[data-level="8"] {
+.ProseMirror ol[data-level="8"],
+.ProseMirror ul[data-level="8"] {
   margin-left: 156pt;
 }
 
-.cuneiform-editor .tableWrapper {
+.ProseMirror .tableWrapper {
   overflow-x: auto;
 }
 
 /* Table Styles */
 
-.cuneiform-editor table {
+.ProseMirror table {
   border-collapse: collapse;
   table-layout: fixed;
   width: 100%;
@@ -81,8 +81,8 @@
   overflow: hidden;
 }
 
-.cuneiform-editor td,
-.cuneiform-editor th {
+.ProseMirror td,
+.ProseMirror th {
   border: 1px solid #000;
   box-sizing: border-box;
   min-width: 1em;
@@ -91,12 +91,12 @@
   vertical-align: top;
 }
 
-.cuneiform-editor  th {
+.ProseMirror  th {
    font-weight: bold;
    text-align: left;
  }
 
-.cuneiform-editor .column-resize-handle {
+.ProseMirror .column-resize-handle {
   position: absolute;
   right: -2px; top: 0; bottom: 0;
   width: 4px;
@@ -105,13 +105,13 @@
   pointer-events: none;
 }
 
-.cuneiform-editor.resize-cursor {
+.ProseMirror.resize-cursor {
   cursor: ew-resize;
   cursor: col-resize;
 }
 
 /* Give selected cells a blue overlay */
-.cuneiform-editor .selectedCell:after {
+.ProseMirror .selectedCell:after {
   background: rgba(152, 204, 253, 0.4);
   content: "";
   left: 0; right: 0; top: 0; bottom: 0;

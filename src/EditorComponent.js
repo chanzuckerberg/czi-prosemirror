@@ -17,10 +17,10 @@ import {
 import 'prosemirror-view/style/prosemirror.css';
 import 'prosemirror-gapcursor/style/gapcursor.css';
 import 'prosemirror-view/style/prosemirror.css';
-import 'prosemirror-menu/style/menu.css';
-import 'prosemirror-example-setup/style/style.css';
+// import 'prosemirror-menu/style/menu.css';
+//import 'prosemirror-example-setup/style/style.css';
 
-import './EditorComponent.css';
+import './ProseMirror.css';
 
 class EditorComponent extends React.PureComponent<any, any, any> {
 
@@ -60,7 +60,7 @@ class EditorComponent extends React.PureComponent<any, any, any> {
   }
 
   render(): React.Element<any> {
-    return <div id={this._id} className="cuneiform-editor" />;
+    return <div id={this._id} className="prosemirror-editor-wrapper" />;
   }
 
   _dispatchTransaction = (transaction: Transform): void => {
