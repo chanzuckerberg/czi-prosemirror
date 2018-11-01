@@ -79,10 +79,6 @@ function buildPlugins(schema: Schema): Array<Plugin> {
     // https://github.com/ProseMirror/prosemirror-tables/blob/master/demo.js
     columnResizing(),
     tableEditing(),
-    // keymap({
-    //   'Tab': goToNextCell(1),
-    //   'Shift-Tab': goToNextCell(-1),
-    // }),
   ];
 
   plugins.push(
@@ -121,6 +117,8 @@ const nodes = schema.spec.nodes
       },
     },
   }));
+
+console.log(nodes.content);
 
 export const SCHEMA = new Schema({
   nodes: nodes,

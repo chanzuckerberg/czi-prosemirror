@@ -19,6 +19,10 @@ export default function toggleList(
   listNodeType: NodeType,
 ): Transform {
 
+  if (!tr.selection || !tr.doc) {
+    return tr;
+  }
+
   const {nodes} = schema;
   const bulletList = nodes[BULLET_LIST];
   const heading = nodes[HEADING];
@@ -31,13 +35,11 @@ export default function toggleList(
     !listItem ||
     !paragraph
   ) {
+    // If any of these core nodes needed are not available, we'd do nothing.
     return tr;
   }
 
-  if (!tr.selection || !tr.doc) {
-    return tr;
-  }
-
+  // Find out all the selected blocks that could be formated as lists.
   const blocksBetween = [];
   tr.doc.nodesBetween(tr.selection.from, tr.selection.to, (
     node,
@@ -46,6 +48,8 @@ export default function toggleList(
     index,
   ) => {
     if (isTableNode(node)) {
+      // This is a table node, we should continue to look inside until
+      // a non-table block node is found.
       return true;
     }
     blocksBetween.push({
@@ -61,6 +65,8 @@ export default function toggleList(
     return tr;
   }
 
+  // These are the node types that could be selected and formatted as lists.
+  // If an unsupported block type is selected, we'd abandon the action.
   const validNodeTypes = new Set([
     bulletList,
     heading,
@@ -79,15 +85,16 @@ export default function toggleList(
   let offset = 0;
   blocksBetween.forEach((memo, ii) => {
     const {node, pos} = memo;
-    if (ii === 0) {
-      if (isListNode(node)) {
-        if (node.type === listNodeType) {
-          listNodeType = null;
-        }
-      }
+    if (ii === 0 && isListNode(node) && node.type === listNodeType) {
+      // If the very first node has the same type as the desired node type,
+      // assume this is a toggle-off action.
+      listNodeType = null;
     }
+
     const fromBefore = tr.selection.from;
     const sizeBefore = tr.doc.nodeSize;
+    // After each iteration, the recorded `pos` could have been moved.
+    // We need to keep track of the changes of the `pos`.
     const pp = pos + offset;
     tr = setBlockListNodeType(
       tr,
@@ -110,6 +117,10 @@ export function unwrapNodesFromList(
   listNodePos: number,
   unwrapParagraphNode?: ?(Node) => Node,
 ): Transform {
+  if (!tr.doc || !tr.selection) {
+    return tr;
+  }
+
   const {nodes} = schema;
   const paragraph = nodes[PARAGRAPH];
   const listItem= nodes[LIST_ITEM];
@@ -118,14 +129,11 @@ export function unwrapNodesFromList(
     return tr;
   }
 
-  if (!tr.doc || !tr.selection) {
-    return tr;
-  }
-
   const listNode = tr.doc.nodeAt(listNodePos);
   if (!isListNode(listNode)) {
     return tr;
   }
+  
   const initialSelection = tr.selection;
   const contentBlocksBefore = [];
   const contentBlocksSelected = [];
