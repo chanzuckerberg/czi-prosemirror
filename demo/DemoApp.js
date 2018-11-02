@@ -1,8 +1,8 @@
 // @flow
 
 import DemoAppHTMLTemplate from './DemoAppHTMLTemplate';
-import DemoAppTollbar from './DemoAppTollbar';
-import EditorComponent from '../src/EditorComponent';
+import Editor from '../src/ui/Editor';
+import EditorToolbar from '../src/ui/EditorToolbar';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import applyDevTools from "prosemirror-dev-tools";
@@ -18,7 +18,7 @@ import {
 
 import './DemoApp.css';
 
-type Transaction = any;
+import {Transform} from 'prosemirror-transform';
 
 function sleep(delay: number) {
   return new Promise(resolve => {
@@ -27,10 +27,6 @@ function sleep(delay: number) {
     }, delay);
   });
 }
-
-
-
-
 
 // Reference: http://prosemirror.net/examples/basic/
 const defaultEditorState = (function() {
@@ -57,16 +53,20 @@ class DemoApp extends React.PureComponent<any, any, any> {
     const {editorState, editorView} = this.state;
     return (
       <div className="demo-app">
-        <DemoAppTollbar
-          editorState={editorState}
-          editorView={editorView}
-          onChange={this._onChange}
-        />
-        <EditorComponent
-          editorState={this.state.editorState}
-          onChange={this._onChange}
-          onReady={this._onReady}
-        />
+        <div className="demo-app-head">
+          <EditorToolbar
+            editorState={editorState}
+            editorView={editorView}
+            onChange={this._onChange}
+          />
+        </div>
+        <div className="demo-app-body">
+          <Editor
+            editorState={this.state.editorState}
+            onChange={this._onChange}
+            onReady={this._onReady}
+          />
+        </div>
       </div>
     );
   }
@@ -80,20 +80,19 @@ class DemoApp extends React.PureComponent<any, any, any> {
       this.setState({editorView});
     }
 
-    // Opens the debugger and select the "Structure" tab.
-
     applyDevTools(editorView);
 
     (async function() {
-      await sleep(500);
-      const el: any = document.querySelector('.__prosemirror-dev-tools__');
-      el && el.firstElementChild && el.firstElementChild.click();
-      await sleep(500);
-      Array.from(document.querySelectorAll('div')).some(el => {
-        if (el.textContent === 'Structure') {
-          el.click();
-        }
-      });
+      // Opens the debugger and select the "Structure" tab.
+      // await sleep(500);
+      // const el: any = document.querySelector('.__prosemirror-dev-tools__');
+      // el && el.firstElementChild && el.firstElementChild.click();
+      // await sleep(500);
+      // Array.from(document.querySelectorAll('div')).some(el => {
+      //   if (el.textContent === 'Structure') {
+      //     el.click();
+      //   }
+      // });
     })();
   };
 }

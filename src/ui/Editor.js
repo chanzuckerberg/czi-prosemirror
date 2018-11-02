@@ -12,7 +12,7 @@ import {
   EDITOR_EMPTY_STATE,
   PLUGINS,
   SCHEMA,
-} from '../src/configs';
+} from '../configs';
 
 import 'prosemirror-view/style/prosemirror.css';
 import 'prosemirror-gapcursor/style/gapcursor.css';
@@ -22,7 +22,7 @@ import 'prosemirror-view/style/prosemirror.css';
 
 import './ProseMirror.css';
 
-class EditorComponent extends React.PureComponent<any, any, any> {
+class Editor extends React.PureComponent<any, any, any> {
 
   _id = uuid();
 
@@ -70,4 +70,4 @@ class EditorComponent extends React.PureComponent<any, any, any> {
   };
 }
 
-export default EditorComponent;
+export default Editor;

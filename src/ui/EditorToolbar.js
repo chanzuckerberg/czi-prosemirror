@@ -1,12 +1,14 @@
 // @flow
 
-import Command from '../src/Command';
-import CommandButtonComponent from '../src/CommandButtonComponent';
-import CommandMenuButtonComponent from '../src/CommandMenuButtonComponent';
+import Command from '../Command';
+import CommandButton from './CommandButton';
+import CommandMenuButton from './CommandMenuButton';
 import React from 'react';
 import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
 import {Transform} from 'prosemirror-transform';
+
+import './EditorToolbar.css';
 
 import {
   CODE,
@@ -36,7 +38,9 @@ import {
   TABLE_TOGGLE_HEADER_COLUMN,
   TABLE_TOGGLE_HEADER_ROW,
   UL,
-} from '../src/configs';
+} from '../configs';
+
+
 
 const CommandGroups = [
   {
@@ -94,7 +98,7 @@ const CommandGroups = [
   },
 ];
 
-class DemoAppTollbar extends React.PureComponent<any, any, any> {
+class EditorToolbar extends React.PureComponent<any, any, any> {
 
   props: {
     editorState: EditorState,
@@ -105,7 +109,7 @@ class DemoAppTollbar extends React.PureComponent<any, any, any> {
 
   render(): React.Element<any> {
     return (
-      <div className="demo-app-toolbar">
+      <div className="czi-editor-toolbar">
         {CommandGroups.map(this._renderButtonsGroup)}
       </div>
     );
@@ -123,7 +127,7 @@ class DemoAppTollbar extends React.PureComponent<any, any, any> {
       }
     }).filter(Boolean);
     return (
-      <div key={'g' + String(index)} className="demo-app-toolbar-buttons-group">
+      <div key={'g' + String(index)} className="czi-editor-toolbar-buttons">
         {buttons}
       </div>
     );
@@ -135,7 +139,7 @@ class DemoAppTollbar extends React.PureComponent<any, any, any> {
   ): React.Element<any> => {
     const {editorState, editorView} = this.props;
     return (
-      <CommandMenuButtonComponent
+      <CommandMenuButton
         commandGroups={commandGroups}
         dispatch={this._dispatchTransaction}
         editorState={editorState || EDITOR_EMPTY_STATE}
@@ -149,7 +153,7 @@ class DemoAppTollbar extends React.PureComponent<any, any, any> {
   _renderButton = (label: string, command: Command): React.Element<any> => {
     const {editorState, editorView} = this.props;
     return (
-      <CommandButtonComponent
+      <CommandButton
         command={command}
         dispatch={this._dispatchTransaction}
         editorState={editorState || EDITOR_EMPTY_STATE}
@@ -167,4 +171,4 @@ class DemoAppTollbar extends React.PureComponent<any, any, any> {
   };
 }
 
-export default DemoAppTollbar;
+export default EditorToolbar;

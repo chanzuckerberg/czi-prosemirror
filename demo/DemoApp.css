@@ -20,87 +20,23 @@ body {
   display: none;
 }
 
-.demo-app {
+.demo-app-head {
   background: #fff;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-  box-sizing: border-box;
-  margin: 20px auto;
-  width: 21cm;
-}
-
-.demo-app-toolbar {
-  background: #efefef;
-  box-bottom: solid 1px rgba(0,0,0,0.16);
-  direction: row;
-  display: flex;
-  padding: 16px 0;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.16);
   position: sticky;
   top: 0;
   z-index: 2;
 }
 
-.demo-app-toolbar-buttons-group {
-  margin: 0 16px;
-  white-space: nowrap;
-}
-
-.demo-app-toolbar-buttons-group > .command-button-component:first-child {
-  border-top-left-radius: 5px;
-  border-bottom-left-radius: 5px;
-}
-
-.demo-app-toolbar-buttons-group > .command-button-component:last-child {
-  border-top-right-radius: 5px;
-  border-bottom-right-radius: 5px;
-}
-
-.demo-app-toolbar-buttons-group + .demo-app-toolbar-buttons-group {
-  margin-left: 0;
-}
-
-.ProseMirror {
+.demo-app-body .ProseMirror {
+  background: #fff;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  box-sizing: border-box;
+  margin: 20px auto;
   min-height: 29.7cm;
   outline: none;
   padding: 16px;
   position: relative;
+  width: 21cm;
   z-index: 1;
-}
-
-.command-button-component {
-  background-color: #fff;
-  border: solid 1px #ccc;
-  color: #666;
-  cursor: pointer;
-  display: inline-block;
-  font-family: "Helvetica";
-  font-size: 12px;
-  padding: 6px 12px;
-  position: relative;
-  user-select: none;
-  vertical-align: top;
-}
-
-.command-button-component:focus,
-.command-button-component:hover {
-  border-color: #555;
-  outline: none;
-}
-
-.command-button-component.active {
-  border-color: #666;
-  color: #000;
-  font-weight: bold;
-}
-
-.command-button-component.pressed {
-  background-color: #e0e0e0;
-}
-
-.command-button-component.disabled,
-.command-button-component.disabled:hover {
-  background: #d0d0d0;
-  border-color: #ccc;
-  color: #888;
-  cursor: default;
-  pointer-events: none;
 }
