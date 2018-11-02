@@ -11,6 +11,7 @@ import {Transform} from 'prosemirror-transform';
 class CommandButton extends React.PureComponent<any, any, any> {
 
   props: {
+    className?: ?string,
     command: Command,
     dispatch: (tr: Transform) => void,
     editorState: EditorState,
@@ -19,7 +20,7 @@ class CommandButton extends React.PureComponent<any, any, any> {
   };
 
   render(): React.Element<any> {
-    const {label, command, editorState, editorView} = this.props;
+    const {label, className, command, editorState, editorView} = this.props;
     let disabled = true;
     try {
        disabled = !editorView || !command.isEnabled(editorState);
@@ -29,6 +30,7 @@ class CommandButton extends React.PureComponent<any, any, any> {
     return (
       <CustomButton
         active={command.isActive(editorState)}
+        className={className}
         disabled={disabled}
         label={label}
         onClick={this._onClick}

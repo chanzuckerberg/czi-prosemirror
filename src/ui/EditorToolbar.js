@@ -8,7 +8,7 @@ import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
 import {Transform} from 'prosemirror-transform';
 
-import './EditorToolbar.css';
+import './czi-editor-toolbar.css';
 
 import {
   CODE,
@@ -64,11 +64,6 @@ const CommandGroups = [
         'Insert column before': TABLE_ADD_COLUMN_BEFORE,
         'Insert column after': TABLE_ADD_COLUMN_AFTER,
         'Delete column': TABLE_DELETE_COLUMN,
-      },
-      {
-        'Insert row before': TABLE_ADD_ROW_BEFORE,
-        'Insert row after': TABLE_ADD_ROW_AFTER,
-        'Delete row': TABLE_DELETE_ROW,
       },
       {
         'Insert row before': TABLE_ADD_ROW_BEFORE,

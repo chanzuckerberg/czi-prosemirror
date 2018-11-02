@@ -3,27 +3,30 @@
 import React from 'react';
 import cx from 'classnames';
 
-import './CustomButton.css';
+import './czi-custom-button.css';
 
 class CustomButton extends React.PureComponent<any, any, any> {
 
   props: {
     active?: ?boolean,
+    className?: ?string,
     disabled?: ?boolean,
+    id?: ?string,
     label: string,
     onClick: (value: any) => void,
     value?: any,
   };
 
   _pressedTarget = null;
+  _unmounted = false;
 
   state = {pressed: false};
 
   render(): React.Element<any> {
-    const {label, disabled, active} = this.props;
+    const {className, label, disabled, active, id} = this.props;
     const {pressed} = this.state;
 
-    const className = cx({
+    const buttonClassName = cx(className, {
       'active': active,
       'czi-custom-button': true,
       'disabled': disabled,
@@ -33,7 +36,8 @@ class CustomButton extends React.PureComponent<any, any, any> {
     return (
       <span
         aria-pressed={pressed}
-        className={className}
+        className={buttonClassName}
+        id={id}
         onKeyPress={disabled ? null : this._onMouseUp}
         onMouseDown={disabled ? null : this._onMouseDown}
         onMouseUp={disabled ? null : this._onMouseUp}
@@ -42,6 +46,10 @@ class CustomButton extends React.PureComponent<any, any, any> {
         {label}
       </span>
     );
+  }
+
+  componentWillUnmount(): void {
+    this._unmounted = true;
   }
 
   _onMouseDown = (e: SyntheticEvent): void => {
@@ -56,7 +64,9 @@ class CustomButton extends React.PureComponent<any, any, any> {
       const {onClick, value} = this.props;
       onClick(value);
     }
-    this.setState({pressed: false});
+    if (!this._unmounted) {
+      this.setState({pressed: false});
+    }
     this._pressedTarget = null;
   };
 }
