@@ -6,36 +6,17 @@ import EditorToolbar from '../src/ui/EditorToolbar';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import applyDevTools from "prosemirror-dev-tools";
-import {DOMParser} from 'prosemirror-model';
+import convertFromDOMElement from '../src/convertFromDOMElement';
 import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
 
-import {
-  EDITOR_EMPTY_STATE,
-  PLUGINS,
-  SCHEMA,
-} from '../src/configs';
-
 import './DemoApp.css';
-
-import {Transform} from 'prosemirror-transform';
-
-function sleep(delay: number) {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve();
-    }, delay);
-  });
-}
 
 // Reference: http://prosemirror.net/examples/basic/
 const defaultEditorState = (function() {
   const templateNode = document.createElement('div');
   ReactDOM.render(<DemoAppHTMLTemplate />, templateNode);
-  return EditorState.create({
-    doc: DOMParser.fromSchema(SCHEMA).parse(templateNode),
-    plugins: PLUGINS,
-  });
+  return convertFromDOMElement(templateNode);
 })();
 
 class DemoApp extends React.PureComponent<any, any, any> {
@@ -95,6 +76,14 @@ class DemoApp extends React.PureComponent<any, any, any> {
       // });
     })();
   };
+}
+
+function sleep(delay: number) {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve();
+    }, delay);
+  });
 }
 
 export default DemoApp;

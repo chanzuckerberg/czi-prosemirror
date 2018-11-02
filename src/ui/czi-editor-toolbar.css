@@ -1,0 +1,26 @@
+.czi-editor-toolbar {
+  background: #fff;
+  box-bottom: solid 1px rgba(0,0,0,0.16);
+  direction: row;
+  display: flex;
+  padding: 8px 0;
+}
+
+.czi-editor-toolbar-buttons {
+  margin: 0 8px;
+  white-space: nowrap;
+}
+
+.czi-editor-toolbar-buttons > .czi-custom-button:first-child {
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+.czi-editor-toolbar-buttons > .czi-custom-button:last-child {
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.czi-editor-toolbar-buttons + .czi-editor-toolbar-button {
+  margin-left: 0;
+}

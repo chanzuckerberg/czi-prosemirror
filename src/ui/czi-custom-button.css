@@ -1,0 +1,45 @@
+/* <CustomButton /> */
+
+.czi-custom-buttons-group {
+  margin: 0 16px;
+  white-space: nowrap;
+}
+
+.czi-custom-button {
+  background-color: #fff;
+  border: solid 1px #ccc;
+  color: #666;
+  cursor: pointer;
+  display: inline-block;
+  font-family: var(--czi-font-family);
+  font-size: var(--czi-font-size);
+  padding: 6px 12px;
+  position: relative;
+  user-select: none;
+  vertical-align: top;
+}
+
+.czi-custom-button:focus,
+.czi-custom-button:hover {
+  border-color: #555;
+  outline: none;
+}
+
+.czi-custom-button.active {
+  border-color: #666;
+  color: #000;
+  font-weight: bold;
+}
+
+.czi-custom-button.pressed {
+  background-color: #e0e0e0;
+}
+
+.czi-custom-button.disabled,
+.czi-custom-button.disabled:hover {
+  background: #ffffff;
+  border-color: #ccc;
+  color: #dedede;
+  cursor: default;
+  pointer-events: none;
+}

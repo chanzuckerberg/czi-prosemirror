@@ -12,7 +12,7 @@ import {
   EDITOR_EMPTY_STATE,
   PLUGINS,
   SCHEMA,
-} from '../configs';
+} from '../setup';
 
 import 'prosemirror-view/style/prosemirror.css';
 import 'prosemirror-gapcursor/style/gapcursor.css';
