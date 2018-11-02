@@ -1,5 +1,8 @@
 'use strict';
 
+import * as KeyMaps from './keymaps';
+import * as NodeNames from './NodeNames';
+import * as ProsemirrorTables from 'prosemirror-tables';
 import BulletListNodeSpec from './BulletListNodeSpec';
 import CodeBlockCommand from './CodeBlockCommand';
 import HeadingCommand from './HeadingCommand';
@@ -24,7 +27,24 @@ import {keymap} from 'prosemirror-keymap';
 import {menuBar} from 'prosemirror-menu';
 import {schema} from 'prosemirror-schema-basic';
 
-import {
+type UserKeyCommand = (
+  state: EditorState,
+  dispatch: ?(tr: Transform) => void,
+  view: ?EditorView,
+) => void;
+
+type UserKeyMap = {
+  [key: string]: UserKeyCommand,
+};
+
+// Note that Firefox will, by default, add various kinds of controls to
+// editable tables, even though those don't work in ProseMirror. The only way
+// to turn these off is globally, which you might want to do with the
+// following code:
+document.execCommand('enableObjectResizing', false, 'false');
+document.execCommand('enableInlineTableEditing', false, 'false');
+
+const {
   addColumnAfter,
   addColumnBefore,
   addRowAfter,
@@ -43,17 +63,17 @@ import {
   toggleHeaderCell,
   toggleHeaderColumn,
   toggleHeaderRow,
-}  from 'prosemirror-tables';
+} = ProsemirrorTables;
 
-import {
+const {
   BULLET_LIST,
   HEADING,
   ORDERED_LIST,
   LIST_ITEM,
   PARAGRAPH,
-} from './NodeNames';
+} = NodeNames;
 
-import {
+const {
   KEY_INDENT_LIST_ITEM_LESS,
   KEY_INDENT_LIST_ITEM_MORE,
   KEY_TABLE_MOVE_TO_NEXT_CELL,
@@ -61,17 +81,7 @@ import {
   KEY_REDO,
   KEY_SPLIT_LIST_ITEM,
   KEY_UNDO,
-} from './keymaps';
-
-type UserKeyCommand = (
-  state: EditorState,
-  dispatch: ?(tr: Transform) => void,
-  view: ?EditorView,
-) => void;
-
-type UserKeyMap = {
-  [key: string]: UserKeyCommand,
-};
+} = KeyMaps;
 
 function buildKeymap(schema: Schema): UserKeyMap {
   const result = {};
@@ -168,6 +178,7 @@ export const TABLE_ADD_ROW_BEFORE = createCommand(addRowBefore);
 export const TABLE_DELETE_COLUMN = createCommand(deleteColumn);
 export const TABLE_DELETE_ROW = createCommand(deleteRow);
 export const TABLE_DELETE_TABLE = createCommand(deleteTable);
+export const TABLE_INSERT_TABLE = createCommand(deleteTable);
 export const TABLE_MERGE_CELLS = createCommand(mergeCells);
 export const TABLE_MOVE_TO_NEXT_CELL = createCommand(goToNextCell(1));
 export const TABLE_MOVE_TO_PREV_CELL = createCommand(goToNextCell(-1));
@@ -185,10 +196,3 @@ export const EDITOR_EMPTY_STATE = EditorState.create({
   schema: SCHEMA,
   plugins: PLUGINS,
 });
-
-// Note that Firefox will, by default, add various kinds of controls to
-// editable tables, even though those don't work in ProseMirror. The only way
-// to turn these off is globally, which you might want to do with the
-// following code:
-document.execCommand('enableObjectResizing', false, 'false');
-document.execCommand('enableInlineTableEditing', false, 'false');

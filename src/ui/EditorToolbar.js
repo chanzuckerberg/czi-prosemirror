@@ -1,5 +1,6 @@
 // @flow
 
+import * as Configs from '../configs';
 import Command from '../Command';
 import CommandButton from './CommandButton';
 import CommandMenuButton from './CommandMenuButton';
@@ -10,7 +11,7 @@ import {Transform} from 'prosemirror-transform';
 
 import './czi-editor-toolbar.css';
 
-import {
+const {
   CODE,
   EDITOR_EMPTY_STATE,
   H1,
@@ -37,10 +38,9 @@ import {
   TABLE_TOGGLE_HEADER_CELL,
   TABLE_TOGGLE_HEADER_COLUMN,
   TABLE_TOGGLE_HEADER_ROW,
+  TABLE_INSERT_TABLE,
   UL,
-} from '../configs';
-
-
+} = Configs;
 
 const CommandGroups = [
   {
@@ -60,6 +60,9 @@ const CommandGroups = [
   },
   {
     'TABLE': [
+      {
+        'Insert Table': TABLE_INSERT_TABLE,
+      },
       {
         'Insert column before': TABLE_ADD_COLUMN_BEFORE,
         'Insert column after': TABLE_ADD_COLUMN_AFTER,
