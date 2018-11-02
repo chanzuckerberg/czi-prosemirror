@@ -20,6 +20,20 @@ import {
   LIST_INDENT_LESS,
   LIST_INDENT_MORE,
   OL,
+  TABLE_ADD_COLUMN_AFTER,
+  TABLE_ADD_COLUMN_BEFORE,
+  TABLE_ADD_ROW_AFTER,
+  TABLE_ADD_ROW_BEFORE,
+  TABLE_DELETE_COLUMN,
+  TABLE_DELETE_ROW,
+  TABLE_DELETE_TABLE,
+  TABLE_MERGE_CELLS,
+  TABLE_MOVE_TO_NEXT_CELL,
+  TABLE_MOVE_TO_PREV_CELL,
+  TABLE_SPLIT_CELL,
+  TABLE_TOGGLE_HEADER_CELL,
+  TABLE_TOGGLE_HEADER_COLUMN,
+  TABLE_TOGGLE_HEADER_ROW,
   UL,
 } from '../src/configs';
 
@@ -38,6 +52,37 @@ const CommandGroups = [
   },
   {
     '<code />': CODE,
+  },
+  {
+    'TABLE': [
+      {
+        'Insert column before': TABLE_ADD_COLUMN_BEFORE,
+        'Insert column after': TABLE_ADD_COLUMN_AFTER,
+        'Delete column': TABLE_DELETE_COLUMN,
+      },
+      {
+        'Insert row before': TABLE_ADD_ROW_BEFORE,
+        'Insert row after': TABLE_ADD_ROW_AFTER,
+        'Delete row': TABLE_DELETE_ROW,
+      },
+      {
+        'Insert row before': TABLE_ADD_ROW_BEFORE,
+        'Insert row after': TABLE_ADD_ROW_AFTER,
+        'Delete row': TABLE_DELETE_ROW,
+      },
+      {
+        'Merge cells': TABLE_MERGE_CELLS,
+        'Split cell': TABLE_SPLIT_CELL,
+      },
+      {
+        'Toggle header column': TABLE_TOGGLE_HEADER_COLUMN,
+        'Toggle header row': TABLE_TOGGLE_HEADER_ROW,
+        'Toggle header cells': TABLE_TOGGLE_HEADER_CELL,
+      },
+      {
+        'Delete table': TABLE_DELETE_TABLE,
+      },
+    ],
   },
   {
     'HR': HR,
@@ -67,14 +112,27 @@ class DemoAppTollbar extends React.PureComponent<any, any, any> {
 
   _renderButtonsGroup = (group: Object, index: number): React.Element<any> => {
     const buttons = Object.keys(group).map(label => {
-      const command = group[label];
-      return this._renderButton(label, command);
-    });
+      const obj = group[label];
+      if (obj instanceof Command) {
+        return this._renderButton(label, obj);
+      } else if (Array.isArray(obj)) {
+        return this._renderMenuButton(label, obj );
+      } else {
+        return null;
+      }
+    }).filter(Boolean);
     return (
       <div key={'g' + String(index)} className="demo-app-toolbar-buttons-group">
         {buttons}
       </div>
     );
+  };
+
+  _renderMenuButton = (
+    label: string,
+    commands: Array<{[string]: Command}>,
+  ): React.Element<any> => {
+    return <button key={label}>{label}</button>;
   };
 
   _renderButton = (label: string, command: Command): React.Element<any> => {

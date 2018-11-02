@@ -12,8 +12,7 @@ import ListItemNodeSpec from './ListItemNodeSpec';
 import ListSplitCommand from './ListSplitCommand';
 import ListToggleCommand from './ListToggleCommand';
 import OrderedListNodeSpec from './OrderedListNodeSpec';
-import TableMoveToNextCellCommand from './TableMoveToNextCellCommand';
-import TableMoveToPrevCellCommand from './TableMoveToPrevCellCommand';
+import createCommand from './createCommand';
 import {EditorState, Plugin} from 'prosemirror-state';
 import {Schema, DOMParser} from 'prosemirror-model';
 import {baseKeymap} from 'prosemirror-commands';
@@ -24,7 +23,27 @@ import {history} from 'prosemirror-history';
 import {keymap} from 'prosemirror-keymap';
 import {menuBar} from 'prosemirror-menu';
 import {schema} from 'prosemirror-schema-basic';
-import {tableEditing, columnResizing, tableNodes, fixTables} from 'prosemirror-tables';
+
+import {
+  addColumnAfter,
+  addColumnBefore,
+  addRowAfter,
+  addRowBefore,
+  columnResizing,
+  deleteColumn,
+  deleteRow,
+  deleteTable,
+  fixTables,
+  goToNextCell,
+  mergeCells,
+  setCellAttr,
+  splitCell,
+  tableEditing,
+  tableNodes,
+  toggleHeaderCell,
+  toggleHeaderColumn,
+  toggleHeaderRow,
+}  from 'prosemirror-tables';
 
 import {
   BULLET_LIST,
@@ -142,8 +161,20 @@ export const LIST_INDENT_LESS = new ListIndentCommand(SCHEMA, -1);
 export const LIST_INDENT_MORE = new ListIndentCommand(SCHEMA, 1);
 export const LIST_SPLIT = new ListSplitCommand(SCHEMA);
 export const OL = new ListToggleCommand(SCHEMA, true);
-export const TABLE_MOVE_TO_NEXT_CELL = new TableMoveToNextCellCommand(SCHEMA);
-export const TABLE_MOVE_TO_PREV_CELL = new TableMoveToPrevCellCommand(SCHEMA);
+export const TABLE_ADD_COLUMN_AFTER = createCommand(addColumnAfter);
+export const TABLE_ADD_COLUMN_BEFORE = createCommand(addColumnBefore);
+export const TABLE_ADD_ROW_AFTER = createCommand(addRowAfter);
+export const TABLE_ADD_ROW_BEFORE = createCommand(addRowBefore);
+export const TABLE_DELETE_COLUMN = createCommand(deleteColumn);
+export const TABLE_DELETE_ROW = createCommand(deleteRow);
+export const TABLE_DELETE_TABLE = createCommand(deleteTable);
+export const TABLE_MERGE_CELLS = createCommand(mergeCells);
+export const TABLE_MOVE_TO_NEXT_CELL = createCommand(goToNextCell(1));
+export const TABLE_MOVE_TO_PREV_CELL = createCommand(goToNextCell(-1));
+export const TABLE_SPLIT_CELL = createCommand(splitCell);
+export const TABLE_TOGGLE_HEADER_CELL = createCommand(toggleHeaderCell);
+export const TABLE_TOGGLE_HEADER_COLUMN = createCommand(toggleHeaderColumn);
+export const TABLE_TOGGLE_HEADER_ROW = createCommand(toggleHeaderRow);
 export const UL = new ListToggleCommand(SCHEMA, false);
 
 // Plugin
