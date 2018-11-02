@@ -7,7 +7,10 @@ import uuid from 'uuid/v1';
 type PopUpProps = {
   View: Function,
   onClose: Function,
-  viewProps: Object,
+  viewProps: {
+    autoDismiss?: ?boolean,
+    target: string,
+  },
 };
 
 type PopUpHandle = {
@@ -25,9 +28,9 @@ class PopUp extends React.PureComponent {
 
   render(): React.Element<any> {
     const {View, viewProps, onClose} = this.props;
-    const {target, ...restProps} = viewProps;
+    const {autoDismiss, target, ...restProps} = viewProps;
     return (
-      <div id={this._id}>
+      <div data-pop-up-id={this._id} id={this._id}>
         <View
           {...restProps}
           onClose={onClose}
@@ -38,11 +41,35 @@ class PopUp extends React.PureComponent {
 
   componentDidMount(): void {
     this._syncPosition();
+    document.addEventListener('click', this._onDucumentClick, false);
   }
 
   componentWillUnmount(): void {
     this._rafId && cancelAnimationFrame(this._rafId);
+    document.removeEventListener('click', this._onDucumentClick, false);
   }
+
+  _onDucumentClick = (e: Event): void => {
+    const {autoDismiss, target} = this.props.viewProps;
+    const {onClose} = this.props;
+    if (!autoDismiss) {
+      return;
+    }
+    const targetEl = document.getElementById(target);
+    const popUpEl = document.getElementById(this._id);
+    if (targetEl && popUpEl) {
+      const clicked: any = e.target;
+      if (
+        targetEl === clicked ||
+        popUpEl === clicked ||
+        targetEl.contains(clicked) ||
+        popUpEl.contains(clicked)
+      ) {
+        return;
+      }
+    }
+    onClose();
+  };
 
   _syncPosition = (): void => {
     this._rafId && cancelAnimationFrame(this._rafId);
@@ -124,6 +151,7 @@ export default function createPopUp(
   const rootId = uuid();
 
   let dismissed = false;
+  let onClose = viewProps.onClose;
 
   const dispose = () => {
     if (dismissed) {
@@ -131,6 +159,7 @@ export default function createPopUp(
     }
     dismissed = true;
     unrenderPopUp(rootId);
+    onClose && onClose();
   };
 
   renderPopUp(rootId, {
@@ -142,6 +171,7 @@ export default function createPopUp(
   return {
     dispose: dispose,
     update: (nextViewProps) => {
+      onClose = nextViewProps.onClose;
       renderPopUp(rootId, {
         View,
         onClose: dispose,
