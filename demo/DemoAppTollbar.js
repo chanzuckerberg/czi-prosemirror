@@ -2,6 +2,7 @@
 
 import Command from '../src/Command';
 import CommandButtonComponent from '../src/CommandButtonComponent';
+import CommandMenuButtonComponent from '../src/CommandMenuButtonComponent';
 import React from 'react';
 import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
@@ -130,9 +131,19 @@ class DemoAppTollbar extends React.PureComponent<any, any, any> {
 
   _renderMenuButton = (
     label: string,
-    commands: Array<{[string]: Command}>,
+    commandGroups: Array<{[string]: Command}>,
   ): React.Element<any> => {
-    return <button key={label}>{label}</button>;
+    const {editorState, editorView} = this.props;
+    return (
+      <CommandMenuButtonComponent
+        commandGroups={commandGroups}
+        dispatch={this._dispatchTransaction}
+        editorState={editorState || EDITOR_EMPTY_STATE}
+        editorView={editorView}
+        key={label}
+        label={label}
+      />
+    );
   };
 
   _renderButton = (label: string, command: Command): React.Element<any> => {
