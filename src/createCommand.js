@@ -27,11 +27,5 @@ export default function createCommand(execute: ExecuteCall): Command {
       return passed && tr.docChanged;
     };
   }
-  // const command = new Command();
-  // const exe = execute;
-  // command.execute = function (s, d, v) {
-  //   // const passed = ex(state, dispatch, view);
-  //   return true;
-  // };
   return new CustomCommand();
 }

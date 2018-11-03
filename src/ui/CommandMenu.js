@@ -57,10 +57,11 @@ class CommandMenu extends React.PureComponent<any, any, any> {
     );
   }
 
-  _onMenuItemClick = (command: Command) => {
+  _onMenuItemClick = (command: Command, e: SyntheticEvent) => {
     const {dispatch, editorState, editorView, onCommand} = this.props;
-    command.execute(editorState, dispatch, editorView);
-    onCommand && onCommand();
+    if (command.execute(editorState, dispatch, editorView, e)) {
+      onCommand && onCommand();
+    }
   };
 }
 

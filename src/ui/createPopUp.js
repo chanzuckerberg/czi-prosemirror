@@ -9,14 +9,24 @@ type PopUpProps = {
   onClose: Function,
   viewProps: {
     autoDismiss?: ?boolean,
-    target: string,
+    position: 'right' | null,
+    target: string | HTMLElement,
   },
 };
 
-type PopUpHandle = {
+export type PopUpHandle = {
   update: (props: Object) => void,
   dispose: Function,
 };
+
+function mapToHTMLElement(obj: any): ?HTMLElement {
+  if (typeof obj === 'string') {
+    return document.getElementById(obj);
+  } else if (obj instanceof HTMLElement) {
+    return obj;
+  }
+  return null;
+}
 
 class PopUp extends React.PureComponent {
 
@@ -28,7 +38,7 @@ class PopUp extends React.PureComponent {
 
   render(): React.Element<any> {
     const {View, viewProps, onClose} = this.props;
-    const {autoDismiss, target, ...restProps} = viewProps;
+    const {autoDismiss, target, position, ...restProps} = viewProps;
     return (
       <div data-pop-up-id={this._id} id={this._id}>
         <View
@@ -55,8 +65,8 @@ class PopUp extends React.PureComponent {
     if (!autoDismiss) {
       return;
     }
-    const targetEl = document.getElementById(target);
-    const popUpEl = document.getElementById(this._id);
+    const targetEl = mapToHTMLElement(target);
+    const popUpEl = mapToHTMLElement(this._id);
     if (targetEl && popUpEl) {
       const clicked: any = e.target;
       if (
@@ -79,24 +89,29 @@ class PopUp extends React.PureComponent {
   _requestPosition = (): void => {
     this._rafId = 0;
     const {target} = this.props.viewProps;
-    if (typeof target === 'string') {
-      const targetEl = document.getElementById(target);
-      const popUpEl = document.getElementById(this._id);
-      if (targetEl && popUpEl) {
-        this._moveToElement(targetEl, popUpEl);
-        this._syncPosition();
-        return;
-      } else {
-        throw new Error(`Unable to find PopUp elements`);
-      }
+    const targetEl = mapToHTMLElement(target);
+    const popUpEl = mapToHTMLElement(this._id);
+    if (targetEl && popUpEl) {
+      this._moveToElement(targetEl, popUpEl);
+      this._syncPosition();
+    } else {
+      throw new Error(`Unable to find PopUp elements`);
     }
-    throw new Error(`Invalid PopUp target ${String(target)}`);
   };
 
   _moveToElement(targetEl: HTMLElement, popUpEl: HTMLElement): void {
+    const {position} = this.props.viewProps;
     const targetRect = targetEl.getBoundingClientRect();
-    const x = Math.round(targetRect.left);
-    const y = Math.round(targetRect.top + targetRect.height);
+    let x = 0;
+    let y = 0;
+    if (position === 'right') {
+      x = Math.round(targetRect.left + targetRect.width);
+      y = Math.round(targetRect.top);
+    } else {
+      x = Math.round(targetRect.left);
+      y = Math.round(targetRect.top + targetRect.height);
+    }
+
     const transform = `translate(${x}px, ${y}px)`;
     if (transform !== this._transform) {
       this._transform = transform;
@@ -107,7 +122,7 @@ class PopUp extends React.PureComponent {
 
 function getRootElement(id: string, forceCreation: boolean): ?HTMLElement {
   const root: any = document.body || document.documentElement;
-  let element = document.getElementById(id);
+  let element = mapToHTMLElement(id);
   if (!element && forceCreation) {
     element = document.createElement('div');
   }

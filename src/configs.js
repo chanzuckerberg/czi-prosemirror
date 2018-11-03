@@ -15,6 +15,7 @@ import ListItemNodeSpec from './ListItemNodeSpec';
 import ListSplitCommand from './ListSplitCommand';
 import ListToggleCommand from './ListToggleCommand';
 import OrderedListNodeSpec from './OrderedListNodeSpec';
+import TableInsertCommand from './TableInsertCommand';
 import createCommand from './createCommand';
 import {EditorState, Plugin} from 'prosemirror-state';
 import {Schema, DOMParser} from 'prosemirror-model';
@@ -24,7 +25,6 @@ import {dropCursor} from 'prosemirror-dropcursor';
 import {gapCursor} from 'prosemirror-gapcursor';
 import {history} from 'prosemirror-history';
 import {keymap} from 'prosemirror-keymap';
-import {menuBar} from 'prosemirror-menu';
 import {schema} from 'prosemirror-schema-basic';
 
 type UserKeyCommand = (
@@ -178,7 +178,7 @@ export const TABLE_ADD_ROW_BEFORE = createCommand(addRowBefore);
 export const TABLE_DELETE_COLUMN = createCommand(deleteColumn);
 export const TABLE_DELETE_ROW = createCommand(deleteRow);
 export const TABLE_DELETE_TABLE = createCommand(deleteTable);
-export const TABLE_INSERT_TABLE = createCommand(deleteTable);
+export const TABLE_INSERT_TABLE = new TableInsertCommand(SCHEMA);
 export const TABLE_MERGE_CELLS = createCommand(mergeCells);
 export const TABLE_MOVE_TO_NEXT_CELL = createCommand(goToNextCell(1));
 export const TABLE_MOVE_TO_PREV_CELL = createCommand(goToNextCell(-1));

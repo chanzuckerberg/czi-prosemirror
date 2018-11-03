@@ -13,7 +13,7 @@ class CustomButton extends React.PureComponent<any, any, any> {
     disabled?: ?boolean,
     id?: ?string,
     label: string,
-    onClick: (value: any) => void,
+    onClick: (value: any, e: SyntheticEvent) => void,
     value?: any,
   };
 
@@ -62,7 +62,7 @@ class CustomButton extends React.PureComponent<any, any, any> {
     e.preventDefault();
     if (e.currentTarget === this._pressedTarget || e.type === 'keypress') {
       const {onClick, value} = this.props;
-      onClick(value);
+      onClick(value, e);
     }
     if (!this._unmounted) {
       this.setState({pressed: false});

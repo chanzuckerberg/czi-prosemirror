@@ -32,6 +32,33 @@ class Command {
     state: EditorState,
     dispatch: ?(tr: Transform) => void,
     view: ?EditorView,
+    event: ?SyntheticEvent,
+  ): boolean => {
+    this.waitForUserInput(state, event).then(inputs => {
+      this.executeWithUserInput(
+        state,
+        dispatch,
+        view,
+        inputs,
+      );
+    }).catch(error => {
+      console.error(error);
+    })
+    return false;
+  };
+
+  waitForUserInput = (
+    state: EditorState,
+    event: ?SyntheticEvent,
+  ): Promise<any> => {
+    return Promise.resolve(null);
+  };
+
+  executeWithUserInput = (
+    state: EditorState,
+    dispatch: ?(tr: Transform) => void,
+    view: ?EditorView,
+    inputs: any,
   ): boolean => {
     return false;
   };
