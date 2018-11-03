@@ -1,9 +1,6 @@
 // @flow
 
-import Command from '../Command';
-import CommandButton from './CommandButton';
-import CommandMenuButton from './CommandMenuButton';
-import CustomMenuItem from './CustomMenuItem';
+import CustomButton from './CustomButton';
 import React from 'react';
 import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
@@ -16,7 +13,12 @@ class TableGridSizeSelector extends React.PureComponent<any, any, any> {
   render(): React.Element<any> {
     return (
       <div className="czi-table-grid-size-selector">
-        TableGridSizeSelecton
+        <CustomButton
+          label="TableGridSizeSelecton"
+          onClick={() => {
+            this.props.onClose(123);
+          }}
+        />
       </div>
     );
   }

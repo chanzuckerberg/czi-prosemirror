@@ -10,6 +10,9 @@ import {TextSelection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
 
 class TableInsertCommand extends Command {
+
+  _popUp = null;
+
   isEnabled = (state: EditorState): boolean => {
     const tr = state;
     const {selection} = state.tr;
@@ -23,13 +26,23 @@ class TableInsertCommand extends Command {
     state: EditorState,
     event: ?SyntheticEvent,
   ): Promise<any> => {
+    if (this._popUp) {
+      return Promise.resolve(null);
+    }
+    const target = nullthrows(event).currentTarget;
+    if (!(target instanceof HTMLElement)) {
+      return Promise.resolve(null);
+    }
     return new Promise(resolve => {
-      const node = nullthrows(event).currentTarget;
       const viewProps = {
-        target: nullthrows(node),
+        target,
         position: 'right',
+        onClose: (inputs) => {
+          this._popUp = null;
+          resolve(inputs);
+        },
       };
-      createPopUp(TableGridSizeSelector, viewProps);
+      this._popUp = createPopUp(TableGridSizeSelector, viewProps);
     });
   };
 
@@ -39,6 +52,7 @@ class TableInsertCommand extends Command {
     view: ?EditorView,
     inputs: any,
   ): boolean => {
+    console.log('>>>', inputs);
     return false;
   };
 }

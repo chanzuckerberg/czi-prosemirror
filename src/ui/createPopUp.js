@@ -4,14 +4,17 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import uuid from 'uuid/v1';
 
+type ViewProps = {
+  autoDismiss?: ?boolean,
+  onClose?: (val: any) => void,
+  position?: 'right' | null,
+  target: string | HTMLElement,
+};
+
 type PopUpProps = {
   View: Function,
-  onClose: Function,
-  viewProps: {
-    autoDismiss?: ?boolean,
-    position: 'right' | null,
-    target: string | HTMLElement,
-  },
+  closePopUp: (val: any) => void,
+  viewProps: ViewProps,
 };
 
 export type PopUpHandle = {
@@ -19,14 +22,152 @@ export type PopUpHandle = {
   dispose: Function,
 };
 
+type Rect = {
+  h: number,
+  w: number,
+  x: number,
+  y: number,
+};
+
+function toRect(el: HTMLElement): Rect  {
+  const rect = el.getBoundingClientRect();
+  return {
+    x: rect.left,
+    y: rect.top,
+    w: rect.width,
+    h: rect.height,
+  };
+}
+
+function isInRect(mx: number, my: number, rect: Rect): boolean {
+  const padding = 2;
+  return (
+    (rect.w > 0) &&
+    (rect.h > 0) &&
+    (mx >= (rect.x - padding)) &&
+    (mx <= (rect.x + rect.w + padding)) &&
+    (my >= (rect.y - padding)) &&
+    (my <= (rect.y + rect.h + padding ))
+  );
+}
+
+class PopUpManager {
+
+  _components = new Map();
+  _transforms = new Map();
+  _mx = 0;
+  _my = 0;
+  _rafID = 0;
+
+  register(component): void {
+    this._components.set(component, Date.now());
+    this._transforms.set(component, null);
+    if (this._components.size === 1) {
+      this._observe();
+    }
+    this._rafID = requestAnimationFrame(this._syncPosition);
+  }
+
+  unregister(component): void {
+    this._components.delete(component);
+    this._transforms.delete(component);
+    if (this._components.size === 0) {
+      this._unobserve();
+    }
+    this._rafID && cancelAnimationFrame(this._rafID);
+  }
+
+  _observe(): void {
+    document.addEventListener('mousemove', this._onMouseChange, false);
+    document.addEventListener('mouseup', this._onMouseChange, false);
+  }
+
+  _unobserve(): void {
+    document.removeEventListener('mousemove', this._onMouseChange, false);
+    document.removeEventListener('mouseup', this._onMouseChange, false);
+    this._rafID && cancelAnimationFrame(this._rafID);
+  }
+
+  _onMouseChange = (e: MouseEvent): void => {
+    this._mx = e.clientX;
+    this._my = e.clientY;
+    this._rafID && cancelAnimationFrame(this._rafID);
+    this._rafID = requestAnimationFrame(this._syncPosition);
+  };
+
+  _syncPosition = (): void => {
+    this._rafID = 0;
+
+    const bags = new Map();
+    for (let [component, registeredAt] of this._components) {
+      const {
+        autoDismiss, element, target, closePopUp, position,
+      } = component.getDetail();
+      if (element && target) {
+        bags.set(component, {
+          autoDismiss,
+          closePopUp,
+          registeredAt,
+          element,
+          elementRect: toRect(element),
+          position,
+          target,
+          targetRect: toRect(target),
+        });
+      } else {
+        closePopUp();
+      }
+    }
+
+    const callbacks = [];
+    const now = Date.now();
+    const mx = this._mx;
+    const my = this._my;
+    let hovered = false;
+    for (let [component, obj] of bags) {
+      const {
+        elementRect, targetRect, position,
+        element, closePopUp, registeredAt, autoDismiss,
+      } = obj;
+      let {x, y} = elementRect;
+      if (position === 'right') {
+        x = Math.round(targetRect.x + targetRect.w);
+        y = Math.round(targetRect.y);
+      } else {
+        x = Math.round(targetRect.x);
+        y = Math.round(targetRect.y + targetRect.h);
+      }
+      const transform = `translate(${x}px, ${y}px)`;
+      if (element && this._transforms.get(component) !== transform) {
+        this._transforms.set(component, transform);
+        element.style.transform = transform;
+        elementRect.x = x;
+        elementRect.y = y;
+      }
+      if (!hovered) {
+        hovered = isInRect(mx, my, targetRect) || isInRect(mx, my, elementRect);
+      }
+      if (!hovered && (now - registeredAt) > 500 && autoDismiss === true) {
+        callbacks.push(closePopUp);
+      }
+    }
+    if (!hovered) {
+      callbacks.forEach(close => close());
+    }
+  };
+}
+
 function mapToHTMLElement(obj: any): ?HTMLElement {
   if (typeof obj === 'string') {
     return document.getElementById(obj);
   } else if (obj instanceof HTMLElement) {
-    return obj;
+    const {body} = document;
+    return body && body.contains(obj) ? obj : null;
   }
   return null;
 }
+
+const popUpManager = new PopUpManager();
 
 class PopUp extends React.PureComponent {
 
@@ -38,97 +179,42 @@ class PopUp extends React.PureComponent {
   _unmounted = false;
 
   render(): React.Element<any> {
-    const {View, viewProps, onClose} = this.props;
+    const {View, viewProps, closePopUp} = this.props;
     const {autoDismiss, target, position, ...restProps} = viewProps;
     return (
       <div data-pop-up-id={this._id} id={this._id}>
         <View
           {...restProps}
-          onClose={onClose}
+          onClose={closePopUp}
         />
       </div>
     );
   }
 
   componentDidMount(): void {
-    this._syncPosition();
-    document.addEventListener('click', this._onDucumentClick, false);
+    popUpManager.register(this);
   }
 
   componentWillUnmount(): void {
-    this._unmounted = true;
-    this._rafId && cancelAnimationFrame(this._rafId);
-    document.removeEventListener('click', this._onDucumentClick, false);
+    popUpManager.unregister(this);
   }
 
-  _onDucumentClick = (e: Event): void => {
-    const {autoDismiss, target} = this.props.viewProps;
-    const {onClose} = this.props;
-    if (!autoDismiss) {
-      return;
-    }
-    const targetEl = mapToHTMLElement(target);
-    const popUpEl = mapToHTMLElement(this._id);
-    if (targetEl && popUpEl) {
-      const clicked: any = e.target;
-      if (
-        targetEl === clicked ||
-        popUpEl === clicked ||
-        targetEl.contains(clicked) ||
-        popUpEl.contains(clicked)
-      ) {
-        return;
-      }
-    }
-    onClose();
-  };
-
-  _syncPosition = (): void => {
-    this._rafId && cancelAnimationFrame(this._rafId);
-    this._rafId = requestAnimationFrame(this._requestPosition);
-  };
-
-  _requestPosition = (): void => {
-    this._rafId = 0;
-    const {target} = this.props.viewProps;
-    const targetEl = mapToHTMLElement(target);
-    const popUpEl = mapToHTMLElement(this._id);
-    if (targetEl && popUpEl) {
-      this._moveToElement(targetEl, popUpEl);
-      this._syncPosition();
-    } else if (!this._unmounted) {
-      throw new Error(`Unable to find PopUp elements`);
-    }
-  };
-
-  _moveToElement(targetEl: HTMLElement, popUpEl: HTMLElement): void {
-    const {onClose} = this.props;
-    const {position} = this.props.viewProps;
-    const targetRect = targetEl.getBoundingClientRect();
-    let x = 0;
-    let y = 0;
-    const w = targetRect.width;
-    const h = targetRect.height;
-    if (!w && !h) {
-      const body = document.body;
-      if (!body || !body.contains(targetEl)) {
-        onClose();
-        return;
-      }
-    }
-    if (position === 'right') {
-      x = Math.round(targetRect.left + w);
-      y = Math.round(targetRect.top);
-    } else {
-      x = Math.round(targetRect.left);
-      y = Math.round(targetRect.top + h);
-    }
-
-    const transform = `translate(${x}px, ${y}px)`;
-    if (transform !== this._transform) {
-      this._transform = transform;
-      popUpEl.style.transform = transform;
-    }
+  getDetail(): {
+    autoDismiss: ?boolean,
+    closePopUp: Function,
+    element: ?HTMLElement,
+    position: ?string,
+    target: ?HTMLElement,
+  } {
+    const {closePopUp, viewProps} = this.props;
+    const {autoDismiss, target, position} = viewProps;
+    return {
+      autoDismiss,
+      closePopUp,
+      element: mapToHTMLElement(this._id),
+      position,
+      target: mapToHTMLElement(target),
+    };
   }
 }
 
@@ -173,35 +259,35 @@ function unrenderPopUp(rootId: string): void {
 
 export default function createPopUp(
   View: Function,
-  viewProps: Object,
+  viewProps: ViewProps,
 ): PopUpHandle {
   const rootId = uuid();
 
   let dismissed = false;
   let onClose = viewProps.onClose;
 
-  const dispose = () => {
+  const closePopUp = (value) => {
     if (dismissed) {
       return;
     }
     dismissed = true;
     unrenderPopUp(rootId);
-    onClose && onClose();
+    onClose && onClose(value);
   };
 
   renderPopUp(rootId, {
     View,
-    onClose: dispose,
+    closePopUp,
     viewProps,
   });
 
   return {
-    dispose: dispose,
+    dispose: closePopUp,
     update: (nextViewProps) => {
       onClose = nextViewProps.onClose;
       renderPopUp(rootId, {
         View,
-        onClose: dispose,
+        closePopUp,
         viewProps: nextViewProps,
       });
     },

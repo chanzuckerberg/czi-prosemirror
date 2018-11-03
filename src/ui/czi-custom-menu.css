@@ -1,4 +1,6 @@
 .czi-custom-menu {
   background: #fff;
   box-shadow: var(--czi-overlay-shadow);
+  font-family: var(--czi-font-family);
+  font-size: var(--czi-font-size);
 }
