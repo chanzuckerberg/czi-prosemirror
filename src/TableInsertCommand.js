@@ -36,19 +36,20 @@ class TableInsertCommand extends Command {
       return Promise.resolve(null);
     }
     return new Promise(resolve => {
-      const close = (value) => {
-        if (this._popUp) {
-          this._popUp = null;
-          resolve(value);
-        }
-      };
       const viewProps = {
         target,
         position: 'right',
-        onClose: close,
-        onSelect: close,
+        onSelect: (value) => {
+          this._popUp = null;
+          resolve(value);
+        },
       };
-      this._popUp = createPopUp(TableGridSizeSelector, viewProps);
+      this._popUp = createPopUp(TableGridSizeSelector, viewProps, () => {
+        if (this._popUp) {
+          this._popUp = null;
+          resolve();
+        }
+      });
     });
   };
 
@@ -59,6 +60,7 @@ class TableInsertCommand extends Command {
     inputs: ?TableGridSizeSelectorValue,
   ): boolean => {
     console.log('>>>', inputs);
+    dispatch && dispatch(state.tr);
     return false;
   };
 }

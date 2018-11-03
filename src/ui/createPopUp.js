@@ -246,6 +246,7 @@ function unrenderPopUp(rootId: string): void {
 export default function createPopUp(
   View: Function,
   viewProps: ViewProps,
+  callback: ?Function,
 ): PopUpHandle {
   const rootId = uuid();
 
@@ -259,6 +260,7 @@ export default function createPopUp(
     dismissed = true;
     unrenderPopUp(rootId);
     onClose && onClose(value);
+    callback && callback(value);
   };
 
   renderPopUp(rootId, {

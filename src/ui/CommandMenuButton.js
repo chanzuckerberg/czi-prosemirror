@@ -84,14 +84,13 @@ class CommandMenuButton extends React.PureComponent<any, any, any> {
     const menuProps = {
       ...this.props,
       autoDismiss: true,
-      onClose: this._onClose,
       onCommand: this._onCommand,
       target: this._id,
     };
     if (menu) {
       menu.update(menuProps);
     } else {
-      this._menu = createPopUp(CommandMenu, menuProps);
+      this._menu = createPopUp(CommandMenu, menuProps, this._onClose);
     }
   };
 
