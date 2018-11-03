@@ -35,6 +35,7 @@ class PopUp extends React.PureComponent {
   _id = uuid();
   _rafId = NaN;
   _transform = '';
+  _unmounted = false;
 
   render(): React.Element<any> {
     const {View, viewProps, onClose} = this.props;
@@ -55,6 +56,7 @@ class PopUp extends React.PureComponent {
   }
 
   componentWillUnmount(): void {
+    this._unmounted = true;
     this._rafId && cancelAnimationFrame(this._rafId);
     document.removeEventListener('click', this._onDucumentClick, false);
   }
@@ -94,22 +96,32 @@ class PopUp extends React.PureComponent {
     if (targetEl && popUpEl) {
       this._moveToElement(targetEl, popUpEl);
       this._syncPosition();
-    } else {
+    } else if (!this._unmounted) {
       throw new Error(`Unable to find PopUp elements`);
     }
   };
 
   _moveToElement(targetEl: HTMLElement, popUpEl: HTMLElement): void {
+    const {onClose} = this.props;
     const {position} = this.props.viewProps;
     const targetRect = targetEl.getBoundingClientRect();
     let x = 0;
     let y = 0;
+    const w = targetRect.width;
+    const h = targetRect.height;
+    if (!w && !h) {
+      const body = document.body;
+      if (!body || !body.contains(targetEl)) {
+        onClose();
+        return;
+      }
+    }
     if (position === 'right') {
-      x = Math.round(targetRect.left + targetRect.width);
+      x = Math.round(targetRect.left + w);
       y = Math.round(targetRect.top);
     } else {
       x = Math.round(targetRect.left);
-      y = Math.round(targetRect.top + targetRect.height);
+      y = Math.round(targetRect.top + h);
     }
 
     const transform = `translate(${x}px, ${y}px)`;
