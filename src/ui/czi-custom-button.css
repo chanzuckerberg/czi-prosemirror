@@ -7,7 +7,7 @@
 
 .czi-custom-button {
   background-color: #fff;
-  border: solid 1px #ccc;
+  border: var(--czi-border-grey);
   color: #666;
   cursor: pointer;
   display: inline-block;

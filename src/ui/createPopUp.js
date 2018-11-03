@@ -3,6 +3,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import uuid from 'uuid/v1';
+import htmlElementToRect from './htmlElementToRect';
+
+import type {Rect} from './htmlElementToRect';
 
 type ViewProps = {
   autoDismiss?: ?boolean,
@@ -22,25 +25,8 @@ export type PopUpHandle = {
   dispose: Function,
 };
 
-type Rect = {
-  h: number,
-  w: number,
-  x: number,
-  y: number,
-};
-
-function toRect(el: HTMLElement): Rect  {
-  const rect = el.getBoundingClientRect();
-  return {
-    x: rect.left,
-    y: rect.top,
-    w: rect.width,
-    h: rect.height,
-  };
-}
-
 function isInRect(mx: number, my: number, rect: Rect): boolean {
-  const padding = 2;
+  const padding = 40;
   return (
     (rect.w > 0) &&
     (rect.h > 0) &&
@@ -109,10 +95,10 @@ class PopUpManager {
           closePopUp,
           registeredAt,
           element,
-          elementRect: toRect(element),
+          elementRect: htmlElementToRect(element),
           position,
           target,
-          targetRect: toRect(target),
+          targetRect: htmlElementToRect(target),
         });
       } else {
         closePopUp();

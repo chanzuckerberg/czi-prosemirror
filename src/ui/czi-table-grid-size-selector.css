@@ -3,5 +3,35 @@
   box-shadow: var(--czi-overlay-shadow);
   font-family: var(--czi-font-family);
   font-size: var(--czi-font-size);
-  padding: 8px;
+}
+
+.czi-table-grid-size-selector-body {
+  position: relative;
+}
+
+.czi-table-grid-size-selector-body::before {
+  bottom: -50px;
+  content: '';
+  left: -50px;
+  position: absolute;
+  right: -50px;
+  top: -50px;
+  z-index: 1;
+}
+
+.czi-table-grid-size-selector-cell {
+  border: var(--czi-border-grey);
+  box-sizing: border-box;
+  position: absolute;
+  z-index: 2;
+}
+
+.czi-table-grid-size-selector-cell.selected {
+  background: var(--czi-selection-highlight-color);
+  border-color: var(--czi-selection-highlight-color-dark);
+}
+
+.czi-table-grid-size-selector-footer {
+  padding-bottom: 5px;
+  text-align: center;
 }

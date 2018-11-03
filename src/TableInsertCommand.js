@@ -9,6 +9,8 @@ import {EditorView} from 'prosemirror-view';
 import {TextSelection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
 
+import type {TableGridSizeSelectorValue} from './ui/TableGridSizeSelector';
+
 class TableInsertCommand extends Command {
 
   _popUp = null;
@@ -34,13 +36,17 @@ class TableInsertCommand extends Command {
       return Promise.resolve(null);
     }
     return new Promise(resolve => {
+      const close = (value) => {
+        if (this._popUp) {
+          this._popUp = null;
+          resolve(value);
+        }
+      };
       const viewProps = {
         target,
         position: 'right',
-        onClose: (inputs) => {
-          this._popUp = null;
-          resolve(inputs);
-        },
+        onClose: close,
+        onSelect: close,
       };
       this._popUp = createPopUp(TableGridSizeSelector, viewProps);
     });
@@ -50,7 +56,7 @@ class TableInsertCommand extends Command {
     state: EditorState,
     dispatch: ?(tr: Transform) => void,
     view: ?EditorView,
-    inputs: any,
+    inputs: ?TableGridSizeSelectorValue,
   ): boolean => {
     console.log('>>>', inputs);
     return false;
