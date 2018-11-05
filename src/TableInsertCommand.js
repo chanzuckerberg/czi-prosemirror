@@ -8,6 +8,7 @@ import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
 import {TextSelection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
+import {atAnchorRight} from './ui/popUpPosition';
 
 import type {TableGridSizeSelectorValue} from './ui/TableGridSizeSelector';
 
@@ -35,19 +36,16 @@ class TableInsertCommand extends Command {
     if (!(target instanceof HTMLElement)) {
       return Promise.resolve(null);
     }
+    const anchor = event ? event.currentTarget : null;
     return new Promise(resolve => {
-      const viewProps = {
-        target,
-        position: 'right',
-        onSelect: (value) => {
-          this._popUp = null;
-          resolve(value);
-        },
-      };
-      this._popUp = createPopUp(TableGridSizeSelector, viewProps, () => {
-        if (this._popUp) {
-          this._popUp = null;
-          resolve();
+      this._popUp = createPopUp(TableGridSizeSelector, null, {
+        anchor,
+        position: atAnchorRight,
+        onClose: (val) => {
+          if (this._popUp) {
+            this._popUp = null;
+            resolve(val);
+          }
         }
       });
     });

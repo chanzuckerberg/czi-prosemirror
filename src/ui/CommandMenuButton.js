@@ -75,22 +75,23 @@ class CommandMenuButton extends React.PureComponent<any, any, any> {
 
   _hideMenu = (): void => {
     const menu = this._menu;
-    menu && menu.dispose();
     this._menu = null;
+    menu && menu.close();
   };
 
   _showMenu = (): void => {
     const menu = this._menu;
     const menuProps = {
       ...this.props,
-      autoDismiss: true,
       onCommand: this._onCommand,
-      target: this._id,
     };
     if (menu) {
       menu.update(menuProps);
     } else {
-      this._menu = createPopUp(CommandMenu, menuProps, this._onClose);
+      this._menu = createPopUp(CommandMenu, menuProps, {
+        anchor: document.getElementById(this._id),
+        onClose: this._onClose,
+      });
     }
   };
 
@@ -100,8 +101,10 @@ class CommandMenuButton extends React.PureComponent<any, any, any> {
   };
 
   _onClose = (): void => {
-    this.setState({expanded: false});
-    this._menu = null;
+    if (this._menu) {
+      this.setState({expanded: false});
+      this._menu = null;
+    }
   };
 }
 

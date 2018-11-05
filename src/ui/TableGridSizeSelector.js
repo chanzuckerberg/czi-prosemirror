@@ -3,11 +3,11 @@
 import CustomButton from './CustomButton';
 import React from 'react';
 import cx from 'classnames';
-import htmlElementToRect from './htmlElementToRect';
 import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
 import {TABLE_INSERT_TABLE} from '../configs';
 import {Transform} from 'prosemirror-transform';
+import {fromHTMlElement} from './rects';
 
 import './czi-table-grid-size-selector.css';
 
@@ -59,7 +59,7 @@ class TableGridSizeSelector extends React.PureComponent<any, any, any> {
   _rafID = 0;
 
   props: {
-    onSelect: (val: TableGridSizeSelectorValue) => void,
+    close: (val: TableGridSizeSelectorValue) => void,
   };
 
   state: TableGridSizeSelectorValue = {
@@ -130,7 +130,7 @@ class TableGridSizeSelector extends React.PureComponent<any, any, any> {
   _onMouseEnter = (e: MouseEvent): void => {
     const node = e.currentTarget;
     if (node instanceof HTMLElement) {
-      const rect = htmlElementToRect(node);
+      const rect = fromHTMlElement(node);
       const mx = Math.round(e.clientX);
       const my = Math.round(e.clientY);
       this._ex = rect.x;
@@ -166,7 +166,7 @@ class TableGridSizeSelector extends React.PureComponent<any, any, any> {
   };
 
   _onMouseDown = (e: SyntheticEvent): void => {
-    this.props.onSelect(this.state);
+    this.props.close(this.state);
   };
 }
 
