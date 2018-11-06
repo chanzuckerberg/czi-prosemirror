@@ -28,9 +28,11 @@ const {
   TABLE_ADD_COLUMN_BEFORE,
   TABLE_ADD_ROW_AFTER,
   TABLE_ADD_ROW_BEFORE,
+  TABLE_CELL_COLOR,
   TABLE_DELETE_COLUMN,
   TABLE_DELETE_ROW,
   TABLE_DELETE_TABLE,
+  TABLE_INSERT_TABLE,
   TABLE_MERGE_CELLS,
   TABLE_MOVE_TO_NEXT_CELL,
   TABLE_MOVE_TO_PREV_CELL,
@@ -38,7 +40,6 @@ const {
   TABLE_TOGGLE_HEADER_CELL,
   TABLE_TOGGLE_HEADER_COLUMN,
   TABLE_TOGGLE_HEADER_ROW,
-  TABLE_INSERT_TABLE,
   UL,
 } = Configs;
 
@@ -62,6 +63,9 @@ const CommandGroups = [
     'TABLE': [
       {
         'Insert Table': TABLE_INSERT_TABLE,
+      },
+      {
+        'Fill Color': TABLE_CELL_COLOR,
       },
       {
         'Insert column before': TABLE_ADD_COLUMN_BEFORE,

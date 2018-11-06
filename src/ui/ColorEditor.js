@@ -8,6 +8,10 @@ import clamp from './clamp';
 import './czi-prose-mirror.css';
 import './czi-color-editor.css';
 
+export type ColorEditorValue = {
+  hex: string,
+};
+
 function generateGreyColors(count: number): Array<Color> {
   let cc = 255;
   const interval = cc / count;
@@ -42,7 +46,7 @@ function generateRainbowColors(
 
 class ColorEditor extends React.PureComponent<any, any, any> {
   props: {
-    close: (?{hex: string}) => void,
+    close: (?ColorEditorValue) => void,
     hex?: ?string,
   };
 
