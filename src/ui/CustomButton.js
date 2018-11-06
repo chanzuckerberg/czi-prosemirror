@@ -5,6 +5,10 @@ import cx from 'classnames';
 
 import './czi-custom-button.css';
 
+function noop(e: SyntheticEvent): void {
+  e.preventDefault();
+}
+
 class CustomButton extends React.PureComponent<any, any, any> {
 
   props: {
@@ -38,9 +42,9 @@ class CustomButton extends React.PureComponent<any, any, any> {
         aria-pressed={pressed}
         className={buttonClassName}
         id={id}
-        onKeyPress={disabled ? null : this._onMouseUp}
-        onMouseDown={disabled ? null : this._onMouseDown}
-        onMouseUp={disabled ? null : this._onMouseUp}
+        onKeyPress={disabled ? noop : this._onMouseUp}
+        onMouseDown={disabled ? noop : this._onMouseDown}
+        onMouseUp={disabled ? noop : this._onMouseUp}
         role="button"
         tabIndex={0}>
         {label}

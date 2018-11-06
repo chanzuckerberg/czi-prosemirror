@@ -114,7 +114,10 @@ function buildPlugins(schema: Schema): Array<Plugin> {
   plugins.push(
     new Plugin({
       props: {
-        attributes: {class: 'prose-mirror-editor'}
+        attributes: {
+          class: 'prose-mirror-editor',
+          'data-prose-mirror-editor': 'true',
+        },
       },
     }),
   );

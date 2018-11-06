@@ -3,9 +3,11 @@
 import Command from './Command';
 import TableGridSizeSelector from './ui/TableGridSizeSelector';
 import createPopUp from './ui/createPopUp';
+import insertTable from './insertTable';
 import nullthrows from 'nullthrows';
 import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
+import {Schema} from 'prosemirror-model';
 import {TextSelection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
 import {atAnchorRight} from './ui/popUpPosition';
@@ -15,6 +17,15 @@ import type {TableGridSizeSelectorValue} from './ui/TableGridSizeSelector';
 class TableInsertCommand extends Command {
 
   _popUp = null;
+  _schema: Schema;
+
+  constructor(
+    schema: Schema,
+    level: number,
+  ) {
+    super();
+    this._schema = schema;
+  }
 
   isEnabled = (state: EditorState): boolean => {
     const tr = state;
@@ -36,6 +47,7 @@ class TableInsertCommand extends Command {
     if (!(target instanceof HTMLElement)) {
       return Promise.resolve(null);
     }
+
     const anchor = event ? event.currentTarget : null;
     return new Promise(resolve => {
       this._popUp = createPopUp(TableGridSizeSelector, null, {
@@ -57,8 +69,15 @@ class TableInsertCommand extends Command {
     view: ?EditorView,
     inputs: ?TableGridSizeSelectorValue,
   ): boolean => {
-    console.log('>>>', inputs);
-    dispatch && dispatch(state.tr);
+    if (dispatch) {
+      let {tr, selection} = state;
+      if (inputs) {
+        const {rows, cols} = inputs;
+        tr = tr.setSelection(selection);
+        tr = insertTable(tr, this._schema, rows, cols);
+      }
+      dispatch(tr);
+    }
     return false;
   };
 }

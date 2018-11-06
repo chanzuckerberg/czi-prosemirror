@@ -166,6 +166,7 @@ class TableGridSizeSelector extends React.PureComponent<any, any, any> {
   };
 
   _onMouseDown = (e: SyntheticEvent): void => {
+    e.preventDefault();
     this.props.close(this.state);
   };
 }
