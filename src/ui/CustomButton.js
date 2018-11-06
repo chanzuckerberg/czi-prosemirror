@@ -17,7 +17,8 @@ class CustomButton extends React.PureComponent<any, any, any> {
     disabled?: ?boolean,
     id?: ?string,
     label: string,
-    onClick: (value: any, e: SyntheticEvent) => void,
+    onClick?: ?(val: any, e: SyntheticEvent) => void,
+    onMouseEnter?: ?(val: any, e: SyntheticEvent) => void,
     value?: any,
   };
 
@@ -44,6 +45,7 @@ class CustomButton extends React.PureComponent<any, any, any> {
         id={id}
         onKeyPress={disabled ? noop : this._onMouseUp}
         onMouseDown={disabled ? noop : this._onMouseDown}
+        onMouseEnter={disabled ? noop : this._onMouseEnter}
         onMouseUp={disabled ? noop : this._onMouseUp}
         role="button"
         tabIndex={0}>
@@ -56,6 +58,13 @@ class CustomButton extends React.PureComponent<any, any, any> {
     this._unmounted = true;
   }
 
+  _onMouseEnter = (e: SyntheticEvent): void => {
+    this._pressedTarget = null;
+    e.preventDefault();
+    const {onMouseEnter, value} = this.props;
+    onMouseEnter && onMouseEnter(value, e);
+  };
+
   _onMouseDown = (e: SyntheticEvent): void => {
     e.preventDefault();
     this.setState({pressed: true});
@@ -66,7 +75,7 @@ class CustomButton extends React.PureComponent<any, any, any> {
     e.preventDefault();
     if (e.currentTarget === this._pressedTarget || e.type === 'keypress') {
       const {onClick, value} = this.props;
-      onClick(value, e);
+      onClick && onClick(value, e);
     }
     if (!this._unmounted) {
       this.setState({pressed: false});

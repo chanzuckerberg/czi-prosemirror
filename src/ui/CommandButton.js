@@ -27,19 +27,26 @@ class CommandButton extends React.PureComponent<any, any, any> {
     } catch (ex) {
       //
     }
+    const {CLICK, MOUSE_ENTER} = UICommand.EventType;
+    const eType = command.getUIEventType();
+    const props = {
+      active: command.isActive(editorState),
+      className,
+      disabled,
+      label,
+      onClick: eType === CLICK ? this._execute : null,
+      onMouseEnter: eType === MOUSE_ENTER ? this._execute : null,
+    };
     return (
       <CustomButton
-        active={command.isActive(editorState)}
-        className={className}
-        disabled={disabled}
-        label={label}
-        onClick={this._onClick}
+        {...props}
       />
     );
   }
 
-  _onClick = (): void => {
+  _execute = (): void => {
     const {command, editorState, dispatch, editorView} = this.props;
+    console.log('_execute', command);
     command.execute(editorState, dispatch, editorView);
   };
 }

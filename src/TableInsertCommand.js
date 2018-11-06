@@ -27,6 +27,10 @@ class TableInsertCommand extends UICommand {
     this._schema = schema;
   }
 
+  getUIEventType = (): string => {
+    return UICommand.EventType.MOUSE_ENTER;
+  };
+
   isEnabled = (state: EditorState): boolean => {
     const tr = state;
     const {selection} = state.tr;
