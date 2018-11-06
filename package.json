@@ -1,6 +1,6 @@
 {
-  "name": "cuneiform-editor",
-  "version": "0.0.8",
+  "name": "czi-prosemirror",
+  "version": "0.0.1",
   "subversion": "3",
   "description": "rich text editor for education purpose",
   "main": "dist/index.js",
