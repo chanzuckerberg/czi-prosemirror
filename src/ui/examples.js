@@ -20,11 +20,16 @@ class TableGridSizeEditorExample extends React.PureComponent<any, any, any> {
 
   render() {
     return (
-      <CustomButton
-        id={this._id}
-        label={`TableGridSizeEditor = ${JSON.stringify(this.state)}`}
-        onClick={this._onClick}
-      />
+      <div>
+        <CustomButton
+          id={this._id}
+          label="TableGridSizeEditor"
+          onClick={this._onClick}
+        />
+        <pre>
+          {JSON.stringify(this.state)}
+        </pre>
+      </div>
     );
   }
 
@@ -52,12 +57,17 @@ class ColorEditorExample extends React.PureComponent<any, any, any> {
     const {hex} = this.state;
     const style = {backgroundColor: hex || 'transparent'}
     return (
-      <CustomButton
-        id={this._id}
-        label={`ColorEditor = ${JSON.stringify(this.state)}`}
-        onClick={this._onClick}
-        style={style}
-      />
+      <div>
+        <CustomButton
+          id={this._id}
+          label="ColorEditor"
+          onClick={this._onClick}
+          style={style}
+        />
+        <pre>
+          {JSON.stringify(this.state)}
+        </pre>
+      </div>
     );
   }
 
@@ -80,6 +90,7 @@ class Examples extends React.PureComponent<any, any, any> {
     return (
      <div>
        <TableGridSizeEditorExample />
+       <hr />
        <ColorEditorExample />
      </div>
     );
