@@ -13,6 +13,11 @@
   outline: none;
 }
 
+.ProseMirror {
+  font-family: arial;
+  font-size: 13px; 
+}
+
 /* List Styles */
 
 .ProseMirror ol[data-level="1"],

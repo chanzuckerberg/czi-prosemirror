@@ -5,7 +5,7 @@ import * as NodeNames from './NodeNames';
 import * as ProsemirrorTables from 'prosemirror-tables';
 import BulletListNodeSpec from './BulletListNodeSpec';
 import CodeBlockCommand from './CodeBlockCommand';
-import ColorMarkSpec from './ColorMarkSpec';
+import TextColorMarkSpec from './TextColorMarkSpec';
 import HeadingCommand from './HeadingCommand';
 import HistoryRedoCommand from './HistoryRedoCommand';
 import HistoryUndoCommand from './HistoryUndoCommand';
@@ -21,7 +21,7 @@ import TableInsertCommand from './TableInsertCommand';
 import TextColorCommand from './TextColorCommand';
 import createCommand from './createCommand';
 import {EditorState, Plugin} from 'prosemirror-state';
-import {MARK_COLOR} from './MarkNames';
+import {MARK_TEXT_COLOR} from './MarkNames';
 import {Schema, DOMParser} from 'prosemirror-model';
 import {baseKeymap} from 'prosemirror-commands';
 import {buildInputRules} from 'prosemirror-example-setup';
@@ -157,7 +157,7 @@ const nodes = schema.spec.nodes
 
 // console.log(nodes.content);
 const marks = schema.spec.marks.append({
-  [MARK_COLOR]: ColorMarkSpec,
+  [MARK_TEXT_COLOR]: TextColorMarkSpec,
 });
 
 export const SCHEMA = new Schema({

@@ -7,7 +7,7 @@ import createPopUp from './ui/createPopUp';
 import nullthrows from 'nullthrows';
 import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
-import {MARK_COLOR} from './MarkNames';
+import {MARK_TEXT_COLOR} from './MarkNames';
 import {Schema} from 'prosemirror-model';
 import {TextSelection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
@@ -32,7 +32,7 @@ class TextColorCommand extends UICommand {
   };
 
   isEnabled = (state: EditorState): boolean => {
-    const markType = this._schema.marks[MARK_COLOR];
+    const markType = this._schema.marks[MARK_TEXT_COLOR];
     if (!markType) {
       return false;
     }
@@ -76,7 +76,7 @@ class TextColorCommand extends UICommand {
       let {tr, selection} = state;
       if (inputs) {
         const {hex} = inputs;
-        const markType = this._schema.marks[MARK_COLOR];
+        const markType = this._schema.marks[MARK_TEXT_COLOR];
         const attrs = {color: hex};
         const tr = applyMark(
           state.tr.setSelection(state.selection),
