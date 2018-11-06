@@ -6,8 +6,10 @@
 }
 
 .czi-custom-button {
+  background-clip: padding-box;
   background-color: #fff;
   border: var(--czi-border-grey);
+  box-sizing: border-box;
   color: #666;
   cursor: pointer;
   display: inline-block;

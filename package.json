@@ -34,6 +34,7 @@
     "bootstrap-css": "3.3.7",
     "bootswatch": "3.3.4",
     "clean-webpack-plugin": "0.1.17",
+    "color": "3.0.0",
     "command-line-args": "5.0.2",
     "copy-webpack-plugin": "4.2.0",
     "css-loader": "0.25.0",

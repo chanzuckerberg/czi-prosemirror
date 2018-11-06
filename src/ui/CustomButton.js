@@ -19,6 +19,8 @@ class CustomButton extends React.PureComponent<any, any, any> {
     label: string,
     onClick?: ?(val: any, e: SyntheticEvent) => void,
     onMouseEnter?: ?(val: any, e: SyntheticEvent) => void,
+    style?: ?Object,
+    title?: ?string,
     value?: any,
   };
 
@@ -28,7 +30,7 @@ class CustomButton extends React.PureComponent<any, any, any> {
   state = {pressed: false};
 
   render(): React.Element<any> {
-    const {className, label, disabled, active, id} = this.props;
+    const {className, label, disabled, active, id, style, title} = this.props;
     const {pressed} = this.state;
 
     const buttonClassName = cx(className, {
@@ -48,7 +50,9 @@ class CustomButton extends React.PureComponent<any, any, any> {
         onMouseEnter={disabled ? noop : this._onMouseEnter}
         onMouseUp={disabled ? noop : this._onMouseUp}
         role="button"
-        tabIndex={0}>
+        style={style}
+        tabIndex={0}
+        title={title}>
         {label}
       </span>
     );
