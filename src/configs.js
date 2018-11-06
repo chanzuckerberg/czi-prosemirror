@@ -5,6 +5,7 @@ import * as NodeNames from './NodeNames';
 import * as ProsemirrorTables from 'prosemirror-tables';
 import BulletListNodeSpec from './BulletListNodeSpec';
 import CodeBlockCommand from './CodeBlockCommand';
+import ColorMarkSpec from './ColorMarkSpec';
 import HeadingCommand from './HeadingCommand';
 import HistoryRedoCommand from './HistoryRedoCommand';
 import HistoryUndoCommand from './HistoryUndoCommand';
@@ -20,6 +21,7 @@ import TableInsertCommand from './TableInsertCommand';
 import TextColorCommand from './TextColorCommand';
 import createCommand from './createCommand';
 import {EditorState, Plugin} from 'prosemirror-state';
+import {MARK_COLOR} from './MarkNames';
 import {Schema, DOMParser} from 'prosemirror-model';
 import {baseKeymap} from 'prosemirror-commands';
 import {buildInputRules} from 'prosemirror-example-setup';
@@ -155,23 +157,7 @@ const nodes = schema.spec.nodes
 
 // console.log(nodes.content);
 const marks = schema.spec.marks.append({
-  span: {
-    attrs: {
-      color: '',
-    },
-    parseDOM: [
-      {style: 'color', getAttrs: value => value}
-    ],
-    toDOM(node) {
-      return [
-        'span',
-        {
-          style: `color: ${node.attrs.color};`,
-        },
-        0,
-      ];
-    },
-  }
+  [MARK_COLOR]: ColorMarkSpec,
 });
 
 export const SCHEMA = new Schema({

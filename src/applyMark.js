@@ -40,7 +40,7 @@ export default function applyMark(
   }
 
   if ($cursor) {
-    tr = tr.removeStoredMark(markType);
+    // tr = tr.removeStoredMark(markType);
     return tr.addStoredMark(markType.create(attrs));
   }
 
@@ -52,7 +52,7 @@ export default function applyMark(
   for (let i = 0; i < ranges.length; i++) {
     let {$from, $to} = ranges[i]
     if (has) {
-      tr = tr.removeMark($from.pos, $to.pos, markType);
+      // tr = tr.removeMark($from.pos, $to.pos, markType);
     }
     tr = tr.addMark($from.pos, $to.pos, markType.create(attrs));
   }

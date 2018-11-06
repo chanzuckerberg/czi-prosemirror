@@ -41,6 +41,12 @@ class CommandButton extends React.PureComponent<any, any, any> {
     );
   }
 
+  _onUIEnter = (command: UICommand, event: SyntheticEvent): void => {
+    if (command.shouldRespondToUIEvent(event)) {
+      this._execute(command, event);
+    }
+  };
+
   _execute = (value: any, event: SyntheticEvent): void => {
     const {command, editorState, dispatch, editorView} = this.props;
     command.execute(editorState, dispatch, editorView, event);
