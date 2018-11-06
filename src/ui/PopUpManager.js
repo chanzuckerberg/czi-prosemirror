@@ -106,7 +106,16 @@ class PopUpManager {
       }
 
       if (
-        isIntersected(pointer, bodyRect) || isIntersected(pointer, anchorRect)
+        isIntersected(
+          pointer,
+          bodyRect,
+          40,
+        ) ||
+        isIntersected(
+          pointer,
+          anchorRect,
+          40,
+        )
       ) {
         anchor && hoveredAnchors.add(anchor);
       }
