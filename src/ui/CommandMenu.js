@@ -1,10 +1,10 @@
 // @flow
 
-import Command from '../Command';
 import CommandButton from './CommandButton';
 import CustomMenu from './CustomMenu';
 import CustomMenuItem from './CustomMenuItem';
 import React from 'react';
+import UICommand from './UICommand';
 import cx from 'classnames';
 import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
@@ -13,7 +13,7 @@ import {Transform} from 'prosemirror-transform';
 class CommandMenu extends React.PureComponent<any, any, any> {
 
   props: {
-    commandGroups: Array<{[string]: Command}>,
+    commandGroups: Array<{[string]: UICommand}>,
     dispatch: (tr: Transform) => void,
     editorState: EditorState,
     editorView: ?EditorView,
@@ -57,7 +57,7 @@ class CommandMenu extends React.PureComponent<any, any, any> {
     );
   }
 
-  _onMenuItemClick = (command: Command, e: SyntheticEvent) => {
+  _onMenuItemClick = (command: UICommand, e: SyntheticEvent) => {
     const {dispatch, editorState, editorView, onCommand} = this.props;
     if (command.execute(editorState, dispatch, editorView, e)) {
       onCommand && onCommand();

@@ -1,6 +1,6 @@
 // @flow
 
-import Command from './Command';
+import UICommand from './ui/UICommand';
 import noop from './noop';
 import nullthrows from 'nullthrows';
 import toggleCodeBlock from './toggleCodeBlock';
@@ -12,9 +12,9 @@ import {Transform} from 'prosemirror-transform';
 import {findParentNodeOfType} from 'prosemirror-utils';
 import {setBlockType} from 'prosemirror-commands';
 
-import type {ExecuteCall, FindNodeTypeInSelectionCall} from './Command';
+import type {ExecuteCall, FindNodeTypeInSelectionCall} from './ui/UICommand';
 
-class CodeBlockCommand extends Command {
+class CodeBlockCommand extends UICommand {
 
   _findCodeBlock: FindNodeTypeInSelectionCall;
   _schema: Schema;

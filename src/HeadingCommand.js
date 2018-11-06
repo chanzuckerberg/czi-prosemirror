@@ -1,6 +1,6 @@
 // @flow
 
-import Command from './Command';
+import UICommand from './ui/UICommand';
 import noop from './noop';
 import nullthrows from 'nullthrows';
 import toggleHeading from './toggleHeading';
@@ -12,9 +12,9 @@ import {Transform} from 'prosemirror-transform';
 import {findParentNodeOfType} from 'prosemirror-utils';
 import {setBlockType} from 'prosemirror-commands';
 
-import type {ExecuteCall, FindNodeTypeInSelectionCall} from './Command';
+import type {ExecuteCall, FindNodeTypeInSelectionCall} from './ui/UICommand';
 
-class HeadingCommand extends Command {
+class HeadingCommand extends UICommand {
 
   _findHeading: FindNodeTypeInSelectionCall;
   _level: number;

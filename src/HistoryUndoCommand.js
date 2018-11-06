@@ -1,12 +1,12 @@
 // @flow
 
-import Command from './Command';
+import UICommand from './ui/UICommand';
 import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
 import {Transform} from 'prosemirror-transform';
 import {undo} from 'prosemirror-history';
 
-class HistoryUndoCommand extends Command {
+class HistoryUndoCommand extends UICommand {
   execute = (
     state: EditorState,
     dispatch: ?(tr: Transform) => void,

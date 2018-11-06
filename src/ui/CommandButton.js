@@ -1,8 +1,8 @@
 // @flow
 
 import CustomButton from './CustomButton';
-import Command from '../Command';
 import React from 'react';
+import UICommand from './UICommand';
 import cx from 'classnames';
 import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
@@ -12,7 +12,7 @@ class CommandButton extends React.PureComponent<any, any, any> {
 
   props: {
     className?: ?string,
-    command: Command,
+    command: UICommand,
     dispatch: (tr: Transform) => void,
     editorState: EditorState,
     editorView: ?EditorView,

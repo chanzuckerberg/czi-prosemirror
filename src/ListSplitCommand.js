@@ -1,13 +1,13 @@
 // @flow
 
-import Command from './Command';
+import UICommand from './ui/UICommand';
 import splitListItem from './splitListItem';
 import {EditorState, Selection} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
 import {Schema, NodeType} from 'prosemirror-model';
 import {Transform} from 'prosemirror-transform';
 
-class ListSplitCommand extends Command {
+class ListSplitCommand extends UICommand {
   _schema: Schema;
 
   constructor(schema: Schema) {

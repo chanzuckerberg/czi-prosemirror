@@ -1,6 +1,6 @@
 // @flow
 
-import Command from './Command';
+import UICommand from './ui/UICommand';
 import TableGridSizeSelector from './ui/TableGridSizeSelector';
 import createPopUp from './ui/createPopUp';
 import insertTable from './insertTable';
@@ -14,7 +14,7 @@ import {atAnchorRight} from './ui/popUpPosition';
 
 import type {TableGridSizeSelectorValue} from './ui/TableGridSizeSelector';
 
-class TableInsertCommand extends Command {
+class TableInsertCommand extends UICommand {
 
   _popUp = null;
   _schema: Schema;

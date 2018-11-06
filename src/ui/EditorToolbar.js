@@ -1,10 +1,10 @@
 // @flow
 
 import * as Configs from '../configs';
-import Command from '../Command';
 import CommandButton from './CommandButton';
 import CommandMenuButton from './CommandMenuButton';
 import React from 'react';
+import UICommand from './UICommand';
 import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
 import {Transform} from 'prosemirror-transform';
@@ -116,7 +116,7 @@ class EditorToolbar extends React.PureComponent<any, any, any> {
   _renderButtonsGroup = (group: Object, index: number): React.Element<any> => {
     const buttons = Object.keys(group).map(label => {
       const obj = group[label];
-      if (obj instanceof Command) {
+      if (obj instanceof UICommand) {
         return this._renderButton(label, obj);
       } else if (Array.isArray(obj)) {
         return this._renderMenuButton(label, obj );
@@ -133,7 +133,7 @@ class EditorToolbar extends React.PureComponent<any, any, any> {
 
   _renderMenuButton = (
     label: string,
-    commandGroups: Array<{[string]: Command}>,
+    commandGroups: Array<{[string]: UICommand}>,
   ): React.Element<any> => {
     const {editorState, editorView} = this.props;
     return (
@@ -148,7 +148,7 @@ class EditorToolbar extends React.PureComponent<any, any, any> {
     );
   };
 
-  _renderButton = (label: string, command: Command): React.Element<any> => {
+  _renderButton = (label: string, command: UICommand): React.Element<any> => {
     const {editorState, editorView} = this.props;
     return (
       <CommandButton

@@ -1,6 +1,6 @@
 // @flow
 
-import Command from './Command';
+import UICommand from './ui/UICommand';
 import noop from './noop';
 import nullthrows from 'nullthrows';
 import toggleList from './toggleList';
@@ -11,11 +11,11 @@ import {Schema, NodeType} from 'prosemirror-model';
 import {Transform} from 'prosemirror-transform';
 import {findParentNodeOfType} from 'prosemirror-utils';
 
-import type {ExecuteCall, FindNodeTypeInSelectionCall} from './Command';
+import type {ExecuteCall, FindNodeTypeInSelectionCall} from './ui/UICommand';
 
 // https://github.com/atlassian/prosemirror-utils/tree/master/src
 // https://bitbucket.org/atlassian/atlaskit/src/34facee3f46197fefa8b8e22e83afd83d4d48f94/packages/editor-core/src/plugins/lists/?at=master
-class ListToggleCommand extends Command {
+class ListToggleCommand extends UICommand {
 
   _findBulletList: FindNodeTypeInSelectionCall;
   _findOrderedList: FindNodeTypeInSelectionCall;

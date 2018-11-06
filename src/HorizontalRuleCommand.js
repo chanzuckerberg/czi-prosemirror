@@ -1,6 +1,6 @@
 // @flow
 
-import Command from './Command';
+import UICommand from './ui/UICommand';
 import {EditorState, Selection} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
 import {HORIZONTAL_RULE} from './NodeNames';
@@ -32,7 +32,7 @@ function insertHorizontalRule(
   return tr;
 }
 
-class HorizontalRuleCommand extends Command {
+class HorizontalRuleCommand extends UICommand {
 
   _schema: Schema;
 

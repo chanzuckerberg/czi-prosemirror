@@ -1,9 +1,9 @@
 // @flow
 
-import Command from '../Command';
 import CommandMenu from './CommandMenu';
 import CustomButton from './CustomButton';
 import React from 'react';
+import UICommand from './UICommand';
 import createPopUp from './createPopUp';
 import cx from 'classnames';
 import uuid from 'uuid/v1';
@@ -16,7 +16,7 @@ import './czi-custom-menu-button.css';
 class CommandMenuButton extends React.PureComponent<any, any, any> {
 
   props: {
-    commandGroups: Array<{[string]: Command}>,
+    commandGroups: Array<{[string]: UICommand}>,
     dispatch: (tr: Transform) => void,
     editorState: EditorState,
     editorView: ?EditorView,

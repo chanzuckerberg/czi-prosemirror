@@ -1,6 +1,6 @@
 // @flow
 
-import Command from './Command';
+import UICommand from './ui/UICommand';
 import noop from './noop';
 import setListNodeLevel from './setListNodeLevel';
 import toggleList from './toggleList';
@@ -11,9 +11,9 @@ import {Schema, NodeType} from 'prosemirror-model';
 import {Transform} from 'prosemirror-transform';
 import {findParentNodeOfType} from 'prosemirror-utils';
 
-import type {ExecuteCall, FindNodeTypeInSelectionCall} from './Command';
+import type {ExecuteCall, FindNodeTypeInSelectionCall} from './ui/UICommand';
 
-class ListIndentCommand extends Command {
+class ListIndentCommand extends UICommand {
   _delta: number;
   _schema: Schema;
   _findBulletList: FindNodeTypeInSelectionCall;

@@ -1,6 +1,6 @@
 // @flow
 
-import Command from './Command';
+import UICommand from './ui/UICommand';
 import {EditorState, Selection} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
 import {Transform} from 'prosemirror-transform';
@@ -11,8 +11,8 @@ type ExecuteCall = (
   view?: ?EditorView,
 ) => boolean;
 
-export default function createCommand(execute: ExecuteCall): Command {
-  class CustomCommand extends Command {
+export default function createCommand(execute: ExecuteCall): UICommand {
+  class CustomCommand extends UICommand {
     execute = (
       state: EditorState,
       dispatch: ?(tr: Transform) => void,
