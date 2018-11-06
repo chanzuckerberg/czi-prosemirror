@@ -19,16 +19,16 @@ export type FindNodeTypeInSelectionCall = (
 ) => Object;
 
 const EventType = {
-  CLICK: 'CLICK',
-  MOUSE_ENTER: 'MOUSE_ENTER',
+  CLICK: 'click',
+  MOUSEENTER: 'mouseenter',
 };
 
 class UICommand {
 
   static EventType = EventType;
 
-  getUIEventType = (): string => {
-    return EventType.CLICK;
+  shouldRespondToUIEvent = (e: (SyntheticEvent | MouseEvent)): boolean => {
+    return e.type === UICommand.EventType.CLICK;
   };
 
   isActive = (state: EditorState): boolean => {

@@ -24,7 +24,6 @@ class CommandMenu extends React.PureComponent<any, any, any> {
     const {commandGroups, dispatch, editorState, editorView} = this.props;
     const children = [];
     const jj = commandGroups.length - 1;
-    const {CLICK, MOUSE_ENTER} = UICommand.EventType;
 
     commandGroups.forEach((group, ii) => {
       Object.keys(group).forEach(label => {
@@ -36,21 +35,15 @@ class CommandMenu extends React.PureComponent<any, any, any> {
           disabled = false;
         }
 
-        const eType = command.getUIEventType();
-
-        const props = {
-          active: command.isActive(editorState),
-          disabled,
-          label,
-          onClick: eType === CLICK ? this._execute : null,
-          onMouseEnter: eType === MOUSE_ENTER ? this._execute : null,
-          value: command,
-        };
-
         children.push(
           <CustomMenuItem
+            active={command.isActive(editorState)}
+            disabled={disabled}
             key={label}
-            {...props}
+            label={label}
+            onClick={this._onUIEnter}
+            onMouseEnter={this._onUIEnter}
+            value={command}
           />
         );
       });
@@ -66,6 +59,12 @@ class CommandMenu extends React.PureComponent<any, any, any> {
       </CustomMenu>
     );
   }
+
+  _onUIEnter = (command: UICommand, event: SyntheticEvent): void => {
+    if (command.shouldRespondToUIEvent(event)) {
+      this._execute(command, event);
+    }
+  };
 
   _execute = (command: UICommand, e: SyntheticEvent) => {
     const {dispatch, editorState, editorView, onCommand} = this.props;

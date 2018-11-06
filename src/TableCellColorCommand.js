@@ -28,8 +28,8 @@ class TableCellColorCommand extends UICommand {
     this._schema = schema;
   }
 
-  getUIEventType = (): string => {
-    return UICommand.EventType.MOUSE_ENTER;
+  shouldRespondToUIEvent = (e: (SyntheticEvent | MouseEvent)): boolean => {
+    return e.type === UICommand.EventType.MOUSEENTER;
   };
 
   isEnabled = (state: EditorState): boolean => {

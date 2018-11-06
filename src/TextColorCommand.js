@@ -7,16 +7,13 @@ import createPopUp from './ui/createPopUp';
 import nullthrows from 'nullthrows';
 import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
+import {MARK_COLOR} from './MarkNames';
 import {Schema} from 'prosemirror-model';
 import {TextSelection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
 import {atAnchorRight} from './ui/popUpPosition';
-import {setCellAttr} from 'prosemirror-tables';
-import {toggleMark} from 'prosemirror-commands';
 
 import type {ColorEditorValue} from './ui/ColorEditor';
-
-const setCellBackgroundBlack = setCellAttr('background', '#000000');
 
 class TextColorCommand extends UICommand {
   _popUp = null;
@@ -30,8 +27,17 @@ class TextColorCommand extends UICommand {
     this._schema = schema;
   }
 
+  shouldRespondToUIEvent = (e: (SyntheticEvent | MouseEvent)): boolean => {
+    return e.type === UICommand.EventType.MOUSEENTER;
+  };
+
   isEnabled = (state: EditorState): boolean => {
-    return true;
+    const markType = this._schema.marks[MARK_COLOR];
+    if (!markType) {
+      return false;
+    }
+    const {from, to} = state.selection;
+    return from < to;
   };
 
   waitForUserInput = (
@@ -71,7 +77,7 @@ class TextColorCommand extends UICommand {
       if (inputs) {
         const {hex} = inputs;
         console.log(hex);
-        const markType = this._schema.marks.span;
+        const markType = this._schema.marks[MARK_COLOR];
         const attrs = {color: hex};
         const tr = applyMark(
           state.tr.setSelection(state.selection),
