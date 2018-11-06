@@ -27,10 +27,6 @@ class TextColorCommand extends UICommand {
     this._schema = schema;
   }
 
-  shouldRespondToUIEvent = (e: (SyntheticEvent | MouseEvent)): boolean => {
-    return e.type === UICommand.EventType.MOUSEENTER;
-  };
-
   isEnabled = (state: EditorState): boolean => {
     const markType = this._schema.marks[MARK_TEXT_COLOR];
     if (!markType) {

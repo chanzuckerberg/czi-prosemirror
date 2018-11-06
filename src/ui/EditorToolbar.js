@@ -41,6 +41,7 @@ const {
   TABLE_TOGGLE_HEADER_COLUMN,
   TABLE_TOGGLE_HEADER_ROW,
   TEXT_COLOR,
+  TEXT_HIGHLIGHT,
   UL,
 } = Configs;
 
@@ -61,7 +62,8 @@ const CommandGroups = [
     '<code />': CODE,
   },
   {
-    '#FFF': TEXT_COLOR,
+    'Color': TEXT_COLOR,
+    'Highlight': TEXT_HIGHLIGHT,
   },
   {
     'TABLE': [

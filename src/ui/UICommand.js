@@ -19,7 +19,7 @@ export type FindNodeTypeInSelectionCall = (
 ) => Object;
 
 const EventType = {
-  CLICK: 'click',
+  CLICK: 'mouseup',
   MOUSEENTER: 'mouseenter',
 };
 

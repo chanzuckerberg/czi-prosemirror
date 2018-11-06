@@ -5,7 +5,6 @@ import * as NodeNames from './NodeNames';
 import * as ProsemirrorTables from 'prosemirror-tables';
 import BulletListNodeSpec from './BulletListNodeSpec';
 import CodeBlockCommand from './CodeBlockCommand';
-import TextColorMarkSpec from './TextColorMarkSpec';
 import HeadingCommand from './HeadingCommand';
 import HistoryRedoCommand from './HistoryRedoCommand';
 import HistoryUndoCommand from './HistoryUndoCommand';
@@ -19,9 +18,12 @@ import OrderedListNodeSpec from './OrderedListNodeSpec';
 import TableCellColorCommand from './TableCellColorCommand';
 import TableInsertCommand from './TableInsertCommand';
 import TextColorCommand from './TextColorCommand';
+import TextColorMarkSpec from './TextColorMarkSpec';
+import TextHighlightCommand from './TextHighlightCommand';
+import TextHighlightMarkSpec from './TextHighlightMarkSpec';
 import createCommand from './createCommand';
 import {EditorState, Plugin} from 'prosemirror-state';
-import {MARK_TEXT_COLOR} from './MarkNames';
+import {MARK_TEXT_COLOR, MARK_TEXT_HIGHLIGHT} from './MarkNames';
 import {Schema, DOMParser} from 'prosemirror-model';
 import {baseKeymap} from 'prosemirror-commands';
 import {buildInputRules} from 'prosemirror-example-setup';
@@ -158,6 +160,7 @@ const nodes = schema.spec.nodes
 // console.log(nodes.content);
 const marks = schema.spec.marks.append({
   [MARK_TEXT_COLOR]: TextColorMarkSpec,
+  [MARK_TEXT_HIGHLIGHT]: TextHighlightMarkSpec,
 });
 
 export const SCHEMA = new Schema({
@@ -198,6 +201,7 @@ export const TABLE_TOGGLE_HEADER_CELL = createCommand(toggleHeaderCell);
 export const TABLE_TOGGLE_HEADER_COLUMN = createCommand(toggleHeaderColumn);
 export const TABLE_TOGGLE_HEADER_ROW = createCommand(toggleHeaderRow);
 export const TEXT_COLOR = new TextColorCommand(SCHEMA);
+export const TEXT_HIGHLIGHT = new TextHighlightCommand(SCHEMA);
 export const UL = new ListToggleCommand(SCHEMA, false);
 
 // Plugin
