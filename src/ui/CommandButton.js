@@ -44,9 +44,9 @@ class CommandButton extends React.PureComponent<any, any, any> {
     );
   }
 
-  _execute = (): void => {
+  _execute = (value: any, event: SyntheticEvent): void => {
     const {command, editorState, dispatch, editorView} = this.props;
-    command.execute(editorState, dispatch, editorView);
+    command.execute(editorState, dispatch, editorView, event);
   };
 }
 

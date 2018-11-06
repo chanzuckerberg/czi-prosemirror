@@ -2,6 +2,7 @@
 
 import ColorEditor from './ui/ColorEditor';
 import UICommand from './ui/UICommand';
+import applyMark from './applyMark';
 import createPopUp from './ui/createPopUp';
 import nullthrows from 'nullthrows';
 import {EditorState} from 'prosemirror-state';
@@ -11,12 +12,13 @@ import {TextSelection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
 import {atAnchorRight} from './ui/popUpPosition';
 import {setCellAttr} from 'prosemirror-tables';
+import {toggleMark} from 'prosemirror-commands';
 
 import type {ColorEditorValue} from './ui/ColorEditor';
 
 const setCellBackgroundBlack = setCellAttr('background', '#000000');
 
-class TableCellColorCommand extends UICommand {
+class TextColorCommand extends UICommand {
   _popUp = null;
   _schema: Schema;
 
@@ -28,12 +30,8 @@ class TableCellColorCommand extends UICommand {
     this._schema = schema;
   }
 
-  getUIEventType = (): string => {
-    return UICommand.EventType.MOUSE_ENTER;
-  };
-
   isEnabled = (state: EditorState): boolean => {
-    return setCellBackgroundBlack(state.tr);
+    return true;
   };
 
   waitForUserInput = (
@@ -52,7 +50,6 @@ class TableCellColorCommand extends UICommand {
     return new Promise(resolve => {
       this._popUp = createPopUp(ColorEditor, null, {
         anchor,
-        position: atAnchorRight,
         onClose: (val) => {
           if (this._popUp) {
             this._popUp = null;
@@ -73,13 +70,25 @@ class TableCellColorCommand extends UICommand {
       let {tr, selection} = state;
       if (inputs) {
         const {hex} = inputs;
-        const cmd = setCellAttr('background', hex);
-        cmd(state, dispatch, view);
-        return true;
+        console.log(hex);
+        const markType = this._schema.marks.span;
+        const attrs = {color: hex};
+        const tr = applyMark(
+          state.tr.setSelection(state.selection),
+          this._schema,
+          markType,
+          attrs,
+        );
+        if (tr.docChanged) {
+          dispatch && dispatch(tr.scrollIntoView());
+          return true;
+        } else {
+          return false;
+        }
       }
     }
     return false;
   };
 }
 
-export default TableCellColorCommand;
+export default TextColorCommand;

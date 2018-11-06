@@ -17,6 +17,7 @@ import ListToggleCommand from './ListToggleCommand';
 import OrderedListNodeSpec from './OrderedListNodeSpec';
 import TableCellColorCommand from './TableCellColorCommand';
 import TableInsertCommand from './TableInsertCommand';
+import TextColorCommand from './TextColorCommand';
 import createCommand from './createCommand';
 import {EditorState, Plugin} from 'prosemirror-state';
 import {Schema, DOMParser} from 'prosemirror-model';
@@ -153,10 +154,29 @@ const nodes = schema.spec.nodes
   }));
 
 // console.log(nodes.content);
+const marks = schema.spec.marks.append({
+  span: {
+    attrs: {
+      color: '',
+    },
+    parseDOM: [
+      {style: 'color', getAttrs: value => value}
+    ],
+    toDOM(node) {
+      return [
+        'span',
+        {
+          style: `color: ${node.attrs.color};`,
+        },
+        0,
+      ];
+    },
+  }
+});
 
 export const SCHEMA = new Schema({
-  nodes: nodes,
-  marks: schema.spec.marks,
+  nodes,
+  marks,
 });
 
 // Command
@@ -191,6 +211,7 @@ export const TABLE_SPLIT_CELL = createCommand(splitCell);
 export const TABLE_TOGGLE_HEADER_CELL = createCommand(toggleHeaderCell);
 export const TABLE_TOGGLE_HEADER_COLUMN = createCommand(toggleHeaderColumn);
 export const TABLE_TOGGLE_HEADER_ROW = createCommand(toggleHeaderRow);
+export const TEXT_COLOR = new TextColorCommand(SCHEMA);
 export const UL = new ListToggleCommand(SCHEMA, false);
 
 // Plugin
