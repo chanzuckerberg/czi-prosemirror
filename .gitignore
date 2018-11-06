@@ -1,4 +1,4 @@
 .DS_Store
-*.pyc
 bin
+debug
 node_modules

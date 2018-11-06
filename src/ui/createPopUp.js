@@ -15,19 +15,6 @@ export type PopUpHandle = {
   update: (props: Object) => void,
 };
 
-// function isInRect(mx: number, my: number, rect: Rect): boolean {
-//   const padding = 40;
-//   return (
-//     (rect.w > 0) &&
-//     (rect.h > 0) &&
-//     (mx >= (rect.x - padding)) &&
-//     (mx <= (rect.x + rect.w + padding)) &&
-//     (my >= (rect.y - padding)) &&
-//     (my <= (rect.y + rect.h + padding ))
-//   );
-// }
-
-
 function getRootElement(id: string, forceCreation: boolean): ?HTMLElement {
   const root: any = document.body || document.documentElement;
   let element = document.getElementById(id);
