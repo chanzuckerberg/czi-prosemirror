@@ -1,7 +1,7 @@
 // @flow
 
 import UICommand from './ui/UICommand';
-import TableGridSizeSelector from './ui/TableGridSizeSelector';
+import TableGridSizeEditor from './ui/TableGridSizeEditor';
 import createPopUp from './ui/createPopUp';
 import insertTable from './insertTable';
 import nullthrows from 'nullthrows';
@@ -12,7 +12,7 @@ import {TextSelection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
 import {atAnchorRight} from './ui/popUpPosition';
 
-import type {TableGridSizeSelectorValue} from './ui/TableGridSizeSelector';
+import type {TableGridSizeEditorValue} from './ui/TableGridSizeEditor';
 
 class TableInsertCommand extends UICommand {
 
@@ -54,7 +54,7 @@ class TableInsertCommand extends UICommand {
 
     const anchor = event ? event.currentTarget : null;
     return new Promise(resolve => {
-      this._popUp = createPopUp(TableGridSizeSelector, null, {
+      this._popUp = createPopUp(TableGridSizeEditor, null, {
         anchor,
         position: atAnchorRight,
         onClose: (val) => {
@@ -71,7 +71,7 @@ class TableInsertCommand extends UICommand {
     state: EditorState,
     dispatch: ?(tr: Transform) => void,
     view: ?EditorView,
-    inputs: ?TableGridSizeSelectorValue,
+    inputs: ?TableGridSizeEditorValue,
   ): boolean => {
     if (dispatch) {
       let {tr, selection} = state;

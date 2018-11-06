@@ -16,6 +16,7 @@ var options = {
   entry: {
     demo: path.join(__dirname, "demo", "index.js"),
     playground: path.join(__dirname, "playground", "playground.js"),
+    ui: path.join(__dirname, "src/ui", "examples.js"),
   },
   output: {
     path: path.join(__dirname, "bin"),
@@ -67,6 +68,12 @@ var options = {
       template: path.join(__dirname, "demo", "index.html"),
       filename: "playground.html",
       chunks: ["playground"],
+      inlineSource: isDev ? '$^' : '.(js|css)$'
+    }),
+    new HtmlWebpackPlugin({
+      template: path.join(__dirname, "demo", "index.html"),
+      filename: "ui.html",
+      chunks: ["ui"],
       inlineSource: isDev ? '$^' : '.(js|css)$'
     }),
     new HtmlWebpackInlineSourcePlugin(),
