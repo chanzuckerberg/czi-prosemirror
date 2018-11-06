@@ -73,7 +73,7 @@ class TextColorCommand extends UICommand {
       if (inputs) {
         const {hex} = inputs;
         const markType = this._schema.marks[MARK_TEXT_COLOR];
-        const attrs = {color: hex};
+        const attrs = {color: hex || ''};
         const tr = applyMark(
           state.tr.setSelection(state.selection),
           this._schema,
