@@ -3,11 +3,11 @@
 import React from 'react';
 
 const STYLE_COLOR = {
-  color: '#ff0000',
+  color: '#ffff00',
 };
 
 const STYLE_BACKGROUND_COLOR = {
-  backgroundColor: '#ffff00',
+  backgroundColor: '#ff2233',
 };
 
 const STYLE_MIXED = {
@@ -39,16 +39,21 @@ class DemoAppHTMLTemplate extends React.PureComponent<any, any, any> {
         <p>
           Lorem ipsum dolor sit amet, phaedrum efficiantur pri cu, te quem
           <span style={STYLE_BACKGROUND_COLOR}>
-          With Background Color
+            aliquando est. Viris aliquando definiebas duo et. Usu everti iriure
           </span>
           aliquando est. Viris aliquando definiebas duo et. Usu everti iriure
-          -
-          <span style={STYLE_COLOR}>
-          With Text Color
+          <span style={STYLE_BACKGROUND_COLOR}>
+            aliquando est. Viris aliquando definiebas duo et
+            <span style={STYLE_COLOR}>
+              aliquando est. Viris aliquando definiebas duo et. Usu everti iriure
+            </span>
+            sententiae est. Sit tamquam petentium an. Quo id p
+            ersecuti dissentias, cu
           </span>
-          -
+          aliquando est. Viris aliquando definiebas duo et. Usu everti iriure
           <span style={STYLE_MIXED}>
-          With Background Color and Text Color
+
+            With Background Color and Text Color
           </span>
         </p>
         <p>
