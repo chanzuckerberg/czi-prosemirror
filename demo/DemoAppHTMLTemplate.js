@@ -3,11 +3,11 @@
 import React from 'react';
 
 const STYLE_COLOR = {
-  color: '#ffff00',
+  color: '#c40df2',
 };
 
 const STYLE_BACKGROUND_COLOR = {
-  backgroundColor: '#ff2233',
+  backgroundColor: '#e8e87d',
 };
 
 const STYLE_MIXED = {
