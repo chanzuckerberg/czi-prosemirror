@@ -4,7 +4,7 @@ import CustomButton from './CustomButton';
 import React from 'react';
 import clamp from './clamp';
 import cx from 'classnames';
-import uuid from 'uuid/v1';
+import resolveImage from './resolveImage';
 import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
 import {TABLE_INSERT_TABLE} from '../configs';
@@ -25,7 +25,6 @@ class ImageEditor extends React.PureComponent<any, any, any> {
 
   _img = null;
   _unmounted = false;
-  _id = uuid();
 
   props: {
     initialValue: ?ImageEditorValue,
@@ -34,9 +33,7 @@ class ImageEditor extends React.PureComponent<any, any, any> {
 
   state = {
     ...(this.props.initialValue || {}),
-    validHeight: null,
-    validSrc: null,
-    validWidth: null,
+    validValue: null,
   };
 
   componentWillUnmount(): void {
@@ -44,17 +41,28 @@ class ImageEditor extends React.PureComponent<any, any, any> {
   }
 
   render(): React.Element<any> {
-    const {src, validSrc} = this.state;
+    const {src, validValue} = this.state;
+    const preview = validValue ?
+      <div
+        className="czi-image-editor-input-preview"
+        style={{backgroundImage: `url(${String(validValue.src)}`}}
+      /> :
+      null;
+
     return (
       <div className="czi-image-editor">
         <form className="czi-form">
           <fieldset>
             <legend>Insert Image</legend>
-            <input
-              value={src || ''}
-              type="text" placeholder="Paste URL of Image..."
-              onChange={this._onSrcChange}
-            />
+            <div className="czi-image-editor-src-input-row">
+              <input
+                className="czi-image-editor-src-input"
+                onChange={this._onSrcChange}
+                type="text" placeholder="Paste URL of Image..."
+                value={src || ''}
+              />
+              {preview}
+            </div>
             <em>
               Only select image that you have confirmed the license to use
             </em>
@@ -65,13 +73,13 @@ class ImageEditor extends React.PureComponent<any, any, any> {
               onClick={this._cancel}
             />
             <CustomButton
-              disabled={!validSrc}
+              active={!!validValue}
+              disabled={!validValue}
               label="Insert"
               onClick={this._insert}
             />
           </div>
         </form>
-        <div id={this._id} />
       </div>
     );
   }
@@ -80,15 +88,19 @@ class ImageEditor extends React.PureComponent<any, any, any> {
     const src = e.target.value;
     this.setState({
       src,
-      validHeight: null,
-      validSrc: null,
-      validWidth: null,
+      validValue: null,
     }, this._didSrcChange);
   };
 
   _didSrcChange = (): void => {
-    const img = document.createElement('image');
-    this._img = img;
+    resolveImage(this.state.src).then(result => {
+      if (this.state.src === result.src && !this._unmounted) {
+        const validValue = result.complete ?
+          result :
+          null;
+        this.setState({validValue});
+      }
+    });
   };
 
   _cancel = (): void => {
@@ -96,7 +108,8 @@ class ImageEditor extends React.PureComponent<any, any, any> {
   };
 
   _insert = (): void => {
-    this.props.close(this.state);
+    const {validValue} = this.state;
+    this.props.close(validValue);
   };
 }
 

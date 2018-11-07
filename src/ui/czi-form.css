@@ -28,10 +28,12 @@
   width: 100%;
 }
 
-.czi-form input[type="text"] + em {
+.czi-form em {
   color: var(--czi-color-grey-200);
+  display: block;
   font-size: var(--czi-font-size-small);
   font-style: normal;
+  margin: 0 0 8px 0;
 }
 
 

@@ -9,3 +9,26 @@
 .czi-image-editor .czi-form {
   width: 400px;
 }
+
+.czi-image-editor-src-input-row {
+  position: relative;
+}
+
+.czi-image-editor-src-input-row input.czi-image-editor-src-input {
+  padding-right: 40px;
+}
+
+.czi-image-editor-input-preview {
+  background-color: #fff;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  border: solid 1px #fff;
+  box-sizing: border-box;
+  height: 36px;
+  outline: var(--czi-border-blue);
+  position: absolute;
+  right: 0;
+  top: -15px;
+  width: 36px;
+}
