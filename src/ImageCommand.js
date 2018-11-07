@@ -16,6 +16,7 @@ import type {ImageEditorValue} from './ui/ImageEditor';
 function insertImage(
   tr: Transform,
   schema: Schema,
+  src: ?string,
 ): Transform {
   const {selection, doc} = tr;
   if (!selection) {
@@ -31,8 +32,14 @@ function insertImage(
     return tr;
   }
 
+  const attrs = {
+    src: src || '',
+    alt: '',
+    title: '',
+  };
+
   const prevNode = tr.doc.nodeAt(from);
-  const node = image.create({}, null, null);
+  const node = image.create(attrs, null, null);
   const frag = Fragment.from(node);
   tr = tr.insert(from, frag);
   return tr;
@@ -76,6 +83,7 @@ class ImageCommand extends UICommand {
     return new Promise(resolve => {
       this._popUp = createPopUp(ImageEditor, null, {
         anchor,
+        autoDismiss: false,
         onClose: (val) => {
           if (this._popUp) {
             this._popUp = null;
@@ -97,9 +105,9 @@ class ImageCommand extends UICommand {
       if (inputs) {
         const {width, height, src} = inputs;
         tr = tr.setSelection(selection);
-        console.log(inputs);
-        // tr = insertImage(tr, this._schema, rows, cols);
+        tr = insertImage(tr, this._schema, src);
       }
+      
       dispatch(tr);
     }
     return false;
