@@ -10,7 +10,8 @@ import {TABLE_INSERT_TABLE} from '../configs';
 import {Transform} from 'prosemirror-transform';
 import {fromHTMlElement} from './rects';
 
-import './czi-table-grid-size-editor.css';
+import './czi-prose-mirror.css';
+import './czi-image-editor.css';
 
 export type ImageEditorValue = {
   height: ?number,
