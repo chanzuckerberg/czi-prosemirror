@@ -3,6 +3,7 @@
 import ColorEditor from './ColorEditor';
 import CustomButton from './CustomButton';
 import Editor from './Editor';
+import ImageEditor from './ImageEditor';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import TableGridSizeEditor from './TableGridSizeEditor';
@@ -33,7 +34,7 @@ class TableGridSizeEditorExample extends React.PureComponent<any, any, any> {
     );
   }
 
-  _onClick = (_, event): void => {
+  _onClick = (): void => {
     if (!this._popup) {
       this._popup = createPopUp(TableGridSizeEditor, null, {
         anchor: document.getElementById(this._id),
@@ -71,7 +72,7 @@ class ColorEditorExample extends React.PureComponent<any, any, any> {
     );
   }
 
-  _onClick = (_, event): void => {
+  _onClick = (): void => {
     if (!this._popup) {
       this._popup = createPopUp(ColorEditor, this.state, {
         anchor: document.getElementById(this._id),
@@ -84,6 +85,45 @@ class ColorEditorExample extends React.PureComponent<any, any, any> {
   };
 }
 
+class ImageEditorExample extends React.PureComponent<any, any, any> {
+
+  _popup = null;
+  _id = uuid();
+
+  state = {
+    height: null,
+    src: null,
+    width: null,
+  };
+
+  render() {
+    return (
+      <div>
+        <CustomButton
+          id={this._id}
+          label="ImageEditor"
+          onClick={this._onClick}
+        />
+        <pre>
+          {JSON.stringify(this.state)}
+        </pre>
+      </div>
+    );
+  }
+
+  _onClick = (): void => {
+    if (!this._popup) {
+      this._popup = createPopUp(ImageEditor, this.state, {
+        autoDismiss: false,
+        anchor: document.getElementById(this._id),
+        onClose: (value) => {
+          value && this.setState(value);
+          this._popup = null;
+        },
+      });
+    }
+  };
+}
 
 class Examples extends React.PureComponent<any, any, any> {
   render() {
@@ -92,6 +132,8 @@ class Examples extends React.PureComponent<any, any, any> {
        <TableGridSizeEditorExample />
        <hr />
        <ColorEditorExample />
+       <hr />
+       <ImageEditorExample />
      </div>
     );
   }

@@ -5,3 +5,7 @@
   font-size: var(--czi-font-size);
   padding: 4px 10px;
 }
+
+.czi-image-editor .czi-form {
+  width: 400px;
+}

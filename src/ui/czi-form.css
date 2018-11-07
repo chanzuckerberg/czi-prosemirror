@@ -1,0 +1,46 @@
+.czi-form {
+  border: none;
+  margin: 0;
+  padding: 20px;
+}
+
+.czi-form legend {
+  border: none;
+  margin: 0 0 20px 0;
+  padding: 0;
+  font-size: var(--czi-font-size-h2);
+}
+
+.czi-form fieldset {
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+.czi-form input[type="text"] {
+  border: var(--czi-border-blue);
+  border-width: 0 0 2px 0;
+  box-sizing: border-box;
+  display: block;
+  margin: 0 0 8px 0;
+  outline: none;
+  padding: 6px 0;
+  width: 100%;
+}
+
+.czi-form input[type="text"] + em {
+  color: var(--czi-color-grey-200);
+  font-size: var(--czi-font-size-small);
+  font-style: normal;
+}
+
+
+.czi-form-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.czi-form-buttons .czi-custom-button {
+  margin: 0 1px;
+}
