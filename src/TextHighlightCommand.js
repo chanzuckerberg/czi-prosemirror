@@ -73,7 +73,7 @@ class TextHighlightCommand extends UICommand {
       if (inputs) {
         const {hex} = inputs;
         const markType = this._schema.marks[MARK_TEXT_HIGHLIGHT];
-        const attrs = {highlight: hex};
+        const attrs = {highlightColor: hex};
         const tr = applyMark(
           state.tr.setSelection(state.selection),
           this._schema,

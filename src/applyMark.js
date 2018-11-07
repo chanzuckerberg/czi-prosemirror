@@ -10,7 +10,6 @@ import {Transform} from 'prosemirror-transform';
 import {setBlockType} from 'prosemirror-commands';
 import {unwrapNodesFromList} from './toggleList';
 
-
 function markApplies(doc, ranges, type) {
   for (let i = 0; i < ranges.length; i++) {
     let {$from, $to} = ranges[i]
@@ -40,7 +39,7 @@ export default function applyMark(
   }
 
   if ($cursor) {
-    // tr = tr.removeStoredMark(markType);
+    tr = tr.removeStoredMark(markType);
     return tr.addStoredMark(markType.create(attrs));
   }
 
@@ -52,39 +51,10 @@ export default function applyMark(
   for (let i = 0; i < ranges.length; i++) {
     let {$from, $to} = ranges[i]
     if (has) {
-      // tr = tr.removeMark($from.pos, $to.pos, markType);
+      tr = tr.removeMark($from.pos, $to.pos, markType);
     }
     tr = tr.addMark($from.pos, $to.pos, markType.create(attrs));
   }
 
   return tr;
 }
-
-/*
-  return function(state, dispatch) {
-    let {empty, $cursor, ranges} = state.selection
-    if ((empty && !$cursor) || !markApplies(state.doc, ranges, markType)) return false
-    if (dispatch) {
-      if ($cursor) {
-        if (markType.isInSet(state.storedMarks || $cursor.marks()))
-          dispatch(state.tr.removeStoredMark(markType))
-        else
-          dispatch(state.tr.addStoredMark(markType.create(attrs)))
-      } else {
-        let has = false, tr = state.tr
-        for (let i = 0; !has && i < ranges.length; i++) {
-          let {$from, $to} = ranges[i]
-          has = state.doc.rangeHasMark($from.pos, $to.pos, markType)
-        }
-        for (let i = 0; i < ranges.length; i++) {
-          let {$from, $to} = ranges[i]
-          if (has) tr.removeMark($from.pos, $to.pos, markType)
-          else tr.addMark($from.pos, $to.pos, markType.create(attrs))
-        }
-        dispatch(tr.scrollIntoView())
-      }
-    }
-    return true
-  }
-}
-*/

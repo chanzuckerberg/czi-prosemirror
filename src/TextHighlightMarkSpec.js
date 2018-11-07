@@ -1,6 +1,6 @@
 // @flow
 
-import Color from 'color';
+import toHexColor from './ui/toHexColor';
 import {MARK_TEXT_HIGHLIGHT} from './MarkNames';
 import {Node} from 'prosemirror-model';
 
@@ -8,22 +8,29 @@ import type {MarkSpec} from 'prosemirror';
 
 const TextHighlightMarkSpec: MarkSpec = {
   attrs: {
-    highlight: '',
+    highlightColor: '',
   },
+
   parseDOM: [
-    {style: 'backgroundColor', getAttrs: value => value},
+    {
+      style: 'background-color',
+      getAttrs: (backgroundColor) => {
+        return {
+          highlightColor: toHexColor(backgroundColor),
+        };
+      },
+    },
   ],
+
   toDOM(node: Node) {
-    const color = node.attrs.highlight;
-    let hex = '';
-    if (color) {
-      hex = Color(color).hex();
+    const {highlightColor} = node.attrs;
+    let style = '';
+    if (highlightColor) {
+      style += `background-color: ${highlightColor};`;
     }
     return [
-      MARK_TEXT_HIGHLIGHT,
-      {
-        style: `background-color: ${hex};`,
-      },
+      'span',
+      {style},
       0,
     ];
   },

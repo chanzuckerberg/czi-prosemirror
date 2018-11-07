@@ -2,6 +2,19 @@
 
 import React from 'react';
 
+const STYLE_COLOR = {
+  color: '#ff0000',
+};
+
+const STYLE_BACKGROUND_COLOR = {
+  backgroundColor: '#ffff00',
+};
+
+const STYLE_MIXED = {
+  ...STYLE_COLOR,
+  ...STYLE_BACKGROUND_COLOR,
+};
+
 class DemoAppHTMLTemplate extends React.PureComponent<any, any, any> {
   render(): React.Element<any> {
     return (
@@ -25,7 +38,18 @@ class DemoAppHTMLTemplate extends React.PureComponent<any, any, any> {
         <h2>H2 Header</h2>
         <p>
           Lorem ipsum dolor sit amet, phaedrum efficiantur pri cu, te quem
+          <span style={STYLE_BACKGROUND_COLOR}>
+          With Background Color
+          </span>
           aliquando est. Viris aliquando definiebas duo et. Usu everti iriure
+          -
+          <span style={STYLE_COLOR}>
+          With Text Color
+          </span>
+          -
+          <span style={STYLE_MIXED}>
+          With Background Color and Text Color
+          </span>
         </p>
         <p>
           posidonium in. Te mea nonumes detracto legendos. Nulla essent causae
