@@ -1,9 +1,7 @@
 // @flow
 
+import ImageNodeView from './ImageNodeView';
 import React from 'react';
-
-import ImageView from './ImageView';
-import CustomView from './CustomView';
 import applyDevTools from 'prosemirror-dev-tools';
 import uuid from 'uuid/v1';
 import {EditorState} from 'prosemirror-state';
@@ -50,7 +48,7 @@ class Editor extends React.PureComponent<any, any, any> {
         editable: () =>  true,
         nodeViews: {
           image(node, view, getPos) {
-            return new CustomView(node, view, getPos, ImageView);
+            return new ImageNodeView(node, view, getPos);
           },
         },
       });

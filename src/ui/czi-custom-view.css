@@ -1,8 +1,0 @@
-.czi-custom-view {
-  /* https://css-tricks.com/get-ready-for-display-contents/ */
-  display: contents;
-}
-
-.czi-custom-view.ProseMirror-selectednode > span:first-child {
-  outline: var(--czi-border-blue);
-}
