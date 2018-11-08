@@ -30,16 +30,16 @@ class DemoAppHTMLTemplate extends React.PureComponent<any, any, any> {
         <h3>H3 Header</h3>
         <img
           alt="cat pix"
-          height="100"
+          height="200"
           src="https://placekitten.com/200/200"
-          width="100"
+          width="200"
         />
         <hr />
         <img
           alt="cat pix"
-          height="100"
+          height="200"
           src="https://placekitten.com/200/200"
-          width="100"
+          width="200"
         />
         <ol>
           <li>AAAAA</li>

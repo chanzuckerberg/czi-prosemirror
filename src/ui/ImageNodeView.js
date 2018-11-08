@@ -1,9 +1,12 @@
 // @flow
 
 import CustomNodeView from './CustomNodeView';
+import ImageViewResizeBox from './ImageViewResizeBox';
 import React from 'react';
 import cx from 'classnames';
+import resolveImage from './resolveImage';
 import {EditorView} from "prosemirror-view";
+import {MIN_SIZE} from './ImageViewResizeBox';
 import {Node} from 'prosemirror-model';
 
 import type {NodeViewProps} from './CustomNodeView';
@@ -11,24 +14,108 @@ import type {NodeViewProps} from './CustomNodeView';
 import './czi-prose-mirror.css';
 import './czi-image-view.css';
 
-class ImageComponent extends React.PureComponent<any, any, any> {
+
+const EMPTY_SRC = 'data:image/gif;base64,' +
+  'R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+
+
+class ImageViewBody extends React.PureComponent<any, any, any> {
 
   props: NodeViewProps;
 
-  _unmounted = false;
+  _mounted = false;
+
+  state = {
+    resolvedImage: null,
+  };
+
+  componentDidMount(): void {
+    this._mounted = true;
+    const src = this.props.node.attrs.src;
+    this._resolveImage();
+  }
+
+  componentWillUnmount(): void {
+    this._mounted = false;
+  }
+
+  componentDidUpdate(prevProps: NodeViewProps): void {
+    const prevSrc = prevProps.node.attrs.src;
+    const src =  this.props.node.attrs.src;
+    if (prevSrc !== src) {
+      this._resolveImage();
+    }
+  }
 
   render(): React.Element<any> {
-    const {node} = this.props;
-    const src = node.attrs.src;
+    const readOnly = false;
+    const {node, selected} = this.props;
+    const {resolvedImage} = this.state;
+    const {attrs} = node;
+
+    console.debug(attrs);
+
+    const active = selected &&
+      !readOnly &&
+      resolvedImage &&
+      resolvedImage.complete;
+
+    const src = resolvedImage && resolvedImage.complete ?
+      resolvedImage.src :
+      (attrs.src || EMPTY_SRC);
+
+    const width = resolvedImage && resolvedImage.complete ?
+      resolvedImage.width :
+      (attrs.width || MIN_SIZE);
+
+    const height = resolvedImage && resolvedImage.complete ?
+      resolvedImage.height :
+      (attrs.height || MIN_SIZE);
+
+    const error = resolvedImage && !resolvedImage.complete;
+    const loading = !resolveImage;
+
+    const className = cx('czi-image-view-body', {
+      active,
+      error,
+      loading,
+    });
+
+    const resizeBox = active ?
+      <ImageViewResizeBox
+        height={height}
+        width={width}
+      /> :
+      null;
+
+    const style = {
+      height: height + 'px',
+      width: width + 'px',
+    };
+
     return (
-      <span className="czi-image-view-body">
-        <img src={src} />
+      <span className={className} style={style}>
+        <img
+          alt=""
+          className="czi-image-view-body-img"
+          height={height}
+          src={src || EMPTY_SRC}
+          width={width}
+        />
+        {resizeBox}
       </span>
     );
   }
 
-  componentWillUnmount(): void {
-    this._unmounted = true;
+  _resolveImage(): void {
+    const src = this.props.node.attrs.src;
+    setTimeout(() => {
+      resolveImage(src).then(resolvedImage => {
+        if (this._mounted && src === this.props.node.attrs.src) {
+          this._mounted && this.setState({resolvedImage});
+        }
+      });
+    }, 150);
   }
 }
 
@@ -43,7 +130,7 @@ class ImageNodeView extends CustomNodeView {
 
   // @override
   renderReactComponent(): React.Element<any> {
-    return <ImageComponent {...this.props} />;
+    return <ImageViewBody {...this.props} />;
   }
 }
 

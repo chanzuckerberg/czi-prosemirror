@@ -2,14 +2,18 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {EditorView} from "prosemirror-view";
+import {EditorView, Decoration} from "prosemirror-view";
 import {Node} from 'prosemirror-model';
 
 export type NodeViewProps = {
-  node: Node,
   editorView: EditorView,
   getPos: () => number,
+  node: Node,
+  selected: boolean,
 };
+
+// Standard className for selected node.
+const SELECTED_NODE_CLASS_NAME = 'ProseMirror-selectednode';
 
 const mountedViews = new Set();
 const pendingViews = new Set();
@@ -26,7 +30,7 @@ function onMutation(mutations, observer): void {
     if (root.contains(el)) {
       pendingViews.delete(view);
       mountingViews.push(view);
-      view.mountReactComponent();
+      view.__renderReactComponent();
     }
   }
 
@@ -51,7 +55,6 @@ const mutationObserver = new MutationObserver(onMutation);
 // Component.
 // https://prosemirror.net/docs/ref/#view.NodeView
 // https://github.com/ProseMirror/prosemirror-view/blob/master/src/viewdesc.js#L429
-// https://github.com/ProseMirror/prosemirror-view/blob/master/src/viewdesc.js#L429
 class CustomNodeView {
 
   dom: HTMLElement;
@@ -68,9 +71,10 @@ class CustomNodeView {
     this.dom = dom;
 
     this.props = {
-      node,
       editorView,
       getPos,
+      node,
+      selected: false,
     };
 
     pendingViews.add(this);
@@ -80,12 +84,33 @@ class CustomNodeView {
     }
   }
 
+  update(node: Node, decorations: Array<Decoration>): boolean {
+    console.log(node, decorations);
+    return true;
+  }
+
   stopEvent(): boolean {
     return false;
   }
 
-  mountReactComponent(): void {
-    ReactDOM.render(this.renderReactComponent(), this.dom);
+  // Mark this node as being the selected node.
+  selectNode() {
+    this.dom.classList.add(SELECTED_NODE_CLASS_NAME);
+    this.props = {
+      ...this.props,
+      selected: true,
+    };
+    this.__renderReactComponent();
+  }
+
+  // Remove selected node marking from this node.
+  deselectNode() {
+    this.dom.classList.remove(SELECTED_NODE_CLASS_NAME);
+    this.props = {
+      ...this.props,
+      selected: false,
+    };
+    this.__renderReactComponent();
   }
 
   // This should be overwrite by subclass.
@@ -99,6 +124,10 @@ class CustomNodeView {
   renderReactComponent(): React.Element<any> {
     // return <CustomNodeViewComponent {...this.props} />;
     throw new Error('not implemented');
+  }
+
+  __renderReactComponent(): void {
+    ReactDOM.render(this.renderReactComponent(), this.dom);
   }
 }
 

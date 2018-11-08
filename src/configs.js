@@ -10,6 +10,7 @@ import HistoryRedoCommand from './HistoryRedoCommand';
 import HistoryUndoCommand from './HistoryUndoCommand';
 import HorizontalRuleCommand from './HorizontalRuleCommand';
 import ImageCommand from './ImageCommand';
+import ImageNodeSpec from './ImageNodeSpec';
 import Keymap from 'browserkeymap';
 import ListIndentCommand from './ListIndentCommand';
 import ListItemNodeSpec from './ListItemNodeSpec';
@@ -75,8 +76,9 @@ const {
 const {
   BULLET_LIST,
   HEADING,
-  ORDERED_LIST,
+  IMAGE,
   LIST_ITEM,
+  ORDERED_LIST,
   PARAGRAPH,
 } = NodeNames;
 
@@ -132,7 +134,10 @@ function buildPlugins(schema: Schema): Array<Plugin> {
 }
 
 // Schema
+
+
 const nodes = schema.spec.nodes
+  .update(IMAGE, ImageNodeSpec)
   .append({
     [BULLET_LIST]: BulletListNodeSpec,
     [LIST_ITEM]: ListItemNodeSpec,
@@ -158,7 +163,6 @@ const nodes = schema.spec.nodes
     },
   }));
 
-// console.log(nodes.content);
 const marks = schema.spec.marks.append({
   [MARK_TEXT_COLOR]: TextColorMarkSpec,
   [MARK_TEXT_HIGHLIGHT]: TextHighlightMarkSpec,
@@ -181,7 +185,7 @@ export const H6 = new HeadingCommand(SCHEMA, 6);
 export const HISTORY_REDO = new HistoryRedoCommand();
 export const HISTORY_UNDO = new HistoryUndoCommand();
 export const HR = new HorizontalRuleCommand(SCHEMA);
-export const IMAGE = new ImageCommand(SCHEMA);
+export const IMAGE_FROM_URL = new ImageCommand(SCHEMA);
 export const LIST_INDENT_LESS = new ListIndentCommand(SCHEMA, -1);
 export const LIST_INDENT_MORE = new ListIndentCommand(SCHEMA, 1);
 export const LIST_SPLIT = new ListSplitCommand(SCHEMA);

@@ -1,0 +1,7 @@
+.czi-image-view-resize-box {
+  background: rgba(0,0,0,0.5);
+  left: 0;
+  position: absolute;
+  top: 0;
+  z-index: 1;
+}

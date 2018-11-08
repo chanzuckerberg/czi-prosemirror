@@ -21,7 +21,7 @@ const {
   HISTORY_REDO,
   HISTORY_UNDO,
   HR,
-  IMAGE,
+  IMAGE_FROM_URL,
   LIST_INDENT_LESS,
   LIST_INDENT_MORE,
   OL,
@@ -100,7 +100,7 @@ const CommandGroups = [
   },
   {
     'HR': HR,
-    'Image': IMAGE,
+    'Image': IMAGE_FROM_URL,
   },
   {
     'Undo': HISTORY_UNDO,

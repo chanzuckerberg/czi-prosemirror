@@ -3,6 +3,19 @@
    font-size: 0;
  }
 
-.czi-custom-view.ProseMirror-selectednode > .czi-image-view {
+.czi-image-view-body {
+  display: inline-block;
+  position: relative;
+}
+
+.czi-image-view-body.active {
   outline: var(--czi-border-blue);
+}
+
+.czi-image-view-body.error {
+  outline: var(--czi-border-red);
+}
+
+.czi-image-view-body-img {
+  background: #ccc;
 }

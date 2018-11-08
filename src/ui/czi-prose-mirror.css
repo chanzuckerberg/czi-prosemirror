@@ -1,6 +1,10 @@
 
 :root {
+  --czi-border-blue: solid 1px #5882EB;
+  --czi-border-grey: solid 1px #ccc;
+  --czi-border-red: solid 1px #ff0000;
   --czi-button-hover-background-color: rgba(0,0,0,.05);
+  --czi-color-grey-200: rgba(0,0,0,0.46);
   --czi-font-family: "Helvetica";
   --czi-font-size-h1: 18px;
   --czi-font-size-h2: 16px;
@@ -8,11 +12,8 @@
   --czi-font-size-small: 10px;
   --czi-font-size: 12px;
   --czi-overlay-shadow: 0 1px 2px rgba(0,0,0,0.46);
-  --czi-selection-highlight-color: rgba(152, 204, 253, 0.4);
   --czi-selection-highlight-color-dark: rgba(152, 204, 253, 0.8);
-  --czi-border-grey: solid 1px #ccc;
-  --czi-border-blue: solid 1px #5882EB;
-  --czi-color-grey-200: rgba(0,0,0,0.46);
+  --czi-selection-highlight-color: rgba(152, 204, 253, 0.4);
 }
 
 .ProseMirror-focused {

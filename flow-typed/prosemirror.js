@@ -2,14 +2,17 @@
 
 declare module 'prosemirror' {
   declare type NodeSpec = {
-    content: string,
+    attrs?: ?{[key: string]: any},
+    content?: ?string,
+    draggable?: boolean,
     group?: ?string,
+    inline?: boolean,
     parseDOM: Array<any>,
-    toDOM: () => Array<any>,
+    toDOM: (node: any) => Array<any>,
   };
 
   declare type MarkSpec = {
-    attrs: {[key: string]: string},
+    attrs: {[key: string]: any},
     parseDOM: Array<any>,
     toDOM: (node: any) => Array<any>,
   };
