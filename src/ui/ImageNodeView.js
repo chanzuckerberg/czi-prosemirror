@@ -5,6 +5,7 @@ import ImageViewResizeBox from './ImageViewResizeBox';
 import React from 'react';
 import cx from 'classnames';
 import resolveImage from './resolveImage';
+import setImageSize from './../setImageSize';
 import {EditorView} from "prosemirror-view";
 import {MIN_SIZE} from './ImageViewResizeBox';
 import {Node} from 'prosemirror-model';
@@ -53,8 +54,6 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
     const {resolvedImage} = this.state;
     const {attrs} = node;
 
-    console.debug(attrs);
-
     const active = selected &&
       !readOnly &&
       resolvedImage &&
@@ -81,9 +80,10 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
       loading,
     });
 
-    const resizeBox = active ?
+    const resizeBox = 1 || active ?
       <ImageViewResizeBox
         height={height}
+        onResizeEnd={this._onResizeEnd}
         width={width}
       /> :
       null;
@@ -117,6 +117,19 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
       });
     }, 150);
   }
+
+  _onResizeEnd = (width: number, height: number): void => {
+    const {getPos, node, editorView} = this.props;
+    const pos = getPos();
+    const attrs = {
+      ...node.attrs,
+      width,
+      height,
+    };
+    let tr = editorView.state.tr;
+    tr = tr.setNodeMarkup(pos, null, attrs);
+    editorView.dispatch(tr);
+  };
 }
 
 class ImageNodeView extends CustomNodeView {
