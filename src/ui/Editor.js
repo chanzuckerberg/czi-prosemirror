@@ -2,11 +2,13 @@
 
 import React from 'react';
 
+import ImageView from './ImageView';
+import CustomView from './CustomView';
 import applyDevTools from 'prosemirror-dev-tools';
+import uuid from 'uuid/v1';
 import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
 import {Transform} from 'prosemirror-transform';
-import uuid from 'uuid/v1';
 
 import {
   EDITOR_EMPTY_STATE,
@@ -46,6 +48,11 @@ class Editor extends React.PureComponent<any, any, any> {
         state: editorState || EDITOR_EMPTY_STATE,
         dispatchTransaction: this._dispatchTransaction,
         editable: () =>  true,
+        nodeViews: {
+          image(node, view, getPos) {
+            return new CustomView(node, view, getPos, ImageView);
+          },
+        },
       });
 
       onReady && onReady(this._editorView);

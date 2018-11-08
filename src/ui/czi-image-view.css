@@ -1,0 +1,8 @@
+ .czi-image-view {
+   display: inline-block;
+   font-size: 0;
+ }
+
+.czi-custom-view.ProseMirror-selectednode > .czi-image-view {
+  outline: var(--czi-border-blue);
+}

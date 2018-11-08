@@ -28,6 +28,19 @@ class DemoAppHTMLTemplate extends React.PureComponent<any, any, any> {
           </tbody>
         </table>
         <h3>H3 Header</h3>
+        <img
+          alt="cat pix"
+          height="100"
+          src="https://placekitten.com/200/200"
+          width="100"
+        />
+        <hr />
+        <img
+          alt="cat pix"
+          height="100"
+          src="https://placekitten.com/200/200"
+          width="100"
+        />
         <ol>
           <li>AAAAA</li>
           <li>BBB</li>
