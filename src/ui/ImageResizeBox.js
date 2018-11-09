@@ -1,16 +1,16 @@
 // @flow
 
+import './czi-image-resize-box.css';
 import CustomNodeView from './CustomNodeView';
 import React from 'react';
 import clamp from './clamp';
 import cx from 'classnames';
 import nullthrows from 'nullthrows';
 import resolveImage from './resolveImage';
+import type {NodeViewProps} from './CustomNodeView';
 import uuid from 'uuid/v1';
 import {EditorView} from "prosemirror-view";
 import {Node} from 'prosemirror-model';
-
-import type {NodeViewProps} from './CustomNodeView';
 
 type Props = {
   height: number,
@@ -23,9 +23,6 @@ type State = {
   currentWidth: number,
   currentHeight: number,
 };
-
-import './czi-prose-mirror.css';
-import './czi-image-resize-box.css';
 
 export const MIN_SIZE = 50;
 export const MAX_SIZE = 10000;
@@ -146,8 +143,11 @@ class ImageResizeBoxControl extends React.PureComponent<any, any, any> {
     const aspect = width / height;
     let ww = clamp(MIN_SIZE, width + Math.round(dx), MAX_SIZE);
     let hh = clamp(MIN_SIZE, height + Math.round(dy), MAX_SIZE);
-    hh = Math.max(ww / aspect, MIN_SIZE);
-    ww = hh * aspect;
+
+    if (fn === setSize) {
+      hh = Math.max(ww / aspect, MIN_SIZE);
+      ww = hh * aspect;
+    }
 
     fn(el, Math.round(ww), Math.round(hh));
     this._ww = ww;

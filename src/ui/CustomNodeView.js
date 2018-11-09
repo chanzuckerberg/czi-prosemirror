@@ -67,9 +67,6 @@ class CustomNodeView {
     editorView: EditorView,
     getPos: () => number,
   ) {
-    // The editor will use this as the node's DOM representation
-    const dom = this.createDOMElement();
-    this.dom = dom;
 
     this.props = {
       editorView,
@@ -79,6 +76,10 @@ class CustomNodeView {
     };
 
     pendingViews.add(this);
+
+    // The editor will use this as the node's DOM representation
+    const dom = this.createDOMElement();
+    this.dom = dom;
 
     if (pendingViews.size === 1) {
       mutationObserver.observe(document, {childList: true, subtree: true});

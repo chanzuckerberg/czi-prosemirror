@@ -1,3 +1,4 @@
+@import './czi-ordered-list-counters.css';
 
 :root {
   --czi-border-blue: solid 1px #5882EB;
@@ -26,6 +27,60 @@
 }
 
 /* List Styles */
+/* https://css-tricks.com/custom-list-number-styling/ */
+
+
+.ProseMirror ol,
+.ProseMirror ul {
+  counter-reset: none;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+
+  /* https://www.sitepoint.com/understanding-block-formatting-contexts-in-css/ */
+  /* this is need to force "block-context" to prevent broken style around */
+  /* float siblings */
+  overflow: auto;
+}
+
+.ProseMirror li {
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+.ProseMirror li > p {
+  /* https://www.sitepoint.com/understanding-block-formatting-contexts-in-css/ */
+  /* this is need to force "block-context" to prevent broken style around */
+  /* float siblings */
+  overflow: auto;
+}
+
+.ProseMirror ol {
+  counter-reset: czi-counter;
+  list-style-type: none;
+}
+
+.ProseMirror ol li {
+  counter-increment: czi-counter;
+}
+
+.ProseMirror li::before {
+  content: counter(czi-counter) ".";
+  float: left;
+  margin-right: 1em;
+}
+
+.ProseMirror li::before + p {
+  /* https://www.sitepoint.com/understanding-block-formatting-contexts-in-css/ */
+  /* this is need to force "block-context" to prevent broken style around */
+  /* float siblings */
+  overflow: auto;
+}
+
+.ProseMirror ul > li::before {
+  content: '\2022'; /* square */
+}
 
 .ProseMirror ol[data-level="1"],
 .ProseMirror ol[data-level="1"] {
@@ -119,25 +174,3 @@
   position: absolute;
   z-index: 2;
 }
-
-/*
-.ProseMirror ol,
-.ProseMirror ul {
-  outline: solid 1px blue;
-}
-
-.ProseMirror li {
-  outline: solid 1px red;
-}
-*/
-
-/*
-.ProseMirror ol::before,
-.ProseMirror ul::before {
-  content: attr(data-level);
-  display: list-item;
-  list-style: none;
-  background: yellow;
-  color: red;
-}
-*/

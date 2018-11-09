@@ -1,21 +1,23 @@
 // @flow
 
+import './czi-image-view.css';
 import CustomNodeView from './CustomNodeView';
-import ImageResizeBox from './ImageResizeBox';
 import ImageAlignEditor from './ImageAlignEditor';
+import ImageResizeBox from './ImageResizeBox';
 import React from 'react';
+import createPopUp from './createPopUp';
 import cx from 'classnames';
+import nullthrows from 'nullthrows';
 import resolveImage from './resolveImage';
-import {EditorView} from "prosemirror-view";
+import uuid from 'uuid/v1';
+import {EditorView, Decoration} from "prosemirror-view";
 import {MIN_SIZE} from './ImageResizeBox';
 import {Node} from 'prosemirror-model';
 import {TextSelection} from 'prosemirror-state';
+import {atAnchorBottomCenter} from './popUpPosition';
 
 import type {NodeViewProps} from './CustomNodeView';
-
-import './czi-prose-mirror.css';
-import './czi-image-view.css';
-
+import type {ImageAlignEditorValue} from './ImageAlignEditor';
 
 const EMPTY_SRC = 'data:image/gif;base64,' +
   'R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
@@ -25,6 +27,8 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
 
   props: NodeViewProps;
 
+  _alignEditor = null;
+  _id = uuid();
   _mounted = false;
 
   state = {
@@ -35,16 +39,18 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
     this._mounted = true;
     const src = this.props.node.attrs.src;
     this._resolveImage();
+    this._renderAlignEditor();
   }
 
   componentWillUnmount(): void {
     this._mounted = false;
+    this._alignEditor && this._alignEditor.close();
   }
 
   componentDidUpdate(prevProps: NodeViewProps): void {
     const {resolvedImage} = this.state;
     const prevSrc = prevProps.node.attrs.src;
-    const {src, width, height} =  this.props.node.attrs;
+    const {src, width, height, align} =  this.props.node.attrs;
 
     if (prevSrc !== src) {
       // A new image is provided, resolve it.
@@ -69,6 +75,8 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
         },
       });
     }
+
+    this._renderAlignEditor();
   }
 
   render(): React.Element<any> {
@@ -76,6 +84,8 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
     const {node, selected} = this.props;
     const {resolvedImage} = this.state;
     const {attrs} = node;
+
+    const {align} = attrs;
 
     const active = selected &&
       !readOnly &&
@@ -118,10 +128,15 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
     };
 
     return (
-      <span className={className} style={style}>
+      <span
+        className={className}
+        data-active={active ? 'true' : null}
+        id={this._id}
+        style={style}>
         <img
           alt=""
           className="czi-image-view-body-img"
+          data-align={align}
           height={height}
           src={src || EMPTY_SRC}
           width={width}
@@ -129,6 +144,32 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
         {resizeBox}
       </span>
     );
+  }
+
+  _renderAlignEditor(): void {
+    const el = document.getElementById(this._id);
+    if (!el || el.getAttribute('data-active') !== 'true') {
+      this._alignEditor && this._alignEditor.close();
+      return;
+    }
+
+    const {node} = this.props;
+    const editorProps = {
+      value: node.attrs,
+      onSelect: this._onAlignChange,
+    };
+    if (this._alignEditor) {
+      this._alignEditor.update(editorProps);
+    }  else {
+      this._alignEditor = createPopUp(ImageAlignEditor, editorProps, {
+        anchor: el,
+        autoDismiss: false,
+        position: atAnchorBottomCenter,
+        onClose: () => {
+          this._alignEditor = null;
+        },
+      });
+    }
   }
 
   _resolveImage(): void {
@@ -156,6 +197,27 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
     tr = tr.setSelection(selection);
     editorView.dispatch(tr);
   };
+
+  _onAlignChange = (value: ?{align: ?string}): void => {
+    if (!this._mounted) {
+      return;
+    }
+
+    const align = value ? value.align : null;
+
+    const {getPos, node, editorView} = this.props;
+    const pos = getPos();
+    const attrs = {
+      ...node.attrs,
+      align,
+    };
+
+    let tr = editorView.state.tr;
+    const {selection} = editorView.state;
+    tr = tr.setNodeMarkup(pos, null, attrs);
+    tr = tr.setSelection(selection);
+    editorView.dispatch(tr);
+  };
 }
 
 class ImageNodeView extends CustomNodeView {
@@ -164,12 +226,25 @@ class ImageNodeView extends CustomNodeView {
   createDOMElement(): HTMLElement {
     const el = document.createElement('span');
     el.className = 'czi-image-view';
+    this._updateAlign(el);
     return el;
+  }
+
+  // @override
+  update(node: Node, decorations: Array<Decoration>): boolean {
+    super.update(node, decorations);
+    this._updateAlign(this.dom);
+    return true;
   }
 
   // @override
   renderReactComponent(): React.Element<any> {
     return <ImageViewBody {...this.props} />;
+  }
+
+  _updateAlign(el: HTMLElement): void {
+    const {align} = this.props.node.attrs;
+    el.className = 'czi-image-view align-' + align;
   }
 }
 

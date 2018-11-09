@@ -11,7 +11,6 @@ import {TABLE_INSERT_TABLE} from '../configs';
 import {Transform} from 'prosemirror-transform';
 import {fromHTMlElement} from './rects';
 
-import './czi-prose-mirror.css';
 import './czi-form.css';
 import './czi-image-editor.css';
 

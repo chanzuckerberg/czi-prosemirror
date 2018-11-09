@@ -1,12 +1,11 @@
 // @flow
 
+import './czi-color-editor.css';
+
 import Color from 'color';
 import CustomButton from './CustomButton';
 import React from 'react';
 import clamp from './clamp';
-
-import './czi-prose-mirror.css';
-import './czi-color-editor.css';
 
 export type ColorEditorValue = {
   hex: string,

@@ -1,3 +1,5 @@
+@import './czi-prose-mirror.css';
+
 .czi-image-resize-box {
   background-repeat: no-repeat;
   box-sizing: border-box;

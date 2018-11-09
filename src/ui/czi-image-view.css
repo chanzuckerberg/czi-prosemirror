@@ -1,9 +1,31 @@
- .czi-image-view {
-   display: inline-block;
-   font-size: 0;
- }
+@import './czi-prose-mirror.css';
+
+.czi-image-view {
+ clear: both;
+ display: inline-block;
+ font-size: 0;
+ text-align: center;
+}
+
+.czi-image-view.align-left {
+  float: left;
+  margin: 0 50px 50px 0;
+}
+
+.czi-image-view.align-right {
+  float: right;
+  margin: 0 0 50px 50px;
+}
+
+.czi-image-view.align-center {
+  clear: both;
+  display: block;
+  float: none;
+  margin: 50px 0;
+}
 
 .czi-image-view-body {
+  clear: both;
   display: inline-block;
   position: relative;
 }

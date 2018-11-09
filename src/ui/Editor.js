@@ -1,5 +1,9 @@
 // @flow
 
+import 'prosemirror-gapcursor/style/gapcursor.css';
+import 'prosemirror-view/style/prosemirror.css';
+import './czi-editor.css';
+
 import ImageNodeView from './ImageNodeView';
 import React from 'react';
 import applyDevTools from 'prosemirror-dev-tools';
@@ -14,14 +18,10 @@ import {
   SCHEMA,
 } from '../configs';
 
-import 'prosemirror-view/style/prosemirror.css';
-import 'prosemirror-gapcursor/style/gapcursor.css';
-import 'prosemirror-view/style/prosemirror.css';
 
 // import 'prosemirror-menu/style/menu.css';
 // import 'prosemirror-example-setup/style/style.css';
 
-import './czi-prose-mirror.css';
 
 class Editor extends React.PureComponent<any, any, any> {
 
