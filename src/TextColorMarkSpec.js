@@ -10,6 +10,8 @@ const TextColorMarkSpec: MarkSpec = {
   attrs: {
     color: '',
   },
+  inline: true,
+  group: 'inline',
   parseDOM: [
     {
       style: 'color',

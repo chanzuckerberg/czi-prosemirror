@@ -40,7 +40,7 @@ const ImageNodeSpec: NodeSpec = {
   },
   group: 'inline',
   draggable: true,
-  parseDOM: [{tag: "img[src]", getAttrs(dom) {
+  parseDOM: [{tag: 'img[src]', getAttrs(dom) {
     return parseDOMAttrs(dom);
   }}],
   toDOM(node) {

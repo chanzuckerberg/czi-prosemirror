@@ -2,11 +2,16 @@
 
 import Color from 'color';
 
-const cache = {};
+const cache = {
+  'transparent': '',
+};
 
 export default function toHexColor(source: any): string {
   if (!source) {
     return '';
+  }
+  if (source in cache) {
+    return cache[source];
   }
   let hex = '';
   try {

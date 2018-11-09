@@ -10,11 +10,13 @@ const TextHighlightMarkSpec: MarkSpec = {
   attrs: {
     highlightColor: '',
   },
-
+  inline: true,
+  group: 'inline',
   parseDOM: [
     {
       style: 'background-color',
       getAttrs: (backgroundColor) => {
+        console.log(backgroundColor);
         return {
           highlightColor: toHexColor(backgroundColor),
         };
