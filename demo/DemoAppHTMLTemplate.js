@@ -37,8 +37,8 @@ class DemoAppHTMLTemplate extends React.PureComponent<any, any, any> {
         <hr />
         <img
           alt="cat pix"
-          height="200"
-          src="https://placekitten.com/200/200"
+          height="100"
+          src="https://placekitten.com/200/100"
           width="200"
         />
         <ol>

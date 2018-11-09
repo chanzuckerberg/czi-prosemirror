@@ -30,20 +30,28 @@ import './czi-image-view-resize-box.css';
 export const MIN_SIZE = 50;
 export const MAX_SIZE = 10000;
 
-function setWidth(el: HTMLElement, width: number, height: number): void {
+function setWidth(
+  el: HTMLElement,
+  width: number, height: number,
+): void {
   el.style.width = width + 'px';
-  el.style.backgroundSize = `${width}px ${el.style.height}`;
 }
 
-function setHeight(el: HTMLElement, width: number, height: number): void {
+function setHeight(
+  el: HTMLElement,
+  width: number,
+  height: number,
+): void {
   el.style.height = height + 'px';
-  el.style.backgroundSize = `${el.style.height} ${width}px`;
 }
 
-function setSize(el: HTMLElement, width: number, height: number): void {
-  el.style.width = width + 'px';
-  el.style.height = height + 'px';
-  el.style.backgroundSize = `${height}px ${width}px`;
+function setSize(
+  el: HTMLElement,
+  width: number,
+  height: number,
+): void {
+  el.style.width = Math.round(width) + 'px';
+  el.style.height = Math.round(height) + 'px';
 }
 
 const ResizeDirection = {
@@ -135,9 +143,13 @@ class ImageViewResizeBoxControl extends React.PureComponent<any, any, any> {
 
     const el = nullthrows(this._el);
     const fn = nullthrows(ResizeDirection[direction]);
-    const ww = clamp(MIN_SIZE, width + dx, MAX_SIZE);
-    const hh = clamp(MIN_SIZE, height + dy, MAX_SIZE);
-    fn(el, ww, hh);
+    const aspect = width / height;
+    let ww = clamp(MIN_SIZE, width + Math.round(dx), MAX_SIZE);
+    let hh = clamp(MIN_SIZE, height + Math.round(dy), MAX_SIZE);
+    hh = Math.max(ww / aspect, MIN_SIZE);
+    ww = hh * aspect;
+
+    fn(el, Math.round(ww), Math.round(hh));
     this._ww = ww;
     this._hh = hh;
   };
