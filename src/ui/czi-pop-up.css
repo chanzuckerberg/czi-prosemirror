@@ -1,0 +1,17 @@
+.czi-pop-up-modal-mask,
+.czi-pop-up-element {
+  background-color: rgba(0, 0, 0, 0.5);
+  height: 100vh;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  z-index: 99998;
+}
+
+.czi-pop-up-element {
+  background-color: transparent;
+  height: auto;
+  width: auto;
+  z-index: 99999;
+}

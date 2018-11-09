@@ -3,7 +3,7 @@
 import ColorEditor from './ColorEditor';
 import CustomButton from './CustomButton';
 import Editor from './Editor';
-import ImageEditor from './ImageEditor';
+import ImageURLEditor from './ImageURLEditor';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import TableGridSizeEditor from './TableGridSizeEditor';
@@ -85,7 +85,7 @@ class ColorEditorExample extends React.PureComponent<any, any, any> {
   };
 }
 
-class ImageEditorExample extends React.PureComponent<any, any, any> {
+class ImageURLEditorExample extends React.PureComponent<any, any, any> {
 
   _popup = null;
   _id = uuid();
@@ -101,7 +101,7 @@ class ImageEditorExample extends React.PureComponent<any, any, any> {
       <div>
         <CustomButton
           id={this._id}
-          label="ImageEditor"
+          label="ImageURLEditor"
           onClick={this._onClick}
         />
         <pre>
@@ -113,7 +113,7 @@ class ImageEditorExample extends React.PureComponent<any, any, any> {
 
   _onClick = (): void => {
     if (!this._popup) {
-      this._popup = createPopUp(ImageEditor, this.state, {
+      this._popup = createPopUp(ImageURLEditor, this.state, {
         autoDismiss: false,
         anchor: document.getElementById(this._id),
         onClose: (value) => {
@@ -133,7 +133,7 @@ class Examples extends React.PureComponent<any, any, any> {
        <hr />
        <ColorEditorExample />
        <hr />
-       <ImageEditorExample />
+       <ImageURLEditorExample />
      </div>
     );
   }

@@ -1,5 +1,6 @@
 // @flow
 
+import './czi-pop-up.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import uuid from 'uuid/v1';
@@ -15,6 +16,38 @@ export type PopUpHandle = {
   update: (props: Object) => void,
 };
 
+let modalsCount = 0;
+let popUpsCount = 0;
+
+const Z_INDEX_BASE = 9999;
+const MODAL_MASK_ID = 'pop-up-modal-mask-' + uuid();
+
+function showModalMask(): void {
+  const root: any = document.body || document.documentElement;
+  let element = document.getElementById(MODAL_MASK_ID);
+  if (!element) {
+    element = document.createElement('div');
+    element.id = MODAL_MASK_ID;
+    element.className = 'czi-pop-up-modal-mask';
+    element.setAttribute('data-mask-type', 'czi-pop-up-modal-mask');
+    element.setAttribute('role', 'dialog');
+    element.setAttribute('aria-modal', 'true');
+  }
+
+  if (root && !element.parentElement) {
+    root.appendChild(element);
+  }
+  const style: any = element.style;
+  style.zIndex = (Z_INDEX_BASE + popUpsCount * 2) - 1;
+}
+
+function hideModalMask(): void {
+  const element = document.getElementById(MODAL_MASK_ID);
+  if (element && element.parentElement) {
+    element.parentElement.removeChild(element);
+  }
+}
+
 function getRootElement(id: string, forceCreation: boolean): ?HTMLElement {
   const root: any = document.body || document.documentElement;
   let element = document.getElementById(id);
@@ -26,13 +59,17 @@ function getRootElement(id: string, forceCreation: boolean): ?HTMLElement {
     return null;
   }
 
-  element.style.cssText = `position: fixed; top: 0; left: 0; z-index: 99999`;
+  element.className = 'czi-pop-up-element';
   element.id = id;
+
+  const style: any = element.style;
+  style.zIndex = (Z_INDEX_BASE + popUpsCount * 2);
+
   // Populates the default ARIA attributes here.
   // http://accessibility.athena-ict.com/aria/examples/dialog.shtml
   element.setAttribute('role', 'dialog');
   element.setAttribute('aria-modal', 'true');
-  if (!element.parentElement) {
+  if (root && !element.parentElement) {
     root.appendChild(element);
   }
   return element;
@@ -57,6 +94,12 @@ function renderPopUp(
     );
     ReactDOM.render(component, rootNode);
   }
+
+  if (modalsCount > 0) {
+    showModalMask();
+  } else {
+    hideModalMask();
+  }
 }
 
 function unrenderPopUp(rootId: string): void {
@@ -65,6 +108,10 @@ function unrenderPopUp(rootId: string): void {
     ReactDOM.unmountComponentAtNode(rootNode);
     rootNode.parentElement && rootNode.parentElement.removeChild(rootNode);
   }
+
+  if (modalsCount === 0) {
+    hideModalMask();
+  };
 }
 
 export default function createPopUp(
@@ -74,17 +121,30 @@ export default function createPopUp(
 ): PopUpHandle {
   const rootId = uuid();
 
-  let closed = false;
+  let handle = null;
   let currentViewProps = viewProps;
 
   viewProps = viewProps || {};
   popUpParams = popUpParams || {};
 
+  const {modal} = popUpParams;
+
+  popUpsCount++;
+  if (modal) {
+    modalsCount++;
+  }
+
   const closePopUp = (value) => {
-    if (closed) {
+    if (!handle) {
       return;
     }
-    closed = true;
+
+    if (modal) {
+      modalsCount--;
+    }
+    popUpsCount--;
+
+    handle = null;
     unrenderPopUp(rootId);
 
     const onClose = popUpParams && popUpParams.onClose;
@@ -93,13 +153,15 @@ export default function createPopUp(
 
   const render = renderPopUp.bind(null, rootId, closePopUp, View);
   const emptyObj = {};
-  render(currentViewProps || emptyObj, popUpParams || emptyObj);
 
-  return {
+  handle = {
     close: closePopUp,
     update: (nextViewProps) => {
       currentViewProps = nextViewProps;
       render(currentViewProps || emptyObj, popUpParams || emptyObj);
     },
   };
+
+  render(currentViewProps || emptyObj, popUpParams || emptyObj);
+  return handle;
 }

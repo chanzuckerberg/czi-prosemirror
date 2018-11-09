@@ -1,6 +1,6 @@
 // @flow
 
-import ImageEditor from './ui/ImageEditor';
+import ImageURLEditor from './ui/ImageURLEditor';
 import UICommand from './ui/UICommand';
 import createPopUp from './ui/createPopUp';
 import nullthrows from 'nullthrows';
@@ -10,8 +10,9 @@ import {Fragment, Schema} from 'prosemirror-model';
 import {IMAGE} from './NodeNames';
 import {TextSelection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
+import {atViewportCenter} from './ui/popUpPosition';
 
-import type {ImageEditorValue} from './ui/ImageEditor';
+import type {ImageURLEditorValue} from './ui/ImageURLEditor';
 
 function insertImage(
   tr: Transform,
@@ -45,7 +46,7 @@ function insertImage(
   return tr;
 }
 
-class ImageCommand extends UICommand {
+class ImageFromURLCommand extends UICommand {
 
   _schema: Schema;
   _popUp = null;
@@ -81,9 +82,9 @@ class ImageCommand extends UICommand {
 
     const anchor = event ? event.currentTarget : null;
     return new Promise(resolve => {
-      this._popUp = createPopUp(ImageEditor, null, {
-        anchor,
-        autoDismiss: false,
+      this._popUp = createPopUp(ImageURLEditor, null, {
+        modal: true,
+        position: atViewportCenter,
         onClose: (val) => {
           if (this._popUp) {
             this._popUp = null;
@@ -98,21 +99,22 @@ class ImageCommand extends UICommand {
     state: EditorState,
     dispatch: ?(tr: Transform) => void,
     view: ?EditorView,
-    inputs: ?ImageEditorValue,
+    inputs: ?ImageURLEditorValue,
   ): boolean => {
     if (dispatch) {
       let {tr, selection} = state;
+      tr = tr.setSelection(selection);
       if (inputs) {
         const {width, height, src} = inputs;
-        tr = tr.setSelection(selection);
         tr = insertImage(tr, this._schema, src);
       }
-      
       dispatch(tr);
+      view && view.focus();
     }
+
     return false;
   };
 }
 
 
-export default ImageCommand;
+export default ImageFromURLCommand;

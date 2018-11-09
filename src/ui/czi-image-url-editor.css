@@ -1,6 +1,6 @@
 @import './czi-prose-mirror.css';
 
-.czi-image-editor {
+.czi-image-url-editor {
   background: #fff;
   box-shadow: var(--czi-overlay-shadow);
   font-family: var(--czi-font-family);
@@ -8,19 +8,19 @@
   padding: 4px 10px;
 }
 
-.czi-image-editor .czi-form {
+.czi-image-url-editor .czi-form {
   width: 400px;
 }
 
-.czi-image-editor-src-input-row {
+.czi-image-url-editor-src-input-row {
   position: relative;
 }
 
-.czi-image-editor-src-input-row input.czi-image-editor-src-input {
+.czi-image-url-editor-src-input-row input.czi-image-url-editor-src-input {
   padding-right: 40px;
 }
 
-.czi-image-editor-input-preview {
+.czi-image-url-editor-input-preview {
   background-color: #fff;
   background-position: center;
   background-repeat: no-repeat;

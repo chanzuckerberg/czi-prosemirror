@@ -1,5 +1,7 @@
 // @flow
 
+import './czi-form.css';
+import './czi-image-url-editor.css';
 import CustomButton from './CustomButton';
 import React from 'react';
 import clamp from './clamp';
@@ -11,23 +13,20 @@ import {TABLE_INSERT_TABLE} from '../configs';
 import {Transform} from 'prosemirror-transform';
 import {fromHTMlElement} from './rects';
 
-import './czi-form.css';
-import './czi-image-editor.css';
-
-export type ImageEditorValue = {
+export type ImageURLEditorValue = {
   height: ?number,
   src: ?string,
   width: ?number,
 };
 
-class ImageEditor extends React.PureComponent<any, any, any> {
+class ImageURLEditor extends React.PureComponent<any, any, any> {
 
   _img = null;
   _unmounted = false;
 
   props: {
-    initialValue: ?ImageEditorValue,
-    close: (val: ?ImageEditorValue) => void,
+    initialValue: ?ImageURLEditorValue,
+    close: (val: ?ImageURLEditorValue) => void,
   };
 
   state = {
@@ -43,19 +42,20 @@ class ImageEditor extends React.PureComponent<any, any, any> {
     const {src, validValue} = this.state;
     const preview = validValue ?
       <div
-        className="czi-image-editor-input-preview"
+        className="czi-image-url-editor-input-preview"
         style={{backgroundImage: `url(${String(validValue.src)}`}}
       /> :
       null;
 
     return (
-      <div className="czi-image-editor">
+      <div className="czi-image-url-editor">
         <form className="czi-form">
           <fieldset>
             <legend>Insert Image</legend>
-            <div className="czi-image-editor-src-input-row">
+            <div className="czi-image-url-editor-src-input-row">
               <input
-                className="czi-image-editor-src-input"
+                autoFocus={true}
+                className="czi-image-url-editor-src-input"
                 onChange={this._onSrcChange}
                 type="text" placeholder="Paste URL of Image..."
                 value={src || ''}
@@ -112,4 +112,4 @@ class ImageEditor extends React.PureComponent<any, any, any> {
   };
 }
 
-export default ImageEditor;
+export default ImageURLEditor;

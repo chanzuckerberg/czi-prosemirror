@@ -14,12 +14,16 @@ export type PopUpDetails = {
   body: ?HTMLElement,
   bodyRect?: ?Rect,
   close: (val: any) => void,
+  modal: boolean,
   position: PositionHandler,
 };
 
 export type PopUpBridge = {
   getDetails: () => PopUpDetails,
 };
+
+const CLICK_INTERVAL = 800;
+const DUMMY_RECT = {x: -10000, y: -10000, w: 0, h: 0};
 
 class PopUpManager {
 
@@ -50,11 +54,13 @@ class PopUpManager {
   _observe(): void {
     document.addEventListener('mousemove', this._onMouseChange, false);
     document.addEventListener('mouseup', this._onMouseChange, false);
+    document.addEventListener('click', this._onClick, false);
   }
 
   _unobserve(): void {
     document.removeEventListener('mousemove', this._onMouseChange, false);
     document.removeEventListener('mouseup', this._onMouseChange, false);
+    document.removeEventListener('click', this._onClick, false);
     this._rafID && cancelAnimationFrame(this._rafID);
   }
 
@@ -63,6 +69,29 @@ class PopUpManager {
     this._my = e.clientY;
     this._rafID && cancelAnimationFrame(this._rafID);
     this._rafID = requestAnimationFrame(this._syncPosition);
+  };
+
+  _onClick = (e: MouseEvent): void => {
+    const bridgeToDetails = new Map();
+    const now = Date.now();
+    let detailsWithModalToDismiss;
+    for (let [bridge, registeredAt] of this._bridges) {
+      if ((now - registeredAt) > CLICK_INTERVAL) {
+        const details = bridge.getDetails();
+        if (details.modal && details.autoDismiss) {
+          detailsWithModalToDismiss = details;
+        }
+      }
+    }
+    if (!detailsWithModalToDismiss) {
+      return;
+    }
+    const {body, close} = detailsWithModalToDismiss;
+    const pointer = fromXY(e.clientX, e.clientY, 20);
+    const bodyRect = body ? fromHTMlElement(body) : null;
+    if (!bodyRect || !isIntersected(pointer, bodyRect)) {
+      close();
+    }
   };
 
   _syncPosition = (): void => {
@@ -74,8 +103,10 @@ class PopUpManager {
       const details = bridge.getDetails();
       bridgeToDetails.set(bridge, details);
       const {anchor, body} = details;
-      if ((body instanceof HTMLElement) && (anchor instanceof HTMLElement)) {
+      if (body instanceof HTMLElement) {
         details.bodyRect = fromHTMlElement(body);
+      }
+      if (anchor instanceof HTMLElement) {
         details.anchorRect = fromHTMlElement(anchor);
       }
     }
@@ -91,14 +122,14 @@ class PopUpManager {
         body,
         close,
       } = details;
-      if (!bodyRect || !anchorRect) {
+      if (!bodyRect && !anchorRect) {
         continue;
       }
 
       const {x, y} = position(anchorRect, bodyRect);
       const transform = `translate(${x}px, ${y}px)`;
 
-      if (body && this._transforms.get(bridge) !== transform) {
+      if (body && bodyRect && this._transforms.get(bridge) !== transform) {
         this._transforms.set(bridge, transform);
         body.style.transform = transform;
         bodyRect.x = x;
@@ -108,12 +139,12 @@ class PopUpManager {
       if (
         isIntersected(
           pointer,
-          bodyRect,
+          bodyRect || DUMMY_RECT,
           0,
         ) ||
         isIntersected(
           pointer,
-          anchorRect,
+          anchorRect || DUMMY_RECT,
           0,
         )
       ) {
@@ -145,10 +176,12 @@ class PopUpManager {
     for (let [bridge, registeredAt] of this._bridges) {
       const details = bridgeToDetails.get(bridge);
       if (details) {
-        const {autoDismiss, anchor, body, close} = details;
+        const {autoDismiss, anchor, body, close, modal} = details;
         if (
           autoDismiss &&
-          now - registeredAt > 500 &&
+          // Modal is handled separately at `onClick`
+          !modal &&
+          now - registeredAt > CLICK_INTERVAL &&
           !hoveredAnchors.has(anchor)
         ) {
           close();
@@ -158,4 +191,6 @@ class PopUpManager {
   };
 }
 
-export default PopUpManager;
+const instance = new PopUpManager();
+
+export default instance;
