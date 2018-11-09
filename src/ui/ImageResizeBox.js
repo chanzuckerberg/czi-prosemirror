@@ -103,32 +103,6 @@ class ImageResizeBoxControl extends React.PureComponent<any, any, any> {
     );
   }
 
-  _onMouseDown = (e: SyntheticMouseEvent): void => {
-    e.preventDefault();
-    this._end();
-    this._start(e);
-  };
-
-  _onMouseMove = (e: MouseEvent): void => {
-    e.preventDefault();
-    this._x2 = e.clientX;
-    this._y2 = e.clientY;
-    this._rafID = requestAnimationFrame(this._syncSize);
-  };
-
-  _onMouseUp = (e: MouseEvent): void => {
-    e.preventDefault();
-    this._x2 = e.clientX;
-    this._y2 = e.clientY;
-
-    const {direction} = this.props;
-    const el = nullthrows(this._el);
-    el.classList.remove(direction);
-
-    this._end();
-    this.props.onResizeEnd(this._ww, this._hh);
-  };
-
   _syncSize = (): void => {
     if (!this._active) {
       return;
@@ -197,6 +171,36 @@ class ImageResizeBoxControl extends React.PureComponent<any, any, any> {
     this._rafID && cancelAnimationFrame(this._rafID);
     this._rafID = null;
   }
+
+
+    _onMouseDown = (e: SyntheticMouseEvent): void => {
+      e.preventDefault();
+      e.stopPropagation();
+      this._end();
+      this._start(e);
+    };
+
+    _onMouseMove = (e: MouseEvent): void => {
+      e.preventDefault();
+      e.stopPropagation();
+      this._x2 = e.clientX;
+      this._y2 = e.clientY;
+      this._rafID = requestAnimationFrame(this._syncSize);
+    };
+
+    _onMouseUp = (e: MouseEvent): void => {
+      e.preventDefault();
+      e.stopPropagation();
+      this._x2 = e.clientX;
+      this._y2 = e.clientY;
+
+      const {direction} = this.props;
+      const el = nullthrows(this._el);
+      el.classList.remove(direction);
+
+      this._end();
+      this.props.onResizeEnd(this._ww, this._hh);
+    };
 }
 
 class ImageResizeBox extends React.PureComponent<any, any, any> {
