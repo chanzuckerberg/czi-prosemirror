@@ -24,6 +24,8 @@ class CustomButton extends React.PureComponent<any, any, any> {
     value?: any,
   };
 
+  _clicked = false;
+  _mul = false;
   _pressedTarget = null;
   _unmounted = false;
 
@@ -60,6 +62,10 @@ class CustomButton extends React.PureComponent<any, any, any> {
 
   componentWillUnmount(): void {
     this._unmounted = true;
+    if (this._mul) {
+      this._mul = false;
+      document.removeEventListener('mouseup', this._onMouseUpCapture, true);
+    }
   }
 
   _onMouseEnter = (e: SyntheticEvent): void => {
@@ -73,19 +79,42 @@ class CustomButton extends React.PureComponent<any, any, any> {
     e.preventDefault();
     this.setState({pressed: true});
     this._pressedTarget = e.currentTarget;
+    this._clicked = false;
+
+    if (!this._mul) {
+      document.addEventListener('mouseup', this._onMouseUpCapture, true);
+      this._mul = true;
+    }
   };
 
   _onMouseUp = (e: SyntheticEvent): void => {
     e.preventDefault();
-    if (e.currentTarget === this._pressedTarget || e.type === 'keypress') {
+
+    this.setState({pressed: false});
+
+    if (this._clicked || e.type === 'keypress') {
       const {onClick, value} = this.props;
       onClick && onClick(value, e);
     }
-    if (!this._unmounted) {
-      this.setState({pressed: false});
-    }
+
     this._pressedTarget = null;
+    this._clicked = false;
   };
+
+  _onMouseUpCapture = (e: MouseEvent): void => {
+    if (this._mul) {
+      this._mul = false;
+      document.removeEventListener('mouseup', this._onMouseUpCapture, true);
+    }
+    const target = e.target;
+    this._clicked =
+      this._pressedTarget instanceof HTMLElement &&
+      target instanceof HTMLElement && (
+        target === this._pressedTarget ||
+        target.contains(this._pressedTarget) ||
+        this._pressedTarget.contains(target)
+      );
+  }
 }
 
 export default CustomButton;

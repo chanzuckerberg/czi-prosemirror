@@ -52,7 +52,7 @@ class ImageAlignEditor extends React.PureComponent<any, any, any> {
     });
 
     return (
-      <div className="czi-image-align-editor">
+      <div className="czi-image-align-editor custom-">
         {buttons}
       </div>
     );
