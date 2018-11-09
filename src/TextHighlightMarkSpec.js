@@ -16,7 +16,6 @@ const TextHighlightMarkSpec: MarkSpec = {
     {
       style: 'background-color',
       getAttrs: (backgroundColor) => {
-        console.log(backgroundColor);
         return {
           highlightColor: toHexColor(backgroundColor),
         };

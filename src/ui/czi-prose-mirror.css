@@ -68,7 +68,10 @@
 .ProseMirror li::before {
   content: counter(czi-counter) ".";
   float: left;
-  margin-right: 1em;
+  font-size: 1em;
+  line-height: 1em;
+  margin-left: 8px;
+  margin-right: 8px;
 }
 
 .ProseMirror li::before + p {
@@ -80,6 +83,8 @@
 
 .ProseMirror ul > li::before {
   content: '\2022'; /* square */
+  font-size: 2em;
+  line-height: 0.5em;
 }
 
 .ProseMirror ol[data-level="1"],
