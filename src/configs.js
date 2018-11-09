@@ -5,6 +5,8 @@ import * as NodeNames from './NodeNames';
 import * as ProsemirrorTables from 'prosemirror-tables';
 import BulletListNodeSpec from './BulletListNodeSpec';
 import CodeBlockCommand from './CodeBlockCommand';
+import CursorPlaceholderPlugin from './CursorPlaceholderPlugin';
+import EditorAttributesPlugin from './EditorAttributesPlugin';
 import HeadingCommand from './HeadingCommand';
 import HistoryRedoCommand from './HistoryRedoCommand';
 import HistoryUndoCommand from './HistoryUndoCommand';
@@ -107,6 +109,8 @@ function buildKeymap(schema: Schema): UserKeyMap {
 function buildPlugins(schema: Schema): Array<Plugin> {
 
   const plugins = [
+    new EditorAttributesPlugin(),
+
     buildInputRules(schema),
     dropCursor(),
     gapCursor(),
@@ -120,16 +124,6 @@ function buildPlugins(schema: Schema): Array<Plugin> {
     tableEditing(),
   ];
 
-  plugins.push(
-    new Plugin({
-      props: {
-        attributes: {
-          class: 'prose-mirror-editor',
-          'data-prose-mirror-editor': 'true',
-        },
-      },
-    }),
-  );
   return plugins;
 }
 

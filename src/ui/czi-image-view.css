@@ -9,19 +9,19 @@
 
 .czi-image-view.align-left {
   float: left;
-  margin: 0 50px 50px 0;
+  margin: 0 20px 20px 0;
 }
 
 .czi-image-view.align-right {
   float: right;
-  margin: 0 0 50px 50px;
+  margin: 0 0 20px 20px;
 }
 
 .czi-image-view.align-center {
   clear: both;
   display: block;
   float: none;
-  margin: 50px 0;
+  margin: 20px 0;
 }
 
 .czi-image-view-body {

@@ -22,7 +22,6 @@ import type {ImageAlignEditorValue} from './ImageAlignEditor';
 const EMPTY_SRC = 'data:image/gif;base64,' +
   'R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
 
-
 class ImageViewBody extends React.PureComponent<any, any, any> {
 
   props: NodeViewProps;
