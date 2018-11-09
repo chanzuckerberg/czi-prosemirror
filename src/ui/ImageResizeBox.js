@@ -25,7 +25,7 @@ type State = {
 };
 
 import './czi-prose-mirror.css';
-import './czi-image-view-resize-box.css';
+import './czi-image-resize-box.css';
 
 export const MIN_SIZE = 50;
 export const MAX_SIZE = 10000;
@@ -65,7 +65,7 @@ const ResizeDirection = {
   'top_left': setSize,
 };
 
-class ImageViewResizeBoxControl extends React.PureComponent<any, any, any> {
+class ImageResizeBoxControl extends React.PureComponent<any, any, any> {
   props: {
     boxID: string,
     direction: string,
@@ -94,7 +94,7 @@ class ImageViewResizeBoxControl extends React.PureComponent<any, any, any> {
     const {direction} = this.props;
 
     const className = cx({
-      'czi-image-view-resize-box-control': true,
+      'czi-image-resize-box-control': true,
       [direction]: true,
     });
 
@@ -191,7 +191,7 @@ class ImageViewResizeBoxControl extends React.PureComponent<any, any, any> {
     const el = nullthrows(this._el);
     el.style.width = this._w;
     el.style.height = this._h;
-    el.className = 'czi-image-view-resize-box';
+    el.className = 'czi-image-resize-box';
     this._el = null;
 
     this._rafID && cancelAnimationFrame(this._rafID);
@@ -199,7 +199,7 @@ class ImageViewResizeBoxControl extends React.PureComponent<any, any, any> {
   }
 }
 
-class ImageViewResizeBox extends React.PureComponent<any, any, any> {
+class ImageResizeBox extends React.PureComponent<any, any, any> {
 
   props: Props;
 
@@ -217,7 +217,7 @@ class ImageViewResizeBox extends React.PureComponent<any, any, any> {
 
     const controls = Object.keys(ResizeDirection).map(key => {
       return (
-        <ImageViewResizeBoxControl
+        <ImageResizeBoxControl
           boxID={boxID}
           config={ResizeDirection[key]}
           direction={key}
@@ -230,15 +230,15 @@ class ImageViewResizeBox extends React.PureComponent<any, any, any> {
     });
 
     return (
-      <span id={boxID} className="czi-image-view-resize-box" style={style}>
+      <span id={boxID} className="czi-image-resize-box" style={style}>
         {controls}
         <img
           src={src}
-          className="czi-image-view-resize-box-image"
+          className="czi-image-resize-box-image"
         />
       </span>
     );
   }
 }
 
-export default ImageViewResizeBox;
+export default ImageResizeBox;

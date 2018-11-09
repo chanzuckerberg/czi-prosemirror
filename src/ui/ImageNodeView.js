@@ -1,12 +1,13 @@
 // @flow
 
 import CustomNodeView from './CustomNodeView';
-import ImageViewResizeBox from './ImageViewResizeBox';
+import ImageResizeBox from './ImageResizeBox';
+import ImageAlignEditor from './ImageAlignEditor';
 import React from 'react';
 import cx from 'classnames';
 import resolveImage from './resolveImage';
 import {EditorView} from "prosemirror-view";
-import {MIN_SIZE} from './ImageViewResizeBox';
+import {MIN_SIZE} from './ImageResizeBox';
 import {Node} from 'prosemirror-model';
 import {TextSelection} from 'prosemirror-state';
 
@@ -103,7 +104,7 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
     });
 
     const resizeBox = active ?
-      <ImageViewResizeBox
+      <ImageResizeBox
         height={height}
         onResizeEnd={this._onResizeEnd}
         width={width}
