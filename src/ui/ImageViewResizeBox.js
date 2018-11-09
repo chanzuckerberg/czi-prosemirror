@@ -15,6 +15,7 @@ import type {NodeViewProps} from './CustomNodeView';
 type Props = {
   height: number,
   onResizeEnd: (w: number, height: number) => void,
+  src: string,
   width: number,
 };
 
@@ -31,15 +32,18 @@ export const MAX_SIZE = 10000;
 
 function setWidth(el: HTMLElement, width: number, height: number): void {
   el.style.width = width + 'px';
+  el.style.backgroundSize = `${width}px ${el.style.height}`;
 }
 
 function setHeight(el: HTMLElement, width: number, height: number): void {
   el.style.height = height + 'px';
+  el.style.backgroundSize = `${el.style.height} ${width}px`;
 }
 
 function setSize(el: HTMLElement, width: number, height: number): void {
   el.style.width = width + 'px';
-  el.style.height = width + 'px';
+  el.style.height = height + 'px';
+  el.style.backgroundSize = `${height}px ${width}px`;
 }
 
 const ResizeDirection = {
@@ -87,8 +91,10 @@ class ImageViewResizeBoxControl extends React.PureComponent<any, any, any> {
     });
 
     return (
-      <span className={className} onMouseDown={this._onMouseDown}>
-      </span>
+      <span
+        className={className}
+        onMouseDown={this._onMouseDown}
+      />
     );
   }
 
@@ -185,20 +191,14 @@ class ImageViewResizeBox extends React.PureComponent<any, any, any> {
 
   props: Props;
 
-  state: State = {
-    currentWidth: this.props.width,
-    currentHeight: this.props.height,
-  };
-
   _id = uuid();
 
   render(): React.Element<any> {
-    const {onResizeEnd} = this.props;
-    const {currentWidth, currentHeight} = this.state;
+    const {onResizeEnd, width, height, src} = this.props;
 
     const style = {
-      width: currentWidth + 'px',
-      height: currentHeight + 'px',
+      height: height + 'px',
+      width: width + 'px',
     };
 
     const boxID = this._id;
@@ -209,10 +209,10 @@ class ImageViewResizeBox extends React.PureComponent<any, any, any> {
           boxID={boxID}
           config={ResizeDirection[key]}
           direction={key}
-          height={currentHeight}
+          height={height}
           key={key}
           onResizeEnd={onResizeEnd}
-          width={currentWidth}
+          width={width}
         />
       );
     });
@@ -220,6 +220,10 @@ class ImageViewResizeBox extends React.PureComponent<any, any, any> {
     return (
       <span id={boxID} className="czi-image-view-resize-box" style={style}>
         {controls}
+        <img
+          src={src}
+          className="czi-image-view-resize-box-image"
+        />
       </span>
     );
   }

@@ -1,9 +1,21 @@
 .czi-image-view-resize-box {
-  border: solid 1px var(--czi-selection-highlight-color-dark);
+  background-repeat: no-repeat;
   box-sizing: border-box;
   left: 0;
   position: absolute;
   top: 0;
+  z-index: 1;
+}
+
+.czi-image-view-resize-box-image {
+  background-color: #fff;
+  height: 100%;
+  left: 0;
+  opacity: 0.2;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  width: 100%;
   z-index: 1;
 }
 

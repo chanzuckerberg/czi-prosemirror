@@ -4,6 +4,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {EditorView, Decoration} from "prosemirror-view";
 import {Node} from 'prosemirror-model';
+import {Transform} from 'prosemirror-transform';
 
 export type NodeViewProps = {
   editorView: EditorView,
@@ -85,7 +86,11 @@ class CustomNodeView {
   }
 
   update(node: Node, decorations: Array<Decoration>): boolean {
-    console.log(node, decorations);
+    this.props = {
+      ...this.props,
+      node,
+    };
+    this.__renderReactComponent();
     return true;
   }
 

@@ -5,10 +5,10 @@ import ImageViewResizeBox from './ImageViewResizeBox';
 import React from 'react';
 import cx from 'classnames';
 import resolveImage from './resolveImage';
-import setImageSize from './../setImageSize';
 import {EditorView} from "prosemirror-view";
 import {MIN_SIZE} from './ImageViewResizeBox';
 import {Node} from 'prosemirror-model';
+import {TextSelection} from 'prosemirror-state';
 
 import type {NodeViewProps} from './CustomNodeView';
 
@@ -41,10 +41,32 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
   }
 
   componentDidUpdate(prevProps: NodeViewProps): void {
+    const {resolvedImage} = this.state;
     const prevSrc = prevProps.node.attrs.src;
-    const src =  this.props.node.attrs.src;
+    const {src, width, height} =  this.props.node.attrs;
+
     if (prevSrc !== src) {
+      // A new image is provided, resolve it.
       this._resolveImage();
+      return;
+    }
+
+    if (
+      resolvedImage &&
+      resolvedImage.complete &&
+      resolvedImage.src === src &&
+      (resolvedImage.width !== width || resolvedImage.height !== height) &&
+      width &&
+      height
+    ) {
+      // Image is resized.
+      this.setState({
+        resolvedImage: {
+          ...resolvedImage,
+          width,
+          height,
+        },
+      });
     }
   }
 
@@ -80,11 +102,12 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
       loading,
     });
 
-    const resizeBox = 1 || active ?
+    const resizeBox = active ?
       <ImageViewResizeBox
         height={height}
         onResizeEnd={this._onResizeEnd}
         width={width}
+        src={src}
       /> :
       null;
 
@@ -108,14 +131,13 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
   }
 
   _resolveImage(): void {
-    const src = this.props.node.attrs.src;
-    setTimeout(() => {
-      resolveImage(src).then(resolvedImage => {
-        if (this._mounted && src === this.props.node.attrs.src) {
-          this._mounted && this.setState({resolvedImage});
-        }
-      });
-    }, 150);
+    this.setState({resolveImage: null});
+    const {src} = this.props.node.attrs;
+    resolveImage(src).then(resolvedImage => {
+      if (this._mounted && src === this.props.node.attrs.src) {
+        this._mounted && this.setState({resolvedImage});
+      }
+    });
   }
 
   _onResizeEnd = (width: number, height: number): void => {
@@ -126,8 +148,11 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
       width,
       height,
     };
+
     let tr = editorView.state.tr;
+    const {selection} = editorView.state;
     tr = tr.setNodeMarkup(pos, null, attrs);
+    tr = tr.setSelection(selection);
     editorView.dispatch(tr);
   };
 }

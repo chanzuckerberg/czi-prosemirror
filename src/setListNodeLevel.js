@@ -75,7 +75,6 @@ export default function setListNodeLevel(
     if (tr.selection.to >= itemFromPos && tr.selection.to <= itemToPos) {
       sliceToPos = itemToPos;
     }
-    // console.log(itemFromPos, itemToPos, itemNode.type.name, itemNode);
     itemPos = itemToPos;
   }
 

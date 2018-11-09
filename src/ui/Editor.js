@@ -48,7 +48,11 @@ class Editor extends React.PureComponent<any, any, any> {
         editable: () =>  true,
         nodeViews: {
           image(node, view, getPos) {
-            return new ImageNodeView(node, view, getPos);
+            return new ImageNodeView(
+              node,
+              view,
+              getPos,
+            );
           },
         },
       });
