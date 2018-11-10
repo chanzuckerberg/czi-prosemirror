@@ -12,6 +12,7 @@ import {Schema} from 'prosemirror-model';
 import {TextSelection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
 import {atAnchorRight} from './ui/popUpPosition';
+import {showSelectionPlaceholder, hideSelectionPlaceholder} from './SelectionPlaceholderPlugin';
 
 import type {LinkURLEditorValue} from './ui/LinkURLEditor';
 
@@ -50,9 +51,9 @@ class LinkSetURLCommand extends UICommand {
     if (this._popUp) {
       return Promise.resolve(null);
     }
-    const target = nullthrows(event).currentTarget;
-    if (!(target instanceof HTMLElement)) {
-      return Promise.resolve(null);
+
+    if (dispatch) {
+      dispatch(showSelectionPlaceholder(state));
     }
 
     return new Promise(resolve => {
@@ -76,25 +77,22 @@ class LinkSetURLCommand extends UICommand {
   ): boolean => {
     if (dispatch) {
       let {tr, selection} = state;
+      tr = view ? hideSelectionPlaceholder(view.state) : tr;
+      tr = tr.setSelection(selection);
       if (inputs) {
         const {href} = inputs;
         const markType = this._schema.marks[MARK_LINK];
         const attrs = {href: href || '#'};
-        const tr = applyMark(
-          state.tr.setSelection(state.selection),
+        tr = applyMark(
+          tr.setSelection(state.selection),
           this._schema,
           markType,
           attrs,
         );
-        if (tr.docChanged) {
-          dispatch && dispatch(tr.scrollIntoView());
-          return true;
-        } else {
-          return false;
-        }
       }
+      dispatch(tr.scrollIntoView());
     }
-    return false;
+    return true;
   };
 }
 

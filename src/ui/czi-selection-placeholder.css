@@ -1,0 +1,5 @@
+@import 'czi-prose-mirror.css';
+
+.czi-selection-placeholder {
+  background-color: var(--czi-selection-highlight-color-dark) !important;
+}

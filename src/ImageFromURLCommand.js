@@ -87,7 +87,6 @@ class ImageFromURLCommand extends UICommand {
     return new Promise(resolve => {
       this._popUp = createPopUp(ImageURLEditor, null, {
         modal: true,
-        position: atViewportCenter,
         onClose: (val) => {
           if (this._popUp) {
             this._popUp = null;

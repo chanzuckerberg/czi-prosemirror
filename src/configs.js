@@ -20,6 +20,7 @@ import ListItemNodeSpec from './ListItemNodeSpec';
 import ListSplitCommand from './ListSplitCommand';
 import ListToggleCommand from './ListToggleCommand';
 import OrderedListNodeSpec from './OrderedListNodeSpec';
+import SelectionPlaceholderPlugin from './SelectionPlaceholderPlugin';
 import TableCellColorCommand from './TableCellColorCommand';
 import TableInsertCommand from './TableInsertCommand';
 import TextColorCommand from './TextColorCommand';
@@ -113,6 +114,7 @@ function buildPlugins(schema: Schema): Array<Plugin> {
   const plugins = [
     new EditorAttributesPlugin(),
     new CursorPlaceholderPlugin(),
+    new SelectionPlaceholderPlugin(),
 
     buildInputRules(schema),
     dropCursor(),
