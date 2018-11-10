@@ -76,6 +76,7 @@ export function showCursorPlaceholder(state: EditorState): Transform {
   const pos = findCursorPlaceholderPos(state);
   if (pos === null) {
     if (!tr.selection.empty) {
+      // Replace the selection with a placeholder.
       tr = tr.deleteSelection();
     }
     tr = tr.setMeta(plugin, {
