@@ -1,5 +1,6 @@
 // @flow
 
+import CursorPlaceholderPlugin from './CursorPlaceholderPlugin';
 import ImageURLEditor from './ui/ImageURLEditor';
 import UICommand from './ui/UICommand';
 import createPopUp from './ui/createPopUp';
@@ -11,6 +12,7 @@ import {IMAGE} from './NodeNames';
 import {TextSelection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
 import {atViewportCenter} from './ui/popUpPosition';
+import {showCursorPlaceholder, hideCursorPlaceholder} from './CursorPlaceholderPlugin';
 
 import type {ImageURLEditorValue} from './ui/ImageURLEditor';
 
@@ -70,17 +72,18 @@ class ImageFromURLCommand extends UICommand {
 
   waitForUserInput = (
     state: EditorState,
+    dispatch: ?(tr: Transform) => void,
+    view: ?EditorView,
     event: ?SyntheticEvent,
   ): Promise<any> => {
     if (this._popUp) {
       return Promise.resolve(null);
     }
-    const target = nullthrows(event).currentTarget;
-    if (!(target instanceof HTMLElement)) {
-      return Promise.resolve(null);
+
+    if (dispatch) {
+      dispatch(showCursorPlaceholder(state));
     }
 
-    const anchor = event ? event.currentTarget : null;
     return new Promise(resolve => {
       this._popUp = createPopUp(ImageURLEditor, null, {
         modal: true,
@@ -103,6 +106,7 @@ class ImageFromURLCommand extends UICommand {
   ): boolean => {
     if (dispatch) {
       let {tr, selection} = state;
+      tr = view ? hideCursorPlaceholder(view.state) : tr;
       tr = tr.setSelection(selection);
       if (inputs) {
         const {width, height, src} = inputs;

@@ -38,6 +38,8 @@ class TextColorCommand extends UICommand {
 
   waitForUserInput = (
     state: EditorState,
+    dispatch: ?(tr: Transform) => void,
+    view: ?EditorView,
     event: ?SyntheticEvent,
   ): Promise<any> => {
     if (this._popUp) {

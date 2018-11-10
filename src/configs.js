@@ -27,6 +27,7 @@ import TextHighlightCommand from './TextHighlightCommand';
 import TextHighlightMarkSpec from './TextHighlightMarkSpec';
 import createCommand from './createCommand';
 import {EditorState, Plugin} from 'prosemirror-state';
+import {EditorView} from 'prosemirror-view';
 import {MARK_TEXT_COLOR, MARK_TEXT_HIGHLIGHT} from './MarkNames';
 import {Schema, DOMParser} from 'prosemirror-model';
 import {baseKeymap} from 'prosemirror-commands';
@@ -110,6 +111,7 @@ function buildPlugins(schema: Schema): Array<Plugin> {
 
   const plugins = [
     new EditorAttributesPlugin(),
+    new CursorPlaceholderPlugin(),
 
     buildInputRules(schema),
     dropCursor(),

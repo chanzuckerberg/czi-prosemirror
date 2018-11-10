@@ -45,7 +45,7 @@ class UICommand {
     view: ?EditorView,
     event: ?SyntheticEvent,
   ): boolean => {
-    this.waitForUserInput(state, event).then(inputs => {
+    this.waitForUserInput(state, dispatch, view, event).then(inputs => {
       this.executeWithUserInput(
         state,
         dispatch,
@@ -60,6 +60,8 @@ class UICommand {
 
   waitForUserInput = (
     state: EditorState,
+    dispatch: ?(tr: Transform) => void,
+    view: ?EditorView,
     event: ?SyntheticEvent,
   ): Promise<any> => {
     return Promise.resolve(null);
