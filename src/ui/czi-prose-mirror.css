@@ -17,6 +17,11 @@
   --czi-selection-highlight-color: rgba(152, 204, 253, 0.4);
 }
 
+.selection {
+  background: red;
+}
+
+
 .ProseMirror-focused {
   outline: none;
 }
