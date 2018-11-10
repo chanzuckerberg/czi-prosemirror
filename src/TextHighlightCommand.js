@@ -28,6 +28,11 @@ class TextHighlightCommand extends UICommand {
   }
 
   isEnabled = (state: EditorState): boolean => {
+    if (!(state.selection instanceof TextSelection)) {
+      // Could be a NodeSelection or CellSelection.
+      return false;
+    }
+
     const markType = this._schema.marks[MARK_TEXT_HIGHLIGHT];
     if (!markType) {
       return false;
