@@ -9,9 +9,7 @@ import cx from 'classnames';
 import resolveImage from './resolveImage';
 import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
-import {TABLE_INSERT_TABLE} from '../configs';
 import {Transform} from 'prosemirror-transform';
-import {fromHTMlElement} from './rects';
 
 export type ImageURLEditorValue = {
   height: ?number,

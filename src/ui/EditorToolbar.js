@@ -22,6 +22,7 @@ const {
   HISTORY_UNDO,
   HR,
   IMAGE_FROM_URL,
+  LINK_SET_URL,
   LIST_INDENT_LESS,
   LIST_INDENT_MORE,
   OL,
@@ -60,11 +61,12 @@ const CommandGroups = [
     '||<-': LIST_INDENT_LESS,
   },
   {
-    '<code />': CODE,
-  },
-  {
     'Color': TEXT_COLOR,
     'Highlight': TEXT_HIGHLIGHT,
+  },
+  {
+    'Link': LINK_SET_URL,
+    'Image': IMAGE_FROM_URL,
   },
   {
     'TABLE': [
@@ -100,7 +102,7 @@ const CommandGroups = [
   },
   {
     'HR': HR,
-    'Image': IMAGE_FROM_URL,
+    '<code />': CODE,
   },
   {
     'Undo': HISTORY_UNDO,

@@ -4,7 +4,7 @@ import PopUpManager from './PopUpManager';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import uuid from 'uuid/v1';
-import {atAnchorBottom} from './popUpPosition';
+import {atAnchorBottom, atViewportCenter} from './popUpPosition';
 
 import type {Rect} from './rects';
 import type {PopUpDetails} from './PopUpManager';
@@ -74,7 +74,7 @@ class PopUp extends React.PureComponent {
       body: document.getElementById(this._id),
       close,
       modal: modal === true,
-      position: position || atAnchorBottom,
+      position: position || (modal ? atViewportCenter : atAnchorBottom),
     };
   };
 }
