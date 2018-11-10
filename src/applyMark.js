@@ -28,7 +28,7 @@ export default function applyMark(
   tr: Transform,
   schema: Schema,
   markType: Mark,
-  attrs: Object,
+  attrs?: ?Object,
 ): Transform {
   if (!tr.selection || !tr.doc || !markType) {
     return tr;
@@ -40,7 +40,7 @@ export default function applyMark(
 
   if ($cursor) {
     tr = tr.removeStoredMark(markType);
-    return tr.addStoredMark(markType.create(attrs));
+    return attrs ? tr.addStoredMark(markType.create(attrs)) : tr;
   }
 
   let has = false;
@@ -53,7 +53,9 @@ export default function applyMark(
     if (has) {
       tr = tr.removeMark($from.pos, $to.pos, markType);
     }
-    tr = tr.addMark($from.pos, $to.pos, markType.create(attrs));
+    if (attrs) {
+      tr = tr.addMark($from.pos, $to.pos, markType.create(attrs));
+    }
   }
 
   return tr;

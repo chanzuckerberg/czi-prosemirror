@@ -46,8 +46,7 @@ class LinkURLEditor extends React.PureComponent<any, any, any> {
               onClick={this._cancel}
             />
             <CustomButton
-              active={!!href}
-              disabled={!href}
+              active={true}
               label="Apply"
               onClick={this._apply}
             />

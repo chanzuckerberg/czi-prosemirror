@@ -15,7 +15,7 @@
   position: absolute;
   width: 3px;
   -webkit-animation-name: czi_cursor_blink;
-  -webkit-animation-duration: 0.6s;
+  -webkit-animation-duration: 0.5s;
   -webkit-animation-iteration-count:infinite;
   -webkit-animation-timing-function:ease-in-out;
   -webkit-animation-direction: alternate;

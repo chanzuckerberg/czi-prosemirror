@@ -82,7 +82,7 @@ class LinkSetURLCommand extends UICommand {
       if (inputs) {
         const {href} = inputs;
         const markType = this._schema.marks[MARK_LINK];
-        const attrs = {href: href || '#'};
+        const attrs = href ? {href} : null;
         tr = applyMark(
           tr.setSelection(state.selection),
           this._schema,

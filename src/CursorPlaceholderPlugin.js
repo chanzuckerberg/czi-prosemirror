@@ -6,7 +6,8 @@ import {EditorState, Plugin} from 'prosemirror-state';
 import {EditorView, Decoration, DecorationSet} from "prosemirror-view";
 import {Transform} from 'prosemirror-transform';
 
-const PLACE_HOLDER_ID = {};
+const PLACE_HOLDER_ID = {name: 'CursorPlaceholderPlugin'};
+
 let singletonInstance = null;
 
 // https://prosemirror.net/examples/upload/
@@ -21,40 +22,18 @@ const SPEC = {
       if (!action) {
         return set;
       }
-
-      // const actionx = tr.getMeta(this);
-      // if (actionx && tr && tr.selection && tr.doc) {
-      // return DecorationSet.create(
-      //   tr.doc,
-      //   [Decoration.inline(
-      //     tr.selection.from,
-      //     tr.selection.to + 10,
-      //     {class: 'selection'},
-      //   )],
-      // );
-      // return DecorationSet.create(
-      //      state.doc,
-      //      [Decoration.inline(state.selection.from, state.selection.to + 10, {class: 'selection'})]
-      // );
-      //}
-
-      // Adjust decoration positions to changes made by the transaction
-      // set = set.map(tr.mapping, tr.doc);
-      // See if the transaction adds or removes any placeholders
-
       if (action.add) {
         const widget = document.createElement('czi-cursor-placeholder');
         widget.className = 'czi-cursor-placeholder';
         const deco = Decoration.widget(
           action.add.pos,
           widget, {
-            id: action.add.id,
+            id: PLACE_HOLDER_ID,
           },
         );
         set = set.add(tr.doc, [deco])
       } else if (action.remove) {
-        const finder = spec => spec.id == action.remove.id;
-        const found = set.find(null, null, finder);
+        const found = set.find(null, null, specFinder);
         set = set.remove(found);
       }
 
@@ -63,10 +42,6 @@ const SPEC = {
   },
   props: {
     decorations: (state) => {
-      // return DecorationSet.create(
-      //      state.doc,
-      //      [Decoration.inline(state.selection.from, state.selection.to + 10, {class: 'selection'})]
-      //  );
       const plugin = singletonInstance;
       return plugin ? plugin.getState(state) : null;
     },
@@ -84,12 +59,16 @@ class CursorPlaceholderPlugin extends Plugin {
   };
 }
 
+function specFinder(spec: Object): boolean {
+  return spec.id === PLACE_HOLDER_ID;
+}
+
 function findCursorPlaceholderPos(state: EditorState): ?number {
   if (!singletonInstance) {
     return null;
   }
   const decos = singletonInstance.getState(state);
-  const found = decos.find(null, null, spec => spec.id == PLACE_HOLDER_ID)
+  const found = decos.find(null, null, specFinder);
   const pos = found.length ? found[0].from : null;
   return pos || null;
 }
@@ -109,7 +88,6 @@ export function showCursorPlaceholder(state: EditorState): Transform {
     }
     tr = tr.setMeta(plugin, {
       add: {
-        id: PLACE_HOLDER_ID,
         pos: tr.selection.from
       },
     });
@@ -128,10 +106,7 @@ export function hideCursorPlaceholder(state: EditorState): Transform {
   const pos = findCursorPlaceholderPos(state);
   if (pos !== null) {
     tr = tr.setMeta(plugin, {
-      remove: {
-        id: PLACE_HOLDER_ID,
-        pos,
-      },
+      remove: {},
     });
   }
 

@@ -33,17 +33,13 @@ const SPEC = {
             class: 'czi-selection-placeholder',
           },
           {
-            id: action.add.id,
+            id: PLACE_HOLDER_ID,
           },
         );
         set = set.add(tr.doc, [deco]);
-        console.log('add', set);
       } else if (action.remove) {
-        const finder = spec => spec.id == action.remove.id;
-        const found = set.find(null, null, finder);
-        console.log('remove', set);
+        const found = set.find(null, null, specFinder);
         set = set.remove(found);
-
       }
 
       return set;
@@ -68,15 +64,16 @@ class SelectionPlaceholderPlugin extends Plugin {
   };
 }
 
+function specFinder(spec: Object): boolean {
+  return spec.id == PLACE_HOLDER_ID;
+}
+
 function findCursorPlaceholder(state: EditorState): ?Decoration {
   if (!singletonInstance) {
     return null;
   }
   const decos = singletonInstance.getState(state);
-  const found = decos.find(null, null, spec => {
-    console.log(spec);
-    return spec.id == PLACE_HOLDER_ID;
-  });
+  const found = decos.find(null, null, specFinder);
   const pos = found.length ? found[0] : null;
   return pos || null;
 }
@@ -92,7 +89,6 @@ export function showSelectionPlaceholder(state: EditorState): Transform {
   if (deco === null) {
     tr = tr.setMeta(plugin, {
       add: {
-        id: PLACE_HOLDER_ID,
         from: tr.selection.from,
         to: tr.selection.to,
       },
@@ -106,18 +102,13 @@ export function hideSelectionPlaceholder(state: EditorState): Transform {
   const plugin = singletonInstance;
   let {tr} = state;
   if (!plugin) {
-    debugger;
     return tr;
   }
 
   const deco = findCursorPlaceholder(state);
   if (deco) {
     tr = tr.setMeta(plugin, {
-      remove: {
-        id: PLACE_HOLDER_ID,
-        from: deco.from,
-        to: deco.to,
-      },
+      remove: {},
     });
   }
 
