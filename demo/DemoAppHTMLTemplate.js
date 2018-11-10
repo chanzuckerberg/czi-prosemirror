@@ -45,7 +45,10 @@ class DemoAppHTMLTemplate extends React.PureComponent<any, any, any> {
           <li>
             AAAAA gendos. Nulla essent causae et per, in cibo
             sententiae est. Sit tamquam petentium an. Quo id p ersecuti
-            dissentias, cu sed diam prompta meliore, ne nominavi conv enire
+            dissentias,
+            <a href="http://www.google.com">
+              cu sed diam prompta meliore, ne nominavi conv enire
+            </a>
             principe AAAAA gendos. Nulla essent causae et per, in cibo
             sententiae est. Sit tamquam petentium an. Quo id p ersecuti
             dissentias, cu sed diam prompta meliore, ne nominavi conv enire
