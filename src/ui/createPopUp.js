@@ -38,7 +38,7 @@ function showModalMask(): void {
     root.appendChild(element);
   }
   const style: any = element.style;
-  style.zIndex = (Z_INDEX_BASE + popUpsCount * 2) - 1;
+  style.zIndex = (Z_INDEX_BASE + popUpsCount * 3) - 1;
 }
 
 function hideModalMask(): void {
@@ -63,7 +63,7 @@ function getRootElement(id: string, forceCreation: boolean): ?HTMLElement {
   element.id = id;
 
   const style: any = element.style;
-  style.zIndex = (Z_INDEX_BASE + popUpsCount * 2);
+  style.zIndex = (Z_INDEX_BASE + popUpsCount * 3);
 
   // Populates the default ARIA attributes here.
   // http://accessibility.athena-ict.com/aria/examples/dialog.shtml
@@ -127,7 +127,8 @@ export default function createPopUp(
   viewProps = viewProps || {};
   popUpParams = popUpParams || {};
 
-  const {modal} = popUpParams;
+  const modal = popUpParams.modal || !popUpParams.anchor;
+  popUpParams.modal = modal;
 
   popUpsCount++;
   if (modal) {

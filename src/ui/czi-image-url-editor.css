@@ -9,7 +9,9 @@
 }
 
 .czi-image-url-editor .czi-form {
-  width: 400px;
+  max-width: 90vw;
+  min-width: 40vw;
+  width: 500px;
 }
 
 .czi-image-url-editor-src-input-row {

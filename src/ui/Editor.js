@@ -56,7 +56,6 @@ class Editor extends React.PureComponent<any, any, any> {
           },
         },
       });
-
       onReady && onReady(this._editorView);
     }
   }
@@ -67,6 +66,11 @@ class Editor extends React.PureComponent<any, any, any> {
       const state = this.props.editorState || EDITOR_EMPTY_STATE;
       view.updateState(state);
     }
+  }
+
+  componentWillUnmount(): void {
+    this._editorView && this._editorView.destroy();
+    this._editorView = null;
   }
 
   render(): React.Element<any> {

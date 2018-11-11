@@ -46,7 +46,7 @@ class DemoAppHTMLTemplate extends React.PureComponent<any, any, any> {
             AAAAA gendos. Nulla essent causae et per, in cibo
             sententiae est. Sit tamquam petentium an. Quo id p ersecuti
             dissentias,
-            <a href="http://www.google.com">
+            <a href="https://www.google.com/search?ei=RIboW4yPOOit0gLkkrDACw&q=the+quick+brown+fox+jumped+over+the+lazy+dog+alternatives&oq=quic_fox_jump_over&gs_l=psy-ab.1.0.0i71l8.0.0..5874...0.0..0.0.0.......0......gws-wiz.caqNmxUaqoY">
               cu sed diam prompta meliore, ne nominavi conv enire
             </a>
             principe AAAAA gendos. Nulla essent causae et per, in cibo

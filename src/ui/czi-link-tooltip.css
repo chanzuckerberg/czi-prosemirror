@@ -1,0 +1,44 @@
+@import './czi-custom-button.css';
+@import './czi-prose-mirror.css';
+
+.czi-link-tooltip {
+  display: flex;
+  justify-content: center;
+  left: -150px;
+  position: absolute;
+  top: -70px;
+  width: 400px;
+}
+
+.czi-link-tooltip .czi-custom-button {
+  margin: 0 3px;
+}
+
+.czi-link-tooltip-href {
+  display: inline-block;
+  flex: 1;
+  margin:0 6px 0 0;
+  max-width: 200px;
+  overflow: hidden;
+  padding: 6px 0;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.czi-link-tooltip-row {
+  direction: row;
+  display: flex;
+}
+
+.czi-link-tooltip-body {
+  background: #fff;
+  border-radius: var(--czi-overlay-radius);
+  box-shadow: var(--czi-overlay-shadow);
+  box-sizing: border-box;
+  display: inline-block;
+  font-family: var(--czi-font-family);
+  font-size: var(--czi-font-size);
+  max-width: 400px;
+  padding: 16px;
+}

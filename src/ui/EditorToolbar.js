@@ -139,7 +139,7 @@ class EditorToolbar extends React.PureComponent<any, any, any> {
       }
     }).filter(Boolean);
     return (
-      <div key={'g' + String(index)} className="czi-editor-toolbar-buttons">
+      <div key={'g' + String(index)} className="czi-custom-buttons">
         {buttons}
       </div>
     );

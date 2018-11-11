@@ -15,6 +15,7 @@ import ImageFromURLCommand from './ImageFromURLCommand';
 import ImageNodeSpec from './ImageNodeSpec';
 import Keymap from 'browserkeymap';
 import LinkSetURLCommand from './LinkSetURLCommand';
+import LinkTooltipPlugin from './LinkTooltipPlugin';
 import ListIndentCommand from './ListIndentCommand';
 import ListItemNodeSpec from './ListItemNodeSpec';
 import ListSplitCommand from './ListSplitCommand';
@@ -115,6 +116,7 @@ function buildPlugins(schema: Schema): Array<Plugin> {
     new EditorAttributesPlugin(),
     new CursorPlaceholderPlugin(),
     new SelectionPlaceholderPlugin(),
+    new LinkTooltipPlugin(),
 
     buildInputRules(schema),
     dropCursor(),

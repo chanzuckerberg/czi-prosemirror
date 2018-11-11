@@ -6,12 +6,11 @@
   position: fixed;
   top: 0;
   width: 100vw;
-  z-index: 99998;
+  z-index: 5000;
 }
 
 .czi-pop-up-element {
   background-color: transparent;
   height: auto;
   width: auto;
-  z-index: 99999;
 }

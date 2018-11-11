@@ -1,11 +1,12 @@
 /* <CustomButton /> */
 
-.czi-custom-buttons-group {
+.czi-custom-buttons {
   margin: 0 16px;
   white-space: nowrap;
 }
 
 .czi-custom-button {
+  border-radius: 5px;
   background-clip: padding-box;
   background-color: #fff;
   border: var(--czi-border-grey);
@@ -18,7 +19,7 @@
   padding: 6px 12px;
   position: relative;
   user-select: none;
-  vertical-align: top;
+  vertical-align: middle;
   white-space: nowrap;
 }
 
@@ -45,4 +46,23 @@
   color: #dedede;
   cursor: default;
   pointer-events: none;
+}
+
+.czi-custom-buttons {
+  margin: 0 8px;
+  white-space: nowrap;
+}
+
+.czi-custom-buttons > .czi-custom-button:first-child {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.czi-custom-buttons > .czi-custom-button:last-child {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.czi-custom-buttons + .czi-custom-button {
+  margin-left: 0;
 }

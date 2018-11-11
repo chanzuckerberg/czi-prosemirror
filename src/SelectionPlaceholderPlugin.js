@@ -68,7 +68,7 @@ function specFinder(spec: Object): boolean {
   return spec.id == PLACE_HOLDER_ID;
 }
 
-function findCursorPlaceholder(state: EditorState): ?Decoration {
+function findSelectionPlaceholder(state: EditorState): ?Decoration {
   if (!singletonInstance) {
     return null;
   }
@@ -78,14 +78,18 @@ function findCursorPlaceholder(state: EditorState): ?Decoration {
   return pos || null;
 }
 
-export function showSelectionPlaceholder(state: EditorState): Transform {
+export function showSelectionPlaceholder(
+  state: EditorState,
+  tr: ?Transform,
+): Transform {
+  tr = tr || state.tr;
   const plugin = singletonInstance;
-  let {tr} = state;
+
   if (!plugin || !tr.selection || tr.selection.empty) {
     return tr;
   }
 
-  const deco = findCursorPlaceholder(state);
+  const deco = findSelectionPlaceholder(state);
   if (deco === null) {
     tr = tr.setMeta(plugin, {
       add: {
@@ -98,14 +102,17 @@ export function showSelectionPlaceholder(state: EditorState): Transform {
   return tr;
 }
 
-export function hideSelectionPlaceholder(state: EditorState): Transform {
+export function hideSelectionPlaceholder(
+  state: EditorState,
+  tr: ?Transform,
+): Transform {
+  tr = tr || state.tr;
   const plugin = singletonInstance;
-  let {tr} = state;
   if (!plugin) {
     return tr;
   }
 
-  const deco = findCursorPlaceholder(state);
+  const deco = findSelectionPlaceholder(state);
   if (deco) {
     tr = tr.setMeta(plugin, {
       remove: {},

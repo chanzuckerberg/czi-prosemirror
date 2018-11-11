@@ -11,7 +11,6 @@ import {MARK_LINK} from './MarkNames';
 import {Schema} from 'prosemirror-model';
 import {TextSelection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
-import {atAnchorRight} from './ui/popUpPosition';
 import {showSelectionPlaceholder, hideSelectionPlaceholder} from './SelectionPlaceholderPlugin';
 
 import type {LinkURLEditorValue} from './ui/LinkURLEditor';
