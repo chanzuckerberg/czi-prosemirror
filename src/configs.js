@@ -200,7 +200,7 @@ export const TABLE_CELL_COLOR = new TableCellColorCommand();
 export const TABLE_DELETE_COLUMN = createCommand(deleteColumn);
 export const TABLE_DELETE_ROW = createCommand(deleteRow);
 export const TABLE_DELETE_TABLE = createCommand(deleteTable);
-export const TABLE_INSERT_TABLE = new TableInsertCommand(SCHEMA);
+export const TABLE_INSERT_TABLE = new TableInsertCommand();
 export const TABLE_MERGE_CELLS = createCommand(mergeCells);
 export const TABLE_MOVE_TO_NEXT_CELL = createCommand(goToNextCell(1));
 export const TABLE_MOVE_TO_PREV_CELL = createCommand(goToNextCell(-1));
@@ -208,8 +208,8 @@ export const TABLE_SPLIT_CELL = createCommand(splitCell);
 export const TABLE_TOGGLE_HEADER_CELL = createCommand(toggleHeaderCell);
 export const TABLE_TOGGLE_HEADER_COLUMN = createCommand(toggleHeaderColumn);
 export const TABLE_TOGGLE_HEADER_ROW = createCommand(toggleHeaderRow);
-export const TEXT_COLOR = new TextColorCommand(SCHEMA);
-export const TEXT_HIGHLIGHT = new TextHighlightCommand(SCHEMA);
+export const TEXT_COLOR = new TextColorCommand();
+export const TEXT_HIGHLIGHT = new TextHighlightCommand();
 export const UL = new ListToggleCommand(false);
 
 // Plugin

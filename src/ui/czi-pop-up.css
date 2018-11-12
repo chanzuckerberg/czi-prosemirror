@@ -1,3 +1,5 @@
+@import './czi-prose-mirror.css';
+
 .czi-pop-up-modal-mask,
 .czi-pop-up-element {
   background-color: rgba(0, 0, 0, 0.5);
@@ -13,4 +15,11 @@
   background-color: transparent;
   height: auto;
   width: auto;
+}
+
+.czi-pop-up-element a:link,
+.czi-pop-up-element a:visited,
+.czi-pop-up-element a:hover,
+.czi-pop-up-element a:active {
+  color: var(--czi-link-color);
 }
