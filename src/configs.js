@@ -191,7 +191,7 @@ export const LINK_SET_URL = new LinkSetURLCommand();
 export const LIST_INDENT_LESS = new ListIndentCommand(-1);
 export const LIST_INDENT_MORE = new ListIndentCommand(1);
 export const LIST_SPLIT = new ListSplitCommand();
-export const OL = new ListToggleCommand(SCHEMA, true);
+export const OL = new ListToggleCommand(true);
 export const TABLE_ADD_COLUMN_AFTER = createCommand(addColumnAfter);
 export const TABLE_ADD_COLUMN_BEFORE = createCommand(addColumnBefore);
 export const TABLE_ADD_ROW_AFTER = createCommand(addRowAfter);
@@ -210,7 +210,7 @@ export const TABLE_TOGGLE_HEADER_COLUMN = createCommand(toggleHeaderColumn);
 export const TABLE_TOGGLE_HEADER_ROW = createCommand(toggleHeaderRow);
 export const TEXT_COLOR = new TextColorCommand(SCHEMA);
 export const TEXT_HIGHLIGHT = new TextHighlightCommand(SCHEMA);
-export const UL = new ListToggleCommand(SCHEMA, false);
+export const UL = new ListToggleCommand(false);
 
 // Plugin
 export const PLUGINS = buildPlugins(SCHEMA);

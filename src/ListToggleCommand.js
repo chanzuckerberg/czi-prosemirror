@@ -11,48 +11,24 @@ import {Schema, NodeType} from 'prosemirror-model';
 import {Transform} from 'prosemirror-transform';
 import {findParentNodeOfType} from 'prosemirror-utils';
 
-import type {ExecuteCall, FindNodeTypeInSelectionCall} from './ui/UICommand';
 
 // https://github.com/atlassian/prosemirror-utils/tree/master/src
 // https://bitbucket.org/atlassian/atlaskit/src/34facee3f46197fefa8b8e22e83afd83d4d48f94/packages/editor-core/src/plugins/lists/?at=master
 class ListToggleCommand extends UICommand {
 
-  _findBulletList: FindNodeTypeInSelectionCall;
-  _findOrderedList: FindNodeTypeInSelectionCall;
   _ordered: boolean;
-  _schema: Schema;
-  _nodeType: NodeType;
 
-  constructor(
-    schema: Schema,
-    ordered: boolean,
-  ) {
+  constructor(ordered: boolean,) {
     super();
-
-    const {nodes} = schema;
-
-    const bulletList = nodes[BULLET_LIST];
-    const orderedList = nodes[ORDERED_LIST];
-
     this._ordered = ordered;
-    this._nodeType = ordered ? orderedList : bulletList;
-    this._schema = schema;
-
-    if (bulletList && orderedList) {
-      this._findBulletList = findParentNodeOfType(bulletList);
-      this._findOrderedList = findParentNodeOfType(orderedList);
-    } else {
-      this._findBulletList = noop;
-      this._findOrderedList = noop;
-    }
   }
 
   isActive = (state: EditorState): boolean => {
     const {selection} = state;
     if (this._ordered) {
-      return !!this._findOrderedList(selection);
+      return !!this._findList(state, ORDERED_LIST);
     } else {
-      return !!this._findBulletList(selection);
+      return !!this._findList(state, BULLET_LIST);
     }
   };
 
@@ -61,11 +37,17 @@ class ListToggleCommand extends UICommand {
     dispatch: ?(tr: Transform) => void,
     view: ?EditorView,
   ): boolean => {
-    const {selection} = state;
-    const tr = toggleList(
-      state.tr.setSelection(selection),
-      this._schema,
-      this._nodeType,
+    const {selection, schema} = state;
+    const nodeType = schema.nodes[this._ordered ? ORDERED_LIST : BULLET_LIST];
+    let {tr} = state;
+    if (!nodeType) {
+      return tr;
+    }
+
+    tr = toggleList(
+      tr.setSelection(selection),
+      schema,
+      nodeType,
     );
     if (tr.docChanged) {
       dispatch && dispatch(tr.scrollIntoView());
@@ -74,6 +56,15 @@ class ListToggleCommand extends UICommand {
       return false;
     }
   };
+
+  _findList(state: EditorState, type: string): ?Object {
+    const {nodes} = state.schema;
+    const list = nodes[type];
+    const findList = list ?
+      findParentNodeOfType(list) :
+      noop;
+    return findList(state.selection);
+  }
 }
 
 
