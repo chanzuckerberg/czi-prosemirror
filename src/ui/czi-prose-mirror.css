@@ -5,6 +5,7 @@
   --czi-border-grey: solid 1px #ccc;
   --czi-border-red: solid 1px #ff0000;
   --czi-button-hover-background-color: rgba(0,0,0,.05);
+  --czi-button-radius: 5px;
   --czi-color-grey-200: rgba(0,0,0,0.46);
   --czi-font-family: "Helvetica";
   --czi-font-size-h1: 18px;

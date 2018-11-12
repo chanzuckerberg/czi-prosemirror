@@ -1,4 +1,5 @@
 /* <CustomButton /> */
+@import './czi-prose-mirror.css';
 
 .czi-custom-buttons {
   margin: 0 16px;
@@ -53,16 +54,22 @@
   white-space: nowrap;
 }
 
+.czi-custom-buttons .czi-custom-button {
+  border-radius: 0;
+  margin-left: 0;
+}
+
+.czi-custom-buttons > .czi-custom-button:only-child {
+  border-radius: var(--czi-button-radius);
+}
+
 .czi-custom-buttons > .czi-custom-button:first-child {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
+  border-top-left-radius: var(--czi-button-radius);
+  border-bottom-left-radius: var(--czi-button-radius);
 }
 
 .czi-custom-buttons > .czi-custom-button:last-child {
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-}
-
-.czi-custom-buttons + .czi-custom-button {
-  margin-left: 0;
+  border-radius: 0;
+  border-top-right-radius: var(--czi-button-radius);
+  border-bottom-right-radius: var(--czi-button-radius);
 }
