@@ -34,25 +34,15 @@ function insertHorizontalRule(
 
 class HorizontalRuleCommand extends UICommand {
 
-  _schema: Schema;
-
-  constructor(
-    schema: Schema,
-    level: number,
-  ) {
-    super();
-    this._schema = schema;
-  }
-
   execute = (
     state: EditorState,
     dispatch: ?(tr: Transform) => void,
     view: ?EditorView,
   ): boolean => {
-    const {selection} = state;
+    const {selection, schema} = state;
     const tr = insertHorizontalRule(
       state.tr.setSelection(selection),
-      this._schema,
+      schema,
     );
     if (tr.docChanged) {
       dispatch && dispatch(tr.scrollIntoView());
