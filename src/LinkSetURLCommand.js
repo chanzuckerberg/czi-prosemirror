@@ -4,6 +4,7 @@ import LinkURLEditor from './ui/LinkURLEditor';
 import UICommand from './ui/UICommand';
 import applyMark from './applyMark';
 import createPopUp from './ui/createPopUp';
+import findNodesWithSameMark from './findNodesWithSameMark';
 import nullthrows from 'nullthrows';
 import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
@@ -47,8 +48,17 @@ class LinkSetURLCommand extends UICommand {
       dispatch(showSelectionPlaceholder(state));
     }
 
+    const {doc, schema, selection} = state;
+    const markType = schema.marks[MARK_LINK];
+    if (!markType) {
+      return Promise.resolve(null);
+    }
+    const {from, to} = selection;
+    const result = findNodesWithSameMark(doc, from, to, markType);
+    const initialValue = result ? result.mark.attrs : null;
+    console.log(initialValue);
     return new Promise(resolve => {
-      this._popUp = createPopUp(LinkURLEditor, null, {
+      this._popUp = createPopUp(LinkURLEditor, {initialValue}, {
         modal: true,
         onClose: (val) => {
           if (this._popUp) {
