@@ -16,17 +16,7 @@ import type {TableGridSizeEditorValue} from './ui/TableGridSizeEditor';
 
 class TableInsertCommand extends UICommand {
 
-  _schema: Schema;
   _popUp = null;
-
-
-  constructor(
-    schema: Schema,
-    level: number,
-  ) {
-    super();
-    this._schema = schema;
-  }
 
   shouldRespondToUIEvent = (e: (SyntheticEvent | MouseEvent)): boolean => {
     return e.type === UICommand.EventType.MOUSEENTER;
@@ -77,11 +67,11 @@ class TableInsertCommand extends UICommand {
     inputs: ?TableGridSizeEditorValue,
   ): boolean => {
     if (dispatch) {
-      let {tr, selection} = state;
+      let {tr, selection, schema} = state;
       if (inputs) {
         const {rows, cols} = inputs;
         tr = tr.setSelection(selection);
-        tr = insertTable(tr, this._schema, rows, cols);
+        tr = insertTable(tr, schema, rows, cols);
       }
       dispatch(tr);
     }
