@@ -59,7 +59,6 @@ class LinkTooltipView {
     if (!markType) {
       return;
     }
-    console.log(view.hasFocus());
     const {from, to} = selection;
     const result = findNodesWithSameMark(doc, from, to, markType);
 
@@ -134,8 +133,10 @@ class LinkTooltipView {
     tr = tr.setSelection(linkSelection);
     tr = showSelectionPlaceholder(state, tr);
     view.dispatch(tr);
-
-    this._popUp = createPopUp(LinkURLEditor, result.mark.attrs, {
+    const props = {
+      initialValue: result.mark.attrs,
+    };
+    this._popUp = createPopUp(LinkURLEditor, props, {
       onClose: (value) => {
         this._popUp = null;
         this._onEditEnd(view, selection, value);

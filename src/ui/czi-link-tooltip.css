@@ -5,6 +5,7 @@
   display: flex;
   justify-content: center;
   left: -150px;
+  pointer-events: none;
   position: absolute;
   top: -70px;
   width: 400px;
@@ -41,4 +42,5 @@
   font-size: var(--czi-font-size);
   max-width: 400px;
   padding: 16px;
+  pointer-events: auto;
 }
