@@ -67,7 +67,7 @@ function setCodeBlockNodeEnabled(
     tr = tr.setNodeMarkup(
       pos,
       codeBlock,
-      {codeBlock},
+      {},
       node.marks,
     );
   }

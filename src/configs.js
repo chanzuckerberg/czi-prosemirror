@@ -176,7 +176,7 @@ export const SCHEMA = new Schema({
 
 // Command
 
-export const CODE = new CodeBlockCommand(SCHEMA);
+export const CODE = new CodeBlockCommand();
 export const H1 = new HeadingCommand(SCHEMA, 1);
 export const H2 = new HeadingCommand(SCHEMA, 2);
 export const H3 = new HeadingCommand(SCHEMA, 3);

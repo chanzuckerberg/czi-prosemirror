@@ -22,7 +22,6 @@
   background: red;
 }
 
-
 .ProseMirror-focused {
   outline: none;
 }
@@ -30,6 +29,13 @@
 .ProseMirror {
   font-family: arial;
   font-size: 13px;
+}
+
+.ProseMirror a:link,
+.ProseMirror a:visited,
+.ProseMirror a:hover,
+.ProseMirror a:active {
+  color: rgb(0, 0, 238);
 }
 
 /* List Styles */

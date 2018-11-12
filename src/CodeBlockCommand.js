@@ -17,21 +17,9 @@ import type {ExecuteCall, FindNodeTypeInSelectionCall} from './ui/UICommand';
 class CodeBlockCommand extends UICommand {
 
   _findCodeBlock: FindNodeTypeInSelectionCall;
-  _schema: Schema;
-
-  constructor(
-    schema: Schema,
-    level: number,
-  ) {
-    super();
-
-    const codeBlock = schema.nodes[CODE_BLOCK];
-    this._schema = schema;
-    this._findCodeBlock = codeBlock ? findParentNodeOfType(codeBlock) : noop;
-  }
 
   isActive = (state: EditorState): boolean => {
-    const result = this._findCodeBlock(state.selection);
+    const result = this._findCodeBlock(state);
     return !!(
       result &&
       result.node
@@ -43,10 +31,12 @@ class CodeBlockCommand extends UICommand {
     dispatch: ?(tr: Transform) => void,
     view: ?EditorView,
   ): boolean => {
-    const {selection} = state;
-    const tr = toggleCodeBlock(
-      state.tr.setSelection(selection),
-      this._schema,
+    const {selection, schema} = state;
+    let {tr} = state;
+    tr = tr.setSelection(selection);
+    tr = toggleCodeBlock(
+      tr,
+      schema,
     );
     if (tr.docChanged) {
       dispatch && dispatch(tr.scrollIntoView());
@@ -55,6 +45,12 @@ class CodeBlockCommand extends UICommand {
       return false;
     }
   };
+
+  _findCodeBlock(state: EditorState) {
+    const codeBlock = state.schema.nodes[CODE_BLOCK];
+    const findCodeBlock = codeBlock ? findParentNodeOfType(codeBlock) : noop;
+    return findCodeBlock(state.selection);
+  }
 }
 
 export default CodeBlockCommand;
