@@ -50,16 +50,7 @@ function insertImage(
 
 class ImageFromURLCommand extends UICommand {
 
-  _schema: Schema;
   _popUp = null;
-
-  constructor(
-    schema: Schema,
-    level: number,
-  ) {
-    super();
-    this._schema = schema;
-  }
 
   isEnabled = (state: EditorState): boolean => {
     const tr = state;
@@ -104,12 +95,12 @@ class ImageFromURLCommand extends UICommand {
     inputs: ?ImageURLEditorValue,
   ): boolean => {
     if (dispatch) {
-      let {tr, selection} = state;
+      let {tr, selection, schema} = state;
       tr = view ? hideCursorPlaceholder(view.state) : tr;
       tr = tr.setSelection(selection);
       if (inputs) {
         const {width, height, src} = inputs;
-        tr = insertImage(tr, this._schema, src);
+        tr = insertImage(tr, schema, src);
       }
       dispatch(tr);
       view && view.focus();
