@@ -177,12 +177,12 @@ export const SCHEMA = new Schema({
 // Command
 
 export const CODE = new CodeBlockCommand();
-export const H1 = new HeadingCommand(SCHEMA, 1);
-export const H2 = new HeadingCommand(SCHEMA, 2);
-export const H3 = new HeadingCommand(SCHEMA, 3);
-export const H4 = new HeadingCommand(SCHEMA, 4);
-export const H5 = new HeadingCommand(SCHEMA, 5);
-export const H6 = new HeadingCommand(SCHEMA, 6);
+export const H1 = new HeadingCommand(1);
+export const H2 = new HeadingCommand(2);
+export const H3 = new HeadingCommand(3);
+export const H4 = new HeadingCommand(4);
+export const H5 = new HeadingCommand(5);
+export const H6 = new HeadingCommand(6);
 export const HISTORY_REDO = new HistoryRedoCommand();
 export const HISTORY_UNDO = new HistoryUndoCommand();
 export const HR = new HorizontalRuleCommand(SCHEMA);

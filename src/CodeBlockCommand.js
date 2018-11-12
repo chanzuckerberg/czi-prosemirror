@@ -46,7 +46,7 @@ class CodeBlockCommand extends UICommand {
     }
   };
 
-  _findCodeBlock(state: EditorState) {
+  _findCodeBlock(state: EditorState): ?Object {
     const codeBlock = state.schema.nodes[CODE_BLOCK];
     const findCodeBlock = codeBlock ? findParentNodeOfType(codeBlock) : noop;
     return findCodeBlock(state.selection);

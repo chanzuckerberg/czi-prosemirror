@@ -12,29 +12,19 @@ import {Transform} from 'prosemirror-transform';
 import {findParentNodeOfType} from 'prosemirror-utils';
 import {setBlockType} from 'prosemirror-commands';
 
-import type {ExecuteCall, FindNodeTypeInSelectionCall} from './ui/UICommand';
+import type {ExecuteCall} from './ui/UICommand';
 
 class HeadingCommand extends UICommand {
 
-  _findHeading: FindNodeTypeInSelectionCall;
   _level: number;
-  _schema: Schema;
 
-  constructor(
-    schema: Schema,
-    level: number,
-  ) {
+  constructor(level: number) {
     super();
-
-    const heading = schema.nodes[HEADING];
-
     this._level = level;
-    this._schema = schema;
-    this._findHeading = heading ? findParentNodeOfType(heading) : noop;
   }
 
   isActive = (state: EditorState): boolean => {
-    const result = this._findHeading(state.selection);
+    const result = this._findHeading(state);
     return !!(
       result &&
       result.node &&
@@ -48,10 +38,10 @@ class HeadingCommand extends UICommand {
     dispatch: ?(tr: Transform) => void,
     view: ?EditorView,
   ): boolean => {
-    const {selection} = state;
+    const {schema, selection} = state;
     const tr = toggleHeading(
       state.tr.setSelection(selection),
-      this._schema,
+      schema,
       this._level,
     );
     if (tr.docChanged) {
@@ -61,6 +51,12 @@ class HeadingCommand extends UICommand {
       return false;
     }
   };
+
+  _findHeading(state: EditorState): ?Object {
+    const heading = state.schema.nodes[HEADING];
+    const fn = heading ? findParentNodeOfType(heading) : noop;
+    return fn(state.selection);
+  }
 }
 
 export default HeadingCommand;
