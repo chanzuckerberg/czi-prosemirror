@@ -16,24 +16,17 @@ import {atAnchorRight} from './ui/popUpPosition';
 import type {ColorEditorValue} from './ui/ColorEditor';
 
 class TextColorCommand extends UICommand {
-  _popUp = null;
-  _schema: Schema;
 
-  constructor(
-    schema: Schema,
-    level: number,
-  ) {
-    super();
-    this._schema = schema;
-  }
+  _popUp = null;
 
   isEnabled = (state: EditorState): boolean => {
-    if (!(state.selection instanceof TextSelection)) {
+    const {schema, selection} = state;
+    if (!(selection instanceof TextSelection)) {
       // Could be a NodeSelection or CellSelection.
       return false;
     }
 
-    const markType = this._schema.marks[MARK_TEXT_COLOR];
+    const markType = schema.marks[MARK_TEXT_COLOR];
     if (!markType) {
       return false;
     }
@@ -76,14 +69,14 @@ class TextColorCommand extends UICommand {
     inputs: ?ColorEditorValue,
   ): boolean => {
     if (dispatch) {
-      let {tr, selection} = state;
+      let {tr, selection, schema} = state;
       if (inputs) {
         const {hex} = inputs;
-        const markType = this._schema.marks[MARK_TEXT_COLOR];
+        const markType = schema.marks[MARK_TEXT_COLOR];
         const attrs = {color: hex || ''};
         const tr = applyMark(
           state.tr.setSelection(state.selection),
-          this._schema,
+          schema,
           markType,
           attrs,
         );
