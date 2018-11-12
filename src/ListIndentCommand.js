@@ -11,39 +11,19 @@ import {Schema, NodeType} from 'prosemirror-model';
 import {Transform} from 'prosemirror-transform';
 import {findParentNodeOfType} from 'prosemirror-utils';
 
-import type {ExecuteCall, FindNodeTypeInSelectionCall} from './ui/UICommand';
-
 class ListIndentCommand extends UICommand {
   _delta: number;
-  _schema: Schema;
-  _findBulletList: FindNodeTypeInSelectionCall;
-  _findOrderedList: FindNodeTypeInSelectionCall;
 
-  constructor(
-    schema: Schema,
-    delta: number,
-  ) {
+  constructor(delta: number) {
     super();
-
-    const {nodes} = schema;
-    const bulletList = nodes[BULLET_LIST];
-    const orderedList = nodes[ORDERED_LIST];
-
     this._delta = delta;
-    this._schema = schema;
-    this._findBulletList = bulletList ?
-      findParentNodeOfType(bulletList) :
-      noop;
-    this._findOrderedList = orderedList ?
-      findParentNodeOfType(orderedList) :
-      noop;
   }
 
   isActive = (state: EditorState): boolean => {
     const {selection} = state;
     const found =
-      this._findOrderedList(selection) ||
-      this._findBulletList(selection);
+      this._findList(state, BULLET_LIST) ||
+      this._findList(state, ORDERED_LIST);
     const level = found ? found.node.attrs.level : 0;
     return level > 1;
   };
@@ -53,13 +33,12 @@ class ListIndentCommand extends UICommand {
     dispatch: ?(tr: Transform) => void,
     view: ?EditorView,
   ): boolean => {
-    let {selection, tr} = state;
+    let {selection, tr, schema} = state;
     tr = tr.setSelection(selection);
-
 
     tr = setListNodeLevel(
       tr,
-      this._schema,
+      schema,
       this._delta,
     );
 
@@ -70,6 +49,15 @@ class ListIndentCommand extends UICommand {
       return false;
     }
   };
+
+  _findList(state: EditorState, type: string): ?Object {
+    const {nodes} = state.schema;
+    const list = nodes[type];
+    const findList = list ?
+      findParentNodeOfType(list) :
+      noop;
+    return findList(state.selection);
+  }
 }
 
 export default ListIndentCommand;
