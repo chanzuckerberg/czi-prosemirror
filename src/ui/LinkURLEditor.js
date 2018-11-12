@@ -14,6 +14,8 @@ export type LinkURLEditorValue = {
   href: ?string,
 };
 
+const BAD_CHARACTER_PATTER = /\s/;
+
 class LinkURLEditor extends React.PureComponent<any, any, any> {
 
   props: {
@@ -26,7 +28,18 @@ class LinkURLEditor extends React.PureComponent<any, any, any> {
   };
 
   render(): React.Element<any> {
+    const {initialValue} = this.props;
     const {href} = this.state;
+    const error = BAD_CHARACTER_PATTER.test(href || '');
+
+    let label = 'Apply';
+    let disabled = !!error;
+    if (initialValue && initialValue.href) {
+      label = href ? 'Apply' : 'Remove';
+    } else {
+      disabled = error || !href;
+    }
+
     return (
       <div className="czi-image-url-editor">
         <form className="czi-form">
@@ -36,6 +49,7 @@ class LinkURLEditor extends React.PureComponent<any, any, any> {
               autoFocus={true}
               onChange={this._onHrefChange}
               placeholder="Paste a URL"
+              spellCheck={false}
               type="text"
               value={href || ''}
             />
@@ -47,7 +61,8 @@ class LinkURLEditor extends React.PureComponent<any, any, any> {
             />
             <CustomButton
               active={true}
-              label="Apply"
+              disabled={disabled}
+              label={label}
               onClick={this._apply}
             />
           </div>
