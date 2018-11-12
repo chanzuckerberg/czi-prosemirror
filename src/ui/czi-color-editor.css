@@ -39,3 +39,7 @@
   margin: 8px 0;
   width: 200px;
 }
+
+.czi-color-editor-section .czi-color-editor-cell {
+  border-radius: 0;
+}

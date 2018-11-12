@@ -22,7 +22,7 @@ export type PopUpBridge = {
   getDetails: () => PopUpDetails,
 };
 
-const CLICK_INTERVAL = 800;
+const CLICK_INTERVAL = 350;
 const DUMMY_RECT = {x: -10000, y: -10000, w: 0, h: 0};
 
 class PopUpManager {
@@ -87,7 +87,7 @@ class PopUpManager {
       return;
     }
     const {body, close} = detailsWithModalToDismiss;
-    const pointer = fromXY(e.clientX, e.clientY, 20);
+    const pointer = fromXY(e.clientX, e.clientY, 1);
     const bodyRect = body ? fromHTMlElement(body) : null;
     if (!bodyRect || !isIntersected(pointer, bodyRect)) {
       close();

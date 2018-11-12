@@ -59,10 +59,6 @@
   margin-left: 0;
 }
 
-.czi-custom-buttons > .czi-custom-button:only-child {
-  border-radius: var(--czi-button-radius);
-}
-
 .czi-custom-buttons > .czi-custom-button:first-child {
   border-top-left-radius: var(--czi-button-radius);
   border-bottom-left-radius: var(--czi-button-radius);
@@ -72,4 +68,8 @@
   border-radius: 0;
   border-top-right-radius: var(--czi-button-radius);
   border-bottom-right-radius: var(--czi-button-radius);
+}
+
+.czi-custom-buttons > .czi-custom-button:only-child {
+  border-radius: var(--czi-button-radius);
 }
