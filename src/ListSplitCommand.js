@@ -8,11 +8,9 @@ import {Schema, NodeType} from 'prosemirror-model';
 import {Transform} from 'prosemirror-transform';
 
 class ListSplitCommand extends UICommand {
-  _schema: Schema;
 
   constructor(schema: Schema) {
     super();
-    this._schema = schema;
   }
 
   execute = (
@@ -20,8 +18,8 @@ class ListSplitCommand extends UICommand {
     dispatch: ?(tr: Transform) => void,
     view: ?EditorView,
   ): boolean => {
-    const {selection,} = state;
-    const tr = splitListItem(state.tr.setSelection(selection), this._schema);
+    const {selection, schema} = state;
+    const tr = splitListItem(state.tr.setSelection(selection), schema);
     if (tr.docChanged) {
       dispatch && dispatch(tr.scrollIntoView());
       return true;
