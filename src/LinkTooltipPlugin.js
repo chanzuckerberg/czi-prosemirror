@@ -59,6 +59,7 @@ class LinkTooltipView {
     if (!markType) {
       return;
     }
+    console.log(view.hasFocus());
     const {from, to} = selection;
     const result = findNodesWithSameMark(doc, from, to, markType);
 

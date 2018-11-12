@@ -77,6 +77,10 @@ class Editor extends React.PureComponent<any, any, any> {
     return <div id={this._id} className="prosemirror-editor-wrapper" />;
   }
 
+  focus(): void {
+    this._editorView && this._editorView.focus();
+  }
+
   _dispatchTransaction = (transaction: Transform): void => {
     const {onChange, editorState} = this.props;
     const nextState = (editorState || EDITOR_EMPTY_STATE).apply(transaction);
