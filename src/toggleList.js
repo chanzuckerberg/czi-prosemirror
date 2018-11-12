@@ -151,6 +151,7 @@ export function unwrapNodesFromList(
     selTo -= listNode.childCount + 2;
   } else if (aa && !bb) {
     selFrom -= 2;
+    selTo -= 2;
   } else if (!aa && bb) {
     selTo -= listNode.childCount;
   }
@@ -204,8 +205,8 @@ function wrapNodeWithList(
 
   const selection = TextSelection.create(
     tr.doc,
-    initialSelection.from,
-    initialSelection.to,
+    initialSelection.from + 2,
+    initialSelection.to + 2,
   );
 
   tr = tr.setSelection(selection);
@@ -226,7 +227,7 @@ function setBlockListNodeType(
     return tr;
   }
   if (isListNode(blockNode)) {
-    if (listNodeType) {
+    if (listNodeType && blockNode.type !== listNodeType) {
       tr = tr.setNodeMarkup(
         pos,
         listNodeType,
