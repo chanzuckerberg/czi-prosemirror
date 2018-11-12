@@ -16,16 +16,8 @@ import {showSelectionPlaceholder, hideSelectionPlaceholder} from './SelectionPla
 import type {LinkURLEditorValue} from './ui/LinkURLEditor';
 
 class LinkSetURLCommand extends UICommand {
-  _popUp = null;
-  _schema: Schema;
 
-  constructor(
-    schema: Schema,
-    level: number,
-  ) {
-    super();
-    this._schema = schema;
-  }
+  _popUp = null;
 
   isEnabled = (state: EditorState): boolean => {
     if (!(state.selection instanceof TextSelection)) {
@@ -33,7 +25,7 @@ class LinkSetURLCommand extends UICommand {
       return false;
     }
 
-    const markType = this._schema.marks[MARK_LINK];
+    const markType = state.schema.marks[MARK_LINK];
     if (!markType) {
       return false;
     }
@@ -75,16 +67,16 @@ class LinkSetURLCommand extends UICommand {
     inputs: ?LinkURLEditorValue,
   ): boolean => {
     if (dispatch) {
-      let {tr, selection} = state;
+      let {tr, selection, schema} = state;
       tr = view ? hideSelectionPlaceholder(view.state) : tr;
       tr = tr.setSelection(selection);
       if (inputs) {
         const {href} = inputs;
-        const markType = this._schema.marks[MARK_LINK];
+        const markType = schema.marks[MARK_LINK];
         const attrs = href ? {href} : null;
         tr = applyMark(
           tr.setSelection(state.selection),
-          this._schema,
+          schema,
           markType,
           attrs,
         );
