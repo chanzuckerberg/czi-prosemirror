@@ -28,13 +28,14 @@ class LinkTooltip extends React.PureComponent<any, any, any> {
       <div className="czi-link-tooltip">
         <div className="czi-link-tooltip-body">
           <div className="czi-link-tooltip-row">
-            <a
+            <CustomButton
               className="czi-link-tooltip-href"
-              href={href}
+              value={href}
               target="new"
-              title={href}>
-              {href}
-            </a>
+              label={href}
+              title={href}
+              onClick={this._openLink}
+            />
             <CustomButton
               label="Change"
               value={editorView}
@@ -50,6 +51,10 @@ class LinkTooltip extends React.PureComponent<any, any, any> {
       </div>
     );
   }
+
+  _openLink = (href: string): void => {
+    window.open(href);
+  };
 }
 
 export default LinkTooltip;
