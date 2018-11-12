@@ -18,15 +18,6 @@ const setCellBackgroundBlack = setCellAttr('background', '#000000');
 
 class TableCellColorCommand extends UICommand {
   _popUp = null;
-  _schema: Schema;
-
-  constructor(
-    schema: Schema,
-    level: number,
-  ) {
-    super();
-    this._schema = schema;
-  }
 
   shouldRespondToUIEvent = (e: (SyntheticEvent | MouseEvent)): boolean => {
     return e.type === UICommand.EventType.MOUSEENTER;
