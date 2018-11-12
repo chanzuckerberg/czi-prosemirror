@@ -77,6 +77,15 @@ class CustomButton extends React.PureComponent<any, any, any> {
 
   _onMouseDown = (e: SyntheticEvent): void => {
     e.preventDefault();
+
+    this._pressedTarget = null;
+    this._clicked = false;
+
+    if (e.which === 3 || e.button == 2) {
+      // right click.
+      return;
+    }
+
     this.setState({pressed: true});
     this._pressedTarget = e.currentTarget;
     this._clicked = false;

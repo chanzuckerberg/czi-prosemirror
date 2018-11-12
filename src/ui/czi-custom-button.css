@@ -7,9 +7,9 @@
 }
 
 .czi-custom-button {
-  border-radius: 5px;
   background-clip: padding-box;
   background-color: #fff;
+  border-radius: 5px;
   border: var(--czi-border-grey);
   box-sizing: border-box;
   color: #666;
