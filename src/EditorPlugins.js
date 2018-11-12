@@ -33,7 +33,6 @@ function buildPlugins(schema: Schema): Array<Plugin> {
     new SelectionPlaceholderPlugin(),
     new LinkTooltipPlugin(),
 
-
     buildInputRules(schema),
     dropCursor(),
     gapCursor(),

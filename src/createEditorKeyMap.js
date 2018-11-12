@@ -2,6 +2,7 @@
 
 import * as EditorCommand from './EditorCommand';
 import * as KeyMaps from './keymaps';
+import UICommand from './ui/UICommand';
 import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
 import {Transform} from 'prosemirror-transform';
@@ -12,20 +13,18 @@ type UserKeyCommand = (
   state: EditorState,
   dispatch: ?(tr: Transform) => void,
   view: ?EditorView,
-) => void;
+) => boolean;
 
 type UserKeyMap = {
   [key: string]: UserKeyCommand,
 };
 
 const {
-  KEY_INDENT_LIST_ITEM_LESS,
-  KEY_INDENT_LIST_ITEM_MORE,
-  KEY_TABLE_MOVE_TO_NEXT_CELL,
-  KEY_TABLE_MOVE_TO_PREV_CELL,
   KEY_REDO,
   KEY_SPLIT_LIST_ITEM,
   KEY_UNDO,
+  KEY_TAB,
+  KEY_TAB_SHIFT,
 } = KeyMaps;
 
 const {
@@ -38,14 +37,33 @@ const {
   TABLE_MOVE_TO_PREV_CELL,
 } = EditorCommand;
 
+function bindCommands(...commands: Array<UICommand>): UserKeyCommand {
+  return function(
+    state: EditorState,
+    dispatch: ?(tr: Transform) => void,
+    view: ?EditorView,
+  ): boolean {
+    return commands.some(cmd => {
+      if (cmd.isEnabled(state)) {
+        cmd.execute(state, dispatch, view);
+        return true;
+      }
+    });
+  }
+}
+
 export default function createEditorKeyMap(): UserKeyMap {
   const result = {};
-  result[KEY_INDENT_LIST_ITEM_LESS.common] = LIST_INDENT_LESS.execute;
-  result[KEY_INDENT_LIST_ITEM_MORE.common] = LIST_INDENT_MORE.execute;
   result[KEY_REDO.common] = HISTORY_REDO.execute;
-  // result[KEY_SPLIT_LIST_ITEM.common] = LIST_SPLIT.execute;
+  result[KEY_SPLIT_LIST_ITEM.common] = LIST_SPLIT.execute;
+  result[KEY_TAB.common] = bindCommands(
+    TABLE_MOVE_TO_NEXT_CELL,
+    LIST_INDENT_MORE,
+  );
+  result[KEY_TAB_SHIFT.common] = bindCommands(
+    TABLE_MOVE_TO_PREV_CELL,
+    LIST_INDENT_LESS,
+  );
   result[KEY_UNDO.common] = HISTORY_UNDO.execute;
-  result[KEY_TABLE_MOVE_TO_PREV_CELL.common] = TABLE_MOVE_TO_PREV_CELL.execute;
-  result[KEY_TABLE_MOVE_TO_NEXT_CELL.common] = TABLE_MOVE_TO_NEXT_CELL.execute;
   return result;
 }

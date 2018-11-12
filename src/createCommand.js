@@ -13,18 +13,22 @@ type ExecuteCall = (
 
 export default function createCommand(execute: ExecuteCall): UICommand {
   class CustomCommand extends UICommand {
+    isEnabled = (state: EditorState): boolean => {
+      return this.execute(state);
+    };
+
     execute = (
       state: EditorState,
       dispatch: ?(tr: Transform) => void,
       view: ?EditorView,
     ): boolean => {
       let tr = state.tr;
-      const passed = execute(state, (nextTr) => {
-        tr = nextTr;
-        dispatch && dispatch(nextTr);
-        return tr.docChanged;
+      let endTr = tr;
+      execute(state, (nextTr) => {
+        endTr = nextTr;
+        dispatch && dispatch(endTr);
       }, view);
-      return passed && tr.docChanged;
+      return endTr.docChanged || (tr !== endTr);
     };
   }
   return new CustomCommand();
