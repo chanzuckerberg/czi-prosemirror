@@ -1,16 +1,13 @@
 // @flow
 
-import {EditorState} from 'prosemirror-state';
+import EditorPlugins from './EditorPlugins';
+import EditorSchema from './EditorSchema';
 import {DOMParser} from 'prosemirror-model';
-
-import {
-  PLUGINS,
-  SCHEMA,
-} from '../src/configs';
+import {EditorState} from 'prosemirror-state';
 
 export default function convertFromDOMelement(el: HTMLElement): EditorState {
   return EditorState.create({
-    doc: DOMParser.fromSchema(SCHEMA).parse(el),
-    plugins: PLUGINS,
+    doc: DOMParser.fromSchema(EditorSchema).parse(el),
+    plugins: EditorPlugins,
   });
 }

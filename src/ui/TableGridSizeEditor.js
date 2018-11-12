@@ -1,16 +1,15 @@
 // @flow
 
+import './czi-table-grid-size-editor.css';
 import CustomButton from './CustomButton';
 import React from 'react';
 import clamp from './clamp';
 import cx from 'classnames';
 import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
-import {TABLE_INSERT_TABLE} from '../configs';
+import {TABLE_INSERT_TABLE} from '../EditorCommand';
 import {Transform} from 'prosemirror-transform';
 import {fromHTMlElement} from './rects';
-
-import './czi-table-grid-size-editor.css';
 
 export type TableGridSizeEditorValue = {
   cols: number,

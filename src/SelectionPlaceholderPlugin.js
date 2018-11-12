@@ -56,10 +56,10 @@ const SPEC = {
 class SelectionPlaceholderPlugin extends Plugin {
 
   constructor() {
+    super(SPEC);
     if (singletonInstance) {
       return singletonInstance;
     }
-    super(SPEC);
     singletonInstance = this;
   };
 }

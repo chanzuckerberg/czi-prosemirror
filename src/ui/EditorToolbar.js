@@ -1,19 +1,20 @@
 // @flow
 
-import * as Configs from '../configs';
+import './czi-editor-toolbar.css';
+import * as EditorCommand from '../EditorCommand';
 import CommandButton from './CommandButton';
 import CommandMenuButton from './CommandMenuButton';
 import React from 'react';
 import UICommand from './UICommand';
+import createEmptyEditorState from '../createEmptyEditorState';
 import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
 import {Transform} from 'prosemirror-transform';
 
-import './czi-editor-toolbar.css';
+const EDITOR_EMPTY_STATE = createEmptyEditorState();
 
 const {
   CODE,
-  EDITOR_EMPTY_STATE,
   H1,
   H2,
   H3,
@@ -45,7 +46,7 @@ const {
   TEXT_COLOR,
   TEXT_HIGHLIGHT,
   UL,
-} = Configs;
+} = EditorCommand;
 
 const CommandGroups = [
   {

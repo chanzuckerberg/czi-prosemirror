@@ -1,27 +1,21 @@
 // @flow
 
+import './czi-editor.css';
 import 'prosemirror-gapcursor/style/gapcursor.css';
 import 'prosemirror-view/style/prosemirror.css';
-import './czi-editor.css';
-
 import ImageNodeView from './ImageNodeView';
 import React from 'react';
 import applyDevTools from 'prosemirror-dev-tools';
+import createEmptyEditorState from '../createEmptyEditorState';
 import uuid from 'uuid/v1';
 import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
 import {Transform} from 'prosemirror-transform';
 
-import {
-  EDITOR_EMPTY_STATE,
-  PLUGINS,
-  SCHEMA,
-} from '../configs';
-
-
 // import 'prosemirror-menu/style/menu.css';
 // import 'prosemirror-example-setup/style/style.css';
 
+const EDITOR_EMPTY_STATE = createEmptyEditorState();
 
 class Editor extends React.PureComponent<any, any, any> {
 

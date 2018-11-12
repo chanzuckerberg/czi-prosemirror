@@ -51,10 +51,10 @@ const SPEC = {
 class CursorPlaceholderPlugin extends Plugin {
 
   constructor() {
+    super(SPEC);
     if (singletonInstance) {
       return singletonInstance;
     }
-    super(SPEC);
     singletonInstance = this;
   };
 }
