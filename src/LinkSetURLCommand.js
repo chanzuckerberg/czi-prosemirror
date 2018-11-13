@@ -93,6 +93,7 @@ class LinkSetURLCommand extends UICommand {
       }
       dispatch(tr.scrollIntoView());
     }
+    view && view.focus();
     return true;
   };
 }
