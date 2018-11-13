@@ -1,6 +1,6 @@
 // @flow
 
-import * as EditorCommand from './EditorCommand';
+import * as EditorCommands from './EditorCommands';
 import * as KeyMaps from './keymaps';
 import UICommand from './ui/UICommand';
 import {EditorState} from 'prosemirror-state';
@@ -35,7 +35,7 @@ const {
   LIST_SPLIT,
   TABLE_MOVE_TO_NEXT_CELL,
   TABLE_MOVE_TO_PREV_CELL,
-} = EditorCommand;
+} = EditorCommands;
 
 function bindCommands(...commands: Array<UICommand>): UserKeyCommand {
   return function(

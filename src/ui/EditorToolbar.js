@@ -1,7 +1,7 @@
 // @flow
 
 import './czi-editor-toolbar.css';
-import * as EditorCommand from '../EditorCommand';
+import * as EditorCommands from '../EditorCommands';
 import CommandButton from './CommandButton';
 import CommandMenuButton from './CommandMenuButton';
 import React from 'react';
@@ -46,7 +46,7 @@ const {
   TEXT_COLOR,
   TEXT_HIGHLIGHT,
   UL,
-} = EditorCommand;
+} = EditorCommands;
 
 const CommandGroups = [
   {

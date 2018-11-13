@@ -7,7 +7,7 @@ import clamp from './clamp';
 import cx from 'classnames';
 import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
-import {TABLE_INSERT_TABLE} from '../EditorCommand';
+import {TABLE_INSERT_TABLE} from '../EditorCommands';
 import {Transform} from 'prosemirror-transform';
 import {fromHTMlElement} from './rects';
 

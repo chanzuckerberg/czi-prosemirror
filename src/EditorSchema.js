@@ -1,14 +1,12 @@
+// @flow
 
-import * as MarkNames from './MarkNames';
 import * as NodeNames from './NodeNames';
 import * as ProsemirrorTables from 'prosemirror-tables';
 import BulletListNodeSpec from './BulletListNodeSpec';
+import EditorMarks from './EditorMarks';
 import ImageNodeSpec from './ImageNodeSpec';
 import ListItemNodeSpec from './ListItemNodeSpec';
 import OrderedListNodeSpec from './OrderedListNodeSpec';
-import TextColorMarkSpec from './TextColorMarkSpec';
-import TextHighlightMarkSpec from './TextHighlightMarkSpec';
-import TextSelectionMarkSpec from './TextSelectionMarkSpec';
 import {Schema} from 'prosemirror-model';
 import {schema} from 'prosemirror-schema-basic';
 
@@ -24,12 +22,6 @@ const {
   ORDERED_LIST,
   PARAGRAPH,
 } = NodeNames;
-
-const {
-  MARK_TEXT_COLOR,
-  MARK_TEXT_HIGHLIGHT,
-  MARK_TEXT_SELECTION,
-} = MarkNames;
 
 const nodes = schema.spec.nodes
   .update(IMAGE, ImageNodeSpec)
@@ -58,15 +50,9 @@ const nodes = schema.spec.nodes
     },
   }));
 
-const marks = schema.spec.marks.append({
-  [MARK_TEXT_COLOR]: TextColorMarkSpec,
-  [MARK_TEXT_HIGHLIGHT]: TextHighlightMarkSpec,
-  [MARK_TEXT_SELECTION]: TextSelectionMarkSpec,
-});
-
 const EditorSchema = new Schema({
   nodes,
-  marks,
+  marks: EditorMarks,
 });
 
 export default EditorSchema;

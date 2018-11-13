@@ -1,5 +1,5 @@
 // @flow
-import * as EditorCommand from './EditorCommand';
+import * as EditorCommands from './EditorCommands';
 import * as KeyMaps from './keymaps';
 import * as ProsemirrorTables from 'prosemirror-tables';
 import CursorPlaceholderPlugin from './CursorPlaceholderPlugin';
