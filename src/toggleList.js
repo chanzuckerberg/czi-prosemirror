@@ -1,6 +1,4 @@
 // @flow
-// https://bitbucket.org/atlassian/atlaskit/src/98fad88c63576f0464984d21057ac146d4ca131a/packages/editor-core/src/plugins/lists/index.ts?at=ED-870-list-plugin&fileviewer=file-view-default
-// https://bitbucket.org/atlassian/atlaskit/src/98fad88c63576f0464984d21057ac146d4ca131a/packages/editor-core/src/commands/index.ts?at=ED-870-list-plugin&fileviewer=file-view-default
 
 import isListNode from './isListNode';
 import joinListNode from './joinListNode';
@@ -12,6 +10,8 @@ import {Selection} from 'prosemirror-state';
 import {TextSelection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
 import {setBlockType} from 'prosemirror-commands';
+import applyMark from './applyMark';
+import {MARK_TEXT_SELECTION} from './MarkNames';
 
 export default function toggleList(
   tr: Transform,
@@ -57,8 +57,9 @@ export function unwrapNodesFromList(
   const {nodes} = schema;
   const paragraph = nodes[PARAGRAPH];
   const listItem= nodes[LIST_ITEM];
+  const markType = schema.marks[MARK_TEXT_SELECTION];
 
-  if (!listItem|| !paragraph) {
+  if (!listItem|| !paragraph || !markType) {
     return tr;
   }
 
@@ -68,10 +69,31 @@ export function unwrapNodesFromList(
   }
 
   const initialSelection = tr.selection;
+  const {from, to} = initialSelection;
+
+  if (from === to && from < 1) {
+    return tr;
+  }
   const contentBlocksBefore = [];
   const contentBlocksSelected = [];
   const contentBlocksAfter = [];
-  const {from, to} = tr.selection;
+
+  // Mark current selection so that we could resume the selection later
+  // after changing the whole list.
+  let selectionExpanded = false;
+  if (from === to) {
+    // Selection is collapsed, create a temnporary selection that the marks can
+    // be applied to.
+    const selection = TextSelection.create(
+      tr.doc,
+      from - 1,
+      to,
+    );
+    tr = tr.setSelection(selection);
+    selectionExpanded = true;
+  }
+
+  tr = applyMark(tr, schema, markType, {});
   tr.doc.nodesBetween(listNodePos, listNodePos + listNode.nodeSize, (
     node,
     pos,
@@ -141,28 +163,30 @@ export function unwrapNodesFromList(
     tr = tr.insert(listNodePos, frag);
   }
 
-  let selFrom = initialSelection.from;
-  let selTo = initialSelection.to;
-
-  const bb = !!contentBlocksBefore.length;
-  const aa = !!contentBlocksAfter.length;
-  if (!aa && !bb) {
-    selFrom -= 2;
-    selTo -= listNode.childCount + 2;
-  } else if (aa && !bb) {
-    selFrom -= 2;
-    selTo -= 2;
-  } else if (!aa && bb) {
-    selTo -= listNode.childCount;
-  }
-
-  const selection = TextSelection.create(
-    tr.doc,
-    selFrom,
-    selTo,
+  const markFinder = mark => mark.type === markType;
+  let markFrom = null;
+  let markTo = null;
+  tr.doc.nodesBetween(
+    Math.max(1, from - 4),
+    Math.min(to + 4, tr.doc.nodeSize - 2),
+    (node, pos) => {
+      if (node.marks && node.marks.find(markFinder)) {
+        markFrom = markFrom || pos;
+        markTo = pos + node.nodeSize;
+      }
+      return true;
+    },
   );
 
-  tr = tr.setSelection(selection);
+  if (markFrom !== null && markTo !== null) {
+    tr = tr.removeMark(markFrom, markTo, markType);
+    const selection = TextSelection.create(
+      tr.doc,
+      markFrom + (selectionExpanded ? 1 : 0),
+      markTo,
+    );
+    tr = tr.setSelection(selection);
+  }
 
   return tr;
 }

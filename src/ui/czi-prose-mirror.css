@@ -20,7 +20,7 @@
   --czi-selection-highlight-color: rgba(152, 204, 253, 0.4);
 }
 
-.selection {
+.debug-mark-text-selection {
   background: red;
 }
 

@@ -12,7 +12,7 @@ declare module 'prosemirror' {
   };
 
   declare type MarkSpec = {
-    attrs: {[key: string]: any},
+    attrs?: ?{[key: string]: any},
     parseDOM: Array<any>,
     toDOM: (node: any) => Array<any>,
   };
