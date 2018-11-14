@@ -4,7 +4,6 @@ import applyMark from './applyMark';
 import isListNode from './isListNode';
 import joinListNode from './joinListNode';
 import nullthrows from 'nullthrows';
-import updateNodesInSelection from './updateNodesInSelection';
 import {Fragment, Schema, Node, NodeType, ResolvedPos} from 'prosemirror-model';
 import {MARK_TEXT_SELECTION} from './MarkNames';
 import {PARAGRAPH, LIST_ITEM, ORDERED_LIST, BULLET_LIST, TABLE, HEADING} from './NodeNames';
@@ -33,6 +32,7 @@ export default function toggleList(
     from,
     from,
   );
+
   const result = findParentNodeOfType(listNodeType)(fromSelection);
   if (result) {
     tr = unwrapNodesFromList(tr, schema, result.pos);
@@ -84,10 +84,6 @@ function wrapNodesWithListInternal(
   const paragraph = schema.nodes[PARAGRAPH];
   const heading = schema.nodes[HEADING];
 
-  // const heading = schema.nodes[HEADING];
-  const pNodes = [];
-  const nodePos = new Map();
-  const prevSiblings = new Map();
   let items = null;
   const lists = [];
   doc.nodesBetween(from, to, (node, pos) => {
@@ -102,95 +98,126 @@ function wrapNodesWithListInternal(
       return false;
     }
 
-
     if (/table/.test(nodeName)){
       items && lists.push(items);
       items = null;
       return true;
     }
 
-    if (nodeType === heading) {
-      tr = tr.setNodeMarkup(pos, paragraph, node.attrs, node.marks);
-      items = items || [];
-      items.push({node, pos});
-    } else if (nodeType === paragraph) {
-      items = items || [];
-      items.push({node, pos});
+    if (nodeType === heading || nodeType === paragraph) {
+      items = items || new Map();
+      items.set(node, pos);
     } else {
       items && lists.push(items);
       items = null;
     }
-
-    // if (node.type !== paragraph) {
-    //   tr = tr.setNodeMarkup(pos, paragraph, node.attrs, node.marks);
-    // }
-    // const attrs = {
-    //   ...node.attrs,
-    //   __id: 123,
-    // };
-    // tr = tr.setNodeMarkup(pos, paragraph, node.attrs, node.marks);
-    // group = group || [];
-    // group.push({node, pos});
-
-    // if (nodeType === LIST_ITEM) {
-    //   return false;
-    // } else if (nodeType !== PARAGRAPH) {
-    //   const paragraphNode = paragraph.create(node.attrs, node.content, node.marks);
-    //   const listItemNode = listItem.create({}, Fragment.from(paragraphNode));
-    //   tr = tr.setNodeMarkup(pos, LIST_ITEM, listItemNode.attrs, listItemNode.marks);
-    // } else if (nodeType === PARAGRAPH) {
-    //   const paragraphSlice = tr.doc.slice(pos, pos + node.nodeSize);
-    //   const listItemNode = listItem.create({}, Fragment.from(paragraphSlice));
-    //   tr = tr.setNodeMarkup(pos, LIST_ITEM, listItemNode.attrs, listItemNode.marks);
-    // }
-      // const nextNodePos = pos + node.nodeSize;
-      // const nextNode = nextNodePos  < tr.doc.nodeSize - 2 ?
-      //   tr.doc.nodeAt(nextNodePos) :
-      //   null;
-      //
-      // const nodeName = node.type.name;
-      // if (nodeName === PARAGRAPH || nodeName === HEADING)
-      //
-      // // console.log(node.type.name, nextNode && nextNode.type.name);
-      // console.log(node.isBlock, node.type.name);
     return false;
   });
   items && lists.push(items);
 
-  // while (pNodes.length) {
-  //   const node = pNodes.shift();
-  //   const pos = nodePos.get(node);
-  //
-  //
-  // }
-
-  // lists.forEach((items) => {
-  //   tr = keepSelection(tr, schema, (tr2) => {
-  //
-  //
-  //
-  //   });
-  // });
-
-  lists.forEach(paragraphNodes => {
-    tr = wrapParagraphNodesWithList(
+  lists.forEach(nodeToPosMap => {
+    tr = wrapNodesList(
       tr,
       schema,
       listNodeType,
+      nodeToPosMap,
       memo,
     );
   });
 
-  // console.log(lists);
   return tr;
 }
 
-function wrapParagraphNodesWithList(
+function wrapNodesList(
   tr: Transform,
   schema: Schema,
   listNodeType: NodeType,
+  nodeToPosMap: Map<Node, number>,
   memo: SelectionMemo,
 ): Transform {
+  const initialTr = tr;
+  const paragraph = schema.nodes[PARAGRAPH];
+  const listItem = schema.nodes[LIST_ITEM];
+
+  if (!paragraph || !listItem) {
+    return tr;
+  }
+
+  const nodes = [];
+  for (let [node, pos] of nodeToPosMap) {
+    // Temporarily annotate each node with an unique ID.
+    const uniqueID = {};
+    const nodeAttrs = {...node.attrs, id: uniqueID};
+    // Replace the original node with the node annotated by the uniqueID.
+    tr = tr.setNodeMarkup(pos, paragraph, nodeAttrs, node.marks);
+    nodes.push(tr.doc.nodeAt(pos));
+  }
+
+  const firstNode = nodes[0];
+  const lastNode = nodes[nodes.length - 1];
+  if (!firstNode || !lastNode) {
+    return initialTr;
+  }
+
+  const firstNodeID = firstNode.attrs.id;
+  const lastNodeID = lastNode.attrs.id;
+  if (!firstNodeID || !lastNodeID) {
+    console.error('unable to find annotated ID');
+    return initialTr;
+  }
+
+  let fromPos = null;
+  let toPos = null;
+  tr.doc.descendants((node, pos) => {
+    const nodeID = node.attrs.id;
+    if (nodeID === firstNodeID) {
+      fromPos = pos;
+    }
+    if (nodeID === lastNodeID) {
+      toPos = pos + node.nodeSize;
+    }
+    return fromPos === null || toPos === null;
+  });
+
+  if (fromPos === null || toPos === null) {
+    return initialTr;
+  }
+
+  const listItemNodes = [];
+  for (let [node, pos] of nodeToPosMap) {
+    // Restore the annotated nodes with the copy of the original ones.
+    const paragraphNode = paragraph.create(node.attrs, node.content, node.marks);
+    const listItemNode = listItem.create({}, Fragment.from(paragraphNode));
+    listItemNodes.push(listItemNode);
+  }
+
+  const listNodeAttrs = {level: 1, start: 1};
+
+  const $fromPos = tr.doc.resolve(fromPos);
+  const $toPos = tr.doc.resolve(toPos);
+  if (
+    $fromPos.nodeBefore &&
+    $fromPos.nodeBefore.type === listNodeType &&
+    $fromPos.nodeBefore.attrs.level === 1
+  ) {
+    tr = tr.delete(fromPos, toPos);
+    tr = tr.insert(fromPos - 1, Fragment.from(listItemNodes));
+  } else if (
+    $toPos.nodeAfter &&
+    $toPos.nodeAfter.type === listNodeType &&
+    $toPos.nodeAfter.attrs.level === 1
+  ) {
+    tr = tr.delete(fromPos, toPos);
+    tr = tr.insert(fromPos + 1, Fragment.from(listItemNodes));
+  } else {
+    const listNode = listNodeType.create(
+      listNodeAttrs,
+      Fragment.from(listItemNodes),
+    );
+    tr = tr.delete(fromPos, toPos);
+    tr = tr.insert(fromPos,  Fragment.from(listNode));
+  }
+
   return tr;
 }
 
@@ -298,16 +325,4 @@ function unwrapNodesFromListInternal(
     tr = tr.insert(listNodePos, frag);
   }
   return tr;
-}
-
-function getAlterListNodeType(
-  schema: Schema,
-  listNodeType: NodeType,
-): ?NodeType {
-  if (listNodeType.name === ORDERED_LIST) {
-    return schema.nodes[BULLET_LIST];
-  } else if (listNodeType.name === BULLET_LIST ) {
-    return schema.nodes[ORDERED_LIST];
-  }
-  return null;
 }

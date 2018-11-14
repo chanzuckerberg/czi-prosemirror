@@ -75,8 +75,14 @@ export default function keepSelection(
   tr = applyMark(tr, schema, markType, {id});
   tr = fn({tr, schema, findMarkRange, findSelectionRange});
 
-  const selectionRange = findSelectionRange();
   const markRange = findMarkRange();
+  const selectionRange = {
+    from: selectionExpanded ?
+      markRange.from + 1 :
+      markRange.from,
+    to: markRange.to,
+  };
+
   tr = tr.removeMark(markRange.from, markRange.to, markType);
   tr = tr.setSelection(TextSelection.create(
     tr.doc,

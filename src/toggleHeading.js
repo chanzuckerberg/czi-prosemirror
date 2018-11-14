@@ -16,40 +16,39 @@ export default function toggleHeading(
   level: number,
 ): Transform {
   const {nodes} = schema;
-
+  const {selection, doc} = tr;
   const heading = nodes[HEADING];
   const paragraph = nodes[PARAGRAPH];
 
-  if (!tr.selection || !tr.doc || !heading) {
+  if (!selection || !doc || !heading || !paragraph) {
     return tr;
   }
 
-  let effectiveLevel = level;
-  tr = updateNodesInSelection(
-    tr,
-    schema,
-    (args) => {
-      return setBlockHeadingNodeType(
-        args.tr,
-        args.schema,
-        args.pos,
-        effectiveLevel,
-      );
-    },
-    (args) => {
-      const {type, attrs} = args.node;
-      if (args.index === 0 && type === heading &&  attrs.level === level) {
-        // If the very first node has the same type as the desired node type,
-        // assume this is a toggle-off action.
-        effectiveLevel = null;
-      }
-      return true;
-    },
-  );
+  const {from, to} = tr.selection;
+  let startWithHeadingBlock = null;
+  const nodesToPos = new Map();
+  doc.nodesBetween(from, to, (node, pos) => {
+    if (startWithHeadingBlock === null) {
+      startWithHeadingBlock =
+        node.type === heading &&
+        node.attrs.level === level;
+    }
+    nodesToPos.set(node, pos);
+    return true;
+  });
+
+  for (let [node, pos] of nodesToPos) {
+    tr = setHeadingNode(
+      tr,
+      schema,
+      pos,
+      startWithHeadingBlock ? null : level,
+    );
+  }
   return tr;
 }
 
-function setBlockHeadingNodeType(
+function setHeadingNode(
   tr: Transform,
   schema: Schema,
   pos: number,
@@ -59,7 +58,7 @@ function setBlockHeadingNodeType(
   const heading = nodes[HEADING];
   const paragraph = nodes[PARAGRAPH];
   const node = tr.doc.nodeAt(pos);
-  if (!node) {
+  if (!node || !heading || !paragraph) {
     return tr;
   }
   if (isListNode(node)) {
@@ -73,29 +72,25 @@ function setBlockHeadingNodeType(
   } else if (node.type === heading) {
     // Toggle heading
     if (level === null) {
-      if (paragraph) {
-        tr = tr.setNodeMarkup(
-          pos,
-          paragraph,
-          {},
-          node.marks,
-        );
-      }
+      tr = tr.setNodeMarkup(
+        pos,
+        paragraph,
+        node.attrs,
+        node.marks,
+      );
     } else {
-      if (heading) {
-        tr = tr.setNodeMarkup(
-          pos,
-          heading,
-          {level},
-          node.marks,
-        );
-      }
+      tr = tr.setNodeMarkup(
+        pos,
+        heading,
+        {...node.attrs, level},
+        node.marks,
+      );
     }
-  } else if (heading && paragraph && level && node.type !== heading) {
+  } else if (level && node.type === paragraph) {
     tr = tr.setNodeMarkup(
       pos,
       heading,
-      {level},
+      {...node.attrs, level},
       node.marks,
     );
   }

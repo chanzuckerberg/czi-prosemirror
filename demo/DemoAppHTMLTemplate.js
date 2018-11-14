@@ -44,6 +44,8 @@ class DemoAppHTMLTemplate extends React.PureComponent<any, any, any> {
   render(): React.Element<any> {
     return (
       <div className="demo-app-template">
+        <p>that this mere painsta</p>
+        <p>that this mere painsta</p>
         <ol>
           <li>
             AAAAA gendos. Nulla essent causae et per, in cibo

@@ -2,7 +2,6 @@
 
 import isListNode from './isListNode';
 import nullthrows from 'nullthrows';
-import updateNodesInSelection from './updateNodesInSelection';
 import {Fragment, Schema, Node, NodeType, ResolvedPos} from 'prosemirror-model';
 import {PARAGRAPH, CODE_BLOCK} from './NodeNames';
 import {Selection} from 'prosemirror-state';
@@ -14,36 +13,34 @@ export default function toggleCodeBlock(
   schema: Schema,
 ): Transform {
   const {nodes} = schema;
-
+  const {selection, doc} = tr;
   const codeBlock = nodes[CODE_BLOCK];
   const paragraph = nodes[PARAGRAPH];
-
-  if (!tr.selection || !tr.doc || !codeBlock) {
+  if (!selection || !doc || !codeBlock || !paragraph) {
     return tr;
   }
 
-  let enabledDefault = undefined;
-  tr = updateNodesInSelection(
-    tr,
-    schema,
-    (args) => {
-      const enabled = enabledDefault === undefined ?
-        args.node.type !== codeBlock :
-        enabledDefault;
-      return setCodeBlockNodeEnabled(args.tr, args.schema, args.pos, enabled);
-    },
-    (args) => {
-      if (args.index === 0 && args.node.type === codeBlock) {
-        // If the very first node has the same type as the desired node type,
-        // assume this is a toggle-off action.
-        enabledDefault = false;
-      }
-      return true;
-    },
-  );
+  const nodesToPos = new Map();
+  const {from, to} = tr.selection;
+  let startWithCodeBlock = null;
+  doc.nodesBetween(from, to, (node, pos) => {
+    if (startWithCodeBlock === null) {
+      startWithCodeBlock = node.type === codeBlock
+    }
+    nodesToPos.set(node, pos);
+    return true;
+  });
+
+  for (let [node, pos] of nodesToPos) {
+    tr = setCodeBlockNodeEnabled(
+      tr,
+      schema,
+      pos,
+      startWithCodeBlock ? false : true,
+    );
+  }
   return tr;
 }
-
 
 function setCodeBlockNodeEnabled(
   tr: Transform,
@@ -59,14 +56,14 @@ function setCodeBlockNodeEnabled(
     tr = tr.setNodeMarkup(
       pos,
       paragraph,
-      {},
+      node.attrs,
       node.marks,
     );
-  } else if (enabled && codeBlock && node.type !== codeBlock) {
+  } else if (enabled && codeBlock && node.type === paragraph) {
     tr = tr.setNodeMarkup(
       pos,
       codeBlock,
-      {},
+      node.attrs,
       node.marks,
     );
   }

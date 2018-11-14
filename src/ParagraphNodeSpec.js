@@ -20,6 +20,7 @@ function getAttrs(dom: HTMLElement) {
 const ParagraphNodeSpec: NodeSpec = {
   attrs: {
     align: {default: null},
+    id: {default: null},
   },
   content: "inline*",
   group: "block",
