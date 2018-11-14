@@ -43,7 +43,6 @@ export default function toggleList(
   return tr;
 }
 
-
 export function unwrapNodesFromList(
   tr: Transform,
   schema: Schema,
@@ -192,11 +191,8 @@ function wrapParagraphNodesWithList(
   listNodeType: NodeType,
   memo: SelectionMemo,
 ): Transform {
-  
-
   return tr;
 }
-
 
 function unwrapNodesFromListInternal(
   memo: SelectionMemo,
