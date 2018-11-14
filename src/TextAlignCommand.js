@@ -48,7 +48,6 @@ export function setTextAlign(
     }
     return true;
   });
-  console.log(tasks);
   if (!tasks.length) {
     return tr;
   }
