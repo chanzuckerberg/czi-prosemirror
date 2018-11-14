@@ -12,8 +12,6 @@ import {Transform} from 'prosemirror-transform';
 import {atAnchorRight} from './ui/popUpPosition';
 import {setCellAttr} from 'prosemirror-tables';
 
-import type {ColorEditorValue} from './ui/ColorEditor';
-
 const setCellBackgroundBlack = setCellAttr('background', '#000000');
 
 class TableCellColorCommand extends UICommand {
@@ -60,16 +58,13 @@ class TableCellColorCommand extends UICommand {
     state: EditorState,
     dispatch: ?(tr: Transform) => void,
     view: ?EditorView,
-    inputs: ?ColorEditorValue,
+    hex: ?string,
   ): boolean => {
-    if (dispatch) {
+    if (dispatch && hex !== undefined) {
       let {tr, selection} = state;
-      if (inputs) {
-        const {hex} = inputs;
-        const cmd = setCellAttr('background', hex);
-        cmd(state, dispatch, view);
-        return true;
-      }
+      const cmd = setCellAttr('background', hex);
+      cmd(state, dispatch, view);
+      return true;
     }
     return false;
   };

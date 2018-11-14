@@ -4,12 +4,6 @@ import {EditorState, Selection} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
 import {Transform} from 'prosemirror-transform';
 
-export type ExecuteCall =  (
-  state: EditorState,
-  dispatch: ?(tr: Transform) => void,
-  view: ?EditorView,
-) => boolean;
-
 export type IsActiveCall = (
   state: EditorState,
 ) => boolean;

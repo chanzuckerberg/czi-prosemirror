@@ -14,7 +14,11 @@ import {Transform} from 'prosemirror-transform';
 const EDITOR_EMPTY_STATE = createEmptyEditorState();
 
 const {
+  CLEAR_FORMAT,
   CODE,
+  EM,
+  FONT_SIZES,
+  FONT_TYPES,
   H1,
   H2,
   H3,
@@ -27,6 +31,8 @@ const {
   LIST_INDENT_LESS,
   LIST_INDENT_MORE,
   OL,
+  STRIKE,
+  STRONG,
   TABLE_ADD_COLUMN_AFTER,
   TABLE_ADD_COLUMN_BEFORE,
   TABLE_ADD_ROW_AFTER,
@@ -43,9 +49,14 @@ const {
   TABLE_TOGGLE_HEADER_CELL,
   TABLE_TOGGLE_HEADER_COLUMN,
   TABLE_TOGGLE_HEADER_ROW,
+  TEXT_ALIGN_CENTER,
+  TEXT_ALIGN_JUSTIFY,
+  TEXT_ALIGN_LEFT,
+  TEXT_ALIGN_RIGHT,
   TEXT_COLOR,
   TEXT_HIGHLIGHT,
   UL,
+  UNDERLINE,
 } = EditorCommands;
 
 const CommandGroups = [
@@ -56,6 +67,10 @@ const CommandGroups = [
     'H4': H4,
   },
   {
+    'Font': FONT_TYPES,
+    'Size': FONT_SIZES,
+  },
+  {
     'OL': OL,
     'UL': UL,
     '->||': LIST_INDENT_MORE,
@@ -64,10 +79,21 @@ const CommandGroups = [
   {
     'Color': TEXT_COLOR,
     'Highlight': TEXT_HIGHLIGHT,
+    'U': UNDERLINE,
+    'B': STRONG,
+    'I': EM,
+    '\u2015': STRIKE,
+    'Clear': CLEAR_FORMAT,
   },
   {
     'Link': LINK_SET_URL,
     'Image': IMAGE_FROM_URL,
+  },
+  {
+    '=- ': TEXT_ALIGN_LEFT,
+    ' = ': TEXT_ALIGN_CENTER,
+    ' -=': TEXT_ALIGN_RIGHT,
+    '\u2261': TEXT_ALIGN_JUSTIFY,
   },
   {
     'TABLE': [

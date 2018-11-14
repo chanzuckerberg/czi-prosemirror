@@ -6,9 +6,10 @@ import {Node} from 'prosemirror-model';
 
 import type {MarkSpec} from 'prosemirror';
 
-// This mark is used for storing temporary selection state, do not show this to
-// user.
-const TextHighlightMarkSpec: MarkSpec = {
+const TextSelectionMarkSpec: MarkSpec = {
+  attrs: {
+    id: '',
+  },
   inline: true,
   group: 'inline',
   parseDOM: [
@@ -26,4 +27,4 @@ const TextHighlightMarkSpec: MarkSpec = {
   },
 };
 
-export default TextHighlightMarkSpec;
+export default TextSelectionMarkSpec;

@@ -1,48 +1,48 @@
 // @flow
 
+import applyMark from './applyMark';
 import isListNode from './isListNode';
 import joinListNode from './joinListNode';
 import nullthrows from 'nullthrows';
 import updateNodesInSelection from './updateNodesInSelection';
-import {PARAGRAPH, LIST_ITEM, ORDERED_LIST, BULLET_LIST} from './NodeNames';
 import {Fragment, Schema, Node, NodeType, ResolvedPos} from 'prosemirror-model';
+import {MARK_TEXT_SELECTION} from './MarkNames';
+import {PARAGRAPH, LIST_ITEM, ORDERED_LIST, BULLET_LIST, TABLE, HEADING} from './NodeNames';
 import {Selection} from 'prosemirror-state';
 import {TextSelection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
+import {findParentNodeOfType} from 'prosemirror-utils';
 import {setBlockType} from 'prosemirror-commands';
-import applyMark from './applyMark';
-import {MARK_TEXT_SELECTION} from './MarkNames';
+import keepSelection from './keepSelection';
+
+import type {SelectionMemo} from './keepSelection';
 
 export default function toggleList(
   tr: Transform,
   schema: Schema,
   listNodeType: NodeType,
 ): Transform {
+  const {selection, doc} = tr;
+  if (!selection || !doc) {
+    return tr;
+  }
 
-  let allNodesAreTheSameHeadingLevel = true;
-  tr = updateNodesInSelection(
-    tr,
-    schema,
-    (args) => {
-      return setBlockListNodeType(
-        args.tr,
-        args.schema,
-        listNodeType,
-        args.pos,
-      );
-    },
-    (args) => {
-      const {node} = args;
-      if (args.index === 0 && isListNode(node) && node.type === listNodeType) {
-        // If the very first node has the same type as the desired node type,
-        // assume this is a toggle-off action.
-        listNodeType = null;
-      }
-      return true;
-    },
+  const {from, to} = selection;
+  const fromSelection = TextSelection.create(
+    doc,
+    from,
+    from,
   );
+  const result = findParentNodeOfType(listNodeType)(fromSelection);
+  if (result) {
+    tr = unwrapNodesFromList(tr, schema, result.pos);
+  } else {
+    wrapNodesWithList(tr, schema, listNodeType);
+  }
+
   return tr;
 }
+
 
 export function unwrapNodesFromList(
   tr: Transform,
@@ -50,6 +50,162 @@ export function unwrapNodesFromList(
   listNodePos: number,
   unwrapParagraphNode?: ?(Node) => Node,
 ): Transform {
+  return keepSelection(tr, schema, (memo) => {
+    return unwrapNodesFromListInternal(
+      memo,
+      listNodePos,
+      unwrapParagraphNode
+    );
+  });
+}
+
+function wrapNodesWithList(
+  tr: Transform,
+  schema: Schema,
+  listNodeType: NodeType,
+): Transform {
+  return keepSelection(tr, schema, (memo) => {
+    return wrapNodesWithListInternal(memo, listNodeType);
+  });
+}
+
+function wrapNodesWithListInternal(
+  memo: SelectionMemo,
+  listNodeType: NodeType,
+): Transform {
+  const {schema} = memo;
+  let {tr} = memo;
+  const {doc, selection} = tr;
+  if (!tr || !selection) {
+    return tr;
+  }
+  const {from, to} = selection;
+
+  const listItem = schema.nodes[LIST_ITEM];
+  const paragraph = schema.nodes[PARAGRAPH];
+  const heading = schema.nodes[HEADING];
+
+  // const heading = schema.nodes[HEADING];
+  const pNodes = [];
+  const nodePos = new Map();
+  const prevSiblings = new Map();
+  let items = null;
+  const lists = [];
+  doc.nodesBetween(from, to, (node, pos) => {
+    const nodeType = node.type;
+    const nodeName = nodeType.name;
+    if (isListNode(node)) {
+      if (node.type !== listNodeType) {
+        tr = tr.setNodeMarkup(pos, listNodeType, node.attrs, node.marks);
+      }
+      items && lists.push(items);
+      items = null;
+      return false;
+    }
+
+
+    if (/table/.test(nodeName)){
+      items && lists.push(items);
+      items = null;
+      return true;
+    }
+
+    if (nodeType === heading) {
+      tr = tr.setNodeMarkup(pos, paragraph, node.attrs, node.marks);
+      items = items || [];
+      items.push({node, pos});
+    } else if (nodeType === paragraph) {
+      items = items || [];
+      items.push({node, pos});
+    } else {
+      items && lists.push(items);
+      items = null;
+    }
+
+    // if (node.type !== paragraph) {
+    //   tr = tr.setNodeMarkup(pos, paragraph, node.attrs, node.marks);
+    // }
+    // const attrs = {
+    //   ...node.attrs,
+    //   __id: 123,
+    // };
+    // tr = tr.setNodeMarkup(pos, paragraph, node.attrs, node.marks);
+    // group = group || [];
+    // group.push({node, pos});
+
+    // if (nodeType === LIST_ITEM) {
+    //   return false;
+    // } else if (nodeType !== PARAGRAPH) {
+    //   const paragraphNode = paragraph.create(node.attrs, node.content, node.marks);
+    //   const listItemNode = listItem.create({}, Fragment.from(paragraphNode));
+    //   tr = tr.setNodeMarkup(pos, LIST_ITEM, listItemNode.attrs, listItemNode.marks);
+    // } else if (nodeType === PARAGRAPH) {
+    //   const paragraphSlice = tr.doc.slice(pos, pos + node.nodeSize);
+    //   const listItemNode = listItem.create({}, Fragment.from(paragraphSlice));
+    //   tr = tr.setNodeMarkup(pos, LIST_ITEM, listItemNode.attrs, listItemNode.marks);
+    // }
+      // const nextNodePos = pos + node.nodeSize;
+      // const nextNode = nextNodePos  < tr.doc.nodeSize - 2 ?
+      //   tr.doc.nodeAt(nextNodePos) :
+      //   null;
+      //
+      // const nodeName = node.type.name;
+      // if (nodeName === PARAGRAPH || nodeName === HEADING)
+      //
+      // // console.log(node.type.name, nextNode && nextNode.type.name);
+      // console.log(node.isBlock, node.type.name);
+    return false;
+  });
+  items && lists.push(items);
+
+  // while (pNodes.length) {
+  //   const node = pNodes.shift();
+  //   const pos = nodePos.get(node);
+  //
+  //
+  // }
+
+  // lists.forEach((items) => {
+  //   tr = keepSelection(tr, schema, (tr2) => {
+  //
+  //
+  //
+  //   });
+  // });
+
+  lists.forEach(paragraphNodes => {
+    tr = wrapParagraphNodesWithList(
+      tr,
+      schema,
+      listNodeType,
+      memo,
+    );
+  });
+
+  // console.log(lists);
+  return tr;
+}
+
+function wrapParagraphNodesWithList(
+  tr: Transform,
+  schema: Schema,
+  listNodeType: NodeType,
+  memo: SelectionMemo,
+): Transform {
+  
+
+  return tr;
+}
+
+
+function unwrapNodesFromListInternal(
+  memo: SelectionMemo,
+  listNodePos: number,
+  unwrapParagraphNode?: ?(Node) => Node,
+): Transform {
+  const {schema} = memo;
+  let {tr} = memo;
+
   if (!tr.doc || !tr.selection) {
     return tr;
   }
@@ -57,9 +213,8 @@ export function unwrapNodesFromList(
   const {nodes} = schema;
   const paragraph = nodes[PARAGRAPH];
   const listItem= nodes[LIST_ITEM];
-  const markType = schema.marks[MARK_TEXT_SELECTION];
 
-  if (!listItem|| !paragraph || !markType) {
+  if (!listItem|| !paragraph) {
     return tr;
   }
 
@@ -78,22 +233,6 @@ export function unwrapNodesFromList(
   const contentBlocksSelected = [];
   const contentBlocksAfter = [];
 
-  // Mark current selection so that we could resume the selection later
-  // after changing the whole list.
-  let selectionExpanded = false;
-  if (from === to) {
-    // Selection is collapsed, create a temnporary selection that the marks can
-    // be applied to.
-    const selection = TextSelection.create(
-      tr.doc,
-      from - 1,
-      to,
-    );
-    tr = tr.setSelection(selection);
-    selectionExpanded = true;
-  }
-
-  tr = applyMark(tr, schema, markType, {});
   tr.doc.nodesBetween(listNodePos, listNodePos + listNode.nodeSize, (
     node,
     pos,
@@ -162,110 +301,17 @@ export function unwrapNodesFromList(
     ));
     tr = tr.insert(listNodePos, frag);
   }
-
-  const markFinder = mark => mark.type === markType;
-  let markFrom = null;
-  let markTo = null;
-  tr.doc.nodesBetween(
-    Math.max(1, from - 4),
-    Math.min(to + 4, tr.doc.nodeSize - 2),
-    (node, pos) => {
-      if (node.marks && node.marks.find(markFinder)) {
-        markFrom = markFrom || pos;
-        markTo = pos + node.nodeSize;
-      }
-      return true;
-    },
-  );
-
-  if (markFrom !== null && markTo !== null) {
-    tr = tr.removeMark(markFrom, markTo, markType);
-    const selection = TextSelection.create(
-      tr.doc,
-      markFrom + (selectionExpanded ? 1 : 0),
-      markTo,
-    );
-    tr = tr.setSelection(selection);
-  }
-
   return tr;
 }
 
-function wrapNodeWithList(
-  tr: Transform,
+function getAlterListNodeType(
   schema: Schema,
-  pos: number,
   listNodeType: NodeType,
-): Transform {
-  if (!tr.doc || !listNodeType) {
-    return tr;
+): ?NodeType {
+  if (listNodeType.name === ORDERED_LIST) {
+    return schema.nodes[BULLET_LIST];
+  } else if (listNodeType.name === BULLET_LIST ) {
+    return schema.nodes[ORDERED_LIST];
   }
-
-  const {nodes} = schema;
-  const paragraph = nodes[PARAGRAPH];
-  const listItem= nodes[LIST_ITEM];
-
-  if (!listItem|| !paragraph) {
-    return tr;
-  }
-
-  const node = tr.doc.nodeAt(pos);
-  const initialSelection = tr.selection;
-  const from = pos;
-  const to = from + node.nodeSize;
-  const attrs = {level: 1, start: 1};
-  const paragraphNode = paragraph.create({}, node.content, node.marks);
-  const listItemNode = listItem.create({}, Fragment.from(paragraphNode));
-  const listNode = listNodeType.create(attrs, Fragment.from(listItemNode));
-
-  tr = tr.delete(from, to);
-  tr = tr.insert(from, Fragment.from(listNode));
-  tr = tr.setSelection(TextSelection.create(
-    tr.doc,
-    from,
-    to,
-  ));
-  tr = joinListNode(tr, schema, from);
-
-  const selection = TextSelection.create(
-    tr.doc,
-    initialSelection.from + 2,
-    initialSelection.to + 2,
-  );
-
-  tr = tr.setSelection(selection);
-  return tr;
-}
-
-function setBlockListNodeType(
-  tr: Transform,
-  schema: Schema,
-  listNodeType: ?NodeType,
-  pos: number,
-): Transform {
-  if (!tr.doc) {
-    return tr;
-  }
-  const blockNode = tr.doc.nodeAt(pos);
-  if (!blockNode || !blockNode.isBlock) {
-    return tr;
-  }
-  if (isListNode(blockNode)) {
-    if (listNodeType && blockNode.type !== listNodeType) {
-      tr = tr.setNodeMarkup(
-        pos,
-        listNodeType,
-        blockNode.attrs,
-        blockNode.marks,
-      );
-    } else {
-      tr = unwrapNodesFromList(tr, schema, pos);
-    }
-  } else {
-    if (listNodeType) {
-      tr = wrapNodeWithList(tr, schema, pos, listNodeType);
-    }
-  }
-
-  return tr;
+  return null;
 }

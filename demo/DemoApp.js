@@ -10,7 +10,7 @@ import convertFromDOMElement from '../src/convertFromDOMElement';
 import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
 
-import './DemoApp.css';
+import './demo-app.css';
 
 // Reference: http://prosemirror.net/examples/basic/
 const defaultEditorState = (function() {
@@ -20,11 +20,9 @@ const defaultEditorState = (function() {
 })();
 
 class DemoApp extends React.PureComponent<any, any, any> {
-  _editor = null;
 
   constructor(props: any, context: any) {
     super(props, context);
-
     this.state = {
       editorState: defaultEditorState,
       editorView: null,
@@ -42,25 +40,16 @@ class DemoApp extends React.PureComponent<any, any, any> {
             onChange={this._onChange}
           />
         </div>
-        <div className="demo-app-body" onClick={this._focus}>
+        <div className="demo-app-body">
           <Editor
             editorState={this.state.editorState}
             onChange={this._onChange}
             onReady={this._onReady}
-            ref={this._onRef}
           />
         </div>
       </div>
     );
   }
-
-  _onRef = (ref: any): void => {
-    this._editor = ref;
-  };
-
-  _focus = (): void => {
-    this._editor && this._editor.focus();
-  };
 
   _onChange = (editorState: EditorState): void => {
     this.setState({editorState});

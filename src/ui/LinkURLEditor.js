@@ -10,34 +10,34 @@ import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
 import {Transform} from 'prosemirror-transform';
 
-export type LinkURLEditorValue = {
-  href: ?string,
-};
-
 const BAD_CHARACTER_PATTER = /\s/;
 
 class LinkURLEditor extends React.PureComponent<any, any, any> {
 
   props: {
-    initialValue: ?LinkURLEditorValue,
-    close: (val: ?LinkURLEditorValue) => void,
+    href: ?string,
+    close: (href: ?string) => void,
   };
 
   state = {
-    ...(this.props.initialValue || {}),
+    url: this.props.href,
   };
 
   render(): React.Element<any> {
-    const {initialValue} = this.props;
-    const {href} = this.state;
-    const error = BAD_CHARACTER_PATTER.test(href || '');
+    const {href} = this.props;
+    const {url} = this.state;
+
+    const error = url ?
+      BAD_CHARACTER_PATTER.test(url) :
+      false;
 
     let label = 'Apply';
     let disabled = !!error;
-    if (initialValue && initialValue.href) {
-      label = href ? 'Apply' : 'Remove';
+    if (href) {
+      label = url ? 'Apply' : 'Remove';
+      disabled = error;
     } else {
-      disabled = error || !href;
+      disabled = error || !url;
     }
 
     return (
@@ -47,11 +47,11 @@ class LinkURLEditor extends React.PureComponent<any, any, any> {
             <legend>Add A Link</legend>
             <input
               autoFocus={true}
-              onChange={this._onHrefChange}
+              onChange={this._onURLChange}
               placeholder="Paste a URL"
               spellCheck={false}
               type="text"
-              value={href || ''}
+              value={url || ''}
             />
           </fieldset>
           <div className="czi-form-buttons">
@@ -71,10 +71,10 @@ class LinkURLEditor extends React.PureComponent<any, any, any> {
     );
   }
 
-  _onHrefChange = (e: SyntheticInputEvent) => {
-    const href = e.target.value;
+  _onURLChange = (e: SyntheticInputEvent) => {
+    const url = e.target.value;
     this.setState({
-      href,
+      url,
     });
   };
 
@@ -83,8 +83,8 @@ class LinkURLEditor extends React.PureComponent<any, any, any> {
   };
 
   _apply = (): void => {
-    const {href} = this.state;
-    this.props.close({href});
+    const {url} = this.state;
+    this.props.close(url);
   };
 }
 

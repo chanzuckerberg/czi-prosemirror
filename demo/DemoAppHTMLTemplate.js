@@ -6,24 +6,92 @@ const STYLE_COLOR = {
   color: '#c40df2',
 };
 
-const STLE_BOLD = {
+const STYLE_BOLD = {
   fontWeight: 'bold',
+};
+
+const STYLE_TEXT_ALIGN = {
+  textAlign: 'right',
+};
+
+const STYLE_FONT_SIZE = {
+  fontSize: '64px',
+};
+
+const STYLE_FONT_FAMILY = {
+  fontFamily: 'Arial Black',
 };
 
 const STYLE_BACKGROUND_COLOR = {
   backgroundColor: '#e8e87d',
 };
 
+const STYLE_UNDERLINE = {
+  textDecoration: 'underline',
+};
+
 const STYLE_MIXED = {
-  ...STYLE_COLOR,
   ...STYLE_BACKGROUND_COLOR,
-  ...STLE_BOLD,
+  ...STYLE_BOLD,
+  ...STYLE_COLOR,
+  ...STYLE_FONT_FAMILY,
+  ...STYLE_FONT_SIZE,
+  ...STYLE_TEXT_ALIGN,
+  ...STYLE_UNDERLINE,
 };
 
 class DemoAppHTMLTemplate extends React.PureComponent<any, any, any> {
   render(): React.Element<any> {
     return (
       <div className="demo-app-template">
+        <ol>
+          <li>
+            AAAAA gendos. Nulla essent causae et per, in cibo
+            sententiae est. Sit tamquam petentium an. Quo id p ersecuti
+            dissentias,
+            <a href="https://www.google.com/search?ei=RIboW4yPOOit0gLkkrDACw&q=the+quick+brown+fox+jumped+over+the+lazy+dog+alternatives&oq=quic_fox_jump_over&gs_l=psy-ab.1.0.0i71l8.0.0..5874...0.0..0.0.0.......0......gws-wiz.caqNmxUaqoY">
+              cu sed diam prompta meliore, ne nominavi conv enire
+            </a>
+            principe AAAAA gendos. Nulla essent causae et per, in cibo
+            sententiae est. Sit tamquam petentium an. Quo id p ersecuti
+            dissentias, cu sed diam prompta meliore, ne nominavi conv enire
+            principe
+            AAAAA gendos. Nulla essent causae et per, in cibo
+            sententiae est. Sit tamquam petentium an. Quo id p ersecuti
+            dissentias, cu sed diam prompta meliore, ne nominavi conv enire
+            principe
+          </li>
+          <li>BBB</li>
+          <li>CCCCC</li>
+          <li>DDDDDD</li>
+        </ol>
+        <p>that this mere painsta</p>
+        <p>that this mere painsta</p>
+        <p>that this mere painsta</p>
+        <p>that this mere painsta</p>
+        <p>that this mere painsta</p>
+        <hr />
+        <ol>
+          <li>
+            AAAAA gendos. Nulla essent causae et per, in cibo
+            sententiae est. Sit tamquam petentium an. Quo id p ersecuti
+            dissentias,
+            <a href="https://www.google.com/search?ei=RIboW4yPOOit0gLkkrDACw&q=the+quick+brown+fox+jumped+over+the+lazy+dog+alternatives&oq=quic_fox_jump_over&gs_l=psy-ab.1.0.0i71l8.0.0..5874...0.0..0.0.0.......0......gws-wiz.caqNmxUaqoY">
+              cu sed diam prompta meliore, ne nominavi conv enire
+            </a>
+            principe AAAAA gendos. Nulla essent causae et per, in cibo
+            sententiae est. Sit tamquam petentium an. Quo id p ersecuti
+            dissentias, cu sed diam prompta meliore, ne nominavi conv enire
+            principe
+            AAAAA gendos. Nulla essent causae et per, in cibo
+            sententiae est. Sit tamquam petentium an. Quo id p ersecuti
+            dissentias, cu sed diam prompta meliore, ne nominavi conv enire
+            principe
+          </li>
+          <li>BBB</li>
+          <li>CCCCC</li>
+          <li>DDDDDD</li>
+        </ol>
         <h1>H1 Header</h1>
         <table>
           <tbody>
@@ -33,13 +101,24 @@ class DemoAppHTMLTemplate extends React.PureComponent<any, any, any> {
           </tbody>
         </table>
         <h3>H3 Header</h3>
+        <p style={STYLE_TEXT_ALIGN}>
+          It will be seen <u>that this mere painstaking</u>
+        </p>
         <p>
-          It will be seen that this mere painstaking burrower and grub-worm of a
-          poor devil of a Sub-Sub appears to have gone through the long Vaticans
-          and street-stalls of the earth, picking up whatever random allusions to
-          whales he could anyways find in any book whatsoever, sacred or profane.
-          Therefore you must not, in every case at least, take the
+          <span style={STYLE_FONT_SIZE}>
+            poor devil of a Sub-Sub
+          </span>
+          appears to have gone through the long Vaticans
+          and street-stalls of the earth, picking up whatever
+          <span style={STYLE_FONT_FAMILY}>
+            Comic Sans MS extracts, for veritable gospel cetology. Far from it. As touching the
+            ancient authors generally, as well as the poets here appearing, these
+            extracts are solely valuable or entertaining, as affording a glancing
+            bird&rsquo;s eye view of wh
+          </span>
+          <span style={STYLE_UNDERLINE}>
           higgledy-piggledy whale statements, however authentic, in these
+          </span>
           extracts, for veritable gospel cetology. Far from it. As touching the
           ancient authors generally, as well as the poets here appearing, these
           extracts are solely valuable or entertaining, as affording a glancing
@@ -78,27 +157,7 @@ class DemoAppHTMLTemplate extends React.PureComponent<any, any, any> {
           src="https://placekitten.com/200/100"
           width="200"
         />
-        <ol>
-          <li>
-            AAAAA gendos. Nulla essent causae et per, in cibo
-            sententiae est. Sit tamquam petentium an. Quo id p ersecuti
-            dissentias,
-            <a href="https://www.google.com/search?ei=RIboW4yPOOit0gLkkrDACw&q=the+quick+brown+fox+jumped+over+the+lazy+dog+alternatives&oq=quic_fox_jump_over&gs_l=psy-ab.1.0.0i71l8.0.0..5874...0.0..0.0.0.......0......gws-wiz.caqNmxUaqoY">
-              cu sed diam prompta meliore, ne nominavi conv enire
-            </a>
-            principe AAAAA gendos. Nulla essent causae et per, in cibo
-            sententiae est. Sit tamquam petentium an. Quo id p ersecuti
-            dissentias, cu sed diam prompta meliore, ne nominavi conv enire
-            principe
-            AAAAA gendos. Nulla essent causae et per, in cibo
-            sententiae est. Sit tamquam petentium an. Quo id p ersecuti
-            dissentias, cu sed diam prompta meliore, ne nominavi conv enire
-            principe
-          </li>
-          <li>BBB</li>
-          <li>CCCCC</li>
-          <li>DDDDDD</li>
-        </ol>
+
         <h1>Editor Example</h1>
         <h2>H2 Header</h2>
         <p>

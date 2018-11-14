@@ -16,8 +16,6 @@ import {TextSelection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
 import {showSelectionPlaceholder, hideSelectionPlaceholder} from './SelectionPlaceholderPlugin';
 
-import type {LinkURLEditorValue} from './ui/LinkURLEditor';
-
 // https://prosemirror.net/examples/tooltip/
 const SPEC = {
   view(editorView: EditorView) {
@@ -133,10 +131,9 @@ class LinkTooltipView {
     tr = tr.setSelection(linkSelection);
     tr = showSelectionPlaceholder(state, tr);
     view.dispatch(tr);
-    const props = {
-      initialValue: result.mark.attrs,
-    };
-    this._popUp = createPopUp(LinkURLEditor, props, {
+
+    const href = result ? result.mark.attrs.href : null;
+    this._popUp = createPopUp(LinkURLEditor,  {href}, {
       onClose: (value) => {
         this._popUp = null;
         this._onEditEnd(view, selection, value);
@@ -145,18 +142,18 @@ class LinkTooltipView {
   }
 
   _onRemove = (view: EditorView): void => {
-    this._onEditEnd(view, view.state.selection, {href: null});
+    this._onEditEnd(view, view.state.selection, null);
   };
 
   _onEditEnd = (
     view: EditorView,
     initialSelection: TextSelection,
-    value: ?LinkURLEditorValue,
+    href: ?string,
   ): void => {
     const {state, dispatch} = view;
     let tr = hideSelectionPlaceholder(state);
 
-    if (value) {
+    if (href !== undefined) {
       const {schema} = state;
       const markType = schema.marks[MARK_LINK];
       if (markType) {
@@ -173,7 +170,6 @@ class LinkTooltipView {
             result.to.pos + 1,
           );
           tr = tr.setSelection(linkSelection);
-          const {href} = value;
           const attrs = href ? {href} : null;
           tr = applyMark(
             tr,

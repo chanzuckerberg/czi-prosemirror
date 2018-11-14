@@ -14,8 +14,6 @@ import {TextSelection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
 import {showSelectionPlaceholder, hideSelectionPlaceholder} from './SelectionPlaceholderPlugin';
 
-import type {LinkURLEditorValue} from './ui/LinkURLEditor';
-
 class LinkSetURLCommand extends UICommand {
 
   _popUp = null;
@@ -55,10 +53,9 @@ class LinkSetURLCommand extends UICommand {
     }
     const {from, to} = selection;
     const result = findNodesWithSameMark(doc, from, to, markType);
-    const initialValue = result ? result.mark.attrs : null;
-    console.log(initialValue);
+    const href = result ? result.mark.attrs.href : null;
     return new Promise(resolve => {
-      this._popUp = createPopUp(LinkURLEditor, {initialValue}, {
+      this._popUp = createPopUp(LinkURLEditor, {href}, {
         modal: true,
         onClose: (val) => {
           if (this._popUp) {
@@ -74,14 +71,13 @@ class LinkSetURLCommand extends UICommand {
     state: EditorState,
     dispatch: ?(tr: Transform) => void,
     view: ?EditorView,
-    inputs: ?LinkURLEditorValue,
+    href: ?string,
   ): boolean => {
     if (dispatch) {
       let {tr, selection, schema} = state;
       tr = view ? hideSelectionPlaceholder(view.state) : tr;
       tr = tr.setSelection(selection);
-      if (inputs) {
-        const {href} = inputs;
+      if (href !== undefined) {
         const markType = schema.marks[MARK_LINK];
         const attrs = href ? {href} : null;
         tr = applyMark(

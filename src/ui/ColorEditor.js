@@ -7,10 +7,6 @@ import CustomButton from './CustomButton';
 import React from 'react';
 import clamp from './clamp';
 
-export type ColorEditorValue = {
-  hex: string,
-};
-
 function generateGreyColors(count: number): Array<Color> {
   let cc = 255;
   const interval = cc / count;
@@ -45,7 +41,7 @@ function generateRainbowColors(
 
 class ColorEditor extends React.PureComponent<any, any, any> {
   props: {
-    close: (?ColorEditorValue) => void,
+    close: (?string) => void,
     hex?: ?string,
   };
 
@@ -99,7 +95,7 @@ class ColorEditor extends React.PureComponent<any, any, any> {
   };
 
   _onSelectColor = (hex: string): void => {
-    this.props.close({hex});
+    this.props.close(hex);
   };
 }
 export default ColorEditor;

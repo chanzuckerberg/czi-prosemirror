@@ -16,3 +16,4 @@ export const TABLE = 'table';
 export const TABLE_CELL = 'table_cell';
 export const TABLE_HEADER = 'table_header';
 export const TABLE_ROW = 'table_row';
+export const UNDERLINE = 'underline';

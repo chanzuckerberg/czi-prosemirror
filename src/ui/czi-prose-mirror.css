@@ -40,9 +40,15 @@
   color: var(--czi-link-color);
 }
 
+.ProseMirror pre > code {
+  background-color: #eee;
+  border: 1px solid #999;
+  display: block;
+  padding: 20px;
+}
+
 /* List Styles */
 /* https://css-tricks.com/custom-list-number-styling/ */
-
 
 .ProseMirror ol,
 .ProseMirror ul {

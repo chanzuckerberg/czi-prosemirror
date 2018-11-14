@@ -12,8 +12,6 @@ import {Transform} from 'prosemirror-transform';
 import {findParentNodeOfType} from 'prosemirror-utils';
 import {setBlockType} from 'prosemirror-commands';
 
-import type {ExecuteCall} from './ui/UICommand';
-
 class HeadingCommand extends UICommand {
 
   _level: number;

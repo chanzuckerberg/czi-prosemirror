@@ -12,11 +12,7 @@ import {Transform} from 'prosemirror-transform';
 import {findParentNodeOfType} from 'prosemirror-utils';
 import {setBlockType} from 'prosemirror-commands';
 
-import type {ExecuteCall, FindNodeTypeInSelectionCall} from './ui/UICommand';
-
 class CodeBlockCommand extends UICommand {
-
-  _findCodeBlock: FindNodeTypeInSelectionCall;
 
   isActive = (state: EditorState): boolean => {
     const result = this._findCodeBlock(state);

@@ -76,8 +76,8 @@ class ColorEditorExample extends React.PureComponent<any, any, any> {
     if (!this._popup) {
       this._popup = createPopUp(ColorEditor, this.state, {
         anchor: document.getElementById(this._id),
-        onClose: (value) => {
-          value && this.setState(value);
+        onClose: (hex) => {
+          hex && this.setState({hex});
           this._popup = null;
         },
       });

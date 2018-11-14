@@ -9,14 +9,18 @@
 .*/node_modules/create-emotion-styled/.*
 .*/node_modules/create-emotion/.*
 .*/node_modules/create-react-context/.*
+.*/node_modules/docs-editor/.*
+.*/node_modules/draft-convert/.*
+.*/node_modules/draft-js/.*
 .*/node_modules/flow-webpack-plugin/.*
 .*/node_modules/jsondiffpatch/.*
+.*/node_modules/katex/.*
+.*/node_modules/match-at/.*
 .*/node_modules/postcss-modules-extract-imports/.*
 .*/node_modules/postcss-modules-local-by-default/.*
 .*/node_modules/postcss-modules-scope/.*
 .*/node_modules/postcss-modules-values/.*
 .*/node_modules/prosemirror-dev-tools/.*
-.*/node_modules/react-emotion/.*
 .*/node_modules/react-emotion/.*
 .*/node_modules/unstated/.*
 

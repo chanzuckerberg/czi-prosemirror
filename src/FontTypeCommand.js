@@ -6,36 +6,47 @@ import createPopUp from './ui/createPopUp';
 import nullthrows from 'nullthrows';
 import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
-import {MARK_FONT_SIZE} from './MarkNames';
+import {MARK_FONT_TYPE} from './MarkNames';
 import {Schema} from 'prosemirror-model';
 import {TextSelection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
 
-// 1 pt	~= 1.3281472327365px
-const PT_TO_PX = 1.3281472327365;
-const FONT_PT_SIZES = [8, 9, 10, 11, 12, 14, 18, 24, 30, 36, 48, 60, 72, 90];
-const FONT_PX_SIZES = FONT_PT_SIZES.map(x => Math.round(x * PT_TO_PX));
 
-function createGroup(): Array<{[string]: FontSizeCommand}> {
+const FONTS = [
+  // SERIF
+ 'Arial Black',
+ 'Arial',
+ 'Georgia',
+ 'Tahoma',
+ 'Times New Roman',
+ 'Times',
+ 'Verdana',
+ // MONOSPACE
+ 'Courier New',
+ 'Lucida Console',
+ 'Monaco',
+ 'monospace',
+];
+
+
+
+function createGroup(): Array<{[string]: FontTypeCommand}> {
   const group = {};
-  group['default'] = new FontSizeCommand(0);
+  group['default'] = new FontTypeCommand('');
 
-  FONT_PX_SIZES.forEach((pxSize, ii) => {
-    const ptSize = FONT_PT_SIZES[ii];
-    // Chrome re-ordering object keys if numerics, is that normal/expected
-    // add extra space to prevent that.
-    const label = ` ${ptSize} `;
-    group[label] = new FontSizeCommand(pxSize);
+  FONTS.forEach((name) => {
+    const label = `${name}`;
+    group[label] = new FontTypeCommand(name);
   });
   return [group];
 }
 
-function setFontSize(
+function setFontType(
   tr: Transform,
   schema: Schema,
-  size: number,
+  name: string,
 ): Transform {
-  const markType = schema.marks[MARK_FONT_SIZE];
+  const markType = schema.marks[MARK_FONT_TYPE];
   if (!markType) {
     return tr;
   }
@@ -43,7 +54,7 @@ function setFontSize(
   if (!(selection instanceof TextSelection)) {
     return tr;
   }
-  const attrs = size ? {size: `${size}px`} : null;
+  const attrs = name ? {name} : null;
   tr = applyMark(
    tr,
    schema,
@@ -53,16 +64,16 @@ function setFontSize(
   return tr;
 }
 
-class FontSizeCommand extends UICommand {
+class FontTypeCommand extends UICommand {
 
   static createGroup = createGroup;
 
   _popUp = null;
-  _pxSize = 0;
+  _name = '';
 
-  constructor(pxSize: number) {
+  constructor(name: string) {
     super();
-    this._pxSize = pxSize;
+    this._name = name;
   }
 
   isEnabled = (state: EditorState): boolean => {
@@ -70,7 +81,7 @@ class FontSizeCommand extends UICommand {
     if (!(selection instanceof TextSelection)) {
       return false;
     }
-    const markType = schema.marks[MARK_FONT_SIZE];
+    const markType = schema.marks[MARK_FONT_TYPE];
     if (!markType) {
       return false;
     }
@@ -83,10 +94,10 @@ class FontSizeCommand extends UICommand {
     view: ?EditorView,
   ): boolean => {
     const {schema, selection} = state;
-    const tr = setFontSize(
+    const tr = setFontType(
       state.tr.setSelection(selection),
       schema,
-      this._pxSize,
+      this._name,
     );
     if (dispatch && tr.docChanged) {
       dispatch(tr);
@@ -96,4 +107,4 @@ class FontSizeCommand extends UICommand {
   };
 }
 
-export default FontSizeCommand;
+export default FontTypeCommand;

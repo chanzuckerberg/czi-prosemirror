@@ -9,9 +9,6 @@ import uuid from 'uuid/v1';
 import {EditorView} from "prosemirror-view";
 import CustomButton from './CustomButton';
 
-
-import type {LinkURLEditorValue} from './LinkURLEditor';
-
 class LinkTooltip extends React.PureComponent<any, any, any> {
 
   props: {

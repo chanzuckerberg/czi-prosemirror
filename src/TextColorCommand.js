@@ -13,8 +13,6 @@ import {TextSelection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
 import {atAnchorRight} from './ui/popUpPosition';
 
-import type {ColorEditorValue} from './ui/ColorEditor';
-
 class TextColorCommand extends UICommand {
 
   _popUp = null;
@@ -66,26 +64,21 @@ class TextColorCommand extends UICommand {
     state: EditorState,
     dispatch: ?(tr: Transform) => void,
     view: ?EditorView,
-    inputs: ?ColorEditorValue,
+    hex: ?string,
   ): boolean => {
-    if (dispatch) {
+    if (dispatch && hex !== undefined) {
       let {tr, selection, schema} = state;
-      if (inputs) {
-        const {hex} = inputs;
-        const markType = schema.marks[MARK_TEXT_COLOR];
-        const attrs = {color: hex || ''};
-        const tr = applyMark(
-          state.tr.setSelection(state.selection),
-          schema,
-          markType,
-          attrs,
-        );
-        if (tr.docChanged) {
-          dispatch && dispatch(tr.scrollIntoView());
-          return true;
-        } else {
-          return false;
-        }
+      const markType = schema.marks[MARK_TEXT_COLOR];
+      const attrs = hex ? {color: hex} : null;
+      tr = applyMark(
+        state.tr.setSelection(state.selection),
+        schema,
+        markType,
+        attrs,
+      );
+      if (tr.docChanged) {
+        dispatch && dispatch(tr.scrollIntoView());
+        return true;
       }
     }
     return false;

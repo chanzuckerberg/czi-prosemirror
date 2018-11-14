@@ -8,7 +8,6 @@ import {PARAGRAPH, CODE_BLOCK} from './NodeNames';
 import {Selection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
 import {setBlockType} from 'prosemirror-commands';
-import {unwrapNodesFromList} from './toggleList';
 
 export default function toggleCodeBlock(
   tr: Transform,

@@ -8,7 +8,6 @@ import {Fragment, Schema, Node, NodeType, Mark} from 'prosemirror-model';
 import {Selection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
 import {setBlockType} from 'prosemirror-commands';
-import {unwrapNodesFromList} from './toggleList';
 
 function markApplies(doc, ranges, type) {
   for (let i = 0; i < ranges.length; i++) {

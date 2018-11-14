@@ -23,13 +23,10 @@ const TextColorMarkSpec: MarkSpec = {
     },
   ],
   toDOM(node: Node) {
-    const {color, backgroundColor} = node.attrs;
+    const {color} = node.attrs;
     let style = '';
     if (color) {
       style += `color: ${color};`;
-    }
-    if (backgroundColor) {
-      style += `background-color: ${backgroundColor};`;
     }
     return [
       'span',
