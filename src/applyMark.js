@@ -2,7 +2,6 @@
 
 import isListNode from './isListNode';
 import nullthrows from 'nullthrows';
-import updateNodesInSelection from './updateNodesInSelection';
 import {PARAGRAPH, HEADING} from './NodeNames';
 import {Fragment, Schema, Node, NodeType, Mark} from 'prosemirror-model';
 import {Selection} from 'prosemirror-state';
