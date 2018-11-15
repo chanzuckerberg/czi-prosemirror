@@ -19,9 +19,6 @@ export default function updateIndentLevel(
   schema: Schema,
   delta: number,
 ): Transform {
-  if (1) {
-    return tr;
-  }
   const {doc, selection} = tr;
   if (!doc || !selection) {
     return tr;
@@ -59,6 +56,7 @@ export default function updateIndentLevel(
     }
     return true;
   });
+
 
   if (!listNodes.length) {
     return tr;
