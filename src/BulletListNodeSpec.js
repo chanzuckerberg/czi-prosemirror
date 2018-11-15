@@ -5,44 +5,39 @@ import {Node} from 'prosemirror-model';
 
 import type {NodeSpec} from 'prosemirror';
 
-const ATTRIBUTE_LEVEL = 'data-level';
+const ATTRIBUTE_INDENT = 'data-indent';
 const DEFAULT_DOM = [
   'ul',
-  {level: 1},
+  {indent: 0},
   0,
 ];
 
-// https://bitbucket.org/atlassian/atlaskit/src/34facee3f461/packages/editor-core/src/schema/nodes/?at=master
 const BulletListNodeSpec: NodeSpec = {
   attrs: {
-    level: {
-      default: 1,
-    },
-    identifier: {
-      default: '',
-    },
+    id: {default: null},
+    indent: {default: 0},
   },
   group: 'block',
   content: LIST_ITEM + '+',
   parseDOM: [{
     tag: 'ul',
     getAttrs(dom: HTMLElement) {
-      const level = dom.hasAttribute(ATTRIBUTE_LEVEL) ?
-        parseInt(dom.getAttribute(ATTRIBUTE_LEVEL), 10) :
-        1;
+      const indent = dom.hasAttribute(ATTRIBUTE_INDENT) ?
+        parseInt(dom.getAttribute(ATTRIBUTE_INDENT), 10) :
+        0;
       return {
-        level,
+        indent,
       };
     },
   }],
   toDOM(node: Node) {
-    const {level} = node.attrs;
-    return level === 1 ?
+    const {indent} = node.attrs;
+    return indent === 0 ?
       DEFAULT_DOM :
       [
         'ul',
         {
-          [ATTRIBUTE_LEVEL]: level,
+          [ATTRIBUTE_INDENT]: indent,
         },
         0,
       ];

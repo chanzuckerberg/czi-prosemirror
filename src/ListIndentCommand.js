@@ -2,7 +2,7 @@
 
 import UICommand from './ui/UICommand';
 import noop from './noop';
-import setListNodeLevel from './setListNodeLevel';
+import updateListNodeIndentLevel from './updateListNodeIndentLevel';
 import toggleList from './toggleList';
 import {BULLET_LIST, ORDERED_LIST} from './NodeNames';
 import {EditorState, Selection} from 'prosemirror-state';
@@ -36,7 +36,7 @@ class ListIndentCommand extends UICommand {
     let {selection, tr, schema} = state;
     tr = tr.setSelection(selection);
 
-    tr = setListNodeLevel(
+    tr = updateListNodeIndentLevel(
       tr,
       schema,
       this._delta,

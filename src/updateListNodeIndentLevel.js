@@ -11,9 +11,9 @@ import {TextSelection} from 'prosemirror-state';
 import {Transform, Step, StepResult} from 'prosemirror-transform';
 import {findParentNodeOfType} from 'prosemirror-utils';
 
-export const MAX_INDENT_LEVEL = 8;
+export const MAX_INDENT_LEVEL = 7;
 
-export default function setListNodeLevel(
+export default function updateListNodeIndentLevel(
   tr: Transform,
   schema: Schema,
   delta: number,
@@ -53,11 +53,11 @@ export default function setListNodeLevel(
   }
 
   const listNode = tr.doc.nodeAt(listFromPos);
-  const nextLevel = delta > 0 ?
-    listNode.attrs.level + 1 :
-    listNode.attrs.level - 1;
+  const nextIndent = delta > 0 ?
+    listNode.attrs.indent + 1 :
+    listNode.attrs.indent - 1;
 
-  if (nextLevel > MAX_INDENT_LEVEL || nextLevel < 1) {
+  if (nextIndent > MAX_INDENT_LEVEL || nextIndent < 0) {
     return tr;
   }
 
@@ -102,7 +102,7 @@ export default function setListNodeLevel(
     tr = tr.setNodeMarkup(listToPos, null, {
       ...listNode.attrs,
       order: 1,
-      level: nextLevel,
+      indent: nextIndent,
     });
   }
 

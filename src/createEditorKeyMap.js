@@ -30,8 +30,8 @@ const {
 const {
   HISTORY_REDO,
   HISTORY_UNDO,
-  LIST_INDENT_LESS,
-  LIST_INDENT_MORE,
+  INDENT_LESS,
+  INDENT_MORE,
   LIST_SPLIT,
   TABLE_MOVE_TO_NEXT_CELL,
   TABLE_MOVE_TO_PREV_CELL,
@@ -58,11 +58,11 @@ export default function createEditorKeyMap(): UserKeyMap {
   result[KEY_SPLIT_LIST_ITEM.common] = LIST_SPLIT.execute;
   result[KEY_TAB.common] = bindCommands(
     TABLE_MOVE_TO_NEXT_CELL,
-    LIST_INDENT_MORE,
+    INDENT_MORE,
   );
   result[KEY_TAB_SHIFT.common] = bindCommands(
     TABLE_MOVE_TO_PREV_CELL,
-    LIST_INDENT_LESS,
+    INDENT_LESS,
   );
   result[KEY_UNDO.common] = HISTORY_UNDO.execute;
   return result;

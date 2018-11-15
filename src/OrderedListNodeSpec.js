@@ -5,25 +5,19 @@ import {Node} from 'prosemirror-model';
 
 import type {NodeSpec} from 'prosemirror';
 
-const ATTRIBUTE_LEVEL = 'data-level';
+const ATTRIBUTE_INDENT = 'data-indent';
+
 const DEFAULT_DOM = [
   'ol',
-  {start: 1, [ATTRIBUTE_LEVEL]: 1},
+  {start: 1, [ATTRIBUTE_INDENT]: 0},
   0,
 ];
 
-// https://bitbucket.org/atlassian/atlaskit/src/34facee3f461/packages/editor-core/src/schema/nodes/?at=master
 const OrderedListNodeSpec: NodeSpec = {
   attrs: {
-    order: {
-      default: 1,
-    },
-    level: {
-      default: 1,
-    },
-    identifier: {
-      default: '',
-    },
+    id: {default: null},
+    indent: {default: 0},
+    order: {default: 1},
   },
   group: 'block',
   content: LIST_ITEM + '+',
@@ -32,25 +26,25 @@ const OrderedListNodeSpec: NodeSpec = {
     getAttrs(dom: HTMLElement) {
       const order = dom.hasAttribute('start') ?
         parseInt(dom.getAttribute('start'), 10) :
-        1;
-      const level = dom.hasAttribute(ATTRIBUTE_LEVEL) ?
-        parseInt(dom.getAttribute(ATTRIBUTE_LEVEL), 10) :
-        1;
+        0;
+      const indent = dom.hasAttribute(ATTRIBUTE_INDENT) ?
+        parseInt(dom.getAttribute(ATTRIBUTE_INDENT), 10) :
+        0;
       return {
-        level,
+        indent,
         order,
       };
     },
   }],
   toDOM(node: Node) {
-    const {order, level} = node.attrs;
-    return order === 1 && level === 1 ?
+    const {order, indent} = node.attrs;
+    return order === 1 && indent === 0 ?
       DEFAULT_DOM :
       [
         'ol',
         {
           start: order,
-          [ATTRIBUTE_LEVEL]: level,
+          [ATTRIBUTE_INDENT]: indent,
         },
         0,
       ];
