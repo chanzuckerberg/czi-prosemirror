@@ -6,11 +6,12 @@ import {Node} from 'prosemirror-model';
 import type {NodeSpec} from 'prosemirror';
 
 const EMPTY_OBJECT = {};
+const ALIGN_PATTERN = /(left|right|center|justify)/;
 
 function getAttrs(dom: HTMLElement) {
   const {textAlign} = dom.style;
   let align = dom.getAttribute('align') || textAlign || '';
-  align = /(left|right|center|justify)/.test(align) ? align : null;
+  align = ALIGN_PATTERN.test(align) ? align : null;
   return align ? {align} : EMPTY_OBJECT;
 }
 
@@ -28,7 +29,7 @@ const ParagraphNodeSpec: NodeSpec = {
   toDOM(node) {
     let {attrs} = node;
     if (attrs.align) {
-      attrs = {style: `text-align: ${node.attrs.align}`};
+      attrs = {'style': `text-align: ${node.attrs.align}`};
     } else {
       attrs = EMPTY_OBJECT;
     }

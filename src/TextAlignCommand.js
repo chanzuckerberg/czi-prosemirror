@@ -6,7 +6,7 @@ import nullthrows from 'nullthrows';
 import toggleHeading from './toggleHeading';
 import {EditorState, Selection} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
-import {HEADING, PARAGRAPH} from './NodeNames';
+import {HEADING, LIST_ITEM, PARAGRAPH} from './NodeNames';
 import {Schema} from 'prosemirror-model';
 import {TextSelection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
@@ -26,7 +26,8 @@ export function setTextAlign(
 
   const paragraph = schema.nodes[PARAGRAPH];
   const heading = schema.nodes[HEADING];
-  if (!paragraph && !heading) {
+  const listItem = schema.nodes[LIST_ITEM];
+  if (!paragraph && !heading && !listItem) {
     return tr;
   }
 
@@ -35,8 +36,11 @@ export function setTextAlign(
 
   doc.nodesBetween(from, to, (node, pos) => {
     const nodeType = node.type;
-    console.log(nodeType.name);
-    if (nodeType === paragraph || nodeType === heading) {
+    if (
+      nodeType === paragraph ||
+      nodeType === heading ||
+      nodeType === listItem
+    ) {
       const align = node.attrs.align || null;
       if (align !== alignment) {
         tasks.push({
