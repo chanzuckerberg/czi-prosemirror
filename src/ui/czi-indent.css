@@ -1,0 +1,59 @@
+/* Indent */
+
+.ProseMirror *[data-indent="1"] {
+  margin-left: 24pt;
+}
+
+.ProseMirror *[data-indent="2"] {
+  margin-left: 48pt;
+}
+
+.ProseMirror *[data-indent="3"] {
+  margin-left: 72pt;
+}
+
+.ProseMirror *[data-indent="4"] {
+  margin-left: 86pt;
+}
+
+.ProseMirror *[data-indent="5"] {
+  margin-left: 104pt;
+}
+
+.ProseMirror *[data-indent="6"] {
+  margin-left: 128pt;
+}
+
+.ProseMirror *[data-indent="7"] {
+  margin-left: 156pt;
+}
+
+/** inside table */
+
+.ProseMirror td *[data-indent="1"] {
+  margin-left: 10%;
+}
+
+.ProseMirror td *[data-indent="2"] {
+  margin-left: 20%;
+}
+
+.ProseMirror td *[data-indent="3"] {
+  margin-left: 30%;
+}
+
+.ProseMirror td *[data-indent="4"] {
+  margin-left: 40%;
+}
+
+.ProseMirror td *[data-indent="5"] {
+  margin-left: 50%;
+}
+
+.ProseMirror td *[data-indent="6"] {
+  margin-left: 60%;
+}
+
+.ProseMirror td *[data-indent="7"] {
+  margin-left: 70%;
+}

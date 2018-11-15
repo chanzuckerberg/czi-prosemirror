@@ -1,0 +1,86 @@
+@import './czi-vars.css';
+@import './czi-ordered-list-counters.css';
+
+/* List Styles */
+/* https://css-tricks.com/custom-list-number-styling/ */
+
+.ProseMirror ol,
+.ProseMirror ul {
+  counter-reset: none;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+
+  /* https://www.sitepoint.com/understanding-block-formatting-contexts-in-css/ */
+  /* this is need to force "block-context" to prevent broken style around */
+  /* float siblings */
+  overflow: auto;
+}
+
+.ProseMirror li {
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+.ProseMirror li > p {
+  /* https://www.sitepoint.com/understanding-block-formatting-contexts-in-css/ */
+  /* this is need to force "block-context" to prevent broken style around */
+  /* float siblings */
+  overflow: auto;
+}
+
+.ProseMirror ol {
+  counter-reset: czi-counter;
+  list-style-type: none;
+}
+
+.ProseMirror ol li {
+  counter-increment: czi-counter;
+}
+
+.ProseMirror li::before,
+.ProseMirror li[data-align="center"] p:first-child::before {
+  content: counter(czi-counter) ".";
+  float: left;
+  font-size: 1em;
+  line-height: 1em;
+  margin-left: 8px;
+  margin-right: 8px;
+}
+
+.ProseMirror li::before + p {
+  /* https://www.sitepoint.com/understanding-block-formatting-contexts-in-css/ */
+  /* this is need to force "block-context" to prevent broken style around */
+  /* float siblings (e.g. An image is floafing around it.) */
+  overflow: auto;
+}
+
+.ProseMirror ul li[data-align="center"] p:first-child::before,
+.ProseMirror ul > li::before {
+  content: '\2022'; /* square */
+  font-size: 2em;
+  line-height: 0.5em;
+}
+
+/* Adjust list-style postion for text-alignment. */
+
+.ProseMirror li[data-align="center"] {
+  text-align: center;
+}
+
+.ProseMirror li[data-align="center"]::before {
+  /* hide it, we'd show the bullet with <p />  instead. */
+  display: none;
+}
+
+.ProseMirror li[data-align="center"] p:first-child::before {
+  display: inline;
+  float: none;
+  position: relative;
+  top: 1px;
+}
+
+.ProseMirror li[data-align="right"]::before {
+  float: right;
+}

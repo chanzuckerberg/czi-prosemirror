@@ -26,26 +26,32 @@ export default function toggleHeading(
 
   const {from, to} = tr.selection;
   let startWithHeadingBlock = null;
-  const nodesToPos = new Map();
+  const poses = [];
+  const docType = doc.type;
   doc.nodesBetween(from, to, (node, pos, parentNode) => {
     const nodeType = node.type;
+    const parentNodeType = parentNode.type;
+
     if (startWithHeadingBlock === null) {
       startWithHeadingBlock =
         nodeType === heading &&
         node.attrs.level === level;
     }
-    nodesToPos.set(node, pos);
+
+    if (parentNodeType !== listItem) {
+      poses.push(pos);
+    }
     return !isListNode(node);
   });
-
-  for (let [node, pos] of nodesToPos) {
+  // Update from the bottom to avoid disruptive changes in pos.
+  poses.sort().reverse().forEach(pos => {
     tr = setHeadingNode(
       tr,
       schema,
       pos,
       startWithHeadingBlock ? null : level,
     );
-  }
+  });
   return tr;
 }
 

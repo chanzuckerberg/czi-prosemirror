@@ -1,1 +1,33 @@
-@import './czi-prosemirror.css';
+@import './czi-vars.css';
+@import './czi-list.css';
+@import './czi-table.css';
+@import './czi-indent.css';
+
+.czi-text-selection {
+   /* var(--czi-selection-highlight-color-dark); */
+  background: red;
+}
+
+.ProseMirror-focused {
+  outline: none;
+}
+
+.ProseMirror {
+  font-family: var(--czi-editor-font-family);
+  font-size: var(--czi-editor-font-size);
+}
+
+.ProseMirror a:link,
+.ProseMirror a:visited,
+.ProseMirror a:hover,
+.ProseMirror a:active {
+  color: var(--czi-link-color);
+}
+
+/* CodeBlock */
+.ProseMirror pre > code {
+  background-color: #eee;
+  border: 1px solid #999;
+  display: block;
+  padding: 20px;
+}

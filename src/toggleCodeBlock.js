@@ -21,7 +21,7 @@ export default function toggleCodeBlock(
     return tr;
   }
 
-  const nodesToPos = new Map();
+  const poses = [];
   const {from, to} = tr.selection;
   let startWithCodeBlock = null;
   doc.nodesBetween(from, to, (node, pos) => {
@@ -29,18 +29,19 @@ export default function toggleCodeBlock(
     if (startWithCodeBlock === null) {
       startWithCodeBlock = nodeType === codeBlock;
     }
-    nodesToPos.set(node, pos);
+    poses.push(pos);
     return !isListNode(node);
   });
 
-  for (let [node, pos] of nodesToPos) {
+  // Update from the bottom to avoid disruptive changes in pos.
+  poses.sort().reverse().forEach(pos => {
     tr = setCodeBlockNodeEnabled(
       tr,
       schema,
       pos,
       startWithCodeBlock ? false : true,
     );
-  }
+  });
   return tr;
 }
 

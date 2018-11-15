@@ -27,9 +27,9 @@ const {
   HISTORY_UNDO,
   HR,
   IMAGE_FROM_URL,
+  INDENT_LESS,
+  INDENT_MORE,
   LINK_SET_URL,
-  LIST_INDENT_LESS,
-  LIST_INDENT_MORE,
   OL,
   STRIKE,
   STRONG,
@@ -61,6 +61,10 @@ const {
 
 const CommandGroups = [
   {
+    'Undo': HISTORY_UNDO,
+    'Redo': HISTORY_REDO,
+  },
+  {
     'H1': H1,
     'H2': H2,
     'H3': H3,
@@ -73,8 +77,6 @@ const CommandGroups = [
   {
     'OL': OL,
     'UL': UL,
-    '->||': LIST_INDENT_MORE,
-    '||<-': LIST_INDENT_LESS,
   },
   {
     'Color': TEXT_COLOR,
@@ -132,8 +134,8 @@ const CommandGroups = [
     '<code />': CODE,
   },
   {
-    'Undo': HISTORY_UNDO,
-    'Redo': HISTORY_REDO,
+    '\u2192||': INDENT_MORE,
+    '||\u2190': INDENT_LESS,
   },
 ];
 
