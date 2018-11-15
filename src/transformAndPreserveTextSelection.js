@@ -24,7 +24,7 @@ export default function transformAndPreserveTextSelection(
     return tr;
   }
 
-  if (selection instanceof TextSelection) {
+  if (!(selection instanceof TextSelection)) {
     return tr;
   }
 
