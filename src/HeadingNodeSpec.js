@@ -1,6 +1,7 @@
 // @flow
 
-import {MAX_INDENT_LEVEL, MIN_INDENT_LEVEL} from './ParagraphNodeSpec';
+import ParagraphNodeSpec from './ParagraphNodeSpec';
+import {getParagraphNodeAttrs, MAX_INDENT_LEVEL, MIN_INDENT_LEVEL} from './ParagraphNodeSpec';
 import {Node} from 'prosemirror-model';
 
 import type {NodeSpec} from 'prosemirror';
@@ -21,9 +22,7 @@ const TAG_NAME_TO_LEVEL = {
 // as a `<p>` element.
 const HeadingNodeSpec: NodeSpec = {
   attrs: {
-    align: {default: null},
-    id: {default: null},
-    indent: {default: MIN_INDENT_LEVEL},
+    ...ParagraphNodeSpec.attrs,
     level: {default: 1},
   },
   content: "inline*",
@@ -55,18 +54,11 @@ const HeadingNodeSpec: NodeSpec = {
   },
 };
 
-function getAttrs(dom: HTMLElement) {
-  const {textAlign} = dom.style;
-  let align = dom.getAttribute('align') || textAlign || '';
-  align = ALIGN_PATTERN.test(align) ? align : null;
-
+function getAttrs(dom: HTMLElement): Object {
+  const attrs: Object = getParagraphNodeAttrs(dom);
   const level = TAG_NAME_TO_LEVEL[dom.nodeName.toUpperCase()] || 1;
-
-  const indent = dom.hasAttribute(ATTRIBUTE_INDENT) ?
-    parseInt(dom.getAttribute(ATTRIBUTE_INDENT), 10) :
-    MIN_INDENT_LEVEL;
-
-  return {align, level, indent};
+  attrs.level = level;
+  return attrs;
 }
 
 export default HeadingNodeSpec;

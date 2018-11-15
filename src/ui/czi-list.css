@@ -27,7 +27,7 @@
   /* https://www.sitepoint.com/understanding-block-formatting-contexts-in-css/ */
   /* this is need to force "block-context" to prevent broken style around */
   /* float siblings */
-  overflow: auto;
+  overflow-x: hidden;
 }
 
 .ProseMirror ol {

@@ -10,6 +10,7 @@ export const MAX_INDENT_LEVEL = 7;
 
 const ALIGN_PATTERN = /(left|right|center|justify)/;
 const ATTRIBUTE_INDENT = 'data-indent';
+const LINE_HEIGHT_PATTERN = /(100\%|115\%|150\%|200\%)/;
 
 // https://github.com/ProseMirror/prosemirror-schema-basic/blob/master/src/schema-basic.js
 // :: NodeSpec A plain paragraph textblock. Represented in the DOM
@@ -19,10 +20,11 @@ const ParagraphNodeSpec: NodeSpec = {
     align: {default: null},
     id: {default: null},
     indent: {default: null},
+    lineSpacing: {default: null},
   },
   content: "inline*",
   group: "block",
-  parseDOM: [{tag: 'p', getAttrs}],
+  parseDOM: [{tag: 'p', getParagraphNodeAttrs}],
   toDOM(node) {
     const {align, indent} = node.attrs;
     const attrs = {};
@@ -39,8 +41,8 @@ const ParagraphNodeSpec: NodeSpec = {
   },
 };
 
-function getAttrs(dom: HTMLElement) {
-  const {textAlign} = dom.style;
+export function getParagraphNodeAttrs(dom: HTMLElement): Object {
+  const {lineHeight, textAlign} = dom.style;
   let align = dom.getAttribute('align') || textAlign || '';
   align = ALIGN_PATTERN.test(align) ? align : null;
 
@@ -48,7 +50,11 @@ function getAttrs(dom: HTMLElement) {
     parseInt(dom.getAttribute(ATTRIBUTE_INDENT), 10) :
     MIN_INDENT_LEVEL;
 
-  return {align, indent};
+  const lineSpacing = LINE_HEIGHT_PATTERN.test(lineHeight) ?
+    lineHeight :
+    null;
+
+  return {align, indent, lineSpacing};
 }
 
 export default ParagraphNodeSpec;

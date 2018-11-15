@@ -1,4 +1,5 @@
 html {
+  /*
   background: repeating-linear-gradient(
     45deg,
     #c0c0c0,
@@ -6,6 +7,8 @@ html {
     #c2c2c2 10px,
     #c2c2c2 20px
   );
+  */
+  background: #E6E6E6;
   border: 0;
   border: none;
   margin: 0;
@@ -30,13 +33,14 @@ body {
 
 .demo-app-body .ProseMirror {
   background: #fff;
+  border-radius: 1px;
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
   box-sizing: border-box;
-  margin: 20px auto;
+  margin: 20px auto 0 50px;
   min-height: 29.7cm;
   outline: none;
-  padding: 16px;
+  padding: 2.7cm;
   position: relative;
-  width: 21cm;
+  width: 21.65cm;
   z-index: 1;
 }
