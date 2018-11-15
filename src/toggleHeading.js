@@ -26,8 +26,7 @@ export default function toggleHeading(
 
   const {from, to} = tr.selection;
   let startWithHeadingBlock = null;
-  const nodesToPos = new Map();
-  const nodesToParentNode = new Map();
+  const poses = [];
   const docType = doc.type;
   doc.nodesBetween(from, to, (node, pos, parentNode) => {
     const nodeType = node.type;
@@ -38,29 +37,21 @@ export default function toggleHeading(
         nodeType === heading &&
         node.attrs.level === level;
     }
-    if (
-      parentNodeType !== listItem &&
-      parentNodeType !== docType &&
 
-
-      (
-        nodeType === heading ||
-        nodeType === paragraph
-      )
-    ) {
-      nodesToPos.set(node, pos);
+    if (parentNodeType !== listItem) {
+      poses.push(pos);
     }
     return !isListNode(node);
   });
-
-  for (let [node, pos] of nodesToPos) {
+  // Update from the bottom to avoid disruptive changes in pos.
+  poses.sort().reverse().forEach(pos => {
     tr = setHeadingNode(
       tr,
       schema,
       pos,
       startWithHeadingBlock ? null : level,
     );
-  }
+  });
   return tr;
 }
 

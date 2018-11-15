@@ -33,9 +33,8 @@ export default function toggleCodeBlock(
     return !isListNode(node);
   });
 
-  poses.sort();
-  poses.reverse();
-  poses.forEach(pos => {
+  // Update from the bottom to avoid disruptive changes in pos.
+  poses.sort().reverse().forEach(pos => {
     tr = setCodeBlockNodeEnabled(
       tr,
       schema,
