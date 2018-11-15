@@ -85,7 +85,7 @@ function wrapNodesWithListInternal(
   const heading = schema.nodes[HEADING];
 
   let items = null;
-  const lists = [];
+  let lists = [];
   doc.nodesBetween(from, to, (node, pos) => {
     const nodeType = node.type;
     const nodeName = nodeType.name;
@@ -105,8 +105,8 @@ function wrapNodesWithListInternal(
     }
 
     if (nodeType === heading || nodeType === paragraph) {
-      items = items || new Map();
-      items.set(node, pos);
+      items = items || [];
+      items.push({node, pos});
     } else {
       items && lists.push(items);
       items = null;
@@ -115,25 +115,36 @@ function wrapNodesWithListInternal(
   });
   items && lists.push(items);
 
-  lists.forEach(nodeToPosMap => {
-    tr = wrapNodesList(
+  lists = lists.filter(items => items.length > 0);
+  if (!lists.length) {
+    return tr;
+  }
+
+  lists = lists.sort((a, b) => {
+    const pa = nullthrows(a[0]).pos;
+    const pb = nullthrows(b[0]).pos;
+    return pa >= pb ? 1 : -1;
+  });
+
+  lists.reverse();
+
+  lists.forEach(items => {
+    tr = wrapItemsWithListInternal(
       tr,
       schema,
       listNodeType,
-      nodeToPosMap,
-      memo,
+      items,
     );
   });
 
   return tr;
 }
 
-function wrapNodesList(
+function wrapItemsWithListInternal(
   tr: Transform,
   schema: Schema,
   listNodeType: NodeType,
-  nodeToPosMap: Map<Node, number>,
-  memo: SelectionMemo,
+  items: Array<{node: Node, pos: number}>,
 ): Transform {
   const initialTr = tr;
   const paragraph = schema.nodes[PARAGRAPH];
@@ -143,18 +154,19 @@ function wrapNodesList(
     return tr;
   }
 
-  const nodes = [];
-  for (let [node, pos] of nodeToPosMap) {
+  const paragraphNodes = [];
+  items.forEach(item => {
+    const {node, pos} = item;
     // Temporarily annotate each node with an unique ID.
     const uniqueID = {};
     const nodeAttrs = {...node.attrs, id: uniqueID};
     // Replace the original node with the node annotated by the uniqueID.
     tr = tr.setNodeMarkup(pos, paragraph, nodeAttrs, node.marks);
-    nodes.push(tr.doc.nodeAt(pos));
-  }
+    paragraphNodes.push(tr.doc.nodeAt(pos));
+  });
 
-  const firstNode = nodes[0];
-  const lastNode = nodes[nodes.length - 1];
+  const firstNode = paragraphNodes[0];
+  const lastNode = paragraphNodes[paragraphNodes.length - 1];
   if (!firstNode || !lastNode) {
     return initialTr;
   }
@@ -162,7 +174,6 @@ function wrapNodesList(
   const firstNodeID = firstNode.attrs.id;
   const lastNodeID = lastNode.attrs.id;
   if (!firstNodeID || !lastNodeID) {
-    console.error('unable to find annotated ID');
     return initialTr;
   }
 
@@ -184,28 +195,29 @@ function wrapNodesList(
   }
 
   const listItemNodes = [];
-  for (let [node, pos] of nodeToPosMap) {
+  items.forEach(item => {
+    const {node, pos} = item;
     // Restore the annotated nodes with the copy of the original ones.
     const paragraphNode = paragraph.create(node.attrs, node.content, node.marks);
     const listItemNode = listItem.create({}, Fragment.from(paragraphNode));
     listItemNodes.push(listItemNode);
-  }
+  });
 
-  const listNodeAttrs = {level: 1, start: 1};
 
+  const listNodeAttrs = {indent: 0, start: 1};
   const $fromPos = tr.doc.resolve(fromPos);
   const $toPos = tr.doc.resolve(toPos);
   if (
     $fromPos.nodeBefore &&
     $fromPos.nodeBefore.type === listNodeType &&
-    $fromPos.nodeBefore.attrs.level === 1
+    $fromPos.nodeBefore.attrs.indent === 0
   ) {
     tr = tr.delete(fromPos, toPos);
     tr = tr.insert(fromPos - 1, Fragment.from(listItemNodes));
   } else if (
     $toPos.nodeAfter &&
     $toPos.nodeAfter.type === listNodeType &&
-    $toPos.nodeAfter.attrs.level === 1
+    $toPos.nodeAfter.attrs.indent === 0
   ) {
     tr = tr.delete(fromPos, toPos);
     tr = tr.insert(fromPos + 1, Fragment.from(listItemNodes));
@@ -289,7 +301,7 @@ function unwrapNodesFromListInternal(
   tr = tr.delete(listNodePos, listNodePos + listNode.nodeSize);
 
   const listNodeType = listNode.type;
-  const attrs = {level: listNode.attrs.level, start: 1};
+  const attrs = {indent: listNode.attrs.indent, start: 1};
 
   if (contentBlocksAfter.length) {
     const nodes = contentBlocksAfter.map(block => {

@@ -14,12 +14,14 @@ import {TextSelection} from 'prosemirror-state';
 import {Transform, Step, StepResult} from 'prosemirror-transform';
 import {findParentNodeOfType} from 'prosemirror-utils';
 
-
 export default function updateIndentLevel(
   tr: Transform,
   schema: Schema,
   delta: number,
 ): Transform {
+  if (1) {
+    return tr;
+  }
   const {doc, selection} = tr;
   if (!doc || !selection) {
     return tr;
@@ -34,13 +36,12 @@ export default function updateIndentLevel(
   const paragraph = nodes[PARAGRAPH];
 
   const {from, to} = selection;
-
   const listNodes = [];
   const listNodeToPos = new Map();
 
   doc.nodesBetween(from, to, (node, pos, parentNode) => {
     const nodeType = node.type;
-    if (nodeType === paragraph && parentNode.type !== listItem) {
+    if (nodeType === paragraph) {
       tr = setNodeIndentMarkup(tr, pos, node, delta);
       return false;
     } else if (nodeType === heading) {
@@ -62,6 +63,45 @@ export default function updateIndentLevel(
   if (!listNodes.length) {
     return tr;
   }
+
+  listNodes.forEach(node => {
+    console.log(listNodeToPos.get(node));
+  });
+
+  // listNodes.sort((a, b) => {
+  //
+  // });
+  return tr;
+}
+
+function setNodeIndentMarkup(
+  tr: Transform,
+  pos: number,
+  node: Node,
+  delta: number,
+): Transform {
+  const indent = clamp(
+    0,
+    (node.attrs.indent || 0) + delta,
+    MAX_INDENT_LEVEL,
+  );
+  if (indent === node.attrs.indent) {
+    return tr;
+  }
+  const nodeAttrs = {
+    ...node.attrs,
+    indent,
+  };
+  return tr.setNodeMarkup(
+    pos,
+    node.type,
+    nodeAttrs,
+    node.marks,
+  );
+}
+
+
+/*
 
   const markType = schema.marks[MARK_TEXT_SELECTION];
   if (!markType) {
@@ -106,12 +146,6 @@ export default function updateIndentLevel(
         fromPos = fromPos === null ? pos : fromPos;
         toPos = pos + node.nodeSize;
         return false;
-      } else if (
-        listNodePos !== null &&
-        fromPos !== null &&
-        toPos !== null
-      ) {
-        //return false;
       }
       return true;
     });
@@ -135,33 +169,4 @@ export default function updateIndentLevel(
 
     // tr = updateListNodeIndentLevel(tr, schema, delta);
   });
-
-
-  return tr;
-}
-
-function setNodeIndentMarkup(
-  tr: Transform,
-  pos: number,
-  node: Node,
-  delta: number,
-): Transform {
-  const indent = clamp(
-    0,
-    (node.attrs.indent || 0) + delta,
-    MAX_INDENT_LEVEL,
-  );
-  if (indent === node.attrs.indent) {
-    return tr;
-  }
-  const nodeAttrs = {
-    ...node.attrs,
-    indent,
-  };
-  return tr.setNodeMarkup(
-    pos,
-    node.type,
-    nodeAttrs,
-    node.marks,
-  );
-}
+*/

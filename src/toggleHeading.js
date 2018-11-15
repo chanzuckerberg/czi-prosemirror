@@ -27,14 +27,29 @@ export default function toggleHeading(
   const {from, to} = tr.selection;
   let startWithHeadingBlock = null;
   const nodesToPos = new Map();
+  const nodesToParentNode = new Map();
+  const docType = doc.type;
   doc.nodesBetween(from, to, (node, pos, parentNode) => {
     const nodeType = node.type;
+    const parentNodeType = parentNode.type;
+
     if (startWithHeadingBlock === null) {
       startWithHeadingBlock =
         nodeType === heading &&
         node.attrs.level === level;
     }
-    nodesToPos.set(node, pos);
+    if (
+      parentNodeType !== listItem &&
+      parentNodeType !== docType &&
+
+
+      (
+        nodeType === heading ||
+        nodeType === paragraph
+      )
+    ) {
+      nodesToPos.set(node, pos);
+    }
     return !isListNode(node);
   });
 
