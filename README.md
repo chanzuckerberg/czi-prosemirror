@@ -1,5 +1,8 @@
 # get source code
 
+This project still under active development.
+API documentations will be available later.
+
 ```
 git clone https://github.com/chanzuckerberg/czi-prosemirror.git
 ```
