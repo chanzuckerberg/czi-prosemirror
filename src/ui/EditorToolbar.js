@@ -23,6 +23,8 @@ const {
   H2,
   H3,
   H4,
+  H5,
+  H6,
   HISTORY_REDO,
   HISTORY_UNDO,
   HR,
@@ -62,84 +64,88 @@ const {
 
 const CommandGroups = [
   {
-    'Undo': HISTORY_UNDO,
-    'Redo': HISTORY_REDO,
+    undo: HISTORY_UNDO,
+    redo: HISTORY_REDO,
   },
   {
-    'H1': H1,
-    'H2': H2,
-    'H3': H3,
-    'H4': H4,
+    h1: H1,
+    h2: H2,
+    h3: H3,
+    hn: [{
+      h4: H4,
+      h5: H5,
+      h6: H6,
+    }],
   },
   {
-    'Font': FONT_TYPES,
-    'Size': FONT_SIZES,
+    font_types: FONT_TYPES,
+    font_sizes: FONT_SIZES,
   },
   {
-    'OL': OL,
-    'UL': UL,
+    ol: OL,
+    ul: UL,
   },
   {
-    'Color': TEXT_COLOR,
-    'Highlight': TEXT_HIGHLIGHT,
-    'U': UNDERLINE,
-    'B': STRONG,
-    'I': EM,
-    '\u2015': STRIKE,
-    'Clear': CLEAR_FORMAT,
+    text_color: TEXT_COLOR,
+    text_highlight: TEXT_HIGHLIGHT,
+    underline: UNDERLINE,
+    strong: STRONG,
+    em: EM,
+    strike: STRIKE,
+    clear_format: CLEAR_FORMAT,
   },
   {
-    'Link': LINK_SET_URL,
-    'Image': IMAGE_FROM_URL,
+    link: LINK_SET_URL,
+    image: IMAGE_FROM_URL,
   },
   {
-    '=- ': TEXT_ALIGN_LEFT,
-    ' = ': TEXT_ALIGN_CENTER,
-    ' -=': TEXT_ALIGN_RIGHT,
-    '\u2261': TEXT_ALIGN_JUSTIFY,
+    text_align_left: TEXT_ALIGN_LEFT,
+    text_align_center: TEXT_ALIGN_CENTER,
+    text_align_right: TEXT_ALIGN_RIGHT,
+    text_align_justify: TEXT_ALIGN_JUSTIFY,
   },
   {
-    'TABLE': [
+    table: [
       {
-        'Insert Table': TABLE_INSERT_TABLE,
+        insert_table: TABLE_INSERT_TABLE,
       },
       {
-        'Fill Color': TABLE_CELL_COLOR,
+        table_fill_color: TABLE_CELL_COLOR,
       },
       {
-        'Insert column before': TABLE_ADD_COLUMN_BEFORE,
-        'Insert column after': TABLE_ADD_COLUMN_AFTER,
-        'Delete column': TABLE_DELETE_COLUMN,
+        insert_column_before: TABLE_ADD_COLUMN_BEFORE,
+        insert_column_after: TABLE_ADD_COLUMN_AFTER,
+        delete_column: TABLE_DELETE_COLUMN,
       },
       {
-        'Insert row before': TABLE_ADD_ROW_BEFORE,
-        'Insert row after': TABLE_ADD_ROW_AFTER,
-        'Delete row': TABLE_DELETE_ROW,
+        insert_row_before: TABLE_ADD_ROW_BEFORE,
+        insert_row_after: TABLE_ADD_ROW_AFTER,
+        delete_row: TABLE_DELETE_ROW,
       },
       {
-        'Merge cells': TABLE_MERGE_CELLS,
-        'Split cell': TABLE_SPLIT_CELL,
+        merge_cells: TABLE_MERGE_CELLS,
+        split_cells: TABLE_SPLIT_CELL,
       },
+      // {
+      //   toggle_header_column: TABLE_TOGGLE_HEADER_COLUMN,
+      //   toggle_header_row: TABLE_TOGGLE_HEADER_ROW,
+      //   toggle_header_cells: TABLE_TOGGLE_HEADER_CELL,
+      // },
       {
-        'Toggle header column': TABLE_TOGGLE_HEADER_COLUMN,
-        'Toggle header row': TABLE_TOGGLE_HEADER_ROW,
-        'Toggle header cells': TABLE_TOGGLE_HEADER_CELL,
-      },
-      {
-        'Delete table': TABLE_DELETE_TABLE,
+        delete_table: TABLE_DELETE_TABLE,
       },
     ],
   },
   {
-    'HR': HR,
-    '<code />': CODE,
+    hr: HR,
+    code_block: CODE,
   },
   {
-    '\u2195\u2261': TEXT_LINE_SPACINGS,
+    text_line_spacing: TEXT_LINE_SPACINGS,
   },
   {
-    '\u2192||': INDENT_MORE,
-    '||\u2190': INDENT_LESS,
+    indent_more: INDENT_MORE,
+    indent_less: INDENT_LESS,
   },
 ];
 
