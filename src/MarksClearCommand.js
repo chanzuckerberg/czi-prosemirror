@@ -11,21 +11,25 @@ import {Transform} from 'prosemirror-transform';
 import {setTextAlign} from './TextAlignCommand';
 
 const {
+  MARK_EM,
   MARK_FONT_SIZE,
   MARK_FONT_TYPE,
+  MARK_STRIKE,
+  MARK_STRONG,
   MARK_TEXT_COLOR,
   MARK_TEXT_HIGHLIGHT,
   MARK_UNDERLINE,
-  MARK_STRIKE,
 } = MarkNames;
 
 const FORMAT_MARK_NAMES = [
+  MARK_EM,
   MARK_FONT_SIZE,
   MARK_FONT_TYPE,
+  MARK_STRIKE,
+  MARK_STRONG,
   MARK_TEXT_COLOR,
   MARK_TEXT_HIGHLIGHT,
   MARK_UNDERLINE,
-  MARK_STRIKE,
 ];
 
 function clearMarks(tr: Transform, schema: Schema): Transform {
