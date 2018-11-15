@@ -12,7 +12,6 @@ import HorizontalRuleCommand from './HorizontalRuleCommand';
 import ImageFromURLCommand from './ImageFromURLCommand';
 import IndentCommand from './IndentCommand';
 import LinkSetURLCommand from './LinkSetURLCommand';
-import ListIndentCommand from './ListIndentCommand';
 import ListSplitCommand from './ListSplitCommand';
 import ListToggleCommand from './ListToggleCommand';
 import MarkToggleCommand from './MarkToggleCommand';

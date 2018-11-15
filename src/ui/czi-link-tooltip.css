@@ -1,5 +1,5 @@
 @import './czi-custom-button.css';
-@import './czi-prosemirror.css';
+@import './czi-vars.css';
 
 .czi-link-tooltip {
   display: flex;

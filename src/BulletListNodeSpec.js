@@ -1,6 +1,7 @@
 // @flow
 
 import {LIST_ITEM} from './NodeNames';
+import {MAX_INDENT_LEVEL, MIN_INDENT_LEVEL} from './ParagraphNodeSpec';
 import {Node} from 'prosemirror-model';
 
 import type {NodeSpec} from 'prosemirror';
@@ -24,7 +25,7 @@ const BulletListNodeSpec: NodeSpec = {
     getAttrs(dom: HTMLElement) {
       const indent = dom.hasAttribute(ATTRIBUTE_INDENT) ?
         parseInt(dom.getAttribute(ATTRIBUTE_INDENT), 10) :
-        0;
+        MIN_INDENT_LEVEL;
       return {
         indent,
       };
@@ -32,7 +33,7 @@ const BulletListNodeSpec: NodeSpec = {
   }],
   toDOM(node: Node) {
     const {indent} = node.attrs;
-    return indent === 0 ?
+    return indent === MIN_INDENT_LEVEL ?
       DEFAULT_DOM :
       [
         'ul',

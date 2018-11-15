@@ -1,5 +1,5 @@
 /* <CustomButton /> */
-@import './czi-prosemirror.css';
+@import './czi-vars.css';
 
 .czi-custom-buttons {
   margin: 0 16px;

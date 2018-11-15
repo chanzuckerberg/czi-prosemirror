@@ -1,6 +1,6 @@
 // @flow
 
-import {IMAGE} from './NodeNames';
+import {MAX_INDENT_LEVEL, MIN_INDENT_LEVEL} from './ParagraphNodeSpec';
 import {Node} from 'prosemirror-model';
 
 import type {NodeSpec} from 'prosemirror';
@@ -23,7 +23,7 @@ const HeadingNodeSpec: NodeSpec = {
   attrs: {
     align: {default: null},
     id: {default: null},
-    indent: {default: 0},
+    indent: {default: MIN_INDENT_LEVEL},
     level: {default: 1},
   },
   content: "inline*",
@@ -64,7 +64,7 @@ function getAttrs(dom: HTMLElement) {
 
   const indent = dom.hasAttribute(ATTRIBUTE_INDENT) ?
     parseInt(dom.getAttribute(ATTRIBUTE_INDENT), 10) :
-    0;
+    MIN_INDENT_LEVEL;
 
   return {align, level, indent};
 }

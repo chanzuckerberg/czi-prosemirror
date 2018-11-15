@@ -5,6 +5,9 @@ import {Node} from 'prosemirror-model';
 
 import type {NodeSpec} from 'prosemirror';
 
+export const MIN_INDENT_LEVEL = 0;
+export const MAX_INDENT_LEVEL = 7;
+
 const ALIGN_PATTERN = /(left|right|center|justify)/;
 const ATTRIBUTE_INDENT = 'data-indent';
 
@@ -43,7 +46,7 @@ function getAttrs(dom: HTMLElement) {
 
   const indent = dom.hasAttribute(ATTRIBUTE_INDENT) ?
     parseInt(dom.getAttribute(ATTRIBUTE_INDENT), 10) :
-    0;
+    MIN_INDENT_LEVEL;
 
   return {align, indent};
 }
