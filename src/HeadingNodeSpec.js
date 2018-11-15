@@ -38,13 +38,20 @@ const HeadingNodeSpec: NodeSpec = {
   ],
 
   toDOM(node) {
-    const {align, indent, level} = node.attrs;
+    const {align, indent, level, lineSpacing} = node.attrs;
     const tag = `h${level}`;
     const attrs = {};
 
+    let style = '';
+
     if (align) {
-      attrs.style = `text-align: ${align}`;
+      style += `text-align: ${align};`;
     }
+
+    if (lineSpacing) {
+      style += `line-height: ${lineSpacing};`;
+    }
+    attrs.style = style;
 
     if (indent) {
       attrs[ATTRIBUTE_INDENT] = String(indent);

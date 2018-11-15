@@ -55,6 +55,7 @@ const {
   TEXT_ALIGN_RIGHT,
   TEXT_COLOR,
   TEXT_HIGHLIGHT,
+  TEXT_LINE_SPACINGS,
   UL,
   UNDERLINE,
 } = EditorCommands;
@@ -132,6 +133,9 @@ const CommandGroups = [
   {
     'HR': HR,
     '<code />': CODE,
+  },
+  {
+    '\u2195\u2261': TEXT_LINE_SPACINGS,
   },
   {
     '\u2192||': INDENT_MORE,

@@ -7,6 +7,12 @@ import type {NodeSpec} from 'prosemirror';
 
 export const MIN_INDENT_LEVEL = 0;
 export const MAX_INDENT_LEVEL = 7;
+export const LINE_SPACING_VALUES = [
+  '100%',
+  '115%',
+  '150%',
+  '200%',
+];
 
 const ALIGN_PATTERN = /(left|right|center|justify)/;
 const ATTRIBUTE_INDENT = 'data-indent';
@@ -26,12 +32,19 @@ const ParagraphNodeSpec: NodeSpec = {
   group: "block",
   parseDOM: [{tag: 'p', getParagraphNodeAttrs}],
   toDOM(node) {
-    const {align, indent} = node.attrs;
+    const {align, indent, lineSpacing} = node.attrs;
     const attrs = {};
 
+    let style = '';
     if (align) {
-      attrs.style = `text-align: ${align}`;
+      style += `text-align: ${align};`;
     }
+
+    if (lineSpacing) {
+      style += `line-height: ${lineSpacing};`;
+    }
+
+    attrs.style = style;
 
     if (indent) {
       attrs[ATTRIBUTE_INDENT] = String(indent);
