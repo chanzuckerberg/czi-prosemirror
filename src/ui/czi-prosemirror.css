@@ -20,8 +20,8 @@
   --czi-selection-highlight-color: rgba(152, 204, 253, 0.4);
 }
 
-.debug-mark-text-selection {
-  background: red;
+.czi-text-selection {
+  background: var(--czi-selection-highlight-color-dark);
 }
 
 .ProseMirror-focused {

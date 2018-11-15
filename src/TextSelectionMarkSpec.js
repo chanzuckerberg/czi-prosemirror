@@ -20,8 +20,8 @@ const TextSelectionMarkSpec: MarkSpec = {
 
   toDOM(node: Node) {
     return [
-      'mark-text-selection',
-      {'class': 'debug-mark-text-selection'},
+      'czi-text-selection',
+      {'class': 'czi-text-selection'},
       0,
     ];
   },
