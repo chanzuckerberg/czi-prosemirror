@@ -2,7 +2,7 @@
 
 import isListNode from './isListNode';
 import nullthrows from 'nullthrows';
-import {PARAGRAPH, HEADING} from './NodeNames';
+import {PARAGRAPH, HEADING, LIST_ITEM} from './NodeNames';
 import {Fragment, Schema, Node, NodeType, ResolvedPos} from 'prosemirror-model';
 import {Selection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
@@ -18,22 +18,24 @@ export default function toggleHeading(
   const {selection, doc} = tr;
   const heading = nodes[HEADING];
   const paragraph = nodes[PARAGRAPH];
+  const listItem = nodes[LIST_ITEM];
 
-  if (!selection || !doc || !heading || !paragraph) {
+  if (!selection || !doc || !heading || !paragraph || !listItem) {
     return tr;
   }
 
   const {from, to} = tr.selection;
   let startWithHeadingBlock = null;
   const nodesToPos = new Map();
-  doc.nodesBetween(from, to, (node, pos) => {
+  doc.nodesBetween(from, to, (node, pos, parentNode) => {
+    const nodeType = node.type;
     if (startWithHeadingBlock === null) {
       startWithHeadingBlock =
-        node.type === heading &&
+        nodeType === heading &&
         node.attrs.level === level;
     }
     nodesToPos.set(node, pos);
-    return true;
+    return !isListNode(node);
   });
 
   for (let [node, pos] of nodesToPos) {

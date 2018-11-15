@@ -34,7 +34,7 @@ export function setTextAlign(
   const tasks = [];
   alignment = alignment || null;
 
-  doc.nodesBetween(from, to, (node, pos) => {
+  doc.nodesBetween(from, to, (node, pos, parentNode) => {
     const nodeType = node.type;
     if (
       nodeType === paragraph ||
@@ -49,8 +49,10 @@ export function setTextAlign(
           nodeType,
         });
       }
+      return (nodeType === listItem) ? true : false;
     }
     return true;
+
   });
   if (!tasks.length) {
     return tr;

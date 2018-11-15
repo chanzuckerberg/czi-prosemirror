@@ -3,6 +3,7 @@
 import * as NodeNames from './NodeNames';
 import * as ProsemirrorTables from 'prosemirror-tables';
 import BulletListNodeSpec from './BulletListNodeSpec';
+import CodeBlockNodeSpec from './CodeBlockNodeSpec';
 import HeadingNodeSpec from './HeadingNodeSpec';
 import ImageNodeSpec from './ImageNodeSpec';
 import ListItemNodeSpec from './ListItemNodeSpec';
@@ -13,6 +14,7 @@ import {schema} from 'prosemirror-schema-basic';
 
 const {
   BULLET_LIST,
+  CODE_BLOCK,
   HEADING,
   IMAGE,
   LIST_ITEM,
@@ -23,6 +25,7 @@ const {
 // https://github.com/ProseMirror/prosemirror-schema-basic/blob/master/src/schema-basic.js
 
 const EditorNodes = schema.spec.nodes
+  .update(CODE_BLOCK, CodeBlockNodeSpec)
   .update(HEADING, HeadingNodeSpec)
   .update(IMAGE, ImageNodeSpec)
   .update(PARAGRAPH, ParagraphNodeSpec)

@@ -25,7 +25,7 @@ class CommandButton extends React.PureComponent<any, any, any> {
     try {
        disabled = !editorView || !command.isEnabled(editorState);
     } catch (ex) {
-      //
+      console.error(command, ex);
     }
 
     return (

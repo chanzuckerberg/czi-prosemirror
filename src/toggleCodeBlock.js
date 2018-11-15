@@ -2,6 +2,7 @@
 
 import isListNode from './isListNode';
 import nullthrows from 'nullthrows';
+import transformAndPreserveTextSelection from './transformAndPreserveTextSelection';
 import {Fragment, Schema, Node, NodeType, ResolvedPos} from 'prosemirror-model';
 import {PARAGRAPH, CODE_BLOCK} from './NodeNames';
 import {Selection} from 'prosemirror-state';
@@ -24,11 +25,12 @@ export default function toggleCodeBlock(
   const {from, to} = tr.selection;
   let startWithCodeBlock = null;
   doc.nodesBetween(from, to, (node, pos) => {
+    const nodeType = node.type;
     if (startWithCodeBlock === null) {
-      startWithCodeBlock = node.type === codeBlock
+      startWithCodeBlock = nodeType === codeBlock;
     }
     nodesToPos.set(node, pos);
-    return true;
+    return !isListNode(node);
   });
 
   for (let [node, pos] of nodesToPos) {
@@ -48,10 +50,22 @@ function setCodeBlockNodeEnabled(
   pos: number,
   enabled: boolean,
 ): Transform {
+  const {doc} = tr;
+  if (!doc) {
+    return tr;
+  }
+
+  const node = doc.nodeAt(pos);
+  if (!node) {
+    return;
+  }
+  if (isListNode(node)) {
+    return tr;
+  }
+
   const {nodes} = schema;
   const codeBlock = nodes[CODE_BLOCK];
   const paragraph = nodes[PARAGRAPH];
-  const node = tr.doc.nodeAt(pos);
   if (!enabled && paragraph && node.type === codeBlock) {
     tr = tr.setNodeMarkup(
       pos,
