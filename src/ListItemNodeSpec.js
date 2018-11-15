@@ -3,11 +3,12 @@
 import type {NodeSpec} from 'prosemirror';
 
 const EMPTY_OBJECT = {};
+const ALIGN_PATTERN = /(left|right|center|justify)/;
 
 function getAttrs(dom: HTMLElement) {
   const {textAlign} = dom.style;
   let align = dom.getAttribute('data-align') || textAlign || '';
-  align = /(left|right|center|justify)/.test(align) ? align : null;
+  align = ALIGN_PATTERN.test(align) ? align : null;
   return align ? {align} : EMPTY_OBJECT;
 }
 

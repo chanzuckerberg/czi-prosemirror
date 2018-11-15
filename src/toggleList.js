@@ -12,9 +12,9 @@ import {TextSelection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
 import {findParentNodeOfType} from 'prosemirror-utils';
 import {setBlockType} from 'prosemirror-commands';
-import keepSelection from './keepSelection';
+import transformAndPreserveTextSelection from './transformAndPreserveTextSelection';
 
-import type {SelectionMemo} from './keepSelection';
+import type {SelectionMemo} from './transformAndPreserveTextSelection';
 
 export default function toggleList(
   tr: Transform,
@@ -49,7 +49,7 @@ export function unwrapNodesFromList(
   listNodePos: number,
   unwrapParagraphNode?: ?(Node) => Node,
 ): Transform {
-  return keepSelection(tr, schema, (memo) => {
+  return transformAndPreserveTextSelection(tr, schema, (memo) => {
     return unwrapNodesFromListInternal(
       memo,
       listNodePos,
@@ -63,7 +63,7 @@ function wrapNodesWithList(
   schema: Schema,
   listNodeType: NodeType,
 ): Transform {
-  return keepSelection(tr, schema, (memo) => {
+  return transformAndPreserveTextSelection(tr, schema, (memo) => {
     return wrapNodesWithListInternal(memo, listNodeType);
   });
 }
