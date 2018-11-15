@@ -8,7 +8,7 @@ import cx from 'classnames';
 import nullthrows from 'nullthrows';
 import resolveImage from './resolveImage';
 import type {NodeViewProps} from './CustomNodeView';
-import uuid from 'uuid/v1';
+import uuid from './uuid';
 import {EditorView} from "prosemirror-view";
 import {Node} from 'prosemirror-model';
 

@@ -8,7 +8,7 @@ import ReactDOM from 'react-dom';
 import applyMark from './applyMark';
 import createPopUp from './ui/createPopUp';
 import findNodesWithSameMark from './findNodesWithSameMark';
-import uuid from 'uuid/v1';
+import uuid from './ui/uuid';
 import {EditorState, Plugin} from 'prosemirror-state';
 import {EditorView, Decoration, DecorationSet} from "prosemirror-view";
 import {MARK_LINK} from './MarkNames';

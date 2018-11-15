@@ -6,7 +6,7 @@ import React from 'react';
 import UICommand from './UICommand';
 import createPopUp from './createPopUp';
 import cx from 'classnames';
-import uuid from 'uuid/v1';
+import uuid from './uuid';
 import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
 import {Transform} from 'prosemirror-transform';

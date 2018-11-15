@@ -5,7 +5,7 @@ import LinkURLEditor from './LinkURLEditor';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import createPopUp from './createPopUp';
-import uuid from 'uuid/v1';
+import uuid from './uuid';
 import {EditorView} from "prosemirror-view";
 import CustomButton from './CustomButton';
 

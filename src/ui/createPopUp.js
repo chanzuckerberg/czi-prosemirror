@@ -3,7 +3,7 @@
 import './czi-pop-up.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import uuid from 'uuid/v1';
+import uuid from './uuid';
 import PopUpManager from './PopUpManager';
 import PopUp from './PopUp';
 

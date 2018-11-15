@@ -9,7 +9,7 @@ import createPopUp from './createPopUp';
 import cx from 'classnames';
 import nullthrows from 'nullthrows';
 import resolveImage from './resolveImage';
-import uuid from 'uuid/v1';
+import uuid from './uuid';
 import {EditorView, Decoration} from "prosemirror-view";
 import {MIN_SIZE} from './ImageResizeBox';
 import {Node} from 'prosemirror-model';
