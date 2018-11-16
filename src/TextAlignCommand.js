@@ -6,7 +6,7 @@ import nullthrows from 'nullthrows';
 import toggleHeading from './toggleHeading';
 import {EditorState, Selection} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
-import {HEADING, LIST_ITEM, PARAGRAPH} from './NodeNames';
+import {BLOCKQUOTE, HEADING, LIST_ITEM, PARAGRAPH} from './NodeNames';
 import {Schema} from 'prosemirror-model';
 import {TextSelection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
@@ -23,35 +23,38 @@ export function setTextAlign(
     return tr;
   }
   const {from, to, empty} = selection;
+  const {nodes} = schema;
 
-  const paragraph = schema.nodes[PARAGRAPH];
-  const heading = schema.nodes[HEADING];
-  const listItem = schema.nodes[LIST_ITEM];
-  if (!paragraph && !heading && !listItem) {
-    return tr;
-  }
+  const paragraph = nodes[PARAGRAPH];
+  const heading = nodes[HEADING];
+  const listItem = nodes[LIST_ITEM];
+  const blockquote = nodes[BLOCKQUOTE];
 
   const tasks = [];
   alignment = alignment || null;
 
+  const allowedNodeTypes = new Set([
+    blockquote,
+    heading,
+    listItem,
+    paragraph,
+  ]);
+
   doc.nodesBetween(from, to, (node, pos, parentNode) => {
     const nodeType = node.type;
-    if (
-      nodeType === paragraph ||
-      nodeType === heading ||
-      nodeType === listItem
-    ) {
-      const align = node.attrs.align || null;
-      if (align !== alignment) {
-        tasks.push({
-          node,
-          pos,
-          nodeType,
-        });
-      }
-      return (nodeType === listItem) ? true : false;
+    if (!allowedNodeTypes.has(nodeType)) {
+      return false;
     }
-    return true;
+
+    const align = node.attrs.align || null;
+    if (align !== alignment) {
+      tasks.push({
+        node,
+        pos,
+        nodeType,
+      });
+    }
+    return (nodeType === listItem) ? true : false;
 
   });
   if (!tasks.length) {
@@ -95,15 +98,16 @@ class TextAlignCommand extends UICommand {
   isActive = (state: EditorState): boolean => {
     const {selection, doc, schema} = state;
     const {from, to} = selection;
-    const paragraph = schema.nodes[PARAGRAPH];
-    const heading = schema.nodes[HEADING];
+    const {nodes} = schema;
+    const paragraph = nodes[PARAGRAPH];
+    const heading = nodes[HEADING];
+    const blockquote = nodes[BLOCKQUOTE];
     let keepLooking = true;
     let active = false;
     doc.nodesBetween(from, to, (node, pos) => {
       const nodeType = node.type;
       if (
         keepLooking &&
-        (nodeType === paragraph || nodeType === heading) &&
         node.attrs.align === this._alignment
       ) {
         keepLooking = false;

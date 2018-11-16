@@ -75,9 +75,9 @@ class DemoAppHTMLTemplate extends React.PureComponent<any, any, any> {
             until dinner time destroy couch as revenge.
           </a>
         </p>
-        <p style={{textAlign: 'center', color: '#ff0000'}}>
+        <blockquote style={{textAlign: 'center'}}>
           Singapura bombay for norwegian forest tom tabby.
-        </p>
+        </blockquote>
         <table>
           <colgroup>
             <col />

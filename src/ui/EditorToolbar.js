@@ -20,6 +20,7 @@ const EDITOR_EMPTY_STATE = createEmptyEditorState();
 const ICON_LABEL_PATTERN = /[a-z_]+/;
 
 const {
+  BLOCKQUOTE_INFO,
   CLEAR_FORMAT,
   CODE,
   EM,
@@ -158,6 +159,7 @@ const CommandGroups = [
     hr: HR,
     code: CODE,
     format_strikethrough: STRIKE,
+    format_quote: BLOCKQUOTE_INFO,
   },
 ];
 

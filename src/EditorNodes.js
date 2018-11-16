@@ -2,6 +2,7 @@
 
 import * as NodeNames from './NodeNames';
 import * as ProsemirrorTables from 'prosemirror-tables';
+import BlockquoteNodeSpec from './BlockquoteNodeSpec';
 import BulletListNodeSpec from './BulletListNodeSpec';
 import CodeBlockNodeSpec from './CodeBlockNodeSpec';
 import HeadingNodeSpec from './HeadingNodeSpec';
@@ -20,11 +21,13 @@ const {
   LIST_ITEM,
   ORDERED_LIST,
   PARAGRAPH,
+  BLOCKQUOTE,
 } = NodeNames;
 
 // https://github.com/ProseMirror/prosemirror-schema-basic/blob/master/src/schema-basic.js
 
 const EditorNodes = schema.spec.nodes
+  .update(BLOCKQUOTE, BlockquoteNodeSpec)
   .update(CODE_BLOCK, CodeBlockNodeSpec)
   .update(HEADING, HeadingNodeSpec)
   .update(IMAGE, ImageNodeSpec)

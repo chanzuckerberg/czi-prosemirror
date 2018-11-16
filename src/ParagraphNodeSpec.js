@@ -31,31 +31,10 @@ const ParagraphNodeSpec: NodeSpec = {
   content: "inline*",
   group: "block",
   parseDOM: [{tag: 'p', getAttrs}],
-
-  toDOM(node) {
-    const {align, indent, lineSpacing} = node.attrs;
-    const attrs = {};
-
-    let style = '';
-    if (align) {
-      style += `text-align: ${align};`;
-    }
-
-    if (lineSpacing) {
-      style += `line-height: ${lineSpacing};`;
-    }
-
-    style && (attrs.style = style);
-
-    if (indent) {
-      attrs[ATTRIBUTE_INDENT] = String(indent);
-    }
-
-    return ['p', attrs, 0];
-  },
+  toDOM,
 };
 
-export function getAttrs(dom: HTMLElement): Object {
+function getAttrs(dom: HTMLElement): Object {
   const {lineHeight, textAlign} = dom.style;
 
   let align = dom.getAttribute('align') || textAlign || '';
@@ -72,6 +51,29 @@ export function getAttrs(dom: HTMLElement): Object {
   return {align, indent, lineSpacing};
 }
 
+function toDOM(node: Node): Array<any> {
+  const {align, indent, lineSpacing} = node.attrs;
+  const attrs = {};
+
+  let style = '';
+  if (align) {
+    style += `text-align: ${align};`;
+  }
+
+  if (lineSpacing) {
+    style += `line-height: ${lineSpacing};`;
+  }
+
+  style && (attrs.style = style);
+
+  if (indent) {
+    attrs[ATTRIBUTE_INDENT] = String(indent);
+  }
+
+  return ['p', attrs, 0];
+}
+
+export const toParagraphDOM = toDOM;
 export const getParagraphNodeAttrs = getAttrs;
 
 export default ParagraphNodeSpec;

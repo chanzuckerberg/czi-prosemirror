@@ -2,45 +2,38 @@
 
 import isListNode from './isListNode';
 import nullthrows from 'nullthrows';
-import {BLOCKQUOTE, PARAGRAPH, HEADING, LIST_ITEM} from './NodeNames';
+import {PARAGRAPH, BLOCKQUOTE, HEADING, LIST_ITEM} from './NodeNames';
 import {Fragment, Schema, Node, NodeType, ResolvedPos} from 'prosemirror-model';
 import {Selection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
 import {setBlockType} from 'prosemirror-commands';
 import {unwrapNodesFromList} from './toggleList';
 
-export default function toggleHeading(
+export default function toggleBlockquote(
   tr: Transform,
   schema: Schema,
-  level: number,
 ): Transform {
   const {nodes} = schema;
   const {selection, doc} = tr;
-
-  const blockquote = nodes[BLOCKQUOTE];
   const heading = nodes[HEADING];
-  const listItem = nodes[LIST_ITEM];
+  const blockquote = nodes[BLOCKQUOTE];
   const paragraph = nodes[PARAGRAPH];
+  const listItem = nodes[LIST_ITEM];
 
-  if (
-    !selection || !doc || !heading || !paragraph ||
-    !listItem || !blockquote
-  ) {
+  if (!selection || !doc || !heading || !paragraph || !listItem || !heading) {
     return tr;
   }
 
   const {from, to} = tr.selection;
-  let startWithHeadingBlock = null;
+  let startWithBlockQuote = null;
   const poses = [];
   const docType = doc.type;
   doc.nodesBetween(from, to, (node, pos, parentNode) => {
     const nodeType = node.type;
     const parentNodeType = parentNode.type;
 
-    if (startWithHeadingBlock === null) {
-      startWithHeadingBlock =
-        nodeType === heading &&
-        node.attrs.level === level;
+    if (startWithBlockQuote === null) {
+      startWithBlockQuote = nodeType === blockquote;
     }
 
     if (parentNodeType !== listItem) {
@@ -50,21 +43,19 @@ export default function toggleHeading(
   });
   // Update from the bottom to avoid disruptive changes in pos.
   poses.sort().reverse().forEach(pos => {
-    tr = setHeadingNode(
+    tr = setBlockquoteNode(
       tr,
       schema,
       pos,
-      startWithHeadingBlock ? null : level,
     );
   });
   return tr;
 }
 
-function setHeadingNode(
+function setBlockquoteNode(
   tr: Transform,
   schema: Schema,
   pos: number,
-  level: ?number,
 ): Transform {
   const {nodes} = schema;
   const heading = nodes[HEADING];
@@ -73,40 +64,30 @@ function setHeadingNode(
   const node = tr.doc.nodeAt(pos);
   const nodeType = node.type;
 
-  if (!node || !heading || !paragraph || !blockquote) {
+  if (!node || !heading || !paragraph) {
     return tr;
   }
   if (isListNode(node)) {
     // Toggle list
-    if (heading && level !== null) {
+    if (blockquote) {
       tr = unwrapNodesFromList(tr, schema, pos, (paragraphNode) => {
         const {content, marks, attrs} = paragraphNode;
-        const headingAttrs = {...attrs, level};
-        return heading.create(headingAttrs, content, marks);
+        return blockquote.create(attrs, content, marks);
       });
     }
-  } else if (nodeType === heading) {
+  } else if (nodeType === blockquote) {
     // Toggle heading
-    if (level === null) {
-      tr = tr.setNodeMarkup(
-        pos,
-        paragraph,
-        node.attrs,
-        node.marks,
-      );
-    } else {
-      tr = tr.setNodeMarkup(
-        pos,
-        heading,
-        {...node.attrs, level},
-        node.marks,
-      );
-    }
-  } else if (level && nodeType === paragraph || nodeType === blockquote) {
     tr = tr.setNodeMarkup(
       pos,
-      heading,
-      {...node.attrs, level},
+      paragraph,
+      node.attrs,
+      node.marks,
+    );
+  } else if (nodeType === paragraph || nodeType === heading) {
+    tr = tr.setNodeMarkup(
+      pos,
+      blockquote,
+      node.attrs,
       node.marks,
     );
   }

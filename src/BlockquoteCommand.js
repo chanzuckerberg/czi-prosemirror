@@ -3,31 +3,21 @@
 import UICommand from './ui/UICommand';
 import noop from './noop';
 import nullthrows from 'nullthrows';
-import toggleHeading from './toggleHeading';
+import toggleBlockquote from './toggleBlockquote';
+import {BLOCKQUOTE, PARAGRAPH} from './NodeNames';
 import {EditorState, Selection} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
-import {HEADING} from './NodeNames';
 import {Schema} from 'prosemirror-model';
 import {Transform} from 'prosemirror-transform';
 import {findParentNodeOfType} from 'prosemirror-utils';
 
-class HeadingCommand extends UICommand {
+let findBlockQuote
 
-  _level: number;
-
-  constructor(level: number) {
-    super();
-    this._level = level;
-  }
+class BlockquoteCommand extends UICommand {
 
   isActive = (state: EditorState): boolean => {
-    const result = this._findHeading(state);
-    return !!(
-      result &&
-      result.node &&
-      result.node.attrs &&
-      result.node.attrs.level === this._level
-    );
+    const blockquote = state.schema.nodes[BLOCKQUOTE];
+    return !!(blockquote && findParentNodeOfType(blockquote)(state.selection));
   };
 
   execute = (
@@ -36,10 +26,9 @@ class HeadingCommand extends UICommand {
     view: ?EditorView,
   ): boolean => {
     const {schema, selection} = state;
-    const tr = toggleHeading(
+    const tr = toggleBlockquote(
       state.tr.setSelection(selection),
       schema,
-      this._level,
     );
     if (tr.docChanged) {
       dispatch && dispatch(tr.scrollIntoView());
@@ -48,12 +37,6 @@ class HeadingCommand extends UICommand {
       return false;
     }
   };
-
-  _findHeading(state: EditorState): ?Object {
-    const heading = state.schema.nodes[HEADING];
-    const fn = heading ? findParentNodeOfType(heading) : noop;
-    return fn(state.selection);
-  }
 }
 
-export default HeadingCommand;
+export default BlockquoteCommand;

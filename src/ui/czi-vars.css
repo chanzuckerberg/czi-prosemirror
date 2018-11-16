@@ -1,4 +1,8 @@
 :root {
+  --czi-blockquote-background-color: rgba(0,0,0,0.05);
+  --czi-blockquote-border: solid 8px rgba(0,0,0,0.6);
+  --czi-blockquote-color: #555;
+  --czi-blockquote-font-family: "Open Sans";
   --czi-border-blue: solid 1px #5882EB;
   --czi-border-grey: solid 1px #ccc;
   --czi-border-red: solid 1px #ff0000;

@@ -25,6 +25,21 @@
   color: var(--czi-link-color);
 }
 
+/* Blockquote */
+.ProseMirror blockquote {
+  background-color: var(--czi-blockquote-background-color);
+  border-left: var(--czi-blockquote-border);
+  border-radius: 1px;
+  color: var(--czi-blockquote-color);
+  font-family: var(--czi-blockquote-font-family);
+  font-size: 1.4em;
+  font-style: italic;
+  line-height: 1.6;
+  margin: 50px auto;
+  padding: 1.2em 10% 1.2em 10%;
+  position: relative;
+}
+
 /* CodeBlock */
 .ProseMirror pre > code {
   background-color: #eee;

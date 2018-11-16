@@ -4,7 +4,7 @@ import applyMark from './applyMark';
 import clamp from './ui/clamp';
 import isListNode from './isListNode';
 import transformAndPreserveTextSelection from './transformAndPreserveTextSelection';
-import {BULLET_LIST, ORDERED_LIST, LIST_ITEM, HEADING, PARAGRAPH} from './NodeNames';
+import {BLOCKQUOTE, BULLET_LIST, ORDERED_LIST, LIST_ITEM, HEADING, PARAGRAPH} from './NodeNames';
 import {Fragment, Schema, NodeType, ResolvedPos, Slice} from 'prosemirror-model';
 import {MARK_TEXT_SELECTION} from './MarkNames';
 import {MAX_INDENT_LEVEL, MIN_INDENT_LEVEL} from './ParagraphNodeSpec';
@@ -29,18 +29,20 @@ export default function updateIndentLevel(
   }
 
   const {nodes} = schema;
-  const heading = nodes[HEADING];
-  const paragraph = nodes[PARAGRAPH];
-
   const {from, to} = selection;
   const listNodePoses = [];
 
+  const blockquote = nodes[BLOCKQUOTE];
+  const heading = nodes[HEADING];
+  const paragraph = nodes[PARAGRAPH];
+
   doc.nodesBetween(from, to, (node, pos, parentNode) => {
     const nodeType = node.type;
-    if (nodeType === paragraph) {
-      tr = setNodeIndentMarkup(tr, schema, pos, delta);
-      return false;
-    } else if (nodeType === heading) {
+    if (
+      nodeType === paragraph ||
+      nodeType === heading ||
+      nodeType === blockquote
+    ) {
       tr = setNodeIndentMarkup(tr, schema, pos, delta);
       return false;
     } else if (isListNode(node)) {
@@ -137,11 +139,6 @@ function setListNodeIndent(
     return false;
   });
 
-  // const selectionNew = TextSelection.create(
-  //   tr.doc,
-  //   pos,
-  //   pos + listNode.nodeSize,
-  // );
   tr = tr.delete(pos, pos + listNode.nodeSize);
   if (itemsAfter.length) {
     const listNodeNew = listNodeType.create(
