@@ -79,7 +79,7 @@ def main():
   for deploy_path in  glob.glob('bin/*.html'):
     file_name = deploy_path.split('/').pop()
     cmd = '\n\n\n'
-    cmd = cmd + '# http://cdn.summitlearning.org/assets/' + file_name + '\n'
+    cmd = cmd + 'echo "http://cdn.summitlearning.org/assets/' + file_name + '"\n'
     cmd = cmd + 'aws s3 cp ' + deploy_path + ' '
     cmd = cmd + 's3://opt-static-resources/assets/' + namespace + '_' + file_name + ' --grants '
     cmd = cmd + 'read=uri=http://acs.amazonaws.com/groups/global/AllUsers;\n\n'
