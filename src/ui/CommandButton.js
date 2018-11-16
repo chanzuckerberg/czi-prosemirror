@@ -1,6 +1,7 @@
 // @flow
 
 import CustomButton from './CustomButton';
+import Icon from './Icon';
 import React from 'react';
 import UICommand from './UICommand';
 import cx from 'classnames';
@@ -16,14 +17,14 @@ class CommandButton extends React.PureComponent<any, any, any> {
     dispatch: (tr: Transform) => void,
     editorState: EditorState,
     editorView: ?EditorView,
-    label: string,
+    label: string | React.Element<any> | null,
   };
 
   render(): React.Element<any> {
     const {label, className, command, editorState, editorView} = this.props;
     let disabled = true;
     try {
-       disabled = !editorView || !command.isEnabled(editorState);
+      disabled = !editorView || !command.isEnabled(editorState);
     } catch (ex) {
       console.error(command, ex);
     }
@@ -33,6 +34,7 @@ class CommandButton extends React.PureComponent<any, any, any> {
         active={command.isActive(editorState)}
         className={className}
         disabled={disabled}
+        icon={Icon.forLabel(label)}
         label={label}
         onClick={this._onUIEnter}
         onMouseEnter={this._onUIEnter}

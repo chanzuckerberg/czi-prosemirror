@@ -2,6 +2,7 @@
 
 import CommandMenu from './CommandMenu';
 import CustomButton from './CustomButton';
+import Icon from './Icon';
 import React from 'react';
 import UICommand from './UICommand';
 import createPopUp from './createPopUp';
@@ -54,6 +55,7 @@ class CommandMenuButton extends React.PureComponent<any, any, any> {
       <CustomButton
         className={className}
         disabled={!enabled}
+        icon={Icon.forLabel(label)}
         id={this._id}
         label={label}
         onClick={this._onClick}

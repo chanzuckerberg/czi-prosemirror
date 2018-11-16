@@ -25,6 +25,11 @@
   white-space: nowrap;
 }
 
+.czi-custom-button.use-icon {
+  border-color: transparent;
+  padding: 0;
+}
+
 .czi-custom-button:focus,
 .czi-custom-button:hover {
   border-color: #555;

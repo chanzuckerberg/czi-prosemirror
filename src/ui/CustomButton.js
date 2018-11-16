@@ -15,8 +15,9 @@ class CustomButton extends React.PureComponent<any, any, any> {
     active?: ?boolean,
     className?: ?string,
     disabled?: ?boolean,
+    icon: any,
     id?: ?string,
-    label: string,
+    label: any,
     onClick?: ?(val: any, e: SyntheticEvent) => void,
     onMouseEnter?: ?(val: any, e: SyntheticEvent) => void,
     style?: ?Object,
@@ -32,7 +33,9 @@ class CustomButton extends React.PureComponent<any, any, any> {
   state = {pressed: false};
 
   render(): React.Element<any> {
-    const {className, label, disabled, active, id, style, title} = this.props;
+    const {
+      className, label, icon, disabled, active, id, style, title,
+    } = this.props;
     const {pressed} = this.state;
 
     const buttonClassName = cx(className, {
@@ -40,6 +43,7 @@ class CustomButton extends React.PureComponent<any, any, any> {
       'czi-custom-button': true,
       'disabled': disabled,
       'pressed': pressed,
+      'use-icon': !!icon,
     });
 
     return (
@@ -54,8 +58,8 @@ class CustomButton extends React.PureComponent<any, any, any> {
         role="button"
         style={style}
         tabIndex={0}
-        title={title}>
-        {label}
+        title={title || label}>
+        {icon || label}
       </span>
     );
   }

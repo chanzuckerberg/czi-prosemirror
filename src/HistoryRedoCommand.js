@@ -1,5 +1,7 @@
 // @flow
 
+import Icon from './ui/Icon';
+import React from 'react';
 import UICommand from './ui/UICommand';
 import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
