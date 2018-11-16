@@ -3,8 +3,6 @@
 import * as MarkNames from './MarkNames';
 import * as ProsemirrorTables from 'prosemirror-tables';
 import CodeBlockCommand from './CodeBlockCommand';
-import FontSizeCommand from './FontSizeCommand';
-import FontTypeCommand from './FontTypeCommand';
 import HeadingCommand from './HeadingCommand';
 import HistoryRedoCommand from './HistoryRedoCommand';
 import HistoryUndoCommand from './HistoryUndoCommand';
@@ -64,8 +62,6 @@ document.execCommand('enableInlineTableEditing', false, 'false');
 export const CLEAR_FORMAT = new MarksClearCommand();
 export const CODE = new CodeBlockCommand();
 export const EM = new MarkToggleCommand(MARK_EM);
-export const FONT_SIZES = FontSizeCommand.createGroup();
-export const FONT_TYPES = FontTypeCommand.createGroup();
 export const H1 = new HeadingCommand(1);
 export const H2 = new HeadingCommand(2);
 export const H3 = new HeadingCommand(3);

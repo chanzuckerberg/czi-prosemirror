@@ -1,7 +1,8 @@
-@import './czi-vars.css';
+@import './czi-heading.css';
+@import './czi-indent.css';
 @import './czi-list.css';
 @import './czi-table.css';
-@import './czi-indent.css';
+@import './czi-vars.css';
 
 .czi-text-selection {
    /* var(--czi-selection-highlight-color-dark); */

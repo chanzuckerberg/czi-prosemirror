@@ -51,7 +51,10 @@ const HeadingNodeSpec: NodeSpec = {
     if (lineSpacing) {
       style += `line-height: ${lineSpacing};`;
     }
-    attrs.style = style;
+
+    if (style) {
+      attrs.style = style;
+    }
 
     if (indent) {
       attrs[ATTRIBUTE_INDENT] = String(indent);

@@ -6,20 +6,10 @@ import createPopUp from './ui/createPopUp';
 import nullthrows from 'nullthrows';
 import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
-import {FONT_TYPE_NAMES} from './FontTypeMarkSpec';
 import {MARK_FONT_TYPE} from './MarkNames';
 import {Schema} from 'prosemirror-model';
 import {TextSelection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
-
-function createGroup(): Array<{[string]: FontTypeCommand}> {
-  const group = {};
-  FONT_TYPE_NAMES.forEach((name) => {
-    const label = `${name}`;
-    group[label] = new FontTypeCommand(name);
-  });
-  return [group];
-}
 
 function setFontType(
   tr: Transform,
@@ -45,8 +35,6 @@ function setFontType(
 }
 
 class FontTypeCommand extends UICommand {
-
-  static createGroup = createGroup;
 
   _popUp = null;
   _name = '';

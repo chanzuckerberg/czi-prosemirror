@@ -35,9 +35,11 @@
 .czi-icon.hr {
   font-size: 12px;
   width: 20px;
-  height: 1px;
+  height: 2px;
+  border-radius: 1px;
   overflow: hidden;
   background: #222;
+  margin-top: 2px;
 }
 
 .czi-icon.hr::before {

@@ -6,28 +6,15 @@ import createPopUp from './ui/createPopUp';
 import nullthrows from 'nullthrows';
 import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
-import {FONT_PT_SIZES} from './FontSizeMarkSpec';
 import {MARK_FONT_SIZE} from './MarkNames';
 import {Schema} from 'prosemirror-model';
 import {TextSelection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
 
-function createGroup(): Array<{[string]: FontSizeCommand}> {
-  const group = {};
-  FONT_PT_SIZES.forEach((pxSize, ii) => {
-    const ptSize = FONT_PT_SIZES[ii];
-    // Chrome re-ordering object keys if numerics, is that normal/expected
-    // add extra space to prevent that.
-    const label = ` ${ptSize} `;
-    group[label] = new FontSizeCommand(ptSize);
-  });
-  return [group];
-}
-
 function setFontSize(
   tr: Transform,
   schema: Schema,
-  size: number,
+  pt: number,
 ): Transform {
   const markType = schema.marks[MARK_FONT_SIZE];
   if (!markType) {
@@ -37,7 +24,7 @@ function setFontSize(
   if (!(selection instanceof TextSelection)) {
     return tr;
   }
-  const attrs = size ? {size: `${size}pt`} : null;
+  const attrs = pt ? {pt} : null;
   tr = applyMark(
     tr,
     schema,
@@ -49,14 +36,12 @@ function setFontSize(
 
 class FontSizeCommand extends UICommand {
 
-  static createGroup = createGroup;
-
   _popUp = null;
-  _pxSize = 0;
+  _pt = 0;
 
-  constructor(pxSize: number) {
+  constructor(pt: number) {
     super();
-    this._pxSize = pxSize;
+    this._pt = pt;
   }
 
   isEnabled = (state: EditorState): boolean => {
@@ -80,7 +65,7 @@ class FontSizeCommand extends UICommand {
     const tr = setFontSize(
       state.tr.setSelection(selection),
       schema,
-      this._pxSize,
+      this._pt,
     );
     if (dispatch && tr.docChanged) {
       dispatch(tr);

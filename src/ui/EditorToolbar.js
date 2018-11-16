@@ -4,16 +4,16 @@ import './czi-editor-toolbar.css';
 import * as EditorCommands from '../EditorCommands';
 import CommandButton from './CommandButton';
 import CommandMenuButton from './CommandMenuButton';
+import FontSizeCommandMenuButton from './FontSizeCommandMenuButton';
+import FontTypeCommandMenuButton from './FontTypeCommandMenuButton';
 import Icon from './Icon';
 import React from 'react';
 import UICommand from './UICommand';
 import createEmptyEditorState from '../createEmptyEditorState';
 import findActiveMark from '../findActiveMark';
+import isReactClass from './isReactClass';
 import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
-import {FONT_PT_SIZES} from '../FontSizeMarkSpec';
-import {FONT_TYPE_NAMES} from '../FontTypeMarkSpec';
-import {MARK_FONT_TYPE, MARK_FONT_SIZE} from '../MarkNames';
 import {Transform} from 'prosemirror-transform';
 
 const EDITOR_EMPTY_STATE = createEmptyEditorState();
@@ -23,8 +23,6 @@ const {
   CLEAR_FORMAT,
   CODE,
   EM,
-  FONT_SIZES,
-  FONT_TYPES,
   H1,
   H2,
   H3,
@@ -119,17 +117,16 @@ const CommandGroups = [
     }],
   },
   {
-    font_download: FONT_TYPES,
+    font_download: FontTypeCommandMenuButton,
   },
   {
-    format_size: FONT_SIZES,
+    format_size: FontSizeCommandMenuButton,
   },
   {
     format_bold: STRONG,
     format_italic: EM,
     format_underline: UNDERLINE,
     format_color_text: TEXT_COLOR,
-    format_strikethrough: STRIKE,
     border_color: TEXT_HIGHLIGHT,
   },
   {
@@ -160,25 +157,9 @@ const CommandGroups = [
   {
     hr: HR,
     code: CODE,
+    format_strikethrough: STRIKE,
   },
 ];
-
-function findActiveFontSize(editorState: EditorState): string {
-  const {schema, doc, selection} = editorState;
-  const markType = editorState.schema.marks[MARK_FONT_SIZE];
-  const {from, to} = selection;
-  const mark = markType ? findActiveMark(doc, from, to, markType) : null;
-  const size = (mark && mark.attrs.size) || String(FONT_PT_SIZES[0]);
-  return String(parseInt(size, 10));
-}
-
-function findActiveFontType(editorState: EditorState): string {
-  const {schema, doc, selection} = editorState;
-  const markType = editorState.schema.marks[MARK_FONT_TYPE];
-  const {from, to} = selection;
-  const mark = markType ? findActiveMark(doc, from, to, markType) : null;
-  return (mark && mark.attrs.name) || String(FONT_TYPE_NAMES[0]);
-}
 
 class EditorToolbar extends React.PureComponent<any, any, any> {
 
@@ -200,7 +181,20 @@ class EditorToolbar extends React.PureComponent<any, any, any> {
   _renderButtonsGroup = (group: Object, index: number): React.Element<any> => {
     const buttons = Object.keys(group).map(label => {
       const obj = group[label];
-      if (obj instanceof UICommand) {
+
+      if (isReactClass(obj)) {
+        // JSX requies the component to be named with upper camel case.
+        const ThatComponent = obj;
+        const {editorState, editorView} = this.props;
+        return (
+          <ThatComponent
+            dispatch={this._dispatchTransaction}
+            editorState={editorState}
+            editorView={editorView}
+            key={label}
+          />
+        );
+      } else if (obj instanceof UICommand) {
         return this._renderButton(label, obj);
       } else if (Array.isArray(obj)) {
         return this._renderMenuButton(label, obj );
@@ -219,15 +213,10 @@ class EditorToolbar extends React.PureComponent<any, any, any> {
     label: string,
     commandGroups: Array<{[string]: UICommand}>,
   ): React.Element<any> => {
-    let icon;
     const {editorState, editorView} = this.props;
-    if (commandGroups === FONT_SIZES) {
-      label = findActiveFontSize(editorState);
-    } else if (commandGroups === FONT_TYPES) {
-      label = findActiveFontType(editorState);
-    } else if (ICON_LABEL_PATTERN.test(label)) {
-      icon = <Icon type={label} />;
-    }
+    let icon = ICON_LABEL_PATTERN.test(label) ?
+      <Icon type={label} /> :
+      null;
     return (
       <CommandMenuButton
         commandGroups={commandGroups}

@@ -1,26 +1,8 @@
 // @flow
 
-import toHexColor from './ui/toHexColor';
-import {MARK_TEXT_COLOR} from './MarkNames';
 import {Node} from 'prosemirror-model';
 
 import type {MarkSpec} from 'prosemirror';
-
-export const FONT_TYPE_NAMES = [
-  // SERIF
- 'Arial',
- 'Arial Black',
- 'Georgia',
- 'Tahoma',
- 'Times New Roman',
- 'Times',
- 'Verdana',
- // MONOSPACE
- 'Courier New',
- 'Lucida Console',
- 'Monaco',
- 'monospace',
-];
 
 const FontTypeMarkSpec: MarkSpec = {
   attrs: {
