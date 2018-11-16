@@ -7,7 +7,6 @@ import React from 'react';
 import UICommand from './UICommand';
 import cx from 'classnames';
 import findActiveFontSize from './findActiveFontSize';
-import findActiveMark from '../findActiveMark';
 import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
 import {HEADING} from '../NodeNames';

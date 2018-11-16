@@ -22,8 +22,11 @@ const FontTypeMarkSpec: MarkSpec = {
   ],
   toDOM(node: Node) {
     const {name} = node.attrs;
-    const style = name ? `font-family: ${name}` : '';
-    return ['span', {style}, 0];
+    const attrs = {};
+    if (name) {
+      attrs.style = `font-family: ${name}`;
+    }
+    return ['span', attrs, 0];
   },
 };
 
