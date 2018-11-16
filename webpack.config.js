@@ -11,6 +11,7 @@ var webpack = require("webpack"),
     path = require("path");
 
 var isDev = env.NODE_ENV === "development" || 0;
+// isDev = false;
 
 var options = {
   entry: {
