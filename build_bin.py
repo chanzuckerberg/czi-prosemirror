@@ -89,8 +89,8 @@ def main():
   print '\n'.join(cmds)
   print '#' * 80
 
-  os.system('touch deploy_to_s3.sh')
-  write_text('deploy_to_s3.sh', '\n'.join(cmds))
+  os.system('touch bin/deploy_to_s3.sh')
+  write_text('bin/deploy_to_s3.sh', '\n'.join(cmds))
 
   print 'done'
 
