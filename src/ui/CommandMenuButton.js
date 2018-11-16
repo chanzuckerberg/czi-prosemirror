@@ -2,7 +2,6 @@
 
 import CommandMenu from './CommandMenu';
 import CustomButton from './CustomButton';
-import Icon from './Icon';
 import React from 'react';
 import UICommand from './UICommand';
 import createPopUp from './createPopUp';
@@ -21,7 +20,8 @@ class CommandMenuButton extends React.PureComponent<any, any, any> {
     dispatch: (tr: Transform) => void,
     editorState: EditorState,
     editorView: ?EditorView,
-    label: string,
+    icon?: string | React.Element<any> | null,
+    label?: string | React.Element<any> | null,
   };
 
   _menu = null;
@@ -32,7 +32,7 @@ class CommandMenuButton extends React.PureComponent<any, any, any> {
   };
 
   render(): React.Element<any> {
-    const {label, commandGroups, editorState, editorView} = this.props;
+    const {label, commandGroups, editorState, editorView, icon} = this.props;
     const enabled = commandGroups.some((group, ii) => {
       return Object.keys(group).some(label => {
         const command = group[label];
@@ -55,7 +55,7 @@ class CommandMenuButton extends React.PureComponent<any, any, any> {
       <CustomButton
         className={className}
         disabled={!enabled}
-        icon={Icon.forLabel(label)}
+        icon={icon}
         id={this._id}
         label={label}
         onClick={this._onClick}

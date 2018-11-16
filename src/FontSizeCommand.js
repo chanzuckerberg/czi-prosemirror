@@ -6,26 +6,20 @@ import createPopUp from './ui/createPopUp';
 import nullthrows from 'nullthrows';
 import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
+import {FONT_PT_SIZES} from './FontSizeMarkSpec';
 import {MARK_FONT_SIZE} from './MarkNames';
 import {Schema} from 'prosemirror-model';
 import {TextSelection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
 
-// 1 pt	~= 1.3281472327365px
-const PT_TO_PX = 1.3281472327365;
-const FONT_PT_SIZES = [8, 9, 10, 11, 12, 14, 18, 24, 30, 36, 48, 60, 72, 90];
-const FONT_PX_SIZES = FONT_PT_SIZES.map(x => Math.round(x * PT_TO_PX));
-
 function createGroup(): Array<{[string]: FontSizeCommand}> {
   const group = {};
-  group['default'] = new FontSizeCommand(0);
-
-  FONT_PX_SIZES.forEach((pxSize, ii) => {
+  FONT_PT_SIZES.forEach((pxSize, ii) => {
     const ptSize = FONT_PT_SIZES[ii];
     // Chrome re-ordering object keys if numerics, is that normal/expected
     // add extra space to prevent that.
     const label = ` ${ptSize} `;
-    group[label] = new FontSizeCommand(pxSize);
+    group[label] = new FontSizeCommand(ptSize);
   });
   return [group];
 }
@@ -43,13 +37,13 @@ function setFontSize(
   if (!(selection instanceof TextSelection)) {
     return tr;
   }
-  const attrs = size ? {size: `${size}px`} : null;
+  const attrs = size ? {size: `${size}pt`} : null;
   tr = applyMark(
-   tr,
-   schema,
-   markType,
-   attrs,
- );
+    tr,
+    schema,
+    markType,
+    attrs,
+  );
   return tr;
 }
 

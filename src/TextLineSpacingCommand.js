@@ -88,7 +88,7 @@ export function setTextLineSpacing(
 
 function createGroup(): Array<{[string]: TextLineSpacingCommand}> {
   const group = {};
-  group['default'] = new TextLineSpacingCommand(null);
+  group['Default'] = new TextLineSpacingCommand(null);
 
   LINE_SPACING_VALUES.forEach((lineSpacing) => {
     group[` ${lineSpacing} `] = new TextLineSpacingCommand(lineSpacing);

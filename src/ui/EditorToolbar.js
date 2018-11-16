@@ -4,14 +4,20 @@ import './czi-editor-toolbar.css';
 import * as EditorCommands from '../EditorCommands';
 import CommandButton from './CommandButton';
 import CommandMenuButton from './CommandMenuButton';
+import Icon from './Icon';
 import React from 'react';
 import UICommand from './UICommand';
 import createEmptyEditorState from '../createEmptyEditorState';
+import findActiveMark from '../findActiveMark';
 import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
+import {FONT_PT_SIZES} from '../FontSizeMarkSpec';
+import {FONT_TYPE_NAMES} from '../FontTypeMarkSpec';
+import {MARK_FONT_TYPE, MARK_FONT_SIZE} from '../MarkNames';
 import {Transform} from 'prosemirror-transform';
 
 const EDITOR_EMPTY_STATE = createEmptyEditorState();
+const ICON_LABEL_PATTERN = /[a-z_]+/;
 
 const {
   CLEAR_FORMAT,
@@ -70,6 +76,39 @@ const CommandGroups = [
     print: PRINT,
   },
   {
+    grid_on: [
+      {
+        'Insert Table...': TABLE_INSERT_TABLE,
+      },
+      {
+        'Fill Color...': TABLE_CELL_COLOR,
+      },
+      {
+        'Insert Column Before': TABLE_ADD_COLUMN_BEFORE,
+        'Insert Column After': TABLE_ADD_COLUMN_AFTER,
+        'Delete Column': TABLE_DELETE_COLUMN,
+      },
+      {
+        'Insert Row Before': TABLE_ADD_ROW_BEFORE,
+        'Insert Row After': TABLE_ADD_ROW_AFTER,
+        'Delete Row': TABLE_DELETE_ROW,
+      },
+      {
+        'Merge Cells': TABLE_MERGE_CELLS,
+        'Split Cells': TABLE_SPLIT_CELL,
+      },
+      // Disable these commands cause user rarely use them.
+      // {
+      //   toggle_header_column: TABLE_TOGGLE_HEADER_COLUMN,
+      //   toggle_header_row: TABLE_TOGGLE_HEADER_ROW,
+      //   toggle_header_cells: TABLE_TOGGLE_HEADER_CELL,
+      // },
+      {
+        'Delete Table': TABLE_DELETE_TABLE,
+      },
+    ],
+  },
+  {
     'H1 ': H1,
     'H2 ': H2,
     'keyboard_arrow_down': [{
@@ -119,43 +158,27 @@ const CommandGroups = [
     format_clear: CLEAR_FORMAT,
   },
   {
-    grid_on: [
-      {
-        'Insert Table...': TABLE_INSERT_TABLE,
-      },
-      {
-        'Fill Color...': TABLE_CELL_COLOR,
-      },
-      {
-        'Insert Column Before': TABLE_ADD_COLUMN_BEFORE,
-        'Insert Column After': TABLE_ADD_COLUMN_AFTER,
-        'Delete Column': TABLE_DELETE_COLUMN,
-      },
-      {
-        'Insert Row Before': TABLE_ADD_ROW_BEFORE,
-        'Insert Row After': TABLE_ADD_ROW_AFTER,
-        'Delete Row': TABLE_DELETE_ROW,
-      },
-      {
-        'Merge Cells': TABLE_MERGE_CELLS,
-        'Split Cells': TABLE_SPLIT_CELL,
-      },
-      // Disable these commands cause user rarely use them.
-      // {
-      //   toggle_header_column: TABLE_TOGGLE_HEADER_COLUMN,
-      //   toggle_header_row: TABLE_TOGGLE_HEADER_ROW,
-      //   toggle_header_cells: TABLE_TOGGLE_HEADER_CELL,
-      // },
-      {
-        'Delete Table': TABLE_DELETE_TABLE,
-      },
-    ],
-  },
-  {
     hr: HR,
     code: CODE,
   },
 ];
+
+function findActiveFontSize(editorState: EditorState): string {
+  const {schema, doc, selection} = editorState;
+  const markType = editorState.schema.marks[MARK_FONT_SIZE];
+  const {from, to} = selection;
+  const mark = markType ? findActiveMark(doc, from, to, markType) : null;
+  const size = (mark && mark.attrs.size) || String(FONT_PT_SIZES[0]);
+  return String(parseInt(size, 10));
+}
+
+function findActiveFontType(editorState: EditorState): string {
+  const {schema, doc, selection} = editorState;
+  const markType = editorState.schema.marks[MARK_FONT_TYPE];
+  const {from, to} = selection;
+  const mark = markType ? findActiveMark(doc, from, to, markType) : null;
+  return (mark && mark.attrs.name) || String(FONT_TYPE_NAMES[0]);
+}
 
 class EditorToolbar extends React.PureComponent<any, any, any> {
 
@@ -196,7 +219,15 @@ class EditorToolbar extends React.PureComponent<any, any, any> {
     label: string,
     commandGroups: Array<{[string]: UICommand}>,
   ): React.Element<any> => {
+    let icon;
     const {editorState, editorView} = this.props;
+    if (commandGroups === FONT_SIZES) {
+      label = findActiveFontSize(editorState);
+    } else if (commandGroups === FONT_TYPES) {
+      label = findActiveFontType(editorState);
+    } else if (ICON_LABEL_PATTERN.test(label)) {
+      icon = <Icon type={label} />;
+    }
     return (
       <CommandMenuButton
         commandGroups={commandGroups}
@@ -204,21 +235,27 @@ class EditorToolbar extends React.PureComponent<any, any, any> {
         editorState={editorState || EDITOR_EMPTY_STATE}
         editorView={editorView}
         key={label}
-        label={label}
+        label={icon ? null : label}
+        icon={icon}
       />
     );
   };
 
   _renderButton = (label: string, command: UICommand): React.Element<any> => {
     const {editorState, editorView} = this.props;
+    let icon;
+    if (ICON_LABEL_PATTERN.test(label)) {
+      icon = <Icon type={label} />;
+    }
     return (
       <CommandButton
         command={command}
         dispatch={this._dispatchTransaction}
         editorState={editorState || EDITOR_EMPTY_STATE}
         editorView={editorView}
+        icon={icon}
         key={label}
-        label={label}
+        label={icon ? null : label}
       />
     );
   };

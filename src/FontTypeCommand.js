@@ -6,35 +6,15 @@ import createPopUp from './ui/createPopUp';
 import nullthrows from 'nullthrows';
 import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
+import {FONT_TYPE_NAMES} from './FontTypeMarkSpec';
 import {MARK_FONT_TYPE} from './MarkNames';
 import {Schema} from 'prosemirror-model';
 import {TextSelection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
 
-
-const FONTS = [
-  // SERIF
- 'Arial Black',
- 'Arial',
- 'Georgia',
- 'Tahoma',
- 'Times New Roman',
- 'Times',
- 'Verdana',
- // MONOSPACE
- 'Courier New',
- 'Lucida Console',
- 'Monaco',
- 'monospace',
-];
-
-
-
 function createGroup(): Array<{[string]: FontTypeCommand}> {
   const group = {};
-  group['default'] = new FontTypeCommand('');
-
-  FONTS.forEach((name) => {
+  FONT_TYPE_NAMES.forEach((name) => {
     const label = `${name}`;
     group[label] = new FontTypeCommand(name);
   });

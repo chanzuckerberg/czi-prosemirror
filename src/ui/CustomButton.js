@@ -15,9 +15,9 @@ class CustomButton extends React.PureComponent<any, any, any> {
     active?: ?boolean,
     className?: ?string,
     disabled?: ?boolean,
-    icon: any,
+    icon?: string | React.Element<any> | null,
     id?: ?string,
-    label: any,
+    label?: string | React.Element<any> | null,
     onClick?: ?(val: any, e: SyntheticEvent) => void,
     onMouseEnter?: ?(val: any, e: SyntheticEvent) => void,
     style?: ?Object,
@@ -59,7 +59,8 @@ class CustomButton extends React.PureComponent<any, any, any> {
         style={style}
         tabIndex={0}
         title={title || label}>
-        {icon || label}
+        {icon}
+        {label}
       </span>
     );
   }
