@@ -1,7 +1,7 @@
 {
   "name": "czi-prosemirror",
   "version": "0.0.1",
-  "subversion": "a",
+  "subversion": "b",
   "description": "rich text editor built with React and ProseMirror",
   "main": "dist/index.js",
   "scripts": {
