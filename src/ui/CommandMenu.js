@@ -34,13 +34,12 @@ class CommandMenu extends React.PureComponent<any, any, any> {
         } catch (ex) {
           disabled = false;
         }
-
         children.push(
           <CustomMenuItem
             active={command.isActive(editorState)}
             disabled={disabled}
             key={label}
-            label={label}
+            label={command.renderLabel(editorState) || label}
             onClick={this._onUIEnter}
             onMouseEnter={this._onUIEnter}
             value={command}

@@ -1,5 +1,6 @@
 // @flow
 
+import React from 'react';
 import UICommand from './ui/UICommand';
 import applyMark from './applyMark';
 import createPopUp from './ui/createPopUp';
@@ -36,13 +37,21 @@ function setFontType(
 
 class FontTypeCommand extends UICommand {
 
-  _popUp = null;
+  _label = null;
   _name = '';
+  _popUp = null;
 
   constructor(name: string) {
     super();
     this._name = name;
+    this._label = name ?
+      <span style={{fontFamily: name}}>{name}</span> :
+      null;
   }
+
+  renderLabel = (state: EditorState): any => {
+    return this._label;
+  };
 
   isEnabled = (state: EditorState): boolean => {
     const {schema, selection} = state;

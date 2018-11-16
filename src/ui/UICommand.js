@@ -25,6 +25,10 @@ class UICommand {
     return e.type === UICommand.EventType.CLICK;
   };
 
+  renderLabel = (state: EditorState): any => {
+    return null;
+  };
+
   isActive = (state: EditorState): boolean => {
     return false;
   };
