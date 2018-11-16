@@ -2,3 +2,4 @@
 bin
 debug
 node_modules
+*.pyc

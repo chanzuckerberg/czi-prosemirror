@@ -1,8 +1,8 @@
 {
   "name": "czi-prosemirror",
   "version": "0.0.1",
-  "subversion": "3",
-  "description": "rich text editor for education purpose",
+  "subversion": "1",
+  "description": "rich text editor built with React and ProseMirror",
   "main": "dist/index.js",
   "scripts": {
     "build_bin": "node utils/build_bin.js",
