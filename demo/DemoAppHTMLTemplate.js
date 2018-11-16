@@ -30,6 +30,10 @@ const STYLE_UNDERLINE = {
   textDecoration: 'underline',
 };
 
+const STYLE_FLOAT_LEFT = {
+  cssFloat: 'left',
+};
+
 const STYLE_MIXED = {
   ...STYLE_BACKGROUND_COLOR,
   ...STYLE_BOLD,
@@ -44,161 +48,79 @@ class DemoAppHTMLTemplate extends React.PureComponent<any, any, any> {
   render(): React.Element<any> {
     return (
       <div className="demo-app-template">
-        <p>that this mere painsta</p>
-        <p>that this mere painsta</p>
-        <ol>
-          <li>
-            AAAAA gendos. Nulla essent causae et per, in cibo
-            sententiae est. Sit tamquam petentium an. Quo id p ersecuti
-            dissentias,
-            <a href="https://www.google.com/search?ei=RIboW4yPOOit0gLkkrDACw&q=the+quick+brown+fox+jumped+over+the+lazy+dog+alternatives&oq=quic_fox_jump_over&gs_l=psy-ab.1.0.0i71l8.0.0..5874...0.0..0.0.0.......0......gws-wiz.caqNmxUaqoY">
-              cu sed diam prompta meliore, ne nominavi conv enire
-            </a>
-            principe AAAAA gendos. Nulla essent causae et per, in cibo
-            sententiae est. Sit tamquam petentium an. Quo id p ersecuti
-            dissentias, cu sed diam prompta meliore, ne nominavi conv enire
-            principe
-            AAAAA gendos. Nulla essent causae et per, in cibo
-            sententiae est. Sit tamquam petentium an. Quo id p ersecuti
-            dissentias, cu sed diam prompta meliore, ne nominavi conv enire
-            principe
-          </li>
-          <li>BBB</li>
-          <li>CCCCC</li>
-          <li>DDDDDD</li>
-        </ol>
-        <p>that this mere painsta</p>
-        <p>that this mere painsta</p>
-        <p>that this mere painsta</p>
-        <p>that this mere painsta</p>
-        <p>that this mere painsta</p>
+        <h1>Maine coon. Tomcat cornish rex siamese for cheetah savannah</h1>
         <hr />
+        <p style={{lineHeight: '200%'}}>
+          <img src="https://placekitten.com/200/300" style={STYLE_FLOAT_LEFT} />
+          Steal the warm chair right after
+          <a href="https://github.com/chanzuckerberg/czi-prosemirror">
+          you get up purr while eating claw at curtains stretch
+          </a>
+          and yawn nibble on tuna ignore human bite human hand for mark territory.
+          <span style={STYLE_FONT_FAMILY}>
+          Thinking longingly about tuna brine. Thug cat really likes hummus destroy the blinds stare at guinea
+          </span>
+          pigs. Warm up laptop with butt lick butt fart rainbows until owner yells pee in litter box hiss at cats eat a plant, kill a hand. Stare out the window touch my tail, i shred your hand purrrr lie in the sink all day suddenly go on wild-eyed crazy rampage.
+          <span style={STYLE_COLOR}>face on everything.</span>
+        </p>
         <ol>
-          <li>
-            AAAAA gendos. Nulla essent causae et per, in cibo
-            sententiae est. Sit tamquam petentium an. Quo id p ersecuti
-            dissentias,
-            <a href="https://www.google.com/search?ei=RIboW4yPOOit0gLkkrDACw&q=the+quick+brown+fox+jumped+over+the+lazy+dog+alternatives&oq=quic_fox_jump_over&gs_l=psy-ab.1.0.0i71l8.0.0..5874...0.0..0.0.0.......0......gws-wiz.caqNmxUaqoY">
-              cu sed diam prompta meliore, ne nominavi conv enire
-            </a>
-            principe AAAAA gendos. Nulla essent causae et per, in cibo
-            sententiae est. Sit tamquam petentium an. Quo id p ersecuti
-            dissentias, cu sed diam prompta meliore, ne nominavi conv enire
-            principe
-            AAAAA gendos. Nulla essent causae et per, in cibo
-            sententiae est. Sit tamquam petentium an. Quo id p ersecuti
-            dissentias, cu sed diam prompta meliore, ne nominavi conv enire
-            principe
-          </li>
-          <li>BBB</li>
-          <li>CCCCC</li>
-          <li>DDDDDD</li>
+          <li><span style={STYLE_COLOR}>Kitten norwegian forest</span></li>
+          <li><span style={STYLE_BACKGROUND_COLOR}>Donskoy ragdoll and ragdoll</span></li>
+          <li><b>Siberian tomcat.</b></li>
+          <li><u>Burmese <i>lynx</i> and balinese</u></li>
         </ol>
-        <h1>H1 Header</h1>
+        <p>
+          The fat cat sat on
+          <span style={STYLE_BACKGROUND_COLOR}>the mat bat away with</span>paws sweet beast, but this cat happen now, it was too purr-fect!!! or ears back wide eyed. Poop on grasses poop in litter box, scratch the walls. Murf pratt ungow ungow sit by the fire destroy couch as revenge yet mesmerizing birds more napping, more napping all the napping is exhausting. Present belly, scratch hand when stroked meow loudly just to annoy owners massacre a bird in the living room and then look like the cutest and most innocent animal on the planet my water bowl is clean and freshly replenished, so i'll drink from the toilet eat all the power cords, sit in a box for hours chase ball of string. Destroy couch claw at curtains stretch and yawn nibble on tuna ignore human bite human hand if it fits, i sits destroy house in 5 seconds stare out the window yet leave hair everywhere. With tail in the air lick butt, or lick the curtain just to be annoying, or destroy couch as revenge missing <a href="https://github.com/chanzuckerberg/czi-prosemirror">
+            until dinner time destroy couch as revenge.
+          </a>
+        </p>
+        <p style={{textAlign: 'center', color: '#ff0000'}}>
+          Singapura bombay for norwegian forest tom tabby.
+        </p>
         <table>
+          <colgroup>
+            <col />
+            <col style={{width: '300px'}} />
+            <col />
+          </colgroup>
+          <thead>
+            <tr>
+              <th colSpan="3" style={{backgroundColor: '#7de8e8'}}>
+                meow~~~~
+              </th>
+            </tr>
+          </thead>
           <tbody>
-            <tr><th colSpan="3" data-colwidth="100,0,0">Wide header</th></tr>
-            <tr><td>One</td><td>Two</td><td>Three</td></tr>
-            <tr><td>Four</td><td>Five</td><td>Six</td></tr>
+            <tr>
+              <td style={STYLE_BACKGROUND_COLOR}>
+                Singapura bombay for norwegian forest tom tabby. Leopard bengal egyptian mau cornish rex and singapura for maine coon or cheetah. Tomcat sphynx ocicat. Cornish rex devonshire rex bobcat and mouser or ocelot birman kitty. Panther balinese , for american bobtail abyssinian ocelot but leopard. Bobcat balinese ocelot, yet bobcat cheetah for bombay for cheetah. American shorthair persian. Bengal. Cougar panther and leopard bombay, bombay panther so british shorthair. Panther tiger so cougar for singapura, norwegian forest.
+              </td>
+              <td style={{backgroundColor: '#c8f442'}}>
+                Maine coon. Tomcat cornish rex siamese for cheetah savannah. Cheetah havana brown mouser for scottish fold. Bengal leopard cornish rex turkish angora. Tomcat maine coon for malkin balinese , siberian or sphynx. Tom tomcat. Lion bobcat abyssinian . Norwegian forest ocicat yet siamese or malkin. Kitty balinese , but lynx so cheetah, mouser tom tom. Maine coon. Siberian bengal tabby lion or balinese yet manx. Thai savannah, russian blue. Donskoy ragdoll and ragdoll. Tiger kitten. Puma havana brown sphynx.
+              </td>
+              <td style={{backgroundColor: '#f441cd'}}>
+                Siberian tomcat. Burmese lynx and balinese cornish rex tom. Kitten norwegian forest, for leopard so bombay leopard for kitten. American bobtail tabby savannah or tom. Birman tom. Sphynx american bobtail malkin yet scottish fold.
+              </td>
+            </tr>
+            <tr>
+              <td rowSpan="2" style={{backgroundColor: '#41f4d9'}}>
+                111Singapura bombay for norwegian forest tom tabby.
+              </td>
+              <td colSpan="2">
+                Burmese lynx and balinese cornish rex tom
+              </td>
+            </tr>
+            <tr>
+              <td style={STYLE_BACKGROUND_COLOR}>
+                Singapura bombay for norwegian forest tom tabby.
+              </td>
+              <td>
+                Siberian tomcat. Burmese lynx and balinese cornish rex tom. Kitten norwegian forest, for leopard so bombay leopard for kitten. American bobtail tabby savannah or tom. Birman tom. Sphynx american bobtail malkin yet scottish fold.
+              </td>
+            </tr>
           </tbody>
         </table>
-        <h3>H3 Header</h3>
-        <p style={STYLE_TEXT_ALIGN}>
-          It will be seen <u>that this mere painstaking</u>
-        </p>
-        <p>
-          <span style={STYLE_FONT_SIZE}>
-            poor devil of a Sub-Sub
-          </span>
-          appears to have gone through the long Vaticans
-          and street-stalls of the earth, picking up whatever
-          <span style={STYLE_FONT_FAMILY}>
-            Comic Sans MS extracts, for veritable gospel cetology. Far from it. As touching the
-            ancient authors generally, as well as the poets here appearing, these
-            extracts are solely valuable or entertaining, as affording a glancing
-            bird&rsquo;s eye view of wh
-          </span>
-          <span style={STYLE_UNDERLINE}>
-          higgledy-piggledy whale statements, however authentic, in these
-          </span>
-          extracts, for veritable gospel cetology. Far from it. As touching the
-          ancient authors generally, as well as the poets here appearing, these
-          extracts are solely valuable or entertaining, as affording a glancing
-          bird&rsquo;s eye view of what has been promiscuously said, thought, fancied,
-          and sung of Leviathan, by many nations and generations, including our
-          own.
-        </p>
-        <p>
-          So fare thee well, poor devil of a Sub-Sub, whose commentator I am. Thou
-          belongest to that hopeless, sallow tribe which no wine of this world
-          will ever warm; and for whom even Pale Sherry would be too rosy-strong;
-          but with whom one sometimes loves to sit, and feel poor-devilish, too;
-          and grow convivial upon tears; and say to them bluntly, with full eyes
-          and empty glasses, and in not altogether unpleasant sadness&mdash;Give
-          it up, Sub-Subs! For by how much the more pains ye take to please the
-          world, by so much the more shall ye for ever go thankless! Would that I
-          could clear out Hampton Court and the Tuileries for ye! But gulp down
-          your tears and hie aloft to the royal-mast with your hearts; for your
-          friends who have gone before are clearing out the seven-storied heavens,
-          and making refugees of long-pampered Gabriel, Michael, and Raphael,
-          against your coming. Here ye strike but splintered hearts together&mdash;there,
-          ye shall strike unsplinterable glasses!
-        </p>
-
-
-        <img
-          alt="cat pix"
-          height="200"
-          src="https://placekitten.com/200/200"
-          width="200"
-        />
-        <hr />
-        <img
-          alt="cat pix"
-          height="100"
-          src="https://placekitten.com/200/100"
-          width="200"
-        />
-
-        <h1>Editor Example</h1>
-        <h2>H2 Header</h2>
-        <p>
-          Lorem ipsum dolor sit amet, phaedrum efficiantur pri cu, te quem
-          <span style={STYLE_BACKGROUND_COLOR}>
-            aliquando est. Viris aliquando definiebas duo et. Usu everti iriure
-          </span>
-          aliquando est. Viris aliquando definiebas duo et. Usu everti iriure
-          <span style={STYLE_BACKGROUND_COLOR}>
-            aliquando est. Viris aliquando definiebas duo et
-            <span style={STYLE_COLOR}>
-              aliquando est. Viris aliquando definiebas duo et. Usu everti iriure
-            </span>
-            sententiae est. Sit tamquam petentium an. Quo id p
-            ersecuti dissentias, cu
-          </span>
-          aliquando est. Viris aliquando definiebas duo et. Usu everti iriure
-          <span style={STYLE_MIXED}>
-            With Background Color and Text Color
-          </span>
-        </p>
-        <p>
-          posidonium in. Te mea nonumes detracto legendos. Nulla essent causae
-          et per, in cibo sententiae est. Sit tamquam petentium an. Quo id p
-          ersecuti dissentias, cu sed diam prompta meliore, ne nominavi conv
-          enire principes pro.
-        </p>
-        <ul start="10">
-          <li>KKK</li>
-          <li>GGG</li>
-          <li>PPP</li>
-          <li>QQQQQ</li>
-        </ul>
-        <ol start="6">
-          <li>Item A</li>
-          <li>Item B</li>
-          <li>Item C</li>
-          <li>Item D</li>
-        </ol>
       </div>
     )
   }

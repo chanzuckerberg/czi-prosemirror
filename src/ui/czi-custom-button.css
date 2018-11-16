@@ -18,8 +18,10 @@
   font-family: var(--czi-font-family);
   font-size: var(--czi-font-size);
   line-height: 1.2em;
+  overflow: hidden;
   padding: 6px 12px;
   position: relative;
+  text-overflow: ellipsis;
   user-select: none;
   vertical-align: middle;
   white-space: nowrap;

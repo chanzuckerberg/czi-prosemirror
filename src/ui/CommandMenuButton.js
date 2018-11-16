@@ -16,6 +16,7 @@ import './czi-custom-menu-button.css';
 class CommandMenuButton extends React.PureComponent<any, any, any> {
 
   props: {
+    className?: ?string,
     commandGroups: Array<{[string]: UICommand}>,
     dispatch: (tr: Transform) => void,
     editorState: EditorState,
@@ -32,7 +33,10 @@ class CommandMenuButton extends React.PureComponent<any, any, any> {
   };
 
   render(): React.Element<any> {
-    const {label, commandGroups, editorState, editorView, icon} = this.props;
+    const {
+      className, label, commandGroups,
+      editorState, editorView, icon,
+    } = this.props;
     const enabled = commandGroups.some((group, ii) => {
       return Object.keys(group).some(label => {
         const command = group[label];
@@ -47,13 +51,13 @@ class CommandMenuButton extends React.PureComponent<any, any, any> {
     });
 
     const {expanded} = this.state;
-    const className = cx({
+    const buttonClassName = cx(className, {
       'czi-custom-menu-button': true,
       expanded,
     });
     return (
       <CustomButton
-        className={className}
+        className={buttonClassName}
         disabled={!enabled}
         icon={icon}
         id={this._id}

@@ -53,6 +53,7 @@ class FontTypeCommandMenuButton extends React.PureComponent<any, any, any> {
     const fontType = findActiveFontType(editorState);
     return (
       <CommandMenuButton
+        className="width-100"
         commandGroups={COMMAND_GROUPS}
         dispatch={dispatch}
         editorState={editorState}

@@ -8,13 +8,14 @@ html {
     #c2c2c2 20px
   );
   */
-  background: #E6E6E6;
+  background: #fff;
   border: 0;
   border: none;
   margin: 0;
 }
 
 body {
+  background: #E6E6E6;
   border: none;
   margin: 0;
 }
@@ -36,7 +37,7 @@ body {
   border-radius: 1px;
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
   box-sizing: border-box;
-  margin: 20px auto 0 50px;
+  margin: 20px auto 0 auto;
   min-height: 29.7cm;
   outline: none;
   padding: 2.7cm;

@@ -15,7 +15,7 @@ const FontTypeMarkSpec: MarkSpec = {
       style: 'font-family',
       getAttrs: (name) => {
         return {
-          name,
+          name: name ? name.replace(/[\"\']/g, '') : '',
         };
       },
     },
