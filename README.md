@@ -21,16 +21,61 @@ npm install
 ```
 
 
-## Install dependencies
+### Install dependencies
 ```
 cd czi-prosemirror
 npm install
 ```
 
-## Start the web server
+### Start the web server
 
 ```
 # At the working directory `czi-prosemirror`
 npm run start
 ```
 Test http://localhost:3001/ from your browser
+
+## Development with React
+
+```
+
+import {createEmptyEditorState, Editor, EditorToolbar} from 'czi-prosemirror';
+
+class DemoApp extends React.PureComponent<any, any, any> {
+
+  constructor(props, context) {
+    super(props, context);
+    this.state = {
+      editorState: createEmptyEditorState(),
+      editorView: null,
+    };
+  }
+
+  render(): React.Element<any> {
+    const {editorState, editorView} = this.state;
+    return (
+      <div>
+        <EditorToolbar
+          editorState={editorState}
+          editorView={editorView}
+          onChange={this._onChange}
+        />
+        <Editor
+          editorState={editorState}
+          onChange={this._onChange}
+          onReady={this._onReady}
+        />
+      </div>
+    );
+  }
+
+  _onReady = (editorView)=> {
+     this.setState({editorView});
+  };
+
+  _onChange = (editorState: EditorState) => {
+    this.setState({editorState});
+  };
+}
+```
+
