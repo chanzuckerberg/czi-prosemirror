@@ -2,24 +2,25 @@
 
 import Color from 'color';
 
-const cache = {
+const ColorMaping = {
   'transparent': '',
+  'inherit': '',
 };
 
 export default function toHexColor(source: any): string {
   if (!source) {
     return '';
   }
-  if (source in cache) {
-    return cache[source];
+  if (source in ColorMaping) {
+    return ColorMaping[source];
   }
   let hex = '';
   try {
     hex = Color(source).hex().toLowerCase();
-    cache[source] = hex;
+    ColorMaping[source] = hex;
   } catch (ex) {
     console.error(`unable to convert ${source} to hex`);
-    cache[source] = '';
+    ColorMaping[source] = '';
   }
   return hex;
 }
