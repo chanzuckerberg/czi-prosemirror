@@ -37,3 +37,10 @@
 .czi-editor-toolbar .czi-custom-button.use-icon .czi-icon {
   margin: 4px 0;
 }
+
+@media only print {
+  .czi-editor-toolbar,
+  .__prosemirror-dev-tools__ {
+    display: none;
+  }
+}

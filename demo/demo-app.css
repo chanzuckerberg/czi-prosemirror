@@ -14,34 +14,36 @@ html {
   margin: 0;
 }
 
-body {
-  background: #E6E6E6;
-  border: none;
-  margin: 0;
-}
+@media only screen {
+  body {
+    background: #E6E6E6;
+    border: none;
+    margin: 0;
+  }
 
-.demo-app-template {
-  display: none;
-}
+  .demo-app-template {
+    display: none;
+  }
 
-.demo-app-head {
-  background: #fff;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.16);
-  position: sticky;
-  top: 0;
-  z-index: 2;
-}
+  .demo-app-head {
+    background: #fff;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.16);
+    position: sticky;
+    top: 0;
+    z-index: 2;
+  }
 
-.demo-app-body .ProseMirror {
-  background: #fff;
-  border-radius: 1px;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-  box-sizing: border-box;
-  margin: 20px auto 0 auto;
-  min-height: 29.7cm;
-  outline: none;
-  padding: 2.7cm;
-  position: relative;
-  width: 21.65cm;
-  z-index: 1;
+  .demo-app-body .ProseMirror {
+    background: #fff;
+    border-radius: 1px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    box-sizing: border-box;
+    margin: 20px auto 0 auto;
+    min-height: 29.7cm;
+    outline: none;
+    padding: 2.7cm;
+    position: relative;
+    width: 21.65cm;
+    z-index: 1;
+  }
 }

@@ -1,11 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import codecs
+import glob
 import json
 import os
-import glob
 import re
-import codecs
+import datetime
+import time
 
 def read_text(path):
   try :
@@ -51,6 +53,8 @@ def build_html_app(html_path, namespace):
 def main():
   os.system('clear')
 
+
+
   print '-' * 80
   os.system('killall -9 node')
   os.system('rm -fr bin')
@@ -76,11 +80,13 @@ def main():
     '',
   ]
 
-  namespace = namespace + '_'
+  st = datetime.datetime.fromtimestamp(time.time()).strftime('%Y%m%d%H%M%S')
+  namespace = namespace + '_' + st + '_'
   for deploy_path in  glob.glob('bin/*.html'):
     file_name = deploy_path.split('/').pop()
     cmd = '\n\n\n'
     cmd = cmd + 'echo "http://cdn.summitlearning.org/assets/' + namespace + file_name + '"\n'
+    cmd = '\n\n\n'
     cmd = cmd + 'aws s3 cp ' + deploy_path + ' '
     cmd = cmd + 's3://opt-static-resources/assets/' + namespace + file_name + ' --grants '
     cmd = cmd + 'read=uri=http://acs.amazonaws.com/groups/global/AllUsers;\n\n'
