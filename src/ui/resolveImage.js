@@ -1,8 +1,9 @@
 // @flow
 
+import isOffline from './isOffline';
 import url from 'url';
 
-type ImageResult = {
+export type ImageResult = {
   complete: boolean,
   height: number,
   naturalHeight: number,
@@ -23,6 +24,11 @@ export default function resolveImage(src: ?string): Promise<ImageResult> {
       src: src || '',
       width: 0,
     };
+
+    if (isOffline()) {
+      resolve(result);
+      return;
+    }
 
     const srcStr = src || '';
 

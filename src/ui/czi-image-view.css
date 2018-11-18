@@ -4,6 +4,7 @@
  clear: both;
  display: inline-block;
  font-size: 0;
+ max-width: 100%;
  text-align: center;
 }
 
@@ -24,9 +25,21 @@
   margin: 20px 0;
 }
 
+.czi-image-view-body-img-clip {
+  display: inline-block;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.czi-image-view-body.active .czi-image-view-body-img-clip {
+  overflow-x: visible;
+  overflow-y: hidden;
+}
+
 .czi-image-view-body {
   clear: both;
   display: inline-block;
+  max-width: 100%;
   position: relative;
 }
 

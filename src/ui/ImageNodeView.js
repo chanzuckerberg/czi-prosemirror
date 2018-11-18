@@ -130,16 +130,17 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
       <span
         className={className}
         data-active={active ? 'true' : null}
-        id={this._id}
-        style={style}>
-        <img
-          alt=""
-          className="czi-image-view-body-img"
-          data-align={align}
-          height={height}
-          src={src || EMPTY_SRC}
-          width={width}
-        />
+        id={this._id}>
+        <span className="czi-image-view-body-img-clip">
+          <img
+            alt=""
+            className="czi-image-view-body-img"
+            data-align={align}
+            height={height}
+            src={src || EMPTY_SRC}
+            width={width}
+          />
+        </span>
         {resizeBox}
       </span>
     );

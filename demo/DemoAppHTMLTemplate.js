@@ -51,7 +51,12 @@ class DemoAppHTMLTemplate extends React.PureComponent<any, any, any> {
         <h1>Maine coon. Tomcat cornish rex siamese for cheetah savannah</h1>
         <hr />
         <p style={{lineHeight: '200%'}}>
-          <img src="https://placekitten.com/200/300" style={STYLE_FLOAT_LEFT} />
+          <img
+            height="200"
+            src="https://placekitten.com/200/300"
+            style={STYLE_FLOAT_LEFT}
+            width="800"
+          />
           Steal the warm chair right after
           <a href="https://github.com/chanzuckerberg/czi-prosemirror">
           you get up purr while eating claw at curtains stretch
