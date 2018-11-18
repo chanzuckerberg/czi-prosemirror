@@ -97,11 +97,11 @@ const CommandGroups = [
         'Split Cells': TABLE_SPLIT_CELL,
       },
       // Disable these commands cause user rarely use them.
-      // {
-      //   toggle_header_column: TABLE_TOGGLE_HEADER_COLUMN,
-      //   toggle_header_row: TABLE_TOGGLE_HEADER_ROW,
-      //   toggle_header_cells: TABLE_TOGGLE_HEADER_CELL,
-      // },
+      {
+        'Toggle Header Column': TABLE_TOGGLE_HEADER_COLUMN,
+        'Toggle Header Cow': TABLE_TOGGLE_HEADER_ROW,
+        'Toggle Header Cells': TABLE_TOGGLE_HEADER_CELL,
+      },
       {
         'Delete Table': TABLE_DELETE_TABLE,
       },

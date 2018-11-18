@@ -52,10 +52,8 @@ class DemoAppHTMLTemplate extends React.PureComponent<any, any, any> {
         <hr />
         <p style={{lineHeight: '200%'}}>
           <img
-            height="200"
             src="https://placekitten.com/200/300"
             style={STYLE_FLOAT_LEFT}
-            width="800"
           />
           Steal the warm chair right after
           <a href="https://github.com/chanzuckerberg/czi-prosemirror">
