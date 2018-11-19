@@ -1,6 +1,8 @@
 // @flow
 
 import applyInlineStyleSheetStyles from './applyInlineStyleSheetStyles';
+import patchInlineStyles from './patchInlineStyles';
+import patchLists from './patchLists';
 
 export default function normalizeHTML(html: string): string {
   let body: ?HTMLElement = null;
@@ -22,6 +24,8 @@ export default function normalizeHTML(html: string): string {
     doc.write(html);
     doc.close();
     applyInlineStyleSheetStyles(doc);
+    patchInlineStyles(doc);
+    patchLists(doc);
     body = doc.getElementsByTagName('body')[0];
   }
 

@@ -7,6 +7,7 @@ import type {NodeSpec} from 'prosemirror';
 
 export const MIN_INDENT_LEVEL = 0;
 export const MAX_INDENT_LEVEL = 7;
+export const ATTRIBUTE_INDENT = 'data-indent';
 export const LINE_SPACING_VALUES = [
   '100%',
   '115%',
@@ -15,7 +16,6 @@ export const LINE_SPACING_VALUES = [
 ];
 
 const ALIGN_PATTERN = /(left|right|center|justify)/;
-const ATTRIBUTE_INDENT = 'data-indent';
 const LINE_HEIGHT_PATTERN = /(100\%|115\%|150\%|200\%)/;
 
 // https://github.com/ProseMirror/prosemirror-schema-basic/blob/master/src/schema-basic.js

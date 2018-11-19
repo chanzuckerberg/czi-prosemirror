@@ -15,37 +15,6 @@ type SelectorTextToCSSText = {
 const DEFAULT_TEXT_COLOR = '#000000';
 const DEFAULT_BACKGROUND_COLOR = '#ffffff';
 
-function buildSelectorTextToCSSText(
-  result: Array<SelectorTextToCSSText>,
-  selectorText: string,
-  cssText: string,
-): void {
-  let afterContent;
-  let beforeContent;
-
-  if (PSEUDO_ELEMENT_ANY.test(selectorText)) {
-    // TODO: Handle this later.
-    return;
-  }
-
-  result.push({
-    selectorText,
-    cssText,
-    afterContent,
-    beforeContent,
-  });
-}
-
-function applyInlineStyleSheetCSSTexts(
-  cssTexts: Array<string>,
-  el: HTMLElement,
-): void {
-  if (cssTexts.length) {
-    console.log(el, el.style.cssText, cssTexts.join(';'));
-    el.style.cssText = cssTexts.join(';') + ';' + el.style.cssText;
-  }
-}
-
 export default function applyInlineStyleSheetStyles(doc: Document): void {
   const els = Array.from(doc.querySelectorAll('style'));
   if (!els.length) {
@@ -126,4 +95,35 @@ export default function applyInlineStyleSheetStyles(doc: Document): void {
   });
 
   elementToCSSTexts.forEach(applyInlineStyleSheetCSSTexts);
+}
+
+function buildSelectorTextToCSSText(
+  result: Array<SelectorTextToCSSText>,
+  selectorText: string,
+  cssText: string,
+): void {
+  let afterContent;
+  let beforeContent;
+
+  if (PSEUDO_ELEMENT_ANY.test(selectorText)) {
+    // TODO: Handle this later.
+    return;
+  }
+
+  result.push({
+    selectorText,
+    cssText,
+    afterContent,
+    beforeContent,
+  });
+}
+
+function applyInlineStyleSheetCSSTexts(
+  cssTexts: Array<string>,
+  el: HTMLElement,
+): void {
+  if (cssTexts.length) {
+    // console.log(el, el.style.cssText, cssTexts.join(';'));
+    el.style.cssText = cssTexts.join(';') + ';' + el.style.cssText;
+  }
 }
