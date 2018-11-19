@@ -79,6 +79,7 @@ class ConvertAppArea extends React.Component<any, any, any> {
 
 class ConvertApp extends React.PureComponent<any, any, any> {
   _sid = null;
+  _dropping = false;
   state = getInitialState();
 
   render(): React.Element<any> {
@@ -119,16 +120,10 @@ class ConvertApp extends React.PureComponent<any, any, any> {
             title="HTML View">
             <textarea
               onChange={this._onHTMLChange}
+              onDrop={this._onHTMLDrop}
               spellCheck={false}
               value={html}
             />
-          </ConvertAppArea>
-          <ConvertAppArea
-            className="web"
-            title="Web View">
-            <div className="webview">
-              <div dangerouslySetInnerHTML={{ __html: html }} />
-            </div>
           </ConvertAppArea>
           <ConvertAppArea
             className="prosemirror"
@@ -150,6 +145,43 @@ class ConvertApp extends React.PureComponent<any, any, any> {
   _onHTMLChange = (e: SyntheticInputEvent) => {
     const html = e.target.value;
     this.setState({html}, this._save);
+  };
+
+  _onHTMLDrop = (e: any): void => {
+    e.preventDefault();
+
+    if (this._dropping) {
+      return;
+    }
+    this._dropping = true;
+
+    const el: any = e.currentTarget;
+    const file = e.dataTransfer.files[0];
+    if (!file || !(/\.html$/).test(file.name)) {
+      return;
+    }
+    let reader = new FileReader();
+
+    reader.onload = (onload) => {
+      el.readOnly = false;
+      const html = el.value = onload.target.result;
+      this._dropping = false;
+      reader = null;
+      this.setState({html});
+    };
+
+    reader.onerror = (onerror) => {
+      const html = onerror.message || 'unable to read file';
+      this._dropping = false;
+      reader = null;
+      this.setState({html});
+    };
+
+    el.readOnly = true;
+    el.value = 'Load: ' + file.name;
+    setTimeout(() => {
+      reader && reader.readAsText(file);
+    }, 500);
   };
 
   _save = (): void => {
@@ -189,7 +221,6 @@ class ConvertApp extends React.PureComponent<any, any, any> {
     }
   };
 }
-
 
 function main(): void {
   const el = document.createElement('div');

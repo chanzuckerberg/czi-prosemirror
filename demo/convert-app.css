@@ -20,7 +20,6 @@
   grid-template-areas: "header header header header" "draftjs html prosemirror prosemirror" "draftjs html prosemirror prosemirror";
   grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-template-rows: 0.1fr 1fr 1fr;
-  grid-template-areas: "header header header header" "draftjs html prosemirror prosemirror" "draftjs web prosemirror prosemirror";
   height: 100%;
   width: 100%;
 }
@@ -35,10 +34,6 @@
 
 .convert-app .html {
   grid-area: html;
-}
-
-.convert-app .web {
-  grid-area: web;
 }
 
 .convert-app .prosemirror {
@@ -103,20 +98,6 @@
   z-index: 1;
 }
 
-.convert-app-area-body > .webview {
-  background: #fff;
-  bottom: 10px;
-  box-shadow: inset 0px 0px 5px 0px rgba(0,0,0,0.75);
-  box-sizing: border-box;
-  box-sizing: border-box;
-  left: 10px;
-  overflow: auto;
-  padding: 10px;
-  position: absolute;
-  right: 10px;
-  top: 10px;
-}
-
 .convert-app-area-body > textarea {
   border: none;
   box-shadow: inset 0px 0px 5px 0px rgba(0,0,0,0.75);
@@ -130,4 +111,18 @@
   resize: none;
   width: 100%;
   min-height: 500px;
+}
+
+.convert-app-area-body > textarea:read-only {
+  background-color: rgba(51,153,255,0.2);
+  -webkit-animation-name: czi_loading_background;
+  -webkit-animation-duration: 0.5s;
+  -webkit-animation-iteration-count:infinite;
+  -webkit-animation-timing-function:ease-in-out;
+  -webkit-animation-direction: alternate;
+}
+
+@-webkit-keyframes czi_loading_background {
+  from {background-color: rgba(51,153,255,0.2);}
+  to {background-color: rgba(51,153,255,0.8);}
 }
