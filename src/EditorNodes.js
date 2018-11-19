@@ -5,38 +5,55 @@ import * as ProsemirrorTables from 'prosemirror-tables';
 import BlockquoteNodeSpec from './BlockquoteNodeSpec';
 import BulletListNodeSpec from './BulletListNodeSpec';
 import CodeBlockNodeSpec from './CodeBlockNodeSpec';
+import DocNodeSpec from './DocNodeSpec';
+import HardBreakNodeSpec from './HardBreakNodeSpec';
 import HeadingNodeSpec from './HeadingNodeSpec';
+import HorizontalRuleNodeSpec from './HorizontalRuleNodeSpec';
 import ImageNodeSpec from './ImageNodeSpec';
 import ListItemNodeSpec from './ListItemNodeSpec';
 import OrderedListNodeSpec from './OrderedListNodeSpec';
 import ParagraphNodeSpec from './ParagraphNodeSpec';
 import TableNodesSpecs from './TableNodesSpecs';
-import {schema} from 'prosemirror-schema-basic';
+import TextNodeSpec from './TextNodeSpec';
+import {Schema} from 'prosemirror-model';
 
 const {
+  BLOCKQUOTE,
   BULLET_LIST,
   CODE_BLOCK,
+  DOC,
+  HARD_BREAK,
   HEADING,
+  HORIZONTAL_RULE,
   IMAGE,
   LIST_ITEM,
   ORDERED_LIST,
   PARAGRAPH,
-  BLOCKQUOTE,
+  TEXT,
 } = NodeNames;
 
 // https://github.com/ProseMirror/prosemirror-schema-basic/blob/master/src/schema-basic.js
 
-const EditorNodes = schema.spec.nodes
-  .update(BLOCKQUOTE, BlockquoteNodeSpec)
-  .update(CODE_BLOCK, CodeBlockNodeSpec)
-  .update(HEADING, HeadingNodeSpec)
-  .update(IMAGE, ImageNodeSpec)
-  .update(PARAGRAPH, ParagraphNodeSpec)
-  .append({
-    [BULLET_LIST]: BulletListNodeSpec,
-    [LIST_ITEM]: ListItemNodeSpec,
-    [ORDERED_LIST]: OrderedListNodeSpec,
-  })
-  .append(TableNodesSpecs);
+// Be careful with the order of these nodes, which may effect the parsing
+// outcome.
+const nodes = {
+  [DOC]: DocNodeSpec,
+  [BULLET_LIST]: BulletListNodeSpec,
+  [ORDERED_LIST]: OrderedListNodeSpec,
+  [LIST_ITEM]: ListItemNodeSpec,
+  [PARAGRAPH]: ParagraphNodeSpec,
+  [BLOCKQUOTE]: BlockquoteNodeSpec,
+  [HORIZONTAL_RULE]: HorizontalRuleNodeSpec,
+  [HEADING]: HeadingNodeSpec,
+  [CODE_BLOCK]: CodeBlockNodeSpec,
+  [TEXT]: TextNodeSpec,
+  [IMAGE]: ImageNodeSpec,
+  [HARD_BREAK]: HardBreakNodeSpec,
+};
+
+const marks = {};
+const schema = new Schema({nodes, marks});
+
+const EditorNodes = schema.spec.nodes.append(TableNodesSpecs);
 
 export default EditorNodes;

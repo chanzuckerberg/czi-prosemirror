@@ -16,7 +16,6 @@ import {dropCursor} from 'prosemirror-dropcursor';
 import {gapCursor} from 'prosemirror-gapcursor';
 import {history} from 'prosemirror-history';
 import {keymap} from 'prosemirror-keymap';
-import {schema} from 'prosemirror-schema-basic';
 
 // import {PLUGINS} from './configs';
 

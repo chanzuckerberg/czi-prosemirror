@@ -1,6 +1,7 @@
 // @flow
 
 // https://github.com/ProseMirror/prosemirror-schema-basic/blob/master/src/schema-basic.js
+export const MARK_CODE = 'code';
 export const MARK_EM = 'em';
 export const MARK_FONT_SIZE = 'mark-font-size';
 export const MARK_FONT_TYPE = 'mark-font-type';
