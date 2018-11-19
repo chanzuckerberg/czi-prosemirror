@@ -34,5 +34,6 @@ export default function normalizeHTML(html: string): string {
   }
 
   html = body.innerHTML;
+  console.log(html);
   return html;
 }

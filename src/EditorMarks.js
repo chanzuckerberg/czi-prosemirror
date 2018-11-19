@@ -46,7 +46,7 @@ const marks = {
   [MARK_FONT_TYPE]: FontTypeMarkSpec,
   [MARK_LINK]: LinkMarkSpec,
   [MARK_STRIKE]: StrikeMarkSpec,
-  [MARK_STRONG]: StrikeMarkSpec,
+  [MARK_STRONG]: StrongMarkSpec,
   [MARK_TEXT_COLOR]: TextColorMarkSpec,
   [MARK_TEXT_HIGHLIGHT]: TextHighlightMarkSpec,
   [MARK_TEXT_SELECTION]: TextSelectionMarkSpec,
