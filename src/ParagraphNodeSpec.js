@@ -11,7 +11,7 @@ export const ATTRIBUTE_INDENT = 'data-indent';
 export const LINE_SPACING_VALUES = [
   '100%',
   '115%',
-  '150%',
+  '150%', // Default value.
   '200%',
 ];
 

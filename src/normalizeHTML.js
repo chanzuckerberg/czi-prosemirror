@@ -3,6 +3,7 @@
 import applyInlineStyleSheetStyles from './applyInlineStyleSheetStyles';
 import patchInlineStyles from './patchInlineStyles';
 import patchLists from './patchLists';
+import patchTables from './patchTables';
 
 export default function normalizeHTML(html: string): string {
   let body: ?HTMLElement = null;
@@ -26,6 +27,7 @@ export default function normalizeHTML(html: string): string {
     applyInlineStyleSheetStyles(doc);
     patchInlineStyles(doc);
     patchLists(doc);
+    patchTables(doc);
     body = doc.getElementsByTagName('body')[0];
   }
 
@@ -34,6 +36,5 @@ export default function normalizeHTML(html: string): string {
   }
 
   html = body.innerHTML;
-  console.log(html);
   return html;
 }

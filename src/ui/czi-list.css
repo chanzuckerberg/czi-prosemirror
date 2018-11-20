@@ -23,12 +23,15 @@
   position: relative;
 }
 
+/* https://www.sitepoint.com/understanding-block-formatting-contexts-in-css/ */
+/* this is need to force "block-context" to prevent broken style around */
+/* float siblings */
+/*
 .ProseMirror li > p {
-  /* https://www.sitepoint.com/understanding-block-formatting-contexts-in-css/ */
-  /* this is need to force "block-context" to prevent broken style around */
-  /* float siblings */
+
   overflow-x: hidden;
 }
+*/
 
 .ProseMirror ol {
   counter-reset: czi-counter;
@@ -47,14 +50,18 @@
   line-height: 1em;
   margin-left: 8px;
   margin-right: 8px;
+  position: relative;
+  top: 4px;
 }
 
+/* https://www.sitepoint.com/understanding-block-formatting-contexts-in-css/ */
+/* this is need to force "block-context" to prevent broken style around */
+/* float siblings (e.g. An image is floafing around it.) */
+/*
 .ProseMirror li::before + p {
-  /* https://www.sitepoint.com/understanding-block-formatting-contexts-in-css/ */
-  /* this is need to force "block-context" to prevent broken style around */
-  /* float siblings (e.g. An image is floafing around it.) */
-  overflow: auto;
+  overflow-x: hidden;
 }
+*/
 
 .ProseMirror ul li[data-align="center"] p:first-child::before,
 .ProseMirror ul > li::before {

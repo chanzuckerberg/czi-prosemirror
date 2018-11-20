@@ -38,9 +38,7 @@ const {
 // outcome.
 const nodes = {
   [DOC]: DocNodeSpec,
-  [BULLET_LIST]: BulletListNodeSpec,
-  [ORDERED_LIST]: OrderedListNodeSpec,
-  [LIST_ITEM]: ListItemNodeSpec,
+
   [PARAGRAPH]: ParagraphNodeSpec,
   [BLOCKQUOTE]: BlockquoteNodeSpec,
   [HORIZONTAL_RULE]: HorizontalRuleNodeSpec,
@@ -49,6 +47,10 @@ const nodes = {
   [TEXT]: TextNodeSpec,
   [IMAGE]: ImageNodeSpec,
   [HARD_BREAK]: HardBreakNodeSpec,
+
+  [BULLET_LIST]: BulletListNodeSpec,
+  [ORDERED_LIST]: OrderedListNodeSpec,
+  [LIST_ITEM]: ListItemNodeSpec,
 };
 
 const marks = {};
