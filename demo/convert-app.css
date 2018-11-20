@@ -18,7 +18,7 @@
 .grid-container {
   display: grid;
   grid-template-areas: "header header header header" "draftjs html prosemirror prosemirror" "draftjs html prosemirror prosemirror";
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 0.5fr 1fr 1fr 1.5fr;
   grid-template-rows: 0.1fr 1fr 1fr;
   height: 100%;
   width: 100%;

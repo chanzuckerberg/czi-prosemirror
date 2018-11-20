@@ -6,7 +6,7 @@ import {Node} from 'prosemirror-model';
 import type {NodeSpec} from 'prosemirror';
 
 function parseDOMAttrs(dom: HTMLElement) {
-  const {cssFloat, display} = dom.style;
+  let {cssFloat, display, width, height} = dom.style;
   let align = dom.getAttribute('data-align') || dom.getAttribute('align');
   if (align) {
     align = /(left|right|center)/.test(align) ? align : null;
@@ -17,13 +17,17 @@ function parseDOMAttrs(dom: HTMLElement) {
   } else if (!cssFloat && display === 'block') {
     align = 'block';
   }
+
+  width = width || dom.getAttribute('width');
+  height = height || dom.getAttribute('height');
+
   return {
     align,
     alt: dom.getAttribute('alt') || null,
-    height: parseInt(dom.getAttribute('height'), 10) || null,
+    height: parseInt(height, 10) || null,
     src: dom.getAttribute('src') || null,
     title: dom.getAttribute('title')|| null,
-    width: parseInt(dom.getAttribute('width'), 10) || null,
+    width: parseInt(width, 10) || null,
   }
 }
 

@@ -20,6 +20,7 @@
 }
 
 .ProseMirror p {
+  line-height: var(--czi-editor-line-height);
   margin: 0;
 }
 

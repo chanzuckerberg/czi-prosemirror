@@ -39,6 +39,9 @@ function getAttrs(dom: HTMLElement): Object {
 
   let align = dom.getAttribute('align') || textAlign || '';
   align = ALIGN_PATTERN.test(align) ? align : null;
+  if (align) {
+    console.log(dom);
+  }
 
   const indent = dom.hasAttribute(ATTRIBUTE_INDENT) ?
     parseInt(dom.getAttribute(ATTRIBUTE_INDENT), 10) :

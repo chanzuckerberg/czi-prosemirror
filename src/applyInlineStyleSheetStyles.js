@@ -3,6 +3,8 @@
 const PSEUDO_ELEMENT_AFTER = /:after/;
 const PSEUDO_ELEMENT_ANY = /:[a-z]+/;
 const PSEUDO_ELEMENT_BEFORE = /:before/;
+const NODE_NAME_SELECTOR = /^[a-zA-Z]+\d*$/;
+
 import toHexColor from './ui/toHexColor';
 
 type SelectorTextToCSSText = {
@@ -20,7 +22,10 @@ export default function applyInlineStyleSheetStyles(doc: Document): void {
   if (!els.length) {
     return;
   }
+
+  const nodeNameToCSSTexts = [];
   const selectorTextToCSSTexts = [];
+
   els.forEach((styleEl: any) => {
     const sheet = styleEl.sheet;
     if (!sheet) {
@@ -66,21 +71,29 @@ export default function applyInlineStyleSheetStyles(doc: Document): void {
       });
       if (selectorText.indexOf(',') > -1) {
         selectorText.split(/\s*,\s*/).forEach(st => {
-          buildSelectorTextToCSSText(selectorTextToCSSTexts, st, cssText);
+          if (NODE_NAME_SELECTOR.test(st)) {
+            // Node name only selector has less priority, we'll handle it
+            // separately
+            buildSelectorTextToCSSText(nodeNameToCSSTexts, st, cssText);
+          } else {
+            buildSelectorTextToCSSText(selectorTextToCSSTexts, st, cssText);
+          }
         });
       } else {
-        buildSelectorTextToCSSText(
-          selectorTextToCSSTexts,
-          selectorText,
-          cssText,
-        );
+        const st = selectorText;
+        if (NODE_NAME_SELECTOR.test(st)) {
+          // Node name only selector has less priority, we'll handle it
+          // separately
+          buildSelectorTextToCSSText(nodeNameToCSSTexts, st, cssText);
+        } else {
+          buildSelectorTextToCSSText(selectorTextToCSSTexts, st, cssText);
+        }
       }
     });
   });
 
   const elementToCSSTexts: Map<HTMLElement, Array<string>> = new Map();
-
-  selectorTextToCSSTexts.forEach(bag => {
+  const buildElementToCSSTexts = (bag: SelectorTextToCSSText): void => {
     const {selectorText, cssText} = bag;
     const els = Array.from(doc.querySelectorAll(selectorText));
     els.forEach(el => {
@@ -92,8 +105,10 @@ export default function applyInlineStyleSheetStyles(doc: Document): void {
       cssTexts.push(cssText);
       elementToCSSTexts.set(el, cssTexts);
     });
-  });
+  };
 
+  nodeNameToCSSTexts.forEach(buildElementToCSSTexts);
+  selectorTextToCSSTexts.forEach(buildElementToCSSTexts);
   elementToCSSTexts.forEach(applyInlineStyleSheetCSSTexts);
 }
 

@@ -1,3 +1,14 @@
+.ProseMirror h1,
+.ProseMirror h2,
+.ProseMirror h3,
+.ProseMirror h4,
+.ProseMirror h5,
+.ProseMirror h6 {
+  line-height: var(--czi-editor-line-height);
+  orphans: 2;
+  widows: 2;
+}
+
 .ProseMirror h1 {
   font-size: 20pt;
 }
