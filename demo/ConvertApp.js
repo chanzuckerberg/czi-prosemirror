@@ -164,10 +164,12 @@ class ConvertApp extends React.PureComponent<any, any, any> {
 
     reader.onload = (onload) => {
       el.readOnly = false;
-      const html = el.value = onload.target.result;
+      const html = el.value =
+        `<!--\n${String(file.name)}\n-->\n` + onload.target.result;
       this._dropping = false;
       reader = null;
       const editorState = convertFromHTML(html);
+
       this.setState({html, editorState}, this._save);
     };
 
