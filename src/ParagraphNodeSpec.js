@@ -35,16 +35,16 @@ const ParagraphNodeSpec: NodeSpec = {
 };
 
 function getAttrs(dom: HTMLElement): Object {
-  const {lineHeight, textAlign} = dom.style;
+  let {lineHeight, textAlign} = dom.style;
 
   let align = dom.getAttribute('align') || textAlign || '';
   align = ALIGN_PATTERN.test(align) ? align : null;
 
-  const indent = dom.hasAttribute(nATTRIBUTE_INDENT) ?
+  const indent = dom.hasAttribute(ATTRIBUTE_INDENT) ?
     parseInt(dom.getAttribute(ATTRIBUTE_INDENT), 10) :
     MIN_INDENT_LEVEL;
 
-  const lineSpacing = LINE_HEIGHT_PATTERN.test(lineHeight) ?
+  const lineSpacing = lineHeight ?
     lineHeight :
     null;
 
@@ -56,7 +56,7 @@ function toDOM(node: Node): Array<any> {
   const attrs = {};
 
   let style = '';
-  if (align) {
+  if (align && align !== 'left') {
     style += `text-align: ${align};`;
   }
 
