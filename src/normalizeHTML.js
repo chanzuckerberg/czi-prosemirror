@@ -12,7 +12,7 @@ export default function normalizeHTML(html: string): string {
 
   // All space characters will be collapsed. That said, `&nbsp;` should
   // be replace by "\u2800" so we could keep the blank space visible.
-  html = html.replace(/\&nbsp;/g, BRAILLE_PATTERN_BLANK);
+  html = html.replace(/(\s*\&nbsp;\s*\&nbsp;\s*)/g, BRAILLE_PATTERN_BLANK);
 
   if (/<body[\s>]/i.test(html) === false) {
     html = `<!doctype><html><body>${html}</body></html>`;

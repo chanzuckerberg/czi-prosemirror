@@ -124,6 +124,7 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
     const style = {
       height: height + 'px',
       width: width + 'px',
+      display: 'inline-block',
     };
 
     return (
@@ -132,14 +133,16 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
         data-active={active ? 'true' : null}
         id={this._id}>
         <span className="czi-image-view-body-img-clip">
-          <img
-            alt=""
-            className="czi-image-view-body-img"
-            data-align={align}
-            height={height}
-            src={src || EMPTY_SRC}
-            width={width}
-          />
+          <span style={style}>
+            <img
+              alt=""
+              className="czi-image-view-body-img"
+              data-align={align}
+              height={height}
+              src={src || EMPTY_SRC}
+              width={width}
+            />
+          </span>
         </span>
         {resizeBox}
       </span>
