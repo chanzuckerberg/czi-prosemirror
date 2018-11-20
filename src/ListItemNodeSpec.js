@@ -2,14 +2,21 @@
 
 import type {NodeSpec} from 'prosemirror';
 
-const EMPTY_OBJECT = {};
+export const ATTRIBUTE_LIST_STYLE_TYPE = 'data-list-style-type';
+
 const ALIGN_PATTERN = /(left|right|center|justify)/;
 
 function getAttrs(dom: HTMLElement) {
+  const attrs = {};
   const {textAlign} = dom.style;
   let align = dom.getAttribute('data-align') || textAlign || '';
   align = ALIGN_PATTERN.test(align) ? align : null;
-  return align ? {align} : EMPTY_OBJECT;
+
+  if (align) {
+    attrs.align = align;
+  }
+
+  return attrs;
 }
 
 // https://bitbucket.org/atlassian/atlaskit/src/34facee3f461/packages/editor-core/src/schema/nodes/?at=master
@@ -26,11 +33,10 @@ const ListItemNodeSpec: NodeSpec = {
   parseDOM: [{tag: 'li', getAttrs}],
 
   toDOM(node) {
-    let {attrs} = node;
-    if (attrs.align) {
-      attrs = {'data-align': attrs.align};
-    } else {
-      attrs = EMPTY_OBJECT;
+    const attrs = {};
+    const {align} = node.attrs;
+    if (align) {
+      attrs['data-align'] = align;
     }
     return ['li', attrs, 0];
   },

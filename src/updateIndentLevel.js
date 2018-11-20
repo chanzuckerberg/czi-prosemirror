@@ -151,7 +151,7 @@ function setListNodeIndent(
 
   if (itemsSelected.length) {
     const listNodeAttrs = {
-      ...listNode.attrs.order,
+      ...listNode.attrs,
       indent: indentNew,
     };
     const listNodeNew = listNodeType.create(
