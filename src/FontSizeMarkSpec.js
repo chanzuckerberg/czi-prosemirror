@@ -1,6 +1,7 @@
 // @flow
 
 import {Node} from 'prosemirror-model';
+import convertToCSSPTValue from './convertToCSSPTValue';
 
 import type {MarkSpec} from 'prosemirror';
 
@@ -23,27 +24,18 @@ const FontSizeMarkSpec: MarkSpec = {
   },
 };
 
-const SIZE_PATTERN = /([\d\.]+)(px|pt)/i;
-
 function getAttrs(fontSize: string): Object {
   const attrs = {};
   if (!fontSize) {
     return attrs;
   }
-  const matches = fontSize.match(SIZE_PATTERN);
-  if (!matches) {
+
+  const ptValue = convertToCSSPTValue(fontSize);
+  if (!ptValue) {
     return attrs;
-  }
-  let value = parseFloat(matches[1]);
-  const unit = matches[2];
-  if (!value || !unit) {
-    return attrs;
-  }
-  if (unit === 'px') {
-    value = 0.75 * value;
   }
   return {
-    pt: value,
+    pt: ptValue,
   };
 }
 

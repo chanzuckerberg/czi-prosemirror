@@ -1,9 +1,9 @@
 // @flow
 
-import applyInlineStyleSheetStyles from './applyInlineStyleSheetStyles';
-import patchInlineStyles from './patchInlineStyles';
-import patchLists from './patchLists';
-import patchTables from './patchTables';
+import patchElementInlineStyles from './patchElementInlineStyles';
+import patchListElements from './patchListElements';
+import patchStyleElements from './patchStyleElements';
+import patchTableElements from './patchTableElements';
 
 export default function normalizeHTML(html: string): string {
   let body: ?HTMLElement = null;
@@ -24,10 +24,10 @@ export default function normalizeHTML(html: string): string {
     doc.open();
     doc.write(html);
     doc.close();
-    applyInlineStyleSheetStyles(doc);
-    patchInlineStyles(doc);
-    patchLists(doc);
-    patchTables(doc);
+    patchStyleElements(doc);
+    patchElementInlineStyles(doc);
+    patchListElements(doc);
+    patchTableElements(doc);
     body = doc.getElementsByTagName('body')[0];
   }
 
