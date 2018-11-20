@@ -1,10 +1,14 @@
 // @flow
 
+import clamp from './ui/clamp';
+import convertToCSSPTValue from './convertToCSSPTValue';
 import {IMAGE} from './NodeNames';
 import {Node} from 'prosemirror-model';
 
 import type {NodeSpec} from 'prosemirror';
 
+// This assumes that every 36pt maps to one indent level.
+export const INDENT_MARGIN_PT_SIZE = 36;
 export const MIN_INDENT_LEVEL = 0;
 export const MAX_INDENT_LEVEL = 7;
 export const ATTRIBUTE_INDENT = 'data-indent';
@@ -35,14 +39,18 @@ const ParagraphNodeSpec: NodeSpec = {
 };
 
 function getAttrs(dom: HTMLElement): Object {
-  let {lineHeight, textAlign} = dom.style;
+  let {lineHeight, textAlign, marginLeft} = dom.style;
 
   let align = dom.getAttribute('align') || textAlign || '';
   align = ALIGN_PATTERN.test(align) ? align : null;
 
-  const indent = dom.hasAttribute(ATTRIBUTE_INDENT) ?
-    parseInt(dom.getAttribute(ATTRIBUTE_INDENT), 10) :
-    MIN_INDENT_LEVEL;
+  let indent = parseInt(dom.getAttribute(ATTRIBUTE_INDENT), 10);
+
+  if (!indent && marginLeft) {
+    indent = convertMarginLeftToIndentValue(marginLeft);
+  }
+
+  indent = indent || MIN_INDENT_LEVEL;
 
   const lineSpacing = lineHeight ?
     lineHeight :
@@ -73,7 +81,17 @@ function toDOM(node: Node): Array<any> {
   return ['p', attrs, 0];
 }
 
+
 export const toParagraphDOM = toDOM;
 export const getParagraphNodeAttrs = getAttrs;
+
+export function convertMarginLeftToIndentValue(marginLeft: string): number {
+  const ptValue = convertToCSSPTValue(marginLeft);
+  return clamp(
+    MIN_INDENT_LEVEL,
+    Math.round(ptValue / INDENT_MARGIN_PT_SIZE),
+    MAX_INDENT_LEVEL,
+  );
+}
 
 export default ParagraphNodeSpec;

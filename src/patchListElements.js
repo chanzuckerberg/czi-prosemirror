@@ -3,7 +3,7 @@
 import clamp from './ui/clamp';
 import convertToCSSPTValue from './convertToCSSPTValue';
 import {ATTRIBUTE_CSS_BEFORE_CONTENT} from './patchStyleElements';
-import {ATTRIBUTE_INDENT, MAX_INDENT_LEVEL, MIN_INDENT_LEVEL} from './ParagraphNodeSpec';
+import {convertMarginLeftToIndentValue, ATTRIBUTE_INDENT, MAX_INDENT_LEVEL, MIN_INDENT_LEVEL, INDENT_MARGIN_PT_SIZE} from './ParagraphNodeSpec';
 import {ATTRIBUTE_LIST_STYLE_TYPE} from './ListItemNodeSpec';
 
 export default function patchListElements(doc: Document): void {
@@ -11,7 +11,6 @@ export default function patchListElements(doc: Document): void {
 }
 
 // This assumes that every 36pt maps to one indent level.
-const INDENT_MARGIN_PT_SIZE = 36;
 const CHAR_ZERO_WIDTH = '\u200B';
 const CHAR_BULLET = '\u25cf';
 const CHAR_CIRCLE = '\u25cb';
@@ -48,7 +47,7 @@ function patchListElementsElement(listElement: HTMLElement): void {
   });
 
   if (marginLeft) {
-    const indent = toIndentValue(marginLeft);
+    const indent = convertMarginLeftToIndentValue(marginLeft);
     if (indent) {
       listElement.setAttribute(ATTRIBUTE_INDENT, String(indent));
     }
@@ -98,13 +97,4 @@ function patchListElementsElement(listElement: HTMLElement): void {
       listElement.setAttribute(ATTRIBUTE_LIST_STYLE_TYPE, listStyleType);
     }
   }
-}
-
-function toIndentValue(marginLeft: string): number {
-  const ptValue = convertToCSSPTValue(marginLeft);
-  return clamp(
-    MIN_INDENT_LEVEL,
-    Math.round(ptValue / INDENT_MARGIN_PT_SIZE),
-    MAX_INDENT_LEVEL,
-  );
 }
