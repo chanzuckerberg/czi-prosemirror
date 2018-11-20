@@ -2,6 +2,7 @@
 
 // https://github.com/ProseMirror/prosemirror-schema-basic/blob/master/src/schema-basic.js
 export const BLOCKQUOTE = 'blockquote';
+export const BODY = 'body';
 export const BULLET_LIST = 'bullet_list';
 export const CODE_BLOCK = 'code_block';
 export const DOC = 'doc';

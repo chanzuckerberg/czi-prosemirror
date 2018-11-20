@@ -10,7 +10,8 @@ export default function patchListElements(doc: Document): void {
   Array.from(doc.querySelectorAll('ol, ul')).forEach(patchListElementsElement);
 }
 
-const INDENT_MARGIN_SIZE = 36;
+// This assumes that every 36pt maps to one indent level.
+const INDENT_MARGIN_PT_SIZE = 36;
 const CHAR_ZERO_WIDTH = '\u200B';
 const CHAR_BULLET = '\u25cf';
 const CHAR_CIRCLE = '\u25cb';
@@ -103,7 +104,7 @@ function toIndentValue(marginLeft: string): number {
   const ptValue = convertToCSSPTValue(marginLeft);
   return clamp(
     MIN_INDENT_LEVEL,
-    Math.round(ptValue / INDENT_MARGIN_SIZE),
+    Math.round(ptValue / INDENT_MARGIN_PT_SIZE),
     MAX_INDENT_LEVEL,
   );
 }

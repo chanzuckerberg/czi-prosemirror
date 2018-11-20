@@ -12,6 +12,7 @@ import HorizontalRuleNodeSpec from './HorizontalRuleNodeSpec';
 import ImageNodeSpec from './ImageNodeSpec';
 import ListItemNodeSpec from './ListItemNodeSpec';
 import OrderedListNodeSpec from './OrderedListNodeSpec';
+import BodyNodeSpec from './BodyNodeSpec';
 import ParagraphNodeSpec from './ParagraphNodeSpec';
 import TableNodesSpecs from './TableNodesSpecs';
 import TextNodeSpec from './TextNodeSpec';
@@ -28,6 +29,7 @@ const {
   IMAGE,
   LIST_ITEM,
   ORDERED_LIST,
+  BODY,
   PARAGRAPH,
   TEXT,
 } = NodeNames;
@@ -38,6 +40,7 @@ const {
 // outcome.
 const nodes = {
   [DOC]: DocNodeSpec,
+  [BODY]: BodyNodeSpec,
 
   [PARAGRAPH]: ParagraphNodeSpec,
   [BLOCKQUOTE]: BlockquoteNodeSpec,

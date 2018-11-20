@@ -1,13 +1,4 @@
 html {
-  /*
-  background: repeating-linear-gradient(
-    45deg,
-    #c0c0c0,
-    #c0c0c0 10px,
-    #c2c2c2 10px,
-    #c2c2c2 20px
-  );
-  */
   background: #fff;
   border: 0;
   border: none;
@@ -31,19 +22,5 @@ html {
     position: sticky;
     top: 0;
     z-index: 2;
-  }
-
-  .demo-app-body .ProseMirror {
-    background: #fff;
-    border-radius: 1px;
-    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-    box-sizing: border-box;
-    margin: 20px auto 0 auto;
-    min-height: 29.7cm;
-    outline: none;
-    padding: 2.7cm;
-    position: relative;
-    width: 21.65cm;
-    z-index: 1;
   }
 }

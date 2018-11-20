@@ -130,6 +130,7 @@ class ConvertApp extends React.PureComponent<any, any, any> {
             title="ProseMirror View">
             <Editor
               editorState={editorState}
+              onChange={this._onEditorChange}
             />
           </ConvertAppArea>
         </div>
@@ -137,7 +138,11 @@ class ConvertApp extends React.PureComponent<any, any, any> {
     );
   }
 
-  _onDraftJSChange = (e: SyntheticInputEvent) => {
+  _onEditorChange = (editorState: EditorState): void => {
+    this.setState({editorState});
+  };
+
+  _onDraftJSChange = (e: SyntheticInputEvent): void => {
     const draftjs = e.target.value;
     this.setState({draftjs}, this._save);
   };

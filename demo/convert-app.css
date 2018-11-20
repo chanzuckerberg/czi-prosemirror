@@ -85,19 +85,6 @@
   top: 10px;
 }
 
-.convert-app-area-body > .prosemirror-editor-wrapper > .ProseMirror {
-  background: #fff;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-  box-sizing: border-box;
-  margin: 20px;
-  min-height: 29.7cm;
-  outline: none;
-  padding: 16px;
-  position: relative;
-  width: 21cm;
-  z-index: 1;
-}
-
 .convert-app-area-body > textarea {
   border: none;
   box-shadow: inset 0px 0px 5px 0px rgba(0,0,0,0.75);

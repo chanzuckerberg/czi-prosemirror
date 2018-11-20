@@ -1,5 +1,5 @@
 
-import {DOC, PARAGRAPH, TEXT} from './NodeNames';
+import {DOC, BODY, PARAGRAPH, TEXT} from './NodeNames';
 import DocNodeSpec from './DocNodeSpec';
 
 import * as MarkNames from './MarkNames';
@@ -8,6 +8,8 @@ import EMMarkSpec from './EMMarkSpec';
 import FontSizeMarkSpec from './FontSizeMarkSpec';
 import FontTypeMarkSpec from './FontTypeMarkSpec';
 import LinkMarkSpec from './LinkMarkSpec';
+import BodyNodeSpec from './BodyNodeSpec';
+import ParagraphNodeSpec from './ParagraphNodeSpec';
 import StrikeMarkSpec from './StrikeMarkSpec';
 import StrongMarkSpec from './StrongMarkSpec';
 import TextColorMarkSpec from './TextColorMarkSpec';
@@ -16,7 +18,6 @@ import TextNodeSpec from './TextNodeSpec';
 import TextSelectionMarkSpec from './TextSelectionMarkSpec';
 import TextUnderlineMarkSpec from './TextUnderlineMarkSpec';
 import {Schema} from 'prosemirror-model';
-import ParagraphNodeSpec from './ParagraphNodeSpec';
 
 const {
   MARK_CODE,
@@ -35,6 +36,7 @@ const {
 // These nodes are required to build basic marks.
 const nodes = {
   [DOC]: DocNodeSpec,
+  [BODY]: BodyNodeSpec,
   [PARAGRAPH]: ParagraphNodeSpec,
   [TEXT]: TextNodeSpec,
 };
