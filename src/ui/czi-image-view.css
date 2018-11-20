@@ -1,11 +1,13 @@
 @import './czi-vars.css';
 
 .czi-image-view {
- clear: both;
- display: inline-block;
- font-size: 0;
- max-width: 100%;
- text-align: center;
+  clear: both;
+  display: inline-block;
+  font-size: 0;
+  line-height: 0;
+  max-width: 100%;
+  text-align: center;
+  vertical-align: baseline;
 }
 
 .czi-image-view.align-left {
@@ -52,5 +54,5 @@
 }
 
 .czi-image-view-body-img {
-  background: #ccc;
+  background: #fff;
 }

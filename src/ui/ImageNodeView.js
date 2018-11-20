@@ -226,14 +226,14 @@ class ImageNodeView extends CustomNodeView {
   createDOMElement(): HTMLElement {
     const el = document.createElement('span');
     el.className = 'czi-image-view';
-    this._updateAlign(el);
+    this._updateDOM(el);
     return el;
   }
 
   // @override
   update(node: Node, decorations: Array<Decoration>): boolean {
     super.update(node, decorations);
-    this._updateAlign(this.dom);
+    this._updateDOM(this.dom);
     return true;
   }
 
@@ -242,9 +242,13 @@ class ImageNodeView extends CustomNodeView {
     return <ImageViewBody {...this.props} />;
   }
 
-  _updateAlign(el: HTMLElement): void {
+  _updateDOM(el: HTMLElement): void {
     const {align} = this.props.node.attrs;
-    el.className = 'czi-image-view align-' + align;
+    let className = 'czi-image-view';
+    if (align) {
+      className += ' align-' + align;
+    }
+    el.className = className;
   }
 }
 
