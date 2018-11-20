@@ -1,5 +1,7 @@
 // @flow
 
+import stable from 'stable';
+
 const PSEUDO_ELEMENT_AFTER = /:after/;
 const PSEUDO_ELEMENT_ANY = /:[a-z]+/;
 const PSEUDO_ELEMENT_BEFORE = /:before/;
@@ -17,13 +19,15 @@ type SelectorTextToCSSText = {
 const DEFAULT_TEXT_COLOR = '#000000';
 const DEFAULT_BACKGROUND_COLOR = '#ffffff';
 
+// Node name only selector has less priority, we'll handle it
+// separately
+
 export default function applyInlineStyleSheetStyles(doc: Document): void {
   const els = Array.from(doc.querySelectorAll('style'));
   if (!els.length) {
     return;
   }
 
-  const nodeNameToCSSTexts = [];
   const selectorTextToCSSTexts = [];
 
   els.forEach((styleEl: any) => {
@@ -71,45 +75,55 @@ export default function applyInlineStyleSheetStyles(doc: Document): void {
       });
       if (selectorText.indexOf(',') > -1) {
         selectorText.split(/\s*,\s*/).forEach(st => {
-          if (NODE_NAME_SELECTOR.test(st)) {
-            // Node name only selector has less priority, we'll handle it
-            // separately
-            buildSelectorTextToCSSText(nodeNameToCSSTexts, st, cssText);
-          } else {
-            buildSelectorTextToCSSText(selectorTextToCSSTexts, st, cssText);
-          }
+          buildSelectorTextToCSSText(selectorTextToCSSTexts, st, cssText);
         });
       } else {
-        const st = selectorText;
-        if (NODE_NAME_SELECTOR.test(st)) {
-          // Node name only selector has less priority, we'll handle it
-          // separately
-          buildSelectorTextToCSSText(nodeNameToCSSTexts, st, cssText);
-        } else {
-          buildSelectorTextToCSSText(selectorTextToCSSTexts, st, cssText);
-        }
+        buildSelectorTextToCSSText(
+          selectorTextToCSSTexts,
+          selectorText,
+          cssText,
+        );
       }
     });
   });
 
-  const elementToCSSTexts: Map<HTMLElement, Array<string>> = new Map();
-  const buildElementToCSSTexts = (bag: SelectorTextToCSSText): void => {
-    const {selectorText, cssText} = bag;
-    const els = Array.from(doc.querySelectorAll(selectorText));
-    els.forEach(el => {
-      const style = el.style;
-      if (!style || !(el instanceof HTMLElement)) {
-        return;
-      }
-      const cssTexts = elementToCSSTexts.get(el) || [];
-      cssTexts.push(cssText);
-      elementToCSSTexts.set(el, cssTexts);
-    });
-  };
+  stable(selectorTextToCSSTexts, sortBySelectorText).
+    reduce(buildElementToCSSTexts.bind(null, doc), new Map()).
+    forEach(applyInlineStyleSheetCSSTexts);
+}
 
-  nodeNameToCSSTexts.forEach(buildElementToCSSTexts);
-  selectorTextToCSSTexts.forEach(buildElementToCSSTexts);
-  elementToCSSTexts.forEach(applyInlineStyleSheetCSSTexts);
+function buildElementToCSSTexts(
+  doc: Document,
+  elementToCSSTexts: Map<HTMLElement, Array<string>>,
+  bag: SelectorTextToCSSText,
+): Map<HTMLElement, Array<string>> {
+  const {selectorText, cssText} = bag;
+  const els = Array.from(doc.querySelectorAll(selectorText));
+  els.forEach(el => {
+    const style = el.style;
+    if (!style || !(el instanceof HTMLElement)) {
+      return;
+    }
+    const cssTexts = elementToCSSTexts.get(el) || [];
+    cssTexts.push(cssText);
+    elementToCSSTexts.set(el, cssTexts);
+  });
+  return elementToCSSTexts;
+};
+
+function sortBySelectorText(
+  one: SelectorTextToCSSText,
+  two: SelectorTextToCSSText,
+): boolean {
+  // This is just the naive implementation of sorting selectors by css
+  // specificity.
+  // 1. NodeName selectors has less priority.
+  const aa = NODE_NAME_SELECTOR.test(one.selectorText);
+  const bb = NODE_NAME_SELECTOR.test(two.selectorText);
+  if (!aa && bb) {
+    return true;
+  }
+  return false;
 }
 
 function buildSelectorTextToCSSText(

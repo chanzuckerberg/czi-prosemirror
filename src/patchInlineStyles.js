@@ -49,13 +49,17 @@ function patchElementStyle(el: HTMLElement, inlineStyleName: string): void {
   const childNodes = Array.from(element.childNodes);
   childNodes.forEach((node) => {
     const {
-      nodeType, style, nodeName, ownerDocument,
+      nodeType,
+      style,
+      nodeName,
+      ownerDocument,
       parentElement,
-    } = node.nodeType;
+    } = node;
 
     if (nodeType === NODE_TYPE_ELEMENT) {
       if (INLINE_ELEMENT_NODE_NAMES.has(nodeName)) {
-        const cssText = `${hyphenize(inlineStyleName)}: ${value};` +style.cssText;
+        const cssText =
+          `${hyphenize(inlineStyleName)}: ${value};` + style.cssText;
         style.cssText = cssText;
       }
     } else if (nodeType === NODE_TYPE_TEXT) {
