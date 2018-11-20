@@ -5,8 +5,14 @@ import patchListElements from './patchListElements';
 import patchStyleElements from './patchStyleElements';
 import patchTableElements from './patchTableElements';
 
+const BRAILLE_PATTERN_BLANK = '\u2800'
+
 export default function normalizeHTML(html: string): string {
   let body: ?HTMLElement = null;
+
+  // All space characters will be collapsed. That said, `&nbsp;` should
+  // be replace by "\u2800" so we could keep the blank space visible.
+  html = html.replace(/\&nbsp;/g, BRAILLE_PATTERN_BLANK);
 
   if (/<body[\s>]/i.test(html) === false) {
     html = `<!doctype><html><body>${html}</body></html>`;
