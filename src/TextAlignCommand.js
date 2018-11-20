@@ -25,10 +25,10 @@ export function setTextAlign(
   const {from, to, empty} = selection;
   const {nodes} = schema;
 
-  const paragraph = nodes[PARAGRAPH];
-  const heading = nodes[HEADING];
-  const listItem = nodes[LIST_ITEM];
   const blockquote = nodes[BLOCKQUOTE];
+  const listItem = nodes[LIST_ITEM];
+  const heading = nodes[HEADING];
+  const paragraph = nodes[PARAGRAPH];
 
   const tasks = [];
   alignment = alignment || null;
@@ -42,21 +42,17 @@ export function setTextAlign(
 
   doc.nodesBetween(from, to, (node, pos, parentNode) => {
     const nodeType = node.type;
-    if (!allowedNodeTypes.has(nodeType)) {
-      return false;
-    }
-
     const align = node.attrs.align || null;
-    if (align !== alignment) {
+    if (align !== alignment && allowedNodeTypes.has(nodeType)) {
       tasks.push({
         node,
         pos,
         nodeType,
       });
     }
-    return (nodeType === listItem) ? true : false;
-
+    return true;
   });
+
   if (!tasks.length) {
     return tr;
   }
@@ -75,6 +71,7 @@ export function setTextAlign(
         align: null,
       };
     }
+    console.log(node, pos, alignment);
     tr = tr.setNodeMarkup(
       pos,
       nodeType,

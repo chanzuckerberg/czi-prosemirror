@@ -199,7 +199,7 @@ function wrapItemsWithListInternal(
     const {node, pos} = item;
     // Restore the annotated nodes with the copy of the original ones.
     const paragraphNode = paragraph.create(node.attrs, node.content, node.marks);
-    const listItemNode = listItem.create({}, Fragment.from(paragraphNode));
+    const listItemNode = listItem.create(node.attrs, Fragment.from(paragraphNode));
     listItemNodes.push(listItemNode);
   });
 
