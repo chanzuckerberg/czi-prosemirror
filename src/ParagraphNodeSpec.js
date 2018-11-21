@@ -89,7 +89,7 @@ export function convertMarginLeftToIndentValue(marginLeft: string): number {
   const ptValue = convertToCSSPTValue(marginLeft);
   return clamp(
     MIN_INDENT_LEVEL,
-    Math.round(ptValue / INDENT_MARGIN_PT_SIZE),
+    Math.floor(ptValue / INDENT_MARGIN_PT_SIZE),
     MAX_INDENT_LEVEL,
   );
 }

@@ -19,7 +19,7 @@
 
 .ProseMirror li {
   margin: 0;
-  padding: 0;
+  padding: 0 0 0 2em;
   position: relative;
 }
 
@@ -45,13 +45,6 @@
 .ProseMirror li::before,
 .ProseMirror li[data-align="center"] p:first-child::before {
   content: counter(czi-counter) ".";
-  float: left;
-  font-size: 1em;
-  line-height: 1em;
-  margin-left: 8px;
-  margin-right: 8px;
-  position: relative;
-  top: 4px;
 }
 
 /* https://css-tricks.com/numbering-in-style/ */
@@ -117,6 +110,31 @@
 
 /* Adjust list-style postion for text-alignment. */
 
+.ProseMirror li::before,
+.ProseMirror li[data-align="center"] p:first-child::before {
+  display: inline-block;
+  width: 3em;
+  font-size: 1em;
+  line-height: 1em;
+  position: relative;
+  top: 4px;
+}
+
+.ProseMirror li::before {
+  float: left;
+  margin: 0 0 -1em -3em;
+  text-align: right;
+  left: -3px;
+}
+
+.ProseMirror li[data-align="center"] {
+  padding: 0;
+}
+
+.ProseMirror li[data-align="right"] {
+  padding-right: 2em;
+}
+
 .ProseMirror li[data-align="center"] {
   text-align: center;
 }
@@ -128,11 +146,12 @@
 
 .ProseMirror li[data-align="center"] p:first-child::before {
   display: inline;
-  float: none;
   position: relative;
   top: 1px;
 }
 
 .ProseMirror li[data-align="right"]::before {
   float: right;
+  margin: 0 -3.5em -1em 0;
+  text-align: left;
 }

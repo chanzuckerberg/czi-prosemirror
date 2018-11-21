@@ -9,7 +9,7 @@ import {EditorView} from 'prosemirror-view';
 import {HEADING, LIST_ITEM, PARAGRAPH} from './NodeNames';
 import {LINE_SPACING_VALUES} from './ParagraphNodeSpec';
 import {Schema} from 'prosemirror-model';
-import {TextSelection} from 'prosemirror-state';
+import {AllSelection, TextSelection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
 import {findParentNodeOfType} from 'prosemirror-utils';
 import {setBlockType} from 'prosemirror-commands';
@@ -131,7 +131,10 @@ class TextLineSpacingCommand extends UICommand {
 
   isEnabled = (state: EditorState): boolean => {
     const {selection} = state;
-    return (selection instanceof TextSelection);
+    return (
+      selection instanceof TextSelection ||
+      selection instanceof AllSelection
+    );
   };
 
   execute = (

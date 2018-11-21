@@ -8,7 +8,7 @@ import {EditorState, Selection} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
 import {BLOCKQUOTE, HEADING, LIST_ITEM, PARAGRAPH} from './NodeNames';
 import {Schema} from 'prosemirror-model';
-import {TextSelection} from 'prosemirror-state';
+import {AllSelection, TextSelection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
 import {findParentNodeOfType} from 'prosemirror-utils';
 import {setBlockType} from 'prosemirror-commands';
@@ -116,7 +116,10 @@ class TextAlignCommand extends UICommand {
 
   isEnabled = (state: EditorState): boolean => {
     const {selection} = state;
-    return (selection instanceof TextSelection);
+    return (
+      selection instanceof TextSelection ||
+      selection instanceof AllSelection
+    );
   };
 
   execute = (

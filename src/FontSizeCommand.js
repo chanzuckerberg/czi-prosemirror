@@ -8,7 +8,7 @@ import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
 import {MARK_FONT_SIZE} from './MarkNames';
 import {Schema} from 'prosemirror-model';
-import {TextSelection} from 'prosemirror-state';
+import {AllSelection , TextSelection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
 
 function setFontSize(
@@ -21,7 +21,10 @@ function setFontSize(
     return tr;
   }
   const {selection} = tr;
-  if (!(selection instanceof TextSelection)) {
+  if (!(
+    selection instanceof TextSelection ||
+    selection instanceof AllSelection
+  )) {
     return tr;
   }
   const attrs = pt ? {pt} : null;
@@ -46,7 +49,10 @@ class FontSizeCommand extends UICommand {
 
   isEnabled = (state: EditorState): boolean => {
     const {schema, selection} = state;
-    if (!(selection instanceof TextSelection)) {
+    if (!(
+      selection instanceof TextSelection ||
+      selection instanceof AllSelection
+    )) {
       return false;
     }
     const markType = schema.marks[MARK_FONT_SIZE];

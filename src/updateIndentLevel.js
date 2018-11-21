@@ -10,7 +10,7 @@ import {MARK_TEXT_SELECTION} from './MarkNames';
 import {MAX_INDENT_LEVEL, MIN_INDENT_LEVEL} from './ParagraphNodeSpec';
 import {Node} from 'prosemirror-model';
 import {Selection} from 'prosemirror-state';
-import {TextSelection} from 'prosemirror-state';
+import {AllSelection, TextSelection} from 'prosemirror-state';
 import {Transform, Step, StepResult} from 'prosemirror-transform';
 import {findParentNodeOfType} from 'prosemirror-utils';
 
@@ -24,7 +24,10 @@ export default function updateIndentLevel(
     return tr;
   }
 
-  if (!(selection instanceof TextSelection)) {
+  if (!(
+    selection instanceof TextSelection ||
+    selection instanceof AllSelection
+  )) {
     return tr;
   }
 

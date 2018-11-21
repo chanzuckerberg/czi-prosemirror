@@ -9,7 +9,7 @@ import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
 import {MARK_TEXT_HIGHLIGHT} from './MarkNames';
 import {Schema} from 'prosemirror-model';
-import {TextSelection} from 'prosemirror-state';
+import {AllSelection, TextSelection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
 import {atAnchorRight} from './ui/popUpPosition';
 
@@ -19,7 +19,10 @@ class TextHighlightCommand extends UICommand {
 
   isEnabled = (state: EditorState): boolean => {
     const {selection, schema} = state;
-    if (!(selection instanceof TextSelection)) {
+    if (!(
+      selection instanceof TextSelection ||
+      selection instanceof AllSelection
+    )) {
       // Could be a NodeSelection or CellSelection.
       return false;
     }

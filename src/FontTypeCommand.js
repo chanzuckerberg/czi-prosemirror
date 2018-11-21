@@ -9,7 +9,7 @@ import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
 import {MARK_FONT_TYPE} from './MarkNames';
 import {Schema} from 'prosemirror-model';
-import {TextSelection} from 'prosemirror-state';
+import {AllSelection, TextSelection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
 
 function setFontType(
@@ -22,16 +22,19 @@ function setFontType(
     return tr;
   }
   const {selection} = tr;
-  if (!(selection instanceof TextSelection)) {
+  if (!(
+    selection instanceof TextSelection ||
+    selection instanceof AllSelection
+  )) {
     return tr;
   }
   const attrs = name ? {name} : null;
   tr = applyMark(
-   tr,
-   schema,
-   markType,
-   attrs,
- );
+    tr,
+    schema,
+    markType,
+    attrs,
+  );
   return tr;
 }
 
@@ -55,7 +58,10 @@ class FontTypeCommand extends UICommand {
 
   isEnabled = (state: EditorState): boolean => {
     const {schema, selection} = state;
-    if (!(selection instanceof TextSelection)) {
+    if (!(
+      selection instanceof TextSelection ||
+      selection instanceof AllSelection
+    )) {
       return false;
     }
     const markType = schema.marks[MARK_FONT_TYPE];
