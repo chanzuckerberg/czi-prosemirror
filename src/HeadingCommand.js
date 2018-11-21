@@ -42,7 +42,7 @@ class HeadingCommand extends UICommand {
       this._level,
     );
     if (tr.docChanged) {
-      dispatch && dispatch(tr.scrollIntoView());
+      dispatch && dispatch(tr);
       return true;
     } else {
       return false;

@@ -45,6 +45,7 @@ const FontTypeMarkSpec: MarkSpec = {
     const attrs = {};
     if (name) {
       if (!RESOLVED_FONT_NAMES.has(name)) {
+        // TODO: Cache custom fonts and preload them earlier.
         RESOLVED_FONT_NAMES.add(name);
         // https://github.com/typekit/webfontloader
         WebFontLoader.load({google: {families: [name]}});

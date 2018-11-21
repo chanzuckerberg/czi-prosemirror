@@ -21,7 +21,7 @@ class ListSplitCommand extends UICommand {
     const {selection, schema} = state;
     const tr = splitListItem(state.tr.setSelection(selection), schema);
     if (tr.docChanged) {
-      dispatch && dispatch(tr.scrollIntoView());
+      dispatch && dispatch(tr);
       return true;
     } else {
       return false;

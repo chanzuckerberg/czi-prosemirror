@@ -29,7 +29,7 @@ class IndentCommand extends UICommand {
     tr = tr.setSelection(selection);
     tr = updateIndentLevel(tr, schema, this._delta);
     if (tr.docChanged) {
-      dispatch && dispatch(tr.scrollIntoView());
+      dispatch && dispatch(tr);
       return true;
     } else {
       return false;

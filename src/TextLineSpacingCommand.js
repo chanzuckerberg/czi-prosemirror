@@ -149,7 +149,7 @@ class TextLineSpacingCommand extends UICommand {
       this._lineSpacing,
     );
     if (tr.docChanged) {
-      dispatch && dispatch(tr.scrollIntoView());
+      dispatch && dispatch(tr);
       return true;
     } else {
       return false;

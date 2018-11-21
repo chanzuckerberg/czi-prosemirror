@@ -134,7 +134,7 @@ class TextAlignCommand extends UICommand {
       this._alignment,
     );
     if (tr.docChanged) {
-      dispatch && dispatch(tr.scrollIntoView());
+      dispatch && dispatch(tr);
       return true;
     } else {
       return false;

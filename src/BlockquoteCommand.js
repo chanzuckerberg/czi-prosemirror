@@ -31,7 +31,7 @@ class BlockquoteCommand extends UICommand {
       schema,
     );
     if (tr.docChanged) {
-      dispatch && dispatch(tr.scrollIntoView());
+      dispatch && dispatch(tr);
       return true;
     } else {
       return false;

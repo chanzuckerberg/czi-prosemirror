@@ -80,7 +80,7 @@ class TextColorCommand extends UICommand {
         attrs,
       );
       if (tr.docChanged) {
-        dispatch && dispatch(tr.scrollIntoView());
+        dispatch && dispatch(tr);
         return true;
       }
     }
