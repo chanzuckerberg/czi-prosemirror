@@ -111,7 +111,7 @@ function wrapNodesWithListInternal(
       items && lists.push(items);
       items = null;
     }
-    return false;
+    return true;
   });
   items && lists.push(items);
 

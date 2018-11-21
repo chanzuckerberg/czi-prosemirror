@@ -71,7 +71,6 @@ export function setTextAlign(
         align: null,
       };
     }
-    console.log(node, pos, alignment);
     tr = tr.setNodeMarkup(
       pos,
       nodeType,
