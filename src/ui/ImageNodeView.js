@@ -84,7 +84,7 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
     const {resolvedImage} = this.state;
     const {attrs} = node;
 
-    const {align} = attrs;
+    const {align, crop} = attrs;
 
     const active = selected &&
       !readOnly &&
@@ -121,19 +121,33 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
       /> :
       null;
 
-    const style = {
-      height: height + 'px',
-      width: width + 'px',
+    const imageStyle = {
       display: 'inline-block',
+      height: height + 'px',
+      left: '0',
+      top: '0',
+      width: width + 'px',
+      position: 'relative',
     };
+
+    const clipStyle = {};
+
+    if (crop) {
+      clipStyle.width = crop.width;
+      clipStyle.height = crop.height;
+      imageStyle.left = crop.left + 'px';
+      imageStyle.top = crop.top + 'px';
+    }
 
     return (
       <span
         className={className}
         data-active={active ? 'true' : null}
+        data-src={src || ''}
         id={this._id}>
-        <span className="czi-image-view-body-img-clip">
-          <span style={style}>
+        <span
+          className="czi-image-view-body-img-clip" style={clipStyle}>
+          <span style={imageStyle}>
             <img
               alt=""
               className="czi-image-view-body-img"
@@ -190,6 +204,8 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
     const pos = getPos();
     const attrs = {
       ...node.attrs,
+      // TODO: Support UI for cropping later.
+      crop: null,
       width,
       height,
     };

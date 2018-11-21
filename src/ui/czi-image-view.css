@@ -31,6 +31,7 @@
   display: inline-block;
   max-width: 100%;
   overflow: hidden;
+  position: relative;
 }
 
 .czi-image-view-body.active .czi-image-view-body-img-clip {

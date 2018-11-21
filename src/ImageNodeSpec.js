@@ -5,8 +5,8 @@ import {Node} from 'prosemirror-model';
 
 import type {NodeSpec} from 'prosemirror';
 
-function parseDOMAttrs(dom: HTMLElement) {
-  let {cssFloat, display, width, height} = dom.style;
+function getAttrs(dom: HTMLElement) {
+  let {cssFloat, display, width, height, marginLeft, marginTop} = dom.style;
   let align = dom.getAttribute('data-align') || dom.getAttribute('align');
   if (align) {
     align = /(left|right|center)/.test(align) ? align : null;
@@ -21,9 +21,31 @@ function parseDOMAttrs(dom: HTMLElement) {
   width = width || dom.getAttribute('width');
   height = height || dom.getAttribute('height');
 
+  let crop = null;
+  const {parentElement} = dom;
+  if (parentElement instanceof HTMLElement) {
+    const ps = parentElement.style;
+    if (
+      ps.display === 'inline-block' &&
+      ps.overflow === 'hidden' &&
+      ps.width &&
+      ps.height &&
+      marginLeft &&
+      marginTop
+    ) {
+      crop = {
+        width: parseInt(ps.width, 10) || 0,
+        height: parseInt(ps.height, 10) || 0,
+        left: parseInt(marginLeft, 10) || 0,
+        top: parseInt(marginTop, 10) || 0,
+      };
+    }
+  }
+
   return {
     align,
     alt: dom.getAttribute('alt') || null,
+    crop,
     height: parseInt(height, 10) || null,
     src: dom.getAttribute('src') || null,
     title: dom.getAttribute('title')|| null,
@@ -36,17 +58,16 @@ const ImageNodeSpec: NodeSpec = {
   inline: true,
   attrs: {
     align: {default: null},
-    src: {},
     alt: {default: ''},
+    crop: {default: null},
+    height: {default: null},
+    src: {default: null},
     title: {default: ''},
     width: {default: null},
-    height: {default: null},
   },
   group: 'inline',
   draggable: true,
-  parseDOM: [{tag: 'img[src]', getAttrs(dom) {
-    return parseDOMAttrs(dom);
-  }}],
+  parseDOM: [{tag: 'img[src]', getAttrs}],
   toDOM(node) {
     return ["img", node.attrs];
   },
