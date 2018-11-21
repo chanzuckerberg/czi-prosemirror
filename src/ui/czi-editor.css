@@ -24,18 +24,27 @@
   margin: 0;
 }
 
-.ProseMirror .czi-editor-body {
-  background: #fff;
-  border-radius: 1px;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-  box-sizing: content-box;
-  margin: 20px auto 0 auto;
-  min-height: 29.7cm;
-  outline: none;
-  padding: 2.7cm;
-  position: relative;
-  width: 16.25cm;
-  z-index: 1;
+@media only screen {
+  .ProseMirror .czi-editor-body {
+    background: #fff;
+    border-radius: 1px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    box-sizing: content-box;
+    margin: 20px auto 0 auto;
+    min-height: 29.7cm;
+    outline: none;
+    padding: 2.7cm;
+    position: relative;
+    width: 16.25cm;
+    z-index: 1;
+  }
+}
+
+@media only print {
+  .ProseMirror .czi-editor-body {
+    padding: auto !important;
+    width: auto !important;
+  }
 }
 
 .ProseMirror a:link,
