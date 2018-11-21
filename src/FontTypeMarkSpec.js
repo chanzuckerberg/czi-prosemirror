@@ -1,8 +1,27 @@
 // @flow
 
+import WebFontLoader from 'webfontloader';
 import {Node} from 'prosemirror-model';
 
 import type {MarkSpec} from 'prosemirror';
+
+export const FONT_TYPE_NAMES = [
+  // SERIF
+ 'Arial',
+ 'Arial Black',
+ 'Georgia',
+ 'Tahoma',
+ 'Times New Roman',
+ 'Times',
+ 'Verdana',
+ // MONOSPACE
+ 'Courier New',
+ 'Lucida Console',
+ 'Monaco',
+ 'monospace',
+];
+
+const RESOLVED_FONT_NAMES = new Set(FONT_TYPE_NAMES);
 
 const FontTypeMarkSpec: MarkSpec = {
   attrs: {
@@ -20,10 +39,16 @@ const FontTypeMarkSpec: MarkSpec = {
       },
     },
   ],
+
   toDOM(node: Node) {
     const {name} = node.attrs;
     const attrs = {};
     if (name) {
+      if (!RESOLVED_FONT_NAMES.has(name)) {
+        RESOLVED_FONT_NAMES.add(name);
+        // https://github.com/typekit/webfontloader
+        WebFontLoader.load({google: {families: [name]}});
+      }
       attrs.style = `font-family: ${name}`;
     }
     return ['span', attrs, 0];

@@ -8,25 +8,10 @@ import cx from 'classnames';
 import findActiveFontType from './findActiveFontType';
 import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
+import {FONT_TYPE_NAMES} from '../FontTypeMarkSpec';
 import {FONT_TYPE_NAME_DEFAULT} from './findActiveFontType';
 import {MARK_FONT_TYPE} from '../MarkNames';
 import {Transform} from 'prosemirror-transform';
-
-const FONT_TYPE_NAMES = [
-  // SERIF
- // 'Arial',
- 'Arial Black',
- 'Georgia',
- 'Tahoma',
- 'Times New Roman',
- 'Times',
- 'Verdana',
- // MONOSPACE
- 'Courier New',
- 'Lucida Console',
- 'Monaco',
- 'monospace',
-];
 
 const FONT_TYPE_COMMANDS: Object = {
   [FONT_TYPE_NAME_DEFAULT]: new FontTypeCommand(''),
