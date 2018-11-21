@@ -6,7 +6,7 @@ import applyMark from './applyMark';
 import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
 import {Schema} from 'prosemirror-model';
-import {TextSelection} from 'prosemirror-state';
+import {AllSelection, TextSelection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
 import {setTextAlign} from './TextAlignCommand';
 
@@ -83,7 +83,10 @@ class MarksClearCommand extends UICommand {
 
   isEnabled = (state: EditorState) => {
     const {selection} = state;
-    return !selection.empty && (selection instanceof TextSelection);
+    return !selection.empty && (
+      selection instanceof TextSelection ||
+      selection instanceof AllSelection
+    );
   };
 
   execute = (
