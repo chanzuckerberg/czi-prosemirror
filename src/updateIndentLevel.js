@@ -134,9 +134,10 @@ function setListNodeIndent(
       } else {
         itemsSelected.push(listItemNode);
       }
+      return false;
     }
 
-    return false;
+    return true;
   });
 
   tr = tr.delete(pos, pos + listNode.nodeSize);
