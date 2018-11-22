@@ -6,7 +6,7 @@ import {Node} from 'prosemirror-model';
 import type {NodeSpec} from 'prosemirror';
 
 const DocNodeSpec = {
-  content: 'page',
+  content: 'body',
 };
 
 export default DocNodeSpec;
