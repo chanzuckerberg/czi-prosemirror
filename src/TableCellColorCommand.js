@@ -32,11 +32,11 @@ class TableCellColorCommand extends UICommand {
     event: ?SyntheticEvent,
   ): Promise<any> => {
     if (this._popUp) {
-      return Promise.resolve(null);
+      return Promise.resolve(undefined);
     }
     const target = nullthrows(event).currentTarget;
     if (!(target instanceof HTMLElement)) {
-      return Promise.resolve(null);
+      return Promise.resolve(undefined);
     }
 
     const anchor = event ? event.currentTarget : null;

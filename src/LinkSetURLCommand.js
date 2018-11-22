@@ -39,7 +39,7 @@ class LinkSetURLCommand extends UICommand {
     event: ?SyntheticEvent,
   ): Promise<any> => {
     if (this._popUp) {
-      return Promise.resolve(null);
+      return Promise.resolve(undefined);
     }
 
     if (dispatch) {
@@ -49,7 +49,7 @@ class LinkSetURLCommand extends UICommand {
     const {doc, schema, selection} = state;
     const markType = schema.marks[MARK_LINK];
     if (!markType) {
-      return Promise.resolve(null);
+      return Promise.resolve(undefined);
     }
     const {from, to} = selection;
     const result = findNodesWithSameMark(doc, from, to, markType);

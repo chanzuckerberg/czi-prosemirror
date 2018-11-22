@@ -68,7 +68,7 @@ class ImageFromURLCommand extends UICommand {
     event: ?SyntheticEvent,
   ): Promise<any> => {
     if (this._popUp) {
-      return Promise.resolve(null);
+      return Promise.resolve(undefined);
     }
 
     if (dispatch) {

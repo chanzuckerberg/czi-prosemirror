@@ -62,7 +62,7 @@ class UICommand {
     view: ?EditorView,
     event: ?SyntheticEvent,
   ): Promise<any> => {
-    return Promise.resolve(null);
+    return Promise.resolve(undefined);
   };
 
   executeWithUserInput = (
