@@ -73,6 +73,7 @@ class RichTextEditor extends React.PureComponent<any, any, any> {
     const {
       className,
       disabled,
+      readOnly,
       header,
       height,
       id,
@@ -110,16 +111,21 @@ class RichTextEditor extends React.PureComponent<any, any, any> {
     );
 
     const {editorView} = this.state;
+
+    const toolbar = (!!readOnly === true) ? null :
+      <EditorToolbar
+        editorState={editorState}
+        editorView={editorView}
+        onChange={onChange}
+        readOnly={readOnly}
+      />;
+
     return (
       <div className={mainClassName} style={mainStyle}>
         <div className="czi-rte-frameset">
           <div className="czi-rte-frame-head">
             {header}
-            <EditorToolbar
-              editorState={editorState}
-              editorView={editorView}
-              onChange={onChange}
-            />
+            {toolbar}
           </div>
           <div className="czi-rte-frame-body">
             <div
@@ -129,11 +135,12 @@ class RichTextEditor extends React.PureComponent<any, any, any> {
               )}
               style={contentOverflowInfo.style}>
               <Editor
-                id={this._id}
-                ref={this._onEditorRef}
                 editorState={editorState}
+                id={this._id}
                 onChange={onChange}
                 onReady={this._onReady}
+                readOnly={readOnly}
+                ref={this._onEditorRef}
               />
             </div>
           </div>

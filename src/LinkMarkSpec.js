@@ -8,6 +8,7 @@ const LinkMarkSpec: MarkSpec = {
   attrs: {
     href: {default: null},
     rel: {default: 'noopener noreferrer nofollow'},
+    target: {default: 'blank'},
     title: {default: null},
   },
   inclusive: false,

@@ -22,12 +22,13 @@ class Editor extends React.PureComponent<any, any, any> {
 
   props: {
     editorState?: ?EditorState,
-    onReady?: ?(view: EditorView) => void,
     onChange?: ?(state: EditorState) => void,
+    onReady?: ?(view: EditorView) => void,
+    readOnly?: ?boolean,
   };
 
   componentDidMount(): void {
-    const {onReady, editorState} = this.props;
+    const {onReady, editorState, readOnly} = this.props;
     const editorNode = document.getElementById(this._id);
     const templateNode = document.getElementById(this._id + 'template');
 
@@ -36,7 +37,7 @@ class Editor extends React.PureComponent<any, any, any> {
       this._editorView = new EditorView(editorNode, {
         state: editorState || EDITOR_EMPTY_STATE,
         dispatchTransaction: this._dispatchTransaction,
-        editable: () =>  true,
+        editable: this._isEditable,
         nodeViews: {
           image(node, view, getPos) {
             return new ImageNodeView(
@@ -73,9 +74,16 @@ class Editor extends React.PureComponent<any, any, any> {
   }
 
   _dispatchTransaction = (transaction: Transform): void => {
-    const {onChange, editorState} = this.props;
+    const {onChange, editorState, readOnly} = this.props;
+    if (readOnly === true) {
+      return;
+    }
     const nextState = (editorState || EDITOR_EMPTY_STATE).apply(transaction);
     onChange && onChange(nextState);
+  };
+
+  _isEditable = (): boolean => {
+    return !!this._editorView && (!!this.props.readOnly !== true);
   };
 }
 

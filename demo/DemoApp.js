@@ -29,13 +29,15 @@ class DemoApp extends React.PureComponent<any, any, any> {
 
   render(): React.Element<any> {
     const {editorState, editorView} = this.state;
+    const readOnly = /read/ig.test(window.location.search);
     return (
       <RichTextEditor
         editorState={editorState}
         height="100vh"
-        width="100vw"
         onChange={this._onChange}
         onReady={this._onReady}
+        readOnly={readOnly}
+        width="100vw"
       />
     );
   }
