@@ -67,7 +67,12 @@
   position: relative;
 }
 
-.convert-app-area-body > .prosemirror-editor-wrapper {
+.convert-app-area.prosemirror .convert-app-area-body  {
+  box-shadow: inset 0px 0px 5px 0px rgba(0,0,0,0.75);
+  margin-top: 10px;
+}
+
+.convert-app-area.prosemirror .czi-rte-frameset {
   background: repeating-linear-gradient(
     45deg,
     #c0c0c0,
@@ -75,14 +80,6 @@
     #c2c2c2 10px,
     #c2c2c2 20px
   );
-  bottom: 0;
-  box-sizing: border-box;
-  left: 0;
-  overflow: auto;
-  padding: 10px;
-  position: absolute;
-  right: 0;
-  top: 10px;
 }
 
 .convert-app-area-body > textarea {

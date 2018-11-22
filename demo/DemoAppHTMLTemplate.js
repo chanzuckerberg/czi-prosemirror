@@ -47,7 +47,7 @@ const STYLE_MIXED = {
 class DemoAppHTMLTemplate extends React.PureComponent<any, any, any> {
   render(): React.Element<any> {
     return (
-      <div className="demo-app-template">
+      <div style={{display: 'none'}}>
         <h1>Maine coon. Tomcat cornish rex siamese for cheetah savannah</h1>
         <hr />
         <p style={{lineHeight: '200%'}}>

@@ -61,9 +61,6 @@
     "browserkeymap": "2.0.2",
     "classnames": "2.2.6",
     "color": "3.0.0",
-    "docs-editor": "chanzuckerberg/docs-editor#001071d0ef543c0bddc28e923ee73529ef7aa060",
-    "draft-convert": "2.1.4",
-    "draft-js": "0.10.5",
     "invariant": "2.2.4",
     "nullthrows": "1.0.1",
     "prosemirror-commands": "1.0.7",
@@ -76,6 +73,7 @@
     "prosemirror-view": "1.6.0",
     "react": "15.5.4",
     "react-dom": "15.5.4",
+    "resize-observer-polyfill": "1.5.0",
     "stable": "0.1.8",
     "uuid": "3.3.2",
     "webfontloader": "1.6.28"

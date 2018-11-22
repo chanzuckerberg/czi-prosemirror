@@ -12,9 +12,6 @@ import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
 import {Transform} from 'prosemirror-transform';
 
-// import 'prosemirror-menu/style/menu.css';
-// import 'prosemirror-example-setup/style/style.css';
-
 const EDITOR_EMPTY_STATE = createEmptyEditorState();
 
 class Editor extends React.PureComponent<any, any, any> {

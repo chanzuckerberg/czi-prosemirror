@@ -3,8 +3,7 @@
 import './convert-app.css';
 import CustomButton from '../src/ui/CustomButton';
 import DemoAppHTMLTemplate from './DemoAppHTMLTemplate';
-import Editor from '../src/ui/Editor';
-import EditorToolbar from '../src/ui/EditorToolbar';
+import RichTextEditor from '../src/ui/RichTextEditor';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import convertDraftJSToHTML from '../src/convertDraftJSToHTML';
@@ -128,9 +127,11 @@ class ConvertApp extends React.PureComponent<any, any, any> {
           <ConvertAppArea
             className="prosemirror"
             title="ProseMirror View">
-            <Editor
+            <RichTextEditor
               editorState={editorState}
+              height="100%"
               onChange={this._onEditorChange}
+              width="100%"
             />
           </ConvertAppArea>
         </div>

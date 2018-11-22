@@ -9,7 +9,7 @@
 .*/node_modules/create-emotion-styled/.*
 .*/node_modules/create-emotion/.*
 .*/node_modules/create-react-context/.*
-.*/node_modules/docs-editor/.*
+.*/node_modules/czi-rte/.*
 .*/node_modules/draft-convert/.*
 .*/node_modules/draft-js/.*
 .*/node_modules/flow-webpack-plugin/.*
