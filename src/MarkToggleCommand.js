@@ -39,6 +39,9 @@ class MarkToggleCommand extends UICommand {
     if (!markType) {
       return false;
     }
+
+    // TODO: Replace `toggleMark` with transform that does not change scroll
+    // position.
     return toggleMark(markType)(state, dispatch, view);
   };
 }

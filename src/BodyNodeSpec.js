@@ -13,8 +13,11 @@ const BodyNodeSpec = {
   },
   content: 'block+',
   defining: true,
+  draggable: false,
   group: 'page',
+  isolating: true,
   parseDOM: [{tag: 'czi-editor-body', getAttrs}],
+  selectable: false,
   toDOM,
 };
 

@@ -1,5 +1,7 @@
 // @flow
 
+import adjustAllSelection from './adjustAllSelection';
+import isInsideListItem from './isInsideListItem';
 import isListNode from './isListNode';
 import nullthrows from 'nullthrows';
 import {BLOCKQUOTE, PARAGRAPH, HEADING, LIST_ITEM} from './NodeNames';
@@ -28,6 +30,8 @@ export default function toggleHeading(
   ) {
     return tr;
   }
+
+  tr = adjustAllSelection(tr, schema);
 
   const {from, to} = tr.selection;
   let startWithHeadingBlock = null;
@@ -70,13 +74,15 @@ function setHeadingNode(
   const heading = nodes[HEADING];
   const paragraph = nodes[PARAGRAPH];
   const blockquote = nodes[BLOCKQUOTE];
+  const listItem = nodes[LIST_ITEM];
   const node = tr.doc.nodeAt(pos);
-  const nodeType = node.type;
-
   if (!node || !heading || !paragraph || !blockquote) {
     return tr;
   }
-  if (isListNode(node)) {
+  const nodeType = node.type;
+  if (isInsideListItem(tr.doc, pos)) {
+    return tr;
+  } else if (isListNode(node)) {
     // Toggle list
     if (heading && level !== null) {
       tr = unwrapNodesFromList(tr, schema, pos, (paragraphNode) => {

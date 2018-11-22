@@ -1,9 +1,11 @@
 // @flow
 
+import adjustAllSelection from './adjustAllSelection';
+import isInsideListItem from './isInsideListItem';
 import isListNode from './isListNode';
 import nullthrows from 'nullthrows';
-import {PARAGRAPH, BLOCKQUOTE, HEADING, LIST_ITEM} from './NodeNames';
 import {Fragment, Schema, Node, NodeType, ResolvedPos} from 'prosemirror-model';
+import {PARAGRAPH, BLOCKQUOTE, HEADING, LIST_ITEM} from './NodeNames';
 import {Selection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
 import {setBlockType} from 'prosemirror-commands';
@@ -23,6 +25,8 @@ export default function toggleBlockquote(
   if (!selection || !doc || !heading || !paragraph || !listItem || !heading) {
     return tr;
   }
+
+  tr = adjustAllSelection(tr, schema);
 
   const {from, to} = tr.selection;
   let startWithBlockQuote = null;
@@ -62,12 +66,15 @@ function setBlockquoteNode(
   const paragraph = nodes[PARAGRAPH];
   const blockquote = nodes[BLOCKQUOTE];
   const node = tr.doc.nodeAt(pos);
-  const nodeType = node.type;
 
   if (!node || !heading || !paragraph) {
     return tr;
   }
-  if (isListNode(node)) {
+
+  const nodeType = node.type;
+  if (isInsideListItem(tr.doc, pos)) {
+    return tr;
+  } else if (isListNode(node)) {
     // Toggle list
     if (blockquote) {
       tr = unwrapNodesFromList(tr, schema, pos, (paragraphNode) => {
