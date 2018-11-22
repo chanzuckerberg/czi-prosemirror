@@ -93,11 +93,10 @@ class RichTextEditor extends React.PureComponent<any, any, any> {
     const useFixedLayout = width !== undefined || height !== undefined;
 
     const mainClassName = cx(className, {
-     'czi-rte': true,
-     'with-fixed-layout': useFixedLayout,
-     'disabled': disabled,
-   });
-
+      'czi-rte': true,
+      'with-fixed-layout': useFixedLayout,
+      'disabled': disabled,
+    });
 
     const mainStyle = {
       width: toCSS(width === undefined && useFixedLayout ? 'auto' : width),
