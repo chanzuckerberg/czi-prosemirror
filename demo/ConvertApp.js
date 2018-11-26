@@ -7,6 +7,7 @@ import convertDraftJSToHTML from '../src/convertDraftJSToHTML';
 import convertFromDraftJS from '../src/convertFromDraftJS';
 import convertFromHTML from '../src/convertFromHTML';
 import convertFromJSON from '../src/convertFromJSON';
+import convertToJSON from '../src/convertToJSON';
 import createEmptyEditorState from '../src/createEmptyEditorState';
 import CustomButton from '../src/ui/CustomButton';
 import cx from 'classnames';
@@ -243,7 +244,7 @@ class ConvertApp extends React.PureComponent<any, any, any> {
 
   _toProseMirrorJSON = ():void => {
     const {editorState} = this.state;
-    const prosemirrorJSON = JSON.stringify(editorState.doc.toJSON(), null, 2);
+    const prosemirrorJSON = JSON.stringify(convertToJSON(editorState), null, 2);
     this.setState({prosemirrorJSON}, this._save);    
   };
 
