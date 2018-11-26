@@ -24,7 +24,7 @@ var _prosemirrorView = require('prosemirror-view');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var babelPluginFlowReactPropTypes_proptype_DirectEditorProps = require('prosemirror').babelPluginFlowReactPropTypes_proptype_DirectEditorProps || require('prop-types').any;
+var babelPluginFlowReactPropTypes_proptype_DirectEditorProps = require('../Types').babelPluginFlowReactPropTypes_proptype_DirectEditorProps || require('prop-types').any;
 
 // https://github.com/ProseMirror/prosemirror-view/blob/master/src/index.js
 if (typeof exports !== 'undefined') Object.defineProperty(exports, 'babelPluginFlowReactPropTypes_proptype_EditorRuntime', {

@@ -21,7 +21,7 @@ var _prosemirrorModel = require('prosemirror-model');
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // This assumes that every 36pt maps to one indent level.
-var babelPluginFlowReactPropTypes_proptype_NodeSpec = require('prosemirror').babelPluginFlowReactPropTypes_proptype_NodeSpec || require('prop-types').any;
+var babelPluginFlowReactPropTypes_proptype_NodeSpec = require('./Types').babelPluginFlowReactPropTypes_proptype_NodeSpec || require('prop-types').any;
 
 var INDENT_MARGIN_PT_SIZE = exports.INDENT_MARGIN_PT_SIZE = 36;
 var MIN_INDENT_LEVEL = exports.MIN_INDENT_LEVEL = 0;

@@ -3,7 +3,7 @@
 import WebFontLoader from 'webfontloader';
 import {Node} from 'prosemirror-model';
 
-import type {MarkSpec} from 'prosemirror';
+import type {MarkSpec} from './Types';
 
 export const FONT_TYPE_NAMES = [
   // SERIF

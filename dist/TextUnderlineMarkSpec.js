@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 
 // https://bitbucket.org/atlassian/atlaskit/src/34facee3f461/packages/editor-core/src/schema/nodes/?at=master
-var babelPluginFlowReactPropTypes_proptype_MarkSpec = require('prosemirror').babelPluginFlowReactPropTypes_proptype_MarkSpec || require('prop-types').any;
+var babelPluginFlowReactPropTypes_proptype_MarkSpec = require('./Types').babelPluginFlowReactPropTypes_proptype_MarkSpec || require('prop-types').any;
 
 var TextUnderlineMarkSpec = {
   parseDOM: [{ tag: 'u' }, {

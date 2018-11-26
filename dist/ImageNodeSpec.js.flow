@@ -3,7 +3,7 @@
 import {IMAGE} from './NodeNames';
 import {Node} from 'prosemirror-model';
 
-import type {NodeSpec} from 'prosemirror';
+import type {NodeSpec} from './Types';
 
 function getAttrs(dom: HTMLElement) {
   let {cssFloat, display, width, height, marginLeft, marginTop} = dom.style;

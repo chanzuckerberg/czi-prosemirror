@@ -3,7 +3,7 @@
 import {Node} from 'prosemirror-model';
 import convertToCSSPTValue from './convertToCSSPTValue';
 
-import type {MarkSpec} from 'prosemirror';
+import type {MarkSpec} from './Types';
 
 const FontSizeMarkSpec: MarkSpec = {
   attrs: {

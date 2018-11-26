@@ -8,7 +8,7 @@ var _NodeNames = require('./NodeNames');
 
 var _prosemirrorModel = require('prosemirror-model');
 
-var babelPluginFlowReactPropTypes_proptype_NodeSpec = require('prosemirror').babelPluginFlowReactPropTypes_proptype_NodeSpec || require('prop-types').any;
+var babelPluginFlowReactPropTypes_proptype_NodeSpec = require('./Types').babelPluginFlowReactPropTypes_proptype_NodeSpec || require('prop-types').any;
 
 function getAttrs(dom) {
   var _dom$style = dom.style,

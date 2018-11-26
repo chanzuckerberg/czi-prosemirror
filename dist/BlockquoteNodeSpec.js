@@ -19,7 +19,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 // https://github.com/ProseMirror/prosemirror-schema-basic/blob/master/src/schema-basic.js
 // :: NodeSpec A plain paragraph textblock. Represented in the DOM
 // as a `<p>` element.
-var babelPluginFlowReactPropTypes_proptype_NodeSpec = require('prosemirror').babelPluginFlowReactPropTypes_proptype_NodeSpec || require('prop-types').any;
+var babelPluginFlowReactPropTypes_proptype_NodeSpec = require('./Types').babelPluginFlowReactPropTypes_proptype_NodeSpec || require('prop-types').any;
 
 var BlockquoteNodeSpec = (0, _extends3.default)({}, _ParagraphNodeSpec2.default, {
   defining: true,

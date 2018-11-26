@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _prosemirrorModel = require('prosemirror-model');
 
-var babelPluginFlowReactPropTypes_proptype_MarkSpec = require('prosemirror').babelPluginFlowReactPropTypes_proptype_MarkSpec || require('prop-types').any;
+var babelPluginFlowReactPropTypes_proptype_MarkSpec = require('./Types').babelPluginFlowReactPropTypes_proptype_MarkSpec || require('prop-types').any;
 
 var CODE_DOM = ['code', 0];
 
