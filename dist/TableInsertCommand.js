@@ -52,7 +52,7 @@ var _prosemirrorModel = require('prosemirror-model');
 
 var _prosemirrorTransform = require('prosemirror-transform');
 
-var _popUpPosition = require('./ui/popUpPosition');
+var _PopUpPosition = require('./ui/PopUpPosition');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -95,7 +95,7 @@ var TableInsertCommand = function (_UICommand) {
       return new _promise2.default(function (resolve) {
         _this._popUp = (0, _createPopUp2.default)(_TableGridSizeEditor2.default, null, {
           anchor: anchor,
-          position: _popUpPosition.atAnchorRight,
+          position: _PopUpPosition.atAnchorRight,
           onClose: function onClose(val) {
             if (_this._popUp) {
               _this._popUp = null;

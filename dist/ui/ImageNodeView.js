@@ -76,7 +76,7 @@ var _prosemirrorModel = require('prosemirror-model');
 
 var _prosemirrorState = require('prosemirror-state');
 
-var _popUpPosition = require('./popUpPosition');
+var _PopUpPosition = require('./PopUpPosition');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -298,7 +298,7 @@ var ImageViewBody = function (_React$PureComponent) {
         this._alignEditor = (0, _createPopUp2.default)(_ImageAlignEditor2.default, editorProps, {
           anchor: el,
           autoDismiss: false,
-          position: _popUpPosition.atAnchorBottomCenter,
+          position: _PopUpPosition.atAnchorBottomCenter,
           onClose: function onClose() {
             _this2._alignEditor = null;
           }

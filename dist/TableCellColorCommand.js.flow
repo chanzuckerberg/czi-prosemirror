@@ -9,7 +9,7 @@ import {EditorView} from 'prosemirror-view';
 import {Schema} from 'prosemirror-model';
 import {TextSelection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
-import {atAnchorRight} from './ui/popUpPosition';
+import {atAnchorRight} from './ui/PopUpPosition';
 import {setCellAttr} from 'prosemirror-tables';
 
 const setCellBackgroundBlack = setCellAttr('background', '#000000');

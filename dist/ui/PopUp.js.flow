@@ -4,7 +4,7 @@ import PopUpManager from './PopUpManager';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import uuid from './uuid';
-import {atAnchorBottom, atViewportCenter} from './popUpPosition';
+import {atAnchorBottom, atViewportCenter} from './PopUpPosition';
 
 import type {Rect} from './rects';
 import type {PopUpDetails} from './PopUpManager';

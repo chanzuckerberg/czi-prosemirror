@@ -54,7 +54,7 @@ var _NodeNames = require('./NodeNames');
 
 var _prosemirrorTransform = require('prosemirror-transform');
 
-var _popUpPosition = require('./ui/popUpPosition');
+var _PopUpPosition = require('./ui/PopUpPosition');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

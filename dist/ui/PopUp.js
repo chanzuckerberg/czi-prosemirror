@@ -44,7 +44,7 @@ var _uuid = require('./uuid');
 
 var _uuid2 = _interopRequireDefault(_uuid);
 
-var _popUpPosition = require('./popUpPosition');
+var _PopUpPosition = require('./PopUpPosition');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -112,7 +112,7 @@ var PopUp = function (_React$PureComponent) {
         body: document.getElementById(_this._id),
         close: close,
         modal: modal === true,
-        position: position || (modal ? _popUpPosition.atViewportCenter : _popUpPosition.atAnchorBottom)
+        position: position || (modal ? _PopUpPosition.atViewportCenter : _PopUpPosition.atAnchorBottom)
       };
     }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
   }

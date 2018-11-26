@@ -11,7 +11,7 @@ import {Fragment, Schema} from 'prosemirror-model';
 import {IMAGE} from './NodeNames';
 import {TextSelection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
-import {atViewportCenter} from './ui/popUpPosition';
+import {atViewportCenter} from './ui/PopUpPosition';
 import {showCursorPlaceholder, hideCursorPlaceholder} from './CursorPlaceholderPlugin';
 
 import type {ImageURLEditorValue} from './ui/ImageURLEditor';
