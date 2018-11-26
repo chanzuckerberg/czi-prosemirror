@@ -1,18 +1,19 @@
 // @flow
 
 import './convert-app.css';
-import CustomButton from '../src/ui/CustomButton';
-import DemoAppHTMLTemplate from './DemoAppHTMLTemplate';
-import RichTextEditor from '../src/ui/RichTextEditor';
-import React from 'react';
-import ReactDOM from 'react-dom';
+import {EditorState} from 'prosemirror-state';
+import {EditorView} from 'prosemirror-view';
 import convertDraftJSToHTML from '../src/convertDraftJSToHTML';
 import convertFromDraftJS from '../src/convertFromDraftJS';
 import convertFromHTML from '../src/convertFromHTML';
+import convertFromJSON from '../src/convertFromJSON';
 import createEmptyEditorState from '../src/createEmptyEditorState';
+import CustomButton from '../src/ui/CustomButton';
 import cx from 'classnames';
-import {EditorState} from 'prosemirror-state';
-import {EditorView} from 'prosemirror-view';
+import DemoAppHTMLTemplate from './DemoAppHTMLTemplate';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import RichTextEditor from '../src/ui/RichTextEditor';
 
 const LOCAL_STORAGE_KEY = 'convert-app';
 const RIGHT_ARROW_CHAR = '\u21E2';
@@ -37,12 +38,14 @@ function getInitialState(): Object {
   let draftjs = '';
   let html = '';
   let editorState = null;
+  let prosemirrorJSON = '';
 
   try {
     const value = window.localStorage.getItem(LOCAL_STORAGE_KEY) || '';
     const json = JSON.parse(value);
     draftjs = json.draftjs;
     html = json.html;
+    prosemirrorJSON = json.prosemirrorJSON || '';
     editorState = createEmptyEditorState();
     if (!draftjs || !html) {
       throw new Error('no content');
@@ -56,6 +59,7 @@ function getInitialState(): Object {
     draftjs,
     editorState,
     html,
+    prosemirrorJSON,
   };
 }
 
@@ -82,7 +86,7 @@ class ConvertApp extends React.PureComponent<any, any, any> {
   state = getInitialState();
 
   render(): React.Element<any> {
-    const {draftjs, html, editorState} = this.state;
+    const {draftjs, html, editorState, prosemirrorJSON} = this.state;
     return (
       <div className="convert-app">
         <div className="grid-container">
@@ -101,6 +105,18 @@ class ConvertApp extends React.PureComponent<any, any, any> {
                 value="html"
               />
             </div>
+            <div className="czi-custom-buttons">
+              <CustomButton
+                label={`ProseMirror ${RIGHT_ARROW_CHAR} JSON`}
+                onClick={this._toProseMirrorJSON}
+                value="draftjs"
+              />
+              <CustomButton
+                label={`JSON ${RIGHT_ARROW_CHAR} ProseMirror`}
+                onClick={this._toProseMirror}
+                value="prosemirrorJSON"
+              />
+            </div>
             <a href="http://cdn.summitlearning.org/assets/index_docs_editor_0_0_9_4.html" target="new">
               draft-js editor {'\u2197'}
             </a>
@@ -114,6 +130,15 @@ class ConvertApp extends React.PureComponent<any, any, any> {
               value={draftjs}
             />
           </ConvertAppArea>
+          <ConvertAppArea
+            className="prosemirror-json"
+            title="ProseMirror JSON View">
+            <textarea
+              onChange={this._onProseMirrorJSONChange}
+              spellCheck={false}
+              value={prosemirrorJSON}
+            />
+          </ConvertAppArea>          
           <ConvertAppArea
             className="html"
             title="HTML View">
@@ -146,6 +171,11 @@ class ConvertApp extends React.PureComponent<any, any, any> {
   _onDraftJSChange = (e: SyntheticInputEvent): void => {
     const draftjs = e.target.value;
     this.setState({draftjs}, this._save);
+  };
+
+  _onProseMirrorJSONChange = (e: SyntheticInputEvent): void => {
+    const prosemirrorJSON = e.target.value;
+    this.setState({prosemirrorJSON}, this._save);
   };
 
   _onHTMLChange = (e: SyntheticInputEvent) => {
@@ -201,15 +231,21 @@ class ConvertApp extends React.PureComponent<any, any, any> {
   _saveToLocal = (): void => {
     try {
       this._sid = null;
-      const {html, draftjs} = this.state;
+      const {html, draftjs, prosemirrorJSON} = this.state;
       window.localStorage.setItem(
         LOCAL_STORAGE_KEY,
-        JSON.stringify({html, draftjs}),
+        JSON.stringify({html, draftjs, prosemirrorJSON}),
       );
     } catch (ex) {
       // skip
     }
   }
+
+  _toProseMirrorJSON = ():void => {
+    const {editorState} = this.state;
+    const prosemirrorJSON = JSON.stringify(editorState.doc.toJSON(), null, 2);
+    this.setState({prosemirrorJSON}, this._save);    
+  };
 
   _toProseMirror = (source: string): void => {
     if (source === 'draftjs') {
@@ -219,6 +255,9 @@ class ConvertApp extends React.PureComponent<any, any, any> {
       this.setState({html, editorState});
     } else if (source === 'html') {
       const editorState = convertFromHTML(this.state.html);
+      this.setState({editorState});
+    } else if (source === 'prosemirrorJSON') {
+      const editorState = convertFromJSON(this.state.prosemirrorJSON);
       this.setState({editorState});
     }
   };
