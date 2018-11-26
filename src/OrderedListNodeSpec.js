@@ -5,7 +5,7 @@ import {LIST_ITEM} from './NodeNames';
 import {ATTRIBUTE_INDENT, MAX_INDENT_LEVEL, MIN_INDENT_LEVEL} from './ParagraphNodeSpec';
 import {Node} from 'prosemirror-model';
 
-import type {NodeSpec} from 'prosemirror';
+import type {NodeSpec} from './Types';
 
 const OrderedListNodeSpec: NodeSpec = {
   attrs: {

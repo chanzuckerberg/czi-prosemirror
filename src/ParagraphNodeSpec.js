@@ -5,7 +5,7 @@ import convertToCSSPTValue from './convertToCSSPTValue';
 import {IMAGE} from './NodeNames';
 import {Node} from 'prosemirror-model';
 
-import type {NodeSpec} from 'prosemirror';
+import type {NodeSpec} from './Types';
 
 // This assumes that every 36pt maps to one indent level.
 export const INDENT_MARGIN_PT_SIZE = 36;

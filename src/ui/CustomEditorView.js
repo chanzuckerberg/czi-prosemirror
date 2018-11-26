@@ -2,7 +2,7 @@
 
 import {EditorView} from 'prosemirror-view';
 
-import type {DirectEditorProps} from 'prosemirror';
+import type {DirectEditorProps} from '../Types';
 
 export type EditorRuntime = {
 };

@@ -4,7 +4,7 @@ import convertToCSSPTValue from './convertToCSSPTValue';
 import {IMAGE} from './NodeNames';
 import {Node} from 'prosemirror-model';
 
-import type {NodeSpec} from 'prosemirror';
+import type {NodeSpec} from './Types';
 
 const BodyNodeSpec = {
   attrs: {

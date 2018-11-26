@@ -3,7 +3,7 @@
 import toHexColor from './ui/toHexColor';
 import {Node} from 'prosemirror-model';
 
-import type {MarkSpec} from 'prosemirror';
+import type {MarkSpec} from './Types';
 
 const TextColorMarkSpec: MarkSpec = {
   attrs: {

@@ -2,7 +2,7 @@
 
 import {Node} from 'prosemirror-model';
 
-import type {MarkSpec} from 'prosemirror';
+import type {MarkSpec} from './Types';
 
 const STRONG_DOM = ['strong', 0];
 

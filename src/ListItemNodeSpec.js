@@ -1,6 +1,6 @@
 // @flow
 
-import type {NodeSpec} from 'prosemirror';
+import type {NodeSpec} from './Types';
 
 export const ATTRIBUTE_LIST_STYLE_TYPE = 'data-list-style-type';
 

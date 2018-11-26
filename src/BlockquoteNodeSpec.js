@@ -4,7 +4,7 @@ import ParagraphNodeSpec from './ParagraphNodeSpec';
 import {getParagraphNodeAttrs, toParagraphDOM} from './ParagraphNodeSpec';
 import {Node} from 'prosemirror-model';
 
-import type {NodeSpec} from 'prosemirror';
+import type {NodeSpec} from './Types';
 
 
 // https://github.com/ProseMirror/prosemirror-schema-basic/blob/master/src/schema-basic.js
