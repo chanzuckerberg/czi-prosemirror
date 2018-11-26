@@ -3,6 +3,7 @@
 import './czi-editor.css';
 import 'prosemirror-gapcursor/style/gapcursor.css';
 import 'prosemirror-view/style/prosemirror.css';
+import CustomEditorView from './CustomEditorView';
 import ImageNodeView from './ImageNodeView';
 import React from 'react';
 import applyDevTools from 'prosemirror-dev-tools';
@@ -33,8 +34,12 @@ class Editor extends React.PureComponent<any, any, any> {
     const templateNode = document.getElementById(this._id + 'template');
 
     if (editorNode) {
+      const runtime  = {
+        hello: () => console.log(123),
+      };
+
       // Reference: http://prosemirror.net/examples/basic/
-      this._editorView = new EditorView(editorNode, {
+      const view = this._editorView = new CustomEditorView(editorNode, {
         state: editorState || EDITOR_EMPTY_STATE,
         dispatchTransaction: this._dispatchTransaction,
         editable: this._isEditable,
@@ -47,7 +52,8 @@ class Editor extends React.PureComponent<any, any, any> {
             );
           },
         },
-      });
+      }, runtime);
+
       onReady && onReady(this._editorView);
     }
   }

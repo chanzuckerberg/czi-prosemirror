@@ -16,4 +16,14 @@ declare module 'prosemirror' {
     parseDOM: Array<any>,
     toDOM: (node: any) => Array<any>,
   };
+
+  declare type EditorProps = {
+    // TODO: Fill the interface.
+    // https://github.com/ProseMirror/prosemirror-view/blob/master/src/index.js
+  };
+
+  declare type DirectEditorProps = EditorProps & {
+    // TODO: Fill the interface.
+    // https://github.com/ProseMirror/prosemirror-view/blob/master/src/index.js
+  };
 }
