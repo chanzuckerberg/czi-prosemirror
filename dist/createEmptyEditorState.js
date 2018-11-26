@@ -5,11 +5,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = createEmptyEditorState;
 
+var _prosemirrorState = require('prosemirror-state');
+
 var _EditorPlugins = require('./EditorPlugins');
 
 var _EditorPlugins2 = _interopRequireDefault(_EditorPlugins);
-
-var _prosemirrorState = require('prosemirror-state');
 
 var _EditorSchema = require('./EditorSchema');
 

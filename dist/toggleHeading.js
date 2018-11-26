@@ -92,6 +92,10 @@ function setHeadingNode(tr, schema, pos, level) {
   var paragraph = nodes[_NodeNames.PARAGRAPH];
   var blockquote = nodes[_NodeNames.BLOCKQUOTE];
   var listItem = nodes[_NodeNames.LIST_ITEM];
+  if (pos >= tr.doc.content.size) {
+    // Workaround to handle the edge case that pos was shifted caused by `toggleList`.
+    return tr;
+  }
   var node = tr.doc.nodeAt(pos);
   if (!node || !heading || !paragraph || !blockquote) {
     return tr;

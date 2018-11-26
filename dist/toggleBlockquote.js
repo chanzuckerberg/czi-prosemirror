@@ -85,6 +85,11 @@ function setBlockquoteNode(tr, schema, pos) {
   var heading = nodes[_NodeNames.HEADING];
   var paragraph = nodes[_NodeNames.PARAGRAPH];
   var blockquote = nodes[_NodeNames.BLOCKQUOTE];
+
+  if (pos >= tr.doc.content.size) {
+    // Workaround to handle the edge case that pos was shifted caused by `toggleList`.
+    return tr;
+  }
   var node = tr.doc.nodeAt(pos);
 
   if (!node || !heading || !paragraph) {
