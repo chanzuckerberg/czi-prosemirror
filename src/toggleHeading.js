@@ -75,6 +75,10 @@ function setHeadingNode(
   const paragraph = nodes[PARAGRAPH];
   const blockquote = nodes[BLOCKQUOTE];
   const listItem = nodes[LIST_ITEM];
+  if (pos >= tr.doc.content.size) {
+    // Workaround to handle the edge case that pos was shifted caused by `toggleList`.
+    return tr;
+  }
   const node = tr.doc.nodeAt(pos);
   if (!node || !heading || !paragraph || !blockquote) {
     return tr;
