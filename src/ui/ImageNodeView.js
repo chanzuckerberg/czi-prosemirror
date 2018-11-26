@@ -14,7 +14,7 @@ import {EditorView, Decoration} from "prosemirror-view";
 import {MIN_SIZE} from './ImageResizeBox';
 import {Node} from 'prosemirror-model';
 import {TextSelection} from 'prosemirror-state';
-import {atAnchorBottomCenter} from './popUpPosition';
+import {atAnchorBottomCenter} from './PopUpPosition';
 
 import type {NodeViewProps} from './CustomNodeView';
 import type {ImageAlignEditorValue} from './ImageAlignEditor';

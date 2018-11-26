@@ -11,7 +11,7 @@ import {MARK_TEXT_COLOR} from './MarkNames';
 import {Schema} from 'prosemirror-model';
 import {AllSelection, TextSelection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
-import {atAnchorRight} from './ui/popUpPosition';
+import {atAnchorRight} from './ui/PopUpPosition';
 
 class TextColorCommand extends UICommand {
 

@@ -10,7 +10,7 @@ import TableGridSizeEditor from '../src/ui/TableGridSizeEditor';
 import createPopUp from '../src/ui/createPopUp';
 import nullthrows from 'nullthrows';
 import uuid from '../src/ui/uuid';
-import {atAnchorRight} from '../src/ui/popUpPosition';
+import {atAnchorRight} from '../src/ui/PopUpPosition';
 
 class TableGridSizeEditorExample extends React.PureComponent<any, any, any> {
 
