@@ -1,0 +1,34 @@
+@import './czi-vars.css';
+
+.czi-rte-content-overflow-control:link,
+.czi-rte-content-overflow-control:visited,
+.czi-rte-content-overflow-control:hover,
+.czi-rte-content-overflow-control:focus,
+.czi-rte-content-overflow-control:active {
+  color: #222;
+  display: block;
+  flex: 1;
+  font-family: var(--czi-font-family);
+  font-size: var(--czi-font-size);
+  padding: 10px 0 0 0;
+  text-align: right;
+  text-decoration: none;
+  user-select: none;
+}
+
+.czi-rte-content-overflow-control > .icon {
+  display: inline-block;
+  font-size: 20px;
+  height: 12px;
+  line-height: 8px;
+  margin: 0 2px;
+  transform: rotate(90deg);
+  vertical-align: middle;
+  width: 12px;
+}
+
+@media only print {
+  .czi-rte-content-overflow-control {
+    display: none;
+  }
+}

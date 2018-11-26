@@ -1,0 +1,39 @@
+.ProseMirror h1,
+.ProseMirror h2,
+.ProseMirror h3,
+.ProseMirror h4,
+.ProseMirror h5,
+.ProseMirror h6 {
+  line-height: var(--czi-editor-line-height);
+  orphans: 2;
+  widows: 2;
+}
+
+.ProseMirror h1 {
+  font-size: 20pt;
+}
+
+.ProseMirror h2 {
+  font-size: 18pt;
+}
+
+.ProseMirror h3 {
+  font-size: 16pt;
+}
+
+.ProseMirror h4 {
+  color: rgb(67, 67, 67);
+  font-size: 14pt;
+}
+
+.ProseMirror h5 {
+  color: rgb(102, 102, 102);
+  font-size: 11pt;
+  font-weight: 400;
+}
+
+.ProseMirror h6 {
+  color: rgb(102, 102, 102);
+  font-size: 11pt;
+  font-weight: 400;
+}

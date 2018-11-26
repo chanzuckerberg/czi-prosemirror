@@ -1,0 +1,14 @@
+@import './czi-vars.css';
+
+.czi-image-align-editor {
+  background: #fff;
+  box-shadow: var(--czi-overlay-shadow);
+  display: flex;
+  flex-direction: row;
+  margin-top: 6px;
+  padding: 4px 10px;
+}
+
+.czi-image-align-editor .czi-custom-button {
+  border: none;
+}

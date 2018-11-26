@@ -1,0 +1,55 @@
+@import './czi-vars.css';
+
+.czi-image-view {
+  clear: both;
+  display: inline-block;
+  font-size: 0;
+  line-height: 0;
+  max-width: 100%;
+  text-align: center;
+  vertical-align: baseline;
+}
+
+.czi-image-view.align-left {
+  float: left;
+  margin: 0 20px 20px 0;
+}
+
+.czi-image-view.align-right {
+  float: right;
+  margin: 0 0 20px 20px;
+}
+
+.czi-image-view.align-center {
+  clear: both;
+  display: block;
+  float: none;
+  margin: 20px 0;
+}
+
+.czi-image-view-body-img-clip {
+  display: inline-block;
+  max-width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.czi-image-view-body.active .czi-image-view-body-img-clip {
+  overflow-x: visible;
+  overflow-y: hidden;
+}
+
+.czi-image-view-body {
+  clear: both;
+  display: inline-block;
+  max-width: 100%;
+  position: relative;
+}
+
+.czi-image-view-body.active {
+  outline: var(--czi-border-blue);
+}
+
+.czi-image-view-body.error {
+  outline: var(--czi-border-red);
+}

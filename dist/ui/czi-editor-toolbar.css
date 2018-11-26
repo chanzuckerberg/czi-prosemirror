@@ -1,0 +1,46 @@
+.czi-editor-toolbar {
+  background: #fff;
+  box-bottom: solid 1px rgba(0,0,0,0.16);
+  direction: row;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 8px 0;
+}
+
+.czi-editor-toolbar .czi-custom-button {
+  padding: 0 6px;
+  height: 30px;
+  line-height: 28px;
+  box-sizing: border-box;
+}
+
+.czi-editor-toolbar .czi-custom-buttons {
+  position: relative;
+  padding-right: 0px;
+}
+
+.czi-editor-toolbar .czi-custom-buttons::after {
+  content: '';
+  background-color: rgba(0, 0, 0, 0.1);
+  bottom: 3px;
+  position: absolute;
+  right: -10px;
+  top: 3px;
+  width: 1px;
+}
+
+.czi-editor-toolbar .czi-custom-button.czi-custom-button.czi-custom-button {
+  border-color: transparent;
+  border-radius: 0;
+}
+
+.czi-editor-toolbar .czi-custom-button.use-icon .czi-icon {
+  margin: 4px 0;
+}
+
+@media only print {
+  .czi-editor-toolbar,
+  .__prosemirror-dev-tools__ {
+    display: none;
+  }
+}

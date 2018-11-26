@@ -1,0 +1,27 @@
+@import 'czi-vars.css';
+
+.czi-cursor-placeholder {
+  display: inline-block;
+  position: relative;
+  vertical-align: text-bottom;
+}
+
+.czi-cursor-placeholder::after {
+  background-color: var(--czi-selection-highlight-color-dark);
+  bottom: 0;
+  content: '';
+  height: 1.2em;
+  left: -1px;
+  position: absolute;
+  width: 3px;
+  -webkit-animation-name: czi_cursor_blink;
+  -webkit-animation-duration: 0.5s;
+  -webkit-animation-iteration-count:infinite;
+  -webkit-animation-timing-function:ease-in-out;
+  -webkit-animation-direction: alternate;
+}
+
+@-webkit-keyframes czi_cursor_blink {
+  from {opacity: 1.0;}
+  to {opacity: 0.0;}
+}

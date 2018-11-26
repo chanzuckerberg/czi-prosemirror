@@ -1,0 +1,80 @@
+@import './czi-heading.css';
+@import './czi-indent.css';
+@import './czi-list.css';
+@import './czi-table.css';
+@import './czi-vars.css';
+
+.czi-text-selection {
+   /* var(--czi-selection-highlight-color-dark); */
+  background: red;
+}
+
+.ProseMirror-focused {
+  outline: none;
+}
+
+.ProseMirror {
+  font-family: var(--czi-editor-font-family);
+  font-size: var(--czi-editor-font-size);
+  line-height: var(--czi-editor-line-height);
+}
+
+.ProseMirror p {
+  line-height: var(--czi-editor-line-height);
+  margin: 0;
+}
+
+@media only screen {
+  .ProseMirror .czi-editor-body {
+    background: #fff;
+    border-radius: 1px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    box-sizing: content-box;
+    margin: 20px auto 0 auto;
+    min-height: 29.7cm;
+    outline: none;
+    padding: 2.7cm;
+    position: relative;
+    width: 16.25cm;
+    z-index: 1;
+    /* transform: scale(0.5);
+    transform-origin: top; */
+  }
+}
+
+@media only print {
+  .ProseMirror .czi-editor-body {
+    padding: auto !important;
+    width: auto !important;
+  }
+}
+
+.ProseMirror a:link,
+.ProseMirror a:visited,
+.ProseMirror a:hover,
+.ProseMirror a:active {
+  color: var(--czi-link-color);
+}
+
+/* Blockquote */
+.ProseMirror blockquote {
+  background-color: var(--czi-blockquote-background-color);
+  border-left: var(--czi-blockquote-border);
+  border-radius: 1px;
+  color: var(--czi-blockquote-color);
+  font-family: var(--czi-blockquote-font-family);
+  font-size: 1.4em;
+  font-style: italic;
+  line-height: 1.6;
+  margin: 50px auto;
+  padding: 1.2em 10% 1.2em 10%;
+  position: relative;
+}
+
+/* CodeBlock */
+.ProseMirror pre > code {
+  background-color: #eee;
+  border: 1px solid #999;
+  display: block;
+  padding: 20px;
+}

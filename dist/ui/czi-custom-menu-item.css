@@ -1,0 +1,18 @@
+
+.czi-custom-menu-item.czi-custom-button {
+  border-radius: 0;
+  border: none;
+  display: block;
+  margin: 0;
+  padding: 8px 20px;
+}
+
+.czi-custom-menu-item.czi-custom-button:hover {
+  background-color: var(--czi-button-hover-background-color);
+}
+
+.czi-custom-menu-item-separator {
+  background-color: var(--czi-button-hover-background-color);
+  height: 1px;
+  margin: 8px 0;
+}

@@ -1,0 +1,45 @@
+@import './czi-vars.css';
+
+.czi-color-editor {
+  background: #fff;
+  box-shadow: var(--czi-overlay-shadow);
+  font-family: var(--czi-font-family);
+  font-size: var(--czi-font-size);
+  padding: 4px 10px;
+}
+
+.czi-color-editor .czi-custom-button {
+  border: solid 1px #fff;
+  height: 18px;
+  margin: 1px;
+  padding: 0;
+  width: 18px;
+}
+
+.czi-color-editor .czi-custom-button.czi-color-editor-color-transparent {
+  display: block;
+  height: auto;
+  margin: 2px;
+  padding: 6px;
+  text-align: center;
+  width: auto;
+}
+
+.czi-color-editor .czi-custom-button.czi-color-editor-color-transparent:hover {
+  background-color: var(--czi-button-hover-background-color);
+}
+
+.czi-color-editor .czi-custom-button.active,
+.czi-color-editor .czi-custom-button:hover {
+  font-weight: normal;
+  outline: solid 1px #000;
+}
+
+.czi-color-editor-section {
+  margin: 8px 0;
+  width: 200px;
+}
+
+.czi-color-editor-section .czi-color-editor-cell {
+  border-radius: 0;
+}
