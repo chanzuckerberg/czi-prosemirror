@@ -62,6 +62,8 @@ var _prosemirrorTransform = require('prosemirror-transform');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var babelPluginFlowReactPropTypes_proptype_EditorRuntime = require('./CustomEditorView').babelPluginFlowReactPropTypes_proptype_EditorRuntime || require('prop-types').any;
+
 var EDITOR_EMPTY_STATE = (0, _createEmptyEditorState2.default)();
 
 var Editor = function (_React$PureComponent) {
@@ -100,18 +102,14 @@ var Editor = function (_React$PureComponent) {
       var _props = this.props,
           onReady = _props.onReady,
           editorState = _props.editorState,
-          readOnly = _props.readOnly;
+          readOnly = _props.readOnly,
+          runtime = _props.runtime,
+          placeholder = _props.placeholder;
 
       var editorNode = document.getElementById(this._id);
       var templateNode = document.getElementById(this._id + 'template');
 
       if (editorNode) {
-        var runtime = {
-          hello: function hello() {
-            return console.log(123);
-          }
-        };
-
         // Reference: http://prosemirror.net/examples/basic/
         var _view = this._editorView = new _CustomEditorView2.default(editorNode, {
           state: editorState || EDITOR_EMPTY_STATE,
@@ -122,7 +120,10 @@ var Editor = function (_React$PureComponent) {
               return new _ImageNodeView2.default(node, view, getPos);
             }
           }
-        }, runtime);
+        });
+
+        _view.runtime = runtime;
+        _view.placeholder = placeholder;
 
         onReady && onReady(this._editorView);
       }
@@ -132,7 +133,14 @@ var Editor = function (_React$PureComponent) {
     value: function componentDidUpdate() {
       var view = this._editorView;
       if (view) {
-        var _state = this.props.editorState || EDITOR_EMPTY_STATE;
+        var _props2 = this.props,
+            _runtime = _props2.runtime,
+            _editorState = _props2.editorState,
+            _placeholder = _props2.placeholder;
+
+        var _state = _editorState || EDITOR_EMPTY_STATE;
+        view.runtime = _runtime;
+        view.placeholder = _placeholder;
         view.updateState(_state);
       }
     }

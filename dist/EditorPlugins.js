@@ -16,6 +16,10 @@ var _prosemirrorTables = require('prosemirror-tables');
 
 var ProsemirrorTables = _interopRequireWildcard(_prosemirrorTables);
 
+var _ContentPlaceholderPlugin = require('./ContentPlaceholderPlugin');
+
+var _ContentPlaceholderPlugin2 = _interopRequireDefault(_ContentPlaceholderPlugin);
+
 var _CursorPlaceholderPlugin = require('./CursorPlaceholderPlugin');
 
 var _CursorPlaceholderPlugin2 = _interopRequireDefault(_CursorPlaceholderPlugin);
@@ -23,10 +27,6 @@ var _CursorPlaceholderPlugin2 = _interopRequireDefault(_CursorPlaceholderPlugin)
 var _EditorAttributesPlugin = require('./EditorAttributesPlugin');
 
 var _EditorAttributesPlugin2 = _interopRequireDefault(_EditorAttributesPlugin);
-
-var _createEditorKeyMap = require('./createEditorKeyMap');
-
-var _createEditorKeyMap2 = _interopRequireDefault(_createEditorKeyMap);
 
 var _EditorSchema = require('./EditorSchema');
 
@@ -39,6 +39,10 @@ var _LinkTooltipPlugin2 = _interopRequireDefault(_LinkTooltipPlugin);
 var _SelectionPlaceholderPlugin = require('./SelectionPlaceholderPlugin');
 
 var _SelectionPlaceholderPlugin2 = _interopRequireDefault(_SelectionPlaceholderPlugin);
+
+var _createEditorKeyMap = require('./createEditorKeyMap');
+
+var _createEditorKeyMap2 = _interopRequireDefault(_createEditorKeyMap);
 
 var _prosemirrorState = require('prosemirror-state');
 
@@ -68,7 +72,7 @@ var columnResizing = ProsemirrorTables.columnResizing,
 
 function buildPlugins(schema) {
 
-  var plugins = [new _EditorAttributesPlugin2.default(), new _CursorPlaceholderPlugin2.default(), new _SelectionPlaceholderPlugin2.default(), new _LinkTooltipPlugin2.default(), (0, _prosemirrorExampleSetup.buildInputRules)(schema), (0, _prosemirrorDropcursor.dropCursor)(), (0, _prosemirrorGapcursor.gapCursor)(), (0, _prosemirrorHistory.history)(), (0, _prosemirrorKeymap.keymap)((0, _createEditorKeyMap2.default)()), (0, _prosemirrorKeymap.keymap)(_prosemirrorCommands.baseKeymap),
+  var plugins = [new _ContentPlaceholderPlugin2.default(), new _CursorPlaceholderPlugin2.default(), new _EditorAttributesPlugin2.default(), new _LinkTooltipPlugin2.default(), new _SelectionPlaceholderPlugin2.default(), (0, _prosemirrorExampleSetup.buildInputRules)(schema), (0, _prosemirrorDropcursor.dropCursor)(), (0, _prosemirrorGapcursor.gapCursor)(), (0, _prosemirrorHistory.history)(), (0, _prosemirrorKeymap.keymap)((0, _createEditorKeyMap2.default)()), (0, _prosemirrorKeymap.keymap)(_prosemirrorCommands.baseKeymap),
 
   // Tables
   // https://github.com/ProseMirror/prosemirror-tables/blob/master/demo.js

@@ -22,6 +22,10 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _prosemirrorView = require('prosemirror-view');
 
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var babelPluginFlowReactPropTypes_proptype_DirectEditorProps = require('../Types').babelPluginFlowReactPropTypes_proptype_DirectEditorProps || require('prop-types').any;
@@ -34,12 +38,13 @@ if (typeof exports !== 'undefined') Object.defineProperty(exports, 'babelPluginF
 var CustomEditorView = function (_EditorView) {
   (0, _inherits3.default)(CustomEditorView, _EditorView);
 
-  function CustomEditorView(place, props, runtime) {
+  function CustomEditorView(place, props) {
     (0, _classCallCheck3.default)(this, CustomEditorView);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (CustomEditorView.__proto__ || (0, _getPrototypeOf2.default)(CustomEditorView)).call(this, place, props));
 
-    _this.runtime = runtime;
+    _this.runtime = null;
+    _this.placeholder = null;
     return _this;
   }
 

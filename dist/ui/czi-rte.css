@@ -1,3 +1,4 @@
+/* DocsEditor */
 .czi-rte {
   position: relative;
 }
@@ -26,8 +27,7 @@
 }
 
 .czi-rte-frame-body {
-  background: red;
-  border: solid 10px red;
+  background-color: var(--czi-page-background-color);
 }
 
 .czi-rte.with-fixed-layout .czi-rte-frameset {

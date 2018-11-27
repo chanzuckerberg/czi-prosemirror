@@ -1,4 +1,5 @@
 :root {
+  --czi-page-background-color: #E6E6E6;
   --czi-blockquote-background-color: rgba(0,0,0,0.05);
   --czi-blockquote-border: solid 8px rgba(0,0,0,0.6);
   --czi-blockquote-color: #555;
@@ -21,6 +22,7 @@
   --czi-link-color: rgb(0, 0, 238);
   --czi-overlay-radius: 3px;
   --czi-overlay-shadow: 0 1px 2px rgba(0,0,0,0.46);
+  --czi-page-background-color: #E6E6E6;
   --czi-selection-highlight-color-dark: rgba(152, 204, 253, 0.8);
   --czi-selection-highlight-color: rgba(152, 204, 253, 0.4);
 }

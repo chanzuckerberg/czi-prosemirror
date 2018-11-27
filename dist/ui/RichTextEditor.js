@@ -26,6 +26,18 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 
 require('./czi-rte.css');
 
+var _prosemirrorState = require('prosemirror-state');
+
+var _prosemirrorView = require('prosemirror-view');
+
+var _createEmptyEditorState = require('../createEmptyEditorState');
+
+var _createEmptyEditorState2 = _interopRequireDefault(_createEmptyEditorState);
+
+var _classnames = require('classnames');
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
 var _Editor = require('./Editor');
 
 var _Editor2 = _interopRequireDefault(_Editor);
@@ -33,6 +45,14 @@ var _Editor2 = _interopRequireDefault(_Editor);
 var _EditorToolbar = require('./EditorToolbar');
 
 var _EditorToolbar2 = _interopRequireDefault(_EditorToolbar);
+
+var _isEditorStateEmpty = require('../isEditorStateEmpty');
+
+var _isEditorStateEmpty2 = _interopRequireDefault(_isEditorStateEmpty);
+
+var _noop = require('../noop');
+
+var _noop2 = _interopRequireDefault(_noop);
 
 var _react = require('react');
 
@@ -50,27 +70,13 @@ var _RichTextEditorContentOverflowControl = require('./RichTextEditorContentOver
 
 var _RichTextEditorContentOverflowControl2 = _interopRequireDefault(_RichTextEditorContentOverflowControl);
 
-var _createEmptyEditorState = require('../createEmptyEditorState');
-
-var _createEmptyEditorState2 = _interopRequireDefault(_createEmptyEditorState);
-
-var _classnames = require('classnames');
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
-var _noop = require('../noop');
-
-var _noop2 = _interopRequireDefault(_noop);
-
 var _uuid = require('./uuid');
 
 var _uuid2 = _interopRequireDefault(_uuid);
 
-var _prosemirrorState = require('prosemirror-state');
-
-var _prosemirrorView = require('prosemirror-view');
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var babelPluginFlowReactPropTypes_proptype_EditorRuntime = require('./CustomEditorView').babelPluginFlowReactPropTypes_proptype_EditorRuntime || require('prop-types').any;
 
 var babelPluginFlowReactPropTypes_proptype_ResizeObserverEntry = require('./ResizeObserver').babelPluginFlowReactPropTypes_proptype_ResizeObserverEntry || require('prop-types').any;
 
@@ -203,6 +209,7 @@ var RichTextEditor = function (_React$PureComponent) {
                 id: this._id,
                 onChange: onChange,
                 onReady: this._onReady,
+                placeholder: placeholder,
                 readOnly: readOnly,
                 ref: this._onEditorRef
               })
@@ -262,7 +269,7 @@ getContentOverflowInfo.propTypes = {
   onReady: require('prop-types').func,
   placeholder: require('prop-types').oneOfType([require('prop-types').string, require('prop-types').any]),
   readOnly: require('prop-types').bool,
-  runtime: require('prop-types').any,
+  runtime: babelPluginFlowReactPropTypes_proptype_EditorRuntime,
   width: require('prop-types').oneOfType([require('prop-types').string, require('prop-types').number])
 };
 getContentOverflowInfo.propTypes = {
@@ -278,7 +285,7 @@ getContentOverflowInfo.propTypes = {
   onReady: require('prop-types').func,
   placeholder: require('prop-types').oneOfType([require('prop-types').string, require('prop-types').any]),
   readOnly: require('prop-types').bool,
-  runtime: require('prop-types').any,
+  runtime: babelPluginFlowReactPropTypes_proptype_EditorRuntime,
   width: require('prop-types').oneOfType([require('prop-types').string, require('prop-types').number])
 };
 function toCSS(val) {

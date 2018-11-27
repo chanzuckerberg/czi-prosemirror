@@ -1,22 +1,23 @@
 // @flow
 
 import './czi-rte.css';
+import {EditorState} from 'prosemirror-state';
+import {EditorView} from 'prosemirror-view';
+import createEmptyEditorState from '../createEmptyEditorState';
+import cx from 'classnames';
 import Editor from './Editor';
 import EditorToolbar from './EditorToolbar';
+import isEditorStateEmpty from '../isEditorStateEmpty';
+import noop from '../noop';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ResizeObserver from './ResizeObserver';
 import RichTextEditorContentOverflowControl from './RichTextEditorContentOverflowControl';
-import createEmptyEditorState from '../createEmptyEditorState';
-import cx from 'classnames';
-import noop from '../noop';
 import uuid from './uuid';
-import {EditorState} from 'prosemirror-state';
-import {EditorView} from 'prosemirror-view';
 
+import type {EditorRuntime} from './CustomEditorView';
 import type {ResizeObserverEntry} from './ResizeObserver';
 
-type EditorRuntime = any;
 
 type ContentOverflowInfo = {
   className?: ?string,
@@ -138,6 +139,7 @@ class RichTextEditor extends React.PureComponent<any, any, any> {
                 id={this._id}
                 onChange={onChange}
                 onReady={this._onReady}
+                placeholder={placeholder}
                 readOnly={readOnly}
                 ref={this._onEditorRef}
               />

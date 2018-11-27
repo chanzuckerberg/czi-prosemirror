@@ -49,7 +49,6 @@ const SPEC = {
 };
 
 class CursorPlaceholderPlugin extends Plugin {
-
   constructor() {
     super(SPEC);
     if (singletonInstance) {
