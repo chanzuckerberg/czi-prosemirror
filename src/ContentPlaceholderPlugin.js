@@ -9,15 +9,18 @@ import {EditorView} from 'prosemirror-view';
 
 class ContentPlaceholderView {
   _el = null;
+  _focused = false;
   _view = null;
 
   constructor(editorView: EditorView) {
     const el: any = document.createElement('div');
-    el.addEventListener('mousedown', this._onMouseDown, true);
+
     this._el = el;
+    this._view = editorView;
 
     el.className = 'czi-editor-content-placeholder';
     editorView.dom.parentNode.appendChild(el);
+    document.addEventListener('focusin', this._onFocusIn, true);
 
     this.update(editorView, null);
   }
@@ -30,17 +33,13 @@ class ContentPlaceholderView {
       return;
     }
 
-    console.log(111, view.focused, view);
-
-    if (!isEditorStateEmpty(view.state) || view.focused) {
-      el.style.display = 'none';
+    if (this._focused || !isEditorStateEmpty(view.state)) {
       return;
     }
 
     const parentEl = el.parentNode;
-    const bodyEl = view.docView.dom.firstChild;
+    const bodyEl = this._getBodyElement();
     if (!parentEl || !bodyEl) {
-      el.style.display = 'none';
       return;
     }
 
@@ -62,39 +61,76 @@ class ContentPlaceholderView {
       <div>{placeholder}</div>,
       el,
     );
-
-    console.log(el);
   }
 
   destroy() {
-    this._view = null;
     const el = this._el;
     if (el && el.parentNode) {
-      el.removeEventListener('mousedown', this._onMouseDown, true);
+      // el.removeEventListener('mousedown', this._onMouseDown, true);
       el.parentNode.removeChild(el);
       ReactDOM.unmountComponentAtNode(el);
     }
+    document.removeEventListener('focusin', this._onFocusIn, true);
+    this._view = null;
+    this._el = null;
+    this._focused = false;
   }
 
-  _onMouseDown = (e: Event): void => {
-    e.preventDefault();
-    const el: ?HTMLElement = this._el;
-    if (el) {
-      el.style.display = 'none';
-    }
-    setTimeout(this._focus, 350);
-  };
 
-  _focus = (): void => {
-    const view: ?EditorView = this._view;
-    if (!view || view.focused) {
+  _onFocusIn = (e: Event): void => {
+    console.log(e);
+
+    const activeElement = document.activeElement;
+    const bodyEl = this._getBodyElement();
+    const el = this._el;
+    const view = this._view;
+    if (!view || !el) {
+      console.log(111);
       return;
     }
-
-    view.focus();
-    // view.docView.nodeDOM.focus();
-    // view.focus();
+    if (!activeElement || !bodyEl) {
+      console.log(activeElement, bodyEl);
+      this._onBlur();
+    } else {
+      if (
+        activeElement === bodyEl ||
+        bodyEl.contains(activeElement) ||
+        activeElement === bodyEl.parentNode
+      ) {
+        this._onFocus();
+      } else {
+        this._onBlur();
+      }
+    }
   };
+
+  _onFocus(): void {
+    const el = this._el;
+    if (!this._focused && el) {
+      console.log('_focused')
+      this._focused = true;
+      el.style.display = 'none';
+    }
+  }
+
+  _onBlur(): void {
+    const el = this._el;
+    if (this._focused && el) {
+      console.log('!!_focused')
+      this._focused = false;
+      el.style.display = 'block';
+    }
+  }
+
+  _getBodyElement(): ?HTMLElement {
+    const view = this._view;
+    return (
+      view &&
+      view.docView &&
+      view.docView.dom &&
+      view.docView.dom.firstChild
+    );
+  }
 }
 
 class ContentPlaceholderPlugin extends Plugin {
