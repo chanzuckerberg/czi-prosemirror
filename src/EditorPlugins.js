@@ -2,12 +2,13 @@
 import * as EditorCommands from './EditorCommands';
 import * as KeyMaps from './keymaps';
 import * as ProsemirrorTables from 'prosemirror-tables';
+import ContentPlaceholderPlugin from './ContentPlaceholderPlugin';
 import CursorPlaceholderPlugin from './CursorPlaceholderPlugin';
 import EditorAttributesPlugin from './EditorAttributesPlugin';
-import createEditorKeyMap from './createEditorKeyMap';
 import EditorSchema from './EditorSchema';
 import LinkTooltipPlugin from './LinkTooltipPlugin';
 import SelectionPlaceholderPlugin from './SelectionPlaceholderPlugin';
+import createEditorKeyMap from './createEditorKeyMap';
 import {Plugin} from 'prosemirror-state';
 import {Schema} from 'prosemirror-model';
 import {baseKeymap} from 'prosemirror-commands';
@@ -27,10 +28,11 @@ const {
 function buildPlugins(schema: Schema): Array<Plugin> {
 
   const plugins = [
-    new EditorAttributesPlugin(),
+    new ContentPlaceholderPlugin(),
     new CursorPlaceholderPlugin(),
-    new SelectionPlaceholderPlugin(),
+    new EditorAttributesPlugin(),
     new LinkTooltipPlugin(),
+    new SelectionPlaceholderPlugin(),
 
     buildInputRules(schema),
     dropCursor(),

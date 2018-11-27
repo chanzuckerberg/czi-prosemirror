@@ -13,6 +13,8 @@ import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
 import {Transform} from 'prosemirror-transform';
 
+import type {EditorRuntime} from './CustomEditorView';
+
 const EDITOR_EMPTY_STATE = createEmptyEditorState();
 
 class Editor extends React.PureComponent<any, any, any> {
@@ -25,19 +27,17 @@ class Editor extends React.PureComponent<any, any, any> {
     editorState?: ?EditorState,
     onChange?: ?(state: EditorState) => void,
     onReady?: ?(view: EditorView) => void,
+    placeholder?: ?(string | React.Element<any>),
     readOnly?: ?boolean,
+    runtime?: ?EditorRuntime,
   };
 
   componentDidMount(): void {
-    const {onReady, editorState, readOnly} = this.props;
+    const {onReady, editorState, readOnly, runtime, placeholder} = this.props;
     const editorNode = document.getElementById(this._id);
     const templateNode = document.getElementById(this._id + 'template');
 
     if (editorNode) {
-      const runtime  = {
-        hello: () => console.log(123),
-      };
-
       // Reference: http://prosemirror.net/examples/basic/
       const view = this._editorView = new CustomEditorView(editorNode, {
         state: editorState || EDITOR_EMPTY_STATE,
@@ -52,7 +52,10 @@ class Editor extends React.PureComponent<any, any, any> {
             );
           },
         },
-      }, runtime);
+      });
+
+      view.runtime = runtime;
+      view.placeholder = placeholder;
 
       onReady && onReady(this._editorView);
     }
@@ -61,7 +64,10 @@ class Editor extends React.PureComponent<any, any, any> {
   componentDidUpdate(): void {
     const view = this._editorView;
     if (view)  {
-      const state = this.props.editorState || EDITOR_EMPTY_STATE;
+      const {runtime, editorState, placeholder} = this.props;
+      const state = editorState || EDITOR_EMPTY_STATE;
+      view.runtime = runtime;
+      view.placeholder = placeholder;
       view.updateState(state);
     }
   }

@@ -26,6 +26,11 @@
   z-index: 0;
 }
 
+.czi-rte-frame-body {
+  background: red;
+  border: solid 10px red;
+}
+
 .czi-rte.with-fixed-layout .czi-rte-frameset {
   display: flex;
   flex-direction: column;

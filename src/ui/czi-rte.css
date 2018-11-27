@@ -26,6 +26,10 @@
   z-index: 0;
 }
 
+.czi-rte-frame-body {
+  background-color: var(--czi-page-background-color);
+}
+
 .czi-rte.with-fixed-layout .czi-rte-frameset {
   display: flex;
   flex-direction: column;
