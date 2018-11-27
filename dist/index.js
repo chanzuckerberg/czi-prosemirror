@@ -58,6 +58,15 @@ Object.defineProperty(exports, 'createEmptyEditorState', {
   }
 });
 
+var _isEditorStateEmpty = require('./isEditorStateEmpty');
+
+Object.defineProperty(exports, 'isEditorStateEmpty', {
+  enumerable: true,
+  get: function get() {
+    return _interopRequireDefault(_isEditorStateEmpty).default;
+  }
+});
+
 var _uuid = require('./ui/uuid');
 
 Object.defineProperty(exports, 'uuid', {
