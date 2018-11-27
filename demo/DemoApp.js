@@ -33,6 +33,7 @@ class DemoApp extends React.PureComponent<any, any, any> {
     return (
       <RichTextEditor
         editorState={editorState}
+        embedded={false}
         height="100vh"
         onChange={this._onChange}
         onReady={this._onReady}

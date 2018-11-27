@@ -139,7 +139,7 @@ class ConvertApp extends React.PureComponent<any, any, any> {
               spellCheck={false}
               value={prosemirrorJSON}
             />
-          </ConvertAppArea>          
+          </ConvertAppArea>
           <ConvertAppArea
             className="html"
             title="HTML View">
@@ -155,6 +155,7 @@ class ConvertApp extends React.PureComponent<any, any, any> {
             title="ProseMirror View">
             <RichTextEditor
               editorState={editorState}
+              embedded={false}
               height="100%"
               onChange={this._onEditorChange}
               width="100%"
@@ -245,7 +246,7 @@ class ConvertApp extends React.PureComponent<any, any, any> {
   _toProseMirrorJSON = ():void => {
     const {editorState} = this.state;
     const prosemirrorJSON = JSON.stringify(convertToJSON(editorState), null, 2);
-    this.setState({prosemirrorJSON}, this._save);    
+    this.setState({prosemirrorJSON}, this._save);
   };
 
   _toProseMirror = (source: string): void => {

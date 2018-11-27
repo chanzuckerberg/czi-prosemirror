@@ -8,6 +8,7 @@ import ImageNodeView from './ImageNodeView';
 import React from 'react';
 import applyDevTools from 'prosemirror-dev-tools';
 import createEmptyEditorState from '../createEmptyEditorState';
+import cx from 'classnames';
 import uuid from './uuid';
 import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
@@ -25,6 +26,7 @@ class Editor extends React.PureComponent<any, any, any> {
 
   props: {
     editorState?: ?EditorState,
+    embedded?: ?boolean,
     onChange?: ?(state: EditorState) => void,
     onReady?: ?(view: EditorView) => void,
     placeholder?: ?(string | React.Element<any>),
@@ -33,7 +35,10 @@ class Editor extends React.PureComponent<any, any, any> {
   };
 
   componentDidMount(): void {
-    const {onReady, editorState, readOnly, runtime, placeholder} = this.props;
+    const {
+      embedded, onReady, editorState, readOnly,
+      runtime, placeholder,
+    } = this.props;
     const editorNode = document.getElementById(this._id);
     const templateNode = document.getElementById(this._id + 'template');
 
@@ -78,7 +83,9 @@ class Editor extends React.PureComponent<any, any, any> {
   }
 
   render(): React.Element<any> {
-    return <div id={this._id} className="prosemirror-editor-wrapper" />;
+    const {embedded, readOnly} = this.props;
+    const className = cx('prosemirror-editor-wrapper', {embedded, readOnly});
+    return <div className={className} id={this._id} />;
   }
 
   focus(): void {

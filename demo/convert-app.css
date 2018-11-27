@@ -46,16 +46,6 @@
   margin-top: 10px;
 }
 
-.convert-app-area.prosemirror .czi-rte-frameset {
-  background: repeating-linear-gradient(
-    45deg,
-    #c0c0c0,
-    #c0c0c0 10px,
-    #c2c2c2 10px,
-    #c2c2c2 20px
-  );
-}
-
 .convert-app-area-body > textarea {
   border: none;
   box-shadow: inset 0px 0px 5px 0px rgba(0,0,0,0.75);

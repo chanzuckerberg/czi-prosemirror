@@ -75,12 +75,13 @@ class RichTextEditor extends React.PureComponent<any, any, any> {
     const {
       className,
       disabled,
-      readOnly,
+      embedded,
       header,
       height,
       id,
       onChange,
       placeholder,
+      readOnly,
       width,
     } = this.props;
 
@@ -98,6 +99,7 @@ class RichTextEditor extends React.PureComponent<any, any, any> {
       'czi-rte': true,
       'with-fixed-layout': useFixedLayout,
       'disabled': disabled,
+      'embedded': embedded,
     });
 
     const mainStyle = {
@@ -137,6 +139,7 @@ class RichTextEditor extends React.PureComponent<any, any, any> {
               style={contentOverflowInfo.style}>
               <Editor
                 editorState={editorState}
+                embedded={embedded}
                 id={this._id}
                 onChange={onChange}
                 onReady={this._onReady}

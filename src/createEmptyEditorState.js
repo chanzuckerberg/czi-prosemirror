@@ -15,7 +15,7 @@ const EMPTY_DOC_JSON = {
           "content": [
             {
               "type": "text",
-              "text": " "
+              "text": " ",
             }
           ]
         }

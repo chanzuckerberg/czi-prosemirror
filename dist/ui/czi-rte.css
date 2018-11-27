@@ -27,6 +27,7 @@
 }
 
 .czi-rte-frame-body {
+  outline: solid 10px red;
   background-color: var(--czi-page-background-color);
 }
 

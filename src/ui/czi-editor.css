@@ -43,7 +43,7 @@
     border-radius: 1px;
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
     box-sizing: content-box;
-    margin: 20px auto 0 auto;
+    margin: 0 auto 0 auto;
     min-height: 29.7cm;
     outline: none;
     padding: 2.7cm;
@@ -52,6 +52,15 @@
     z-index: 1;
     /* transform: scale(0.5);
     transform-origin: top; */
+  }
+
+  .prosemirror-editor-wrapper.embedded .ProseMirror .czi-editor-body {
+    background: unset;
+    border-radius: unset;
+    box-shadow: unset;
+    min-height: unset;
+    padding: unset;
+    width: unset;
   }
 }
 
