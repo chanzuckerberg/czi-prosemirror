@@ -29,6 +29,7 @@ type Props = {
   className?: ?string,
   disabled?: ?boolean,
   editorState?: ?EditorState,
+  embedded?: ?embedded,
   header?: ?React.Element<any>,
   height?: ?(string | number),
   id?: ?string,
