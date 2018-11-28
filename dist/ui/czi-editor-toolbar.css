@@ -1,6 +1,7 @@
 .czi-editor-toolbar {
   box-sizing: border-box;
-  height: 44px;
+  height: 48px;
+  line-height: 32px;
   overflow: hidden;
   position: relative;
 }

@@ -133,6 +133,7 @@ var CustomButton = function (_React$PureComponent) {
       return _react2.default.createElement(
         'span',
         {
+          'aria-disabled': disabled,
           'aria-pressed': pressed,
           className: buttonClassName,
           id: id,

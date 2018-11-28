@@ -1,5 +1,4 @@
 :root {
-  --czi-page-background-color: #E6E6E6;
   --czi-blockquote-background-color: rgba(0,0,0,0.05);
   --czi-blockquote-border: solid 8px rgba(0,0,0,0.6);
   --czi-blockquote-color: #555;
@@ -9,6 +8,7 @@
   --czi-border-red: solid 1px #ff0000;
   --czi-button-hover-background-color: rgba(0,0,0,.05);
   --czi-button-radius: 5px;
+  --czi-button-text-color: #666;
   --czi-color-grey-200: rgba(0,0,0,0.46);
   --czi-editor-font-family: Arial;
   --czi-editor-font-size: 11pt;
@@ -22,6 +22,7 @@
   --czi-link-color: rgb(0, 0, 238);
   --czi-overlay-radius: 3px;
   --czi-overlay-shadow: 0 1px 2px rgba(0,0,0,0.46);
+  --czi-page-background-color: #E6E6E6;
   --czi-page-background-color: #E6E6E6;
   --czi-selection-highlight-color-dark: rgba(152, 204, 253, 0.8);
   --czi-selection-highlight-color: rgba(152, 204, 253, 0.4);

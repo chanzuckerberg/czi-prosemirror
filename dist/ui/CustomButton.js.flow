@@ -48,6 +48,7 @@ class CustomButton extends React.PureComponent<any, any, any> {
 
     return (
       <span
+        aria-disabled={disabled}
         aria-pressed={pressed}
         className={buttonClassName}
         id={id}
