@@ -40,8 +40,8 @@
   font-size: var(--czi-font-size);
   margin: 0 0 8px 0;
   outline: none;
-  padding: 6px 0;
-  text-indent: 6px;
+  padding: 12px 0;
+  text-indent: 12px;
   width: 100%;
 }
 

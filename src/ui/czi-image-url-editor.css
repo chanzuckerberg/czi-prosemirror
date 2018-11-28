@@ -29,10 +29,10 @@
   background-size: contain;
   border: solid 1px #fff;
   box-sizing: border-box;
-  height: 36px;
   outline: var(--czi-border-blue);
   position: absolute;
   right: 0;
-  top: -15px;
+  top: 2px;
+  bottom: 1px;
   width: 36px;
 }

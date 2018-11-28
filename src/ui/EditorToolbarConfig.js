@@ -26,6 +26,7 @@ const {
   HISTORY_UNDO,
   HR,
   IMAGE_FROM_URL,
+  IMAGE_UPLOAD,
   INDENT_LESS,
   INDENT_MORE,
   LINK_SET_URL,
@@ -124,8 +125,12 @@ export const COMMAND_GROUPS = [
   },
   {
     link: LINK_SET_URL,
-    // comment: COMMENT,
-    image: IMAGE_FROM_URL,
+    image: [
+      {
+        'Insert image by URL': IMAGE_FROM_URL,
+        'Upload image from computer': IMAGE_UPLOAD,
+      },
+    ],
   },
   {
     format_align_left: TEXT_ALIGN_LEFT,
