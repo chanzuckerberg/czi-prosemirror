@@ -2,6 +2,7 @@
 
 import ColorEditor from '../src/ui/ColorEditor';
 import CustomButton from '../src/ui/CustomButton';
+import CustomRadioButton from '../src/ui/CustomRadioButton';
 import Editor from '../src/ui/Editor';
 import ImageURLEditor from '../src/ui/ImageURLEditor';
 import React from 'react';
@@ -11,6 +12,34 @@ import createPopUp from '../src/ui/createPopUp';
 import nullthrows from 'nullthrows';
 import uuid from '../src/ui/uuid';
 import {atAnchorRight} from '../src/ui/PopUpPosition';
+
+class CustomRadioButtonExample extends React.PureComponent<any, any, any> {
+  state = {
+    value: '',
+  };
+  render() {
+    const options = ['aaa', 'bbb'].map(value =>
+      <CustomRadioButton
+        checked={value === this.state.value}
+        key={value}
+        label={value}
+        onSelect={this._onSelect}
+        value={value}
+      />
+    );
+    return (
+      <div>
+        {options}
+        <br />
+        value = {this.state.value}
+      </div>
+    );
+  }
+
+  _onSelect = (value: string): void => {
+    this.setState({value});
+  };
+}
 
 class TableGridSizeEditorExample extends React.PureComponent<any, any, any> {
 
@@ -134,6 +163,8 @@ class Examples extends React.PureComponent<any, any, any> {
        <ColorEditorExample />
        <hr />
        <ImageURLEditorExample />
+       <hr />
+       <CustomRadioButtonExample />
      </div>
     );
   }

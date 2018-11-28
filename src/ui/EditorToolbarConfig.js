@@ -12,6 +12,7 @@ export const ICON_LABEL_PATTERN = /[a-z_]+/;
 
 const {
   BLOCKQUOTE_INFO,
+  BODY_SIZE,
   CLEAR_FORMAT,
   CODE,
   EM,
@@ -151,5 +152,8 @@ export const COMMAND_GROUPS = [
     code: CODE,
     format_strikethrough: STRIKE,
     format_quote: BLOCKQUOTE_INFO,
+  },
+  {
+    settings_overscan: BODY_SIZE,
   },
 ];

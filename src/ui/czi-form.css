@@ -1,7 +1,11 @@
 @import './czi-vars.css';
 
 .czi-form {
+  background: #fff;
   border: none;
+  font-family: var(--czi-editor-font-family);
+  font-size: var(--czi-editor-font-size);
+  line-height: var(--czi-editor-line-height);
   margin: 0;
   padding: 20px;
 }

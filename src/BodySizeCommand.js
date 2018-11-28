@@ -1,60 +1,30 @@
 // @flow
 
-import ImageURLEditor from './ui/ImageURLEditor';
+import BodySizeEditor from './ui/BodySizeEditor';
 import UICommand from './ui/UICommand';
 import createPopUp from './ui/createPopUp';
 import nullthrows from 'nullthrows';
+import {BODY} from './NodeNames';
 import {EditorState, Selection} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
 import {Fragment, Schema} from 'prosemirror-model';
-import {IMAGE} from './NodeNames';
 import {TextSelection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
+import {atViewportCenter} from './ui/PopUpPosition';
 import {showCursorPlaceholder, hideCursorPlaceholder} from './CursorPlaceholderPlugin';
 
-import type {ImageURLEditorValue} from './ui/ImageURLEditor';
+import type {BodySizeEditorValue} from './ui/BodySizeEditor';
 
-function insertImage(
-  tr: Transform,
-  schema: Schema,
-  src: ?string,
-): Transform {
-  const {selection, doc} = tr;
-  if (!selection) {
-    return tr;
-  }
-  const {from, to} = selection;
-  if (from !== to) {
-    return tr;
-  }
 
-  const image = schema.nodes[IMAGE];
-  if (!image) {
-    return tr;
-  }
-
-  const attrs = {
-    src: src || '',
-    alt: '',
-    title: '',
-  };
-
-  const prevNode = tr.doc.nodeAt(from);
-  const node = image.create(attrs, null, null);
-  const frag = Fragment.from(node);
-  tr = tr.insert(from, frag);
-  return tr;
-}
-
-class ImageFromURLCommand extends UICommand {
+class PageSizeCommand extends UICommand {
 
   _popUp = null;
 
   isEnabled = (state: EditorState): boolean => {
-    const tr = state;
-    const {selection} = state.tr;
-    if (selection instanceof TextSelection) {
-      return selection.from === selection.to;
+    const {doc} = state;
+    const node = doc.firstChild;
+    if (node && node.type && node.type.name === BODY) {
+      return true;
     }
     return false;
   };
@@ -65,6 +35,13 @@ class ImageFromURLCommand extends UICommand {
     view: ?EditorView,
     event: ?SyntheticEvent,
   ): Promise<any> => {
+    const {doc} = state;
+    const node = doc.firstChild;
+
+    if (!node || !node.type || node.type.name !== BODY) {
+      return Promise.resolve(undefined);
+    }
+
     if (this._popUp) {
       return Promise.resolve(undefined);
     }
@@ -74,7 +51,10 @@ class ImageFromURLCommand extends UICommand {
     }
 
     return new Promise(resolve => {
-      this._popUp = createPopUp(ImageURLEditor, null, {
+      const props = {
+        initialValue: node.attrs,
+      };
+      this._popUp = createPopUp(BodySizeEditor, props, {
         modal: true,
         onClose: (val) => {
           if (this._popUp) {
@@ -90,15 +70,15 @@ class ImageFromURLCommand extends UICommand {
     state: EditorState,
     dispatch: ?(tr: Transform) => void,
     view: ?EditorView,
-    inputs: ?ImageURLEditorValue,
+    inputs: ?BodySizeEditorValue,
   ): boolean => {
     if (dispatch) {
       let {tr, selection, schema} = state;
       tr = view ? hideCursorPlaceholder(view.state) : tr;
       tr = tr.setSelection(selection);
+      console.log('>>>>>>>>.', inputs);
       if (inputs) {
-        const {width, height, src} = inputs;
-        tr = insertImage(tr, schema, src);
+        // console.log(inputs);
       }
       dispatch(tr);
       view && view.focus();
@@ -109,4 +89,4 @@ class ImageFromURLCommand extends UICommand {
 }
 
 
-export default ImageFromURLCommand;
+export default PageSizeCommand;
