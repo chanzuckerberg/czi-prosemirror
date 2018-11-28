@@ -1,6 +1,8 @@
 // @flow
 
+import './demo-app.css';
 import DemoAppHTMLTemplate from './DemoAppHTMLTemplate';
+import DemoAppRuntime from './DemoAppRuntime';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import RichTextEditor from '../src/ui/RichTextEditor';
@@ -8,8 +10,6 @@ import applyDevTools from "prosemirror-dev-tools";
 import convertFromDOMElement from '../src/convertFromDOMElement';
 import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
-
-import './demo-app.css';
 
 // Reference: http://prosemirror.net/examples/basic/
 const defaultEditorState = (function() {
@@ -19,6 +19,7 @@ const defaultEditorState = (function() {
 })();
 
 class DemoApp extends React.PureComponent<any, any, any> {
+  _runtime = new DemoAppRuntime();
 
   constructor(props: any, context: any) {
     super(props, context);
@@ -38,6 +39,7 @@ class DemoApp extends React.PureComponent<any, any, any> {
         onChange={this._onChange}
         onReady={this._onReady}
         readOnly={readOnly}
+        runtime={this._runtime}
         width="100vw"
       />
     );

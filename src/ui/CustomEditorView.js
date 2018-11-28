@@ -3,9 +3,7 @@
 import {EditorView} from 'prosemirror-view';
 import React from 'react';
 
-import type {DirectEditorProps} from '../Types';
-
-export type EditorRuntime = {};
+import type {EditorRuntime, ImageLike, DirectEditorProps} from '../Types';
 
 // https://github.com/ProseMirror/prosemirror-view/blob/master/src/index.js
 class CustomEditorView extends EditorView {

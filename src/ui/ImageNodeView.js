@@ -191,8 +191,16 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
 
   _resolveImage(): void {
     this.setState({resolveImage: null});
+    const {editorView, node} = this.props;
     const {src} = this.props.node.attrs;
-    resolveImage(src).then(resolvedImage => {
+    let url = src;
+    if (editorView.runtime) {
+      const {canProxyImageSrc, getProxyImageSrc} = editorView.runtime;
+      if (canProxyImageSrc && getProxyImageSrc && canProxyImageSrc(src)) {
+        url = getProxyImageSrc(src);
+      }
+    }
+    resolveImage(url).then(resolvedImage => {
       if (this._mounted && src === this.props.node.attrs.src) {
         this._mounted && this.setState({resolvedImage});
       }

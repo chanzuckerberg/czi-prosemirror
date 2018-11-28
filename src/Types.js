@@ -1,5 +1,7 @@
 // @flow
 
+import React from 'react';
+
 export type NodeSpec = {
   attrs?: ?{[key: string]: any},
   content?: ?string,
@@ -24,4 +26,37 @@ export type EditorProps = {
 export type DirectEditorProps = EditorProps & {
   // TODO: Fill the interface.
   // https://github.com/ProseMirror/prosemirror-view/blob/master/src/index.js
+};
+
+export type RenderCommentProps = {
+  commentThreadId: string,
+  isActive: boolean,
+  requestCommentThreadDeletion: Function,
+  requestCommentThreadReflow: Function,
+};
+
+export type ImageLike = {
+  height: number,
+  id: string,
+  src: string,
+  width: number,
+};
+
+export type EditorRuntime = {
+  // Image Proxy
+  canProxyImageSrc?: (src: string) => boolean,
+  getProxyImageSrc?: (src: string) => string,
+
+  // Image Upload
+  canUploadImage?: () => boolean;
+  uploadImage?: (obj: Blob) => Promise<ImageLike>,
+
+  // Comments
+  canComment?: () => boolean,
+  createCommentThreadID?: () => string,
+  renderComment?: (props: RenderCommentProps) => ?React.Element<any>,
+
+  // External HTML
+  canLoadHTML?: () => boolean;
+  loadHTML?: () => Promise<?string>,
 };
