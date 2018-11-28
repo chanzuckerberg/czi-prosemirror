@@ -67,8 +67,15 @@ function toDOM(node: Node): Array<any> {
     // The downside with this approach is that it may copy the attributes from
     // a different document.
     width = width || lastNode.attrs.width;
-    padding = padding = lastNode.attrs.padding;
+    padding = padding || lastNode.attrs.padding;
     layout = layout || lastNode.attrs.layout;
+
+    if (layout) {
+      // If layout is set, do not use custom width & padding.
+      width = null;
+      padding = null;
+    }
+
     // This is hacky, hope this will not throw error.
     Object.assign(node.attrs, {width, padding, layout});
   }
