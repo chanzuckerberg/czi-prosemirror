@@ -7,6 +7,7 @@
 }
 
 .czi-editor-toolbar.wrapped::after {
+  /* The overflow-clip indicator */
   background: #fff;
   color: var(--czi-button-text-color);
   content: '\22EE';
@@ -14,11 +15,11 @@
   font-size: 24px;
   font-weight: bold;
   height: 100%;
-  line-height: 100%;
+  line-height: 0;
   pointer-events: none;
   position: absolute;
   right: 4px;
-  top: 10px;
+  top: 24px;
   width: 10px;
 }
 
