@@ -34,6 +34,7 @@
 
 .czi-custom-button:focus,
 .czi-custom-button:hover {
+  background-color: #f0f0f0;
   border-color: #555;
   outline: none;
 }
