@@ -89,9 +89,10 @@ var CustomButton = function (_React$PureComponent) {
       if (_this._clicked || e.type === 'keypress') {
         var _this$props2 = _this.props,
             _onClick = _this$props2.onClick,
-            _value = _this$props2.value;
+            _value = _this$props2.value,
+            _disabled = _this$props2.disabled;
 
-        _onClick && _onClick(_value, e);
+        !_disabled && _onClick && _onClick(_value, e);
       }
 
       _this._pressedTarget = null;

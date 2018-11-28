@@ -12,7 +12,7 @@
   border-radius: 5px;
   border: var(--czi-border-grey);
   box-sizing: border-box;
-  color: #666;
+  color: var(--czi-button-text-color);
   cursor: pointer;
   display: inline-block;
   font-family: var(--czi-font-family);
@@ -53,7 +53,7 @@
   background: #ffffff;
   border-color: #ccc;
   color: #dedede;
-  cursor: default;
+  cursor: unset;
   pointer-events: none;
 }
 

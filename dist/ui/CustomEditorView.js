@@ -44,6 +44,8 @@ var CustomEditorView = function (_EditorView) {
     var _this = (0, _possibleConstructorReturn3.default)(this, (CustomEditorView.__proto__ || (0, _getPrototypeOf2.default)(CustomEditorView)).call(this, place, props));
 
     _this.runtime = null;
+    _this.readOnly = true;
+    _this.disabled = true;
     _this.placeholder = null;
     return _this;
   }

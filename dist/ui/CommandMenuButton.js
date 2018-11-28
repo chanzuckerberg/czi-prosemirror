@@ -129,18 +129,19 @@ var CommandMenuButton = function (_React$PureComponent) {
           commandGroups = _props.commandGroups,
           editorState = _props.editorState,
           editorView = _props.editorView,
-          icon = _props.icon;
+          icon = _props.icon,
+          disabled = _props.disabled;
 
-      var enabled = commandGroups.some(function (group, ii) {
+      var enabled = !disabled && commandGroups.some(function (group, ii) {
         return (0, _keys2.default)(group).some(function (label) {
           var command = group[label];
-          var disabled = true;
+          var disabledVal = true;
           try {
-            disabled = !editorView || !command.isEnabled(editorState);
+            disabledVal = !editorView || !command.isEnabled(editorState);
           } catch (ex) {
-            disabled = false;
+            disabledVal = false;
           }
-          return !disabled;
+          return !disabledVal;
         });
       });
 
@@ -150,6 +151,7 @@ var CommandMenuButton = function (_React$PureComponent) {
         'czi-custom-menu-button': true,
         expanded: expanded
       });
+
       return _react2.default.createElement(_CustomButton2.default, {
         className: buttonClassName,
         disabled: !enabled,

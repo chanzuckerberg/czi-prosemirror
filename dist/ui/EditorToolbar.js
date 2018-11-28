@@ -58,6 +58,14 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactDom = require('react-dom');
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
+var _ResizeObserver = require('./ResizeObserver');
+
+var _ResizeObserver2 = _interopRequireDefault(_ResizeObserver);
+
 var _UICommand = require('./UICommand');
 
 var _UICommand2 = _interopRequireDefault(_UICommand);
@@ -65,6 +73,10 @@ var _UICommand2 = _interopRequireDefault(_UICommand);
 var _createEmptyEditorState = require('../createEmptyEditorState');
 
 var _createEmptyEditorState2 = _interopRequireDefault(_createEmptyEditorState);
+
+var _classnames = require('classnames');
+
+var _classnames2 = _interopRequireDefault(_classnames);
 
 var _findActiveMark = require('../findActiveMark');
 
@@ -84,8 +96,9 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var EDITOR_EMPTY_STATE = (0, _createEmptyEditorState2.default)();
+var babelPluginFlowReactPropTypes_proptype_ResizeObserverEntry = require('./ResizeObserver').babelPluginFlowReactPropTypes_proptype_ResizeObserverEntry || require('prop-types').any;
 
+var EDITOR_EMPTY_STATE = (0, _createEmptyEditorState2.default)();
 var ICON_LABEL_PATTERN = /[a-z_]+/;
 
 var BLOCKQUOTE_INFO = EditorCommands.BLOCKQUOTE_INFO,
@@ -224,7 +237,9 @@ var EditorToolbar = function (_React$PureComponent) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = EditorToolbar.__proto__ || (0, _getPrototypeOf2.default)(EditorToolbar)).call.apply(_ref, [this].concat(args))), _this), _this._renderButtonsGroup = function (group, index) {
+    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = EditorToolbar.__proto__ || (0, _getPrototypeOf2.default)(EditorToolbar)).call.apply(_ref, [this].concat(args))), _this), _this._ref = null, _this.state = {
+      wrapped: false
+    }, _this._renderButtonsGroup = function (group, index) {
       var buttons = (0, _keys2.default)(group).map(function (label) {
         var obj = group[label];
 
@@ -257,20 +272,23 @@ var EditorToolbar = function (_React$PureComponent) {
     }, _this._renderMenuButton = function (label, commandGroups) {
       var _this$props2 = _this.props,
           editorState = _this$props2.editorState,
-          editorView = _this$props2.editorView;
+          editorView = _this$props2.editorView,
+          disabled = _this$props2.disabled;
 
       var icon = ICON_LABEL_PATTERN.test(label) ? _react2.default.createElement(_Icon2.default, { type: label }) : null;
       return _react2.default.createElement(_CommandMenuButton2.default, {
         commandGroups: commandGroups,
+        disabled: disabled,
         dispatch: _this._dispatchTransaction,
         editorState: editorState || EDITOR_EMPTY_STATE,
         editorView: editorView,
+        icon: icon,
         key: label,
-        label: icon ? null : label,
-        icon: icon
+        label: icon ? null : label
       });
     }, _this._renderButton = function (label, command) {
       var _this$props3 = _this.props,
+          disabled = _this$props3.disabled,
           editorState = _this$props3.editorState,
           editorView = _this$props3.editorView;
 
@@ -280,6 +298,7 @@ var EditorToolbar = function (_React$PureComponent) {
       }
       return _react2.default.createElement(_CommandButton2.default, {
         command: command,
+        disabled: disabled,
         dispatch: _this._dispatchTransaction,
         editorState: editorState || EDITOR_EMPTY_STATE,
         editorView: editorView,
@@ -294,16 +313,49 @@ var EditorToolbar = function (_React$PureComponent) {
 
       var nextState = (editorState || EDITOR_EMPTY_STATE).apply(transaction);
       onChange && onChange(nextState);
+    }, _this._onRef = function (ref) {
+      _this._ref = ref;
+
+      if (ref) {
+        // Mounting
+        var el = _reactDom2.default.findDOMNode(ref);
+        if (el instanceof HTMLElement) {
+          _ResizeObserver2.default.observe(el, _this._onContentResize);
+        }
+      } else {
+        // Unmounting.
+        var _el = _reactDom2.default.findDOMNode(_this._ref);
+        if (_el instanceof HTMLElement) {
+          _ResizeObserver2.default.unobserve(_el);
+        }
+      }
+      _this._ref = ref;
+    }, _this._onContentResize = function (info) {
+      var ref = _this._ref;
+      var el = ref && _reactDom2.default.findDOMNode(ref);
+      var body = el && el.firstChild;
+      if (el && body) {
+        _this.setState({
+          wrapped: body.offsetHeight >= el.offsetHeight * 1.5
+        });
+      }
     }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
   }
 
   (0, _createClass3.default)(EditorToolbar, [{
     key: 'render',
     value: function render() {
+      var wrapped = this.state.wrapped;
+
+      var className = (0, _classnames2.default)('czi-editor-toolbar', { wrapped: wrapped });
       return _react2.default.createElement(
         'div',
-        { className: 'czi-editor-toolbar' },
-        CommandGroups.map(this._renderButtonsGroup)
+        { className: className, ref: this._onRef },
+        _react2.default.createElement(
+          'div',
+          { className: 'czi-editor-toolbar-body' },
+          CommandGroups.map(this._renderButtonsGroup)
+        )
       );
     }
   }]);

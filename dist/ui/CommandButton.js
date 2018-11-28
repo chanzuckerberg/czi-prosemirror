@@ -88,13 +88,10 @@ var CommandButton = function (_React$PureComponent) {
           editorView = _props.editorView,
           icon = _props.icon;
 
-      var disabled = true;
-      try {
+      var disabled = this.props.disabled;
+      if (!!disabled === false) {
         disabled = !editorView || !command.isEnabled(editorState);
-      } catch (ex) {
-        console.error(command, ex);
       }
-
       return _react2.default.createElement(_CustomButton2.default, {
         active: command.isActive(editorState),
         className: className,

@@ -144,12 +144,13 @@ var RichTextEditor = function (_React$PureComponent) {
       var _props = this.props,
           className = _props.className,
           disabled = _props.disabled,
-          readOnly = _props.readOnly,
+          embedded = _props.embedded,
           header = _props.header,
           height = _props.height,
           id = _props.id,
           onChange = _props.onChange,
           placeholder = _props.placeholder,
+          readOnly = _props.readOnly,
           width = _props.width;
       var _props2 = this.props,
           editorState = _props2.editorState,
@@ -164,7 +165,8 @@ var RichTextEditor = function (_React$PureComponent) {
       var mainClassName = (0, _classnames2.default)(className, {
         'czi-rte': true,
         'with-fixed-layout': useFixedLayout,
-        'disabled': disabled
+        'disabled': disabled,
+        'embedded': embedded
       });
 
       var mainStyle = {
@@ -178,6 +180,7 @@ var RichTextEditor = function (_React$PureComponent) {
 
 
       var toolbar = !!readOnly === true ? null : _react2.default.createElement(_EditorToolbar2.default, {
+        disabled: disabled,
         editorState: editorState,
         editorView: editorView,
         onChange: onChange,
@@ -205,7 +208,9 @@ var RichTextEditor = function (_React$PureComponent) {
                 className: (0, _classnames2.default)('czi-rte-frame-body-scroll', contentOverflowInfo.className),
                 style: contentOverflowInfo.style },
               _react2.default.createElement(_Editor2.default, {
+                disabled: disabled,
                 editorState: editorState,
+                embedded: embedded,
                 id: this._id,
                 onChange: onChange,
                 onReady: this._onReady,

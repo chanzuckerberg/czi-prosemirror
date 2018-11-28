@@ -18,6 +18,7 @@ class CommandMenuButton extends React.PureComponent<any, any, any> {
   props: {
     className?: ?string,
     commandGroups: Array<{[string]: UICommand}>,
+    disabled?: ?boolean,
     dispatch: (tr: Transform) => void,
     editorState: EditorState,
     editorView: ?EditorView,
@@ -36,17 +37,18 @@ class CommandMenuButton extends React.PureComponent<any, any, any> {
     const {
       className, label, commandGroups,
       editorState, editorView, icon,
+      disabled,
     } = this.props;
-    const enabled = commandGroups.some((group, ii) => {
+    const enabled = !disabled && commandGroups.some((group, ii) => {
       return Object.keys(group).some(label => {
         const command = group[label];
-        let disabled = true;
+        let disabledVal = true;
         try {
-          disabled = !editorView || !command.isEnabled(editorState);
+          disabledVal = !editorView || !command.isEnabled(editorState);
         } catch (ex) {
-          disabled = false;
+          disabledVal = false;
         }
-        return !disabled;
+        return !disabledVal;
       });
     });
 
@@ -55,6 +57,7 @@ class CommandMenuButton extends React.PureComponent<any, any, any> {
       'czi-custom-menu-button': true,
       expanded,
     });
+
     return (
       <CustomButton
         className={buttonClassName}

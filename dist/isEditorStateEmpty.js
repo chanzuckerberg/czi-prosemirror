@@ -8,5 +8,10 @@ exports.default = isEditorStateEmpty;
 var _prosemirrorState = require('prosemirror-state');
 
 function isEditorStateEmpty(editorState) {
-  return editorState.doc.nodeSize <= 6;
+  if (editorState.doc.nodeSize < 10) {
+    var text = editorState.doc.textContent;
+    return !text || text === ' ';
+  } else {
+    return false;
+  }
 }

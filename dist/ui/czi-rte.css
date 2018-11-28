@@ -3,7 +3,7 @@
   position: relative;
 }
 
-.czi-rte.disabled::after {
+.czi-rte.xdisabled::after {
   /* This creates a mask that blocks the interaction of the editor */
   /* TODO: Don't block the interaction. Just make the editor immutable */
   background: #fff;
@@ -27,8 +27,20 @@
 }
 
 .czi-rte-frame-body {
-  outline: solid 10px red;
   background-color: var(--czi-page-background-color);
+}
+
+.czi-rte.embedded .czi-rte-frame-body {
+  background-color: unset;
+}
+
+.czi-rte-frame-body-scroll {
+  box-sizing: border-box;
+  padding-top: 20px;
+}
+
+.czi-rte.embedded .czi-rte-frame-body-scroll {
+  padding-top: unset;
 }
 
 .czi-rte.with-fixed-layout .czi-rte-frameset {
@@ -37,7 +49,7 @@
   height: 100%;
 }
 
-.czi-rte.with-fixed-layout .czi-rte-frame-head {
+.czi-rte-frame-head {
   box-shadow: 0 1px 1px rgba(0,0,0,0.21);
   position: relative;
   z-index: 2;

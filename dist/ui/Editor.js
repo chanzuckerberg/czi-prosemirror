@@ -50,6 +50,10 @@ var _createEmptyEditorState = require('../createEmptyEditorState');
 
 var _createEmptyEditorState2 = _interopRequireDefault(_createEmptyEditorState);
 
+var _classnames = require('classnames');
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
 var _uuid = require('./uuid');
 
 var _uuid2 = _interopRequireDefault(_uuid);
@@ -92,7 +96,11 @@ var Editor = function (_React$PureComponent) {
       var nextState = (editorState || EDITOR_EMPTY_STATE).apply(transaction);
       onChange && onChange(nextState);
     }, _this._isEditable = function () {
-      return !!_this._editorView && !!_this.props.readOnly !== true;
+      var _this$props2 = _this.props,
+          disabled = _this$props2.disabled,
+          readOnly = _this$props2.readOnly;
+
+      return !!_this._editorView && !readOnly && !disabled;
     }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
   }
 
@@ -100,11 +108,13 @@ var Editor = function (_React$PureComponent) {
     key: 'componentDidMount',
     value: function componentDidMount() {
       var _props = this.props,
+          embedded = _props.embedded,
           onReady = _props.onReady,
           editorState = _props.editorState,
           readOnly = _props.readOnly,
           runtime = _props.runtime,
-          placeholder = _props.placeholder;
+          placeholder = _props.placeholder,
+          disabled = _props.disabled;
 
       var editorNode = document.getElementById(this._id);
       var templateNode = document.getElementById(this._id + 'template');
@@ -124,6 +134,9 @@ var Editor = function (_React$PureComponent) {
 
         _view.runtime = runtime;
         _view.placeholder = placeholder;
+        _view.readOnly = !!readOnly;
+        _view.disabled = !!disabled;
+        _view.updateState(editorState || EDITOR_EMPTY_STATE);
 
         onReady && onReady(this._editorView);
       }
@@ -136,11 +149,15 @@ var Editor = function (_React$PureComponent) {
         var _props2 = this.props,
             _runtime = _props2.runtime,
             _editorState = _props2.editorState,
-            _placeholder = _props2.placeholder;
+            _placeholder = _props2.placeholder,
+            _readOnly = _props2.readOnly,
+            _disabled = _props2.disabled;
 
         var _state = _editorState || EDITOR_EMPTY_STATE;
         view.runtime = _runtime;
         view.placeholder = _placeholder;
+        view.readOnly = !!_readOnly;
+        view.disabled = !!_disabled;
         view.updateState(_state);
       }
     }
@@ -153,7 +170,12 @@ var Editor = function (_React$PureComponent) {
   }, {
     key: 'render',
     value: function render() {
-      return _react2.default.createElement('div', { id: this._id, className: 'prosemirror-editor-wrapper' });
+      var _props3 = this.props,
+          embedded = _props3.embedded,
+          readOnly = _props3.readOnly;
+
+      var className = (0, _classnames2.default)('prosemirror-editor-wrapper', { embedded: embedded, readOnly: readOnly });
+      return _react2.default.createElement('div', { className: className, id: this._id });
     }
   }, {
     key: 'focus',
