@@ -30,7 +30,10 @@
 
 .czi-editor-content-placeholder {
   color: #dedede;
+  font-family: var(--czi-editor-font-family);
+  font-size: var(--czi-editor-font-size);
   left: 0;
+  line-height: var(--czi-editor-line-height);
   pointer-events: none;
   position: absolute;
   top: 0;

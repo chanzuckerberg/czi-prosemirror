@@ -159,6 +159,7 @@ class ConvertApp extends React.PureComponent<any, any, any> {
               embedded={false}
               height="100%"
               onChange={this._onEditorChange}
+              placeholder="Type something here..."
               readOnly={false}
               width="100%"
             />

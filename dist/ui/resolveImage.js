@@ -85,7 +85,7 @@ function processPromise(src, resolve, reject) {
   var protocol = parsedURL.protocol,
       port = parsedURL.port;
 
-  if (!/(http:|https:)/.test(protocol || '') || port) {
+  if (!/(http:|https:)/.test(protocol || window.location.protocol) || port) {
     resolve(result);
     return;
   }

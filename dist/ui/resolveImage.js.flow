@@ -55,7 +55,7 @@ function processPromise(src: ?string, resolve: Function, reject: Function): void
 
   const parsedURL = url.parse(srcStr);
   const {protocol, port} = parsedURL;
-  if (!/(http:|https:)/.test(protocol || '') || port) {
+  if (!/(http:|https:)/.test(protocol || window.location.protocol) || port) {
     resolve(result);
     return;
   }
