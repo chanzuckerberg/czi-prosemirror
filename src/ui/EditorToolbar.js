@@ -166,10 +166,12 @@ const CommandGroups = [
 class EditorToolbar extends React.PureComponent<any, any, any> {
 
   props: {
+    disabled?: ?boolean,
     editorState: EditorState,
     editorView: ?EditorView,
     onChange?: ?(state: EditorState) => void,
     onReady?: ?(view: EditorView) => void,
+    readOnly?: ?boolean,
   };
 
   render(): React.Element<any> {
@@ -215,25 +217,26 @@ class EditorToolbar extends React.PureComponent<any, any, any> {
     label: string,
     commandGroups: Array<{[string]: UICommand}>,
   ): React.Element<any> => {
-    const {editorState, editorView} = this.props;
+    const {editorState, editorView, disabled} = this.props;
     let icon = ICON_LABEL_PATTERN.test(label) ?
       <Icon type={label} /> :
       null;
     return (
       <CommandMenuButton
         commandGroups={commandGroups}
+        disabled={disabled}
         dispatch={this._dispatchTransaction}
         editorState={editorState || EDITOR_EMPTY_STATE}
         editorView={editorView}
+        icon={icon}
         key={label}
         label={icon ? null : label}
-        icon={icon}
       />
     );
   };
 
   _renderButton = (label: string, command: UICommand): React.Element<any> => {
-    const {editorState, editorView} = this.props;
+    const {disabled, editorState, editorView} = this.props;
     let icon;
     if (ICON_LABEL_PATTERN.test(label)) {
       icon = <Icon type={label} />;
@@ -241,6 +244,7 @@ class EditorToolbar extends React.PureComponent<any, any, any> {
     return (
       <CommandButton
         command={command}
+        disabled={disabled}
         dispatch={this._dispatchTransaction}
         editorState={editorState || EDITOR_EMPTY_STATE}
         editorView={editorView}

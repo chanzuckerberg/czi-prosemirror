@@ -154,10 +154,12 @@ class ConvertApp extends React.PureComponent<any, any, any> {
             className="prosemirror"
             title="ProseMirror View">
             <RichTextEditor
+              disabled={false}
               editorState={editorState}
               embedded={false}
               height="100%"
               onChange={this._onEditorChange}
+              readOnly={false}
               width="100%"
             />
           </ConvertAppArea>

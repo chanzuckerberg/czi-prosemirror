@@ -25,6 +25,7 @@ class Editor extends React.PureComponent<any, any, any> {
   _editorView = null;
 
   props: {
+    disabled?: ?boolean,
     editorState?: ?EditorState,
     embedded?: ?boolean,
     onChange?: ?(state: EditorState) => void,
@@ -37,7 +38,7 @@ class Editor extends React.PureComponent<any, any, any> {
   componentDidMount(): void {
     const {
       embedded, onReady, editorState, readOnly,
-      runtime, placeholder,
+      runtime, placeholder, disabled,
     } = this.props;
     const editorNode = document.getElementById(this._id);
     const templateNode = document.getElementById(this._id + 'template');
@@ -61,6 +62,9 @@ class Editor extends React.PureComponent<any, any, any> {
 
       view.runtime = runtime;
       view.placeholder = placeholder;
+      view.readOnly = !!readOnly;
+      view.disabled = !!disabled;
+      view.updateState(editorState || EDITOR_EMPTY_STATE);
 
       onReady && onReady(this._editorView);
     }
@@ -69,10 +73,14 @@ class Editor extends React.PureComponent<any, any, any> {
   componentDidUpdate(): void {
     const view = this._editorView;
     if (view)  {
-      const {runtime, editorState, placeholder} = this.props;
+      const {
+        runtime, editorState, placeholder, readOnly, disabled,
+      } = this.props;
       const state = editorState || EDITOR_EMPTY_STATE;
       view.runtime = runtime;
       view.placeholder = placeholder;
+      view.readOnly = !!readOnly;
+      view.disabled = !!disabled;
       view.updateState(state);
     }
   }
@@ -102,7 +110,8 @@ class Editor extends React.PureComponent<any, any, any> {
   };
 
   _isEditable = (): boolean => {
-    return !!this._editorView && (!!this.props.readOnly !== true);
+    const {disabled, readOnly} = this.props;
+    return !!this._editorView && !readOnly && !disabled;
   };
 }
 

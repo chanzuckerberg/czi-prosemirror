@@ -9,8 +9,9 @@ import {EditorView} from 'prosemirror-view';
 
 class ContentPlaceholderView {
   _el = null;
-  _focused = false;
+  _focused = null;
   _view = null;
+  _visible = null;
 
   constructor(editorView: EditorView) {
     const el: any = document.createElement('div');
@@ -33,7 +34,18 @@ class ContentPlaceholderView {
       return;
     }
 
-    if (this._focused || !isEditorStateEmpty(view.state)) {
+    console.log({
+      disabled: view.disabled,
+      readOnly: view.readOnly,
+    });
+
+    if (
+      this._focused ||
+      !isEditorStateEmpty(view.state) ||
+      view.disabled ||
+      view.readOnly
+    ) {
+      this._hide();
       return;
     }
 
@@ -85,11 +97,9 @@ class ContentPlaceholderView {
     const el = this._el;
     const view = this._view;
     if (!view || !el) {
-      console.log(111);
       return;
     }
     if (!activeElement || !bodyEl) {
-      console.log(activeElement, bodyEl);
       this._onBlur();
     } else {
       if (
@@ -106,19 +116,22 @@ class ContentPlaceholderView {
 
   _onFocus(): void {
     const el = this._el;
-    if (!this._focused && el) {
-      console.log('_focused')
+    if (this._focused !== true && el) {
       this._focused = true;
-      el.style.display = 'none';
+      this._hide();
     }
   }
 
   _onBlur(): void {
     const el = this._el;
-    if (this._focused && el) {
-      console.log('!!_focused')
+    const view = this._view;
+    if (this._focused !== false && el && view ) {
       this._focused = false;
-      el.style.display = 'block';
+      if (view.disabled || view.readOnly || !isEditorStateEmpty(view.state)) {
+        this._hide();
+      } else {
+        this._show();
+      }
     }
   }
 
@@ -130,6 +143,22 @@ class ContentPlaceholderView {
       view.docView.dom &&
       view.docView.dom.firstChild
     );
+  }
+
+  _show(): void {
+    const el = this._el;
+    if (el && this._visible !== true) {
+      this._visible = true;
+      el.style.display = 'block';
+    }
+  }
+
+  _hide(): void {
+    const el = this._el;
+    if (el && this._visible !== false) {
+      this._visible = false;
+      el.style.display = 'none';
+    }
   }
 }
 

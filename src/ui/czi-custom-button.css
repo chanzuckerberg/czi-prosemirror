@@ -53,7 +53,7 @@
   background: #ffffff;
   border-color: #ccc;
   color: #dedede;
-  cursor: default;
+  cursor: unset;
   pointer-events: none;
 }
 

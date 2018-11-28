@@ -13,6 +13,7 @@ class CommandButton extends React.PureComponent<any, any, any> {
   props: {
     className?: ?string,
     command: UICommand,
+    disabled?: ?boolean,
     dispatch: (tr: Transform) => void,
     editorState: EditorState,
     editorView: ?EditorView,
@@ -22,13 +23,10 @@ class CommandButton extends React.PureComponent<any, any, any> {
 
   render(): React.Element<any> {
     const {label, className, command, editorState, editorView, icon} = this.props;
-    let disabled = true;
-    try {
+    let disabled = this.props.disabled;
+    if (!!disabled === false) {
       disabled = !editorView || !command.isEnabled(editorState);
-    } catch (ex) {
-      console.error(command, ex);
     }
-
     return (
       <CustomButton
         active={command.isActive(editorState)}

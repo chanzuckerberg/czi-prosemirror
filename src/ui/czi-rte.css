@@ -3,7 +3,7 @@
   position: relative;
 }
 
-.czi-rte.disabled::after {
+.czi-rte.xdisabled::after {
   /* This creates a mask that blocks the interaction of the editor */
   /* TODO: Don't block the interaction. Just make the editor immutable */
   background: #fff;

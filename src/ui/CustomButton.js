@@ -107,8 +107,8 @@ class CustomButton extends React.PureComponent<any, any, any> {
     this.setState({pressed: false});
 
     if (this._clicked || e.type === 'keypress') {
-      const {onClick, value} = this.props;
-      onClick && onClick(value, e);
+      const {onClick, value, disabled} = this.props;
+      !disabled && onClick && onClick(value, e);
     }
 
     this._pressedTarget = null;

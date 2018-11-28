@@ -117,6 +117,7 @@ class RichTextEditor extends React.PureComponent<any, any, any> {
 
     const toolbar = (!!readOnly === true) ? null :
       <EditorToolbar
+        disabled={disabled}
         editorState={editorState}
         editorView={editorView}
         onChange={onChange}
@@ -138,6 +139,7 @@ class RichTextEditor extends React.PureComponent<any, any, any> {
               )}
               style={contentOverflowInfo.style}>
               <Editor
+                disabled={disabled}
                 editorState={editorState}
                 embedded={embedded}
                 id={this._id}
