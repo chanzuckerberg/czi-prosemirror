@@ -58,6 +58,7 @@ class CustomRadioButton extends React.PureComponent<any, any, any> {
           name={name || this._name}
           tabIndex={disabled ? null : 0}
           type="radio"
+          onChange={noop}
         />
         <span className="czi-custom-radio-button-icon" />
         <span className="czi-custom-radio-button-label">

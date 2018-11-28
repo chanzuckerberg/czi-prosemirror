@@ -1,6 +1,6 @@
 // @flow
 
-import BodySizeEditor from './ui/BodySizeEditor';
+import BodyLayoutEditor from './ui/BodyLayoutEditor';
 import UICommand from './ui/UICommand';
 import createPopUp from './ui/createPopUp';
 import nullthrows from 'nullthrows';
@@ -13,8 +13,30 @@ import {Transform} from 'prosemirror-transform';
 import {atViewportCenter} from './ui/PopUpPosition';
 import {showCursorPlaceholder, hideCursorPlaceholder} from './CursorPlaceholderPlugin';
 
-import type {BodySizeEditorValue} from './ui/BodySizeEditor';
+import type {BodyLayoutEditorValue} from './ui/BodyLayoutEditor';
 
+function setBodyLayout(
+  tr: Transform,
+  schema: Schema,
+  width: ?number,
+  layout: ?string,
+): Transform {
+  const body = schema.nodes[BODY];
+  if (!body) {
+    return tr;
+  }
+  const node = tr.doc && tr.doc.nodeAt(0);
+  if (!node || node.type !== body) {
+    return tr;
+  }
+  tr = tr.setNodeMarkup(
+    0,
+    body,
+    {...node.attrs, width, layout},
+    node.marks,
+  );
+  return tr;
+}
 
 class PageSizeCommand extends UICommand {
 
@@ -46,15 +68,15 @@ class PageSizeCommand extends UICommand {
       return Promise.resolve(undefined);
     }
 
-    if (dispatch) {
-      dispatch(showCursorPlaceholder(state));
-    }
+    // if (dispatch) {
+    //   dispatch(showCursorPlaceholder(state));
+    // }
 
     return new Promise(resolve => {
       const props = {
         initialValue: node.attrs,
       };
-      this._popUp = createPopUp(BodySizeEditor, props, {
+      this._popUp = createPopUp(BodyLayoutEditor, props, {
         modal: true,
         onClose: (val) => {
           if (this._popUp) {
@@ -70,15 +92,16 @@ class PageSizeCommand extends UICommand {
     state: EditorState,
     dispatch: ?(tr: Transform) => void,
     view: ?EditorView,
-    inputs: ?BodySizeEditorValue,
+    inputs: ?BodyLayoutEditorValue,
   ): boolean => {
     if (dispatch) {
       let {tr, selection, schema} = state;
-      tr = view ? hideCursorPlaceholder(view.state) : tr;
+      // tr = view ? hideCursorPlaceholder(view.state) : tr;
       tr = tr.setSelection(selection);
-      console.log('>>>>>>>>.', inputs);
+
       if (inputs) {
-        // console.log(inputs);
+        const {width, layout} = inputs;
+        tr = setBodyLayout(tr, schema, width, layout);
       }
       dispatch(tr);
       view && view.focus();

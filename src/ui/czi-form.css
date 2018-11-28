@@ -3,9 +3,8 @@
 .czi-form {
   background: #fff;
   border: none;
-  font-family: var(--czi-editor-font-family);
-  font-size: var(--czi-editor-font-size);
-  line-height: var(--czi-editor-line-height);
+  font-family: var(--czi-font-family);
+  font-size: var(--czi-font-size);
   margin: 0;
   padding: 20px;
 }
@@ -18,6 +17,14 @@
   user-select: none;
 }
 
+.czi-form hr {
+  background: #fff;
+  border: var(--czi-border-grey);
+  border-width: 1px 0 0 0;
+  height: 1px;
+  margin: 20px 0;
+}
+
 .czi-form fieldset {
   border: none;
   margin: 0;
@@ -25,13 +32,16 @@
 }
 
 .czi-form input[type="text"] {
-  border: var(--czi-border-blue);
   border-width: 0 0 2px 0;
+  border: var(--czi-border-blue);
   box-sizing: border-box;
   display: block;
+  font-family: var(--czi-font-family);
+  font-size: var(--czi-font-size);
   margin: 0 0 8px 0;
   outline: none;
   padding: 6px 0;
+  text-indent: 6px;
   width: 100%;
 }
 

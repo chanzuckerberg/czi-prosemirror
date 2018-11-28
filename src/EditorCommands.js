@@ -3,7 +3,7 @@
 import * as MarkNames from './MarkNames';
 import * as ProsemirrorTables from 'prosemirror-tables';
 import BlockquoteCommand from './BlockquoteCommand';
-import BodySizeCommand from './BodySizeCommand';
+import BodyLayoutCommand from './BodyLayoutCommand';
 import CodeBlockCommand from './CodeBlockCommand';
 import HeadingCommand from './HeadingCommand';
 import HistoryRedoCommand from './HistoryRedoCommand';
@@ -62,7 +62,7 @@ document.execCommand('enableObjectResizing', false, 'false');
 document.execCommand('enableInlineTableEditing', false, 'false');
 
 export const BLOCKQUOTE_INFO = new BlockquoteCommand();
-export const BODY_SIZE = new BodySizeCommand();
+export const BODY_SIZE = new BodyLayoutCommand();
 export const CLEAR_FORMAT = new MarksClearCommand();
 export const CODE = new CodeBlockCommand();
 export const EM = new MarkToggleCommand(MARK_EM);

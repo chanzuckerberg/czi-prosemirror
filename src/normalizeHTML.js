@@ -4,6 +4,7 @@ import patchElementInlineStyles from './patchElementInlineStyles';
 import patchListElements from './patchListElements';
 import patchStyleElements from './patchStyleElements';
 import patchTableElements from './patchTableElements';
+import {TAG_NAME} from './BodyNodeSpec';
 
 const BRAILLE_PATTERN_BLANK = '\u2800'
 
@@ -42,7 +43,7 @@ export default function normalizeHTML(html: string): string {
       // page HTML.
       const {cssText} = body.style;
       if (cssText) {
-        const editorBody = doc.createElement('czi-editor-body');
+        const editorBody = doc.createElement(TAG_NAME);
         editorBody.style.cssText = cssText;
         editorBody.innerHTML = body.innerHTML;
         body = doc.createElement('body');
