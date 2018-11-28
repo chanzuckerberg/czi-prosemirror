@@ -1,10 +1,46 @@
 .czi-editor-toolbar {
+  box-sizing: border-box;
+  height: 46px;
+  overflow: hidden;
+  position: relative;
+}
+
+.czi-editor-toolbar.wrapped::after {
   background: #fff;
-  box-bottom: solid 1px rgba(0,0,0,0.16);
-  direction: row;
+  color: var(--czi-button-text-color);
+  content: '\22EE';
+  font-family: Arial;
+  font-size: 24px;
+  font-weight: bold;
+  height: 100%;
+  padding: 8px 4px;
+  pointer-events: none;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 10px;
+}
+
+.czi-editor-toolbar.wrapped:hover::after {
+  opacity: 0.5;
+}
+
+.czi-editor-toolbar:hover {
+  overflow: visible;
+}
+
+.czi-editor-toolbar-body {
+  background: #fff;
+  border-bottom: solid 1px rgba(0,0,0,0.18);
   display: flex;
+  flex-direction: row;
   flex-wrap: wrap;
   padding: 8px 0;
+  /* http://stripesgenerator.com/ */
+  /* background-image: linear-gradient(180deg, #ffffff 48.44%, #efefef 48.44%, #efefef 50%, #ffffff 50%, #ffffff 98.44%, #efefef 98.44%, #efefef 100%);
+  background-size: 64.00px 64.00px;
+  background-position: 0 36px;
+  background-repeat: repeat-x; */
 }
 
 .czi-editor-toolbar .czi-custom-button {

@@ -8,13 +8,18 @@ import FontSizeCommandMenuButton from './FontSizeCommandMenuButton';
 import FontTypeCommandMenuButton from './FontTypeCommandMenuButton';
 import Icon from './Icon';
 import React from 'react';
+import ReactDOM from 'react-dom';
+import ResizeObserver from './ResizeObserver';
 import UICommand from './UICommand';
 import createEmptyEditorState from '../createEmptyEditorState';
+import cx from 'classnames';
 import findActiveMark from '../findActiveMark';
 import isReactClass from './isReactClass';
 import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
 import {Transform} from 'prosemirror-transform';
+
+import type {ResizeObserverEntry} from './ResizeObserver';
 
 const EDITOR_EMPTY_STATE = createEmptyEditorState();
 const ICON_LABEL_PATTERN = /[a-z_]+/;
@@ -165,6 +170,8 @@ const CommandGroups = [
 
 class EditorToolbar extends React.PureComponent<any, any, any> {
 
+  _ref = null;
+
   props: {
     disabled?: ?boolean,
     editorState: EditorState,
@@ -174,10 +181,18 @@ class EditorToolbar extends React.PureComponent<any, any, any> {
     readOnly?: ?boolean,
   };
 
+  state = {
+    wrapped: false,
+  };
+
   render(): React.Element<any> {
+    const {wrapped} = this.state;
+    const className = cx('czi-editor-toolbar', {wrapped});
     return (
-      <div className="czi-editor-toolbar">
-        {CommandGroups.map(this._renderButtonsGroup)}
+      <div className={className} ref={this._onRef}>
+        <div className="czi-editor-toolbar-body">
+          {CommandGroups.map(this._renderButtonsGroup)}
+        </div>
       </div>
     );
   }
@@ -259,6 +274,36 @@ class EditorToolbar extends React.PureComponent<any, any, any> {
     const {onChange, editorState} = this.props;
     const nextState = (editorState || EDITOR_EMPTY_STATE).apply(transaction);
     onChange && onChange(nextState);
+  };
+
+  _onRef = (ref: any): void => {
+    this._ref = ref;
+
+    if (ref) {
+      // Mounting
+      const el = ReactDOM.findDOMNode(ref);
+      if (el instanceof HTMLElement) {
+        ResizeObserver.observe(el, this._onContentResize);
+      }
+    } else {
+      // Unmounting.
+      const el = ReactDOM.findDOMNode(this._ref);
+      if (el instanceof HTMLElement) {
+        ResizeObserver.unobserve(el);
+      }
+    }
+    this._ref = ref;
+  };
+
+  _onContentResize = (info: ResizeObserverEntry): void => {
+    const ref = this._ref;
+    const el: any = ref && ReactDOM.findDOMNode(ref);
+    const body: any = el && el.firstChild;
+    if (el && body) {
+      this.setState({
+        wrapped: body.offsetHeight >= el.offsetHeight * 1.5,
+      });
+    }
   };
 }
 
