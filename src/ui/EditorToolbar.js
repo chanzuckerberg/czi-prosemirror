@@ -18,7 +18,7 @@ import findActiveMark from '../findActiveMark';
 import isReactClass from './isReactClass';
 import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
-import {ICON_LABEL_PATTERN, COMMAND_GROUPS} from './EditorToolbarConfig';
+import {parseLabel, COMMAND_GROUPS} from './EditorToolbarConfig';
 import {Transform} from 'prosemirror-transform';
 
 import type {ResizeObserverEntry} from './ResizeObserver';
@@ -64,6 +64,16 @@ class EditorToolbar extends React.PureComponent<any, any, any> {
             <div className="czi-editor-toolbar-body-content" ref={this._onBodyRef}>
               <i className="czi-editor-toolbar-wrapped-anchor" />
               {COMMAND_GROUPS.map(this._renderButtonsGroup)}
+              <div className="czi-editor-toolbar-background">
+                <div className="czi-editor-toolbar-background-line" />
+                <div className="czi-editor-toolbar-background-line" />
+                <div className="czi-editor-toolbar-background-line" />
+                <div className="czi-editor-toolbar-background-line" />
+                <div className="czi-editor-toolbar-background-line" />
+                <div className="czi-editor-toolbar-background-line" />
+                <div className="czi-editor-toolbar-background-line" />
+                <div className="czi-editor-toolbar-background-line" />
+              </div>
               <i className="czi-editor-toolbar-wrapped-anchor" />
             </div>
             {wrappedButton}
@@ -110,9 +120,7 @@ class EditorToolbar extends React.PureComponent<any, any, any> {
     commandGroups: Array<{[string]: UICommand}>,
   ): React.Element<any> => {
     const {editorState, editorView, disabled} = this.props;
-    let icon = ICON_LABEL_PATTERN.test(label) ?
-      Icon.get(label) :
-      null;
+    const {icon, title} = parseLabel(label)
     return (
       <CommandMenuButton
         commandGroups={commandGroups}
@@ -122,17 +130,16 @@ class EditorToolbar extends React.PureComponent<any, any, any> {
         editorView={editorView}
         icon={icon}
         key={label}
-        label={icon ? null : label}
+        label={icon ? null : title}
+        title={title}
       />
     );
   };
 
   _renderButton = (label: string, command: UICommand): React.Element<any> => {
     const {disabled, editorState, editorView} = this.props;
-    let icon;
-    if (ICON_LABEL_PATTERN.test(label)) {
-      icon = Icon.get(label);
-    }
+    const {icon, title} = parseLabel(label);
+
     return (
       <CommandButton
         command={command}
@@ -142,7 +149,8 @@ class EditorToolbar extends React.PureComponent<any, any, any> {
         editorView={editorView}
         icon={icon}
         key={label}
-        label={icon ? null : label}
+        label={icon ? null : title}
+        title={title}
       />
     );
   };

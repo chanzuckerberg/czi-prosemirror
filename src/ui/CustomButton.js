@@ -3,6 +3,7 @@
 import './czi-custom-button.css';
 import PointerSurface from './PointerSurface';
 import React from 'react';
+import TooltipSurface from './TooltipSurface';
 import cx from 'classnames';
 
 import type {PointerSurfaceProps} from './PointerSurface';
@@ -20,13 +21,14 @@ class CustomButton extends React.PureComponent<any, any, any> {
       'use-icon': !!icon,
     });
     return (
+      <TooltipSurface tooltip={title}>
       <PointerSurface
         {...pointerProps}
-        className={klass}
-        title={title || label}>
-        {icon}
-        {label}
+        className={klass}>
+          {icon}
+          {label}
       </PointerSurface>
+      </TooltipSurface>
     );
   }
 }

@@ -24,6 +24,7 @@ class CommandMenuButton extends React.PureComponent<any, any, any> {
     editorView: ?EditorView,
     icon?: string | React.Element<any> | null,
     label?: string | React.Element<any> | null,
+    title?: ?string,
   };
 
   _menu = null;
@@ -37,7 +38,7 @@ class CommandMenuButton extends React.PureComponent<any, any, any> {
     const {
       className, label, commandGroups,
       editorState, editorView, icon,
-      disabled,
+      disabled, title,
     } = this.props;
     const enabled = !disabled && commandGroups.some((group, ii) => {
       return Object.keys(group).some(label => {
@@ -67,6 +68,7 @@ class CommandMenuButton extends React.PureComponent<any, any, any> {
         id={this._id}
         label={label}
         onClick={this._onClick}
+        title={title}
       />
     );
   }

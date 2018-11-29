@@ -32,6 +32,11 @@ export function fromXY(x: number, y: number, padding: ?number): Rect {
 }
 
 export function fromHTMlElement(el: HTMLElement): Rect {
+  const display = document.defaultView.getComputedStyle(el).display;
+  if (display === 'contents' && el.children.length === 1) {
+    // el has no layout at all, use its children instead.
+    return fromHTMlElement(el.children[0]);
+  }
   const rect = el.getBoundingClientRect();
   return {
     x: rect.left,
