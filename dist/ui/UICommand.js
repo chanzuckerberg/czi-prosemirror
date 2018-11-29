@@ -42,8 +42,8 @@ var UICommand = function UICommand() {
     return false;
   };
 
-  this.isEnabled = function (state) {
-    return _this.execute(state);
+  this.isEnabled = function (state, view) {
+    return _this.execute(state, null, view);
   };
 
   this.execute = function (state, dispatch, view, event) {

@@ -110,7 +110,7 @@ var CommandMenu = function (_React$PureComponent) {
           var command = group[label];
           var disabled = true;
           try {
-            disabled = !editorView || !command.isEnabled(editorState);
+            disabled = !editorView || !command.isEnabled(editorState, editorView);
           } catch (ex) {
             disabled = false;
           }

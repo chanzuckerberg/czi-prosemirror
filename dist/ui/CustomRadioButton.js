@@ -32,7 +32,11 @@ var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
-require('./czi-custom-button.css');
+var _uuid = require('./uuid');
+
+var _uuid2 = _interopRequireDefault(_uuid);
+
+require('./czi-custom-radio-button.css');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -40,29 +44,21 @@ function noop(e) {
   e.preventDefault();
 }
 
-var CustomButton = function (_React$PureComponent) {
-  (0, _inherits3.default)(CustomButton, _React$PureComponent);
+var CustomRadioButton = function (_React$PureComponent) {
+  (0, _inherits3.default)(CustomRadioButton, _React$PureComponent);
 
-  function CustomButton() {
+  function CustomRadioButton() {
     var _ref;
 
     var _temp, _this, _ret;
 
-    (0, _classCallCheck3.default)(this, CustomButton);
+    (0, _classCallCheck3.default)(this, CustomRadioButton);
 
     for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = CustomButton.__proto__ || (0, _getPrototypeOf2.default)(CustomButton)).call.apply(_ref, [this].concat(args))), _this), _this._clicked = false, _this._mul = false, _this._pressedTarget = null, _this._unmounted = false, _this.state = { pressed: false }, _this._onMouseEnter = function (e) {
-      _this._pressedTarget = null;
-      e.preventDefault();
-      var _this$props = _this.props,
-          onMouseEnter = _this$props.onMouseEnter,
-          value = _this$props.value;
-
-      onMouseEnter && onMouseEnter(value, e);
-    }, _this._onMouseDown = function (e) {
+    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = CustomRadioButton.__proto__ || (0, _getPrototypeOf2.default)(CustomRadioButton)).call.apply(_ref, [this].concat(args))), _this), _this._clicked = false, _this._mul = false, _this._pressedTarget = null, _this._unmounted = false, _this._name = (0, _uuid2.default)(), _this.state = { pressed: false }, _this._onMouseDown = function (e) {
       e.preventDefault();
 
       _this._pressedTarget = null;
@@ -87,12 +83,13 @@ var CustomButton = function (_React$PureComponent) {
       _this.setState({ pressed: false });
 
       if (_this._clicked || e.type === 'keypress') {
-        var _this$props2 = _this.props,
-            _onClick = _this$props2.onClick,
-            _value = _this$props2.value,
-            _disabled = _this$props2.disabled;
+        var _this$props = _this.props,
+            _onSelect = _this$props.onSelect,
+            _value = _this$props.value,
+            _disabled = _this$props.disabled,
+            _checked = _this$props.checked;
 
-        !_disabled && _onClick && _onClick(_value, e);
+        !_disabled && !_checked && _onSelect && _onSelect(_value, e);
       }
 
       _this._pressedTarget = null;
@@ -107,47 +104,48 @@ var CustomButton = function (_React$PureComponent) {
     }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
   }
 
-  (0, _createClass3.default)(CustomButton, [{
+  (0, _createClass3.default)(CustomRadioButton, [{
     key: 'render',
     value: function render() {
       var _props = this.props,
           className = _props.className,
-          label = _props.label,
-          icon = _props.icon,
           disabled = _props.disabled,
-          active = _props.active,
-          id = _props.id,
-          style = _props.style,
-          title = _props.title;
+          checked = _props.checked,
+          label = _props.label,
+          inline = _props.inline,
+          name = _props.name;
       var pressed = this.state.pressed;
 
 
       var buttonClassName = (0, _classnames2.default)(className, {
-        'active': active,
-        'czi-custom-button': true,
+        'checked': checked,
+        'czi-custom-radio-button': true,
         'disabled': disabled,
-        'pressed': pressed,
-        'use-icon': !!icon
+        'inline': inline
       });
 
       return _react2.default.createElement(
         'span',
         {
-          'aria-disabled': disabled,
-          'aria-pressed': pressed,
           className: buttonClassName,
-          disabled: disabled,
-          id: id,
           onKeyPress: disabled ? noop : this._onMouseUp,
           onMouseDown: disabled ? noop : this._onMouseDown,
-          onMouseEnter: disabled ? noop : this._onMouseEnter,
-          onMouseUp: disabled ? noop : this._onMouseUp,
-          role: 'button',
-          style: style,
+          onMouseUp: disabled ? noop : this._onMouseUp },
+        _react2.default.createElement('input', {
+          checked: checked,
+          className: 'czi-custom-radio-button-input',
+          disabled: disabled,
+          name: name || this._name,
           tabIndex: disabled ? null : 0,
-          title: title || label },
-        icon,
-        label
+          type: 'radio',
+          onChange: noop
+        }),
+        _react2.default.createElement('span', { className: 'czi-custom-radio-button-icon' }),
+        _react2.default.createElement(
+          'span',
+          { className: 'czi-custom-radio-button-label' },
+          label
+        )
       );
     }
   }, {
@@ -160,7 +158,7 @@ var CustomButton = function (_React$PureComponent) {
       }
     }
   }]);
-  return CustomButton;
+  return CustomRadioButton;
 }(_react2.default.PureComponent);
 
-exports.default = CustomButton;
+exports.default = CustomRadioButton;

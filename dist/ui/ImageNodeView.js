@@ -311,9 +311,22 @@ var ImageViewBody = function (_React$PureComponent) {
       var _this3 = this;
 
       this.setState({ resolveImage: null });
+      var _props2 = this.props,
+          editorView = _props2.editorView,
+          node = _props2.node;
       var src = this.props.node.attrs.src;
 
-      (0, _resolveImage3.default)(src).then(function (resolvedImage) {
+      var url = src;
+      if (editorView.runtime) {
+        var _editorView$runtime = editorView.runtime,
+            canProxyImageSrc = _editorView$runtime.canProxyImageSrc,
+            getProxyImageSrc = _editorView$runtime.getProxyImageSrc;
+
+        if (canProxyImageSrc && getProxyImageSrc && canProxyImageSrc(src)) {
+          url = getProxyImageSrc(src);
+        }
+      }
+      (0, _resolveImage3.default)(url).then(function (resolvedImage) {
         if (_this3._mounted && src === _this3.props.node.attrs.src) {
           _this3._mounted && _this3.setState({ resolvedImage: resolvedImage });
         }

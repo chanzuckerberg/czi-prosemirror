@@ -76,7 +76,7 @@ var _uuid2 = _interopRequireDefault(_uuid);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var babelPluginFlowReactPropTypes_proptype_EditorRuntime = require('./CustomEditorView').babelPluginFlowReactPropTypes_proptype_EditorRuntime || require('prop-types').any;
+var babelPluginFlowReactPropTypes_proptype_EditorRuntime = require('../Types').babelPluginFlowReactPropTypes_proptype_EditorRuntime || require('prop-types').any;
 
 var babelPluginFlowReactPropTypes_proptype_ResizeObserverEntry = require('./ResizeObserver').babelPluginFlowReactPropTypes_proptype_ResizeObserverEntry || require('prop-types').any;
 
@@ -216,7 +216,8 @@ var RichTextEditor = function (_React$PureComponent) {
                 onReady: this._onReady,
                 placeholder: placeholder,
                 readOnly: readOnly,
-                ref: this._onEditorRef
+                ref: this._onEditorRef,
+                runtime: runtime
               })
             )
           ),

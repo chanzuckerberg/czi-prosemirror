@@ -8,8 +8,10 @@ const SPEC = {
 };
 
 function renderAttributes(editorState: EditorState): Object {
+
   const attrs = {
     'class': 'czi-prosemirror-editor',
+    'data-layout': editorState.doc.firstChild.attrs.layout,
   };
   return attrs;
 }

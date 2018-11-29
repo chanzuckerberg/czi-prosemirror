@@ -60,13 +60,7 @@ var _prosemirrorTransform = require('prosemirror-transform');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-if (typeof exports !== 'undefined') Object.defineProperty(exports, 'babelPluginFlowReactPropTypes_proptype_ImageURLEditorValue', {
-  value: require('prop-types').shape({
-    height: require('prop-types').number,
-    src: require('prop-types').string,
-    width: require('prop-types').number
-  })
-});
+var babelPluginFlowReactPropTypes_proptype_ImageLike = require('../Types').babelPluginFlowReactPropTypes_proptype_ImageLike || require('prop-types').any;
 
 var ImageURLEditor = function (_React$PureComponent) {
   (0, _inherits3.default)(ImageURLEditor, _React$PureComponent);

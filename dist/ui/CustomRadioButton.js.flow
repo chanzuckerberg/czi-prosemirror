@@ -2,26 +2,24 @@
 
 import React from 'react';
 import cx from 'classnames';
+import uuid from './uuid';
 
-import './czi-custom-button.css';
+import './czi-custom-radio-button.css';
 
 function noop(e: SyntheticEvent): void {
   e.preventDefault();
 }
 
-class CustomButton extends React.PureComponent<any, any, any> {
+class CustomRadioButton extends React.PureComponent<any, any, any> {
 
   props: {
-    active?: ?boolean,
+    checked?: ?boolean,
     className?: ?string,
     disabled?: ?boolean,
-    icon?: string | React.Element<any> | null,
-    id?: ?string,
+    inline?: ?boolean,
     label?: string | React.Element<any> | null,
-    onClick?: ?(val: any, e: SyntheticEvent) => void,
-    onMouseEnter?: ?(val: any, e: SyntheticEvent) => void,
-    style?: ?Object,
-    title?: ?string,
+    name?: ?string,
+    onSelect?: ?(val: any, e: SyntheticEvent) => void,
     value?: any,
   };
 
@@ -29,40 +27,43 @@ class CustomButton extends React.PureComponent<any, any, any> {
   _mul = false;
   _pressedTarget = null;
   _unmounted = false;
+  _name = uuid();
 
   state = {pressed: false};
 
   render(): React.Element<any> {
     const {
-      className, label, icon, disabled, active, id, style, title,
+      className, disabled, checked, label, inline, name,
     } = this.props;
+
     const {pressed} = this.state;
 
     const buttonClassName = cx(className, {
-      'active': active,
-      'czi-custom-button': true,
+      'checked': checked,
+      'czi-custom-radio-button': true,
       'disabled': disabled,
-      'pressed': pressed,
-      'use-icon': !!icon,
+      'inline': inline,
     });
 
     return (
       <span
-        aria-disabled={disabled}
-        aria-pressed={pressed}
         className={buttonClassName}
-        disabled={disabled}
-        id={id}
         onKeyPress={disabled ? noop : this._onMouseUp}
         onMouseDown={disabled ? noop : this._onMouseDown}
-        onMouseEnter={disabled ? noop : this._onMouseEnter}
-        onMouseUp={disabled ? noop : this._onMouseUp}
-        role="button"
-        style={style}
-        tabIndex={disabled ? null : 0}
-        title={title || label}>
-        {icon}
-        {label}
+        onMouseUp={disabled ? noop : this._onMouseUp}>
+        <input
+          checked={checked}
+          className="czi-custom-radio-button-input"
+          disabled={disabled}
+          name={name || this._name}
+          tabIndex={disabled ? null : 0}
+          type="radio"
+          onChange={noop}
+        />
+        <span className="czi-custom-radio-button-icon" />
+        <span className="czi-custom-radio-button-label">
+          {label}
+        </span>
       </span>
     );
   }
@@ -74,13 +75,6 @@ class CustomButton extends React.PureComponent<any, any, any> {
       document.removeEventListener('mouseup', this._onMouseUpCapture, true);
     }
   }
-
-  _onMouseEnter = (e: SyntheticEvent): void => {
-    this._pressedTarget = null;
-    e.preventDefault();
-    const {onMouseEnter, value} = this.props;
-    onMouseEnter && onMouseEnter(value, e);
-  };
 
   _onMouseDown = (e: SyntheticEvent): void => {
     e.preventDefault();
@@ -109,8 +103,8 @@ class CustomButton extends React.PureComponent<any, any, any> {
     this.setState({pressed: false});
 
     if (this._clicked || e.type === 'keypress') {
-      const {onClick, value, disabled} = this.props;
-      !disabled && onClick && onClick(value, e);
+      const {onSelect, value, disabled, checked} = this.props;
+      !disabled && !checked && onSelect && onSelect(value, e);
     }
 
     this._pressedTarget = null;
@@ -133,4 +127,4 @@ class CustomButton extends React.PureComponent<any, any, any> {
   }
 }
 
-export default CustomButton;
+export default CustomRadioButton;

@@ -72,11 +72,6 @@ var ContentPlaceholderView = function () {
         return;
       }
 
-      console.log({
-        disabled: view.disabled,
-        readOnly: view.readOnly
-      });
-
       if (this._focused || !(0, _isEditorStateEmpty2.default)(view.state) || view.disabled || view.readOnly) {
         this._hide();
         return;
@@ -182,8 +177,6 @@ var _initialiseProps = function _initialiseProps() {
   this._visible = null;
 
   this._onFocusIn = function (e) {
-    console.log(e);
-
     var activeElement = document.activeElement;
     var bodyEl = _this2._getBodyElement();
     var el = _this2._el;

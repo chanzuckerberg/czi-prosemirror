@@ -169,7 +169,6 @@ function applyInlineStyleSheetCSSTexts(
   el: HTMLElement,
 ): void {
   if (cssTexts.length) {
-    // console.log(el, el.style.cssText, cssTexts.join(';'));
     el.style.cssText = cssTexts.join(';') + ';' + el.style.cssText;
   }
 }

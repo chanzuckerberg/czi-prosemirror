@@ -44,7 +44,7 @@ function bindCommands(...commands: Array<UICommand>): UserKeyCommand {
     view: ?EditorView,
   ): boolean {
     return commands.some(cmd => {
-      if (cmd.isEnabled(state)) {
+      if (cmd.isEnabled(state, view)) {
         cmd.execute(state, dispatch, view);
         return true;
       }

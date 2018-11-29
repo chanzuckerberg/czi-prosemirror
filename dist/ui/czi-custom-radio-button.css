@@ -1,0 +1,71 @@
+/* <CustomRadioButton /> */
+@import './czi-vars.css';
+
+.czi-custom-radio-button {
+  cursor: pointer;
+  display: block;
+  font-family: var(--czi-font-family);
+  font-size: var(--czi-font-size);
+  line-height: 25px;
+  margin: 0 12px 12px 0;
+  padding: 0 0 0 36px;
+  position: relative;
+  user-select: none;
+}
+
+.czi-custom-radio-button-input {
+  height: 1px;
+  left: 0;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  width: 1px;
+}
+
+.czi-custom-radio-button.inline {
+  display: inline-block;
+  margin: 0 12px 0 0;
+}
+
+.czi-custom-radio-button-icon {
+  background-color: #eee;
+  border-radius: 50%;
+  height: 25px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 25px;
+}
+
+.czi-custom-radio-button-input:focus + .czi-custom-radio-button-icon,
+.czi-custom-radio-button:hover .czi-custom-radio-button-icon {
+  background-color: #ccc;
+}
+
+.czi-custom-radio-button.checked .czi-custom-radio-button-icon {
+  background-color: #3981E7;
+}
+
+.czi-custom-radio-button.checked .czi-custom-radio-button-icon::after {
+  background: #fff;
+  border-radius: 50%;
+  content: '';
+  height: 8px;
+  left: 9px;
+  top: 9px;
+  width: 8px;
+  position: absolute;
+}
+
+.czi-custom-radio-button.disabled,
+.czi-custom-radio-button.disabled:hover {
+  color: #dedede;
+  cursor: unset;
+  pointer-events: none;
+}
+
+.czi-custom-radio-button-label {
+  display: inline-block;
+  vertical-align: middle;
+}

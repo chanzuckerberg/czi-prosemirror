@@ -66,7 +66,7 @@ var _prosemirrorTransform = require('prosemirror-transform');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var babelPluginFlowReactPropTypes_proptype_EditorRuntime = require('./CustomEditorView').babelPluginFlowReactPropTypes_proptype_EditorRuntime || require('prop-types').any;
+var babelPluginFlowReactPropTypes_proptype_EditorRuntime = require('../Types').babelPluginFlowReactPropTypes_proptype_EditorRuntime || require('prop-types').any;
 
 var EDITOR_EMPTY_STATE = (0, _createEmptyEditorState2.default)();
 

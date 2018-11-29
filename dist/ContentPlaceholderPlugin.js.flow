@@ -34,11 +34,6 @@ class ContentPlaceholderView {
       return;
     }
 
-    console.log({
-      disabled: view.disabled,
-      readOnly: view.readOnly,
-    });
-
     if (
       this._focused ||
       !isEditorStateEmpty(view.state) ||
@@ -90,8 +85,6 @@ class ContentPlaceholderView {
 
 
   _onFocusIn = (e: Event): void => {
-    console.log(e);
-
     const activeElement = document.activeElement;
     const bodyEl = this._getBodyElement();
     const el = this._el;

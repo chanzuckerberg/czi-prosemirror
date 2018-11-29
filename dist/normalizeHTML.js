@@ -21,6 +21,8 @@ var _patchTableElements = require('./patchTableElements');
 
 var _patchTableElements2 = _interopRequireDefault(_patchTableElements);
 
+var _BodyNodeSpec = require('./BodyNodeSpec');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var BRAILLE_PATTERN_BLANK = '\u2800';
@@ -57,7 +59,7 @@ function normalizeHTML(html) {
       var cssText = body.style.cssText;
 
       if (cssText) {
-        var editorBody = doc.createElement('czi-editor-body');
+        var editorBody = doc.createElement(_BodyNodeSpec.TAG_NAME);
         editorBody.style.cssText = cssText;
         editorBody.innerHTML = body.innerHTML;
         body = doc.createElement('body');

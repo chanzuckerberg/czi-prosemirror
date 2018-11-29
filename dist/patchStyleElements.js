@@ -165,7 +165,6 @@ function buildSelectorTextToCSSText(result, selectorText, cssText) {
 
 function applyInlineStyleSheetCSSTexts(cssTexts, el) {
   if (cssTexts.length) {
-    // console.log(el, el.style.cssText, cssTexts.join(';'));
     el.style.cssText = cssTexts.join(';') + ';' + el.style.cssText;
   }
 }

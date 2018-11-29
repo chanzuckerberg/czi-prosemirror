@@ -25,7 +25,7 @@ class CommandButton extends React.PureComponent<any, any, any> {
     const {label, className, command, editorState, editorView, icon} = this.props;
     let disabled = this.props.disabled;
     if (!!disabled === false) {
-      disabled = !editorView || !command.isEnabled(editorState);
+      disabled = !editorView || !command.isEnabled(editorState, editorView);
     }
     return (
       <CustomButton

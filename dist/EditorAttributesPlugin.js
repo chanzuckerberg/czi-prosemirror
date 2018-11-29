@@ -32,8 +32,10 @@ var SPEC = {
 
 
 function renderAttributes(editorState) {
+
   var attrs = {
-    'class': 'czi-prosemirror-editor'
+    'class': 'czi-prosemirror-editor',
+    'data-layout': editorState.doc.firstChild.attrs.layout
   };
   return attrs;
 }

@@ -33,8 +33,8 @@ class UICommand {
     return false;
   };
 
-  isEnabled = (state: EditorState): boolean => {
-    return this.execute(state);
+  isEnabled = (state: EditorState, view: ?EditorView): boolean => {
+    return this.execute(state, null, view);
   };
 
   execute = (

@@ -15,9 +15,8 @@ import ResizeObserver from './ResizeObserver';
 import RichTextEditorContentOverflowControl from './RichTextEditorContentOverflowControl';
 import uuid from './uuid';
 
-import type {EditorRuntime} from './CustomEditorView';
+import type {EditorRuntime} from '../Types';
 import type {ResizeObserverEntry} from './ResizeObserver';
-
 
 type ContentOverflowInfo = {
   className?: ?string,
@@ -148,6 +147,7 @@ class RichTextEditor extends React.PureComponent<any, any, any> {
                 placeholder={placeholder}
                 readOnly={readOnly}
                 ref={this._onEditorRef}
+                runtime={runtime}
               />
             </div>
           </div>

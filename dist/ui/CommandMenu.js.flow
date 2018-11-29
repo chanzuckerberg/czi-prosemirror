@@ -30,7 +30,7 @@ class CommandMenu extends React.PureComponent<any, any, any> {
         const command = group[label];
         let disabled = true;
         try {
-          disabled = !editorView || !command.isEnabled(editorState);
+          disabled = !editorView || !command.isEnabled(editorState, editorView);
         } catch (ex) {
           disabled = false;
         }

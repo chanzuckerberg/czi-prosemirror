@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.UNDERLINE = exports.UL = exports.TEXT_LINE_SPACINGS = exports.TEXT_HIGHLIGHT = exports.TEXT_COLOR = exports.TEXT_ALIGN_RIGHT = exports.TEXT_ALIGN_LEFT = exports.TEXT_ALIGN_JUSTIFY = exports.TEXT_ALIGN_CENTER = exports.TABLE_TOGGLE_HEADER_ROW = exports.TABLE_TOGGLE_HEADER_COLUMN = exports.TABLE_TOGGLE_HEADER_CELL = exports.TABLE_SPLIT_CELL = exports.TABLE_MOVE_TO_PREV_CELL = exports.TABLE_MOVE_TO_NEXT_CELL = exports.TABLE_MERGE_CELLS = exports.TABLE_INSERT_TABLE = exports.TABLE_DELETE_TABLE = exports.TABLE_DELETE_ROW = exports.TABLE_DELETE_COLUMN = exports.TABLE_CELL_COLOR = exports.TABLE_ADD_ROW_BEFORE = exports.TABLE_ADD_ROW_AFTER = exports.TABLE_ADD_COLUMN_BEFORE = exports.TABLE_ADD_COLUMN_AFTER = exports.STRONG = exports.STRIKE = exports.PRINT = exports.OL = exports.LIST_SPLIT = exports.LINK_SET_URL = exports.INDENT_MORE = exports.INDENT_LESS = exports.IMAGE_FROM_URL = exports.HR = exports.HISTORY_UNDO = exports.HISTORY_REDO = exports.H6 = exports.H5 = exports.H4 = exports.H3 = exports.H2 = exports.H1 = exports.EM = exports.CODE = exports.CLEAR_FORMAT = exports.BLOCKQUOTE_INFO = undefined;
+exports.UNDERLINE = exports.UL = exports.TEXT_LINE_SPACINGS = exports.TEXT_HIGHLIGHT = exports.TEXT_COLOR = exports.TEXT_ALIGN_RIGHT = exports.TEXT_ALIGN_LEFT = exports.TEXT_ALIGN_JUSTIFY = exports.TEXT_ALIGN_CENTER = exports.TABLE_TOGGLE_HEADER_ROW = exports.TABLE_TOGGLE_HEADER_COLUMN = exports.TABLE_TOGGLE_HEADER_CELL = exports.TABLE_SPLIT_CELL = exports.TABLE_MOVE_TO_PREV_CELL = exports.TABLE_MOVE_TO_NEXT_CELL = exports.TABLE_MERGE_CELLS = exports.TABLE_INSERT_TABLE = exports.TABLE_DELETE_TABLE = exports.TABLE_DELETE_ROW = exports.TABLE_DELETE_COLUMN = exports.TABLE_CELL_COLOR = exports.TABLE_ADD_ROW_BEFORE = exports.TABLE_ADD_ROW_AFTER = exports.TABLE_ADD_COLUMN_BEFORE = exports.TABLE_ADD_COLUMN_AFTER = exports.STRONG = exports.STRIKE = exports.PRINT = exports.OL = exports.LIST_SPLIT = exports.LINK_SET_URL = exports.INDENT_MORE = exports.INDENT_LESS = exports.IMAGE_UPLOAD = exports.IMAGE_FROM_URL = exports.HR = exports.HISTORY_UNDO = exports.HISTORY_REDO = exports.H6 = exports.H5 = exports.H4 = exports.H3 = exports.H2 = exports.H1 = exports.EM = exports.CODE = exports.CLEAR_FORMAT = exports.BODY_SIZE = exports.BLOCKQUOTE_INFO = undefined;
 
 var _MarkNames = require('./MarkNames');
 
@@ -16,6 +16,10 @@ var ProsemirrorTables = _interopRequireWildcard(_prosemirrorTables);
 var _BlockquoteCommand = require('./BlockquoteCommand');
 
 var _BlockquoteCommand2 = _interopRequireDefault(_BlockquoteCommand);
+
+var _BodyLayoutCommand = require('./BodyLayoutCommand');
+
+var _BodyLayoutCommand2 = _interopRequireDefault(_BodyLayoutCommand);
 
 var _CodeBlockCommand = require('./CodeBlockCommand');
 
@@ -40,6 +44,10 @@ var _HorizontalRuleCommand2 = _interopRequireDefault(_HorizontalRuleCommand);
 var _ImageFromURLCommand = require('./ImageFromURLCommand');
 
 var _ImageFromURLCommand2 = _interopRequireDefault(_ImageFromURLCommand);
+
+var _ImageUploadCommand = require('./ImageUploadCommand');
+
+var _ImageUploadCommand2 = _interopRequireDefault(_ImageUploadCommand);
 
 var _IndentCommand = require('./IndentCommand');
 
@@ -134,6 +142,7 @@ document.execCommand('enableObjectResizing', false, 'false');
 document.execCommand('enableInlineTableEditing', false, 'false');
 
 var BLOCKQUOTE_INFO = exports.BLOCKQUOTE_INFO = new _BlockquoteCommand2.default();
+var BODY_SIZE = exports.BODY_SIZE = new _BodyLayoutCommand2.default();
 var CLEAR_FORMAT = exports.CLEAR_FORMAT = new _MarksClearCommand2.default();
 var CODE = exports.CODE = new _CodeBlockCommand2.default();
 var EM = exports.EM = new _MarkToggleCommand2.default(MARK_EM);
@@ -147,6 +156,7 @@ var HISTORY_REDO = exports.HISTORY_REDO = new _HistoryRedoCommand2.default();
 var HISTORY_UNDO = exports.HISTORY_UNDO = new _HistoryUndoCommand2.default();
 var HR = exports.HR = new _HorizontalRuleCommand2.default();
 var IMAGE_FROM_URL = exports.IMAGE_FROM_URL = new _ImageFromURLCommand2.default();
+var IMAGE_UPLOAD = exports.IMAGE_UPLOAD = new _ImageUploadCommand2.default();
 var INDENT_LESS = exports.INDENT_LESS = new _IndentCommand2.default(-1);
 var INDENT_MORE = exports.INDENT_MORE = new _IndentCommand2.default(1);
 var LINK_SET_URL = exports.LINK_SET_URL = new _LinkSetURLCommand2.default();

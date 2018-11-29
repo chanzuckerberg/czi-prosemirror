@@ -50,7 +50,7 @@ function bindCommands() {
 
   return function (state, dispatch, view) {
     return commands.some(function (cmd) {
-      if (cmd.isEnabled(state)) {
+      if (cmd.isEnabled(state, view)) {
         cmd.execute(state, dispatch, view);
         return true;
       }

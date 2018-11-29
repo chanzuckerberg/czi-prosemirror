@@ -11,11 +11,7 @@ import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
 import {Transform} from 'prosemirror-transform';
 
-export type ImageURLEditorValue = {
-  height: ?number,
-  src: ?string,
-  width: ?number,
-};
+import type {ImageLike} from '../Types';
 
 class ImageURLEditor extends React.PureComponent<any, any, any> {
 
@@ -23,8 +19,8 @@ class ImageURLEditor extends React.PureComponent<any, any, any> {
   _unmounted = false;
 
   props: {
-    initialValue: ?ImageURLEditorValue,
-    close: (val: ?ImageURLEditorValue) => void,
+    initialValue: ?ImageLike,
+    close: (val: ?ImageLike) => void,
   };
 
   state = {
