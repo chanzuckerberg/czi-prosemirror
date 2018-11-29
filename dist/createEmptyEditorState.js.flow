@@ -8,20 +8,15 @@ const EMPTY_DOC_JSON = {
   "type": "doc",
   "content": [
     {
-      "type": "body",
+      "type": "paragraph",
       "content": [
         {
-          "type": "paragraph",
-          "content": [
-            {
-              "type": "text",
-              "text": " ",
-            }
-          ]
-        }
-      ]
-    }
-  ]
+          "type": "text",
+          "text": " ",
+        },
+      ],
+    },
+  ],
 };
 
 const EDITOR_EMPTY_STATE = EditorState.create({

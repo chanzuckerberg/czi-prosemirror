@@ -12,10 +12,6 @@ var _nodes, _marks;
 
 var _NodeNames = require('./NodeNames');
 
-var _DocNodeSpec = require('./DocNodeSpec');
-
-var _DocNodeSpec2 = _interopRequireDefault(_DocNodeSpec);
-
 var _MarkNames = require('./MarkNames');
 
 var MarkNames = _interopRequireWildcard(_MarkNames);
@@ -40,9 +36,9 @@ var _LinkMarkSpec = require('./LinkMarkSpec');
 
 var _LinkMarkSpec2 = _interopRequireDefault(_LinkMarkSpec);
 
-var _BodyNodeSpec = require('./BodyNodeSpec');
+var _DocNodeSpec = require('./DocNodeSpec');
 
-var _BodyNodeSpec2 = _interopRequireDefault(_BodyNodeSpec);
+var _DocNodeSpec2 = _interopRequireDefault(_DocNodeSpec);
 
 var _ParagraphNodeSpec = require('./ParagraphNodeSpec');
 
@@ -96,7 +92,7 @@ var MARK_CODE = MarkNames.MARK_CODE,
 
 // These nodes are required to build basic marks.
 
-var nodes = (_nodes = {}, (0, _defineProperty3.default)(_nodes, _NodeNames.DOC, _DocNodeSpec2.default), (0, _defineProperty3.default)(_nodes, _NodeNames.BODY, _BodyNodeSpec2.default), (0, _defineProperty3.default)(_nodes, _NodeNames.PARAGRAPH, _ParagraphNodeSpec2.default), (0, _defineProperty3.default)(_nodes, _NodeNames.TEXT, _TextNodeSpec2.default), _nodes);
+var nodes = (_nodes = {}, (0, _defineProperty3.default)(_nodes, _NodeNames.DOC, _DocNodeSpec2.default), (0, _defineProperty3.default)(_nodes, _NodeNames.PARAGRAPH, _ParagraphNodeSpec2.default), (0, _defineProperty3.default)(_nodes, _NodeNames.TEXT, _TextNodeSpec2.default), _nodes);
 
 var marks = (_marks = {}, (0, _defineProperty3.default)(_marks, MARK_CODE, _CodeMarkSpec2.default), (0, _defineProperty3.default)(_marks, MARK_EM, _EMMarkSpec2.default), (0, _defineProperty3.default)(_marks, MARK_FONT_SIZE, _FontSizeMarkSpec2.default), (0, _defineProperty3.default)(_marks, MARK_FONT_TYPE, _FontTypeMarkSpec2.default), (0, _defineProperty3.default)(_marks, MARK_LINK, _LinkMarkSpec2.default), (0, _defineProperty3.default)(_marks, MARK_STRIKE, _StrikeMarkSpec2.default), (0, _defineProperty3.default)(_marks, MARK_STRONG, _StrongMarkSpec2.default), (0, _defineProperty3.default)(_marks, MARK_TEXT_COLOR, _TextColorMarkSpec2.default), (0, _defineProperty3.default)(_marks, MARK_TEXT_HIGHLIGHT, _TextHighlightMarkSpec2.default), (0, _defineProperty3.default)(_marks, MARK_TEXT_SELECTION, _TextSelectionMarkSpec2.default), (0, _defineProperty3.default)(_marks, MARK_UNDERLINE, _TextUnderlineMarkSpec2.default), _marks);
 

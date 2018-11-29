@@ -20,13 +20,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var EMPTY_DOC_JSON = {
   "type": "doc",
   "content": [{
-    "type": "body",
+    "type": "paragraph",
     "content": [{
-      "type": "paragraph",
-      "content": [{
-        "type": "text",
-        "text": " "
-      }]
+      "type": "text",
+      "text": " "
     }]
   }]
 };

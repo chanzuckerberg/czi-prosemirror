@@ -4,6 +4,14 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _extends2 = require('babel-runtime/helpers/extends');
+
+var _extends3 = _interopRequireDefault(_extends2);
+
+var _objectWithoutProperties2 = require('babel-runtime/helpers/objectWithoutProperties');
+
+var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
+
 var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
@@ -24,6 +32,12 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
+require('./czi-custom-radio-button.css');
+
+var _PointerSurface = require('./PointerSurface');
+
+var _PointerSurface2 = _interopRequireDefault(_PointerSurface);
+
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
@@ -36,13 +50,13 @@ var _uuid = require('./uuid');
 
 var _uuid2 = _interopRequireDefault(_uuid);
 
-require('./czi-custom-radio-button.css');
+var _preventEventDefault = require('./preventEventDefault');
+
+var _preventEventDefault2 = _interopRequireDefault(_preventEventDefault);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function noop(e) {
-  e.preventDefault();
-}
+var babelPluginFlowReactPropTypes_proptype_PointerSurfaceProps = require('./PointerSurface').babelPluginFlowReactPropTypes_proptype_PointerSurfaceProps || require('prop-types').any;
 
 var CustomRadioButton = function (_React$PureComponent) {
   (0, _inherits3.default)(CustomRadioButton, _React$PureComponent);
@@ -58,79 +72,36 @@ var CustomRadioButton = function (_React$PureComponent) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = CustomRadioButton.__proto__ || (0, _getPrototypeOf2.default)(CustomRadioButton)).call.apply(_ref, [this].concat(args))), _this), _this._clicked = false, _this._mul = false, _this._pressedTarget = null, _this._unmounted = false, _this._name = (0, _uuid2.default)(), _this.state = { pressed: false }, _this._onMouseDown = function (e) {
-      e.preventDefault();
-
-      _this._pressedTarget = null;
-      _this._clicked = false;
-
-      if (e.which === 3 || e.button == 2) {
-        // right click.
-        return;
-      }
-
-      _this.setState({ pressed: true });
-      _this._pressedTarget = e.currentTarget;
-      _this._clicked = false;
-
-      if (!_this._mul) {
-        document.addEventListener('mouseup', _this._onMouseUpCapture, true);
-        _this._mul = true;
-      }
-    }, _this._onMouseUp = function (e) {
-      e.preventDefault();
-
-      _this.setState({ pressed: false });
-
-      if (_this._clicked || e.type === 'keypress') {
-        var _this$props = _this.props,
-            _onSelect = _this$props.onSelect,
-            _value = _this$props.value,
-            _disabled = _this$props.disabled,
-            _checked = _this$props.checked;
-
-        !_disabled && !_checked && _onSelect && _onSelect(_value, e);
-      }
-
-      _this._pressedTarget = null;
-      _this._clicked = false;
-    }, _this._onMouseUpCapture = function (e) {
-      if (_this._mul) {
-        _this._mul = false;
-        document.removeEventListener('mouseup', _this._onMouseUpCapture, true);
-      }
-      var target = e.target;
-      _this._clicked = _this._pressedTarget instanceof HTMLElement && target instanceof HTMLElement && (target === _this._pressedTarget || target.contains(_this._pressedTarget) || _this._pressedTarget.contains(target));
-    }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
+    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = CustomRadioButton.__proto__ || (0, _getPrototypeOf2.default)(CustomRadioButton)).call.apply(_ref, [this].concat(args))), _this), _this._name = (0, _uuid2.default)(), _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
   }
 
   (0, _createClass3.default)(CustomRadioButton, [{
     key: 'render',
     value: function render() {
       var _props = this.props,
+          title = _props.title,
           className = _props.className,
-          disabled = _props.disabled,
           checked = _props.checked,
           label = _props.label,
           inline = _props.inline,
-          name = _props.name;
-      var pressed = this.state.pressed;
+          name = _props.name,
+          onSelect = _props.onSelect,
+          disabled = _props.disabled,
+          pointerProps = (0, _objectWithoutProperties3.default)(_props, ['title', 'className', 'checked', 'label', 'inline', 'name', 'onSelect', 'disabled']);
 
 
-      var buttonClassName = (0, _classnames2.default)(className, {
+      var klass = (0, _classnames2.default)(className, 'czi-custom-radio-button', {
         'checked': checked,
-        'czi-custom-radio-button': true,
-        'disabled': disabled,
         'inline': inline
       });
 
       return _react2.default.createElement(
-        'span',
-        {
-          className: buttonClassName,
-          onKeyPress: disabled ? noop : this._onMouseUp,
-          onMouseDown: disabled ? noop : this._onMouseDown,
-          onMouseUp: disabled ? noop : this._onMouseUp },
+        _PointerSurface2.default,
+        (0, _extends3.default)({}, pointerProps, {
+          disabled: disabled,
+          className: klass,
+          onClick: onSelect,
+          title: title || label }),
         _react2.default.createElement('input', {
           checked: checked,
           className: 'czi-custom-radio-button-input',
@@ -138,7 +109,7 @@ var CustomRadioButton = function (_React$PureComponent) {
           name: name || this._name,
           tabIndex: disabled ? null : 0,
           type: 'radio',
-          onChange: noop
+          onChange: _preventEventDefault2.default
         }),
         _react2.default.createElement('span', { className: 'czi-custom-radio-button-icon' }),
         _react2.default.createElement(
@@ -147,15 +118,6 @@ var CustomRadioButton = function (_React$PureComponent) {
           label
         )
       );
-    }
-  }, {
-    key: 'componentWillUnmount',
-    value: function componentWillUnmount() {
-      this._unmounted = true;
-      if (this._mul) {
-        this._mul = false;
-        document.removeEventListener('mouseup', this._onMouseUpCapture, true);
-      }
     }
   }]);
   return CustomRadioButton;

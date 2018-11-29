@@ -1,6 +1,5 @@
 // @flow
 
-import adjustAllSelection from './adjustAllSelection';
 import isInsideListItem from './isInsideListItem';
 import isListNode from './isListNode';
 import nullthrows from 'nullthrows';
@@ -30,8 +29,6 @@ export default function toggleHeading(
   ) {
     return tr;
   }
-
-  tr = adjustAllSelection(tr, schema);
 
   const {from, to} = tr.selection;
   let startWithHeadingBlock = null;

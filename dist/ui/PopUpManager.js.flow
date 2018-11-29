@@ -111,7 +111,7 @@ class PopUpManager {
       }
     }
 
-    const pointer = fromXY(this._mx, this._my, 10);
+    const pointer = fromXY(this._mx, this._my, 2);
     const hoveredAnchors = new Set();
     for (let [bridge, details] of bridgeToDetails) {
       const {

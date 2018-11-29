@@ -12,7 +12,6 @@ import HorizontalRuleNodeSpec from './HorizontalRuleNodeSpec';
 import ImageNodeSpec from './ImageNodeSpec';
 import ListItemNodeSpec from './ListItemNodeSpec';
 import OrderedListNodeSpec from './OrderedListNodeSpec';
-import BodyNodeSpec from './BodyNodeSpec';
 import ParagraphNodeSpec from './ParagraphNodeSpec';
 import TableNodesSpecs from './TableNodesSpecs';
 import TextNodeSpec from './TextNodeSpec';
@@ -29,19 +28,16 @@ const {
   IMAGE,
   LIST_ITEM,
   ORDERED_LIST,
-  BODY,
   PARAGRAPH,
   TEXT,
 } = NodeNames;
 
 // https://github.com/ProseMirror/prosemirror-schema-basic/blob/master/src/schema-basic.js
 
-// Be careful with the order of these nodes, which may effect the parsing
-// outcome.
+// !! Be careful with the order of these nodes, which may effect the parsing
+// outcome.!!
 const nodes = {
   [DOC]: DocNodeSpec,
-  [BODY]: BodyNodeSpec,
-
   [PARAGRAPH]: ParagraphNodeSpec,
   [BLOCKQUOTE]: BlockquoteNodeSpec,
   [HORIZONTAL_RULE]: HorizontalRuleNodeSpec,
@@ -50,7 +46,6 @@ const nodes = {
   [TEXT]: TextNodeSpec,
   [IMAGE]: ImageNodeSpec,
   [HARD_BREAK]: HardBreakNodeSpec,
-
   [BULLET_LIST]: BulletListNodeSpec,
   [ORDERED_LIST]: OrderedListNodeSpec,
   [LIST_ITEM]: ListItemNodeSpec,

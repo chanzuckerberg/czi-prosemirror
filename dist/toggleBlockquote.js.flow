@@ -1,6 +1,5 @@
 // @flow
 
-import adjustAllSelection from './adjustAllSelection';
 import isInsideListItem from './isInsideListItem';
 import isListNode from './isListNode';
 import nullthrows from 'nullthrows';
@@ -25,8 +24,6 @@ export default function toggleBlockquote(
   if (!selection || !doc || !heading || !paragraph || !listItem || !heading) {
     return tr;
   }
-
-  tr = adjustAllSelection(tr, schema);
 
   const {from, to} = tr.selection;
   let startWithBlockQuote = null;

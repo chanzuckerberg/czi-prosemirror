@@ -18,8 +18,8 @@ var _prosemirrorState = require('prosemirror-state');
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function convertFromHTML(html) {
-  // TODO: Replace thsi with getSafeDOM.
-  var root = document.createElement('czi-prose-mirror-root');
-  root.innerHTML = (0, _normalizeHTML2.default)(html);
+  var root = document.createElement('html');
+  var newHTML = (0, _normalizeHTML2.default)(html);
+  root.innerHTML = newHTML;
   return (0, _convertFromDOMElement2.default)(root);
 }

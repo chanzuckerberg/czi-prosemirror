@@ -86,7 +86,8 @@ var CommandButton = function (_React$PureComponent) {
           command = _props.command,
           editorState = _props.editorState,
           editorView = _props.editorView,
-          icon = _props.icon;
+          icon = _props.icon,
+          title = _props.title;
 
       var disabled = this.props.disabled;
       if (!!disabled === false) {
@@ -100,6 +101,7 @@ var CommandButton = function (_React$PureComponent) {
         label: label,
         onClick: this._onUIEnter,
         onMouseEnter: this._onUIEnter,
+        title: title,
         value: command
       });
     }

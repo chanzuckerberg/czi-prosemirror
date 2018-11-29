@@ -11,10 +11,6 @@ var _extends3 = _interopRequireDefault(_extends2);
 exports.default = toggleList;
 exports.unwrapNodesFromList = unwrapNodesFromList;
 
-var _adjustAllSelection = require('./adjustAllSelection');
-
-var _adjustAllSelection2 = _interopRequireDefault(_adjustAllSelection);
-
 var _applyMark = require('./applyMark');
 
 var _applyMark2 = _interopRequireDefault(_applyMark);
@@ -30,10 +26,6 @@ var _joinListNode2 = _interopRequireDefault(_joinListNode);
 var _nullthrows = require('nullthrows');
 
 var _nullthrows2 = _interopRequireDefault(_nullthrows);
-
-var _selectBodyContent = require('./selectBodyContent');
-
-var _selectBodyContent2 = _interopRequireDefault(_selectBodyContent);
 
 var _transformAndPreserveTextSelection = require('./transformAndPreserveTextSelection');
 
@@ -58,7 +50,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var babelPluginFlowReactPropTypes_proptype_SelectionMemo = require('./transformAndPreserveTextSelection').babelPluginFlowReactPropTypes_proptype_SelectionMemo || require('prop-types').any;
 
 function toggleList(tr, schema, listNodeType) {
-  tr = (0, _adjustAllSelection2.default)(tr, schema);
   var _tr = tr,
       selection = _tr.selection,
       doc = _tr.doc;

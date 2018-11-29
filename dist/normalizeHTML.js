@@ -21,8 +21,6 @@ var _patchTableElements = require('./patchTableElements');
 
 var _patchTableElements2 = _interopRequireDefault(_patchTableElements);
 
-var _BodyNodeSpec = require('./BodyNodeSpec');
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var BRAILLE_PATTERN_BLANK = '\u2800';
@@ -54,17 +52,12 @@ function normalizeHTML(html) {
     body = doc.getElementsByTagName('body')[0];
 
     if (body && sourceIsPage) {
-      // Source HMTL contains <body />, assumes thsi to be a complete
-      // page HTML.
-      var cssText = body.style.cssText;
-
-      if (cssText) {
-        var editorBody = doc.createElement(_BodyNodeSpec.TAG_NAME);
-        editorBody.style.cssText = cssText;
-        editorBody.innerHTML = body.innerHTML;
-        body = doc.createElement('body');
-        body.appendChild(editorBody);
-      }
+      // Source HTML contains <body />, assumes this to be a complete
+      // page HTML. Assume this <body /> may contain the style that indicates
+      // page's layout.
+      var frag = doc.createElement('html');
+      frag.appendChild(body);
+      return frag.innerHTML;
     }
   }
 
@@ -73,6 +66,6 @@ function normalizeHTML(html) {
     return 'Unsupported HTML content';
   }
 
-  html = body.innerHTML;
-  return html;
+  // HTML snippet only.
+  return '<body>' + body.innerHTML + '</body>';
 }

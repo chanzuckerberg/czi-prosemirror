@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -7,12 +7,12 @@ exports.isCollapsed = isCollapsed;
 exports.isIntersected = isIntersected;
 exports.fromXY = fromXY;
 exports.fromHTMlElement = fromHTMlElement;
-if (typeof exports !== "undefined") Object.defineProperty(exports, "babelPluginFlowReactPropTypes_proptype_Rect", {
-  value: require("prop-types").shape({
-    h: require("prop-types").number.isRequired,
-    w: require("prop-types").number.isRequired,
-    x: require("prop-types").number.isRequired,
-    y: require("prop-types").number.isRequired
+if (typeof exports !== 'undefined') Object.defineProperty(exports, 'babelPluginFlowReactPropTypes_proptype_Rect', {
+  value: require('prop-types').shape({
+    h: require('prop-types').number.isRequired,
+    w: require('prop-types').number.isRequired,
+    x: require('prop-types').number.isRequired,
+    y: require('prop-types').number.isRequired
   })
 });
 function isCollapsed(rect) {
@@ -35,6 +35,11 @@ function fromXY(x, y, padding) {
 }
 
 function fromHTMlElement(el) {
+  var display = document.defaultView.getComputedStyle(el).display;
+  if (display === 'contents' && el.children.length === 1) {
+    // el has no layout at all, use its children instead.
+    return fromHTMlElement(el.children[0]);
+  }
   var rect = el.getBoundingClientRect();
   return {
     x: rect.left,

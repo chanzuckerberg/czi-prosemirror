@@ -8,11 +8,26 @@ import FontTypeCommandMenuButton from './FontTypeCommandMenuButton';
 import Icon from './Icon';
 import React from 'react';
 
-export const ICON_LABEL_PATTERN = /[a-z_]+/;
+const ICON_LABEL_PATTERN = /\[([A-Za-z_\d]+)\](.*)/;
+
+export function parseLabel(input: string): Object {
+  const matched = input.match(ICON_LABEL_PATTERN);
+  if (matched) {
+    const [all, icon, label] = matched;
+    return {
+      icon: icon ? Icon.get(icon) : null,
+      title: label || null,
+    };
+  }
+  return {
+    icon: null,
+    title: input || null,
+  };
+}
 
 const {
   BLOCKQUOTE_INFO,
-  BODY_SIZE,
+  DOC_LAYOUT,
   CLEAR_FORMAT,
   CODE,
   EM,
@@ -63,12 +78,12 @@ const {
 
 export const COMMAND_GROUPS = [
   {
-    undo: HISTORY_UNDO,
-    redo: HISTORY_REDO,
-    print: PRINT,
+    '[undo] Undo': HISTORY_UNDO,
+    '[redo] Redo': HISTORY_REDO,
+    '[print] Print': PRINT,
   },
   {
-    grid_on: [
+    '[grid_on] Table...': [
       {
         'Insert Table...': TABLE_INSERT_TABLE,
       },
@@ -101,9 +116,9 @@ export const COMMAND_GROUPS = [
     ],
   },
   {
-    'H1 ': H1,
-    'H2 ': H2,
-    'keyboard_arrow_down': [{
+    '[H1] Header 1': H1,
+    '[H2] Heading 2': H2,
+    '[keyboard_arrow_down] Headings...': [{
       'Header 3': H3,
       'Header 4': H4,
       'Header 5': H5,
@@ -111,21 +126,21 @@ export const COMMAND_GROUPS = [
     }],
   },
   {
-    font_download: FontTypeCommandMenuButton,
+    '[font_download] Font Type': FontTypeCommandMenuButton,
   },
   {
-    format_size: FontSizeCommandMenuButton,
+    '[format_size] Text Size': FontSizeCommandMenuButton,
   },
   {
-    format_bold: STRONG,
-    format_italic: EM,
-    format_underline: UNDERLINE,
-    format_color_text: TEXT_COLOR,
-    border_color: TEXT_HIGHLIGHT,
+    '[format_bold] Bold': STRONG,
+    '[format_italic] Italic': EM,
+    '[format_underline] Underline': UNDERLINE,
+    '[format_color_text] Text color': TEXT_COLOR,
+    '[border_color] Highlight color': TEXT_HIGHLIGHT,
   },
   {
-    link: LINK_SET_URL,
-    image: [
+    '[link] Apply link': LINK_SET_URL,
+    '[image] Insert image': [
       {
         'Insert image by URL': IMAGE_FROM_URL,
         'Upload image from computer': IMAGE_UPLOAD,
@@ -133,32 +148,32 @@ export const COMMAND_GROUPS = [
     ],
   },
   {
-    format_align_left: TEXT_ALIGN_LEFT,
-    format_align_center: TEXT_ALIGN_CENTER,
-    format_align_right: TEXT_ALIGN_RIGHT,
-    format_align_justify: TEXT_ALIGN_JUSTIFY,
+    '[format_align_left] Left align': TEXT_ALIGN_LEFT,
+    '[format_align_center] Center Align': TEXT_ALIGN_CENTER,
+    '[format_align_right] Right Align': TEXT_ALIGN_RIGHT,
+    '[format_align_justify] Justify': TEXT_ALIGN_JUSTIFY,
   },
   {
-    format_line_spacing: TEXT_LINE_SPACINGS,
+    '[format_line_spacing] Line spacing': TEXT_LINE_SPACINGS,
   },
   {
-    format_list_numbered: OL,
-    format_list_bulleted: UL,
+    '[format_list_numbered] Ordered list': OL,
+    '[format_list_bulleted] Bulleted list': UL,
   },
   {
-    format_indent_increase: INDENT_MORE,
-    format_indent_decrease: INDENT_LESS,
+    '[format_indent_increase] Indent more': INDENT_MORE,
+    '[format_indent_decrease] Indent less': INDENT_LESS,
   },
   {
-    format_clear: CLEAR_FORMAT,
+    '[format_clear] Clear formats': CLEAR_FORMAT,
   },
   {
-    hr: HR,
-    code: CODE,
-    format_strikethrough: STRIKE,
-    format_quote: BLOCKQUOTE_INFO,
+    '[hr] Horizontal line': HR,
+    '[code] Code': CODE,
+    '[format_strikethrough] Strike through': STRIKE,
+    '[format_quote] Block quote': BLOCKQUOTE_INFO,
   },
   {
-    settings_overscan: BODY_SIZE,
+    '[settings_overscan] Page layout': DOC_LAYOUT,
   },
 ];

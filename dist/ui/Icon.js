@@ -42,6 +42,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var VALID_CHARS = /[a-z_]+/;
 
+var cached = {};
+
 var Icon = function (_React$PureComponent) {
   (0, _inherits3.default)(Icon, _React$PureComponent);
 
@@ -71,6 +73,17 @@ var Icon = function (_React$PureComponent) {
         { className: className },
         children
       );
+    }
+  }], [{
+    key: 'get',
+
+
+    // Get the static Icon.
+    value: function get(type, title) {
+      var key = (type || '') + '-' + (title || '');
+      var icon = cached[key] || _react2.default.createElement(Icon, { type: type, title: title });
+      cached[key] = icon;
+      return icon;
     }
   }]);
   return Icon;

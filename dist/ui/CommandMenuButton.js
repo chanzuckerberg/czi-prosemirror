@@ -130,7 +130,8 @@ var CommandMenuButton = function (_React$PureComponent) {
           editorState = _props.editorState,
           editorView = _props.editorView,
           icon = _props.icon,
-          disabled = _props.disabled;
+          disabled = _props.disabled,
+          title = _props.title;
 
       var enabled = !disabled && commandGroups.some(function (group, ii) {
         return (0, _keys2.default)(group).some(function (label) {
@@ -158,7 +159,8 @@ var CommandMenuButton = function (_React$PureComponent) {
         icon: icon,
         id: this._id,
         label: label,
-        onClick: this._onClick
+        onClick: this._onClick,
+        title: title
       });
     }
   }, {

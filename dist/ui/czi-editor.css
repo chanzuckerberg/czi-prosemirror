@@ -14,6 +14,8 @@
 }
 
 .ProseMirror {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   font-family: var(--czi-editor-font-family);
   font-size: var(--czi-editor-font-size);
   line-height: var(--czi-editor-line-height);
@@ -41,7 +43,7 @@
 }
 
 @media only screen {
-  .ProseMirror .czi-editor-body {
+  .ProseMirror {
     background: #fff;
     border-radius: 1px;
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
@@ -57,35 +59,35 @@
     transform-origin: top; */
   }
 
-  .ProseMirror .czi-editor-body[data-layout="us_letter_portrait"] {
+  .ProseMirror[data-layout="us_letter_portrait"] {
     box-sizing: border-box;
     min-height: 279mm;
     padding: 15.5mm;
     width: 216mm;
   }
 
-  .ProseMirror .czi-editor-body[data-layout="us_letter_landscape"] {
+  .ProseMirror[data-layout="us_letter_landscape"] {
     box-sizing: border-box;
     min-height: 216mm;
     padding: 15.5mm;
     width: 279mm;
   }
 
-  .ProseMirror .czi-editor-body[data-layout="desktop_screen_4_3"] {
+  .ProseMirror[data-layout="desktop_screen_4_3"] {
     box-sizing: border-box;
     min-height: 90vh;
     padding: 15.5mm;
     width: 120vh;
   }
 
-  .ProseMirror .czi-editor-body[data-layout="desktop_screen_16_9"] {
+  .ProseMirror[data-layout="desktop_screen_16_9"] {
     box-sizing: border-box;
     min-height: 80vh;
     padding: 15.5mm;
     width: 142vh;;
   }
 
-  .prosemirror-editor-wrapper.embedded .ProseMirror .czi-editor-body {
+  .prosemirror-editor-wrapper.embedded .ProseMirror {
     background: unset;
     border-radius: unset;
     box-shadow: unset;

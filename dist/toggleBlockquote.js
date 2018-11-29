@@ -5,10 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = toggleBlockquote;
 
-var _adjustAllSelection = require('./adjustAllSelection');
-
-var _adjustAllSelection2 = _interopRequireDefault(_adjustAllSelection);
-
 var _isInsideListItem = require('./isInsideListItem');
 
 var _isInsideListItem2 = _interopRequireDefault(_isInsideListItem);
@@ -49,8 +45,6 @@ function toggleBlockquote(tr, schema) {
   if (!selection || !doc || !heading || !paragraph || !listItem || !heading) {
     return tr;
   }
-
-  tr = (0, _adjustAllSelection2.default)(tr, schema);
 
   var _tr$selection = tr.selection,
       from = _tr$selection.from,

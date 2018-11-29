@@ -10,10 +10,6 @@ var _extends3 = _interopRequireDefault(_extends2);
 
 exports.default = toggleHeading;
 
-var _adjustAllSelection = require('./adjustAllSelection');
-
-var _adjustAllSelection2 = _interopRequireDefault(_adjustAllSelection);
-
 var _isInsideListItem = require('./isInsideListItem');
 
 var _isInsideListItem2 = _interopRequireDefault(_isInsideListItem);
@@ -55,8 +51,6 @@ function toggleHeading(tr, schema, level) {
   if (!selection || !doc || !heading || !paragraph || !listItem || !blockquote) {
     return tr;
   }
-
-  tr = (0, _adjustAllSelection2.default)(tr, schema);
 
   var _tr$selection = tr.selection,
       from = _tr$selection.from,

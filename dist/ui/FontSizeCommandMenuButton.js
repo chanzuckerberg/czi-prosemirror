@@ -93,6 +93,7 @@ var FontSizeCommandMenuButton = function (_React$PureComponent) {
 
       var fontSize = (0, _findActiveFontSize2.default)(editorState);
       return _react2.default.createElement(_CommandMenuButton2.default, {
+        className: 'width-30',
         commandGroups: COMMAND_GROUPS,
         dispatch: dispatch,
         editorState: editorState,

@@ -93,7 +93,12 @@ class Editor extends React.PureComponent<any, any, any> {
   render(): React.Element<any> {
     const {embedded, readOnly} = this.props;
     const className = cx('prosemirror-editor-wrapper', {embedded, readOnly});
-    return <div className={className} id={this._id} />;
+    return (
+      <div
+        className={className}
+        id={this._id}
+      />
+    );
   }
 
   focus(): void {

@@ -7,7 +7,6 @@ Object.defineProperty(exports, "__esModule", {
 
 // https://github.com/ProseMirror/prosemirror-schema-basic/blob/master/src/schema-basic.js
 var BLOCKQUOTE = exports.BLOCKQUOTE = 'blockquote';
-var BODY = exports.BODY = 'body';
 var BULLET_LIST = exports.BULLET_LIST = 'bullet_list';
 var CODE_BLOCK = exports.CODE_BLOCK = 'code_block';
 var DOC = exports.DOC = 'doc';

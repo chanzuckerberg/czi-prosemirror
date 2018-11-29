@@ -3,7 +3,13 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.COMMAND_GROUPS = exports.ICON_LABEL_PATTERN = undefined;
+exports.COMMAND_GROUPS = undefined;
+
+var _slicedToArray2 = require('babel-runtime/helpers/slicedToArray');
+
+var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
+
+exports.parseLabel = parseLabel;
 
 var _EditorCommands = require('../EditorCommands');
 
@@ -33,14 +39,33 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-var ICON_LABEL_PATTERN = exports.ICON_LABEL_PATTERN = /[a-z_]+/;
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var ICON_LABEL_PATTERN = /\[([A-Za-z_\d]+)\](.*)/;
+
+function parseLabel(input) {
+  var matched = input.match(ICON_LABEL_PATTERN);
+  if (matched) {
+    var _matched = (0, _slicedToArray3.default)(matched, 3),
+        all = _matched[0],
+        icon = _matched[1],
+        label = _matched[2];
+
+    return {
+      icon: icon ? _Icon2.default.get(icon) : null,
+      title: label || null
+    };
+  }
+  return {
+    icon: null,
+    title: input || null
+  };
+}
 
 var BLOCKQUOTE_INFO = EditorCommands.BLOCKQUOTE_INFO,
-    BODY_SIZE = EditorCommands.BODY_SIZE,
+    DOC_LAYOUT = EditorCommands.DOC_LAYOUT,
     CLEAR_FORMAT = EditorCommands.CLEAR_FORMAT,
     CODE = EditorCommands.CODE,
     EM = EditorCommands.EM,
@@ -88,11 +113,11 @@ var BLOCKQUOTE_INFO = EditorCommands.BLOCKQUOTE_INFO,
     UL = EditorCommands.UL,
     UNDERLINE = EditorCommands.UNDERLINE;
 var COMMAND_GROUPS = exports.COMMAND_GROUPS = [{
-  undo: HISTORY_UNDO,
-  redo: HISTORY_REDO,
-  print: PRINT
+  '[undo] Undo': HISTORY_UNDO,
+  '[redo] Redo': HISTORY_REDO,
+  '[print] Print': PRINT
 }, {
-  grid_on: [{
+  '[grid_on] Table...': [{
     'Insert Table...': TABLE_INSERT_TABLE
   }, {
     'Fill Color...': TABLE_CELL_COLOR
@@ -117,50 +142,50 @@ var COMMAND_GROUPS = exports.COMMAND_GROUPS = [{
     'Delete Table': TABLE_DELETE_TABLE
   }]
 }, {
-  'H1 ': H1,
-  'H2 ': H2,
-  'keyboard_arrow_down': [{
+  '[H1] Header 1': H1,
+  '[H2] Heading 2': H2,
+  '[keyboard_arrow_down] Headings...': [{
     'Header 3': H3,
     'Header 4': H4,
     'Header 5': H5,
     'Header 6': H6
   }]
 }, {
-  font_download: _FontTypeCommandMenuButton2.default
+  '[font_download] Font Type': _FontTypeCommandMenuButton2.default
 }, {
-  format_size: _FontSizeCommandMenuButton2.default
+  '[format_size] Text Size': _FontSizeCommandMenuButton2.default
 }, {
-  format_bold: STRONG,
-  format_italic: EM,
-  format_underline: UNDERLINE,
-  format_color_text: TEXT_COLOR,
-  border_color: TEXT_HIGHLIGHT
+  '[format_bold] Bold': STRONG,
+  '[format_italic] Italic': EM,
+  '[format_underline] Underline': UNDERLINE,
+  '[format_color_text] Text color': TEXT_COLOR,
+  '[border_color] Highlight color': TEXT_HIGHLIGHT
 }, {
-  link: LINK_SET_URL,
-  image: [{
+  '[link] Apply link': LINK_SET_URL,
+  '[image] Insert image': [{
     'Insert image by URL': IMAGE_FROM_URL,
     'Upload image from computer': IMAGE_UPLOAD
   }]
 }, {
-  format_align_left: TEXT_ALIGN_LEFT,
-  format_align_center: TEXT_ALIGN_CENTER,
-  format_align_right: TEXT_ALIGN_RIGHT,
-  format_align_justify: TEXT_ALIGN_JUSTIFY
+  '[format_align_left] Left align': TEXT_ALIGN_LEFT,
+  '[format_align_center] Center Align': TEXT_ALIGN_CENTER,
+  '[format_align_right] Right Align': TEXT_ALIGN_RIGHT,
+  '[format_align_justify] Justify': TEXT_ALIGN_JUSTIFY
 }, {
-  format_line_spacing: TEXT_LINE_SPACINGS
+  '[format_line_spacing] Line spacing': TEXT_LINE_SPACINGS
 }, {
-  format_list_numbered: OL,
-  format_list_bulleted: UL
+  '[format_list_numbered] Ordered list': OL,
+  '[format_list_bulleted] Bulleted list': UL
 }, {
-  format_indent_increase: INDENT_MORE,
-  format_indent_decrease: INDENT_LESS
+  '[format_indent_increase] Indent more': INDENT_MORE,
+  '[format_indent_decrease] Indent less': INDENT_LESS
 }, {
-  format_clear: CLEAR_FORMAT
+  '[format_clear] Clear formats': CLEAR_FORMAT
 }, {
-  hr: HR,
-  code: CODE,
-  format_strikethrough: STRIKE,
-  format_quote: BLOCKQUOTE_INFO
+  '[hr] Horizontal line': HR,
+  '[code] Code': CODE,
+  '[format_strikethrough] Strike through': STRIKE,
+  '[format_quote] Block quote': BLOCKQUOTE_INFO
 }, {
-  settings_overscan: BODY_SIZE
+  '[settings_overscan] Page layout': DOC_LAYOUT
 }];

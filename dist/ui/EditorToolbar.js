@@ -42,6 +42,10 @@ var _CommandMenuButton = require('./CommandMenuButton');
 
 var _CommandMenuButton2 = _interopRequireDefault(_CommandMenuButton);
 
+var _CustomButton = require('./CustomButton');
+
+var _CustomButton2 = _interopRequireDefault(_CustomButton);
+
 var _FontSizeCommandMenuButton = require('./FontSizeCommandMenuButton');
 
 var _FontSizeCommandMenuButton2 = _interopRequireDefault(_FontSizeCommandMenuButton);
@@ -116,8 +120,9 @@ var EditorToolbar = function (_React$PureComponent) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = EditorToolbar.__proto__ || (0, _getPrototypeOf2.default)(EditorToolbar)).call.apply(_ref, [this].concat(args))), _this), _this._ref = null, _this.state = {
-      wrapped: false
+    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = EditorToolbar.__proto__ || (0, _getPrototypeOf2.default)(EditorToolbar)).call.apply(_ref, [this].concat(args))), _this), _this._body = null, _this.state = {
+      expanded: false,
+      wrapped: null
     }, _this._renderButtonsGroup = function (group, index) {
       var buttons = (0, _keys2.default)(group).map(function (label) {
         var obj = group[label];
@@ -154,7 +159,10 @@ var EditorToolbar = function (_React$PureComponent) {
           editorView = _this$props2.editorView,
           disabled = _this$props2.disabled;
 
-      var icon = _EditorToolbarConfig.ICON_LABEL_PATTERN.test(label) ? _react2.default.createElement(_Icon2.default, { type: label }) : null;
+      var _parseLabel = (0, _EditorToolbarConfig.parseLabel)(label),
+          icon = _parseLabel.icon,
+          title = _parseLabel.title;
+
       return _react2.default.createElement(_CommandMenuButton2.default, {
         commandGroups: commandGroups,
         disabled: disabled,
@@ -163,7 +171,8 @@ var EditorToolbar = function (_React$PureComponent) {
         editorView: editorView,
         icon: icon,
         key: label,
-        label: icon ? null : label
+        label: icon ? null : title,
+        title: title
       });
     }, _this._renderButton = function (label, command) {
       var _this$props3 = _this.props,
@@ -171,10 +180,10 @@ var EditorToolbar = function (_React$PureComponent) {
           editorState = _this$props3.editorState,
           editorView = _this$props3.editorView;
 
-      var icon = void 0;
-      if (_EditorToolbarConfig.ICON_LABEL_PATTERN.test(label)) {
-        icon = _react2.default.createElement(_Icon2.default, { type: label });
-      }
+      var _parseLabel2 = (0, _EditorToolbarConfig.parseLabel)(label),
+          icon = _parseLabel2.icon,
+          title = _parseLabel2.title;
+
       return _react2.default.createElement(_CommandButton2.default, {
         command: command,
         disabled: disabled,
@@ -183,7 +192,8 @@ var EditorToolbar = function (_React$PureComponent) {
         editorView: editorView,
         icon: icon,
         key: label,
-        label: icon ? null : label
+        label: icon ? null : title,
+        title: title
       });
     }, _this._dispatchTransaction = function (transaction) {
       var _this$props4 = _this.props,
@@ -192,48 +202,84 @@ var EditorToolbar = function (_React$PureComponent) {
 
       var nextState = (editorState || EDITOR_EMPTY_STATE).apply(transaction);
       onChange && onChange(nextState);
-    }, _this._onRef = function (ref) {
-      _this._ref = ref;
-
+    }, _this._onBodyRef = function (ref) {
       if (ref) {
+        _this._body = ref;
         // Mounting
         var el = _reactDom2.default.findDOMNode(ref);
         if (el instanceof HTMLElement) {
-          _ResizeObserver2.default.observe(el, _this._onContentResize);
+          _ResizeObserver2.default.observe(el, _this._checkIfContentIsWrapped);
         }
       } else {
         // Unmounting.
-        var _el = _reactDom2.default.findDOMNode(_this._ref);
+        var _el = _this._body && _reactDom2.default.findDOMNode(_this._body);
         if (_el instanceof HTMLElement) {
           _ResizeObserver2.default.unobserve(_el);
         }
+        _this._body = null;
       }
-      _this._ref = ref;
-    }, _this._onContentResize = function (info) {
-      var ref = _this._ref;
+    }, _this._checkIfContentIsWrapped = function () {
+      var ref = _this._body;
       var el = ref && _reactDom2.default.findDOMNode(ref);
-      var body = el && el.firstChild;
-      if (el && body) {
-        _this.setState({
-          wrapped: body.offsetHeight >= el.offsetHeight * 1.5
-        });
+      var startAnchor = el && el.firstChild;
+      var endAnchor = el && el.lastChild;
+      if (startAnchor && endAnchor) {
+        var wrapped = startAnchor.offsetTop < endAnchor.offsetTop;
+        _this.setState({ wrapped: wrapped });
       }
+    }, _this._toggleExpansion = function (expanded) {
+      _this.setState({ expanded: !expanded });
     }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
   }
 
   (0, _createClass3.default)(EditorToolbar, [{
     key: 'render',
     value: function render() {
-      var wrapped = this.state.wrapped;
+      var _state = this.state,
+          wrapped = _state.wrapped,
+          expanded = _state.expanded;
 
-      var className = (0, _classnames2.default)('czi-editor-toolbar', { wrapped: wrapped });
+      var className = (0, _classnames2.default)('czi-editor-toolbar', { expanded: expanded, wrapped: wrapped });
+      var wrappedButton = wrapped ? _react2.default.createElement(_CustomButton2.default, {
+        active: expanded,
+        className: 'czi-editor-toolbar-expand-button',
+        icon: _Icon2.default.get('more_horiz'),
+        key: 'expand',
+        onClick: this._toggleExpansion,
+        title: 'More',
+        value: expanded
+      }) : null;
       return _react2.default.createElement(
         'div',
-        { className: className, ref: this._onRef },
+        { className: className },
         _react2.default.createElement(
           'div',
-          { className: 'czi-editor-toolbar-body' },
-          _EditorToolbarConfig.COMMAND_GROUPS.map(this._renderButtonsGroup)
+          { className: 'czi-editor-toolbar-flex' },
+          _react2.default.createElement(
+            'div',
+            { className: 'czi-editor-toolbar-body' },
+            _react2.default.createElement(
+              'div',
+              { className: 'czi-editor-toolbar-body-content', ref: this._onBodyRef },
+              _react2.default.createElement('i', { className: 'czi-editor-toolbar-wrapped-anchor' }),
+              _EditorToolbarConfig.COMMAND_GROUPS.map(this._renderButtonsGroup),
+              _react2.default.createElement(
+                'div',
+                { className: 'czi-editor-toolbar-background' },
+                _react2.default.createElement('div', { className: 'czi-editor-toolbar-background-line' }),
+                _react2.default.createElement('div', { className: 'czi-editor-toolbar-background-line' }),
+                _react2.default.createElement('div', { className: 'czi-editor-toolbar-background-line' }),
+                _react2.default.createElement('div', { className: 'czi-editor-toolbar-background-line' }),
+                _react2.default.createElement('div', { className: 'czi-editor-toolbar-background-line' }),
+                _react2.default.createElement('div', { className: 'czi-editor-toolbar-background-line' }),
+                _react2.default.createElement('div', { className: 'czi-editor-toolbar-background-line' }),
+                _react2.default.createElement('div', { className: 'czi-editor-toolbar-background-line' })
+              ),
+              _react2.default.createElement('i', { className: 'czi-editor-toolbar-wrapped-anchor' })
+            ),
+            wrappedButton
+          ),
+          _react2.default.createElement('div', { className: 'czi-editor-toolbar-footer' })
         )
       );
     }

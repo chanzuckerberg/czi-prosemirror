@@ -175,7 +175,10 @@ var Editor = function (_React$PureComponent) {
           readOnly = _props3.readOnly;
 
       var className = (0, _classnames2.default)('prosemirror-editor-wrapper', { embedded: embedded, readOnly: readOnly });
-      return _react2.default.createElement('div', { className: className, id: this._id });
+      return _react2.default.createElement('div', {
+        className: className,
+        id: this._id
+      });
     }
   }, {
     key: 'focus',

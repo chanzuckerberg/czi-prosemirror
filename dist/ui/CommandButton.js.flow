@@ -19,10 +19,13 @@ class CommandButton extends React.PureComponent<any, any, any> {
     editorView: ?EditorView,
     icon?: string | React.Element<any> | null,
     label?: string | React.Element<any> | null,
+    title?: ?string,
   };
 
   render(): React.Element<any> {
-    const {label, className, command, editorState, editorView, icon} = this.props;
+    const {
+      label, className, command, editorState, editorView, icon, title
+    } = this.props;
     let disabled = this.props.disabled;
     if (!!disabled === false) {
       disabled = !editorView || !command.isEnabled(editorState, editorView);
@@ -36,6 +39,7 @@ class CommandButton extends React.PureComponent<any, any, any> {
         label={label}
         onClick={this._onUIEnter}
         onMouseEnter={this._onUIEnter}
+        title={title}
         value={command}
       />
     );

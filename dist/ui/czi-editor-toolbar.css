@@ -1,84 +1,109 @@
 .czi-editor-toolbar {
-  box-sizing: border-box;
-  height: 48px;
+  background: #fff;
+  height: 36px;
   line-height: 32px;
+  pointer-events: none;
+  position: relative;
+  user-select: none;
+}
+
+.czi-editor-toolbar-wrapped-anchor {
+  display: inline-block;
+  height: 1px;
+  vertical-align: middle;
+  width: 1px;
+}
+
+.czi-editor-toolbar-flex {
+  display: flex;
+  flex-direction: column;
+  /* Why 200px is hard-coded? */
+  /* See https://css-tricks.com/using-css-transitions-auto-dimensions/ */
+  height: 200px;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 2;
+}
+
+.czi-editor-toolbar .czi-editor-toolbar-body {
+  /* Only reveal the first row of buttons by default */
+  /* 0.18 = 36px / 200px */
+  flex: 0.18;
+  /* See https://css-tricks.com/using-css-transitions-auto-dimensions/ */
+  transition: flex 0.3s ease-out;
   overflow: hidden;
+}
+
+.czi-editor-toolbar.expanded .czi-editor-toolbar-body {
+  /* Reveal the all rows of buttons. */
+  flex: 1;
+}
+
+.czi-editor-toolbar-expand-button {
+  pointer-events: auto;
+  position: absolute;
+  right: 2px;
+  top: 2px;
+}
+
+.czi-editor-toolbar-body-content {
+  background: #fff;
+  box-shadow: 0 1px 1px rgba(0,0,0,0.26);
+  box-sizing: border-box;
+  min-width: 450px;
+  overflow: hidden;
+  padding: 2px 40px 2px 0;
   position: relative;
 }
 
-.czi-editor-toolbar.wrapped::after {
-  /* The overflow-clip indicator */
-  background: #fff;
-  color: var(--czi-button-text-color);
-  content: '\22EE';
-  font-family: Arial;
-  font-size: 24px;
-  font-weight: bold;
-  height: 100%;
-  line-height: 0;
-  pointer-events: none;
-  position: absolute;
-  right: 4px;
-  top: 24px;
-  width: 10px;
-}
-
-.czi-editor-toolbar.wrapped:hover::after {
-  opacity: 0.5;
-}
-
-.czi-editor-toolbar:hover {
-  overflow: visible;
-}
-
-.czi-editor-toolbar-body {
-  background: #fff;
-  border-bottom: solid 1px rgba(0,0,0,0.18);
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  padding: 8px 0;
-  /* http://stripesgenerator.com/ */
-  /* background-image: linear-gradient(180deg, #ffffff 48.44%, #efefef 48.44%, #efefef 50%, #ffffff 50%, #ffffff 98.44%, #efefef 98.44%, #efefef 100%);
-  background-size: 64.00px 64.00px;
-  background-position: 0 36px;
-  background-repeat: repeat-x; */
-}
 
 .czi-editor-toolbar .czi-custom-button {
-  padding: 0 6px;
+  box-sizing: border-box;
   height: 30px;
   line-height: 28px;
-  box-sizing: border-box;
+  padding: 0 6px;
+  pointer-events: auto;
 }
 
 .czi-editor-toolbar .czi-custom-buttons {
+  display: inline-block;
+  margin-left: 0;
+  margin-right: 0;
+  padding-left: 4px;
+  padding-right: 4px;
   position: relative;
-  padding-right: 0px;
-}
-
-.czi-editor-toolbar .czi-custom-buttons::after {
-  content: '';
-  background-color: rgba(0, 0, 0, 0.1);
-  bottom: 3px;
-  position: absolute;
-  right: -10px;
-  top: 3px;
-  width: 1px;
+  white-space: nowrap;
+  border-right: solid 1px #efefef;
 }
 
 .czi-editor-toolbar .czi-custom-button.czi-custom-button.czi-custom-button {
   border-color: transparent;
-  border-radius: 0;
+  border-radius: 5px;
 }
 
 .czi-editor-toolbar .czi-custom-button.use-icon .czi-icon {
   margin: 4px 0;
 }
 
+.czi-editor-toolbar-background {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.czi-editor-toolbar.wrapped.expanded .czi-editor-toolbar-background-line {
+  border-bottom: solid 1px #f0f0f0;
+  box-sizing: border-box;
+  height: 35px;
+}
+
 @media only print {
-  .czi-editor-toolbar,
-  .__prosemirror-dev-tools__ {
+  .czi-editor-toolbar {
     display: none;
   }
 }

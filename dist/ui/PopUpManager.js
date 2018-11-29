@@ -174,7 +174,7 @@ var PopUpManager = function () {
         }
       }
 
-      var pointer = (0, _rects.fromXY)(_this._mx, _this._my, 10);
+      var pointer = (0, _rects.fromXY)(_this._mx, _this._my, 2);
       var hoveredAnchors = new _set2.default();
       var _iteratorNormalCompletion3 = true;
       var _didIteratorError3 = false;

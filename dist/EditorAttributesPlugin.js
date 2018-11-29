@@ -20,6 +20,8 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
+var _DocNodeSpec = require('./DocNodeSpec');
+
 var _prosemirrorState = require('prosemirror-state');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -30,15 +32,36 @@ var SPEC = {
   }
 };
 
-
 function renderAttributes(editorState) {
+  var doc = editorState.doc;
 
   var attrs = {
-    'class': 'czi-prosemirror-editor',
-    'data-layout': editorState.doc.firstChild.attrs.layout
+    'class': 'czi-prosemirror-editor'
   };
+
+  var _doc$attrs = doc.attrs,
+      width = _doc$attrs.width,
+      padding = _doc$attrs.padding,
+      layout = _doc$attrs.layout;
+
+
+  var style = '';
+  if (width) {
+    // Use custom width (e.g. imported from google doc).
+    style += 'width: ' + width + 'pt;';
+    if (padding) {
+      style += 'padding-left: ' + padding + 'pt;';
+      style += 'padding-right: ' + padding + 'pt;';
+    }
+    attrs.style = style;
+  } else {
+    attrs[_DocNodeSpec.ATTRIBUTE_LAYOUT] = layout || _DocNodeSpec.LAYOUT.US_LETTER_PORTRAIT;
+  }
   return attrs;
 }
+
+// Unfortunately the root node `doc` does not supoort `toDOM`, thus
+// we'd have to assign its `attributes` manually.
 
 var EditorAttributesPlugin = function (_Plugin) {
   (0, _inherits3.default)(EditorAttributesPlugin, _Plugin);

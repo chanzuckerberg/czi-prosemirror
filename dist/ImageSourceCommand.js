@@ -159,7 +159,6 @@ var ImageSourceCommand = function (_UICommand) {
       var selection = state.tr.selection;
 
       if (selection instanceof _prosemirrorState.TextSelection) {
-        console.log(selection);
         return selection.from === selection.to;
       }
       return false;
