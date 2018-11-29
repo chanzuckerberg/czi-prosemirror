@@ -77,6 +77,7 @@ function patchStyleElements(doc) {
         // e.g. rules['color'] = 'red'.
         if (key === 'color') {
           var color = (0, _toHexColor2.default)(String(cssStyleValue));
+          console.log(color, DEFAULT_TEXT_COLOR);
           if (!color || color === DEFAULT_TEXT_COLOR) {
             return;
           }

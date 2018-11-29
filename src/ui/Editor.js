@@ -9,6 +9,7 @@ import React from 'react';
 import applyDevTools from 'prosemirror-dev-tools';
 import createEmptyEditorState from '../createEmptyEditorState';
 import cx from 'classnames';
+import normalizeHTML from '../normalizeHTML';
 import uuid from './uuid';
 import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
@@ -17,6 +18,10 @@ import {Transform} from 'prosemirror-transform';
 import type {EditorRuntime} from '../Types';
 
 const EDITOR_EMPTY_STATE = createEmptyEditorState();
+
+function transformPastedHTML(html: string): string {
+  return normalizeHTML(html);
+}
 
 class Editor extends React.PureComponent<any, any, any> {
 
@@ -49,6 +54,7 @@ class Editor extends React.PureComponent<any, any, any> {
         state: editorState || EDITOR_EMPTY_STATE,
         dispatchTransaction: this._dispatchTransaction,
         editable: this._isEditable,
+        transformPastedHTML,
         nodeViews: {
           image(node, view, getPos) {
             return new ImageNodeView(

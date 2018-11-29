@@ -54,6 +54,10 @@ var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
+var _normalizeHTML = require('../normalizeHTML');
+
+var _normalizeHTML2 = _interopRequireDefault(_normalizeHTML);
+
 var _uuid = require('./uuid');
 
 var _uuid2 = _interopRequireDefault(_uuid);
@@ -69,6 +73,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var babelPluginFlowReactPropTypes_proptype_EditorRuntime = require('../Types').babelPluginFlowReactPropTypes_proptype_EditorRuntime || require('prop-types').any;
 
 var EDITOR_EMPTY_STATE = (0, _createEmptyEditorState2.default)();
+
+function transformPastedHTML(html) {
+  return (0, _normalizeHTML2.default)(html);
+}
 
 var Editor = function (_React$PureComponent) {
   (0, _inherits3.default)(Editor, _React$PureComponent);
@@ -125,6 +133,7 @@ var Editor = function (_React$PureComponent) {
           state: editorState || EDITOR_EMPTY_STATE,
           dispatchTransaction: this._dispatchTransaction,
           editable: this._isEditable,
+          transformPastedHTML: transformPastedHTML,
           nodeViews: {
             image: function image(node, view, getPos) {
               return new _ImageNodeView2.default(node, view, getPos);

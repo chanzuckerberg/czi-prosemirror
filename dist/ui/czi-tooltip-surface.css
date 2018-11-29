@@ -1,0 +1,30 @@
+@import './czi-vars.css';
+
+.czi-tooltip-surface {
+  display: contents;
+}
+
+.czi-tooltip-view {
+  background-color: #2B222A;
+  border-radius: 5px;
+  box-sizing: border-box;
+  color: #fff;
+  font-family: var(--czi-font-family);
+  font-size: var(--czi-font-size);
+  margin: 20px 0 0 -40px;
+  min-width: 100px;
+  padding: 6px 8px;
+  text-align: center;
+}
+
+.czi-tooltip-view::after {
+  background-color: #2B222A;
+  content: '';
+  height: 8px;
+  left: 8px;
+  position: absolute;
+  top: -4px;
+  transform: rotate(45deg);
+  width: 8px;
+  z-index: -1;
+}

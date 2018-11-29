@@ -1,14 +1,21 @@
 // @flow
 
 import hyphenize from './hyphenize';
+import toHexColor from './ui/toHexColor';
 
-// Ensure that inline-styles can be correctly translated as inline marks.
 export default function patchElementInlineStyles(doc: Document): void {
+  // Clean up inline styles added by brower while copying content.
+  const iEls = Array.from(doc.querySelectorAll('*[style]'));
+  iEls.forEach(clearInlineStyles);
+
+  // Ensure that inline-styles can be correctly translated as inline marks.
   // Workaround to patch inline styles added to <p /> by google doc.
-  const pEls = Array.from(doc.querySelectorAll('p[style]'));
-  pEls.forEach(patchElement);
+  const bEls = Array.from(doc.querySelectorAll('p[style]'));
+  bEls.forEach(patchBlockElement);
 }
 
+const DEFAULT_TEXT_COLOR = '#000000';
+const DEFAULT_BACKGROUND_COLOR = '#ffffff';
 const NODE_TYPE_TEXT = 3;
 const NODE_TYPE_ELEMENT = 1;
 const INLINE_STYLE_NAMES = [
@@ -21,6 +28,7 @@ const INLINE_STYLE_NAMES = [
 ];
 
 const INLINE_ELEMENT_NODE_NAMES = new Set([
+  'A',
   'B',
   'EM',
   'I',
@@ -29,13 +37,30 @@ const INLINE_ELEMENT_NODE_NAMES = new Set([
   'U',
 ]);
 
-function patchElement(el: HTMLElement): void {
-  INLINE_STYLE_NAMES.forEach((name) => patchElementStyle(el, name));
+function patchBlockElement(el: HTMLElement): void {
+  INLINE_STYLE_NAMES.forEach((name) => patchBlockElementStyle(el, name));
+}
+
+function clearInlineStyles(el: HTMLElement): void {
+  const {style} = el;
+  if (!style) {
+    return;
+  }
+  const {color, backgroundColor} = style;
+  if (color && toHexColor(color) === DEFAULT_TEXT_COLOR) {
+    style.color = '';
+  }
+  if (backgroundColor && backgroundColor === DEFAULT_BACKGROUND_COLOR) {
+    style.backgroundColor = '';
+  }
 }
 
 // Move the specified inline style of the element to its child nodes. This
 // assumes that its child nodes are inline elements.
-function patchElementStyle(el: HTMLElement, inlineStyleName: string): void {
+function patchBlockElementStyle(
+  el: HTMLElement,
+  inlineStyleName: string,
+): void {
   const element: any = el;
   const elementStyle = element.style;
   const value = elementStyle && elementStyle[inlineStyleName];
