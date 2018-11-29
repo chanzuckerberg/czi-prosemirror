@@ -18,30 +18,57 @@ var _hyphenize = require('./hyphenize');
 
 var _hyphenize2 = _interopRequireDefault(_hyphenize);
 
+var _toHexColor = require('./ui/toHexColor');
+
+var _toHexColor2 = _interopRequireDefault(_toHexColor);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// Ensure that inline-styles can be correctly translated as inline marks.
 function patchElementInlineStyles(doc) {
+  // Clean up inline styles added by brower while copying content.
+  var iEls = (0, _from2.default)(doc.querySelectorAll('*[style]'));
+  iEls.forEach(clearInlineStyles);
+
+  // Ensure that inline-styles can be correctly translated as inline marks.
   // Workaround to patch inline styles added to <p /> by google doc.
-  var pEls = (0, _from2.default)(doc.querySelectorAll('p[style]'));
-  pEls.forEach(patchElement);
+  var bEls = (0, _from2.default)(doc.querySelectorAll('p[style]'));
+  bEls.forEach(patchBlockElement);
 }
 
+var DEFAULT_TEXT_COLOR = '#000000';
+var DEFAULT_BACKGROUND_COLOR = '#ffffff';
 var NODE_TYPE_TEXT = 3;
 var NODE_TYPE_ELEMENT = 1;
 var INLINE_STYLE_NAMES = ['backgroundColor', 'fontFamily', 'fontSize', 'fontStyle', 'fontWeight', 'textDecoration'];
 
-var INLINE_ELEMENT_NODE_NAMES = new _set2.default(['B', 'EM', 'I', 'SPAN', 'STRONG', 'U']);
+var INLINE_ELEMENT_NODE_NAMES = new _set2.default(['A', 'B', 'EM', 'I', 'SPAN', 'STRONG', 'U']);
 
-function patchElement(el) {
+function patchBlockElement(el) {
   INLINE_STYLE_NAMES.forEach(function (name) {
-    return patchElementStyle(el, name);
+    return patchBlockElementStyle(el, name);
   });
+}
+
+function clearInlineStyles(el) {
+  var style = el.style;
+
+  if (!style) {
+    return;
+  }
+  var color = style.color,
+      backgroundColor = style.backgroundColor;
+
+  if (color && (0, _toHexColor2.default)(color) === DEFAULT_TEXT_COLOR) {
+    style.color = '';
+  }
+  if (backgroundColor && backgroundColor === DEFAULT_BACKGROUND_COLOR) {
+    style.backgroundColor = '';
+  }
 }
 
 // Move the specified inline style of the element to its child nodes. This
 // assumes that its child nodes are inline elements.
-function patchElementStyle(el, inlineStyleName) {
+function patchBlockElementStyle(el, inlineStyleName) {
   var element = el;
   var elementStyle = element.style;
   var value = elementStyle && elementStyle[inlineStyleName];
