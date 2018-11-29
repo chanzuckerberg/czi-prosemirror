@@ -8,7 +8,7 @@ import nullthrows from 'nullthrows';
 import selectBodyContent from './selectBodyContent';
 import transformAndPreserveTextSelection from './transformAndPreserveTextSelection';
 import {AllSelection, TextSelection} from 'prosemirror-state';
-import {BODY, PARAGRAPH, LIST_ITEM, ORDERED_LIST, BULLET_LIST, TABLE, HEADING, TEXT} from './NodeNames';
+import {PARAGRAPH, LIST_ITEM, ORDERED_LIST, BULLET_LIST, TABLE, HEADING, TEXT} from './NodeNames';
 import {Fragment, Schema, Node, NodeType, ResolvedPos} from 'prosemirror-model';
 import {MARK_TEXT_SELECTION} from './MarkNames';
 import {Selection} from 'prosemirror-state';

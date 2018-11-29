@@ -3,8 +3,8 @@
 import * as MarkNames from './MarkNames';
 import * as ProsemirrorTables from 'prosemirror-tables';
 import BlockquoteCommand from './BlockquoteCommand';
-import BodyLayoutCommand from './BodyLayoutCommand';
 import CodeBlockCommand from './CodeBlockCommand';
+import DocLayoutCommand from './DocLayoutCommand';
 import HeadingCommand from './HeadingCommand';
 import HistoryRedoCommand from './HistoryRedoCommand';
 import HistoryUndoCommand from './HistoryUndoCommand';
@@ -63,9 +63,9 @@ document.execCommand('enableObjectResizing', false, 'false');
 document.execCommand('enableInlineTableEditing', false, 'false');
 
 export const BLOCKQUOTE_INFO = new BlockquoteCommand();
-export const BODY_SIZE = new BodyLayoutCommand();
 export const CLEAR_FORMAT = new MarksClearCommand();
 export const CODE = new CodeBlockCommand();
+export const DOC_LAYOUT = new DocLayoutCommand();
 export const EM = new MarkToggleCommand(MARK_EM);
 export const H1 = new HeadingCommand(1);
 export const H2 = new HeadingCommand(2);

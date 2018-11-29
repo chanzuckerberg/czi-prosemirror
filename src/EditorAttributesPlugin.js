@@ -1,4 +1,6 @@
 // @flow
+
+import {ATTRIBUTE_LAYOUT, LAYOUT} from './DocNodeSpec';
 import {EditorState, Plugin} from 'prosemirror-state';
 
 const SPEC = {
@@ -8,14 +10,30 @@ const SPEC = {
 };
 
 function renderAttributes(editorState: EditorState): Object {
-
-  const attrs = {
+  const {doc} = editorState;
+  const attrs: Object = {
     'class': 'czi-prosemirror-editor',
-    'data-layout': editorState.doc.firstChild.attrs.layout,
   };
+
+  let {width, padding, layout} = doc.attrs;
+
+  let style = '';
+  if (width) {
+    // Use custom width (e.g. imported from google doc).
+    style += `width: ${width}pt;`;
+    if (padding) {
+      style += `padding-left: ${padding}pt;`;
+      style += `padding-right: ${padding}pt;`;
+    }
+    attrs.style = style;
+  } else {
+    attrs[ATTRIBUTE_LAYOUT] = layout || LAYOUT.US_LETTER_PORTRAIT;
+  }
   return attrs;
 }
 
+// Unfortunately the root node `doc` does not supoort `toDOM`, thus
+// we'd have to assign its `attributes` manually.
 class EditorAttributesPlugin extends Plugin {
   constructor() {
     super(SPEC);

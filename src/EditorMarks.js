@@ -1,6 +1,5 @@
 
-import {DOC, BODY, PARAGRAPH, TEXT} from './NodeNames';
-import DocNodeSpec from './DocNodeSpec';
+import {DOC, PARAGRAPH, TEXT} from './NodeNames';
 
 import * as MarkNames from './MarkNames';
 import CodeMarkSpec from './CodeMarkSpec';
@@ -8,7 +7,7 @@ import EMMarkSpec from './EMMarkSpec';
 import FontSizeMarkSpec from './FontSizeMarkSpec';
 import FontTypeMarkSpec from './FontTypeMarkSpec';
 import LinkMarkSpec from './LinkMarkSpec';
-import BodyNodeSpec from './BodyNodeSpec';
+import DocNodeSpec from './DocNodeSpec';
 import ParagraphNodeSpec from './ParagraphNodeSpec';
 import StrikeMarkSpec from './StrikeMarkSpec';
 import StrongMarkSpec from './StrongMarkSpec';
@@ -36,7 +35,6 @@ const {
 // These nodes are required to build basic marks.
 const nodes = {
   [DOC]: DocNodeSpec,
-  [BODY]: BodyNodeSpec,
   [PARAGRAPH]: ParagraphNodeSpec,
   [TEXT]: TextNodeSpec,
 };

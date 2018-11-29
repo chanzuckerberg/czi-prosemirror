@@ -8,17 +8,17 @@ import React from 'react';
 import cx from 'classnames';
 import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
-import {LAYOUT} from '../BodyNodeSpec';
+import {LAYOUT} from '../DocNodeSpec';
 import {Transform} from 'prosemirror-transform';
 
-export type BodyLayoutEditorValue = {
+export type DocLayoutEditorValue = {
   layout: ?string,
   width: ?number,
 };
 
 type Props = {
-  initialValue: ?BodyLayoutEditorValue,
-  close: (val: ?BodyLayoutEditorValue) => void,
+  initialValue: ?DocLayoutEditorValue,
+  close: (val: ?DocLayoutEditorValue) => void,
 };
 
 type State = {
@@ -27,7 +27,7 @@ type State = {
   width: ?number,
 };
 
-class BodyLayoutEditor extends React.PureComponent<any, any, any> {
+class DocLayoutEditor extends React.PureComponent<any, any, any> {
 
   _unmounted = false;
 
@@ -122,4 +122,4 @@ class BodyLayoutEditor extends React.PureComponent<any, any, any> {
   };
 }
 
-export default BodyLayoutEditor;
+export default DocLayoutEditor;

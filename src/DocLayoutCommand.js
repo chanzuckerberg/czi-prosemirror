@@ -1,10 +1,9 @@
 // @flow
 
-import BodyLayoutEditor from './ui/BodyLayoutEditor';
+import DocLayoutEditor from './ui/DocLayoutEditor';
 import UICommand from './ui/UICommand';
 import createPopUp from './ui/createPopUp';
 import nullthrows from 'nullthrows';
-import {BODY} from './NodeNames';
 import {EditorState, Selection} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
 import {Fragment, Schema} from 'prosemirror-model';
@@ -12,43 +11,32 @@ import {TextSelection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
 import {atViewportCenter} from './ui/PopUpPosition';
 import {showCursorPlaceholder, hideCursorPlaceholder} from './CursorPlaceholderPlugin';
+import SetDocAttrStep from './SetDocAttrStep';
 
-import type {BodyLayoutEditorValue} from './ui/BodyLayoutEditor';
+import type {DocLayoutEditorValue} from './ui/DocLayoutEditor';
 
-function setBodyLayout(
+function setDocLayout(
   tr: Transform,
   schema: Schema,
   width: ?number,
   layout: ?string,
 ): Transform {
-  const body = schema.nodes[BODY];
-  if (!body) {
+  const {doc} = tr;
+  if (!doc) {
     return tr;
   }
-  const node = tr.doc && tr.doc.nodeAt(0);
-  if (!node || node.type !== body) {
-    return tr;
-  }
-  tr = tr.setNodeMarkup(
-    0,
-    body,
-    {...node.attrs, width, layout},
-    node.marks,
-  );
+
+  tr = tr.step(new SetDocAttrStep('width', width || null));
+  tr = tr.step(new SetDocAttrStep('layout', layout || null));
   return tr;
 }
 
-class PageSizeCommand extends UICommand {
+class DocLayoutCommand extends UICommand {
 
   _popUp = null;
 
   isEnabled = (state: EditorState): boolean => {
-    const {doc} = state;
-    const node = doc.firstChild;
-    if (node && node.type && node.type.name === BODY) {
-      return true;
-    }
-    return false;
+    return true;
   };
 
   waitForUserInput = (
@@ -57,26 +45,18 @@ class PageSizeCommand extends UICommand {
     view: ?EditorView,
     event: ?SyntheticEvent,
   ): Promise<any> => {
-    const {doc} = state;
-    const node = doc.firstChild;
-
-    if (!node || !node.type || node.type.name !== BODY) {
-      return Promise.resolve(undefined);
-    }
 
     if (this._popUp) {
       return Promise.resolve(undefined);
     }
 
-    // if (dispatch) {
-    //   dispatch(showCursorPlaceholder(state));
-    // }
+    const {doc} = state;
 
     return new Promise(resolve => {
       const props = {
-        initialValue: node.attrs,
+        initialValue: doc.attrs,
       };
-      this._popUp = createPopUp(BodyLayoutEditor, props, {
+      this._popUp = createPopUp(DocLayoutEditor, props, {
         modal: true,
         onClose: (val) => {
           if (this._popUp) {
@@ -92,7 +72,7 @@ class PageSizeCommand extends UICommand {
     state: EditorState,
     dispatch: ?(tr: Transform) => void,
     view: ?EditorView,
-    inputs: ?BodyLayoutEditorValue,
+    inputs: ?DocLayoutEditorValue,
   ): boolean => {
     if (dispatch) {
       let {tr, selection, schema} = state;
@@ -101,7 +81,7 @@ class PageSizeCommand extends UICommand {
 
       if (inputs) {
         const {width, layout} = inputs;
-        tr = setBodyLayout(tr, schema, width, layout);
+        tr = setDocLayout(tr, schema, width, layout);
       }
       dispatch(tr);
       view && view.focus();
@@ -112,4 +92,4 @@ class PageSizeCommand extends UICommand {
 }
 
 
-export default PageSizeCommand;
+export default DocLayoutCommand;

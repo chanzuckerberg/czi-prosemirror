@@ -4,7 +4,6 @@ import patchElementInlineStyles from './patchElementInlineStyles';
 import patchListElements from './patchListElements';
 import patchStyleElements from './patchStyleElements';
 import patchTableElements from './patchTableElements';
-import {TAG_NAME} from './BodyNodeSpec';
 
 const BRAILLE_PATTERN_BLANK = '\u2800'
 
@@ -39,16 +38,12 @@ export default function normalizeHTML(html: string): string {
     body = doc.getElementsByTagName('body')[0];
 
     if (body && sourceIsPage) {
-      // Source HMTL contains <body />, assumes thsi to be a complete
-      // page HTML.
-      const {cssText} = body.style;
-      if (cssText) {
-        const editorBody = doc.createElement(TAG_NAME);
-        editorBody.style.cssText = cssText;
-        editorBody.innerHTML = body.innerHTML;
-        body = doc.createElement('body');
-        body.appendChild(editorBody);
-      }
+      // Source HTML contains <body />, assumes this to be a complete
+      // page HTML. Assume this <body /> may contain the style that indicates
+      // page's layout.
+      const frag = doc.createElement('html');
+      frag.appendChild(body);
+      return frag.innerHTML;
     }
   }
 
@@ -57,6 +52,6 @@ export default function normalizeHTML(html: string): string {
     return 'Unsupported HTML content';
   }
 
-  html = body.innerHTML;
-  return html;
+  // HTML snippet only.
+  return '<body>' + body.innerHTML + '</body>';
 }

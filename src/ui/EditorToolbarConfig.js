@@ -12,7 +12,7 @@ export const ICON_LABEL_PATTERN = /[a-z_]+/;
 
 const {
   BLOCKQUOTE_INFO,
-  BODY_SIZE,
+  DOC_LAYOUT,
   CLEAR_FORMAT,
   CODE,
   EM,
@@ -159,6 +159,6 @@ export const COMMAND_GROUPS = [
     format_quote: BLOCKQUOTE_INFO,
   },
   {
-    settings_overscan: BODY_SIZE,
+    settings_overscan: DOC_LAYOUT,
   },
 ];

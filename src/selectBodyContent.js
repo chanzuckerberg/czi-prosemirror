@@ -1,6 +1,5 @@
 // @flow
 
-import {BODY} from './NodeNames';
 import {Schema, Node} from 'prosemirror-model';
 import {Selection} from 'prosemirror-state';
 import {TextSelection} from 'prosemirror-state';
@@ -10,7 +9,10 @@ export default function selectBodyContent(
   tr: Transform,
   schema: Schema,
 ): Transform {
-  const body = schema.nodes[BODY];
+  if (tr) {
+    return tr;
+  }
+  const body = schema.nodes['body'];
   if (!body) {
     return tr;
   }

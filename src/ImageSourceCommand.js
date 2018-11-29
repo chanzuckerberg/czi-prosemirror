@@ -112,7 +112,6 @@ class ImageSourceCommand extends UICommand {
     const tr = state;
     const {selection} = state.tr;
     if (selection instanceof TextSelection) {
-      console.log(selection);
       return selection.from === selection.to;
     }
     return false;
