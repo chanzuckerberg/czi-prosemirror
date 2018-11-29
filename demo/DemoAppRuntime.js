@@ -13,7 +13,7 @@ class DemoAppRuntime {
 
   getProxyImageSrc(src: string): string {
     // This simulate a fake proxy.
-    const suffix = 'proxied=1' + Date.now();
+    const suffix = 'proxied=1';
     return src.indexOf('?') === -1 ? `${src}?${suffix}` : `${src}&${suffix}`
   }
 
