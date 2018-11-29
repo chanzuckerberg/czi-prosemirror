@@ -50,14 +50,13 @@
 
 .czi-editor-toolbar-body-content {
   background: #fff;
-  box-shadow: 0 1px 1px rgba(0,0,0,0.26);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.26);
   box-sizing: border-box;
   min-width: 450px;
   overflow: hidden;
   padding: 2px 40px 2px 0;
   position: relative;
 }
-
 
 .czi-editor-toolbar .czi-custom-button {
   box-sizing: border-box;
@@ -97,10 +96,15 @@
 }
 
 .czi-editor-toolbar.wrapped.expanded .czi-editor-toolbar-background-line {
-  border-bottom: solid 1px #f0f0f0;
+  box-shadow: 0 1px 0 0.2px #efefef;
   box-sizing: border-box;
-  height: 35px;
+  height: 32px;
 }
+
+.czi-editor-toolbar.wrapped.expanded {
+
+}
+
 
 @media only print {
   .czi-editor-toolbar {
