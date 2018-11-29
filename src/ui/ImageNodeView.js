@@ -16,11 +16,23 @@ import {Node} from 'prosemirror-model';
 import {TextSelection} from 'prosemirror-state';
 import {atAnchorBottomCenter} from './PopUpPosition';
 
+import type {EditorRuntime} from '../Types';
 import type {NodeViewProps} from './CustomNodeView';
 import type {ImageAlignEditorValue} from './ImageAlignEditor';
 
 const EMPTY_SRC = 'data:image/gif;base64,' +
   'R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+
+function resolveURL(runtime: ?EditorRuntime, src: ?string): ?string {
+  if (!runtime) {
+    return src;
+  }
+  const {canProxyImageSrc, getProxyImageSrc} = runtime;
+  if (src && canProxyImageSrc && getProxyImageSrc && canProxyImageSrc(src)) {
+    return getProxyImageSrc(src);
+  }
+  return src;
+}
 
 class ImageViewBody extends React.PureComponent<any, any, any> {
 
@@ -49,7 +61,8 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
   componentDidUpdate(prevProps: NodeViewProps): void {
     const {resolvedImage} = this.state;
     const prevSrc = prevProps.node.attrs.src;
-    const {src, width, height, align} =  this.props.node.attrs;
+    const {editorView, node} = this.props;
+    const {src, width, height, align} = node.attrs;
 
     if (prevSrc !== src) {
       // A new image is provided, resolve it.
@@ -60,7 +73,6 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
     if (
       resolvedImage &&
       resolvedImage.complete &&
-      resolvedImage.src === src &&
       (resolvedImage.width !== width || resolvedImage.height !== height) &&
       width &&
       height
@@ -193,13 +205,7 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
     this.setState({resolveImage: null});
     const {editorView, node} = this.props;
     const {src} = this.props.node.attrs;
-    let url = src;
-    if (editorView.runtime) {
-      const {canProxyImageSrc, getProxyImageSrc} = editorView.runtime;
-      if (canProxyImageSrc && getProxyImageSrc && canProxyImageSrc(src)) {
-        url = getProxyImageSrc(src);
-      }
-    }
+    const url = resolveURL(editorView.runtime, src);
     resolveImage(url).then(resolvedImage => {
       if (this._mounted && src === this.props.node.attrs.src) {
         this._mounted && this.setState({resolvedImage});
