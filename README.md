@@ -6,7 +6,7 @@
 # CZI-ProseMirror
 
 + Drop-In WYSIWYG editor based on ProseMirror & React
-+ Live DEMO: http://cdn.summitlearning.org/assets/czi_prosemirror_0_0_1_1_20181128174403_index.html
++ Live DEMO: http://cdn.summitlearning.org/assets/czi_prosemirror_0_0_1_1_20181128175144_index.html
 
 ---
 
@@ -38,43 +38,33 @@ Test http://localhost:3001/ from your browser
 ## Development with React
 
 ```
+import React from 'react';
+import RichTextEditor from '../src/ui/RichTextEditor';
+import {createEmptyEditorState, EditorState, RichTextEditor} from 'czi-prosemirror';
 
-import {createEmptyEditorState, Editor, EditorToolbar} from 'czi-prosemirror';
+class Example extends React.PureComponent {
 
-class DemoApp extends React.PureComponent<any, any, any> {
-
-  constructor(props, context) {
+  constructor(props) {
     super(props, context);
     this.state = {
       editorState: createEmptyEditorState(),
-      editorView: null,
     };
   }
 
-  render(): React.Element<any> {
+  render() {
     const {editorState, editorView} = this.state;
     return (
-      <div>
-        <EditorToolbar
-          editorState={editorState}
-          editorView={editorView}
-          onChange={this._onChange}
-        />
-        <Editor
-          editorState={editorState}
-          onChange={this._onChange}
-          onReady={this._onReady}
-        />
-      </div>
+      <RichTextEditor
+        editorState={editorState}
+        onChange={this._onChange}
+      />
     );
   }
 
-  _onReady = (editorView)=> {
-     this.setState({editorView});
-  };
-
-  _onChange = (editorState: EditorState) => {
+  _onChange = (editorState: EditorState): void => {
     this.setState({editorState});
   };
 }
+
+export default Example;
 ```
