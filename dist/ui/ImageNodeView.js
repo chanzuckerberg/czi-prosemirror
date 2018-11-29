@@ -80,11 +80,26 @@ var _PopUpPosition = require('./PopUpPosition');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var babelPluginFlowReactPropTypes_proptype_EditorRuntime = require('../Types').babelPluginFlowReactPropTypes_proptype_EditorRuntime || require('prop-types').any;
+
 var babelPluginFlowReactPropTypes_proptype_NodeViewProps = require('./CustomNodeView').babelPluginFlowReactPropTypes_proptype_NodeViewProps || require('prop-types').any;
 
 var babelPluginFlowReactPropTypes_proptype_ImageAlignEditorValue = require('./ImageAlignEditor').babelPluginFlowReactPropTypes_proptype_ImageAlignEditorValue || require('prop-types').any;
 
 var EMPTY_SRC = 'data:image/gif;base64,' + 'R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+
+function resolveURL(runtime, src) {
+  if (!runtime) {
+    return src;
+  }
+  var canProxyImageSrc = runtime.canProxyImageSrc,
+      getProxyImageSrc = runtime.getProxyImageSrc;
+
+  if (src && canProxyImageSrc && getProxyImageSrc && canProxyImageSrc(src)) {
+    return getProxyImageSrc(src);
+  }
+  return src;
+}
 
 var ImageViewBody = function (_React$PureComponent) {
   (0, _inherits3.default)(ImageViewBody, _React$PureComponent);
@@ -168,11 +183,14 @@ var ImageViewBody = function (_React$PureComponent) {
       var resolvedImage = this.state.resolvedImage;
 
       var prevSrc = prevProps.node.attrs.src;
-      var _props$node$attrs = this.props.node.attrs,
-          src = _props$node$attrs.src,
-          width = _props$node$attrs.width,
-          height = _props$node$attrs.height,
-          align = _props$node$attrs.align;
+      var _props = this.props,
+          editorView = _props.editorView,
+          node = _props.node;
+      var _node$attrs = node.attrs,
+          src = _node$attrs.src,
+          width = _node$attrs.width,
+          height = _node$attrs.height,
+          align = _node$attrs.align;
 
 
       if (prevSrc !== src) {
@@ -181,7 +199,7 @@ var ImageViewBody = function (_React$PureComponent) {
         return;
       }
 
-      if (resolvedImage && resolvedImage.complete && resolvedImage.src === src && (resolvedImage.width !== width || resolvedImage.height !== height) && width && height) {
+      if (resolvedImage && resolvedImage.complete && (resolvedImage.width !== width || resolvedImage.height !== height) && width && height) {
         // Image is resized.
         this.setState({
           resolvedImage: (0, _extends3.default)({}, resolvedImage, {
@@ -197,9 +215,9 @@ var ImageViewBody = function (_React$PureComponent) {
     key: 'render',
     value: function render() {
       var readOnly = false;
-      var _props = this.props,
-          node = _props.node,
-          selected = _props.selected;
+      var _props2 = this.props,
+          node = _props2.node,
+          selected = _props2.selected;
       var resolvedImage = this.state.resolvedImage;
       var attrs = node.attrs;
       var align = attrs.align,
@@ -311,21 +329,12 @@ var ImageViewBody = function (_React$PureComponent) {
       var _this3 = this;
 
       this.setState({ resolveImage: null });
-      var _props2 = this.props,
-          editorView = _props2.editorView,
-          node = _props2.node;
+      var _props3 = this.props,
+          editorView = _props3.editorView,
+          node = _props3.node;
       var src = this.props.node.attrs.src;
 
-      var url = src;
-      if (editorView.runtime) {
-        var _editorView$runtime = editorView.runtime,
-            canProxyImageSrc = _editorView$runtime.canProxyImageSrc,
-            getProxyImageSrc = _editorView$runtime.getProxyImageSrc;
-
-        if (canProxyImageSrc && getProxyImageSrc && canProxyImageSrc(src)) {
-          url = getProxyImageSrc(src);
-        }
-      }
+      var url = resolveURL(editorView.runtime, src);
       (0, _resolveImage3.default)(url).then(function (resolvedImage) {
         if (_this3._mounted && src === _this3.props.node.attrs.src) {
           _this3._mounted && _this3.setState({ resolvedImage: resolvedImage });
