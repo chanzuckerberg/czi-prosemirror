@@ -1,11 +1,9 @@
 // @flow
 
-import adjustAllSelection from './adjustAllSelection';
 import applyMark from './applyMark';
 import isListNode from './isListNode';
 import joinListNode from './joinListNode';
 import nullthrows from 'nullthrows';
-import selectBodyContent from './selectBodyContent';
 import transformAndPreserveTextSelection from './transformAndPreserveTextSelection';
 import {AllSelection, TextSelection} from 'prosemirror-state';
 import {PARAGRAPH, LIST_ITEM, ORDERED_LIST, BULLET_LIST, TABLE, HEADING, TEXT} from './NodeNames';
@@ -23,7 +21,6 @@ export default function toggleList(
   schema: Schema,
   listNodeType: NodeType,
 ): Transform {
-  tr = adjustAllSelection(tr, schema);
   const {selection, doc} = tr;
   if (!selection || !doc) {
     return tr;
