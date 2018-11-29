@@ -55,13 +55,8 @@ class ImageSourceCommand extends UICommand {
     throw new Error('Not implemented');
   }
 
-  isEnabled = (state: EditorState): boolean => {
-    const tr = state;
-    const {selection} = state.tr;
-    if (selection instanceof TextSelection) {
-      return selection.from === selection.to;
-    }
-    return false;
+  isEnabled = (state: EditorState, view: ?EditorView): boolean => {
+    return this.__isEnabled(state, view);
   };
 
   waitForUserInput = (
@@ -79,7 +74,8 @@ class ImageSourceCommand extends UICommand {
     }
 
     return new Promise(resolve => {
-      this._popUp = createPopUp(this.getEditor(), null, {
+      const props = {runtime: view ? view.runtime : null};
+      this._popUp = createPopUp(this.getEditor(), props, {
         modal: true,
         onClose: (val) => {
           if (this._popUp) {
@@ -109,6 +105,16 @@ class ImageSourceCommand extends UICommand {
       view && view.focus();
     }
 
+    return false;
+  };
+
+  __isEnabled = (state: EditorState, view: ?EditorView): boolean => {
+    const tr = state;
+    const {selection} = state.tr;
+    if (selection instanceof TextSelection) {
+      console.log(selection);
+      return selection.from === selection.to;
+    }
     return false;
   };
 }

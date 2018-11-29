@@ -22,13 +22,18 @@ class DemoAppRuntime {
   }
 
   uploadImage(blob: Object): Promise<ImageLike> {
+    // This simulate a fake upload.
     const img: ImageLike = {
       id: '',
-      width: 200,
-      height: 300,
-      src: 'https://placekitten.com/200/300',
+      width: 100,
+      height: 100,
+      src: 'https://placekitten.com/100/100',
     };
-    return Promise.resolve(img);
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve(img);
+      }, 3000);
+    });
   }
 }
 
