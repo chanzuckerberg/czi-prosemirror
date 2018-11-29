@@ -86,12 +86,10 @@
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-template-rows: 0.2fr 1fr 1fr;
-  grid-template-areas: "header header header header" "draftjs html prosemirror prosemirror" "prosemirror-json html prosemirror prosemirror";
+  grid-template-areas: "header header header header" "prosemirror-json html prosemirror prosemirror" "prosemirror-json html prosemirror prosemirror";
 }
 
 .header { grid-area: header; }
-
-.draftjs { grid-area: draftjs; }
 
 .prosemirror-json { grid-area: prosemirror-json; }
 
