@@ -17,6 +17,7 @@
   display: inline-block;
   font-family: var(--czi-font-family);
   font-size: var(--czi-font-size);
+  font-weight: normal;
   line-height: 1.2em;
   overflow: hidden;
   padding: 6px 12px;
@@ -40,9 +41,17 @@
 }
 
 .czi-custom-button.active {
+  /*
+   * Use text-stroke to strengthen teh text, do not use "bold" because it will
+   * cause layout reflow.
+   * Firefox & Edge specifically only support the -webkit-text-stroke property.
+   * https://caniuse.com/#feat=text-stroke
+   */
+  -webkit-text-stroke-color: #000;
+  -webkit-text-stroke-width: 0.8px;
+  /*text-shadow: 0px 0px 1px #fff*/;
   border-color: #666;
   color: #000;
-  font-weight: bold;
 }
 
 .czi-custom-button.pressed {

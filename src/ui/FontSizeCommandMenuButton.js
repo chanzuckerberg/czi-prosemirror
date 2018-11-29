@@ -39,6 +39,7 @@ class FontSizeCommandMenuButton extends React.PureComponent<any, any, any> {
     const fontSize = findActiveFontSize(editorState);
     return (
       <CommandMenuButton
+        className="width-30"
         commandGroups={COMMAND_GROUPS}
         dispatch={dispatch}
         editorState={editorState}

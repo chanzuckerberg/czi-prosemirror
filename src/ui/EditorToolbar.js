@@ -4,6 +4,7 @@ import './czi-editor-toolbar.css';
 import * as EditorCommands from '../EditorCommands';
 import CommandButton from './CommandButton';
 import CommandMenuButton from './CommandMenuButton';
+import CustomButton from './CustomButton';
 import FontSizeCommandMenuButton from './FontSizeCommandMenuButton';
 import FontTypeCommandMenuButton from './FontTypeCommandMenuButton';
 import Icon from './Icon';
@@ -26,7 +27,7 @@ const EDITOR_EMPTY_STATE = createEmptyEditorState();
 
 class EditorToolbar extends React.PureComponent<any, any, any> {
 
-  _ref = null;
+  _body = null;
 
   props: {
     disabled?: ?boolean,
@@ -38,16 +39,36 @@ class EditorToolbar extends React.PureComponent<any, any, any> {
   };
 
   state = {
-    wrapped: false,
+    expanded: false,
+    wrapped: null,
   };
 
   render(): React.Element<any> {
-    const {wrapped} = this.state;
-    const className = cx('czi-editor-toolbar', {wrapped});
+    const {wrapped, expanded} = this.state;
+    const className = cx('czi-editor-toolbar', {expanded, wrapped});
+    const wrappedButton = wrapped ?
+      <CustomButton
+        active={expanded}
+        className="czi-editor-toolbar-expand-button"
+        icon={Icon.get('more_horiz')}
+        key="expand"
+        onClick={this._toggleExpansion}
+        title="More"
+        value={expanded}
+      /> :
+      null
     return (
-      <div className={className} ref={this._onRef}>
-        <div className="czi-editor-toolbar-body">
-          {COMMAND_GROUPS.map(this._renderButtonsGroup)}
+      <div className={className}>
+        <div className="czi-editor-toolbar-flex">
+          <div className="czi-editor-toolbar-body">
+            <div className="czi-editor-toolbar-body-content" ref={this._onBodyRef}>
+              <i className="czi-editor-toolbar-wrapped-anchor" />
+              {COMMAND_GROUPS.map(this._renderButtonsGroup)}
+              <i className="czi-editor-toolbar-wrapped-anchor" />
+            </div>
+            {wrappedButton}
+          </div>
+          <div className="czi-editor-toolbar-footer" />
         </div>
       </div>
     );
@@ -90,7 +111,7 @@ class EditorToolbar extends React.PureComponent<any, any, any> {
   ): React.Element<any> => {
     const {editorState, editorView, disabled} = this.props;
     let icon = ICON_LABEL_PATTERN.test(label) ?
-      <Icon type={label} /> :
+      Icon.get(label) :
       null;
     return (
       <CommandMenuButton
@@ -110,7 +131,7 @@ class EditorToolbar extends React.PureComponent<any, any, any> {
     const {disabled, editorState, editorView} = this.props;
     let icon;
     if (ICON_LABEL_PATTERN.test(label)) {
-      icon = <Icon type={label} />;
+      icon = Icon.get(label);
     }
     return (
       <CommandButton
@@ -132,34 +153,37 @@ class EditorToolbar extends React.PureComponent<any, any, any> {
     onChange && onChange(nextState);
   };
 
-  _onRef = (ref: any): void => {
-    this._ref = ref;
-
+  _onBodyRef = (ref: any): void => {
     if (ref) {
+      this._body = ref;
       // Mounting
       const el = ReactDOM.findDOMNode(ref);
       if (el instanceof HTMLElement) {
-        ResizeObserver.observe(el, this._onContentResize);
+        ResizeObserver.observe(el, this._checkIfContentIsWrapped);
       }
     } else {
       // Unmounting.
-      const el = ReactDOM.findDOMNode(this._ref);
+      const el = this._body && ReactDOM.findDOMNode(this._body);
       if (el instanceof HTMLElement) {
         ResizeObserver.unobserve(el);
       }
+      this._body = null;
     }
-    this._ref = ref;
   };
 
-  _onContentResize = (info: ResizeObserverEntry): void => {
-    const ref = this._ref;
+  _checkIfContentIsWrapped = (): void => {
+    const ref = this._body;
     const el: any = ref && ReactDOM.findDOMNode(ref);
-    const body: any = el && el.firstChild;
-    if (el && body) {
-      this.setState({
-        wrapped: body.offsetHeight >= el.offsetHeight * 1.5,
-      });
+    const startAnchor = el && el.firstChild;
+    const endAnchor = el && el.lastChild;
+    if (startAnchor && endAnchor) {
+      const wrapped = startAnchor.offsetTop < endAnchor.offsetTop;
+      this.setState({wrapped});
     }
+  };
+
+  _toggleExpansion = (expanded: boolean): void => {
+    this.setState({expanded: !expanded});
   };
 }
 

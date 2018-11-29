@@ -39,6 +39,10 @@ class DocLayoutCommand extends UICommand {
     return true;
   };
 
+  isActive = (state: EditorState): boolean => {
+    return !!this._popUp;
+  };
+
   waitForUserInput = (
     state: EditorState,
     dispatch: ?(tr: Transform) => void,
