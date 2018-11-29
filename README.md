@@ -6,7 +6,7 @@
 # CZI-ProseMirror
 
 + Drop-In WYSIWYG editor based on ProseMirror & React
-+ Live DEMO: http://cdn.summitlearning.org/assets/czi_prosemirror_0_0_1_1_20181128175144_index.html
++ Live DEMO: http://cdn.summitlearning.org/assets/czi_prosemirror_0_0_1_1_20181129151434_index.html
 
 ---
 
@@ -39,7 +39,6 @@ Test http://localhost:3001/ from your browser
 
 ```
 import React from 'react';
-import RichTextEditor from '../src/ui/RichTextEditor';
 import {createEmptyEditorState, EditorState, RichTextEditor} from 'czi-prosemirror';
 
 class Example extends React.PureComponent {
