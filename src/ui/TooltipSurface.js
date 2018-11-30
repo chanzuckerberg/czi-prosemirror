@@ -17,11 +17,11 @@ class TooltipView extends React.PureComponent<any, any, any> {
 }
 
 let activePopUp = null;
+let activeID = 0;
 
 class TooltipSurface extends React.PureComponent<any, any, any> {
 
   _popUp = null;
-  _tID = 0;
   _id = uuid();
 
   props: {
@@ -51,12 +51,12 @@ class TooltipSurface extends React.PureComponent<any, any, any> {
   }
 
   _onMouseEnter = (): void => {
-    this._tID && window.clearTimeout(this._tID);
-    this._tID = setTimeout(this._show, 500);
+    activeID && window.clearTimeout(activeID);
+    activeID = setTimeout(this._show, 500);
   };
 
   _onMouseDown = (): void => {
-    this._tID && window.clearTimeout(this._tID);
+    activeID && window.clearTimeout(activeID);
     this._hide();
   };
 
@@ -65,12 +65,16 @@ class TooltipSurface extends React.PureComponent<any, any, any> {
   };
 
   _show = (): void => {
-    this._tID = 0;
-    if (activePopUp && activePopUp !== this._popUp) {
-      activePopUp.close();
-      activePopUp = null;
+    activeID = 0
+    const {tooltip} = this.props;;
+    if (activePopUp) {
+      if (activePopUp === this._popUp && tooltip) {
+        return;
+      } else {
+        activePopUp.close();
+        activePopUp = null;
+      }
     }
-    const {tooltip} = this.props;
     if (!this._popUp && tooltip) {
       this._popUp = createPopUp(TooltipView, {tooltip}, {
         anchor: document.getElementById(this._id),
@@ -81,10 +85,10 @@ class TooltipSurface extends React.PureComponent<any, any, any> {
   };
 
   _hide = (): void => {
+    activeID = 0;
     if (activePopUp === this._popUp) {
       activePopUp = null;
     }
-    this._tID = 0;
     this._popUp && this._popUp.close();
     this._popUp = null;
   };
