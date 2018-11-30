@@ -64,6 +64,7 @@ var TooltipView = function (_React$PureComponent) {
 }(_react2.default.PureComponent);
 
 var activePopUp = null;
+var activeID = 0;
 
 var TooltipSurface = function (_React$PureComponent2) {
   (0, _inherits3.default)(TooltipSurface, _React$PureComponent2);
@@ -79,22 +80,26 @@ var TooltipSurface = function (_React$PureComponent2) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this2 = (0, _possibleConstructorReturn3.default)(this, (_ref = TooltipSurface.__proto__ || (0, _getPrototypeOf2.default)(TooltipSurface)).call.apply(_ref, [this].concat(args))), _this2), _this2._popUp = null, _this2._tID = 0, _this2._id = (0, _uuid2.default)(), _this2._onMouseEnter = function () {
-      _this2._tID && window.clearTimeout(_this2._tID);
-      _this2._tID = setTimeout(_this2._show, 500);
+    return _ret = (_temp = (_this2 = (0, _possibleConstructorReturn3.default)(this, (_ref = TooltipSurface.__proto__ || (0, _getPrototypeOf2.default)(TooltipSurface)).call.apply(_ref, [this].concat(args))), _this2), _this2._popUp = null, _this2._id = (0, _uuid2.default)(), _this2._onMouseEnter = function () {
+      activeID && window.clearTimeout(activeID);
+      activeID = setTimeout(_this2._show, 500);
     }, _this2._onMouseDown = function () {
-      _this2._tID && window.clearTimeout(_this2._tID);
+      activeID && window.clearTimeout(activeID);
       _this2._hide();
     }, _this2._onClose = function () {
       _this2._popUp = null;
     }, _this2._show = function () {
-      _this2._tID = 0;
-      if (activePopUp && activePopUp !== _this2._popUp) {
-        activePopUp.close();
-        activePopUp = null;
-      }
+      activeID = 0;
       var tooltip = _this2.props.tooltip;
-
+      ;
+      if (activePopUp) {
+        if (activePopUp === _this2._popUp && tooltip) {
+          return;
+        } else {
+          activePopUp.close();
+          activePopUp = null;
+        }
+      }
       if (!_this2._popUp && tooltip) {
         _this2._popUp = (0, _createPopUp2.default)(TooltipView, { tooltip: tooltip }, {
           anchor: document.getElementById(_this2._id),
@@ -103,10 +108,10 @@ var TooltipSurface = function (_React$PureComponent2) {
         activePopUp = _this2._popUp;
       }
     }, _this2._hide = function () {
+      activeID = 0;
       if (activePopUp === _this2._popUp) {
         activePopUp = null;
       }
-      _this2._tID = 0;
       _this2._popUp && _this2._popUp.close();
       _this2._popUp = null;
     }, _temp), (0, _possibleConstructorReturn3.default)(_this2, _ret);

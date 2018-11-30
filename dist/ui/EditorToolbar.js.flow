@@ -70,9 +70,6 @@ class EditorToolbar extends React.PureComponent<any, any, any> {
                 <div className="czi-editor-toolbar-background-line" />
                 <div className="czi-editor-toolbar-background-line" />
                 <div className="czi-editor-toolbar-background-line" />
-                <div className="czi-editor-toolbar-background-line" />
-                <div className="czi-editor-toolbar-background-line" />
-                <div className="czi-editor-toolbar-background-line" />
               </div>
               <i className="czi-editor-toolbar-wrapped-anchor" />
             </div>

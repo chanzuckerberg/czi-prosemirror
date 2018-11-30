@@ -17,52 +17,38 @@ function findNodesWithSameMark(doc, from, to, markType) {
   var firstMark = null;
   var fromNode = null;
   var toNode = null;
-
-  while (ii <= to) {
-    var _node = doc.nodeAt(ii);
-    if (!_node || !_node.marks) {
-      return null;
-    }
-    var _mark = _node.marks.find(finder);
-    if (!_mark) {
-      return null;
-    }
-    if (firstMark && _mark !== firstMark) {
-      return null;
-    }
-    fromNode = fromNode || _node;
-    firstMark = firstMark || _mark;
-    toNode = _node;
-    ii++;
-  }
+  var passed = true;
 
   var fromPos = from;
   var toPos = to;
 
-  var jj = 0;
-  ii = from - 1;
-  while (ii > jj) {
-    var _node2 = doc.nodeAt(ii);
-    var _mark2 = _node2 && _node2.marks.find(finder);
-    if (!_mark2 || _mark2 !== firstMark) {
-      break;
-    }
-    fromPos = ii;
-    fromNode = _node2;
-    ii--;
-  }
+  doc.nodesBetween(from, to, function (node, pos) {
+    if (node.marks) {
+      var _mark = node.marks.length ? node.marks.find(finder) : null;
+      if (!_mark) {
+        passed = false;
+      } else if (firstMark && _mark !== firstMark) {
+        passed = false;
+      }
 
-  ii = to + 1;
-  jj = doc.nodeSize - 2;
-  while (ii < jj) {
-    var _node3 = doc.nodeAt(ii);
-    var _mark3 = _node3 && _node3.marks.find(finder);
-    if (!_mark3 || _mark3 !== firstMark) {
-      break;
+      if (firstMark === null && _mark) {
+        firstMark = _mark;
+        fromPos = pos;
+        toPos = pos;
+        fromNode = node;
+        toNode = node;
+      }
+
+      if (firstMark && _mark) {
+        toPos = pos;
+        toNode = node;
+      }
     }
-    toPos = ii;
-    toNode = _node3;
-    ii++;
+    return passed;
+  });
+
+  if (!firstMark) {
+    return null;
   }
 
   return {

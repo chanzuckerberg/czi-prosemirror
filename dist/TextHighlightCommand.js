@@ -40,6 +40,10 @@ var _createPopUp = require('./ui/createPopUp');
 
 var _createPopUp2 = _interopRequireDefault(_createPopUp);
 
+var _findNodesWithSameMark = require('./findNodesWithSameMark');
+
+var _findNodesWithSameMark2 = _interopRequireDefault(_findNodesWithSameMark);
+
 var _nullthrows = require('nullthrows');
 
 var _nullthrows2 = _interopRequireDefault(_nullthrows);
@@ -98,9 +102,19 @@ var TextHighlightCommand = function (_UICommand) {
         return _promise2.default.resolve(undefined);
       }
 
+      var doc = state.doc,
+          selection = state.selection,
+          schema = state.schema;
+
+      var markType = schema.marks[_MarkNames.MARK_TEXT_HIGHLIGHT];
+      var from = selection.from,
+          to = selection.to;
+
+      var result = (0, _findNodesWithSameMark2.default)(doc, from, to, markType);
+      var hex = result ? result.mark.attrs.highlightColor : null;
       var anchor = event ? event.currentTarget : null;
       return new _promise2.default(function (resolve) {
-        _this._popUp = (0, _createPopUp2.default)(_ColorEditor2.default, null, {
+        _this._popUp = (0, _createPopUp2.default)(_ColorEditor2.default, { hex: hex }, {
           anchor: anchor,
           onClose: function onClose(val) {
             if (_this._popUp) {

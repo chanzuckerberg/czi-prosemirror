@@ -270,9 +270,6 @@ var EditorToolbar = function (_React$PureComponent) {
                 _react2.default.createElement('div', { className: 'czi-editor-toolbar-background-line' }),
                 _react2.default.createElement('div', { className: 'czi-editor-toolbar-background-line' }),
                 _react2.default.createElement('div', { className: 'czi-editor-toolbar-background-line' }),
-                _react2.default.createElement('div', { className: 'czi-editor-toolbar-background-line' }),
-                _react2.default.createElement('div', { className: 'czi-editor-toolbar-background-line' }),
-                _react2.default.createElement('div', { className: 'czi-editor-toolbar-background-line' }),
                 _react2.default.createElement('div', { className: 'czi-editor-toolbar-background-line' })
               ),
               _react2.default.createElement('i', { className: 'czi-editor-toolbar-wrapped-anchor' })
