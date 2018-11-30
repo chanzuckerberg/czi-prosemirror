@@ -25,6 +25,10 @@ class MathEditorExample extends React.PureComponent<any, any, any> {
     xml: null,
   };
 
+  componentDidMount(): void {
+    setTimeout(this._onClick, 100);
+  }
+
   render() {
     return (
       <div>
