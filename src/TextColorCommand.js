@@ -4,12 +4,13 @@ import ColorEditor from './ui/ColorEditor';
 import UICommand from './ui/UICommand';
 import applyMark from './applyMark';
 import createPopUp from './ui/createPopUp';
+import findNodesWithSameMark from './findNodesWithSameMark';
 import nullthrows from 'nullthrows';
+import {AllSelection, TextSelection} from 'prosemirror-state';
 import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
 import {MARK_TEXT_COLOR} from './MarkNames';
 import {Schema} from 'prosemirror-model';
-import {AllSelection, TextSelection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
 import {atAnchorRight} from './ui/PopUpPosition';
 
@@ -49,9 +50,14 @@ class TextColorCommand extends UICommand {
       return Promise.resolve(undefined);
     }
 
+    const {doc, selection, schema} = state;
+    const markType = schema.marks[MARK_TEXT_COLOR];
     const anchor = event ? event.currentTarget : null;
+    const {from, to} = selection;
+    const result = findNodesWithSameMark(doc, from, to, markType);
+    const hex = result ? result.mark.attrs.color : null;
     return new Promise(resolve => {
-      this._popUp = createPopUp(ColorEditor, null, {
+      this._popUp = createPopUp(ColorEditor, {hex}, {
         anchor,
         onClose: (val) => {
           if (this._popUp) {
