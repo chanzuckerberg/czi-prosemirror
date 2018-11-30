@@ -5,6 +5,7 @@ import CustomButton from '../src/ui/CustomButton';
 import CustomRadioButton from '../src/ui/CustomRadioButton';
 import Editor from '../src/ui/Editor';
 import ImageURLEditor from '../src/ui/ImageURLEditor';
+import MathEditor from '../src/ui/MathEditor';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import TableGridSizeEditor from '../src/ui/TableGridSizeEditor';
@@ -13,6 +14,42 @@ import nullthrows from 'nullthrows';
 import uuid from '../src/ui/uuid';
 import {atAnchorRight} from '../src/ui/PopUpPosition';
 
+class MathEditorExample extends React.PureComponent<any, any, any> {
+
+  _popup = null;
+
+  state = {
+    asciimath: null,
+    latex: null,
+    text: null,
+    xml: null,
+  };
+
+  render() {
+    return (
+      <div>
+        <CustomButton
+          label="MathEditorExample"
+          onClick={this._onClick}
+        />
+        <pre>
+          {JSON.stringify(this.state)}
+        </pre>
+      </div>
+    );
+  }
+
+  _onClick = (): void => {
+    if (!this._popup) {
+      this._popup = createPopUp(MathEditor, {initialValue: this.state}, {
+        onClose: (value) => {
+          value && this.setState(value);
+          this._popup = null;
+        },
+      });
+    }
+  };
+}
 class CustomRadioButtonExample extends React.PureComponent<any, any, any> {
   state = {
     value: '',
@@ -158,6 +195,8 @@ class Examples extends React.PureComponent<any, any, any> {
   render() {
     return (
      <div>
+       <MathEditorExample />
+       <hr />
        <TableGridSizeEditorExample />
        <hr />
        <ColorEditorExample />
