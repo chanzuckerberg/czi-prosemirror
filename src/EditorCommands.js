@@ -17,6 +17,7 @@ import ListSplitCommand from './ListSplitCommand';
 import ListToggleCommand from './ListToggleCommand';
 import MarkToggleCommand from './MarkToggleCommand';
 import MarksClearCommand from './MarksClearCommand';
+import MathEditCommand from './MathEditCommand';
 import PrintCommand from './PrintCommand';
 import TableCellColorCommand from './TableCellColorCommand';
 import TableInsertCommand from './TableInsertCommand';
@@ -26,6 +27,7 @@ import TextHighlightCommand from './TextHighlightCommand';
 import TextLineSpacingCommand from './TextLineSpacingCommand';
 import createCommand from './createCommand';
 import {baseKeymap} from 'prosemirror-commands';
+
 
 const {
   addColumnAfter,
@@ -82,6 +84,7 @@ export const INDENT_LESS = new IndentCommand(-1);
 export const INDENT_MORE = new IndentCommand(1);
 export const LINK_SET_URL = new LinkSetURLCommand();
 export const LIST_SPLIT = new ListSplitCommand();
+export const MATH_EDIT = new MathEditCommand();
 export const OL = new ListToggleCommand(true);
 export const PRINT = new PrintCommand();
 export const STRIKE = new MarkToggleCommand(MARK_STRIKE);

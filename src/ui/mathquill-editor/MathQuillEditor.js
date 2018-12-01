@@ -90,6 +90,7 @@ class MathQuillEditor extends React.PureComponent<any, any, any> {
     const rawLatex = (this.props.value || '').replace(/\\displaystyle/g, '');
 
     mathField.latex(rawLatex || ' ');
+    mathField.focus();
     if (rawLatex && !mathField.latex()) {
       console.error('unable to process latex', rawLatex);
     }
