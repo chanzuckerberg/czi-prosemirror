@@ -49,6 +49,7 @@ class DemoAppHTMLTemplate extends React.PureComponent<any, any, any> {
     return (
       <div style={{display: 'none'}}>
         <h1>Maine coon. Tomcat cornish rex siamese for cheetah savannah</h1>
+        <p>11<math data-latex="x+y=2" />22</p>
         <hr />
         <p style={{lineHeight: '200%'}}>
           <img

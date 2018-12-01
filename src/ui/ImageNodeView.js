@@ -48,7 +48,6 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
 
   componentDidMount(): void {
     this._mounted = true;
-    const src = this.props.node.attrs.src;
     this._resolveImage();
     this._renderAlignEditor();
   }
@@ -91,6 +90,7 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
   }
 
   render(): React.Element<any> {
+    // TODO: Resolve `readOnly`;
     const readOnly = false;
     const {node, selected} = this.props;
     const {resolvedImage} = this.state;

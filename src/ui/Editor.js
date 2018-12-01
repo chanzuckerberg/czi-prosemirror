@@ -5,6 +5,7 @@ import 'prosemirror-gapcursor/style/gapcursor.css';
 import 'prosemirror-view/style/prosemirror.css';
 import CustomEditorView from './CustomEditorView';
 import ImageNodeView from './ImageNodeView';
+import MathNodeView from './MathNodeView';
 import React from 'react';
 import applyDevTools from 'prosemirror-dev-tools';
 import createEmptyEditorState from '../createEmptyEditorState';
@@ -14,13 +15,24 @@ import uuid from './uuid';
 import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
 import {Transform} from 'prosemirror-transform';
-
+import {IMAGE, MATH} from '../NodeNames';
 import type {EditorRuntime} from '../Types';
 
 const EDITOR_EMPTY_STATE = createEmptyEditorState();
 
 function transformPastedHTML(html: string): string {
   return normalizeHTML(html);
+}
+
+function bindNodeView(NodeView: Function): Function {
+  return (node, view, getPos, decorations) => {
+    return new NodeView(
+      node,
+      view,
+      getPos,
+      decorations,
+    );
+  };
 }
 
 class Editor extends React.PureComponent<any, any, any> {
@@ -56,14 +68,8 @@ class Editor extends React.PureComponent<any, any, any> {
         editable: this._isEditable,
         transformPastedHTML,
         nodeViews: {
-          image(node, view, getPos, decorations) {
-            return new ImageNodeView(
-              node,
-              view,
-              getPos,
-              decorations,
-            );
-          },
+          [IMAGE]: bindNodeView(ImageNodeView),
+          [MATH]: bindNodeView(MathNodeView),
         },
       });
 

@@ -11,6 +11,7 @@ export const HORIZONTAL_RULE = 'horizontal_rule';
 export const IMAGE = 'image';
 export const LINK = 'link';
 export const LIST_ITEM = 'list_item';
+export const MATH = 'math';
 export const ORDERED_LIST = 'ordered_list';
 export const PARAGRAPH = 'paragraph';
 export const TABLE = 'table';
