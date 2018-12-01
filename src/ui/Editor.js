@@ -56,11 +56,12 @@ class Editor extends React.PureComponent<any, any, any> {
         editable: this._isEditable,
         transformPastedHTML,
         nodeViews: {
-          image(node, view, getPos) {
+          image(node, view, getPos, decorations) {
             return new ImageNodeView(
               node,
               view,
               getPos,
+              decorations,
             );
           },
         },
