@@ -3,6 +3,11 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _from = require('babel-runtime/core-js/array/from');
+
+var _from2 = _interopRequireDefault(_from);
+
 exports.default = createPopUp;
 
 require('./czi-pop-up.css');
@@ -50,6 +55,8 @@ if (typeof exports !== 'undefined') Object.defineProperty(exports, 'babelPluginF
 var modalsCount = 0;
 var popUpsCount = 0;
 
+var renderedPopUps = [];
+
 var Z_INDEX_BASE = 9999;
 var MODAL_MASK_ID = 'pop-up-modal-mask-' + (0, _uuid2.default)();
 
@@ -69,7 +76,13 @@ function showModalMask() {
     root.appendChild(element);
   }
   var style = element.style;
-  style.zIndex = Z_INDEX_BASE + popUpsCount * 3 - 1;
+
+  var selector = '.czi-pop-up-element[data-pop-up-modal]';
+  var zIndex = (0, _from2.default)(document.querySelectorAll(selector)).reduce(function (zz, el) {
+    return Math.max(zz, Number(el.style.zIndex));
+  }, 0);
+
+  style.zIndex = zIndex - 1;
 }
 
 function hideModalMask() {
@@ -79,7 +92,7 @@ function hideModalMask() {
   }
 }
 
-function getRootElement(id, forceCreation) {
+function getRootElement(id, forceCreation, popUpParams) {
   var root = document.body || document.documentElement;
   var element = document.getElementById(id);
   if (!element && forceCreation) {
@@ -88,6 +101,10 @@ function getRootElement(id, forceCreation) {
 
   if (!element) {
     return null;
+  }
+
+  if (popUpParams && popUpParams.modal) {
+    element.setAttribute('data-pop-up-modal', 'y');
   }
 
   element.className = 'czi-pop-up-element';
@@ -107,7 +124,7 @@ function getRootElement(id, forceCreation) {
 }
 
 function renderPopUp(rootId, close, View, viewProps, popUpParams) {
-  var rootNode = getRootElement(rootId, true);
+  var rootNode = getRootElement(rootId, true, popUpParams);
   if (rootNode) {
     var component = _react2.default.createElement(_PopUp2.default, {
       View: View,

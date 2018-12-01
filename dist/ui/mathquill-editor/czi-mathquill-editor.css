@@ -4,21 +4,22 @@
   display: flex;
   flex-direction: row;
   margin: 0 0 20px 0;
-  width: 700px;
+  width: 600px;
 }
 
 .czi-mathquill-editor-main {
-  width: 400px;
+  flex: 1;
   padding: 0 10px 0 0;
 }
 
 .czi-mathquill-editor-side {
-  flex: 1;
   background: #f0f0f0;
   border: var(--czi-border-grey);
   box-sizing: border-box;
   height: 400px;
   overflow: auto;
+  padding: 10px;
+  width: 200px;
 }
 
 .czi-mathquill-editor-element {

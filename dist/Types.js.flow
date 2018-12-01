@@ -60,10 +60,3 @@ export type EditorRuntime = {
   canLoadHTML?: () => boolean;
   loadHTML?: () => Promise<?string>,
 };
-
-export type MathValue = {
-  asciimath?: ?string,
-  latex?: ?string,
-  text?: ?string,
-  xml?: ?string,
-};

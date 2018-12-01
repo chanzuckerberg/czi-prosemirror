@@ -3,13 +3,12 @@
 }
 
 .czi-mathquill-editor-symbols-panel-title {
-  background: #fafafa;
-  box-shadow: 0 1px 0.3px rgba(0, 0, 0, 0.15);
+  background: #f0f0f0;
   color: var(--czi-color-grey-200);
   font-weight: bold;
-  padding: 10px;
+  padding: 10px 0;
   position: sticky;
-  top: 0;
+  top: -10px;
   z-index: 2;
 }
 
@@ -18,7 +17,6 @@
   flex-direction: row;
   flex-wrap: wrap;
   overflow: auto;
-  padding: 10px;
   position: relative;
   z-index: 1;
 }
