@@ -20,7 +20,7 @@ class MathEditorExample extends React.PureComponent<any, any, any> {
   _popup = null;
 
   state = {
-    value: "\\int_{0}^{1}",
+    'latex': " \\displaystyle\\sum_{ 1  }^{ 2  } \\left(3 \\right)   ",
   };
 
   componentDidMount(): void {
@@ -28,7 +28,7 @@ class MathEditorExample extends React.PureComponent<any, any, any> {
   }
 
   render() {
-    const html = renderLaTeXAsHTML(this.state.value);
+    const html = renderLaTeXAsHTML(this.state.latex);
     return (
       <div>
         <CustomButton
@@ -45,9 +45,9 @@ class MathEditorExample extends React.PureComponent<any, any, any> {
 
   _onClick = (): void => {
     if (!this._popup) {
-      this._popup = createPopUp(MathEditor, {initialValue: this.state.value}, {
-        onClose: (value) => {
-          value && this.setState({value});
+      this._popup = createPopUp(MathEditor, {initialValue: this.state.latex}, {
+        onClose: (latex) => {
+          latex && this.setState({latex});
           this._popup = null;
         },
       });
