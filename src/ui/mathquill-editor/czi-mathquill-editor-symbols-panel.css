@@ -1,0 +1,31 @@
+.czi-mathquill-editor-symbols-panel {
+  margin: 0 0 10px;
+}
+
+.czi-mathquill-editor-symbols-panel-title {
+  color: var(--czi-color-grey-200);
+  font-weight: bold;
+  margin: 0 0 10px;
+}
+
+.czi-mathquill-editor-symbols-panel-body {
+  overflow: auto;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.czi-custom-button.czi-mathquill-editor-symbols-panel-button {
+  background: #fff;
+  border: solid 1px #ccc;
+  margin: 0 4px 4px 0;
+  padding: 6px;
+  text-align: center;
+  font-size: 13px;
+  min-width: 36px;
+}
+
+.czi-custom-button.czi-mathquill-editor-symbols-panel-button:hover {
+  background-color: #f0f0f0;
+  border-color: #555;
+}

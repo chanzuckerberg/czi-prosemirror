@@ -19,7 +19,7 @@ export default function toHexColor(source: any): string {
     hex = Color(source).hex().toLowerCase();
     ColorMaping[source] = hex;
   } catch (ex) {
-    console.error(`unable to convert ${source} to hex`);
+    console.warn('unable to convert to hex', source);
     ColorMaping[source] = '';
   }
   return hex;

@@ -40,6 +40,8 @@ class MathEditor extends React.PureComponent<any, any, any> {
               onClick={this._cancel}
             />
             <CustomButton
+              active={true}
+              disabled={!this.state.value}
               label="Insert"
               onClick={this._insert}
             />

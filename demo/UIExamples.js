@@ -11,6 +11,7 @@ import ReactDOM from 'react-dom';
 import TableGridSizeEditor from '../src/ui/TableGridSizeEditor';
 import createPopUp from '../src/ui/createPopUp';
 import nullthrows from 'nullthrows';
+import renderLaTeXAsHTML from '../src/ui/renderLaTeXAsHTML';
 import uuid from '../src/ui/uuid';
 import {atAnchorRight} from '../src/ui/PopUpPosition';
 
@@ -19,10 +20,7 @@ class MathEditorExample extends React.PureComponent<any, any, any> {
   _popup = null;
 
   state = {
-    asciimath: null,
-    latex: null,
-    text: null,
-    xml: null,
+    value: "\\int_{0}^{1}",
   };
 
   componentDidMount(): void {
@@ -30,6 +28,7 @@ class MathEditorExample extends React.PureComponent<any, any, any> {
   }
 
   render() {
+    const html = renderLaTeXAsHTML(this.state.value);
     return (
       <div>
         <CustomButton
@@ -39,15 +38,16 @@ class MathEditorExample extends React.PureComponent<any, any, any> {
         <pre>
           {JSON.stringify(this.state)}
         </pre>
+        <span dangerouslySetInnerHTML={{__html: html}} />
       </div>
     );
   }
 
   _onClick = (): void => {
     if (!this._popup) {
-      this._popup = createPopUp(MathEditor, {initialValue: this.state}, {
+      this._popup = createPopUp(MathEditor, {initialValue: this.state.value}, {
         onClose: (value) => {
-          value && this.setState(value);
+          value && this.setState({value});
           this._popup = null;
         },
       });

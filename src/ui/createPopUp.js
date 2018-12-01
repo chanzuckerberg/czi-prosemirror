@@ -19,6 +19,8 @@ export type PopUpHandle = {
 let modalsCount = 0;
 let popUpsCount = 0;
 
+const renderedPopUps = [];
+
 const Z_INDEX_BASE = 9999;
 const MODAL_MASK_ID = 'pop-up-modal-mask-' + uuid();
 
@@ -38,7 +40,13 @@ function showModalMask(): void {
     root.appendChild(element);
   }
   const style: any = element.style;
-  style.zIndex = (Z_INDEX_BASE + popUpsCount * 3) - 1;
+
+  const selector = '.czi-pop-up-element[data-pop-up-modal]';
+  const zIndex = Array.
+    from(document.querySelectorAll(selector)).
+    reduce((zz, el) => Math.max(zz, Number(el.style.zIndex)), 0);
+
+  style.zIndex = zIndex - 1;
 }
 
 function hideModalMask(): void {
@@ -48,7 +56,11 @@ function hideModalMask(): void {
   }
 }
 
-function getRootElement(id: string, forceCreation: boolean): ?HTMLElement {
+function getRootElement(
+  id: string,
+  forceCreation: boolean,
+  popUpParams: ?PopUpParams,
+): ?HTMLElement {
   const root: any = document.body || document.documentElement;
   let element = document.getElementById(id);
   if (!element && forceCreation) {
@@ -59,8 +71,13 @@ function getRootElement(id: string, forceCreation: boolean): ?HTMLElement {
     return null;
   }
 
+  if (popUpParams && popUpParams.modal) {
+    element.setAttribute('data-pop-up-modal', 'y');
+  }
+
   element.className = 'czi-pop-up-element';
   element.id = id;
+
 
   const style: any = element.style;
   style.zIndex = (Z_INDEX_BASE + popUpsCount * 3);
@@ -82,7 +99,7 @@ function renderPopUp(
   viewProps: ViewProps,
   popUpParams: PopUpParams,
 ): void {
-  const rootNode = getRootElement(rootId, true);
+  const rootNode = getRootElement(rootId, true, popUpParams);
   if (rootNode) {
     const component = (
       <PopUp
