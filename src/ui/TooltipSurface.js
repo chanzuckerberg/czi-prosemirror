@@ -60,6 +60,10 @@ class TooltipSurface extends React.PureComponent<any, any, any> {
     if (mountedCount === 0) {
       document.removeEventListener('mousemove', onMouseMove, true);
     }
+    if (activeView === this) {
+      activePopUp && activePopUp.close();
+      activeID && clearTimeout(activeID);
+    }
   }
 
   render(): React.Element<any> {

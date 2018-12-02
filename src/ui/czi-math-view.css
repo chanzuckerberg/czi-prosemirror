@@ -2,6 +2,21 @@
   display: inline-block;
   margin: 0 2px;
   position: relative;
+  text-align: center;
+}
+
+.czi-math-view.ProseMirror-selectednode {
+  outline: none;
+}
+
+.czi-math-view-body.active {
+  box-shadow: 0 0 1px 2px var(--czi-selection-highlight-color-dark);
+}
+
+.czi-math-view-body {
+  border: solid 1px transparent;
+  display: inline-block;
+  user-select: none;
 }
 
 .czi-math-view-body-img {
@@ -17,7 +32,19 @@
   pointer-events: none;
 }
 
+.czi-math-view.align-left {
+  float: left;
+  margin: 0 20px 20px 0;
+}
 
-.czi-math-view-body {
-  user-select: none;
+.czi-math-view.align-right {
+  float: right;
+  margin: 0 0 20px 20px;
+}
+
+.czi-math-view.align-center {
+  clear: both;
+  display: block;
+  float: none;
+  margin: 20px 0;
 }

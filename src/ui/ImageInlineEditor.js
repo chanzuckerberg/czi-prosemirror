@@ -16,7 +16,7 @@ const ImageAlignValues = {
   },
   CENTER: {
     value: 'center',
-    text: 'Center',
+    text: 'Break text',
   },
   RIGHT: {
     value: 'right',
@@ -52,7 +52,7 @@ class ImageInlineEditor extends React.PureComponent<any, any, any> {
     });
 
     return (
-      <div className="czi-inline-editor custom-">
+      <div className="czi-inline-editor">
         {buttons}
       </div>
     );

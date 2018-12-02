@@ -2,7 +2,9 @@
 
 import './czi-math-view.css';
 import CustomNodeView from './CustomNodeView';
+import MathInlineEditor from './MathInlineEditor';
 import React from 'react';
+import createPopUp from './createPopUp';
 import cx from 'classnames';
 import nullthrows from 'nullthrows';
 import renderLaTeXAsHTML from './renderLaTeXAsHTML';
@@ -10,6 +12,7 @@ import uuid from './uuid';
 import {EditorView, Decoration} from "prosemirror-view";
 import {Node} from 'prosemirror-model';
 import {TextSelection} from 'prosemirror-state';
+import {atAnchorBottomCenter} from './PopUpPosition';
 
 import type {EditorRuntime} from '../Types';
 import type {NodeViewProps} from './CustomNodeView';
@@ -21,13 +24,13 @@ class MathViewBody extends React.PureComponent<any, any, any> {
 
   props: NodeViewProps;
 
-  _alignEditor = null;
+  _inlineEditor = null;
   _id = uuid();
   _mounted = false;
 
   componentDidMount(): void {
     this._mounted = true;
-    this._renderAlignEditor();
+    this._renderInlineEditor();
   }
 
   componentWillUnmount(): void {
@@ -35,7 +38,7 @@ class MathViewBody extends React.PureComponent<any, any, any> {
   }
 
   componentDidUpdate(prevProps: NodeViewProps): void {
-    this._renderAlignEditor();
+    this._renderInlineEditor();
   }
 
   render(): React.Element<any> {
@@ -43,7 +46,7 @@ class MathViewBody extends React.PureComponent<any, any, any> {
     const readOnly = false;
     const {node, selected} = this.props;
     const {attrs} = node;
-    const {latex} = attrs;
+    const {align, latex} = attrs;
 
     const active = selected && !readOnly;
     const className = cx('czi-math-view-body', {active});
@@ -69,9 +72,51 @@ class MathViewBody extends React.PureComponent<any, any, any> {
     );
   }
 
-  _renderAlignEditor(): void {
-    // TODO
+  _renderInlineEditor(): void {
+    const el = document.getElementById(this._id);
+    if (!el || el.getAttribute('data-active') !== 'true') {
+      this._inlineEditor && this._inlineEditor.close();
+      return;
+    }
+    const {node} = this.props;
+    const editorProps = {
+      value: node.attrs,
+      onSelect: this._onChange,
+    };
+    if (this._inlineEditor) {
+      this._inlineEditor.update(editorProps);
+    }  else {
+      this._inlineEditor = createPopUp(MathInlineEditor, editorProps, {
+        anchor: el,
+        autoDismiss: false,
+        position: atAnchorBottomCenter,
+        onClose: () => {
+          this._inlineEditor = null;
+        },
+      });
+    }
   }
+
+  _onChange = (value: ?{align: ?string}): void => {
+    if (!this._mounted) {
+      return;
+    }
+
+    const align = value ? value.align : null;
+
+    const {getPos, node, editorView} = this.props;
+    const pos = getPos();
+    const attrs = {
+      ...node.attrs,
+      align,
+    };
+
+    let tr = editorView.state.tr;
+    const {selection} = editorView.state;
+    tr = tr.setNodeMarkup(pos, null, attrs);
+    tr = tr.setSelection(selection);
+    editorView.dispatch(tr);
+  };
 }
 
 class MathNodeView extends CustomNodeView {

@@ -10,6 +10,10 @@
   vertical-align: baseline;
 }
 
+.czi-image-view.ProseMirror-selectednode {
+  outline: none;
+}
+
 .czi-image-view.align-left {
   float: left;
   margin: 0 20px 20px 0;
@@ -47,7 +51,7 @@
 }
 
 .czi-image-view-body.active {
-  outline: var(--czi-border-blue);
+  box-shadow: 0 0 1px 2px var(--czi-selection-highlight-color-dark);
 }
 
 .czi-image-view-body.error {

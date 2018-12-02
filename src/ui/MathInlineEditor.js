@@ -5,7 +5,7 @@ import CustomButton from './CustomButton';
 import CustomNodeView from './CustomNodeView';
 import React from 'react';
 
-const ImageAlignValues = {
+const MathAlignValues = {
   NONE: {
     value: null,
     text: 'Inline',
@@ -16,7 +16,7 @@ const ImageAlignValues = {
   },
   CENTER: {
     value: 'center',
-    text: 'Center',
+    text: 'Break text',
   },
   RIGHT: {
     value: 'right',
@@ -24,22 +24,22 @@ const ImageAlignValues = {
   },
 };
 
-export type ImageInlineEditorValue = {
+export type MathInlineEditorValue = {
   align: ?string,
 };
 
-class ImageInlineEditor extends React.PureComponent<any, any, any> {
+class MathInlineEditor extends React.PureComponent<any, any, any> {
 
   props: {
-    onSelect: (val: ImageInlineEditorValue) => void,
-    value: ?ImageInlineEditorValue,
+    onSelect: (val: MathInlineEditorValue) => void,
+    value: ?MathInlineEditorValue,
   };
 
   render(): React.Element<any> {
     const align = this.props.value ? this.props.value.align : null;
     const onClick = this._onClick;
-    const buttons = Object.keys(ImageAlignValues).map(key => {
-      const {value, text} = ImageAlignValues[key];
+    const buttons = Object.keys(MathAlignValues).map(key => {
+      const {value, text} = MathAlignValues[key];
       return (
         <CustomButton
           key={key}
@@ -52,7 +52,7 @@ class ImageInlineEditor extends React.PureComponent<any, any, any> {
     });
 
     return (
-      <div className="czi-inline-editor custom-">
+      <div className="czi-inline-editor">
         {buttons}
       </div>
     );
@@ -63,4 +63,4 @@ class ImageInlineEditor extends React.PureComponent<any, any, any> {
   };
 }
 
-export default ImageInlineEditor;
+export default MathInlineEditor;

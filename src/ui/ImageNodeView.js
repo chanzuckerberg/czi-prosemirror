@@ -2,7 +2,7 @@
 
 import './czi-image-view.css';
 import CustomNodeView from './CustomNodeView';
-import ImageAlignEditor from './ImageAlignEditor';
+import ImageInlineEditor from './ImageInlineEditor';
 import ImageResizeBox from './ImageResizeBox';
 import React from 'react';
 import createPopUp from './createPopUp';
@@ -18,7 +18,7 @@ import {atAnchorBottomCenter} from './PopUpPosition';
 
 import type {EditorRuntime} from '../Types';
 import type {NodeViewProps} from './CustomNodeView';
-import type {ImageAlignEditorValue} from './ImageAlignEditor';
+import type {ImageInlineEditorValue} from './ImageInlineEditor';
 
 const EMPTY_SRC = 'data:image/gif;base64,' +
   'R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
@@ -38,7 +38,7 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
 
   props: NodeViewProps;
 
-  _alignEditor = null;
+  _inlineEditor = null;
   _id = uuid();
   _mounted = false;
 
@@ -49,12 +49,12 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
   componentDidMount(): void {
     this._mounted = true;
     this._resolveImage();
-    this._renderAlignEditor();
+    this._renderInlineEditor();
   }
 
   componentWillUnmount(): void {
     this._mounted = false;
-    this._alignEditor && this._alignEditor.close();
+    this._inlineEditor && this._inlineEditor.close();
   }
 
   componentDidUpdate(prevProps: NodeViewProps): void {
@@ -86,7 +86,7 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
       });
     }
 
-    this._renderAlignEditor();
+    this._renderInlineEditor();
   }
 
   render(): React.Element<any> {
@@ -175,27 +175,27 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
     );
   }
 
-  _renderAlignEditor(): void {
+  _renderInlineEditor(): void {
     const el = document.getElementById(this._id);
     if (!el || el.getAttribute('data-active') !== 'true') {
-      this._alignEditor && this._alignEditor.close();
+      this._inlineEditor && this._inlineEditor.close();
       return;
     }
 
     const {node} = this.props;
     const editorProps = {
       value: node.attrs,
-      onSelect: this._onAlignChange,
+      onSelect: this._onChange,
     };
-    if (this._alignEditor) {
-      this._alignEditor.update(editorProps);
+    if (this._inlineEditor) {
+      this._inlineEditor.update(editorProps);
     }  else {
-      this._alignEditor = createPopUp(ImageAlignEditor, editorProps, {
+      this._inlineEditor = createPopUp(ImageInlineEditor, editorProps, {
         anchor: el,
         autoDismiss: false,
         position: atAnchorBottomCenter,
         onClose: () => {
-          this._alignEditor = null;
+          this._inlineEditor = null;
         },
       });
     }
@@ -231,7 +231,7 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
     editorView.dispatch(tr);
   };
 
-  _onAlignChange = (value: ?{align: ?string}): void => {
+  _onChange = (value: ?{align: ?string}): void => {
     if (!this._mounted) {
       return;
     }
