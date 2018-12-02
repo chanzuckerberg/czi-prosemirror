@@ -46,13 +46,25 @@ var options = {
         test: /\.html$/,
         loader: "html-loader",
         exclude: /node_modules/
-      }
+      },
+      {
+        test: /mathquill\.js$/,
+        include: [/node-mathquill/],
+        // Grab the MathQuill export
+        // NOTE: window.jQuery needs to be provided through the providePlugin
+        // unless https://github.com/webpack/imports-loader/pull/21 is merged
+        use: ['exports-loader?MathQuill'],
+      },
     ]
   },
   resolve: {
     alias: {}
   },
   plugins: [
+    new webpack.ProvidePlugin({
+      // jQuery (for Mathquill)
+      'window.jQuery': 'jquery',
+    }),
     new FlowWebpackPlugin(),
     // clean the web folder
     new CleanWebpackPlugin(["bin"]),

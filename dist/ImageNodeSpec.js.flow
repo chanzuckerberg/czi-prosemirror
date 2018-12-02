@@ -50,7 +50,7 @@ function getAttrs(dom: HTMLElement) {
     src: dom.getAttribute('src') || null,
     title: dom.getAttribute('title')|| null,
     width: parseInt(width, 10) || null,
-  }
+  };
 }
 
 // https://github.com/ProseMirror/prosemirror-schema-basic/blob/master/src/schema-basic.js

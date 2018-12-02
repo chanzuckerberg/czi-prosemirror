@@ -42,3 +42,4 @@ os.system("flow-copy-source -v -i '**/__tests__/**' src dist")
 
 # Copy CSS files.
 os.system('cp src/ui/*.css dist/ui')
+os.system('cp src/ui/mathquill-editor/*.css dist/ui/mathquill-editor')

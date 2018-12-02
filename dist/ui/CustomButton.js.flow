@@ -22,12 +22,12 @@ class CustomButton extends React.PureComponent<any, any, any> {
     });
     return (
       <TooltipSurface tooltip={title}>
-      <PointerSurface
-        {...pointerProps}
-        className={klass}>
-          {icon}
-          {label}
-      </PointerSurface>
+        <PointerSurface
+          {...pointerProps}
+          className={klass}>
+            {icon}
+            {label}
+        </PointerSurface>
       </TooltipSurface>
     );
   }

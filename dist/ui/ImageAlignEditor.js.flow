@@ -1,6 +1,6 @@
 // @flow
 
-import './czi-image-align-editor.css';
+import './czi-inline-editor.css';
 import CustomButton from './CustomButton';
 import CustomNodeView from './CustomNodeView';
 import React from 'react';
@@ -24,15 +24,15 @@ const ImageAlignValues = {
   },
 };
 
-export type ImageAlignEditorValue = {
+export type ImageInlineEditorValue = {
   align: ?string,
 };
 
-class ImageAlignEditor extends React.PureComponent<any, any, any> {
+class ImageInlineEditor extends React.PureComponent<any, any, any> {
 
   props: {
-    onSelect: (val: ImageAlignEditorValue) => void,
-    value: ?ImageAlignEditorValue,
+    onSelect: (val: ImageInlineEditorValue) => void,
+    value: ?ImageInlineEditorValue,
   };
 
   render(): React.Element<any> {
@@ -52,7 +52,7 @@ class ImageAlignEditor extends React.PureComponent<any, any, any> {
     });
 
     return (
-      <div className="czi-image-align-editor custom-">
+      <div className="czi-inline-editor custom-">
         {buttons}
       </div>
     );
@@ -63,4 +63,4 @@ class ImageAlignEditor extends React.PureComponent<any, any, any> {
   };
 }
 
-export default ImageAlignEditor;
+export default ImageInlineEditor;

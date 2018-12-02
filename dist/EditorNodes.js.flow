@@ -11,6 +11,7 @@ import HeadingNodeSpec from './HeadingNodeSpec';
 import HorizontalRuleNodeSpec from './HorizontalRuleNodeSpec';
 import ImageNodeSpec from './ImageNodeSpec';
 import ListItemNodeSpec from './ListItemNodeSpec';
+import MathNodeSpec from './MathNodeSpec';
 import OrderedListNodeSpec from './OrderedListNodeSpec';
 import ParagraphNodeSpec from './ParagraphNodeSpec';
 import TableNodesSpecs from './TableNodesSpecs';
@@ -27,6 +28,7 @@ const {
   HORIZONTAL_RULE,
   IMAGE,
   LIST_ITEM,
+  MATH,
   ORDERED_LIST,
   PARAGRAPH,
   TEXT,
@@ -45,6 +47,7 @@ const nodes = {
   [CODE_BLOCK]: CodeBlockNodeSpec,
   [TEXT]: TextNodeSpec,
   [IMAGE]: ImageNodeSpec,
+  [MATH]: MathNodeSpec,
   [HARD_BREAK]: HardBreakNodeSpec,
   [BULLET_LIST]: BulletListNodeSpec,
   [ORDERED_LIST]: OrderedListNodeSpec,

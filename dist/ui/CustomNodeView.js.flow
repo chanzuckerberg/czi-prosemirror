@@ -66,9 +66,11 @@ class CustomNodeView {
     node: Node,
     editorView: EditorView,
     getPos: () => number,
+    decorations: Array<Decoration>,
   ) {
 
     this.props = {
+      decorations,
       editorView,
       getPos,
       node,

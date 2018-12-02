@@ -28,7 +28,7 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-require('./czi-image-align-editor.css');
+require('./czi-inline-editor.css');
 
 var _CustomButton = require('./CustomButton');
 
@@ -63,32 +63,32 @@ var ImageAlignValues = {
   }
 };
 
-if (typeof exports !== 'undefined') Object.defineProperty(exports, 'babelPluginFlowReactPropTypes_proptype_ImageAlignEditorValue', {
+if (typeof exports !== 'undefined') Object.defineProperty(exports, 'babelPluginFlowReactPropTypes_proptype_ImageInlineEditorValue', {
   value: require('prop-types').shape({
     align: require('prop-types').string
   })
 });
 
-var ImageAlignEditor = function (_React$PureComponent) {
-  (0, _inherits3.default)(ImageAlignEditor, _React$PureComponent);
+var ImageInlineEditor = function (_React$PureComponent) {
+  (0, _inherits3.default)(ImageInlineEditor, _React$PureComponent);
 
-  function ImageAlignEditor() {
+  function ImageInlineEditor() {
     var _ref;
 
     var _temp, _this, _ret;
 
-    (0, _classCallCheck3.default)(this, ImageAlignEditor);
+    (0, _classCallCheck3.default)(this, ImageInlineEditor);
 
     for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = ImageAlignEditor.__proto__ || (0, _getPrototypeOf2.default)(ImageAlignEditor)).call.apply(_ref, [this].concat(args))), _this), _this._onClick = function (align) {
+    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = ImageInlineEditor.__proto__ || (0, _getPrototypeOf2.default)(ImageInlineEditor)).call.apply(_ref, [this].concat(args))), _this), _this._onClick = function (align) {
       _this.props.onSelect({ align: align });
     }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
   }
 
-  (0, _createClass3.default)(ImageAlignEditor, [{
+  (0, _createClass3.default)(ImageInlineEditor, [{
     key: 'render',
     value: function render() {
       var align = this.props.value ? this.props.value.align : null;
@@ -109,12 +109,12 @@ var ImageAlignEditor = function (_React$PureComponent) {
 
       return _react2.default.createElement(
         'div',
-        { className: 'czi-image-align-editor custom-' },
+        { className: 'czi-inline-editor custom-' },
         buttons
       );
     }
   }]);
-  return ImageAlignEditor;
+  return ImageInlineEditor;
 }(_react2.default.PureComponent);
 
-exports.default = ImageAlignEditor;
+exports.default = ImageInlineEditor;

@@ -31,7 +31,7 @@
 }
 
 .czi-editor-content-placeholder {
-  color: #dedede;
+  color: var(--czi-placeholder-text-color);
   font-family: var(--czi-editor-font-family);
   font-size: var(--czi-editor-font-size);
   left: 0;

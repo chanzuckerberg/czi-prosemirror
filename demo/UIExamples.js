@@ -11,6 +11,7 @@ import ReactDOM from 'react-dom';
 import TableGridSizeEditor from '../src/ui/TableGridSizeEditor';
 import createPopUp from '../src/ui/createPopUp';
 import nullthrows from 'nullthrows';
+import renderLaTeXAsHTML from '../src/ui/renderLaTeXAsHTML';
 import uuid from '../src/ui/uuid';
 import {atAnchorRight} from '../src/ui/PopUpPosition';
 
@@ -19,10 +20,7 @@ class MathEditorExample extends React.PureComponent<any, any, any> {
   _popup = null;
 
   state = {
-    asciimath: null,
-    latex: null,
-    text: null,
-    xml: null,
+    'latex': " \\displaystyle\\sum_{ 1  }^{ 2  } \\left(3 \\right)   ",
   };
 
   componentDidMount(): void {
@@ -30,6 +28,7 @@ class MathEditorExample extends React.PureComponent<any, any, any> {
   }
 
   render() {
+    const html = renderLaTeXAsHTML(this.state.latex);
     return (
       <div>
         <CustomButton
@@ -39,15 +38,16 @@ class MathEditorExample extends React.PureComponent<any, any, any> {
         <pre>
           {JSON.stringify(this.state)}
         </pre>
+        <span dangerouslySetInnerHTML={{__html: html}} />
       </div>
     );
   }
 
   _onClick = (): void => {
     if (!this._popup) {
-      this._popup = createPopUp(MathEditor, {initialValue: this.state}, {
-        onClose: (value) => {
-          value && this.setState(value);
+      this._popup = createPopUp(MathEditor, {initialValue: this.state.latex}, {
+        onClose: (latex) => {
+          latex && this.setState({latex});
           this._popup = null;
         },
       });

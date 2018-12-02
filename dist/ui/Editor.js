@@ -4,6 +4,10 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _defineProperty2 = require('babel-runtime/helpers/defineProperty');
+
+var _defineProperty3 = _interopRequireDefault(_defineProperty2);
+
 var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
@@ -38,6 +42,10 @@ var _ImageNodeView = require('./ImageNodeView');
 
 var _ImageNodeView2 = _interopRequireDefault(_ImageNodeView);
 
+var _MathNodeView = require('./MathNodeView');
+
+var _MathNodeView2 = _interopRequireDefault(_MathNodeView);
+
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
@@ -68,6 +76,8 @@ var _prosemirrorView = require('prosemirror-view');
 
 var _prosemirrorTransform = require('prosemirror-transform');
 
+var _NodeNames = require('../NodeNames');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var babelPluginFlowReactPropTypes_proptype_EditorRuntime = require('../Types').babelPluginFlowReactPropTypes_proptype_EditorRuntime || require('prop-types').any;
@@ -76,6 +86,12 @@ var EDITOR_EMPTY_STATE = (0, _createEmptyEditorState2.default)();
 
 function transformPastedHTML(html) {
   return (0, _normalizeHTML2.default)(html);
+}
+
+function bindNodeView(NodeView) {
+  return function (node, view, getPos, decorations) {
+    return new NodeView(node, view, getPos, decorations);
+  };
 }
 
 var Editor = function (_React$PureComponent) {
@@ -128,17 +144,15 @@ var Editor = function (_React$PureComponent) {
       var templateNode = document.getElementById(this._id + 'template');
 
       if (editorNode) {
+        var _nodeViews;
+
         // Reference: http://prosemirror.net/examples/basic/
         var _view = this._editorView = new _CustomEditorView2.default(editorNode, {
           state: editorState || EDITOR_EMPTY_STATE,
           dispatchTransaction: this._dispatchTransaction,
           editable: this._isEditable,
           transformPastedHTML: transformPastedHTML,
-          nodeViews: {
-            image: function image(node, view, getPos) {
-              return new _ImageNodeView2.default(node, view, getPos);
-            }
-          }
+          nodeViews: (_nodeViews = {}, (0, _defineProperty3.default)(_nodeViews, _NodeNames.IMAGE, bindNodeView(_ImageNodeView2.default)), (0, _defineProperty3.default)(_nodeViews, _NodeNames.MATH, bindNodeView(_MathNodeView2.default)), _nodeViews)
         });
 
         _view.runtime = runtime;

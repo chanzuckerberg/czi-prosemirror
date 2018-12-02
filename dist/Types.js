@@ -59,11 +59,3 @@ if (typeof exports !== 'undefined') Object.defineProperty(exports, 'babelPluginF
     loadHTML: require('prop-types').func
   })
 });
-if (typeof exports !== 'undefined') Object.defineProperty(exports, 'babelPluginFlowReactPropTypes_proptype_MathValue', {
-  value: require('prop-types').shape({
-    asciimath: require('prop-types').string,
-    latex: require('prop-types').string,
-    text: require('prop-types').string,
-    xml: require('prop-types').string
-  })
-});
