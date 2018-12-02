@@ -16,6 +16,7 @@ class MathEditor extends React.PureComponent<any, any, any> {
   };
 
   state = {
+    initialValue: this.props.initialValue,
     value: this.props.initialValue || '',
   };
 
@@ -23,7 +24,7 @@ class MathEditor extends React.PureComponent<any, any, any> {
   _unmounted = false;
 
   render(): React.Element<any> {
-    const {value} = this.state;
+    const {initialValue, value} = this.state;
     return (
       <div className="czi-math-editor">
         <form className="czi-form">
@@ -42,7 +43,7 @@ class MathEditor extends React.PureComponent<any, any, any> {
             <CustomButton
               active={true}
               disabled={!this.state.value}
-              label="Insert"
+              label={initialValue ? 'Update' : 'Insert'}
               onClick={this._insert}
             />
           </div>

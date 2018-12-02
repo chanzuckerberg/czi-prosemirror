@@ -97,17 +97,19 @@ class MathViewBody extends React.PureComponent<any, any, any> {
     }
   }
 
-  _onChange = (value: ?{align: ?string}): void => {
+  _onChange = (value: ?{align: ?string, latex: string}): void => {
     if (!this._mounted) {
       return;
     }
 
     const align = value ? value.align : null;
+    const latex = value ? value.latex : null;
 
     const {getPos, node, editorView} = this.props;
     const pos = getPos();
     const attrs = {
       ...node.attrs,
+      latex,
       align,
     };
 
