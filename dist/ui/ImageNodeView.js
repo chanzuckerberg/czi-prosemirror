@@ -38,9 +38,9 @@ var _CustomNodeView2 = require('./CustomNodeView');
 
 var _CustomNodeView3 = _interopRequireDefault(_CustomNodeView2);
 
-var _ImageAlignEditor = require('./ImageAlignEditor');
+var _ImageInlineEditor = require('./ImageInlineEditor');
 
-var _ImageAlignEditor2 = _interopRequireDefault(_ImageAlignEditor);
+var _ImageInlineEditor2 = _interopRequireDefault(_ImageInlineEditor);
 
 var _ImageResizeBox = require('./ImageResizeBox');
 
@@ -84,7 +84,7 @@ var babelPluginFlowReactPropTypes_proptype_EditorRuntime = require('../Types').b
 
 var babelPluginFlowReactPropTypes_proptype_NodeViewProps = require('./CustomNodeView').babelPluginFlowReactPropTypes_proptype_NodeViewProps || require('prop-types').any;
 
-var babelPluginFlowReactPropTypes_proptype_ImageAlignEditorValue = require('./ImageAlignEditor').babelPluginFlowReactPropTypes_proptype_ImageAlignEditorValue || require('prop-types').any;
+var babelPluginFlowReactPropTypes_proptype_ImageInlineEditorValue = require('./ImageInlineEditor').babelPluginFlowReactPropTypes_proptype_ImageInlineEditorValue || require('prop-types').any;
 
 var EMPTY_SRC = 'data:image/gif;base64,' + 'R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
 
@@ -115,7 +115,7 @@ var ImageViewBody = function (_React$PureComponent) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = ImageViewBody.__proto__ || (0, _getPrototypeOf2.default)(ImageViewBody)).call.apply(_ref, [this].concat(args))), _this), _this._alignEditor = null, _this._id = (0, _uuid2.default)(), _this._mounted = false, _this.state = {
+    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = ImageViewBody.__proto__ || (0, _getPrototypeOf2.default)(ImageViewBody)).call.apply(_ref, [this].concat(args))), _this), _this._inlineEditor = null, _this._id = (0, _uuid2.default)(), _this._mounted = false, _this.state = {
       resolvedImage: null
     }, _this._onResizeEnd = function (width, height) {
       var _this$props = _this.props,
@@ -137,7 +137,7 @@ var ImageViewBody = function (_React$PureComponent) {
       tr = tr.setNodeMarkup(pos, null, attrs);
       tr = tr.setSelection(selection);
       editorView.dispatch(tr);
-    }, _this._onAlignChange = function (value) {
+    }, _this._onChange = function (value) {
       if (!_this._mounted) {
         return;
       }
@@ -167,15 +167,14 @@ var ImageViewBody = function (_React$PureComponent) {
     key: 'componentDidMount',
     value: function componentDidMount() {
       this._mounted = true;
-      var src = this.props.node.attrs.src;
       this._resolveImage();
-      this._renderAlignEditor();
+      this._renderInlineEditor();
     }
   }, {
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
       this._mounted = false;
-      this._alignEditor && this._alignEditor.close();
+      this._inlineEditor && this._inlineEditor.close();
     }
   }, {
     key: 'componentDidUpdate',
@@ -209,11 +208,12 @@ var ImageViewBody = function (_React$PureComponent) {
         });
       }
 
-      this._renderAlignEditor();
+      this._renderInlineEditor();
     }
   }, {
     key: 'render',
     value: function render() {
+      // TODO: Resolve `readOnly`;
       var readOnly = false;
       var _props2 = this.props,
           node = _props2.node,
@@ -294,13 +294,13 @@ var ImageViewBody = function (_React$PureComponent) {
       );
     }
   }, {
-    key: '_renderAlignEditor',
-    value: function _renderAlignEditor() {
+    key: '_renderInlineEditor',
+    value: function _renderInlineEditor() {
       var _this2 = this;
 
       var el = document.getElementById(this._id);
       if (!el || el.getAttribute('data-active') !== 'true') {
-        this._alignEditor && this._alignEditor.close();
+        this._inlineEditor && this._inlineEditor.close();
         return;
       }
 
@@ -308,17 +308,17 @@ var ImageViewBody = function (_React$PureComponent) {
 
       var editorProps = {
         value: node.attrs,
-        onSelect: this._onAlignChange
+        onSelect: this._onChange
       };
-      if (this._alignEditor) {
-        this._alignEditor.update(editorProps);
+      if (this._inlineEditor) {
+        this._inlineEditor.update(editorProps);
       } else {
-        this._alignEditor = (0, _createPopUp2.default)(_ImageAlignEditor2.default, editorProps, {
+        this._inlineEditor = (0, _createPopUp2.default)(_ImageInlineEditor2.default, editorProps, {
           anchor: el,
           autoDismiss: false,
           position: _PopUpPosition.atAnchorBottomCenter,
           onClose: function onClose() {
-            _this2._alignEditor = null;
+            _this2._inlineEditor = null;
           }
         });
       }

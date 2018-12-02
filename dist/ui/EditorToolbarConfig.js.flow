@@ -27,9 +27,9 @@ export function parseLabel(input: string): Object {
 
 const {
   BLOCKQUOTE_INFO,
-  DOC_LAYOUT,
   CLEAR_FORMAT,
   CODE,
+  DOC_LAYOUT,
   EM,
   H1,
   H2,
@@ -45,6 +45,7 @@ const {
   INDENT_LESS,
   INDENT_MORE,
   LINK_SET_URL,
+  MATH_EDIT,
   OL,
   PRINT,
   STRIKE,
@@ -169,6 +170,7 @@ export const COMMAND_GROUPS = [
   },
   {
     '[hr] Horizontal line': HR,
+    '[functions] Math': MATH_EDIT,
     '[code] Code': CODE,
     '[format_strikethrough] Strike through': STRIKE,
     '[format_quote] Block quote': BLOCKQUOTE_INFO,

@@ -3,11 +3,15 @@
 .czi-image-view {
   clear: both;
   display: inline-block;
-  font-size: 0;
   line-height: 0;
+  margin: 0 2px;
   max-width: 100%;
   text-align: center;
   vertical-align: baseline;
+}
+
+.czi-image-view.ProseMirror-selectednode {
+  outline: none;
 }
 
 .czi-image-view.align-left {
@@ -47,7 +51,7 @@
 }
 
 .czi-image-view-body.active {
-  outline: var(--czi-border-blue);
+  box-shadow: 0 0 1px 2px var(--czi-selection-highlight-color-dark);
 }
 
 .czi-image-view-body.error {

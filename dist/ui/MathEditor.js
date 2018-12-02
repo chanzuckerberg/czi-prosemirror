@@ -65,6 +65,7 @@ var MathEditor = function (_React$PureComponent) {
     }
 
     return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = MathEditor.__proto__ || (0, _getPrototypeOf2.default)(MathEditor)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+      initialValue: _this.props.initialValue,
       value: _this.props.initialValue || ''
     }, _this._id = (0, _uuid2.default)(), _this._unmounted = false, _this._onChange = function (value) {
       _this.setState({ value: value });
@@ -78,7 +79,9 @@ var MathEditor = function (_React$PureComponent) {
   (0, _createClass3.default)(MathEditor, [{
     key: 'render',
     value: function render() {
-      var value = this.state.value;
+      var _state = this.state,
+          initialValue = _state.initialValue,
+          value = _state.value;
 
       return _react2.default.createElement(
         'div',
@@ -109,7 +112,7 @@ var MathEditor = function (_React$PureComponent) {
             _react2.default.createElement(_CustomButton2.default, {
               active: true,
               disabled: !this.state.value,
-              label: 'Insert',
+              label: initialValue ? 'Update' : 'Insert',
               onClick: this._insert
             })
           )

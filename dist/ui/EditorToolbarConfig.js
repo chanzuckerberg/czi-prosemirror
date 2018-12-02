@@ -65,9 +65,9 @@ function parseLabel(input) {
 }
 
 var BLOCKQUOTE_INFO = EditorCommands.BLOCKQUOTE_INFO,
-    DOC_LAYOUT = EditorCommands.DOC_LAYOUT,
     CLEAR_FORMAT = EditorCommands.CLEAR_FORMAT,
     CODE = EditorCommands.CODE,
+    DOC_LAYOUT = EditorCommands.DOC_LAYOUT,
     EM = EditorCommands.EM,
     H1 = EditorCommands.H1,
     H2 = EditorCommands.H2,
@@ -83,6 +83,7 @@ var BLOCKQUOTE_INFO = EditorCommands.BLOCKQUOTE_INFO,
     INDENT_LESS = EditorCommands.INDENT_LESS,
     INDENT_MORE = EditorCommands.INDENT_MORE,
     LINK_SET_URL = EditorCommands.LINK_SET_URL,
+    MATH_EDIT = EditorCommands.MATH_EDIT,
     OL = EditorCommands.OL,
     PRINT = EditorCommands.PRINT,
     STRIKE = EditorCommands.STRIKE,
@@ -183,6 +184,7 @@ var COMMAND_GROUPS = exports.COMMAND_GROUPS = [{
   '[format_clear] Clear formats': CLEAR_FORMAT
 }, {
   '[hr] Horizontal line': HR,
+  '[functions] Math': MATH_EDIT,
   '[code] Code': CODE,
   '[format_strikethrough] Strike through': STRIKE,
   '[format_quote] Block quote': BLOCKQUOTE_INFO

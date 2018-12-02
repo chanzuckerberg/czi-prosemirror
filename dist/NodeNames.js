@@ -16,6 +16,7 @@ var HORIZONTAL_RULE = exports.HORIZONTAL_RULE = 'horizontal_rule';
 var IMAGE = exports.IMAGE = 'image';
 var LINK = exports.LINK = 'link';
 var LIST_ITEM = exports.LIST_ITEM = 'list_item';
+var MATH = exports.MATH = 'math';
 var ORDERED_LIST = exports.ORDERED_LIST = 'ordered_list';
 var PARAGRAPH = exports.PARAGRAPH = 'paragraph';
 var TABLE = exports.TABLE = 'table';

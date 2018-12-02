@@ -7,6 +7,8 @@ export type MathQuillEditorSymbol = {
   cmd: string,
 };
 
+// https://github.com/mathquill/mathquill/blob/23a0e88c80c79514ffc30ead490bd880306bce2a/src/commands/math/basicSymbols.js
+// http://math.chapman.edu/~jipsen/mathquill/test/MathQuillsymbolsMathJax.html
 // https://inspera.atlassian.net/wiki/spaces/KB/pages/62062830/MathQuill+symbols
 
 const ABSOLUTE = {'label':'|x|','latex':'|','description':'Absolute Value','cmd':'cmd'};

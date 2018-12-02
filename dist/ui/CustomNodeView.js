@@ -138,11 +138,12 @@ var mutationObserver = new MutationObserver(onMutation);
 // https://github.com/ProseMirror/prosemirror-view/blob/master/src/viewdesc.js#L429
 
 var CustomNodeView = function () {
-  function CustomNodeView(node, editorView, getPos) {
+  function CustomNodeView(node, editorView, getPos, decorations) {
     (0, _classCallCheck3.default)(this, CustomNodeView);
 
 
     this.props = {
+      decorations: decorations,
       editorView: editorView,
       getPos: getPos,
       node: node,

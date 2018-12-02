@@ -5,6 +5,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 
 
+// https://github.com/mathquill/mathquill/blob/23a0e88c80c79514ffc30ead490bd880306bce2a/src/commands/math/basicSymbols.js
+// http://math.chapman.edu/~jipsen/mathquill/test/MathQuillsymbolsMathJax.html
 // https://inspera.atlassian.net/wiki/spaces/KB/pages/62062830/MathQuill+symbols
 
 if (typeof exports !== 'undefined') Object.defineProperty(exports, 'babelPluginFlowReactPropTypes_proptype_MathQuillEditorSymbol', {

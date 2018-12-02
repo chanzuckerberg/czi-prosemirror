@@ -42,6 +42,7 @@ class MathQuillEditorSymbolsPanel extends React.PureComponent<any, any, any> {
         icon={icon}
         key={label + latex}
         onClick={this.props.onSelect}
+        title={description}
         value={symbol}
       />
     );

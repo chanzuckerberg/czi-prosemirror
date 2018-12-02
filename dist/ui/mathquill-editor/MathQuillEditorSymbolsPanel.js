@@ -68,6 +68,7 @@ var MathQuillEditorSymbolsPanel = function (_React$PureComponent) {
         icon: icon,
         key: label + latex,
         onClick: _this.props.onSelect,
+        title: description,
         value: symbol
       });
     }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);

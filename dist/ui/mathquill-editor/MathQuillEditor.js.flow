@@ -85,7 +85,15 @@ class MathQuillEditor extends React.PureComponent<any, any, any> {
 
     const mathField = MQ.MathField(this._element, config);
     this._mathField = mathField;
-    mathField.latex(this.props.value || ' ');
+
+    // TODO: Remove this if MathQuill supports `\displaystyle`.
+    const rawLatex = (this.props.value || '').replace(/\\displaystyle/g, '');
+
+    mathField.latex(rawLatex || ' ');
+    mathField.focus();
+    if (rawLatex && !mathField.latex()) {
+      console.error('unable to process latex', rawLatex);
+    }
   }
 
   _renderPanel = (

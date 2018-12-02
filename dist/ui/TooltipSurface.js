@@ -63,8 +63,27 @@ var TooltipView = function (_React$PureComponent) {
   return TooltipView;
 }(_react2.default.PureComponent);
 
-var activePopUp = null;
 var activeID = 0;
+var activePopUp = null;
+var activeView = null;
+var activeX = 0;
+var activeY = 0;
+var mountedCount = 0;
+var movedCount = 0;
+
+function onMouseMove(e) {
+  if (activeID) {
+    activeX = activeX || e.clientX;
+    activeY = activeY || e.clientY;
+    var dy = activeY - e.clientY;
+    var dx = activeX - e.clientX;
+    var dd = 10 * 10;
+    if (dx * dx > dd || dy * dy > dd) {
+      activePopUp && activePopUp.close();
+      clearTimeout(activeID);
+    }
+  }
+}
 
 var TooltipSurface = function (_React$PureComponent2) {
   (0, _inherits3.default)(TooltipSurface, _React$PureComponent2);
@@ -80,48 +99,59 @@ var TooltipSurface = function (_React$PureComponent2) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this2 = (0, _possibleConstructorReturn3.default)(this, (_ref = TooltipSurface.__proto__ || (0, _getPrototypeOf2.default)(TooltipSurface)).call.apply(_ref, [this].concat(args))), _this2), _this2._popUp = null, _this2._id = (0, _uuid2.default)(), _this2._onMouseEnter = function () {
+    return _ret = (_temp = (_this2 = (0, _possibleConstructorReturn3.default)(this, (_ref = TooltipSurface.__proto__ || (0, _getPrototypeOf2.default)(TooltipSurface)).call.apply(_ref, [this].concat(args))), _this2), _this2._id = (0, _uuid2.default)(), _this2._onMouseMove = function (e) {
+      if (activeView === _this2 && activePopUp) {
+        return;
+      }
+      activePopUp && activePopUp.close();
       activeID && window.clearTimeout(activeID);
-      activeID = setTimeout(_this2._show, 500);
+      activeID = setTimeout(_this2._show, 350);
+      activeView = _this2;
     }, _this2._onMouseDown = function () {
       activeID && window.clearTimeout(activeID);
       _this2._hide();
     }, _this2._onClose = function () {
-      _this2._popUp = null;
+      activeID = null;
+      activePopUp = null;
+      activeX = 0;
+      activeY = 0;
+      activeView = null;
     }, _this2._show = function () {
-      activeID = 0;
+      activePopUp && activePopUp.close();
+      activePopUp = null;
       var tooltip = _this2.props.tooltip;
-      ;
-      if (activePopUp) {
-        if (activePopUp === _this2._popUp && tooltip) {
-          return;
-        } else {
-          activePopUp.close();
-          activePopUp = null;
-        }
-      }
-      if (!_this2._popUp && tooltip) {
-        _this2._popUp = (0, _createPopUp2.default)(TooltipView, { tooltip: tooltip }, {
+
+      if (tooltip) {
+        activePopUp = (0, _createPopUp2.default)(TooltipView, { tooltip: tooltip }, {
           anchor: document.getElementById(_this2._id),
           onClose: _this2._onClose
         });
-        activePopUp = _this2._popUp;
       }
     }, _this2._hide = function () {
-      activeID = 0;
-      if (activePopUp === _this2._popUp) {
-        activePopUp = null;
-      }
-      _this2._popUp && _this2._popUp.close();
-      _this2._popUp = null;
+      activePopUp && activePopUp.close();
     }, _temp), (0, _possibleConstructorReturn3.default)(_this2, _ret);
   }
 
   (0, _createClass3.default)(TooltipSurface, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      mountedCount++;
+      if (mountedCount === 1) {
+        document.addEventListener('mousemove', onMouseMove, true);
+      }
+    }
+  }, {
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
-      this._tID && window.clearTimeout(this._tID);
-      this._popUp && this._popUp.close();
+      this._hide();
+      mountedCount--;
+      if (mountedCount === 0) {
+        document.removeEventListener('mousemove', onMouseMove, true);
+      }
+      if (activeView === this) {
+        activePopUp && activePopUp.close();
+        activeID && clearTimeout(activeID);
+      }
     }
   }, {
     key: 'render',
@@ -137,7 +167,7 @@ var TooltipSurface = function (_React$PureComponent2) {
           className: 'czi-tooltip-surface',
           'data-tooltip': tooltip,
           id: this._id,
-          onMouseEnter: tooltip && this._onMouseEnter,
+          onMouseMove: tooltip && this._onMouseMove,
           onMouseDown: tooltip && this._onMouseDown,
           role: 'tooltip' },
         children

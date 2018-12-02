@@ -1,6 +1,6 @@
 @import './czi-vars.css';
 
-.czi-image-align-editor {
+.czi-inline-editor {
   background: #fff;
   box-shadow: var(--czi-overlay-shadow);
   display: flex;
@@ -9,6 +9,6 @@
   padding: 4px 10px;
 }
 
-.czi-image-align-editor .czi-custom-button {
+.czi-inline-editor .czi-custom-button {
   border: none;
 }

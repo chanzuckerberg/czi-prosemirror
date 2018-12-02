@@ -16,12 +16,30 @@ class TooltipView extends React.PureComponent<any, any, any> {
   }
 }
 
-let activePopUp = null;
 let activeID = 0;
+let activePopUp = null;
+let activeView = null;
+let activeX = 0;
+let activeY = 0;
+let mountedCount = 0;
+let movedCount = 0;
+
+function onMouseMove(e: MouseEvent): void {
+  if (activeID) {
+    activeX = activeX || e.clientX;
+    activeY = activeY || e.clientY;
+    const dy = activeY - e.clientY;
+    const dx = activeX - e.clientX;
+    const dd = 10 * 10;
+    if ((dx * dx) > dd || (dy * dy) > dd) {
+      activePopUp && activePopUp.close();
+      clearTimeout(activeID);
+    }
+  }
+}
 
 class TooltipSurface extends React.PureComponent<any, any, any> {
 
-  _popUp = null;
   _id = uuid();
 
   props: {
@@ -29,9 +47,23 @@ class TooltipSurface extends React.PureComponent<any, any, any> {
     children?: any,
   };
 
+  componentDidMount(): void {
+    mountedCount++;
+    if (mountedCount === 1) {
+      document.addEventListener('mousemove', onMouseMove, true);
+    }
+  }
+
   componentWillUnmount(): void {
-    this._tID && window.clearTimeout(this._tID);
-    this._popUp && this._popUp.close();
+    this._hide();
+    mountedCount--;
+    if (mountedCount === 0) {
+      document.removeEventListener('mousemove', onMouseMove, true);
+    }
+    if (activeView === this) {
+      activePopUp && activePopUp.close();
+      activeID && clearTimeout(activeID);
+    }
   }
 
   render(): React.Element<any> {
@@ -42,7 +74,7 @@ class TooltipSurface extends React.PureComponent<any, any, any> {
         className="czi-tooltip-surface"
         data-tooltip={tooltip}
         id={this._id}
-        onMouseEnter={tooltip && this._onMouseEnter}
+        onMouseMove={tooltip && this._onMouseMove}
         onMouseDown={tooltip && this._onMouseDown}
         role="tooltip">
         {children}
@@ -50,9 +82,14 @@ class TooltipSurface extends React.PureComponent<any, any, any> {
     );
   }
 
-  _onMouseEnter = (): void => {
+  _onMouseMove = (e: SyntheticMouseEvent): void => {
+    if (activeView === this && activePopUp) {
+      return;
+    }
+    activePopUp && activePopUp.close();
     activeID && window.clearTimeout(activeID);
-    activeID = setTimeout(this._show, 500);
+    activeID = setTimeout(this._show, 350);
+    activeView = this;
   };
 
   _onMouseDown = (): void => {
@@ -61,36 +98,27 @@ class TooltipSurface extends React.PureComponent<any, any, any> {
   };
 
   _onClose = (): void => {
-    this._popUp = null;
+    activeID = null;
+    activePopUp = null;
+    activeX = 0;
+    activeY = 0;
+    activeView = null;
   };
 
   _show = (): void => {
-    activeID = 0
-    const {tooltip} = this.props;;
-    if (activePopUp) {
-      if (activePopUp === this._popUp && tooltip) {
-        return;
-      } else {
-        activePopUp.close();
-        activePopUp = null;
-      }
-    }
-    if (!this._popUp && tooltip) {
-      this._popUp = createPopUp(TooltipView, {tooltip}, {
+    activePopUp && activePopUp.close();
+    activePopUp = null;
+    const {tooltip} = this.props;
+    if (tooltip) {
+      activePopUp = createPopUp(TooltipView, {tooltip}, {
         anchor: document.getElementById(this._id),
         onClose: this._onClose,
       });
-      activePopUp = this._popUp;
     }
   };
 
   _hide = (): void => {
-    activeID = 0;
-    if (activePopUp === this._popUp) {
-      activePopUp = null;
-    }
-    this._popUp && this._popUp.close();
-    this._popUp = null;
+    activePopUp && activePopUp.close();
   };
 }
 
