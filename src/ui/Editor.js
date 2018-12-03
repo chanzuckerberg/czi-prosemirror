@@ -16,6 +16,8 @@ import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
 import {Transform} from 'prosemirror-transform';
 import {IMAGE, MATH} from '../NodeNames';
+import CustomNodeView from './CustomNodeView';
+
 import type {EditorRuntime} from '../Types';
 
 const EDITOR_EMPTY_STATE = createEmptyEditorState();
@@ -24,7 +26,7 @@ function transformPastedHTML(html: string): string {
   return normalizeHTML(html);
 }
 
-function bindNodeView(NodeView: Function): Function {
+function bindNodeView(NodeView: CustomNodeView): Function {
   return (node, view, getPos, decorations) => {
     return new NodeView(
       node,
