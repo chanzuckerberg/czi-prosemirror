@@ -27,35 +27,39 @@ export default function findNodesWithSameMark(
   let firstMark = null;
   let fromNode = null;
   let toNode = null;
-  let passed = true;
 
   let fromPos = from;
   let toPos = to;
 
-  doc.nodesBetween(from, to, (node, pos) => {
-    if (node.marks) {
-      const mark = node.marks.length ? node.marks.find(finder) : null;
-      if (!mark) {
-        passed = false;
-      } else if (firstMark && mark !== firstMark) {
-        passed = false;
-      }
-
-      if (firstMark === null && mark) {
-        firstMark = mark;
-        fromPos = pos;
-        toPos = pos;
-        fromNode = node;
-        toNode = node;
-      }
-
-      if (firstMark && mark) {
-        toPos = pos;
-        toNode = node;
-      }
+  if (from === to) {
+    const node = doc.nodeAt(from);
+    const mark = (node && node.marks.length) ? node.marks.find(finder) : null;
+    if (mark) {
+      firstMark = mark;
+      fromPos = from;
+      toPos = from;
+      fromNode = node;
+      toNode = node;
     }
-    return passed;
-  });
+  } else {
+    doc.nodesBetween(from, to, (node, pos) => {
+      if (node.marks) {
+        const mark = node.marks.length ? node.marks.find(finder) : null;
+        if (firstMark === null && mark) {
+          firstMark = mark;
+          fromPos = pos;
+          toPos = pos;
+          fromNode = node;
+          toNode = node;
+        }
+        if (firstMark && mark) {
+          toPos = pos;
+          toNode = node;
+        }
+      }
+      return true;
+    });
+  }
 
   if (!firstMark) {
     return null;

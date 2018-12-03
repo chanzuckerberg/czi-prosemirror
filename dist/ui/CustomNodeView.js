@@ -46,7 +46,8 @@ if (typeof exports !== 'undefined') Object.defineProperty(exports, 'babelPluginF
     editorView: require('prop-types').any.isRequired,
     getPos: require('prop-types').func.isRequired,
     node: require('prop-types').any.isRequired,
-    selected: require('prop-types').bool.isRequired
+    selected: require('prop-types').bool.isRequired,
+    focused: require('prop-types').bool.isRequired
   })
 }); // @xflow
 
@@ -147,7 +148,8 @@ var CustomNodeView = function () {
       editorView: editorView,
       getPos: getPos,
       node: node,
-      selected: false
+      selected: false,
+      focused: false
     };
 
     pendingViews.add(this);
@@ -164,6 +166,7 @@ var CustomNodeView = function () {
   (0, _createClass3.default)(CustomNodeView, [{
     key: 'update',
     value: function update(node, decorations) {
+      console.log('update');
       this.props = (0, _extends3.default)({}, this.props, {
         node: node
       });
@@ -182,9 +185,6 @@ var CustomNodeView = function () {
     key: 'selectNode',
     value: function selectNode() {
       this.dom.classList.add(SELECTED_NODE_CLASS_NAME);
-      this.props = (0, _extends3.default)({}, this.props, {
-        selected: true
-      });
       this.__renderReactComponent();
     }
 
@@ -194,9 +194,6 @@ var CustomNodeView = function () {
     key: 'deselectNode',
     value: function deselectNode() {
       this.dom.classList.remove(SELECTED_NODE_CLASS_NAME);
-      this.props = (0, _extends3.default)({}, this.props, {
-        selected: false
-      });
       this.__renderReactComponent();
     }
 
@@ -221,6 +218,29 @@ var CustomNodeView = function () {
   }, {
     key: '__renderReactComponent',
     value: function __renderReactComponent() {
+      var _props = this.props,
+          editorView = _props.editorView,
+          getPos = _props.getPos;
+
+      if (editorView.state && editorView.state.selection) {
+        var _editorView$state$sel = editorView.state.selection,
+            from = _editorView$state$sel.from,
+            to = _editorView$state$sel.to;
+
+        var pos = getPos();
+        var _selected = pos >= pos && pos <= to;
+        var _focused = pos === from;
+        if (_selected !== this.props.selected || _focused !== this.props.focused) {
+          this.props = (0, _extends3.default)({}, this.props, {
+            selected: _selected,
+            focused: _focused
+          });
+        }
+      }
+
+      // const {selected, focused} = this.props;
+      // console.log({selected, focused});
+
       _reactDom2.default.render(this.renderReactComponent(), this.dom);
     }
   }]);

@@ -147,14 +147,15 @@ var MathViewBody = function (_React$PureComponent) {
       var readOnly = false;
       var _props = this.props,
           node = _props.node,
-          selected = _props.selected;
+          selected = _props.selected,
+          focused = _props.focused;
       var attrs = node.attrs;
       var align = attrs.align,
           latex = attrs.latex;
 
 
-      var active = selected && !readOnly;
-      var className = (0, _classnames2.default)('czi-math-view-body', { active: active });
+      var active = focused && !readOnly;
+      var className = (0, _classnames2.default)('czi-math-view-body', { active: active, selected: selected });
       var html = (0, _renderLaTeXAsHTML2.default)(latex);
       return _react2.default.createElement(
         'span',

@@ -39,7 +39,8 @@ class LinkTooltipView {
 
     el.className = 'czi-pop-up-element';
 
-    editorView.dom.parentNode.appendChild(el);
+    const {parentNode} = editorView.dom;
+    parentNode && parentNode.appendChild(el);
 
     this.update(editorView, null);
   }

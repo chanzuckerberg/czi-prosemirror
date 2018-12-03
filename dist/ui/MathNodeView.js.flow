@@ -44,12 +44,12 @@ class MathViewBody extends React.PureComponent<any, any, any> {
   render(): React.Element<any> {
     // TODO: Resolve `readOnly`;
     const readOnly = false;
-    const {node, selected} = this.props;
+    const {node, selected, focused} = this.props;
     const {attrs} = node;
     const {align, latex} = attrs;
 
-    const active = selected && !readOnly;
-    const className = cx('czi-math-view-body', {active});
+    const active = focused && !readOnly;
+    const className = cx('czi-math-view-body', {active, selected});
     const html = renderLaTeXAsHTML(latex);
     return (
       <span

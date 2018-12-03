@@ -11,6 +11,7 @@ export type NodeViewProps = {
   getPos: () => number,
   node: Node,
   selected: boolean,
+  focused: boolean,
 };
 
 // Standard className for selected node.
@@ -75,6 +76,7 @@ class CustomNodeView {
       getPos,
       node,
       selected: false,
+      focused: false,
     };
 
     pendingViews.add(this);
@@ -89,6 +91,7 @@ class CustomNodeView {
   }
 
   update(node: Node, decorations: Array<Decoration>): boolean {
+    console.log('update');
     this.props = {
       ...this.props,
       node,
@@ -104,20 +107,12 @@ class CustomNodeView {
   // Mark this node as being the selected node.
   selectNode() {
     this.dom.classList.add(SELECTED_NODE_CLASS_NAME);
-    this.props = {
-      ...this.props,
-      selected: true,
-    };
     this.__renderReactComponent();
   }
 
   // Remove selected node marking from this node.
   deselectNode() {
     this.dom.classList.remove(SELECTED_NODE_CLASS_NAME);
-    this.props = {
-      ...this.props,
-      selected: false,
-    };
     this.__renderReactComponent();
   }
 
@@ -135,6 +130,24 @@ class CustomNodeView {
   }
 
   __renderReactComponent(): void {
+    const {editorView, getPos} = this.props;
+    if (editorView.state && editorView.state.selection) {
+      const {from, to} = editorView.state.selection;
+      const pos = getPos();
+      const selected = pos >= pos && pos <= to;
+      const focused = pos === from;
+      if (selected !== this.props.selected || focused !== this.props.focused) {
+        this.props = {
+          ...this.props,
+          selected,
+          focused,
+        };
+      }
+    }
+
+    // const {selected, focused} = this.props;
+    // console.log({selected, focused});
+
     ReactDOM.render(this.renderReactComponent(), this.dom);
   }
 }

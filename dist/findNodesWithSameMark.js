@@ -17,35 +17,39 @@ function findNodesWithSameMark(doc, from, to, markType) {
   var firstMark = null;
   var fromNode = null;
   var toNode = null;
-  var passed = true;
 
   var fromPos = from;
   var toPos = to;
 
-  doc.nodesBetween(from, to, function (node, pos) {
-    if (node.marks) {
-      var _mark = node.marks.length ? node.marks.find(finder) : null;
-      if (!_mark) {
-        passed = false;
-      } else if (firstMark && _mark !== firstMark) {
-        passed = false;
-      }
-
-      if (firstMark === null && _mark) {
-        firstMark = _mark;
-        fromPos = pos;
-        toPos = pos;
-        fromNode = node;
-        toNode = node;
-      }
-
-      if (firstMark && _mark) {
-        toPos = pos;
-        toNode = node;
-      }
+  if (from === to) {
+    var _node = doc.nodeAt(from);
+    var _mark = _node && _node.marks.length ? _node.marks.find(finder) : null;
+    if (_mark) {
+      firstMark = _mark;
+      fromPos = from;
+      toPos = from;
+      fromNode = _node;
+      toNode = _node;
     }
-    return passed;
-  });
+  } else {
+    doc.nodesBetween(from, to, function (node, pos) {
+      if (node.marks) {
+        var _mark2 = node.marks.length ? node.marks.find(finder) : null;
+        if (firstMark === null && _mark2) {
+          firstMark = _mark2;
+          fromPos = pos;
+          toPos = pos;
+          fromNode = node;
+          toNode = node;
+        }
+        if (firstMark && _mark2) {
+          toPos = pos;
+          toNode = node;
+        }
+      }
+      return true;
+    });
+  }
 
   if (!firstMark) {
     return null;

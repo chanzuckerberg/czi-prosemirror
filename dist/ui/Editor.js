@@ -78,6 +78,10 @@ var _prosemirrorTransform = require('prosemirror-transform');
 
 var _NodeNames = require('../NodeNames');
 
+var _CustomNodeView = require('./CustomNodeView');
+
+var _CustomNodeView2 = _interopRequireDefault(_CustomNodeView);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var babelPluginFlowReactPropTypes_proptype_EditorRuntime = require('../Types').babelPluginFlowReactPropTypes_proptype_EditorRuntime || require('prop-types').any;
