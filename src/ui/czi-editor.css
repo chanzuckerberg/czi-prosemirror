@@ -19,6 +19,7 @@
   font-family: var(--czi-editor-font-family);
   font-size: var(--czi-editor-font-size);
   line-height: var(--czi-editor-line-height);
+  user-zoom: fixed;
 }
 
 .ProseMirror p {

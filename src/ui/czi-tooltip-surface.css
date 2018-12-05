@@ -1,11 +1,12 @@
 @import './czi-vars.css';
+@import './czi-animations.css';
 
-.czi-tooltip-surface {
+.czi-tooltip-surface.czi-animation-fade-in {
   display: contents;
 }
 
 .czi-tooltip-view {
-  background-color: #2B222A;
+  background-color: #393939;
   border-radius: 5px;
   box-sizing: border-box;
   color: #fff;
@@ -14,11 +15,18 @@
   margin: 20px 0 0 -40px;
   min-width: 100px;
   padding: 6px 8px;
+  pointer-events: none;
   text-align: center;
+  user-select: none;
+}
+
+.czi-tooltip-view.czi-animation-fade-in {
+  animation-duration: 250ms;
+  animation-delay: 150ms;
 }
 
 .czi-tooltip-view::after {
-  background-color: #2B222A;
+  background-color: #393939;
   content: '';
   height: 8px;
   left: 8px;

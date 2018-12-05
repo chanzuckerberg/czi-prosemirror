@@ -54,13 +54,15 @@ function onMutation(mutations, observer): void {
 // Workaround to get in-selection views selected.
 // See https://discuss.prosemirror.net/t/copy-selection-issue-with-the-image-node/1673/2;
 function onSelectionChange(): void {
-  if (!window.getSelection() {
+  if (!window.getSelection) {
+    console.warn('window.getSelection() is not supported');
     document.removeEventListener('selectionchange', onSelectionChange);
     return;
   }
 
   const selection = window.getSelection();
   if (!selection.containsNode) {
+    console.warn('selection.containsNode() is not supported');
     document.removeEventListener('selectionchange', onSelectionChange);
     return;
   }
