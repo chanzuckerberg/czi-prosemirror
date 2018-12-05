@@ -51,7 +51,20 @@ function onMutation(mutations, observer): void {
   }
 }
 
+function onSelectionChange(): void {
+  const selection = window.getSelection();
+  for (const view of mountedViews) {
+    const el = view.dom;
+    if (selection.containsNode(el)) {
+      view.selectNode();
+    } else {
+      view.deselectNode();
+    }
+  }
+}
+
 const mutationObserver = new MutationObserver(onMutation);
+document.addEventListener('selectionchange', onSelectionChange);
 
 // This implements the `NodeView` interface and renders a Node with a react
 // Component.
@@ -62,6 +75,8 @@ class CustomNodeView {
   dom: HTMLElement;
 
   props: NodeViewProps;
+
+  _selected: null;
 
   constructor(
     node: Node,
@@ -106,14 +121,20 @@ class CustomNodeView {
 
   // Mark this node as being the selected node.
   selectNode() {
-    this.dom.classList.add(SELECTED_NODE_CLASS_NAME);
-    this.__renderReactComponent();
+    if (this._selected !== true) {
+      this._selected = true;
+      this.dom.classList.add(SELECTED_NODE_CLASS_NAME);
+      this.__renderReactComponent();
+    }
   }
 
   // Remove selected node marking from this node.
   deselectNode() {
-    this.dom.classList.remove(SELECTED_NODE_CLASS_NAME);
-    this.__renderReactComponent();
+    if (this._selected !== false) {
+      this._selected = false;
+      this.dom.classList.remove(SELECTED_NODE_CLASS_NAME);
+      this.__renderReactComponent();
+    }
   }
 
   // This should be overwrite by subclass.
@@ -132,17 +153,10 @@ class CustomNodeView {
   __renderReactComponent(): void {
     const {editorView, getPos} = this.props;
     if (editorView.state && editorView.state.selection) {
-      const {from, to} = editorView.state.selection;
+      const {from} = editorView.state.selection;
       const pos = getPos();
-      const selected = pos >= pos && pos <= to;
-      const focused = pos === from;
-      if (selected !== this.props.selected || focused !== this.props.focused) {
-        this.props = {
-          ...this.props,
-          selected,
-          focused,
-        };
-      }
+      this.props.selected = this._selected;
+      this.props.focused = pos === from;
     }
 
     // const {selected, focused} = this.props;

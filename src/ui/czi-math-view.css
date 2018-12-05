@@ -1,6 +1,6 @@
 .czi-math-view {
   display: inline-block;
-  margin: 0 2px;
+  margin: 0;
   position: relative;
   text-align: center;
 }
@@ -9,13 +9,19 @@
   outline: none;
 }
 
+.czi-math-view-body.selected {
+  background-color: var(--czi-selection-highlight-color-dark);
+}
+
 .czi-math-view-body.active {
+  background-color: transparent;
   box-shadow: 0 0 1px 2px var(--czi-selection-highlight-color-dark);
 }
 
 .czi-math-view-body {
   border: solid 1px transparent;
   display: inline-block;
+  padding: 0 2px;
   user-select: none;
 }
 
