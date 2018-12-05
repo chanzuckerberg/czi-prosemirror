@@ -92,13 +92,13 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
   render(): React.Element<any> {
     // TODO: Resolve `readOnly`;
     const readOnly = false;
-    const {node, selected} = this.props;
+    const {node, selected, focused} = this.props;
     const {resolvedImage} = this.state;
     const {attrs} = node;
 
     const {align, crop} = attrs;
 
-    const active = selected &&
+    const active = focused &&
       !readOnly &&
       resolvedImage &&
       resolvedImage.complete;
@@ -121,7 +121,9 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
     const className = cx('czi-image-view-body', {
       active,
       error,
+      focused,
       loading,
+      selected,
     });
 
     const resizeBox = active ?

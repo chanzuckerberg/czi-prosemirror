@@ -131,7 +131,41 @@ function onMutation(mutations, observer) {
   }
 }
 
+function onSelectionChange() {
+  var selection = window.getSelection();
+  var _iteratorNormalCompletion3 = true;
+  var _didIteratorError3 = false;
+  var _iteratorError3 = undefined;
+
+  try {
+    for (var _iterator3 = (0, _getIterator3.default)(mountedViews), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+      var view = _step3.value;
+
+      var el = view.dom;
+      if (selection.containsNode(el)) {
+        view.selectNode();
+      } else {
+        view.deselectNode();
+      }
+    }
+  } catch (err) {
+    _didIteratorError3 = true;
+    _iteratorError3 = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion3 && _iterator3.return) {
+        _iterator3.return();
+      }
+    } finally {
+      if (_didIteratorError3) {
+        throw _iteratorError3;
+      }
+    }
+  }
+}
+
 var mutationObserver = new MutationObserver(onMutation);
+document.addEventListener('selectionchange', onSelectionChange);
 
 // This implements the `NodeView` interface and renders a Node with a react
 // Component.
@@ -184,8 +218,11 @@ var CustomNodeView = function () {
   }, {
     key: 'selectNode',
     value: function selectNode() {
-      this.dom.classList.add(SELECTED_NODE_CLASS_NAME);
-      this.__renderReactComponent();
+      if (this._selected !== true) {
+        this._selected = true;
+        this.dom.classList.add(SELECTED_NODE_CLASS_NAME);
+        this.__renderReactComponent();
+      }
     }
 
     // Remove selected node marking from this node.
@@ -193,8 +230,11 @@ var CustomNodeView = function () {
   }, {
     key: 'deselectNode',
     value: function deselectNode() {
-      this.dom.classList.remove(SELECTED_NODE_CLASS_NAME);
-      this.__renderReactComponent();
+      if (this._selected !== false) {
+        this._selected = false;
+        this.dom.classList.remove(SELECTED_NODE_CLASS_NAME);
+        this.__renderReactComponent();
+      }
     }
 
     // This should be overwrite by subclass.
@@ -223,19 +263,11 @@ var CustomNodeView = function () {
           getPos = _props.getPos;
 
       if (editorView.state && editorView.state.selection) {
-        var _editorView$state$sel = editorView.state.selection,
-            from = _editorView$state$sel.from,
-            to = _editorView$state$sel.to;
+        var from = editorView.state.selection.from;
 
         var pos = getPos();
-        var _selected = pos >= pos && pos <= to;
-        var _focused = pos === from;
-        if (_selected !== this.props.selected || _focused !== this.props.focused) {
-          this.props = (0, _extends3.default)({}, this.props, {
-            selected: _selected,
-            focused: _focused
-          });
-        }
+        this.props.selected = this._selected;
+        this.props.focused = pos === from;
       }
 
       // const {selected, focused} = this.props;

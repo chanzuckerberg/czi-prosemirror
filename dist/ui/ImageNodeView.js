@@ -217,14 +217,15 @@ var ImageViewBody = function (_React$PureComponent) {
       var readOnly = false;
       var _props2 = this.props,
           node = _props2.node,
-          selected = _props2.selected;
+          selected = _props2.selected,
+          focused = _props2.focused;
       var resolvedImage = this.state.resolvedImage;
       var attrs = node.attrs;
       var align = attrs.align,
           crop = attrs.crop;
 
 
-      var active = selected && !readOnly && resolvedImage && resolvedImage.complete;
+      var active = focused && !readOnly && resolvedImage && resolvedImage.complete;
 
       var src = resolvedImage && resolvedImage.complete ? resolvedImage.src : attrs.src || EMPTY_SRC;
 
@@ -238,7 +239,9 @@ var ImageViewBody = function (_React$PureComponent) {
       var className = (0, _classnames2.default)('czi-image-view-body', {
         active: active,
         error: error,
-        loading: loading
+        focused: focused,
+        loading: loading,
+        selected: selected
       });
 
       var resizeBox = active ? _react2.default.createElement(_ImageResizeBox2.default, {
