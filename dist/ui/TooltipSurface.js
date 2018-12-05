@@ -26,6 +26,8 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 
 require('./czi-tooltip-surface.css');
 
+require('./czi-animations.css');
+
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
@@ -55,35 +57,13 @@ var TooltipView = function (_React$PureComponent) {
 
       return _react2.default.createElement(
         'div',
-        { className: 'czi-tooltip-view' },
+        { className: 'czi-tooltip-view czi-animation-fade-in' },
         tooltip
       );
     }
   }]);
   return TooltipView;
 }(_react2.default.PureComponent);
-
-var activeID = 0;
-var activePopUp = null;
-var activeView = null;
-var activeX = 0;
-var activeY = 0;
-var mountedCount = 0;
-var movedCount = 0;
-
-function onMouseMove(e) {
-  if (activeID) {
-    activeX = activeX || e.clientX;
-    activeY = activeY || e.clientY;
-    var dy = activeY - e.clientY;
-    var dx = activeX - e.clientX;
-    var dd = 10 * 10;
-    if (dx * dx > dd || dy * dy > dd) {
-      activePopUp && activePopUp.close();
-      clearTimeout(activeID);
-    }
-  }
-}
 
 var TooltipSurface = function (_React$PureComponent2) {
   (0, _inherits3.default)(TooltipSurface, _React$PureComponent2);
@@ -99,59 +79,27 @@ var TooltipSurface = function (_React$PureComponent2) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this2 = (0, _possibleConstructorReturn3.default)(this, (_ref = TooltipSurface.__proto__ || (0, _getPrototypeOf2.default)(TooltipSurface)).call.apply(_ref, [this].concat(args))), _this2), _this2._id = (0, _uuid2.default)(), _this2._onMouseMove = function (e) {
-      if (activeView === _this2 && activePopUp) {
-        return;
-      }
-      activePopUp && activePopUp.close();
-      activeID && window.clearTimeout(activeID);
-      activeID = setTimeout(_this2._show, 350);
-      activeView = _this2;
-    }, _this2._onMouseDown = function () {
-      activeID && window.clearTimeout(activeID);
-      _this2._hide();
-    }, _this2._onClose = function () {
-      activeID = null;
-      activePopUp = null;
-      activeX = 0;
-      activeY = 0;
-      activeView = null;
-    }, _this2._show = function () {
-      activePopUp && activePopUp.close();
-      activePopUp = null;
-      var tooltip = _this2.props.tooltip;
+    return _ret = (_temp = (_this2 = (0, _possibleConstructorReturn3.default)(this, (_ref = TooltipSurface.__proto__ || (0, _getPrototypeOf2.default)(TooltipSurface)).call.apply(_ref, [this].concat(args))), _this2), _this2._id = (0, _uuid2.default)(), _this2._popUp = null, _this2._onMouseEnter = function () {
+      if (!_this2._popUp) {
+        var _tooltip = _this2.props.tooltip;
 
-      if (tooltip) {
-        activePopUp = (0, _createPopUp2.default)(TooltipView, { tooltip: tooltip }, {
+        _this2._popUp = (0, _createPopUp2.default)(TooltipView, { tooltip: _tooltip }, {
           anchor: document.getElementById(_this2._id),
           onClose: _this2._onClose
         });
       }
-    }, _this2._hide = function () {
-      activePopUp && activePopUp.close();
+    }, _this2._onMouseLeave = function () {
+      _this2._popUp && _this2._popUp.close();
+      _this2._popUp = null;
+    }, _this2._onClose = function () {
+      _this2._popUp = null;
     }, _temp), (0, _possibleConstructorReturn3.default)(_this2, _ret);
   }
 
   (0, _createClass3.default)(TooltipSurface, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      mountedCount++;
-      if (mountedCount === 1) {
-        document.addEventListener('mousemove', onMouseMove, true);
-      }
-    }
-  }, {
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
-      this._hide();
-      mountedCount--;
-      if (mountedCount === 0) {
-        document.removeEventListener('mousemove', onMouseMove, true);
-      }
-      if (activeView === this) {
-        activePopUp && activePopUp.close();
-        activeID && clearTimeout(activeID);
-      }
+      this._popUp && this._popUp.close();
     }
   }, {
     key: 'render',
@@ -167,8 +115,9 @@ var TooltipSurface = function (_React$PureComponent2) {
           className: 'czi-tooltip-surface',
           'data-tooltip': tooltip,
           id: this._id,
-          onMouseMove: tooltip && this._onMouseMove,
-          onMouseDown: tooltip && this._onMouseDown,
+          onMouseEnter: tooltip && this._onMouseEnter,
+          onMouseLeave: tooltip && this._onMouseLeave,
+          onMouseDown: tooltip && this._onMouseLeave,
           role: 'tooltip' },
         children
       );

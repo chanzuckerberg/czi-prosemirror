@@ -28,6 +28,14 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
+var _regenerator = require('babel-runtime/regenerator');
+
+var _regenerator2 = _interopRequireDefault(_regenerator);
+
+var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
+
+var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+
 require('./czi-editor-toolbar.css');
 
 var _EditorCommands = require('../EditorCommands');
@@ -74,6 +82,10 @@ var _UICommand = require('./UICommand');
 
 var _UICommand2 = _interopRequireDefault(_UICommand);
 
+var _canUseCSSFont = require('./canUseCSSFont');
+
+var _canUseCSSFont2 = _interopRequireDefault(_canUseCSSFont);
+
 var _createEmptyEditorState = require('../createEmptyEditorState');
 
 var _createEmptyEditorState2 = _interopRequireDefault(_createEmptyEditorState);
@@ -86,6 +98,10 @@ var _findActiveMark = require('../findActiveMark');
 
 var _findActiveMark2 = _interopRequireDefault(_findActiveMark);
 
+var _injectStyleSheet = require('./injectStyleSheet');
+
+var _injectStyleSheet2 = _interopRequireDefault(_injectStyleSheet);
+
 var _isReactClass = require('./isReactClass');
 
 var _isReactClass2 = _interopRequireDefault(_isReactClass);
@@ -94,9 +110,9 @@ var _prosemirrorState = require('prosemirror-state');
 
 var _prosemirrorView = require('prosemirror-view');
 
-var _EditorToolbarConfig = require('./EditorToolbarConfig');
-
 var _prosemirrorTransform = require('prosemirror-transform');
+
+var _EditorToolbarConfig = require('./EditorToolbarConfig');
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -104,13 +120,41 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var babelPluginFlowReactPropTypes_proptype_ResizeObserverEntry = require('./ResizeObserver').babelPluginFlowReactPropTypes_proptype_ResizeObserverEntry || require('prop-types').any;
 
+var CSS_CDN_URL = '//fonts.googleapis.com/icon?family=Material+Icons';
+var CSS_FONT = 'Material Icons';
+
+(0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
+  var fontSupported;
+  return _regenerator2.default.wrap(function _callee$(_context) {
+    while (1) {
+      switch (_context.prev = _context.next) {
+        case 0:
+          _context.next = 2;
+          return (0, _canUseCSSFont2.default)(CSS_FONT);
+
+        case 2:
+          fontSupported = _context.sent;
+
+          if (!fontSupported) {
+            console.info('Add CSS from ', CSS_CDN_URL);
+            (0, _injectStyleSheet2.default)(CSS_CDN_URL);
+          }
+
+        case 4:
+        case 'end':
+          return _context.stop();
+      }
+    }
+  }, _callee, this);
+}))();
+
 var EDITOR_EMPTY_STATE = (0, _createEmptyEditorState2.default)();
 
 var EditorToolbar = function (_React$PureComponent) {
   (0, _inherits3.default)(EditorToolbar, _React$PureComponent);
 
   function EditorToolbar() {
-    var _ref;
+    var _ref2;
 
     var _temp, _this, _ret;
 
@@ -120,7 +164,7 @@ var EditorToolbar = function (_React$PureComponent) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = EditorToolbar.__proto__ || (0, _getPrototypeOf2.default)(EditorToolbar)).call.apply(_ref, [this].concat(args))), _this), _this._body = null, _this.state = {
+    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref2 = EditorToolbar.__proto__ || (0, _getPrototypeOf2.default)(EditorToolbar)).call.apply(_ref2, [this].concat(args))), _this), _this._body = null, _this.state = {
       expanded: false,
       wrapped: null
     }, _this._renderButtonsGroup = function (group, index) {

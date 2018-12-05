@@ -131,8 +131,22 @@ function onMutation(mutations, observer) {
   }
 }
 
+// Workaround to get in-selection views selected.
+// See https://discuss.prosemirror.net/t/copy-selection-issue-with-the-image-node/1673/2;
 function onSelectionChange() {
+  if (!window.getSelection) {
+    console.warn('window.getSelection() is not supported');
+    document.removeEventListener('selectionchange', onSelectionChange);
+    return;
+  }
+
   var selection = window.getSelection();
+  if (!selection.containsNode) {
+    console.warn('selection.containsNode() is not supported');
+    document.removeEventListener('selectionchange', onSelectionChange);
+    return;
+  }
+
   var _iteratorNormalCompletion3 = true;
   var _didIteratorError3 = false;
   var _iteratorError3 = undefined;

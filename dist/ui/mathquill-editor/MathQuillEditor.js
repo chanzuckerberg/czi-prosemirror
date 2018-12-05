@@ -24,6 +24,14 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
+var _regenerator = require('babel-runtime/regenerator');
+
+var _regenerator2 = _interopRequireDefault(_regenerator);
+
+var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
+
+var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+
 require('./czi-mathquill-editor.css');
 
 var _MathQuillEditorSymbols = require('./MathQuillEditorSymbols');
@@ -46,9 +54,17 @@ var _reactDom = require('react-dom');
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
+var _canUseCSSFont = require('./../canUseCSSFont');
+
+var _canUseCSSFont2 = _interopRequireDefault(_canUseCSSFont);
+
 var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
+
+var _injectStyleSheet = require('./../injectStyleSheet');
+
+var _injectStyleSheet2 = _interopRequireDefault(_injectStyleSheet);
 
 var _jquery = require('jquery');
 
@@ -61,6 +77,34 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var babelPluginFlowReactPropTypes_proptype_MathQuillEditorSymbol = require('./MathQuillEditorSymbols').babelPluginFlowReactPropTypes_proptype_MathQuillEditorSymbol || require('prop-types').any;
 
 var MQ = _mathquill2.default.getInterface(2);
+var CSS_CDN_URL = '//cdnjs.cloudflare.com/ajax/libs/mathquill/0.10.1/mathquill.css';
+var CSS_FONT = 'Symbola';
+
+(0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
+  var fontSupported;
+  return _regenerator2.default.wrap(function _callee$(_context) {
+    while (1) {
+      switch (_context.prev = _context.next) {
+        case 0:
+          _context.next = 2;
+          return (0, _canUseCSSFont2.default)(CSS_FONT);
+
+        case 2:
+          fontSupported = _context.sent;
+
+          if (!fontSupported) {
+            console.info('Add CSS from ', CSS_CDN_URL);
+            (0, _injectStyleSheet2.default)(CSS_CDN_URL);
+          }
+          // injectStyleSheet(CSS_CDN_URL);
+
+        case 4:
+        case 'end':
+          return _context.stop();
+      }
+    }
+  }, _callee, this);
+}))();
 
 var MathQuillElement = function (_React$Component) {
   (0, _inherits3.default)(MathQuillElement, _React$Component);
@@ -91,7 +135,7 @@ var MathQuillEditor = function (_React$PureComponent) {
   (0, _inherits3.default)(MathQuillEditor, _React$PureComponent);
 
   function MathQuillEditor() {
-    var _ref;
+    var _ref2;
 
     var _temp, _this2, _ret;
 
@@ -101,7 +145,7 @@ var MathQuillEditor = function (_React$PureComponent) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this2 = (0, _possibleConstructorReturn3.default)(this, (_ref = MathQuillEditor.__proto__ || (0, _getPrototypeOf2.default)(MathQuillEditor)).call.apply(_ref, [this].concat(args))), _this2), _this2._element = null, _this2._ignoreEditEvents = 4, _this2._mathField = null, _this2._latex = '', _this2._renderPanel = function (symbols, ii) {
+    return _ret = (_temp = (_this2 = (0, _possibleConstructorReturn3.default)(this, (_ref2 = MathQuillEditor.__proto__ || (0, _getPrototypeOf2.default)(MathQuillEditor)).call.apply(_ref2, [this].concat(args))), _this2), _this2._element = null, _this2._ignoreEditEvents = 4, _this2._mathField = null, _this2._latex = '', _this2._renderPanel = function (symbols, ii) {
       return _react2.default.createElement(_MathQuillEditorSymbolsPanel2.default, {
         key: 's' + ii,
         onSelect: _this2._onSymbolSelect,
