@@ -51,8 +51,20 @@ function onMutation(mutations, observer): void {
   }
 }
 
+// Workaround to get in-selection views selected.
+// See https://discuss.prosemirror.net/t/copy-selection-issue-with-the-image-node/1673/2;
 function onSelectionChange(): void {
+  if (!window.getSelection() {
+    document.removeEventListener('selectionchange', onSelectionChange);
+    return;
+  }
+
   const selection = window.getSelection();
+  if (!selection.containsNode) {
+    document.removeEventListener('selectionchange', onSelectionChange);
+    return;
+  }
+
   for (const view of mountedViews) {
     const el = view.dom;
     if (selection.containsNode(el)) {
