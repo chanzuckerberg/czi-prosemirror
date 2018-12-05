@@ -6,11 +6,25 @@ import MathQuill from 'node-mathquill/build/mathquill.js';
 import MathQuillEditorSymbolsPanel from './MathQuillEditorSymbolsPanel';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import canUseCSSFont from './../canUseCSSFont';
 import cx from 'classnames';
+import injectStyleSheet from './../injectStyleSheet';
 import jquery from 'jquery';
+
 import type {MathQuillEditorSymbol} from './MathQuillEditorSymbols';
 
 const MQ = MathQuill.getInterface(2);
+const CSS_CDN_URL = '//cdnjs.cloudflare.com/ajax/libs/mathquill/0.10.1/mathquill.css';
+const CSS_FONT = 'Symbola';
+
+(async function() {
+  const fontSupported = await canUseCSSFont(CSS_FONT);
+  if (!fontSupported) {
+    console.info('Add CSS from ', CSS_CDN_URL);
+    injectStyleSheet(CSS_CDN_URL);
+  }
+  // injectStyleSheet(CSS_CDN_URL);
+})();
 
 class MathQuillElement extends React.Component<any, any, any> {
 

@@ -12,13 +12,11 @@ const CSS_FONT = 'KaTeX_Main';
 
 (async function() {
   const fontSupported = await canUseCSSFont(CSS_FONT);
-  console.info(fontSupported, CSS_FONT);
   if (!fontSupported) {
     console.info('Add CSS from ', CSS_CDN_URL);
     injectStyleSheet(CSS_CDN_URL);
   }
 })();
-
 
 export default function renderLaTeXAsHTML(latex: ?string): string {
 

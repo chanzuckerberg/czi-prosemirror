@@ -12,16 +12,30 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import ResizeObserver from './ResizeObserver';
 import UICommand from './UICommand';
+import canUseCSSFont from './canUseCSSFont';
 import createEmptyEditorState from '../createEmptyEditorState';
 import cx from 'classnames';
 import findActiveMark from '../findActiveMark';
+import injectStyleSheet from './injectStyleSheet';
 import isReactClass from './isReactClass';
 import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
-import {parseLabel, COMMAND_GROUPS} from './EditorToolbarConfig';
 import {Transform} from 'prosemirror-transform';
+import {parseLabel, COMMAND_GROUPS} from './EditorToolbarConfig';
 
 import type {ResizeObserverEntry} from './ResizeObserver';
+
+const CSS_CDN_URL = '//fonts.googleapis.com/icon?family=Material+Icons';
+const CSS_FONT = 'Material Icons';
+
+(async function() {
+  const fontSupported = await canUseCSSFont(CSS_FONT);
+  if (!fontSupported) {
+    console.info('Add CSS from ', CSS_CDN_URL);
+    injectStyleSheet(CSS_CDN_URL);
+  }
+})();
+
 
 const EDITOR_EMPTY_STATE = createEmptyEditorState();
 

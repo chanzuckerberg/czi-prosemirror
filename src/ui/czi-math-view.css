@@ -38,6 +38,10 @@
   pointer-events: none;
 }
 
+.czi-math-view-body-content .katex {
+  font-display: block;
+}
+
 .czi-math-view.align-left {
   float: left;
   margin: 0 20px 20px 0;
