@@ -60,6 +60,7 @@ class ContentPlaceholderView {
     el.style.top = top + 'px';
     el.style.padding = bodyStyle.padding;
     el.style.display = 'block';
+    el.style.width = bodyEl.offsetWidth + 'px';
     view.dom.classList.add(CLASS_NAME_HAS_PLACEHOLDER);
 
     ReactDOM.render(

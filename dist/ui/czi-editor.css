@@ -20,6 +20,11 @@
   font-size: var(--czi-editor-font-size);
   line-height: var(--czi-editor-line-height);
   user-zoom: fixed;
+  position: relative;
+}
+
+.ProseMirror.czi-has-placeholder {
+  min-height: 100px;
 }
 
 .ProseMirror.czi-has-placeholder {
@@ -36,6 +41,7 @@
 }
 
 .czi-editor-content-placeholder {
+  box-sizing: border-box;
   color: var(--czi-placeholder-text-color);
   font-family: var(--czi-editor-font-family);
   font-size: var(--czi-editor-font-size);
