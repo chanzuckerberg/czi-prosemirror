@@ -73,7 +73,7 @@ var ContentPlaceholderView = function () {
         return;
       }
 
-      if (this._focused || view.disabled || !(0, _isEditorStateEmpty2.default)(view.state)) {
+      if (this._focused || !(0, _isEditorStateEmpty2.default)(view.state)) {
         this._hide();
         return;
       }
@@ -134,10 +134,10 @@ var ContentPlaceholderView = function () {
       var view = this._view;
       if (this._focused !== false && el && view) {
         this._focused = false;
-        if (view.disabled || view.readOnly || !(0, _isEditorStateEmpty2.default)(view.state)) {
-          this._hide();
-        } else {
+        if ((0, _isEditorStateEmpty2.default)(view.state)) {
           this._show();
+        } else {
+          this._hide();
         }
       }
     }

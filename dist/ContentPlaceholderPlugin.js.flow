@@ -35,11 +35,7 @@ class ContentPlaceholderView {
       return;
     }
 
-    if (
-      this._focused ||
-      view.disabled ||
-      !isEditorStateEmpty(view.state)
-    ) {
+    if (this._focused || !isEditorStateEmpty(view.state)) {
       this._hide();
       return;
     }
@@ -121,10 +117,10 @@ class ContentPlaceholderView {
     const view = this._view;
     if (this._focused !== false && el && view ) {
       this._focused = false;
-      if (view.disabled || view.readOnly || !isEditorStateEmpty(view.state)) {
-        this._hide();
-      } else {
+      if (isEditorStateEmpty(view.state)) {
         this._show();
+      } else {
+        this._hide();
       }
     }
   }
