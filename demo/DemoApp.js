@@ -14,7 +14,7 @@ import {EditorView} from 'prosemirror-view';
 // Reference: http://prosemirror.net/examples/basic/
 const defaultEditorState = (function() {
   const templateNode = document.createElement('div');
-  ReactDOM.render(<DemoAppHTMLTemplate />, templateNode);
+  // ReactDOM.render(<DemoAppHTMLTemplate />, templateNode);
   return convertFromDOMElement(templateNode);
 })();
 
@@ -38,6 +38,7 @@ class DemoApp extends React.PureComponent<any, any, any> {
         height="100vh"
         onChange={this._onChange}
         onReady={this._onReady}
+        placeholder={readOnly ? '' : 'Type Something...'}
         readOnly={readOnly}
         runtime={this._runtime}
         width="100vw"

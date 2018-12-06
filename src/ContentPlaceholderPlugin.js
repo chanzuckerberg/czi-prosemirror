@@ -21,12 +21,13 @@ class ContentPlaceholderView {
 
     el.className = 'czi-editor-content-placeholder';
     editorView.dom.parentNode.appendChild(el);
-    document.addEventListener('focusin', this._onFocusIn, true);
+    document.addEventListener('focusin', this._onFocusChange, true);
+    document.addEventListener('focusout', this._onFocusChange, false);
 
-    this.update(editorView, null);
+    this.update(editorView);
   }
 
-  update(view: EditorView, lastState: EditorState): void {
+  update(view: EditorView): void {
     this._view = view;
 
     const el = this._el;
@@ -36,9 +37,8 @@ class ContentPlaceholderView {
 
     if (
       this._focused ||
-      !isEditorStateEmpty(view.state) ||
       view.disabled ||
-      view.readOnly
+      !isEditorStateEmpty(view.state)
     ) {
       this._hide();
       return;
@@ -46,7 +46,8 @@ class ContentPlaceholderView {
 
     const parentEl = el.parentNode;
     const bodyEl = this._getBodyElement();
-    if (!parentEl || !bodyEl) {
+    const placeholder = view.placeholder;
+    if (!parentEl || !bodyEl || !placeholder) {
       return;
     }
 
@@ -62,8 +63,6 @@ class ContentPlaceholderView {
     el.style.padding = bodyStyle.padding;
     el.style.display = 'block';
 
-    const placeholder = view.placeholder || 'Type Something';
-
     ReactDOM.render(
       <div>{placeholder}</div>,
       el,
@@ -77,22 +76,24 @@ class ContentPlaceholderView {
       el.parentNode.removeChild(el);
       ReactDOM.unmountComponentAtNode(el);
     }
-    document.removeEventListener('focusin', this._onFocusIn, true);
+    document.removeEventListener('focusin', this._onFocusChange, true);
+    document.removeEventListener('focusout', this._onFocusChange, false);
     this._view = null;
     this._el = null;
     this._focused = false;
   }
 
 
-  _onFocusIn = (e: Event): void => {
+  _onFocusChange = (e: Event): void => {
     const activeElement = document.activeElement;
     const bodyEl = this._getBodyElement();
     const el = this._el;
+    const doc = document;
     const view = this._view;
     if (!view || !el) {
       return;
     }
-    if (!activeElement || !bodyEl) {
+    if (!activeElement || !bodyEl || (doc.hasFocus && !doc.hasFocus())) {
       this._onBlur();
     } else {
       if (
@@ -143,6 +144,7 @@ class ContentPlaceholderView {
     if (el && this._visible !== true) {
       this._visible = true;
       el.style.display = 'block';
+      this._view && this.update(this._view);
     }
   }
 
