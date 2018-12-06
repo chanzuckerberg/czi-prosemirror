@@ -22,6 +22,10 @@
   user-zoom: fixed;
 }
 
+.ProseMirror.czi-has-placeholder {
+  min-height: 100px;
+}
+
 .ProseMirror p {
   line-height: var(--czi-editor-line-height);
   margin: 0;
@@ -39,6 +43,7 @@
   line-height: var(--czi-editor-line-height);
   pointer-events: none;
   position: absolute;
+  right: 0;
   top: 0;
   z-index: 999;
 }
