@@ -5,6 +5,8 @@ import CustomNodeView from './CustomNodeView';
 import ImageInlineEditor from './ImageInlineEditor';
 import ImageResizeBox from './ImageResizeBox';
 import React from 'react';
+import ReactDOM from 'react-dom';
+import ResizeObserver from './ResizeObserver';
 import createPopUp from './createPopUp';
 import cx from 'classnames';
 import nullthrows from 'nullthrows';
@@ -17,11 +19,31 @@ import {TextSelection} from 'prosemirror-state';
 import {atAnchorBottomCenter} from './PopUpPosition';
 
 import type {EditorRuntime} from '../Types';
-import type {NodeViewProps} from './CustomNodeView';
 import type {ImageInlineEditorValue} from './ImageInlineEditor';
+import type {NodeViewProps} from './CustomNodeView';
+import type {ResizeObserverEntry} from './ResizeObserver';
 
 const EMPTY_SRC = 'data:image/gif;base64,' +
   'R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+
+// Get the maxWidth that the image could be resized to.
+function getMaxResizeWidth(el: any): number {
+  // Ideally, the image should bot be wider then its containing element.
+  let node: any = el.parentElement;
+  while (node && !node.offsetParent) {
+    node = node.parentElement;
+  }
+  if (
+    node &&
+    node.offsetParent &&
+    node.offsetParent.offsetWidth &&
+    node.offsetParent.offsetWidth > 0
+  ) {
+    return node.offsetParent.offsetWidth;
+  }
+  // Let the image resize freely.
+  return 100000000;
+}
 
 function resolveURL(runtime: ?EditorRuntime, src: ?string): ?string {
   if (!runtime) {
@@ -38,11 +60,13 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
 
   props: NodeViewProps;
 
-  _inlineEditor = null;
+  _body = null;
   _id = uuid();
+  _inlineEditor = null;
   _mounted = false;
 
   state = {
+    maxWidth: NaN,
     resolvedImage: null,
   };
 
@@ -93,7 +117,7 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
     // TODO: Resolve `readOnly`;
     const readOnly = false;
     const {node, selected, focused} = this.props;
-    const {resolvedImage} = this.state;
+    const {resolvedImage, maxWidth} = this.state;
     const {attrs} = node;
 
     const {align, crop} = attrs;
@@ -107,11 +131,11 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
       resolvedImage.src :
       (attrs.src || EMPTY_SRC);
 
-    const width = resolvedImage && resolvedImage.complete ?
+    let width = resolvedImage && resolvedImage.complete ?
       resolvedImage.width :
       (attrs.width || MIN_SIZE);
 
-    const height = resolvedImage && resolvedImage.complete ?
+    let height = resolvedImage && resolvedImage.complete ?
       resolvedImage.height :
       (attrs.height || MIN_SIZE);
 
@@ -151,6 +175,20 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
       clipStyle.height = crop.height;
       imageStyle.left = crop.left + 'px';
       imageStyle.top = crop.top + 'px';
+    } else if (
+      !active &&
+      maxWidth &&
+      resolvedImage &&
+      resolvedImage.complete &&
+      width > maxWidth
+    ) {
+      // When image is not being edited, it should automatically fit to its
+      // containing space.
+      const rr = width / height;
+      width = Math.round(maxWidth);
+      height = Math.round(maxWidth / rr);
+      imageStyle.width = width + 'px';
+      imageStyle.height = height + 'px';
     }
 
     return (
@@ -158,7 +196,8 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
         className={className}
         data-active={active ? 'true' : null}
         data-src={src || ''}
-        id={this._id}>
+        id={this._id}
+        ref={this._onBodyRef}>
         <span
           className="czi-image-view-body-img-clip" style={clipStyle}>
           <span style={imageStyle}>
@@ -252,6 +291,33 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
     tr = tr.setNodeMarkup(pos, null, attrs);
     tr = tr.setSelection(selection);
     editorView.dispatch(tr);
+  };
+
+  _onBodyRef = (ref: any): void => {
+    if (ref) {
+      this._body = ref;
+      // Mounting
+      const el = ReactDOM.findDOMNode(ref);
+      if (el instanceof HTMLElement) {
+        ResizeObserver.observe(el, this._onBodyResize);
+      }
+    } else {
+      // Unmounting.
+      const el = this._body && ReactDOM.findDOMNode(this._body);
+      if (el instanceof HTMLElement) {
+        ResizeObserver.unobserve(el);
+      }
+      this._body = null;
+    }
+  };
+
+  _onBodyResize = (info: ResizeObserverEntry): void => {
+    const maxWidth = this._body ?
+      getMaxResizeWidth(ReactDOM.findDOMNode(this._body)) :
+      NaN;
+    this.setState({
+      maxWidth,
+    });
   };
 }
 

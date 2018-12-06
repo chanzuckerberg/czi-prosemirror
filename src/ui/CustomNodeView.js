@@ -135,20 +135,16 @@ class CustomNodeView {
 
   // Mark this node as being the selected node.
   selectNode() {
-    if (this._selected !== true) {
-      this._selected = true;
-      this.dom.classList.add(SELECTED_NODE_CLASS_NAME);
-      this.__renderReactComponent();
-    }
+    this._selected = true;
+    this.dom.classList.add(SELECTED_NODE_CLASS_NAME);
+    this.__renderReactComponent();
   }
 
   // Remove selected node marking from this node.
   deselectNode() {
-    if (this._selected !== false) {
-      this._selected = false;
-      this.dom.classList.remove(SELECTED_NODE_CLASS_NAME);
-      this.__renderReactComponent();
-    }
+    this._selected = false;
+    this.dom.classList.remove(SELECTED_NODE_CLASS_NAME);
+    this.__renderReactComponent();
   }
 
   // This should be overwrite by subclass.
