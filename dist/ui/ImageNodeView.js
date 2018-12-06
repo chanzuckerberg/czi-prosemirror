@@ -50,6 +50,14 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactDom = require('react-dom');
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
+var _ResizeObserver = require('./ResizeObserver');
+
+var _ResizeObserver2 = _interopRequireDefault(_ResizeObserver);
+
 var _createPopUp = require('./createPopUp');
 
 var _createPopUp2 = _interopRequireDefault(_createPopUp);
@@ -82,11 +90,27 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var babelPluginFlowReactPropTypes_proptype_EditorRuntime = require('../Types').babelPluginFlowReactPropTypes_proptype_EditorRuntime || require('prop-types').any;
 
-var babelPluginFlowReactPropTypes_proptype_NodeViewProps = require('./CustomNodeView').babelPluginFlowReactPropTypes_proptype_NodeViewProps || require('prop-types').any;
-
 var babelPluginFlowReactPropTypes_proptype_ImageInlineEditorValue = require('./ImageInlineEditor').babelPluginFlowReactPropTypes_proptype_ImageInlineEditorValue || require('prop-types').any;
 
+var babelPluginFlowReactPropTypes_proptype_NodeViewProps = require('./CustomNodeView').babelPluginFlowReactPropTypes_proptype_NodeViewProps || require('prop-types').any;
+
+var babelPluginFlowReactPropTypes_proptype_ResizeObserverEntry = require('./ResizeObserver').babelPluginFlowReactPropTypes_proptype_ResizeObserverEntry || require('prop-types').any;
+
 var EMPTY_SRC = 'data:image/gif;base64,' + 'R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+
+// Get the maxWidth that the image could be resized to.
+function getMaxResizeWidth(el) {
+  // Ideally, the image should bot be wider then its containing element.
+  var node = el.parentElement;
+  while (node && !node.offsetParent) {
+    node = node.parentElement;
+  }
+  if (node && node.offsetParent && node.offsetParent.offsetWidth && node.offsetParent.offsetWidth > 0) {
+    return node.offsetParent.offsetWidth;
+  }
+  // Let the image resize freely.
+  return 100000000;
+}
 
 function resolveURL(runtime, src) {
   if (!runtime) {
@@ -115,7 +139,8 @@ var ImageViewBody = function (_React$PureComponent) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = ImageViewBody.__proto__ || (0, _getPrototypeOf2.default)(ImageViewBody)).call.apply(_ref, [this].concat(args))), _this), _this._inlineEditor = null, _this._id = (0, _uuid2.default)(), _this._mounted = false, _this.state = {
+    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = ImageViewBody.__proto__ || (0, _getPrototypeOf2.default)(ImageViewBody)).call.apply(_ref, [this].concat(args))), _this), _this._body = null, _this._id = (0, _uuid2.default)(), _this._inlineEditor = null, _this._mounted = false, _this.state = {
+      maxWidth: NaN,
       resolvedImage: null
     }, _this._onResizeEnd = function (width, height) {
       var _this$props = _this.props,
@@ -160,6 +185,27 @@ var ImageViewBody = function (_React$PureComponent) {
       tr = tr.setNodeMarkup(pos, null, attrs);
       tr = tr.setSelection(selection);
       editorView.dispatch(tr);
+    }, _this._onBodyRef = function (ref) {
+      if (ref) {
+        _this._body = ref;
+        // Mounting
+        var el = _reactDom2.default.findDOMNode(ref);
+        if (el instanceof HTMLElement) {
+          _ResizeObserver2.default.observe(el, _this._onBodyResize);
+        }
+      } else {
+        // Unmounting.
+        var _el = _this._body && _reactDom2.default.findDOMNode(_this._body);
+        if (_el instanceof HTMLElement) {
+          _ResizeObserver2.default.unobserve(_el);
+        }
+        _this._body = null;
+      }
+    }, _this._onBodyResize = function (info) {
+      var maxWidth = _this._body ? getMaxResizeWidth(_reactDom2.default.findDOMNode(_this._body)) : NaN;
+      _this.setState({
+        maxWidth: maxWidth
+      });
     }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
   }
 
@@ -219,7 +265,9 @@ var ImageViewBody = function (_React$PureComponent) {
           node = _props2.node,
           selected = _props2.selected,
           focused = _props2.focused;
-      var resolvedImage = this.state.resolvedImage;
+      var _state = this.state,
+          resolvedImage = _state.resolvedImage,
+          maxWidth = _state.maxWidth;
       var attrs = node.attrs;
       var align = attrs.align,
           crop = attrs.crop;
@@ -267,6 +315,14 @@ var ImageViewBody = function (_React$PureComponent) {
         clipStyle.height = crop.height;
         imageStyle.left = crop.left + 'px';
         imageStyle.top = crop.top + 'px';
+      } else if (!active && maxWidth && resolvedImage && resolvedImage.complete && width > maxWidth) {
+        // When image is not being edited, it should automatically fit to its
+        // containing space.
+        var rr = width / height;
+        width = Math.round(maxWidth);
+        height = Math.round(maxWidth / rr);
+        imageStyle.width = width + 'px';
+        imageStyle.height = height + 'px';
       }
 
       return _react2.default.createElement(
@@ -275,7 +331,8 @@ var ImageViewBody = function (_React$PureComponent) {
           className: className,
           'data-active': active ? 'true' : null,
           'data-src': src || '',
-          id: this._id },
+          id: this._id,
+          ref: this._onBodyRef },
         _react2.default.createElement(
           'span',
           {
