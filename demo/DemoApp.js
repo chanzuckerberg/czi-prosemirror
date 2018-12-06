@@ -14,7 +14,7 @@ import {EditorView} from 'prosemirror-view';
 // Reference: http://prosemirror.net/examples/basic/
 const defaultEditorState = (function() {
   const templateNode = document.createElement('div');
-  // ReactDOM.render(<DemoAppHTMLTemplate />, templateNode);
+  ReactDOM.render(<DemoAppHTMLTemplate />, templateNode);
   return convertFromDOMElement(templateNode);
 })();
 
