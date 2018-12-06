@@ -57,14 +57,15 @@ var ContentPlaceholderView = function () {
 
     el.className = 'czi-editor-content-placeholder';
     editorView.dom.parentNode.appendChild(el);
-    document.addEventListener('focusin', this._onFocusIn, true);
+    document.addEventListener('focusin', this._onFocusChange, true);
+    document.addEventListener('focusout', this._onFocusChange, false);
 
-    this.update(editorView, null);
+    this.update(editorView);
   }
 
   (0, _createClass3.default)(ContentPlaceholderView, [{
     key: 'update',
-    value: function update(view, lastState) {
+    value: function update(view) {
       this._view = view;
 
       var el = this._el;
@@ -72,14 +73,15 @@ var ContentPlaceholderView = function () {
         return;
       }
 
-      if (this._focused || !(0, _isEditorStateEmpty2.default)(view.state) || view.disabled || view.readOnly) {
+      if (this._focused || view.disabled || !(0, _isEditorStateEmpty2.default)(view.state)) {
         this._hide();
         return;
       }
 
       var parentEl = el.parentNode;
       var bodyEl = this._getBodyElement();
-      if (!parentEl || !bodyEl) {
+      var placeholder = view.placeholder;
+      if (!parentEl || !bodyEl || !placeholder) {
         return;
       }
 
@@ -94,8 +96,6 @@ var ContentPlaceholderView = function () {
       el.style.top = top + 'px';
       el.style.padding = bodyStyle.padding;
       el.style.display = 'block';
-
-      var placeholder = view.placeholder || 'Type Something';
 
       _reactDom2.default.render(_react2.default.createElement(
         'div',
@@ -112,7 +112,8 @@ var ContentPlaceholderView = function () {
         el.parentNode.removeChild(el);
         _reactDom2.default.unmountComponentAtNode(el);
       }
-      document.removeEventListener('focusin', this._onFocusIn, true);
+      document.removeEventListener('focusin', this._onFocusChange, true);
+      document.removeEventListener('focusout', this._onFocusChange, false);
       this._view = null;
       this._el = null;
       this._focused = false;
@@ -153,6 +154,7 @@ var ContentPlaceholderView = function () {
       if (el && this._visible !== true) {
         this._visible = true;
         el.style.display = 'block';
+        this._view && this.update(this._view);
       }
     }
   }, {
@@ -176,15 +178,16 @@ var _initialiseProps = function _initialiseProps() {
   this._view = null;
   this._visible = null;
 
-  this._onFocusIn = function (e) {
+  this._onFocusChange = function (e) {
     var activeElement = document.activeElement;
     var bodyEl = _this2._getBodyElement();
     var el = _this2._el;
+    var doc = document;
     var view = _this2._view;
     if (!view || !el) {
       return;
     }
-    if (!activeElement || !bodyEl) {
+    if (!activeElement || !bodyEl || doc.hasFocus && !doc.hasFocus()) {
       _this2._onBlur();
     } else {
       if (activeElement === bodyEl || bodyEl.contains(activeElement) || activeElement === bodyEl.parentNode) {
