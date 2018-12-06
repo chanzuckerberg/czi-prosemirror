@@ -44,6 +44,8 @@ var _prosemirrorView = require('prosemirror-view');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var CLASS_NAME_HAS_PLACEHOLDER = 'czi-has-placeholder';
+
 var ContentPlaceholderView = function () {
   function ContentPlaceholderView(editorView) {
     (0, _classCallCheck3.default)(this, ContentPlaceholderView);
@@ -69,7 +71,7 @@ var ContentPlaceholderView = function () {
       this._view = view;
 
       var el = this._el;
-      if (!el) {
+      if (!el || !view) {
         return;
       }
 
@@ -96,6 +98,7 @@ var ContentPlaceholderView = function () {
       el.style.top = top + 'px';
       el.style.padding = bodyStyle.padding;
       el.style.display = 'block';
+      view.dom.classList.add(CLASS_NAME_HAS_PLACEHOLDER);
 
       _reactDom2.default.render(_react2.default.createElement(
         'div',
@@ -106,9 +109,10 @@ var ContentPlaceholderView = function () {
   }, {
     key: 'destroy',
     value: function destroy() {
+      this._hide();
+
       var el = this._el;
       if (el && el.parentNode) {
-        // el.removeEventListener('mousedown', this._onMouseDown, true);
         el.parentNode.removeChild(el);
         _reactDom2.default.unmountComponentAtNode(el);
       }
@@ -160,10 +164,13 @@ var ContentPlaceholderView = function () {
   }, {
     key: '_hide',
     value: function _hide() {
+
       var el = this._el;
       if (el && this._visible !== false) {
         this._visible = false;
         el.style.display = 'none';
+        var view = this._view;
+        view && view.dom.classList.remove(CLASS_NAME_HAS_PLACEHOLDER);
       }
     }
   }]);

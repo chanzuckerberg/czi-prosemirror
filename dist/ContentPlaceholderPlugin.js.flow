@@ -7,6 +7,8 @@ import isEditorStateEmpty from './isEditorStateEmpty';
 import {EditorState, Plugin} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
 
+const CLASS_NAME_HAS_PLACEHOLDER = 'czi-has-placeholder';
+
 class ContentPlaceholderView {
   _el = null;
   _focused = null;
@@ -31,7 +33,7 @@ class ContentPlaceholderView {
     this._view = view;
 
     const el = this._el;
-    if (!el) {
+    if (!el || !view) {
       return;
     }
 
@@ -58,6 +60,7 @@ class ContentPlaceholderView {
     el.style.top = top + 'px';
     el.style.padding = bodyStyle.padding;
     el.style.display = 'block';
+    view.dom.classList.add(CLASS_NAME_HAS_PLACEHOLDER);
 
     ReactDOM.render(
       <div>{placeholder}</div>,
@@ -66,9 +69,10 @@ class ContentPlaceholderView {
   }
 
   destroy() {
+    this._hide();
+
     const el = this._el;
     if (el && el.parentNode) {
-      // el.removeEventListener('mousedown', this._onMouseDown, true);
       el.parentNode.removeChild(el);
       ReactDOM.unmountComponentAtNode(el);
     }
@@ -145,10 +149,14 @@ class ContentPlaceholderView {
   }
 
   _hide(): void {
+
+
     const el = this._el;
     if (el && this._visible !== false) {
       this._visible = false;
       el.style.display = 'none';
+      const view = this._view;
+      view && view.dom.classList.remove(CLASS_NAME_HAS_PLACEHOLDER);
     }
   }
 }
