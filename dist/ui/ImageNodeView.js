@@ -142,6 +142,40 @@ var ImageViewBody = function (_React$PureComponent) {
     return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = ImageViewBody.__proto__ || (0, _getPrototypeOf2.default)(ImageViewBody)).call.apply(_ref, [this].concat(args))), _this), _this._body = null, _this._id = (0, _uuid2.default)(), _this._inlineEditor = null, _this._mounted = false, _this.state = {
       maxWidth: NaN,
       resolvedImage: null
+    }, _this._onImageLoad = function () {
+      // This handles the case when `resolvedImage` failed but the image itself
+      // still loaded the src. The may happen when the `resolveImage` uses
+      // the proxied url and the <img /> uses a non-proxied url.
+      var el = document.getElementById(_this._id + '-img');
+      if (!(el instanceof HTMLImageElement)) {
+        return;
+      }
+
+      var src = el.getAttribute('data-src');
+      if (!src) {
+        return;
+      }
+
+      var resolvedImage = _this.state.resolvedImage;
+
+      if (resolvedImage && resolvedImage.complete) {
+        return;
+      }
+
+      if (!resolvedImage || resolvedImage && !resolvedImage.complete) {
+        var naturalHeight = el.naturalHeight,
+            naturalWidth = el.naturalWidth,
+            width = el.width,
+            height = el.height;
+
+        _this.setState({
+          resolvedImage: {
+            width: naturalWidth || width,
+            height: naturalHeight || height,
+            src: src
+          }
+        });
+      }
     }, _this._onResizeEnd = function (width, height) {
       var _this$props = _this.props,
           getPos = _this$props.getPos,
@@ -344,7 +378,10 @@ var ImageViewBody = function (_React$PureComponent) {
               alt: '',
               className: 'czi-image-view-body-img',
               'data-align': align,
+              'data-src': src,
               height: height,
+              id: this._id + '-img',
+              onLoad: this._onImageLoad,
               src: src || EMPTY_SRC,
               width: width
             })

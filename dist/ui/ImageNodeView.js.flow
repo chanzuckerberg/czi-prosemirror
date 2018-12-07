@@ -205,7 +205,10 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
               alt=""
               className="czi-image-view-body-img"
               data-align={align}
+              data-src={src}
               height={height}
+              id={`${this._id}-img`}
+              onLoad={this._onImageLoad}
               src={src || EMPTY_SRC}
               width={width}
             />
@@ -241,6 +244,37 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
       });
     }
   }
+
+  _onImageLoad = (): void => {
+    // This handles the case when `resolvedImage` failed but the image itself
+    // still loaded the src. The may happen when the `resolveImage` uses
+    // the proxied url and the <img /> uses a non-proxied url.
+    const el = document.getElementById(`${this._id}-img`);
+    if (!(el instanceof HTMLImageElement)) {
+      return;
+    }
+
+    const src = el.getAttribute('data-src');
+    if (!src) {
+      return;
+    }
+
+    const {resolvedImage} = this.state;
+    if (resolvedImage && resolvedImage.complete) {
+      return;
+    }
+
+    if (!resolvedImage || (resolvedImage && !resolvedImage.complete)) {
+      const {naturalHeight, naturalWidth, width, height} = el;
+      this.setState({
+        resolvedImage: {
+          width: naturalWidth || width,
+          height: naturalHeight || height,
+          src,
+        }
+      });
+    }
+  };
 
   _resolveImage(): void {
     this.setState({resolveImage: null});
