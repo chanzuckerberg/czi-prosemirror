@@ -60,3 +60,5 @@ export type EditorRuntime = {
   canLoadHTML?: () => boolean;
   loadHTML?: () => Promise<?string>,
 };
+
+export type EditorState = any;
