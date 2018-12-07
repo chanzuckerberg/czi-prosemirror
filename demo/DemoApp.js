@@ -6,7 +6,7 @@ import DemoAppRuntime from './DemoAppRuntime';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import RichTextEditor from '../src/ui/RichTextEditor';
-import applyDevTools from "prosemirror-dev-tools";
+import applyDevTools from 'prosemirror-dev-tools';
 import convertFromDOMElement from '../src/convertFromDOMElement';
 import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
