@@ -29,7 +29,7 @@ function canUseCSSFont(fontName) {
     // Feature is not supported, install the CSS anyway
     // https://developer.mozilla.org/en-US/docs/Web/API/FontFaceSet/check#Browser_compatibility
     // TODO: Polyfill this.
-    console.warn('FontFaceSet is not supported');
+    console.log('FontFaceSet is not supported');
     return _promise2.default.resolve(false);
   }
 
