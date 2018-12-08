@@ -1,6 +1,6 @@
 // @flow
 
-import './czi-icon.css'
+import './czi-icon.css';
 import React from 'react';
 import cx from 'classnames';
 

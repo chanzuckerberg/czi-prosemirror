@@ -49,7 +49,7 @@ function bindCommands(...commands: Array<UICommand>): UserKeyCommand {
         return true;
       }
     });
-  }
+  };
 }
 
 export default function createEditorKeyMap(): UserKeyMap {

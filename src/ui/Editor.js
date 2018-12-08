@@ -21,7 +21,6 @@ import type {EditorRuntime} from '../Types';
 
 const EDITOR_EMPTY_STATE = createEmptyEditorState();
 
-const a = "xxx"
 var x;
 
 function transformPastedHTML(html: string): string {

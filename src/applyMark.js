@@ -10,15 +10,15 @@ import {setBlockType} from 'prosemirror-commands';
 
 function markApplies(doc, ranges, type) {
   for (let i = 0; i < ranges.length; i++) {
-    let {$from, $to} = ranges[i]
-    let can = $from.depth == 0 ? doc.type.allowsMarkType(type) : false
+    let {$from, $to} = ranges[i];
+    let can = $from.depth == 0 ? doc.type.allowsMarkType(type) : false;
     doc.nodesBetween($from.pos, $to.pos, node => {
-      if (can) return false
-      can = node.inlineContent && node.type.allowsMarkType(type)
-    })
-    if (can) return true
+      if (can) return false;
+      can = node.inlineContent && node.type.allowsMarkType(type);
+    });
+    if (can) return true;
   }
-  return false
+  return false;
 }
 
 // https://github.com/ProseMirror/prosemirror-commands/blob/master/src/commands.js
@@ -43,11 +43,11 @@ export default function applyMark(
 
   let has = false;
   for (let i = 0; !has && i < ranges.length; i++) {
-    let {$from, $to} = ranges[i]
+    let {$from, $to} = ranges[i];
     has = tr.doc.rangeHasMark($from.pos, $to.pos, markType);
   }
   for (let i = 0; i < ranges.length; i++) {
-    let {$from, $to} = ranges[i]
+    let {$from, $to} = ranges[i];
     if (has) {
       tr = tr.removeMark($from.pos, $to.pos, markType);
     }

@@ -12,7 +12,7 @@ function generateGreyColors(count: number): Array<Color> {
   const interval = cc / count;
   const colors = [];
   while (cc > 0) {
-    const color = Color({r: cc, g: cc, b: cc})
+    const color = Color({r: cc, g: cc, b: cc});
     cc -= interval;
     cc = Math.floor(cc);
     colors.unshift(color);

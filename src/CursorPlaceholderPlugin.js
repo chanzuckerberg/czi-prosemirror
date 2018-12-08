@@ -31,7 +31,7 @@ const SPEC = {
             id: PLACE_HOLDER_ID,
           },
         );
-        set = set.add(tr.doc, [deco])
+        set = set.add(tr.doc, [deco]);
       } else if (action.remove) {
         const found = set.find(null, null, specFinder);
         set = set.remove(found);

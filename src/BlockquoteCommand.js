@@ -11,7 +11,7 @@ import {Schema} from 'prosemirror-model';
 import {Transform} from 'prosemirror-transform';
 import {findParentNodeOfType} from 'prosemirror-utils';
 
-let findBlockQuote
+let findBlockQuote;
 
 class BlockquoteCommand extends UICommand {
 

@@ -139,8 +139,8 @@ class MathQuillEditor extends React.PureComponent<any, any, any> {
 
   _onEdit = (mathField: any): void => {
     if (this._ignoreEditEvents > 0) {
-      this._ignoreEditEvents -= 1
-      return
+      this._ignoreEditEvents -= 1;
+      return;
     }
 
     const {onChange} = this.props;

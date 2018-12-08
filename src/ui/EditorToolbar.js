@@ -70,7 +70,7 @@ class EditorToolbar extends React.PureComponent<any, any, any> {
         title="More"
         value={expanded}
       /> :
-      null
+      null;
     return (
       <div className={className}>
         <div className="czi-editor-toolbar-flex">
@@ -131,7 +131,7 @@ class EditorToolbar extends React.PureComponent<any, any, any> {
     commandGroups: Array<{[string]: UICommand}>,
   ): React.Element<any> => {
     const {editorState, editorView, disabled} = this.props;
-    const {icon, title} = parseLabel(label)
+    const {icon, title} = parseLabel(label);
     return (
       <CommandMenuButton
         commandGroups={commandGroups}

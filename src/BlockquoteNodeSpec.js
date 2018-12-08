@@ -26,7 +26,7 @@ function toDOM(node: Node): Array<any> {
 }
 
 function getAttrs(dom: HTMLElement): Object {
-  return getParagraphNodeAttrs(dom)
+  return getParagraphNodeAttrs(dom);
 }
 
 export default BlockquoteNodeSpec;

@@ -52,7 +52,7 @@ class UICommand {
       );
     }).catch(error => {
       console.error(error);
-    })
+    });
     return false;
   };
 

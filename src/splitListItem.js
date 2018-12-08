@@ -26,7 +26,7 @@ export default function splitListItem(
     return tr;
   };
 
-  let grandParent = $from.node(-1)
+  let grandParent = $from.node(-1);
   if (grandParent.type !== nodeType) {
     return tr;
   }
@@ -56,7 +56,7 @@ export default function splitListItem(
       $from.before(keepItem ? null : -1),
       $from.after(-3),
       new Slice(wrap, keepItem ? 3 : 2, 2),
-    )
+    );
 
     const pos = $from.pos + (keepItem ? 3 : 2);
     tr = tr.setSelection(selection.constructor.near(tr.doc.resolve(pos)));
@@ -67,7 +67,7 @@ export default function splitListItem(
     grandParent.contentMatchAt($from.indexAfter(-1)).defaultType :
     null;
 
-  tr = tr.delete($from.pos, $to.pos)
+  tr = tr.delete($from.pos, $to.pos);
   let types = nextType && [null, {type: nextType}];
   if (!canSplit(tr.doc, $from.pos, 2, types)) {
     return tr;
