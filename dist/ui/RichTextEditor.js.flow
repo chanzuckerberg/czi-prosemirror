@@ -7,8 +7,6 @@ import createEmptyEditorState from '../createEmptyEditorState';
 import cx from 'classnames';
 import Editor from './Editor';
 import EditorToolbar from './EditorToolbar';
-import isEditorStateEmpty from '../isEditorStateEmpty';
-import noop from '../noop';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ResizeObserver from './ResizeObserver';
@@ -77,7 +75,6 @@ class RichTextEditor extends React.PureComponent<any, any, any> {
       embedded,
       header,
       height,
-      id,
       onChange,
       placeholder,
       readOnly,

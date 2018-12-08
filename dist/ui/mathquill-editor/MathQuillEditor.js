@@ -76,6 +76,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var babelPluginFlowReactPropTypes_proptype_MathQuillEditorSymbol = require('./MathQuillEditorSymbols').babelPluginFlowReactPropTypes_proptype_MathQuillEditorSymbol || require('prop-types').any;
 
+// MathQuill requires this to get JQuery exported as global. 
+// eslint-disable-next-line no-unused-vars
+
+
 var MQ = _mathquill2.default.getInterface(2);
 var CSS_CDN_URL = '//cdnjs.cloudflare.com/ajax/libs/mathquill/0.10.1/mathquill.css';
 var CSS_FONT = 'Symbola';

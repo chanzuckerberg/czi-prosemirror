@@ -1,12 +1,9 @@
 // @flow
 
-import ImageURLEditor from './ui/ImageURLEditor';
 import MathEditor from './ui/MathEditor';
-import React from 'react';
 import UICommand from './ui/UICommand';
 import createPopUp from './ui/createPopUp';
-import nullthrows from 'nullthrows';
-import {EditorState, Selection} from 'prosemirror-state';
+import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
 import {Fragment, Schema} from 'prosemirror-model';
 import {MATH} from './NodeNames';
@@ -14,12 +11,15 @@ import {TextSelection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
 import {showCursorPlaceholder, hideCursorPlaceholder} from './CursorPlaceholderPlugin';
 
+// eslint-disable-next-line no-unused-vars
+import React from 'react';
+
 function insertMath(
   tr: Transform,
   schema: Schema,
   latex: ?string,
 ): Transform {
-  const {selection, doc} = tr;
+  const {selection} = tr;
   if (!selection) {
     return tr;
   }
@@ -37,7 +37,6 @@ function insertMath(
     latex,
   };
 
-  const prevNode = tr.doc.nodeAt(from);
   const node = image.create(attrs, null, null);
   const frag = Fragment.from(node);
   tr = tr.insert(from, frag);
@@ -50,7 +49,7 @@ class MathEditCommand extends UICommand {
 
   isEnabled = (state: EditorState, view: ?EditorView): boolean => {
     const tr = state;
-    const {selection} = state.tr;
+    const {selection} = tr;
     if (selection instanceof TextSelection) {
       return selection.from === selection.to;
     }
@@ -95,7 +94,8 @@ class MathEditCommand extends UICommand {
     latex: ?string,
   ): boolean => {
     if (dispatch) {
-      let {tr, selection, schema} = state;
+      const {selection, schema} = state;
+      let {tr} = state;
       tr = view ? hideCursorPlaceholder(view.state) : tr;
       tr = tr.setSelection(selection);
       if (latex) {

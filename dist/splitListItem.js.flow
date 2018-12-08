@@ -2,7 +2,6 @@
 
 import {Fragment, Schema, Slice} from 'prosemirror-model';
 import {LIST_ITEM} from './NodeNames';
-import {Node, NodeType} from 'prosemirror-model';
 import {canSplit, Transform} from 'prosemirror-transform';
 
 // Build a command that splits a non-empty textblock at the top level
@@ -21,12 +20,12 @@ export default function splitListItem(
     return tr;
   }
 
-  let {$from, $to, node} = selection;
+  const {$from, $to, node} = selection;
   if ((node && node.isBlock) || $from.depth < 2 || !$from.sameParent($to)) {
     return tr;
   };
 
-  let grandParent = $from.node(-1)
+  const grandParent = $from.node(-1);
   if (grandParent.type !== nodeType) {
     return tr;
   }
@@ -43,7 +42,7 @@ export default function splitListItem(
     }
 
     let wrap = Fragment.empty;
-    let keepItem = $from.index(-1) > 0;
+    const keepItem = $from.index(-1) > 0;
     // Build a fragment containing empty versions of the structure
     // from the outer list item to the parent node of the cursor
     for (let d = $from.depth - (keepItem ? 1 : 2); d >= $from.depth - 3; d--) {
@@ -56,19 +55,19 @@ export default function splitListItem(
       $from.before(keepItem ? null : -1),
       $from.after(-3),
       new Slice(wrap, keepItem ? 3 : 2, 2),
-    )
+    );
 
     const pos = $from.pos + (keepItem ? 3 : 2);
     tr = tr.setSelection(selection.constructor.near(tr.doc.resolve(pos)));
     return tr;
   }
 
-  let nextType = $to.pos == $from.end() ?
+  const nextType = $to.pos == $from.end() ?
     grandParent.contentMatchAt($from.indexAfter(-1)).defaultType :
     null;
 
-  tr = tr.delete($from.pos, $to.pos)
-  let types = nextType && [null, {type: nextType}];
+  tr = tr.delete($from.pos, $to.pos);
+  const types = nextType && [null, {type: nextType}];
   if (!canSplit(tr.doc, $from.pos, 2, types)) {
     return tr;
   }

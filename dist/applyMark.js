@@ -10,23 +10,9 @@ var _typeof3 = _interopRequireDefault(_typeof2);
 
 exports.default = applyMark;
 
-var _isListNode = require('./isListNode');
-
-var _isListNode2 = _interopRequireDefault(_isListNode);
-
-var _nullthrows = require('nullthrows');
-
-var _nullthrows2 = _interopRequireDefault(_nullthrows);
-
-var _NodeNames = require('./NodeNames');
-
 var _prosemirrorModel = require('prosemirror-model');
 
-var _prosemirrorState = require('prosemirror-state');
-
 var _prosemirrorTransform = require('prosemirror-transform');
-
-var _prosemirrorCommands = require('prosemirror-commands');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -55,8 +41,6 @@ function markApplies(doc, ranges, type) {
 }
 
 // https://github.com/ProseMirror/prosemirror-commands/blob/master/src/commands.js
-
-
 function applyMark(tr, schema, markType, attrs) {
   if (!tr.selection || !tr.doc || !markType) {
     return tr;

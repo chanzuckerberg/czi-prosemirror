@@ -17,10 +17,9 @@ function createElement(tag: string, attrs: Object): Element {
 }
 
 export default function injectStyleSheet(urlStr: string): void {
-  let parsedURL = url.parse(urlStr);
+  const parsedURL = url.parse(urlStr);
   const {protocol} = parsedURL;
   const protocolPattern = /^(http:|https:)/;
-  const useHTTP = protocolPattern.test(protocol || '');
   if (!protocolPattern.test(protocol || '')) {
     if (protocolPattern.test(window.location.protocol)) {
       parsedURL.protocol = window.location.protocol;

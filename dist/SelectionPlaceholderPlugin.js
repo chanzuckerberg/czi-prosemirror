@@ -25,10 +25,6 @@ exports.hideSelectionPlaceholder = hideSelectionPlaceholder;
 
 require('./ui/czi-selection-placeholder.css');
 
-var _uuid = require('./ui/uuid');
-
-var _uuid2 = _interopRequireDefault(_uuid);
-
 var _prosemirrorState = require('prosemirror-state');
 
 var _prosemirrorView = require('prosemirror-view');

@@ -2,15 +2,12 @@
 
 import UICommand from './ui/UICommand';
 import noop from './noop';
-import nullthrows from 'nullthrows';
 import toggleCodeBlock from './toggleCodeBlock';
-import {EditorState, Selection} from 'prosemirror-state';
+import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
-import {CODE_BLOCK, PARAGRAPH} from './NodeNames';
-import {Schema} from 'prosemirror-model';
+import {CODE_BLOCK} from './NodeNames';
 import {Transform} from 'prosemirror-transform';
 import {findParentNodeOfType} from 'prosemirror-utils';
-import {setBlockType} from 'prosemirror-commands';
 
 class CodeBlockCommand extends UICommand {
 

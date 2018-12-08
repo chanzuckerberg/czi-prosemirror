@@ -8,12 +8,10 @@ import ReactDOM from 'react-dom';
 import applyMark from './applyMark';
 import createPopUp from './ui/createPopUp';
 import findNodesWithSameMark from './findNodesWithSameMark';
-import uuid from './ui/uuid';
 import {EditorState, Plugin} from 'prosemirror-state';
-import {EditorView, Decoration, DecorationSet} from "prosemirror-view";
+import {EditorView} from "prosemirror-view";
 import {MARK_LINK} from './MarkNames';
 import {TextSelection} from 'prosemirror-state';
-import {Transform} from 'prosemirror-transform';
 import {showSelectionPlaceholder, hideSelectionPlaceholder} from './SelectionPlaceholderPlugin';
 
 // https://prosemirror.net/examples/tooltip/
@@ -53,7 +51,7 @@ class LinkTooltipView {
     }
 
     const {state} = view;
-    const {doc, selection, schema, storedMarks} = state;
+    const {doc, selection, schema} = state;
     const markType = schema.marks[MARK_LINK];
     if (!markType) {
       return;

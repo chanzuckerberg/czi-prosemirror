@@ -36,20 +36,6 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _clamp = require('./clamp');
-
-var _clamp2 = _interopRequireDefault(_clamp);
-
-var _classnames = require('classnames');
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
-var _prosemirrorState = require('prosemirror-state');
-
-var _prosemirrorView = require('prosemirror-view');
-
-var _prosemirrorTransform = require('prosemirror-transform');
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var BAD_CHARACTER_PATTER = /\s/;

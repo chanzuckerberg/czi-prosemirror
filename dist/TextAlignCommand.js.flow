@@ -1,17 +1,11 @@
 // @flow
 
 import UICommand from './ui/UICommand';
-import noop from './noop';
-import nullthrows from 'nullthrows';
-import toggleHeading from './toggleHeading';
-import {EditorState, Selection} from 'prosemirror-state';
-import {EditorView} from 'prosemirror-view';
+import {AllSelection, TextSelection, EditorState} from 'prosemirror-state';
 import {BLOCKQUOTE, HEADING, LIST_ITEM, PARAGRAPH} from './NodeNames';
+import {EditorView} from 'prosemirror-view';
 import {Schema} from 'prosemirror-model';
-import {AllSelection, TextSelection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
-import {findParentNodeOfType} from 'prosemirror-utils';
-import {setBlockType} from 'prosemirror-commands';
 
 export function setTextAlign(
   tr: Transform,
@@ -22,7 +16,7 @@ export function setTextAlign(
   if (!selection || !doc) {
     return tr;
   }
-  const {from, to, empty} = selection;
+  const {from, to} = selection;
   const {nodes} = schema;
 
   const blockquote = nodes[BLOCKQUOTE];
@@ -92,16 +86,11 @@ class TextAlignCommand extends UICommand {
   }
 
   isActive = (state: EditorState): boolean => {
-    const {selection, doc, schema} = state;
+    const {selection, doc} = state;
     const {from, to} = selection;
-    const {nodes} = schema;
-    const paragraph = nodes[PARAGRAPH];
-    const heading = nodes[HEADING];
-    const blockquote = nodes[BLOCKQUOTE];
     let keepLooking = true;
     let active = false;
     doc.nodesBetween(from, to, (node, pos) => {
-      const nodeType = node.type;
       if (
         keepLooking &&
         node.attrs.align === this._alignment

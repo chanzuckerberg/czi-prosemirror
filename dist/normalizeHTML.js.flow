@@ -5,7 +5,7 @@ import patchListElements from './patchListElements';
 import patchStyleElements from './patchStyleElements';
 import patchTableElements from './patchTableElements';
 
-const BRAILLE_PATTERN_BLANK = '\u2800'
+const BRAILLE_PATTERN_BLANK = '\u2800';
 
 export default function normalizeHTML(html: string): string {
   let body: ?HTMLElement = null;

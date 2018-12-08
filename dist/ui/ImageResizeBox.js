@@ -35,10 +35,6 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 
 require('./czi-image-resize-box.css');
 
-var _CustomNodeView = require('./CustomNodeView');
-
-var _CustomNodeView2 = _interopRequireDefault(_CustomNodeView);
-
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
@@ -55,21 +51,11 @@ var _nullthrows = require('nullthrows');
 
 var _nullthrows2 = _interopRequireDefault(_nullthrows);
 
-var _resolveImage = require('./resolveImage');
-
-var _resolveImage2 = _interopRequireDefault(_resolveImage);
-
 var _uuid = require('./uuid');
 
 var _uuid2 = _interopRequireDefault(_uuid);
 
-var _prosemirrorView = require('prosemirror-view');
-
-var _prosemirrorModel = require('prosemirror-model');
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var babelPluginFlowReactPropTypes_proptype_NodeViewProps = require('./CustomNodeView').babelPluginFlowReactPropTypes_proptype_NodeViewProps || require('prop-types').any;
 
 var MIN_SIZE = exports.MIN_SIZE = 20;
 var MAX_SIZE = exports.MAX_SIZE = 10000;

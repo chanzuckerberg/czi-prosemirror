@@ -8,7 +8,7 @@ import createPopUp from './createPopUp';
 import cx from 'classnames';
 import renderLaTeXAsHTML from './renderLaTeXAsHTML';
 import uuid from './uuid';
-import {Decoration} from "prosemirror-view";
+import {Decoration} from 'prosemirror-view';
 import {Node} from 'prosemirror-model';
 import {atAnchorBottomCenter} from './PopUpPosition';
 

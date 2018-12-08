@@ -36,11 +36,11 @@ var _prosemirrorView = require('prosemirror-view');
 
 var _prosemirrorModel = require('prosemirror-model');
 
-var _prosemirrorTransform = require('prosemirror-transform');
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // Standard className for selected node.
+// @xflow
+
 if (typeof exports !== 'undefined') Object.defineProperty(exports, 'babelPluginFlowReactPropTypes_proptype_NodeViewProps', {
   value: require('prop-types').shape({
     editorView: require('prop-types').any.isRequired,
@@ -49,8 +49,7 @@ if (typeof exports !== 'undefined') Object.defineProperty(exports, 'babelPluginF
     selected: require('prop-types').bool.isRequired,
     focused: require('prop-types').bool.isRequired
   })
-}); // @xflow
-
+});
 var SELECTED_NODE_CLASS_NAME = 'ProseMirror-selectednode';
 
 var mountedViews = new _set2.default();

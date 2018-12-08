@@ -39,8 +39,8 @@ function findActiveFontSize(state) {
       doc = state.doc,
       selection = state.selection;
 
-  var markType = state.schema.marks[_MarkNames.MARK_FONT_SIZE];
-  var heading = state.schema.nodes[_NodeNames.HEADING];
+  var markType = schema.marks[_MarkNames.MARK_FONT_SIZE];
+  var heading = schema.nodes[_NodeNames.HEADING];
   var defaultSize = String(FONT_PT_SIZE_DEFAULT);
   if (!markType) {
     return defaultSize;

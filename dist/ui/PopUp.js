@@ -36,10 +36,6 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactDom = require('react-dom');
-
-var _reactDom2 = _interopRequireDefault(_reactDom);
-
 var _uuid = require('./uuid');
 
 var _uuid2 = _interopRequireDefault(_uuid);
@@ -99,7 +95,6 @@ var PopUp = function (_React$PureComponent) {
     return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = PopUp.__proto__ || (0, _getPrototypeOf2.default)(PopUp)).call.apply(_ref, [this].concat(args))), _this), _this._bridge = null, _this._id = (0, _uuid2.default)(), _this._rafId = NaN, _this._transform = '', _this._getDetails = function () {
       var _this$props = _this.props,
           close = _this$props.close,
-          viewProps = _this$props.viewProps,
           popUpParams = _this$props.popUpParams;
       var anchor = popUpParams.anchor,
           autoDismiss = popUpParams.autoDismiss,
@@ -124,13 +119,7 @@ var PopUp = function (_React$PureComponent) {
       var _props = this.props,
           View = _props.View,
           viewProps = _props.viewProps,
-          close = _props.close,
-          popUpParams = _props.popUpParams;
-
-      var _ref2 = popUpParams || dummy,
-          autoDismiss = _ref2.autoDismiss,
-          position = _ref2.position,
-          anchor = _ref2.anchor;
+          close = _props.close;
 
       return _react2.default.createElement(
         'div',

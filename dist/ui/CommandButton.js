@@ -36,10 +36,6 @@ var _UICommand = require('./UICommand');
 
 var _UICommand2 = _interopRequireDefault(_UICommand);
 
-var _classnames = require('classnames');
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
 var _prosemirrorState = require('prosemirror-state');
 
 var _prosemirrorView = require('prosemirror-view');

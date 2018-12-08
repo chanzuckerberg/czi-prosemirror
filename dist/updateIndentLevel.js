@@ -10,10 +10,6 @@ var _extends3 = _interopRequireDefault(_extends2);
 
 exports.default = updateIndentLevel;
 
-var _applyMark = require('./applyMark');
-
-var _applyMark2 = _interopRequireDefault(_applyMark);
-
 var _clamp = require('./ui/clamp');
 
 var _clamp2 = _interopRequireDefault(_clamp);
@@ -30,15 +26,11 @@ var _NodeNames = require('./NodeNames');
 
 var _prosemirrorModel = require('prosemirror-model');
 
-var _MarkNames = require('./MarkNames');
-
 var _ParagraphNodeSpec = require('./ParagraphNodeSpec');
 
 var _prosemirrorState = require('prosemirror-state');
 
 var _prosemirrorTransform = require('prosemirror-transform');
-
-var _prosemirrorUtils = require('prosemirror-utils');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -65,7 +57,7 @@ function updateIndentLevel(tr, schema, delta) {
   var heading = nodes[_NodeNames.HEADING];
   var paragraph = nodes[_NodeNames.PARAGRAPH];
 
-  doc.nodesBetween(from, to, function (node, pos, parentNode) {
+  doc.nodesBetween(from, to, function (node, pos) {
     var nodeType = node.type;
     if (nodeType === paragraph || nodeType === heading || nodeType === blockquote) {
       tr = setNodeIndentMarkup(tr, schema, pos, delta);

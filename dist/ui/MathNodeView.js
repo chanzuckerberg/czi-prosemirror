@@ -54,10 +54,6 @@ var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
-var _nullthrows = require('nullthrows');
-
-var _nullthrows2 = _interopRequireDefault(_nullthrows);
-
 var _renderLaTeXAsHTML = require('./renderLaTeXAsHTML');
 
 var _renderLaTeXAsHTML2 = _interopRequireDefault(_renderLaTeXAsHTML);
@@ -70,13 +66,9 @@ var _prosemirrorView = require('prosemirror-view');
 
 var _prosemirrorModel = require('prosemirror-model');
 
-var _prosemirrorState = require('prosemirror-state');
-
 var _PopUpPosition = require('./PopUpPosition');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var babelPluginFlowReactPropTypes_proptype_EditorRuntime = require('../Types').babelPluginFlowReactPropTypes_proptype_EditorRuntime || require('prop-types').any;
 
 var babelPluginFlowReactPropTypes_proptype_NodeViewProps = require('./CustomNodeView').babelPluginFlowReactPropTypes_proptype_NodeViewProps || require('prop-types').any;
 
@@ -150,8 +142,7 @@ var MathViewBody = function (_React$PureComponent) {
           selected = _props.selected,
           focused = _props.focused;
       var attrs = node.attrs;
-      var align = attrs.align,
-          latex = attrs.latex;
+      var latex = attrs.latex;
 
 
       var active = focused && !readOnly;

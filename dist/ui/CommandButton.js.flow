@@ -3,7 +3,6 @@
 import CustomButton from './CustomButton';
 import React from 'react';
 import UICommand from './UICommand';
-import cx from 'classnames';
 import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
 import {Transform} from 'prosemirror-transform';

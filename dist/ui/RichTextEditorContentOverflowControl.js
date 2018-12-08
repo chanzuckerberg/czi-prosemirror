@@ -1,5 +1,9 @@
 'use strict';
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
 var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
@@ -77,4 +81,4 @@ var RichTextEditorContentOverflowControl = function (_React$PureComponent) {
   return RichTextEditorContentOverflowControl;
 }(_react2.default.PureComponent);
 
-module.exports = RichTextEditorContentOverflowControl;
+exports.default = RichTextEditorContentOverflowControl;

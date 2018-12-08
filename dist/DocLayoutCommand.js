@@ -28,6 +28,10 @@ var _DocLayoutEditor = require('./ui/DocLayoutEditor');
 
 var _DocLayoutEditor2 = _interopRequireDefault(_DocLayoutEditor);
 
+var _SetDocAttrStep = require('./SetDocAttrStep');
+
+var _SetDocAttrStep2 = _interopRequireDefault(_SetDocAttrStep);
+
 var _UICommand2 = require('./ui/UICommand');
 
 var _UICommand3 = _interopRequireDefault(_UICommand2);
@@ -36,10 +40,6 @@ var _createPopUp = require('./ui/createPopUp');
 
 var _createPopUp2 = _interopRequireDefault(_createPopUp);
 
-var _nullthrows = require('nullthrows');
-
-var _nullthrows2 = _interopRequireDefault(_nullthrows);
-
 var _prosemirrorState = require('prosemirror-state');
 
 var _prosemirrorView = require('prosemirror-view');
@@ -47,14 +47,6 @@ var _prosemirrorView = require('prosemirror-view');
 var _prosemirrorModel = require('prosemirror-model');
 
 var _prosemirrorTransform = require('prosemirror-transform');
-
-var _PopUpPosition = require('./ui/PopUpPosition');
-
-var _CursorPlaceholderPlugin = require('./CursorPlaceholderPlugin');
-
-var _SetDocAttrStep = require('./SetDocAttrStep');
-
-var _SetDocAttrStep2 = _interopRequireDefault(_SetDocAttrStep);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -116,9 +108,9 @@ var DocLayoutCommand = function (_UICommand) {
       });
     }, _this.executeWithUserInput = function (state, dispatch, view, inputs) {
       if (dispatch) {
-        var _tr2 = state.tr,
-            selection = state.selection,
+        var selection = state.selection,
             schema = state.schema;
+        var _tr2 = state.tr;
         // tr = view ? hideCursorPlaceholder(view.state) : tr;
 
         _tr2 = _tr2.setSelection(selection);

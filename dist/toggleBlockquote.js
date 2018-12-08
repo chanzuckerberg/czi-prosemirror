@@ -13,19 +13,11 @@ var _isListNode = require('./isListNode');
 
 var _isListNode2 = _interopRequireDefault(_isListNode);
 
-var _nullthrows = require('nullthrows');
-
-var _nullthrows2 = _interopRequireDefault(_nullthrows);
-
 var _prosemirrorModel = require('prosemirror-model');
 
 var _NodeNames = require('./NodeNames');
 
-var _prosemirrorState = require('prosemirror-state');
-
 var _prosemirrorTransform = require('prosemirror-transform');
-
-var _prosemirrorCommands = require('prosemirror-commands');
 
 var _toggleList = require('./toggleList');
 
@@ -52,7 +44,6 @@ function toggleBlockquote(tr, schema) {
 
   var startWithBlockQuote = null;
   var poses = [];
-  var docType = doc.type;
   doc.nodesBetween(from, to, function (node, pos, parentNode) {
     var nodeType = node.type;
     var parentNodeType = parentNode.type;

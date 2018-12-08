@@ -32,10 +32,6 @@ var _UICommand2 = require('./ui/UICommand');
 
 var _UICommand3 = _interopRequireDefault(_UICommand2);
 
-var _applyMark = require('./applyMark');
-
-var _applyMark2 = _interopRequireDefault(_applyMark);
-
 var _prosemirrorState = require('prosemirror-state');
 
 var _prosemirrorView = require('prosemirror-view');

@@ -1,11 +1,9 @@
 // @flow
 
-import React from 'react';
-import cx from 'classnames';
-
 import './czi-custom-menu.css';
+import React from 'react';
 
-class CustomMenu extends React.PureComponent<any, any, any> {
+class CustomMenu extends React.Component<any, any, any> {
   render(): React.Element<any> {
     const {children} = this.props;
     return (

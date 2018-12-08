@@ -21,8 +21,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 // https://tinyurl.com/ybwf3wex
 
-var IS_MAC = true;
-
 function tooltip(keymap) {
   if (keymap) {
     var shortcut = void 0;

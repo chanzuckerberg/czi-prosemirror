@@ -44,8 +44,6 @@ var _prosemirrorState = require('prosemirror-state');
 
 var _prosemirrorView = require('prosemirror-view');
 
-var _prosemirrorModel = require('prosemirror-model');
-
 var _prosemirrorTransform = require('prosemirror-transform');
 
 var _PopUpPosition = require('./ui/PopUpPosition');
@@ -98,9 +96,6 @@ var TableCellColorCommand = function (_UICommand) {
       });
     }, _this.executeWithUserInput = function (state, dispatch, view, hex) {
       if (dispatch && hex !== undefined) {
-        var _tr = state.tr,
-            selection = state.selection;
-
         var cmd = (0, _prosemirrorTables.setCellAttr)('background', hex);
         cmd(state, dispatch, view);
         return true;

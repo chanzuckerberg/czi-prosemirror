@@ -15,14 +15,6 @@ var _EditorCommands = require('../EditorCommands');
 
 var EditorCommands = _interopRequireWildcard(_EditorCommands);
 
-var _CommandButton = require('./CommandButton');
-
-var _CommandButton2 = _interopRequireDefault(_CommandButton);
-
-var _CommandMenuButton = require('./CommandMenuButton');
-
-var _CommandMenuButton2 = _interopRequireDefault(_CommandMenuButton);
-
 var _FontSizeCommandMenuButton = require('./FontSizeCommandMenuButton');
 
 var _FontSizeCommandMenuButton2 = _interopRequireDefault(_FontSizeCommandMenuButton);
@@ -44,12 +36,16 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var ICON_LABEL_PATTERN = /\[([A-Za-z_\d]+)\](.*)/;
+// eslint-disable-next-line no-unused-vars
+
 
 function parseLabel(input) {
   var matched = input.match(ICON_LABEL_PATTERN);
   if (matched) {
     var _matched = (0, _slicedToArray3.default)(matched, 3),
-        all = _matched[0],
+
+    // eslint-disable-next-line no-unused-vars
+    all = _matched[0],
         icon = _matched[1],
         label = _matched[2];
 
@@ -98,8 +94,6 @@ var BLOCKQUOTE_INFO = EditorCommands.BLOCKQUOTE_INFO,
     TABLE_DELETE_TABLE = EditorCommands.TABLE_DELETE_TABLE,
     TABLE_INSERT_TABLE = EditorCommands.TABLE_INSERT_TABLE,
     TABLE_MERGE_CELLS = EditorCommands.TABLE_MERGE_CELLS,
-    TABLE_MOVE_TO_NEXT_CELL = EditorCommands.TABLE_MOVE_TO_NEXT_CELL,
-    TABLE_MOVE_TO_PREV_CELL = EditorCommands.TABLE_MOVE_TO_PREV_CELL,
     TABLE_SPLIT_CELL = EditorCommands.TABLE_SPLIT_CELL,
     TABLE_TOGGLE_HEADER_CELL = EditorCommands.TABLE_TOGGLE_HEADER_CELL,
     TABLE_TOGGLE_HEADER_COLUMN = EditorCommands.TABLE_TOGGLE_HEADER_COLUMN,

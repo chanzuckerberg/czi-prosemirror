@@ -4,20 +4,17 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _NodeNames = require('./NodeNames');
-
-var _prosemirrorModel = require('prosemirror-model');
-
 var babelPluginFlowReactPropTypes_proptype_NodeSpec = require('./Types').babelPluginFlowReactPropTypes_proptype_NodeSpec || require('prop-types').any;
 
 function getAttrs(dom) {
   var _dom$style = dom.style,
       cssFloat = _dom$style.cssFloat,
       display = _dom$style.display,
-      width = _dom$style.width,
-      height = _dom$style.height,
-      marginLeft = _dom$style.marginLeft,
-      marginTop = _dom$style.marginTop;
+      marginTop = _dom$style.marginTop,
+      marginLeft = _dom$style.marginLeft;
+  var _dom$style2 = dom.style,
+      width = _dom$style2.width,
+      height = _dom$style2.height;
 
   var align = dom.getAttribute('data-align') || dom.getAttribute('align');
   if (align) {

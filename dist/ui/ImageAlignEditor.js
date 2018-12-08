@@ -34,10 +34,6 @@ var _CustomButton = require('./CustomButton');
 
 var _CustomButton2 = _interopRequireDefault(_CustomButton);
 
-var _CustomNodeView = require('./CustomNodeView');
-
-var _CustomNodeView2 = _interopRequireDefault(_CustomNodeView);
-
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);

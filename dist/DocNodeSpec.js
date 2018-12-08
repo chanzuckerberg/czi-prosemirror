@@ -10,11 +10,7 @@ var _convertToCSSPTValue = require('./convertToCSSPTValue');
 
 var _convertToCSSPTValue2 = _interopRequireDefault(_convertToCSSPTValue);
 
-var _prosemirrorModel = require('prosemirror-model');
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var babelPluginFlowReactPropTypes_proptype_NodeSpec = require('./Types').babelPluginFlowReactPropTypes_proptype_NodeSpec || require('prop-types').any;
 
 var LAYOUT = exports.LAYOUT = {
   DESKTOP_SCREEN_4_3: 'desktop_screen_4_3',

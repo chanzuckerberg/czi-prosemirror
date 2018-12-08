@@ -9,17 +9,14 @@ import ReactDOM from 'react-dom';
 import ResizeObserver from './ResizeObserver';
 import createPopUp from './createPopUp';
 import cx from 'classnames';
-import nullthrows from 'nullthrows';
 import resolveImage from './resolveImage';
 import uuid from './uuid';
-import {EditorView, Decoration} from "prosemirror-view";
+import {Decoration} from "prosemirror-view";
 import {MIN_SIZE} from './ImageResizeBox';
 import {Node} from 'prosemirror-model';
-import {TextSelection} from 'prosemirror-state';
 import {atAnchorBottomCenter} from './PopUpPosition';
 
 import type {EditorRuntime} from '../Types';
-import type {ImageInlineEditorValue} from './ImageInlineEditor';
 import type {NodeViewProps} from './CustomNodeView';
 import type {ResizeObserverEntry} from './ResizeObserver';
 
@@ -84,8 +81,8 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
   componentDidUpdate(prevProps: NodeViewProps): void {
     const {resolvedImage} = this.state;
     const prevSrc = prevProps.node.attrs.src;
-    const {editorView, node} = this.props;
-    const {src, width, height, align} = node.attrs;
+    const {node} = this.props;
+    const {src, width, height} = node.attrs;
 
     if (prevSrc !== src) {
       // A new image is provided, resolve it.
@@ -246,11 +243,14 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
   }
 
   _onImageLoad = (): void => {
+    if (!this._mounted) {
+      return;
+    }
     // This handles the case when `resolvedImage` failed but the image itself
     // still loaded the src. The may happen when the `resolveImage` uses
     // the proxied url and the <img /> uses a non-proxied url.
-    const el = document.getElementById(`${this._id}-img`);
-    if (!(el instanceof HTMLImageElement)) {
+    const el:any = document.getElementById(`${this._id}-img`);
+    if (!el) {
       return;
     }
 
@@ -282,7 +282,7 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
     const {src} = this.props.node.attrs;
     const url = resolveURL(editorView.runtime, src);
     resolveImage(url).then(resolvedImage => {
-      if (this._mounted && src === this.props.node.attrs.src) {
+      if (this._mounted && src === node.attrs.src) {
         this._mounted && this.setState({resolvedImage});
       }
     });

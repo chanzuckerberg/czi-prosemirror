@@ -1,7 +1,7 @@
 // @flow
 
 import UICommand from './ui/UICommand';
-import {EditorState, Selection} from 'prosemirror-state';
+import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
 import {HORIZONTAL_RULE} from './NodeNames';
 import {Fragment, Schema} from 'prosemirror-model';
@@ -11,7 +11,7 @@ function insertHorizontalRule(
   tr: Transform,
   schema: Schema,
 ): Transform {
-  const {selection, doc} = tr;
+  const {selection} = tr;
   if (!selection) {
     return tr;
   }
@@ -25,7 +25,6 @@ function insertHorizontalRule(
     return tr;
   }
 
-  const prevNode = tr.doc.nodeAt(from);
   const node = horizontalRule.create({}, null, null);
   const frag = Fragment.from(node);
   tr = tr.insert(from, frag);

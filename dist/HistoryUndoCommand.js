@@ -20,10 +20,6 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _Icon = require('./ui/Icon');
-
-var _Icon2 = _interopRequireDefault(_Icon);
-
 var _UICommand2 = require('./ui/UICommand');
 
 var _UICommand3 = _interopRequireDefault(_UICommand2);

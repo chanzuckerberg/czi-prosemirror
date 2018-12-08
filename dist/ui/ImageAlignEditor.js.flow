@@ -2,7 +2,6 @@
 
 import './czi-inline-editor.css';
 import CustomButton from './CustomButton';
-import CustomNodeView from './CustomNodeView';
 import React from 'react';
 
 const ImageAlignValues = {

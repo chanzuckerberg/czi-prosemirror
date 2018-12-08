@@ -8,8 +8,6 @@ var _toHexColor = require('./ui/toHexColor');
 
 var _toHexColor2 = _interopRequireDefault(_toHexColor);
 
-var _MarkNames = require('./MarkNames');
-
 var _prosemirrorModel = require('prosemirror-model');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }

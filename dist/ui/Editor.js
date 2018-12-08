@@ -50,10 +50,6 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _prosemirrorDevTools = require('prosemirror-dev-tools');
-
-var _prosemirrorDevTools2 = _interopRequireDefault(_prosemirrorDevTools);
-
 var _createEmptyEditorState = require('../createEmptyEditorState');
 
 var _createEmptyEditorState2 = _interopRequireDefault(_createEmptyEditorState);
@@ -136,7 +132,6 @@ var Editor = function (_React$PureComponent) {
     key: 'componentDidMount',
     value: function componentDidMount() {
       var _props = this.props,
-          embedded = _props.embedded,
           onReady = _props.onReady,
           editorState = _props.editorState,
           readOnly = _props.readOnly,
@@ -144,9 +139,8 @@ var Editor = function (_React$PureComponent) {
           placeholder = _props.placeholder,
           disabled = _props.disabled;
 
-      var editorNode = document.getElementById(this._id);
-      var templateNode = document.getElementById(this._id + 'template');
 
+      var editorNode = document.getElementById(this._id);
       if (editorNode) {
         var _nodeViews;
 

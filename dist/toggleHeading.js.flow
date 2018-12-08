@@ -2,12 +2,9 @@
 
 import isInsideListItem from './isInsideListItem';
 import isListNode from './isListNode';
-import nullthrows from 'nullthrows';
 import {BLOCKQUOTE, PARAGRAPH, HEADING, LIST_ITEM} from './NodeNames';
-import {Fragment, Schema, Node, NodeType, ResolvedPos} from 'prosemirror-model';
-import {Selection} from 'prosemirror-state';
+import {Schema} from 'prosemirror-model';
 import {Transform} from 'prosemirror-transform';
-import {setBlockType} from 'prosemirror-commands';
 import {unwrapNodesFromList} from './toggleList';
 
 export default function toggleHeading(
@@ -33,7 +30,6 @@ export default function toggleHeading(
   const {from, to} = tr.selection;
   let startWithHeadingBlock = null;
   const poses = [];
-  const docType = doc.type;
   doc.nodesBetween(from, to, (node, pos, parentNode) => {
     const nodeType = node.type;
     const parentNodeType = parentNode.type;
@@ -71,7 +67,6 @@ function setHeadingNode(
   const heading = nodes[HEADING];
   const paragraph = nodes[PARAGRAPH];
   const blockquote = nodes[BLOCKQUOTE];
-  const listItem = nodes[LIST_ITEM];
   if (pos >= tr.doc.content.size) {
     // Workaround to handle the edge case that pos was shifted caused by `toggleList`.
     return tr;

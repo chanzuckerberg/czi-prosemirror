@@ -78,3 +78,8 @@ export const VARIABLES = {
   title: 'Variables',
   symbols: [X, Y],
 };
+
+export const MISC = {
+  title: 'Miscellaneous',
+  symbols: [ANGLE, APPROX, CENT, DOLLAR, INFINITY, INT, OVERLINE, SUPERSCRIPT, TRIANGLE],
+};

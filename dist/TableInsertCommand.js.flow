@@ -7,7 +7,6 @@ import insertTable from './insertTable';
 import nullthrows from 'nullthrows';
 import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
-import {Schema} from 'prosemirror-model';
 import {TextSelection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
 import {atAnchorRight} from './ui/PopUpPosition';
@@ -24,7 +23,7 @@ class TableInsertCommand extends UICommand {
 
   isEnabled = (state: EditorState): boolean => {
     const tr = state;
-    const {selection} = state.tr;
+    const {selection} = tr;
     if (selection instanceof TextSelection) {
       return selection.from === selection.to;
     }
@@ -67,7 +66,8 @@ class TableInsertCommand extends UICommand {
     inputs: ?TableGridSizeEditorValue,
   ): boolean => {
     if (dispatch) {
-      let {tr, selection, schema} = state;
+      const {selection, schema} = state;
+      let {tr} = state;
       if (inputs) {
         const {rows, cols} = inputs;
         tr = tr.setSelection(selection);

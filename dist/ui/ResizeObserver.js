@@ -1,8 +1,15 @@
 'use strict';
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
 var _map = require('babel-runtime/core-js/map');
 
 var _map2 = _interopRequireDefault(_map);
+
+exports.observe = observe;
+exports.unobserve = unobserve;
 
 var _resizeObserverPolyfill = require('resize-observer-polyfill');
 
@@ -16,6 +23,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 // flow type copied from
 // https://github.com/que-etc/resize-observer-polyfill/blob/master/src/index.js.flow
+
+// Lightweight utilities to make observing resize of DOM element easier
+// with `ResizeObserver`.
+// See https://developers.google.com/web/updates/2016/10/resizeobserver
+// Usage:
+//   `ResizeObserver.observe(element, (entry) => console.log(entry))`
+//   `ResizeObserver.unobserve(element)`
 
 if (typeof exports !== 'undefined') Object.defineProperty(exports, 'babelPluginFlowReactPropTypes_proptype_ResizeObserverEntry', {
   value: require('prop-types').shape({
@@ -100,13 +114,7 @@ function unobserve(node, callback) {
   }
 }
 
-// Lightweight utilities to make observing resize of DOM element easier
-// with `ResizeObserver`.
-// See https://developers.google.com/web/updates/2016/10/resizeobserver
-// Usage:
-//   `ResizeObserver.observe(element, (entry) => console.log(entry))`
-//   `ResizeObserver.unobserve(element)`
-module.exports = {
+exports.default = {
   observe: observe,
   unobserve: unobserve
 };

@@ -44,17 +44,11 @@ var _findNodesWithSameMark = require('./findNodesWithSameMark');
 
 var _findNodesWithSameMark2 = _interopRequireDefault(_findNodesWithSameMark);
 
-var _nullthrows = require('nullthrows');
-
-var _nullthrows2 = _interopRequireDefault(_nullthrows);
-
 var _prosemirrorState = require('prosemirror-state');
 
 var _prosemirrorView = require('prosemirror-view');
 
 var _MarkNames = require('./MarkNames');
-
-var _prosemirrorModel = require('prosemirror-model');
 
 var _prosemirrorTransform = require('prosemirror-transform');
 
@@ -126,9 +120,9 @@ var LinkSetURLCommand = function (_UICommand) {
       });
     }, _this.executeWithUserInput = function (state, dispatch, view, href) {
       if (dispatch) {
-        var _tr = state.tr,
-            selection = state.selection,
+        var selection = state.selection,
             schema = state.schema;
+        var _tr = state.tr;
 
         _tr = view ? (0, _SelectionPlaceholderPlugin.hideSelectionPlaceholder)(view.state) : _tr;
         _tr = _tr.setSelection(selection);

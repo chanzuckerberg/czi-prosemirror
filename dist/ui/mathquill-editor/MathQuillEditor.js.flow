@@ -9,6 +9,9 @@ import ReactDOM from 'react-dom';
 import canUseCSSFont from './../canUseCSSFont';
 import cx from 'classnames';
 import injectStyleSheet from './../injectStyleSheet';
+
+// MathQuill requires this to get JQuery exported as global. 
+// eslint-disable-next-line no-unused-vars
 import jquery from 'jquery';
 
 import type {MathQuillEditorSymbol} from './MathQuillEditorSymbols';
@@ -16,6 +19,7 @@ import type {MathQuillEditorSymbol} from './MathQuillEditorSymbols';
 const MQ = MathQuill.getInterface(2);
 const CSS_CDN_URL = '//cdnjs.cloudflare.com/ajax/libs/mathquill/0.10.1/mathquill.css';
 const CSS_FONT = 'Symbola';
+
 
 (async function() {
   const fontSupported = await canUseCSSFont(CSS_FONT);
@@ -139,8 +143,8 @@ class MathQuillEditor extends React.PureComponent<any, any, any> {
 
   _onEdit = (mathField: any): void => {
     if (this._ignoreEditEvents > 0) {
-      this._ignoreEditEvents -= 1
-      return
+      this._ignoreEditEvents -= 1;
+      return;
     }
 
     const {onChange} = this.props;

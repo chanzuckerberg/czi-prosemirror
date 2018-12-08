@@ -38,8 +38,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function insertHorizontalRule(tr, schema) {
   var _tr = tr,
-      selection = _tr.selection,
-      doc = _tr.doc;
+      selection = _tr.selection;
 
   if (!selection) {
     return tr;
@@ -56,7 +55,6 @@ function insertHorizontalRule(tr, schema) {
     return tr;
   }
 
-  var prevNode = tr.doc.nodeAt(from);
   var node = horizontalRule.create({}, null, null);
   var frag = _prosemirrorModel.Fragment.from(node);
   tr = tr.insert(from, frag);

@@ -2,12 +2,10 @@
 
 import UICommand from './ui/UICommand';
 import noop from './noop';
-import nullthrows from 'nullthrows';
 import toggleHeading from './toggleHeading';
-import {EditorState, Selection} from 'prosemirror-state';
+import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
 import {HEADING} from './NodeNames';
-import {Schema} from 'prosemirror-model';
 import {Transform} from 'prosemirror-transform';
 import {findParentNodeOfType} from 'prosemirror-utils';
 

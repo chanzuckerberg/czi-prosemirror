@@ -5,7 +5,6 @@ import './czi-math-editor.css';
 import CustomButton from './CustomButton';
 import MathQuillEditor from './mathquill-editor/MathQuillEditor';
 import React from 'react';
-import cx from 'classnames';
 import uuid from './uuid';
 
 class MathEditor extends React.PureComponent<any, any, any> {

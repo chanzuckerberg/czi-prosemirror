@@ -15,7 +15,7 @@ function renderAttributes(editorState: EditorState): Object {
     'class': 'czi-prosemirror-editor',
   };
 
-  let {width, padding, layout} = doc.attrs;
+  const {width, padding, layout} = doc.attrs;
 
   let style = '';
   if (width) {

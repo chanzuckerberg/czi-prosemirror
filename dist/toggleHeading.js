@@ -18,19 +18,11 @@ var _isListNode = require('./isListNode');
 
 var _isListNode2 = _interopRequireDefault(_isListNode);
 
-var _nullthrows = require('nullthrows');
-
-var _nullthrows2 = _interopRequireDefault(_nullthrows);
-
 var _NodeNames = require('./NodeNames');
 
 var _prosemirrorModel = require('prosemirror-model');
 
-var _prosemirrorState = require('prosemirror-state');
-
 var _prosemirrorTransform = require('prosemirror-transform');
-
-var _prosemirrorCommands = require('prosemirror-commands');
 
 var _toggleList = require('./toggleList');
 
@@ -58,7 +50,6 @@ function toggleHeading(tr, schema, level) {
 
   var startWithHeadingBlock = null;
   var poses = [];
-  var docType = doc.type;
   doc.nodesBetween(from, to, function (node, pos, parentNode) {
     var nodeType = node.type;
     var parentNodeType = parentNode.type;
@@ -85,7 +76,6 @@ function setHeadingNode(tr, schema, pos, level) {
   var heading = nodes[_NodeNames.HEADING];
   var paragraph = nodes[_NodeNames.PARAGRAPH];
   var blockquote = nodes[_NodeNames.BLOCKQUOTE];
-  var listItem = nodes[_NodeNames.LIST_ITEM];
   if (pos >= tr.doc.content.size) {
     // Workaround to handle the edge case that pos was shifted caused by `toggleList`.
     return tr;

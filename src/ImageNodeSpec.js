@@ -67,7 +67,7 @@ const ImageNodeSpec: NodeSpec = {
   draggable: true,
   parseDOM: [{tag: 'img[src]', getAttrs}],
   toDOM(node) {
-    return ["img", node.attrs];
+    return ['img', node.attrs];
   },
 };
 

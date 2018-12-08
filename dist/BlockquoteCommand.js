@@ -24,14 +24,6 @@ var _UICommand2 = require('./ui/UICommand');
 
 var _UICommand3 = _interopRequireDefault(_UICommand2);
 
-var _noop = require('./noop');
-
-var _noop2 = _interopRequireDefault(_noop);
-
-var _nullthrows = require('nullthrows');
-
-var _nullthrows2 = _interopRequireDefault(_nullthrows);
-
 var _toggleBlockquote = require('./toggleBlockquote');
 
 var _toggleBlockquote2 = _interopRequireDefault(_toggleBlockquote);
@@ -42,15 +34,11 @@ var _prosemirrorState = require('prosemirror-state');
 
 var _prosemirrorView = require('prosemirror-view');
 
-var _prosemirrorModel = require('prosemirror-model');
-
 var _prosemirrorTransform = require('prosemirror-transform');
 
 var _prosemirrorUtils = require('prosemirror-utils');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var findBlockQuote = void 0;
 
 var BlockquoteCommand = function (_UICommand) {
   (0, _inherits3.default)(BlockquoteCommand, _UICommand);

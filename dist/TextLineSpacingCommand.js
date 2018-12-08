@@ -30,18 +30,6 @@ var _UICommand2 = require('./ui/UICommand');
 
 var _UICommand3 = _interopRequireDefault(_UICommand2);
 
-var _noop = require('./noop');
-
-var _noop2 = _interopRequireDefault(_noop);
-
-var _nullthrows = require('nullthrows');
-
-var _nullthrows2 = _interopRequireDefault(_nullthrows);
-
-var _toggleHeading = require('./toggleHeading');
-
-var _toggleHeading2 = _interopRequireDefault(_toggleHeading);
-
 var _prosemirrorState = require('prosemirror-state');
 
 var _prosemirrorView = require('prosemirror-view');
@@ -54,10 +42,6 @@ var _prosemirrorModel = require('prosemirror-model');
 
 var _prosemirrorTransform = require('prosemirror-transform');
 
-var _prosemirrorUtils = require('prosemirror-utils');
-
-var _prosemirrorCommands = require('prosemirror-commands');
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function setTextLineSpacing(tr, schema, lineSpacing) {
@@ -69,8 +53,7 @@ function setTextLineSpacing(tr, schema, lineSpacing) {
     return tr;
   }
   var from = selection.from,
-      to = selection.to,
-      empty = selection.empty;
+      to = selection.to;
 
 
   var paragraph = schema.nodes[_NodeNames.PARAGRAPH];

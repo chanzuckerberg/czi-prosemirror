@@ -32,21 +32,9 @@ var _FontSizeCommand = require('../FontSizeCommand');
 
 var _FontSizeCommand2 = _interopRequireDefault(_FontSizeCommand);
 
-var _Icon = require('./Icon');
-
-var _Icon2 = _interopRequireDefault(_Icon);
-
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
-
-var _UICommand = require('./UICommand');
-
-var _UICommand2 = _interopRequireDefault(_UICommand);
-
-var _classnames = require('classnames');
-
-var _classnames2 = _interopRequireDefault(_classnames);
 
 var _findActiveFontSize = require('./findActiveFontSize');
 
@@ -56,13 +44,7 @@ var _prosemirrorState = require('prosemirror-state');
 
 var _prosemirrorView = require('prosemirror-view');
 
-var _NodeNames = require('../NodeNames');
-
-var _MarkNames = require('../MarkNames');
-
 var _prosemirrorTransform = require('prosemirror-transform');
-
-var _prosemirrorUtils = require('prosemirror-utils');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

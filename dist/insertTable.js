@@ -5,10 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = insertTable;
 
-var _nullthrows = require('nullthrows');
-
-var _nullthrows2 = _interopRequireDefault(_nullthrows);
-
 var _prosemirrorModel = require('prosemirror-model');
 
 var _NodeNames = require('./NodeNames');
@@ -16,8 +12,6 @@ var _NodeNames = require('./NodeNames');
 var _prosemirrorState = require('prosemirror-state');
 
 var _prosemirrorTransform = require('prosemirror-transform');
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function insertTable(tr, schema, rows, cols) {
   if (!tr.selection || !tr.doc) {

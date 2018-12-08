@@ -52,11 +52,11 @@ class MathInlineEditor extends React.PureComponent<any, any, any> {
       const {value, text} = MathAlignValues[key];
       return (
         <CustomButton
-          key={key}
           active={align === value}
+          key={key}
           label={text}
-          value={value}
           onClick={onClick}
+          value={value}
         />
       );
     });
@@ -67,8 +67,8 @@ class MathInlineEditor extends React.PureComponent<any, any, any> {
         <CustomButton
           key="edit"
           label="Edit"
-          value={latex || ''}
           onClick={this._editLatex}
+          value={latex || ''}
         />
       </div>
     );

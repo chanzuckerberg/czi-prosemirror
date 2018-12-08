@@ -15,6 +15,8 @@ var _MarkNames = require('./MarkNames');
 
 var _prosemirrorState = require('prosemirror-state');
 
+var _prosemirrorTransform = require('prosemirror-transform');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // Perform the transform without losing the perceived text selection.
@@ -44,11 +46,9 @@ function transformAndPreserveTextSelection(tr, schema, fn) {
   var from = selection.from,
       to = selection.to;
 
-  var deltaFrom = 0;
-  var deltaTo = 0;
-
   // Mark current selection so that we could resume the selection later
   // after changing the whole list.
+
   var selectionExpanded = void 0;
   if (from === to) {
     if (from === 0) {

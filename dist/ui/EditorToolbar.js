@@ -38,10 +38,6 @@ var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
 require('./czi-editor-toolbar.css');
 
-var _EditorCommands = require('../EditorCommands');
-
-var EditorCommands = _interopRequireWildcard(_EditorCommands);
-
 var _CommandButton = require('./CommandButton');
 
 var _CommandButton2 = _interopRequireDefault(_CommandButton);
@@ -53,14 +49,6 @@ var _CommandMenuButton2 = _interopRequireDefault(_CommandMenuButton);
 var _CustomButton = require('./CustomButton');
 
 var _CustomButton2 = _interopRequireDefault(_CustomButton);
-
-var _FontSizeCommandMenuButton = require('./FontSizeCommandMenuButton');
-
-var _FontSizeCommandMenuButton2 = _interopRequireDefault(_FontSizeCommandMenuButton);
-
-var _FontTypeCommandMenuButton = require('./FontTypeCommandMenuButton');
-
-var _FontTypeCommandMenuButton2 = _interopRequireDefault(_FontTypeCommandMenuButton);
 
 var _Icon = require('./Icon');
 
@@ -94,10 +82,6 @@ var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
-var _findActiveMark = require('../findActiveMark');
-
-var _findActiveMark2 = _interopRequireDefault(_findActiveMark);
-
 var _injectStyleSheet = require('./injectStyleSheet');
 
 var _injectStyleSheet2 = _interopRequireDefault(_injectStyleSheet);
@@ -114,11 +98,7 @@ var _prosemirrorTransform = require('prosemirror-transform');
 
 var _EditorToolbarConfig = require('./EditorToolbarConfig');
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var babelPluginFlowReactPropTypes_proptype_ResizeObserverEntry = require('./ResizeObserver').babelPluginFlowReactPropTypes_proptype_ResizeObserverEntry || require('prop-types').any;
 
 var CSS_CDN_URL = '//fonts.googleapis.com/icon?family=Material+Icons';
 var CSS_FONT = 'Material Icons';

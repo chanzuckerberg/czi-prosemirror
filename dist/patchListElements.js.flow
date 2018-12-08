@@ -1,9 +1,7 @@
 // @flow
 
-import clamp from './ui/clamp';
-import convertToCSSPTValue from './convertToCSSPTValue';
 import {ATTRIBUTE_CSS_BEFORE_CONTENT} from './patchStyleElements';
-import {convertMarginLeftToIndentValue, ATTRIBUTE_INDENT, MAX_INDENT_LEVEL, MIN_INDENT_LEVEL, INDENT_MARGIN_PT_SIZE} from './ParagraphNodeSpec';
+import {convertMarginLeftToIndentValue, ATTRIBUTE_INDENT} from './ParagraphNodeSpec';
 import {ATTRIBUTE_LIST_STYLE_TYPE} from './ListItemNodeSpec';
 
 export default function patchListElements(doc: Document): void {
@@ -11,7 +9,6 @@ export default function patchListElements(doc: Document): void {
 }
 
 // This assumes that every 36pt maps to one indent level.
-const CHAR_ZERO_WIDTH = '\u200B';
 const CHAR_BULLET = '\u25cf';
 const CHAR_CIRCLE = '\u25cb';
 const CHAR_SQUARE = '\u25a0';

@@ -1,18 +1,13 @@
 // @flow
 
-import applyMark from './applyMark';
 import clamp from './ui/clamp';
 import isListNode from './isListNode';
 import transformAndPreserveTextSelection from './transformAndPreserveTextSelection';
-import {BLOCKQUOTE, BULLET_LIST, ORDERED_LIST, LIST_ITEM, HEADING, PARAGRAPH} from './NodeNames';
-import {Fragment, Schema, NodeType, ResolvedPos, Slice} from 'prosemirror-model';
-import {MARK_TEXT_SELECTION} from './MarkNames';
+import {BLOCKQUOTE, LIST_ITEM, HEADING, PARAGRAPH} from './NodeNames';
+import {Fragment, Schema} from 'prosemirror-model';
 import {MAX_INDENT_LEVEL, MIN_INDENT_LEVEL} from './ParagraphNodeSpec';
-import {Node} from 'prosemirror-model';
-import {Selection} from 'prosemirror-state';
 import {AllSelection, TextSelection} from 'prosemirror-state';
-import {Transform, Step, StepResult} from 'prosemirror-transform';
-import {findParentNodeOfType} from 'prosemirror-utils';
+import {Transform} from 'prosemirror-transform';
 
 export default function updateIndentLevel(
   tr: Transform,
@@ -39,7 +34,7 @@ export default function updateIndentLevel(
   const heading = nodes[HEADING];
   const paragraph = nodes[PARAGRAPH];
 
-  doc.nodesBetween(from, to, (node, pos, parentNode) => {
+  doc.nodesBetween(from, to, (node, pos) => {
     const nodeType = node.type;
     if (
       nodeType === paragraph ||

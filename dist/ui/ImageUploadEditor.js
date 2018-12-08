@@ -52,27 +52,13 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _clamp = require('./clamp');
-
-var _clamp2 = _interopRequireDefault(_clamp);
-
 var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
-var _resolveImage = require('./resolveImage');
-
-var _resolveImage2 = _interopRequireDefault(_resolveImage);
-
 var _uuid = require('./uuid');
 
 var _uuid2 = _interopRequireDefault(_uuid);
-
-var _prosemirrorState = require('prosemirror-state');
-
-var _prosemirrorView = require('prosemirror-view');
-
-var _prosemirrorTransform = require('prosemirror-transform');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -98,8 +84,7 @@ var ImageUploadEditor = function (_React$PureComponent) {
     return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = ImageUploadEditor.__proto__ || (0, _getPrototypeOf2.default)(ImageUploadEditor)).call.apply(_ref, [this].concat(args))), _this), _this._img = null, _this._unmounted = false, _this.state = {
       error: null,
       id: (0, _uuid2.default)(),
-      pending: false,
-      validValue: null
+      pending: false
     }, _this._onSelectFile = function (event) {
       var file = event.target.files && event.target.files[0];
       if (file && (typeof file === 'undefined' ? 'undefined' : (0, _typeof3.default)(file)) === 'object') {
@@ -117,8 +102,7 @@ var ImageUploadEditor = function (_React$PureComponent) {
       _this.setState({
         error: error,
         id: (0, _uuid2.default)(),
-        pending: false,
-        validValue: null
+        pending: false
       });
     }, _this._upload = function () {
       var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(file) {
@@ -182,7 +166,6 @@ var ImageUploadEditor = function (_React$PureComponent) {
     key: 'render',
     value: function render() {
       var _state = this.state,
-          validValue = _state.validValue,
           id = _state.id,
           error = _state.error,
           pending = _state.pending;

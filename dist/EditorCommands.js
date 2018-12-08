@@ -109,8 +109,6 @@ var _createCommand = require('./createCommand');
 
 var _createCommand2 = _interopRequireDefault(_createCommand);
 
-var _prosemirrorCommands = require('prosemirror-commands');
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
@@ -119,16 +117,12 @@ var addColumnAfter = ProsemirrorTables.addColumnAfter,
     addColumnBefore = ProsemirrorTables.addColumnBefore,
     addRowAfter = ProsemirrorTables.addRowAfter,
     addRowBefore = ProsemirrorTables.addRowBefore,
-    columnResizing = ProsemirrorTables.columnResizing,
     deleteColumn = ProsemirrorTables.deleteColumn,
     deleteRow = ProsemirrorTables.deleteRow,
     deleteTable = ProsemirrorTables.deleteTable,
     goToNextCell = ProsemirrorTables.goToNextCell,
     mergeCells = ProsemirrorTables.mergeCells,
-    setCellAttr = ProsemirrorTables.setCellAttr,
     splitCell = ProsemirrorTables.splitCell,
-    tableEditing = ProsemirrorTables.tableEditing,
-    tableNodes = ProsemirrorTables.tableNodes,
     toggleHeaderCell = ProsemirrorTables.toggleHeaderCell,
     toggleHeaderColumn = ProsemirrorTables.toggleHeaderColumn,
     toggleHeaderRow = ProsemirrorTables.toggleHeaderRow;

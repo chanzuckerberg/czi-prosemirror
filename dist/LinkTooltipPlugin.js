@@ -54,17 +54,11 @@ var _findNodesWithSameMark = require('./findNodesWithSameMark');
 
 var _findNodesWithSameMark2 = _interopRequireDefault(_findNodesWithSameMark);
 
-var _uuid = require('./ui/uuid');
-
-var _uuid2 = _interopRequireDefault(_uuid);
-
 var _prosemirrorState = require('prosemirror-state');
 
 var _prosemirrorView = require('prosemirror-view');
 
 var _MarkNames = require('./MarkNames');
-
-var _prosemirrorTransform = require('prosemirror-transform');
 
 var _SelectionPlaceholderPlugin = require('./SelectionPlaceholderPlugin');
 
@@ -183,8 +177,7 @@ var LinkTooltipView = function () {
       var state = view.state;
       var doc = state.doc,
           selection = state.selection,
-          schema = state.schema,
-          storedMarks = state.storedMarks;
+          schema = state.schema;
 
       var markType = schema.marks[_MarkNames.MARK_LINK];
       if (!markType) {

@@ -28,10 +28,6 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _CommandButton = require('./CommandButton');
-
-var _CommandButton2 = _interopRequireDefault(_CommandButton);
-
 var _CustomMenu = require('./CustomMenu');
 
 var _CustomMenu2 = _interopRequireDefault(_CustomMenu);
@@ -47,10 +43,6 @@ var _react2 = _interopRequireDefault(_react);
 var _UICommand = require('./UICommand');
 
 var _UICommand2 = _interopRequireDefault(_UICommand);
-
-var _classnames = require('classnames');
-
-var _classnames2 = _interopRequireDefault(_classnames);
 
 var _prosemirrorState = require('prosemirror-state');
 
@@ -98,7 +90,6 @@ var CommandMenu = function (_React$PureComponent) {
 
       var _props = this.props,
           commandGroups = _props.commandGroups,
-          dispatch = _props.dispatch,
           editorState = _props.editorState,
           editorView = _props.editorView;
 

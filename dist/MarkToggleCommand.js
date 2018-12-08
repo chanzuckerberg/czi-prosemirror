@@ -48,7 +48,6 @@ var MarkToggleCommand = function (_UICommand) {
 
     _this.isActive = function (state) {
       var schema = state.schema,
-          tr = state.tr,
           doc = state.doc,
           selection = state.selection;
       var from = selection.from,
@@ -63,7 +62,6 @@ var MarkToggleCommand = function (_UICommand) {
 
     _this.execute = function (state, dispatch, view) {
       var schema = state.schema,
-          tr = state.tr,
           selection = state.selection;
 
       if (selection.empty) {

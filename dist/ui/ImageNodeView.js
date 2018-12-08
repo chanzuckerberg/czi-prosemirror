@@ -66,10 +66,6 @@ var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
-var _nullthrows = require('nullthrows');
-
-var _nullthrows2 = _interopRequireDefault(_nullthrows);
-
 var _resolveImage2 = require('./resolveImage');
 
 var _resolveImage3 = _interopRequireDefault(_resolveImage2);
@@ -82,15 +78,11 @@ var _prosemirrorView = require('prosemirror-view');
 
 var _prosemirrorModel = require('prosemirror-model');
 
-var _prosemirrorState = require('prosemirror-state');
-
 var _PopUpPosition = require('./PopUpPosition');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var babelPluginFlowReactPropTypes_proptype_EditorRuntime = require('../Types').babelPluginFlowReactPropTypes_proptype_EditorRuntime || require('prop-types').any;
-
-var babelPluginFlowReactPropTypes_proptype_ImageInlineEditorValue = require('./ImageInlineEditor').babelPluginFlowReactPropTypes_proptype_ImageInlineEditorValue || require('prop-types').any;
 
 var babelPluginFlowReactPropTypes_proptype_NodeViewProps = require('./CustomNodeView').babelPluginFlowReactPropTypes_proptype_NodeViewProps || require('prop-types').any;
 
@@ -143,11 +135,14 @@ var ImageViewBody = function (_React$PureComponent) {
       maxWidth: NaN,
       resolvedImage: null
     }, _this._onImageLoad = function () {
+      if (!_this._mounted) {
+        return;
+      }
       // This handles the case when `resolvedImage` failed but the image itself
       // still loaded the src. The may happen when the `resolveImage` uses
       // the proxied url and the <img /> uses a non-proxied url.
       var el = document.getElementById(_this._id + '-img');
-      if (!(el instanceof HTMLImageElement)) {
+      if (!el) {
         return;
       }
 
@@ -262,14 +257,11 @@ var ImageViewBody = function (_React$PureComponent) {
       var resolvedImage = this.state.resolvedImage;
 
       var prevSrc = prevProps.node.attrs.src;
-      var _props = this.props,
-          editorView = _props.editorView,
-          node = _props.node;
+      var node = this.props.node;
       var _node$attrs = node.attrs,
           src = _node$attrs.src,
           width = _node$attrs.width,
-          height = _node$attrs.height,
-          align = _node$attrs.align;
+          height = _node$attrs.height;
 
 
       if (prevSrc !== src) {
@@ -295,10 +287,10 @@ var ImageViewBody = function (_React$PureComponent) {
     value: function render() {
       // TODO: Resolve `readOnly`;
       var readOnly = false;
-      var _props2 = this.props,
-          node = _props2.node,
-          selected = _props2.selected,
-          focused = _props2.focused;
+      var _props = this.props,
+          node = _props.node,
+          selected = _props.selected,
+          focused = _props.focused;
       var _state = this.state,
           resolvedImage = _state.resolvedImage,
           maxWidth = _state.maxWidth;
@@ -426,14 +418,14 @@ var ImageViewBody = function (_React$PureComponent) {
       var _this3 = this;
 
       this.setState({ resolveImage: null });
-      var _props3 = this.props,
-          editorView = _props3.editorView,
-          node = _props3.node;
+      var _props2 = this.props,
+          editorView = _props2.editorView,
+          node = _props2.node;
       var src = this.props.node.attrs.src;
 
       var url = resolveURL(editorView.runtime, src);
       (0, _resolveImage3.default)(url).then(function (resolvedImage) {
-        if (_this3._mounted && src === _this3.props.node.attrs.src) {
+        if (_this3._mounted && src === node.attrs.src) {
           _this3._mounted && _this3.setState({ resolvedImage: resolvedImage });
         }
       });

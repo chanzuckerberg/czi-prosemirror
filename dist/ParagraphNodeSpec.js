@@ -14,8 +14,6 @@ var _convertToCSSPTValue = require('./convertToCSSPTValue');
 
 var _convertToCSSPTValue2 = _interopRequireDefault(_convertToCSSPTValue);
 
-var _NodeNames = require('./NodeNames');
-
 var _prosemirrorModel = require('prosemirror-model');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -31,7 +29,6 @@ var LINE_SPACING_VALUES = exports.LINE_SPACING_VALUES = ['100%', '115%', '150%',
 '200%'];
 
 var ALIGN_PATTERN = /(left|right|center|justify)/;
-var LINE_HEIGHT_PATTERN = /(100\%|115\%|150\%|200\%)/;
 
 // https://github.com/ProseMirror/prosemirror-schema-basic/blob/master/src/schema-basic.js
 // :: NodeSpec A plain paragraph textblock. Represented in the DOM

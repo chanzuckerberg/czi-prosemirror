@@ -42,10 +42,6 @@ var _CustomEditorView = require('./CustomEditorView');
 
 var _CustomEditorView2 = _interopRequireDefault(_CustomEditorView);
 
-var _CustomNodeView = require('./CustomNodeView');
-
-var _CustomNodeView2 = _interopRequireDefault(_CustomNodeView);
-
 var _MathEditor = require('./MathEditor');
 
 var _MathEditor2 = _interopRequireDefault(_MathEditor);

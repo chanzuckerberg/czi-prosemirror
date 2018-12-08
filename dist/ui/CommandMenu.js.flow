@@ -1,11 +1,9 @@
 // @flow
 
-import CommandButton from './CommandButton';
 import CustomMenu from './CustomMenu';
 import CustomMenuItem from './CustomMenuItem';
 import React from 'react';
 import UICommand from './UICommand';
-import cx from 'classnames';
 import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
 import {Transform} from 'prosemirror-transform';
@@ -21,7 +19,7 @@ class CommandMenu extends React.PureComponent<any, any, any> {
   };
 
   render(): React.Element<any> {
-    const {commandGroups, dispatch, editorState, editorView} = this.props;
+    const {commandGroups, editorState, editorView} = this.props;
     const children = [];
     const jj = commandGroups.length - 1;
 

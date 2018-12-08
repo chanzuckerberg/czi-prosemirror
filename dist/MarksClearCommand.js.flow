@@ -2,7 +2,6 @@
 
 import * as MarkNames from './MarkNames';
 import UICommand from './ui/UICommand';
-import applyMark from './applyMark';
 import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
 import {Schema} from 'prosemirror-model';

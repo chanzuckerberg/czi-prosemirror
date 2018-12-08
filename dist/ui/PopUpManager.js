@@ -77,7 +77,6 @@ var PopUpManager = function () {
     };
 
     this._onClick = function (e) {
-      var bridgeToDetails = new _map2.default();
       var now = Date.now();
       var detailsWithModalToDismiss = void 0;
       var _iteratorNormalCompletion = true;
@@ -132,7 +131,6 @@ var PopUpManager = function () {
     this._syncPosition = function () {
       _this._rafID = 0;
 
-      var bags = new _map2.default();
       var bridgeToDetails = new _map2.default();
       var _iteratorNormalCompletion2 = true;
       var _didIteratorError2 = false;
@@ -145,7 +143,9 @@ var PopUpManager = function () {
           var _ref4 = (0, _slicedToArray3.default)(_ref3, 2);
 
           var bridge = _ref4[0];
-          var registeredAt = _ref4[1];
+          var
+          // eslint-disable-next-line no-unused-vars
+          registeredAt = _ref4[1];
 
           var details = bridge.getDetails();
           bridgeToDetails.set(bridge, details);
@@ -192,8 +192,7 @@ var PopUpManager = function () {
               _bodyRect = details.bodyRect,
               _anchorRect = details.anchorRect,
               _position = details.position,
-              _body2 = details.body,
-              _close = details.close;
+              _body2 = details.body;
 
           if (!_bodyRect && !_anchorRect) {
             continue;
@@ -243,7 +242,9 @@ var PopUpManager = function () {
 
             var _ref8 = (0, _slicedToArray3.default)(_ref7, 2);
 
-            var _bridge2 = _ref8[0];
+            var
+            // eslint-disable-next-line no-unused-vars
+            _bridge2 = _ref8[0];
             var _details = _ref8[1];
             var _anchor3 = _details.anchor,
                 _body3 = _details.body;
@@ -312,14 +313,13 @@ var PopUpManager = function () {
           if (_details2) {
             var _autoDismiss = _details2.autoDismiss,
                 _anchor4 = _details2.anchor,
-                _body4 = _details2.body,
-                _close2 = _details2.close,
+                _close = _details2.close,
                 _modal = _details2.modal;
 
             if (_autoDismiss &&
             // Modal is handled separately at `onClick`
             !_modal && now - _registeredAt > CLICK_INTERVAL && !hoveredAnchors.has(_anchor4)) {
-              _close2();
+              _close();
             }
           }
         }

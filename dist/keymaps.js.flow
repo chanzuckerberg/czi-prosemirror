@@ -5,8 +5,6 @@ import browser from './browser';
 
 // https://tinyurl.com/ybwf3wex
 
-const IS_MAC = true;
-
 export function tooltip(keymap: ?Keymap): ?string {
   if (keymap) {
     let shortcut;

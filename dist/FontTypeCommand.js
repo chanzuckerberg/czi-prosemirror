@@ -32,14 +32,6 @@ var _applyMark = require('./applyMark');
 
 var _applyMark2 = _interopRequireDefault(_applyMark);
 
-var _createPopUp = require('./ui/createPopUp');
-
-var _createPopUp2 = _interopRequireDefault(_createPopUp);
-
-var _nullthrows = require('nullthrows');
-
-var _nullthrows2 = _interopRequireDefault(_nullthrows);
-
 var _prosemirrorState = require('prosemirror-state');
 
 var _prosemirrorView = require('prosemirror-view');

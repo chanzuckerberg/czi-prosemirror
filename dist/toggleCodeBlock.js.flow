@@ -1,13 +1,9 @@
 // @flow
 
 import isListNode from './isListNode';
-import nullthrows from 'nullthrows';
-import transformAndPreserveTextSelection from './transformAndPreserveTextSelection';
-import {Fragment, Schema, Node, NodeType, ResolvedPos} from 'prosemirror-model';
+import {Schema} from 'prosemirror-model';
 import {PARAGRAPH, CODE_BLOCK} from './NodeNames';
-import {Selection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
-import {setBlockType} from 'prosemirror-commands';
 
 export default function toggleCodeBlock(
   tr: Transform,

@@ -10,14 +10,6 @@ var _from2 = _interopRequireDefault(_from);
 
 exports.default = patchListElements;
 
-var _clamp = require('./ui/clamp');
-
-var _clamp2 = _interopRequireDefault(_clamp);
-
-var _convertToCSSPTValue = require('./convertToCSSPTValue');
-
-var _convertToCSSPTValue2 = _interopRequireDefault(_convertToCSSPTValue);
-
 var _patchStyleElements = require('./patchStyleElements');
 
 var _ParagraphNodeSpec = require('./ParagraphNodeSpec');
@@ -33,7 +25,6 @@ function patchListElements(doc) {
 // This assumes that every 36pt maps to one indent level.
 
 
-var CHAR_ZERO_WIDTH = '\u200B';
 var CHAR_BULLET = '\u25CF';
 var CHAR_CIRCLE = '\u25CB';
 var CHAR_SQUARE = '\u25A0';

@@ -4,12 +4,7 @@ import './czi-form.css';
 import './czi-image-url-editor.css';
 import CustomButton from './CustomButton';
 import React from 'react';
-import clamp from './clamp';
-import cx from 'classnames';
 import resolveImage from './resolveImage';
-import {EditorState} from 'prosemirror-state';
-import {EditorView} from 'prosemirror-view';
-import {Transform} from 'prosemirror-transform';
 
 import type {ImageLike} from '../Types';
 

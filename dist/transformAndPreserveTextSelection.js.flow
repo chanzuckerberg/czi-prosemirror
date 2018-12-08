@@ -1,8 +1,9 @@
 
 import applyMark from './applyMark';
-import {Fragment, Schema, } from 'prosemirror-model';
+import {Schema} from 'prosemirror-model';
 import {MARK_TEXT_SELECTION} from './MarkNames';
 import {TextSelection} from 'prosemirror-state';
+import {Transform} from 'prosemirror-transform';
 
 export type SelectionMemo = {
   schema: Schema,
@@ -29,8 +30,6 @@ export default function transformAndPreserveTextSelection(
   }
 
   const {from, to} = selection;
-  let deltaFrom = 0;
-  let deltaTo = 0;
 
   // Mark current selection so that we could resume the selection later
   // after changing the whole list.

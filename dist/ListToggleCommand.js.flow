@@ -2,12 +2,10 @@
 
 import UICommand from './ui/UICommand';
 import noop from './noop';
-import nullthrows from 'nullthrows';
 import toggleList from './toggleList';
 import {BULLET_LIST, ORDERED_LIST} from './NodeNames';
-import {EditorState, Selection} from 'prosemirror-state';
+import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
-import {Schema, NodeType} from 'prosemirror-model';
 import {Transform} from 'prosemirror-transform';
 import {findParentNodeOfType} from 'prosemirror-utils';
 
@@ -24,7 +22,6 @@ class ListToggleCommand extends UICommand {
   }
 
   isActive = (state: EditorState): boolean => {
-    const {selection} = state;
     if (this._ordered) {
       return !!this._findList(state, ORDERED_LIST);
     } else {

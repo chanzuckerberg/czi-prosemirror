@@ -22,6 +22,13 @@ type ResizeCallback = (r: ResizeObserverEntry) => void;
 
 type Entries = $ReadOnlyArray<ResizeObserverEntry>;
 
+// Lightweight utilities to make observing resize of DOM element easier
+// with `ResizeObserver`.
+// See https://developers.google.com/web/updates/2016/10/resizeobserver
+// Usage:
+//   `ResizeObserver.observe(element, (entry) => console.log(entry))`
+//   `ResizeObserver.unobserve(element)`
+
 export type ResizeObserverEntry = {
   +target: Element,
   +contentRect: ClientRectLikeReadOnly,
@@ -42,7 +49,7 @@ function handleResizeObserverEntry(entry: ResizeObserverEntry): void {
   callbacks && callbacks.forEach(executeCallback);
 }
 
-function observe(
+export function observe(
   node: HTMLElement,
   callback: (ResizeObserverEntry) => void,
 ): void {
@@ -59,7 +66,7 @@ function observe(
   }
 }
 
-function unobserve(node: HTMLElement, callback?: ResizeCallback): void {
+export function unobserve(node: HTMLElement, callback?: ResizeCallback): void {
   const observer = instance;
   if (!observer) {
     return;
@@ -94,13 +101,7 @@ function unobserve(node: HTMLElement, callback?: ResizeCallback): void {
   }
 }
 
-// Lightweight utilities to make observing resize of DOM element easier
-// with `ResizeObserver`.
-// See https://developers.google.com/web/updates/2016/10/resizeobserver
-// Usage:
-//   `ResizeObserver.observe(element, (entry) => console.log(entry))`
-//   `ResizeObserver.unobserve(element)`
-module.exports = {
+export default {
   observe,
   unobserve,
 };

@@ -3,14 +3,11 @@
 import CommandMenuButton from './CommandMenuButton';
 import FontTypeCommand from '../FontTypeCommand';
 import React from 'react';
-import UICommand from './UICommand';
-import cx from 'classnames';
 import findActiveFontType from './findActiveFontType';
 import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
 import {FONT_TYPE_NAMES} from '../FontTypeMarkSpec';
 import {FONT_TYPE_NAME_DEFAULT} from './findActiveFontType';
-import {MARK_FONT_TYPE} from '../MarkNames';
 import {Transform} from 'prosemirror-transform';
 
 const FONT_TYPE_COMMANDS: Object = {

@@ -1,15 +1,14 @@
 // @flow
 
 import './czi-pop-up.css';
-import React from 'react';
+import PopUp from './PopUp';
 import ReactDOM from 'react-dom';
 import uuid from './uuid';
-import PopUpManager from './PopUpManager';
-import PopUp from './PopUp';
 
-import type {PopUpParams, PopUpProps, ViewProps} from './PopUp';
-import type {PositionHandler} from './PopUpPosition';
-import type {Rect} from './rects';
+// eslint-disable-next-line no-unused-vars
+import React from 'react';
+
+import type {PopUpParams, ViewProps} from './PopUp';
 
 export type PopUpHandle = {
   close: (val: any) => void,
@@ -18,8 +17,6 @@ export type PopUpHandle = {
 
 let modalsCount = 0;
 let popUpsCount = 0;
-
-const renderedPopUps = [];
 
 const Z_INDEX_BASE = 9999;
 const MODAL_MASK_ID = 'pop-up-modal-mask-' + uuid();

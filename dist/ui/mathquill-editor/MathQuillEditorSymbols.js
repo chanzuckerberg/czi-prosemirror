@@ -84,3 +84,8 @@ var VARIABLES = exports.VARIABLES = {
   title: 'Variables',
   symbols: [X, Y]
 };
+
+var MISC = exports.MISC = {
+  title: 'Miscellaneous',
+  symbols: [ANGLE, APPROX, CENT, DOLLAR, INFINITY, INT, OVERLINE, SUPERSCRIPT, TRIANGLE]
+};

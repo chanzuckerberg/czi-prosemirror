@@ -2,8 +2,6 @@
 
 import UICommand from './ui/UICommand';
 import applyMark from './applyMark';
-import createPopUp from './ui/createPopUp';
-import nullthrows from 'nullthrows';
 import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
 import {MARK_FONT_SIZE} from './MarkNames';

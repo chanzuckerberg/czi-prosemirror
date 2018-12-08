@@ -46,14 +46,6 @@ var _EditorToolbar = require('./EditorToolbar');
 
 var _EditorToolbar2 = _interopRequireDefault(_EditorToolbar);
 
-var _isEditorStateEmpty = require('../isEditorStateEmpty');
-
-var _isEditorStateEmpty2 = _interopRequireDefault(_isEditorStateEmpty);
-
-var _noop = require('../noop');
-
-var _noop2 = _interopRequireDefault(_noop);
-
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
@@ -147,7 +139,6 @@ var RichTextEditor = function (_React$PureComponent) {
           embedded = _props.embedded,
           header = _props.header,
           height = _props.height,
-          id = _props.id,
           onChange = _props.onChange,
           placeholder = _props.placeholder,
           readOnly = _props.readOnly,

@@ -18,10 +18,6 @@ function findActiveMark(doc, from, to, markType) {
   from = Math.max(2, from);
   to = Math.min(to, doc.nodeSize - 2);
 
-  var firstMark = null;
-  var fromNode = null;
-  var toNode = null;
-
   while (ii <= to) {
     var node = doc.nodeAt(ii);
     if (!node || !node.marks) {

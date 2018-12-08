@@ -48,8 +48,6 @@ var _prosemirrorState = require('prosemirror-state');
 
 var _prosemirrorView = require('prosemirror-view');
 
-var _prosemirrorModel = require('prosemirror-model');
-
 var _prosemirrorTransform = require('prosemirror-transform');
 
 var _PopUpPosition = require('./ui/PopUpPosition');
@@ -76,7 +74,7 @@ var TableInsertCommand = function (_UICommand) {
       return e.type === _UICommand3.default.EventType.MOUSEENTER;
     }, _this.isEnabled = function (state) {
       var tr = state;
-      var selection = state.tr.selection;
+      var selection = tr.selection;
 
       if (selection instanceof _prosemirrorState.TextSelection) {
         return selection.from === selection.to;
@@ -106,9 +104,9 @@ var TableInsertCommand = function (_UICommand) {
       });
     }, _this.executeWithUserInput = function (state, dispatch, view, inputs) {
       if (dispatch) {
-        var _tr = state.tr,
-            selection = state.selection,
+        var selection = state.selection,
             schema = state.schema;
+        var _tr = state.tr;
 
         if (inputs) {
           var rows = inputs.rows,

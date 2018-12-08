@@ -40,17 +40,7 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _classnames = require('classnames');
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
-var _prosemirrorState = require('prosemirror-state');
-
-var _prosemirrorView = require('prosemirror-view');
-
 var _DocNodeSpec = require('../DocNodeSpec');
-
-var _prosemirrorTransform = require('prosemirror-transform');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -106,7 +96,6 @@ var DocLayoutEditor = function (_React$PureComponent) {
     value: function render() {
       var _state = this.state,
           width = _state.width,
-          layout = _state.layout,
           selectedValue = _state.selectedValue;
 
       var customOption = width ? _react2.default.createElement(_CustomRadioButton2.default, {

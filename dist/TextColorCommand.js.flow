@@ -10,9 +10,7 @@ import {AllSelection, TextSelection} from 'prosemirror-state';
 import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
 import {MARK_TEXT_COLOR} from './MarkNames';
-import {Schema} from 'prosemirror-model';
 import {Transform} from 'prosemirror-transform';
-import {atAnchorRight} from './ui/PopUpPosition';
 
 class TextColorCommand extends UICommand {
 
@@ -76,7 +74,8 @@ class TextColorCommand extends UICommand {
     hex: ?string,
   ): boolean => {
     if (dispatch && hex !== undefined) {
-      let {tr, selection, schema} = state;
+      const {schema} = state;
+      let {tr} = state;
       const markType = schema.marks[MARK_TEXT_COLOR];
       const attrs = hex ? {color: hex} : null;
       tr = applyMark(

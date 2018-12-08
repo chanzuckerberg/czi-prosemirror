@@ -7,7 +7,6 @@ import CustomEditorView from './CustomEditorView';
 import ImageNodeView from './ImageNodeView';
 import MathNodeView from './MathNodeView';
 import React from 'react';
-import applyDevTools from 'prosemirror-dev-tools';
 import createEmptyEditorState from '../createEmptyEditorState';
 import cx from 'classnames';
 import normalizeHTML from '../normalizeHTML';
@@ -56,12 +55,11 @@ class Editor extends React.PureComponent<any, any, any> {
 
   componentDidMount(): void {
     const {
-      embedded, onReady, editorState, readOnly,
+      onReady, editorState, readOnly,
       runtime, placeholder, disabled,
     } = this.props;
-    const editorNode = document.getElementById(this._id);
-    const templateNode = document.getElementById(this._id + 'template');
 
+    const editorNode = document.getElementById(this._id);
     if (editorNode) {
       // Reference: http://prosemirror.net/examples/basic/
       const view = this._editorView = new CustomEditorView(editorNode, {

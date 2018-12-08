@@ -11,17 +11,9 @@ var _extends3 = _interopRequireDefault(_extends2);
 exports.default = toggleList;
 exports.unwrapNodesFromList = unwrapNodesFromList;
 
-var _applyMark = require('./applyMark');
-
-var _applyMark2 = _interopRequireDefault(_applyMark);
-
 var _isListNode = require('./isListNode');
 
 var _isListNode2 = _interopRequireDefault(_isListNode);
-
-var _joinListNode = require('./joinListNode');
-
-var _joinListNode2 = _interopRequireDefault(_joinListNode);
 
 var _nullthrows = require('nullthrows');
 
@@ -37,13 +29,9 @@ var _NodeNames = require('./NodeNames');
 
 var _prosemirrorModel = require('prosemirror-model');
 
-var _MarkNames = require('./MarkNames');
-
 var _prosemirrorTransform = require('prosemirror-transform');
 
 var _prosemirrorUtils = require('prosemirror-utils');
-
-var _prosemirrorCommands = require('prosemirror-commands');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -58,8 +46,7 @@ function toggleList(tr, schema, listNodeType) {
     return tr;
   }
 
-  var from = selection.from,
-      to = selection.to;
+  var from = selection.from;
 
 
   var fromSelection = _prosemirrorState.TextSelection.create(doc, from, from);
@@ -100,7 +87,6 @@ function wrapNodesWithListInternal(memo, listNodeType) {
       to = selection.to;
 
 
-  var listItem = schema.nodes[_NodeNames.LIST_ITEM];
   var paragraph = schema.nodes[_NodeNames.PARAGRAPH];
   var heading = schema.nodes[_NodeNames.HEADING];
 
@@ -210,8 +196,7 @@ function wrapItemsWithListInternal(tr, schema, listNodeType, items) {
 
   var listItemNodes = [];
   items.forEach(function (item) {
-    var node = item.node,
-        pos = item.pos;
+    var node = item.node;
     // Restore the annotated nodes with the copy of the original ones.
 
     var paragraphNode = paragraph.create(node.attrs, node.content, node.marks);

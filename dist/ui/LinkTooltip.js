@@ -26,25 +26,9 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 
 require('./czi-link-tooltip.css');
 
-var _LinkURLEditor = require('./LinkURLEditor');
-
-var _LinkURLEditor2 = _interopRequireDefault(_LinkURLEditor);
-
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
-
-var _reactDom = require('react-dom');
-
-var _reactDom2 = _interopRequireDefault(_reactDom);
-
-var _createPopUp = require('./createPopUp');
-
-var _createPopUp2 = _interopRequireDefault(_createPopUp);
-
-var _uuid = require('./uuid');
-
-var _uuid2 = _interopRequireDefault(_uuid);
 
 var _prosemirrorView = require('prosemirror-view');
 

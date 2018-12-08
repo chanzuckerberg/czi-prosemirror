@@ -31,8 +31,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 // https://github.com/ProseMirror/prosemirror-view/blob/master/src/index.js
 var babelPluginFlowReactPropTypes_proptype_DirectEditorProps = require('../Types').babelPluginFlowReactPropTypes_proptype_DirectEditorProps || require('prop-types').any;
 
-var babelPluginFlowReactPropTypes_proptype_ImageLike = require('../Types').babelPluginFlowReactPropTypes_proptype_ImageLike || require('prop-types').any;
-
 var babelPluginFlowReactPropTypes_proptype_EditorRuntime = require('../Types').babelPluginFlowReactPropTypes_proptype_EditorRuntime || require('prop-types').any;
 
 var CustomEditorView = function (_EditorView) {

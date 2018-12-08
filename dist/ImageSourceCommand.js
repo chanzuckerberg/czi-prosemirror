@@ -28,10 +28,6 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _ImageURLEditor = require('./ui/ImageURLEditor');
-
-var _ImageURLEditor2 = _interopRequireDefault(_ImageURLEditor);
-
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
@@ -43,10 +39,6 @@ var _UICommand3 = _interopRequireDefault(_UICommand2);
 var _createPopUp = require('./ui/createPopUp');
 
 var _createPopUp2 = _interopRequireDefault(_createPopUp);
-
-var _nullthrows = require('nullthrows');
-
-var _nullthrows2 = _interopRequireDefault(_nullthrows);
 
 var _prosemirrorState = require('prosemirror-state');
 
@@ -66,8 +58,7 @@ var babelPluginFlowReactPropTypes_proptype_ImageLike = require('./Types').babelP
 
 function insertImage(tr, schema, src) {
   var _tr = tr,
-      selection = _tr.selection,
-      doc = _tr.doc;
+      selection = _tr.selection;
 
   if (!selection) {
     return tr;
@@ -90,7 +81,6 @@ function insertImage(tr, schema, src) {
     title: ''
   };
 
-  var prevNode = tr.doc.nodeAt(from);
   var node = image.create(attrs, null, null);
   var frag = _prosemirrorModel.Fragment.from(node);
   tr = tr.insert(from, frag);
@@ -136,16 +126,14 @@ var ImageSourceCommand = function (_UICommand) {
       });
     }, _this.executeWithUserInput = function (state, dispatch, view, inputs) {
       if (dispatch) {
-        var _tr2 = state.tr,
-            selection = state.selection,
+        var selection = state.selection,
             schema = state.schema;
+        var _tr2 = state.tr;
 
         _tr2 = view ? (0, _CursorPlaceholderPlugin.hideCursorPlaceholder)(view.state) : _tr2;
         _tr2 = _tr2.setSelection(selection);
         if (inputs) {
-          var width = inputs.width,
-              height = inputs.height,
-              src = inputs.src;
+          var src = inputs.src;
 
           _tr2 = insertImage(_tr2, schema, src);
         }
@@ -156,7 +144,7 @@ var ImageSourceCommand = function (_UICommand) {
       return false;
     }, _this.__isEnabled = function (state, view) {
       var tr = state;
-      var selection = state.tr.selection;
+      var selection = tr.selection;
 
       if (selection instanceof _prosemirrorState.TextSelection) {
         return selection.from === selection.to;

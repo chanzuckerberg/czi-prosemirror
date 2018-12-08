@@ -9,23 +9,11 @@ var _isListNode = require('./isListNode');
 
 var _isListNode2 = _interopRequireDefault(_isListNode);
 
-var _nullthrows = require('nullthrows');
-
-var _nullthrows2 = _interopRequireDefault(_nullthrows);
-
-var _transformAndPreserveTextSelection = require('./transformAndPreserveTextSelection');
-
-var _transformAndPreserveTextSelection2 = _interopRequireDefault(_transformAndPreserveTextSelection);
-
 var _prosemirrorModel = require('prosemirror-model');
 
 var _NodeNames = require('./NodeNames');
 
-var _prosemirrorState = require('prosemirror-state');
-
 var _prosemirrorTransform = require('prosemirror-transform');
-
-var _prosemirrorCommands = require('prosemirror-commands');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

@@ -25,7 +25,7 @@ class CustomRadioButton extends React.PureComponent<any, any, any> {
     const {
       title, className, checked, label, inline, name, onSelect,
       disabled,
-      ...pointerProps,
+      ...pointerProps
     } = this.props;
 
     const klass = cx(className, 'czi-custom-radio-button', {

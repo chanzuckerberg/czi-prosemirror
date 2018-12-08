@@ -2,7 +2,7 @@
 
 import './czi-link-tooltip.css';
 import React from 'react';
-import {EditorView} from "prosemirror-view";
+import {EditorView} from 'prosemirror-view';
 import CustomButton from './CustomButton';
 
 class LinkTooltip extends React.PureComponent<any, any, any> {
@@ -23,21 +23,21 @@ class LinkTooltip extends React.PureComponent<any, any, any> {
           <div className="czi-link-tooltip-row">
             <CustomButton
               className="czi-link-tooltip-href"
-              value={href}
-              target="new"
               label={href}
-              title={href}
               onClick={this._openLink}
+              target="new"
+              title={href}
+              value={href}
             />
             <CustomButton
               label="Change"
-              value={editorView}
               onClick={onEdit}
+              value={editorView}
             />
             <CustomButton
               label="Remove"
-              value={editorView}
               onClick={onRemove}
+              value={editorView}
             />
           </div>
         </div>

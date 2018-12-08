@@ -32,10 +32,6 @@ var _noop = require('./noop');
 
 var _noop2 = _interopRequireDefault(_noop);
 
-var _nullthrows = require('nullthrows');
-
-var _nullthrows2 = _interopRequireDefault(_nullthrows);
-
 var _toggleCodeBlock = require('./toggleCodeBlock');
 
 var _toggleCodeBlock2 = _interopRequireDefault(_toggleCodeBlock);
@@ -46,13 +42,9 @@ var _prosemirrorView = require('prosemirror-view');
 
 var _NodeNames = require('./NodeNames');
 
-var _prosemirrorModel = require('prosemirror-model');
-
 var _prosemirrorTransform = require('prosemirror-transform');
 
 var _prosemirrorUtils = require('prosemirror-utils');
-
-var _prosemirrorCommands = require('prosemirror-commands');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

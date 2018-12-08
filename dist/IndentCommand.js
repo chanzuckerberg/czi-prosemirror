@@ -24,10 +24,6 @@ var _UICommand2 = require('./ui/UICommand');
 
 var _UICommand3 = _interopRequireDefault(_UICommand2);
 
-var _noop = require('./noop');
-
-var _noop2 = _interopRequireDefault(_noop);
-
 var _updateIndentLevel = require('./updateIndentLevel');
 
 var _updateIndentLevel2 = _interopRequireDefault(_updateIndentLevel);
@@ -35,8 +31,6 @@ var _updateIndentLevel2 = _interopRequireDefault(_updateIndentLevel);
 var _prosemirrorState = require('prosemirror-state');
 
 var _prosemirrorView = require('prosemirror-view');
-
-var _prosemirrorModel = require('prosemirror-model');
 
 var _prosemirrorTransform = require('prosemirror-transform');
 
@@ -56,8 +50,8 @@ var IndentCommand = function (_UICommand) {
 
     _this.execute = function (state, dispatch, view) {
       var selection = state.selection,
-          tr = state.tr,
           schema = state.schema;
+      var tr = state.tr;
 
       tr = tr.setSelection(selection);
       tr = (0, _updateIndentLevel2.default)(tr, schema, _this._delta);

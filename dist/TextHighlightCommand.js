@@ -54,11 +54,7 @@ var _prosemirrorView = require('prosemirror-view');
 
 var _MarkNames = require('./MarkNames');
 
-var _prosemirrorModel = require('prosemirror-model');
-
 var _prosemirrorTransform = require('prosemirror-transform');
-
-var _PopUpPosition = require('./ui/PopUpPosition');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -126,9 +122,8 @@ var TextHighlightCommand = function (_UICommand) {
       });
     }, _this.executeWithUserInput = function (state, dispatch, view, hex) {
       if (dispatch && hex !== undefined) {
-        var _tr = state.tr,
-            selection = state.selection,
-            schema = state.schema;
+        var schema = state.schema;
+        var _tr = state.tr;
 
         var markType = schema.marks[_MarkNames.MARK_TEXT_HIGHLIGHT];
         var attrs = hex ? { highlightColor: hex } : null;

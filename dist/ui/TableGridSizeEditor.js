@@ -26,10 +26,6 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 
 require('./czi-table-grid-size-editor.css');
 
-var _CustomButton = require('./CustomButton');
-
-var _CustomButton2 = _interopRequireDefault(_CustomButton);
-
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
@@ -41,14 +37,6 @@ var _clamp2 = _interopRequireDefault(_clamp);
 var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
-
-var _prosemirrorState = require('prosemirror-state');
-
-var _prosemirrorView = require('prosemirror-view');
-
-var _EditorCommands = require('../EditorCommands');
-
-var _prosemirrorTransform = require('prosemirror-transform');
 
 var _rects = require('./rects');
 

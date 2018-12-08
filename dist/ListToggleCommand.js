@@ -32,10 +32,6 @@ var _noop = require('./noop');
 
 var _noop2 = _interopRequireDefault(_noop);
 
-var _nullthrows = require('nullthrows');
-
-var _nullthrows2 = _interopRequireDefault(_nullthrows);
-
 var _toggleList = require('./toggleList');
 
 var _toggleList2 = _interopRequireDefault(_toggleList);
@@ -45,8 +41,6 @@ var _NodeNames = require('./NodeNames');
 var _prosemirrorState = require('prosemirror-state');
 
 var _prosemirrorView = require('prosemirror-view');
-
-var _prosemirrorModel = require('prosemirror-model');
 
 var _prosemirrorTransform = require('prosemirror-transform');
 
@@ -65,8 +59,6 @@ var ListToggleCommand = function (_UICommand) {
     var _this = (0, _possibleConstructorReturn3.default)(this, (ListToggleCommand.__proto__ || (0, _getPrototypeOf2.default)(ListToggleCommand)).call(this));
 
     _this.isActive = function (state) {
-      var selection = state.selection;
-
       if (_this._ordered) {
         return !!_this._findList(state, _NodeNames.ORDERED_LIST);
       } else {

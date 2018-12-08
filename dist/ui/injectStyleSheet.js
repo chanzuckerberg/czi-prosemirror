@@ -39,7 +39,6 @@ function injectStyleSheet(urlStr) {
   var protocol = parsedURL.protocol;
 
   var protocolPattern = /^(http:|https:)/;
-  var useHTTP = protocolPattern.test(protocol || '');
   if (!protocolPattern.test(protocol || '')) {
     if (protocolPattern.test(window.location.protocol)) {
       parsedURL.protocol = window.location.protocol;

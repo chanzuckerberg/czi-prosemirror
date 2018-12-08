@@ -4,14 +4,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _EditorCommands = require('./EditorCommands');
-
-var EditorCommands = _interopRequireWildcard(_EditorCommands);
-
-var _keymaps = require('./keymaps');
-
-var KeyMaps = _interopRequireWildcard(_keymaps);
-
 var _prosemirrorTables = require('prosemirror-tables');
 
 var ProsemirrorTables = _interopRequireWildcard(_prosemirrorTables);

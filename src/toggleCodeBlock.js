@@ -54,7 +54,7 @@ function setCodeBlockNodeEnabled(
 
   const node = doc.nodeAt(pos);
   if (!node) {
-    return;
+    return tr;
   }
   if (isListNode(node)) {
     return tr;

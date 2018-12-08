@@ -5,11 +5,9 @@ import UICommand from './ui/UICommand';
 import applyMark from './applyMark';
 import createPopUp from './ui/createPopUp';
 import findNodesWithSameMark from './findNodesWithSameMark';
-import nullthrows from 'nullthrows';
 import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
 import {MARK_LINK} from './MarkNames';
-import {Schema} from 'prosemirror-model';
 import {TextSelection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
 import {showSelectionPlaceholder, hideSelectionPlaceholder} from './SelectionPlaceholderPlugin';
@@ -74,7 +72,8 @@ class LinkSetURLCommand extends UICommand {
     href: ?string,
   ): boolean => {
     if (dispatch) {
-      let {tr, selection, schema} = state;
+      const {selection, schema} = state;
+      let {tr} = state;
       tr = view ? hideSelectionPlaceholder(view.state) : tr;
       tr = tr.setSelection(selection);
       if (href !== undefined) {

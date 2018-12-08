@@ -40,14 +40,6 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _UICommand = require('./UICommand');
-
-var _UICommand2 = _interopRequireDefault(_UICommand);
-
-var _classnames = require('classnames');
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
 var _findActiveFontType = require('./findActiveFontType');
 
 var _findActiveFontType2 = _interopRequireDefault(_findActiveFontType);
@@ -57,8 +49,6 @@ var _prosemirrorState = require('prosemirror-state');
 var _prosemirrorView = require('prosemirror-view');
 
 var _FontTypeMarkSpec = require('../FontTypeMarkSpec');
-
-var _MarkNames = require('../MarkNames');
 
 var _prosemirrorTransform = require('prosemirror-transform');
 

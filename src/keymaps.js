@@ -19,6 +19,7 @@ export function tooltip(keymap: ?Keymap): ?string {
     }
     return `${keymap.description} (${shortcut})`;
   }
+  return null;
 }
 
 export function findKeymapByDescription(description: string): ?Keymap {

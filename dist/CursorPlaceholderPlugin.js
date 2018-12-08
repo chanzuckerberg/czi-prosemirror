@@ -25,13 +25,9 @@ exports.hideCursorPlaceholder = hideCursorPlaceholder;
 
 require('./ui/czi-cursor-placeholder.css');
 
-var _uuid = require('./ui/uuid');
-
-var _uuid2 = _interopRequireDefault(_uuid);
+var _prosemirrorView = require('prosemirror-view');
 
 var _prosemirrorState = require('prosemirror-state');
-
-var _prosemirrorView = require('prosemirror-view');
 
 var _prosemirrorTransform = require('prosemirror-transform');
 

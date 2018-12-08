@@ -1,9 +1,6 @@
 // @flow
 
 import convertToCSSPTValue from './convertToCSSPTValue';
-import {Node} from 'prosemirror-model';
-
-import type {NodeSpec} from './Types';
 
 export const LAYOUT = {
   DESKTOP_SCREEN_4_3: 'desktop_screen_4_3',

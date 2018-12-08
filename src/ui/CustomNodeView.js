@@ -2,7 +2,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {EditorView, Decoration} from "prosemirror-view";
+import {EditorView, Decoration} from 'prosemirror-view';
 import {Node} from 'prosemirror-model';
 
 export type NodeViewProps = {

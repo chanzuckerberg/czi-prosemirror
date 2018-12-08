@@ -14,10 +14,6 @@ var _NodeNames = require('./NodeNames');
 
 var NodeNames = _interopRequireWildcard(_NodeNames);
 
-var _prosemirrorTables = require('prosemirror-tables');
-
-var ProsemirrorTables = _interopRequireWildcard(_prosemirrorTables);
-
 var _BlockquoteNodeSpec = require('./BlockquoteNodeSpec');
 
 var _BlockquoteNodeSpec2 = _interopRequireDefault(_BlockquoteNodeSpec);

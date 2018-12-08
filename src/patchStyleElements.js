@@ -34,13 +34,13 @@ export default function patchStyleElements(doc: Document): void {
     const sheet = styleEl.sheet;
     if (!sheet) {
       // TODO: Find out why the browser does not support this.
-      console.error(`styleEl.sheet undefined`, styleEl);
+      console.error('styleEl.sheet undefined', styleEl);
       return;
     }
     const cssRules = sheet.cssRules;
     if (!cssRules) {
       // TODO: Find out why the browser does not support this.
-      console.error(`sheet.cssRules undefined`, sheet);
+      console.error('sheet.cssRules undefined', sheet);
       return;
     }
 
@@ -54,7 +54,7 @@ export default function patchStyleElements(doc: Document): void {
 
       if (!rule.styleMap) {
         // TODO: Find out why the browser does not support this.
-        console.error(`rule.styleMap undefined`, rule);
+        console.error('rule.styleMap undefined', rule);
         return;
       }
       let cssText = '';

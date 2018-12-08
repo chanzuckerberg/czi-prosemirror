@@ -28,4 +28,5 @@ export default function findActiveMark(
     }
     ii++;
   }
+  return null;
 }

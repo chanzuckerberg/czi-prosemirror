@@ -12,9 +12,9 @@ exports.default = createPopUp;
 
 require('./czi-pop-up.css');
 
-var _react = require('react');
+var _PopUp = require('./PopUp');
 
-var _react2 = _interopRequireDefault(_react);
+var _PopUp2 = _interopRequireDefault(_PopUp);
 
 var _reactDom = require('react-dom');
 
@@ -24,25 +24,18 @@ var _uuid = require('./uuid');
 
 var _uuid2 = _interopRequireDefault(_uuid);
 
-var _PopUpManager = require('./PopUpManager');
+var _react = require('react');
 
-var _PopUpManager2 = _interopRequireDefault(_PopUpManager);
-
-var _PopUp = require('./PopUp');
-
-var _PopUp2 = _interopRequireDefault(_PopUp);
+var _react2 = _interopRequireDefault(_react);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var babelPluginFlowReactPropTypes_proptype_ViewProps = require('./PopUp').babelPluginFlowReactPropTypes_proptype_ViewProps || require('prop-types').any;
 
-var babelPluginFlowReactPropTypes_proptype_PopUpProps = require('./PopUp').babelPluginFlowReactPropTypes_proptype_PopUpProps || require('prop-types').any;
+// eslint-disable-next-line no-unused-vars
+
 
 var babelPluginFlowReactPropTypes_proptype_PopUpParams = require('./PopUp').babelPluginFlowReactPropTypes_proptype_PopUpParams || require('prop-types').any;
-
-var babelPluginFlowReactPropTypes_proptype_PositionHandler = require('./PopUpPosition').babelPluginFlowReactPropTypes_proptype_PositionHandler || require('prop-types').any;
-
-var babelPluginFlowReactPropTypes_proptype_Rect = require('./rects').babelPluginFlowReactPropTypes_proptype_Rect || require('prop-types').any;
 
 if (typeof exports !== 'undefined') Object.defineProperty(exports, 'babelPluginFlowReactPropTypes_proptype_PopUpHandle', {
   value: require('prop-types').shape({
@@ -54,8 +47,6 @@ if (typeof exports !== 'undefined') Object.defineProperty(exports, 'babelPluginF
 
 var modalsCount = 0;
 var popUpsCount = 0;
-
-var renderedPopUps = [];
 
 var Z_INDEX_BASE = 9999;
 var MODAL_MASK_ID = 'pop-up-modal-mask-' + (0, _uuid2.default)();

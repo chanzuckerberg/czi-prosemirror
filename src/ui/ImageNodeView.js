@@ -11,7 +11,7 @@ import createPopUp from './createPopUp';
 import cx from 'classnames';
 import resolveImage from './resolveImage';
 import uuid from './uuid';
-import {Decoration} from "prosemirror-view";
+import {Decoration} from 'prosemirror-view';
 import {MIN_SIZE} from './ImageResizeBox';
 import {Node} from 'prosemirror-model';
 import {atAnchorBottomCenter} from './PopUpPosition';
@@ -151,8 +151,8 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
       <ImageResizeBox
         height={height}
         onResizeEnd={this._onResizeEnd}
-        width={width}
         src={src}
+        width={width}
       /> :
       null;
 
