@@ -4,6 +4,7 @@
 
 [ignore]
 .*/bin/.*
+.*/node_modules/@babel.*
 .*/node_modules/@emotion/.*
 .*/node_modules/babel-plugin-emotion/.*
 .*/node_modules/create-emotion-styled/.*
@@ -11,7 +12,10 @@
 .*/node_modules/create-react-context/.*
 .*/node_modules/draft-convert/.*
 .*/node_modules/draft-js/.*
+.*/node_modules/eslint-plugin-jsx-a11y/.*
+.*/node_modules/eslint/.*
 .*/node_modules/flow-webpack-plugin/.*
+.*/node_modules/inquirer/.*
 .*/node_modules/jsondiffpatch/.*
 .*/node_modules/katex/.*
 .*/node_modules/match-at/.*
@@ -19,6 +23,7 @@
 .*/node_modules/postcss-modules-local-by-default/.*
 .*/node_modules/postcss-modules-scope/.*
 .*/node_modules/postcss-modules-values/.*
+.*/node_modules/postcss/.*
 .*/node_modules/prosemirror-dev-tools/.*
 .*/node_modules/react-emotion/.*
 .*/node_modules/unstated/.*

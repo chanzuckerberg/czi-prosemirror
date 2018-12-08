@@ -246,11 +246,14 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
   }
 
   _onImageLoad = (): void => {
+    if (!this._mounted) {
+      return;
+    }
     // This handles the case when `resolvedImage` failed but the image itself
     // still loaded the src. The may happen when the `resolveImage` uses
     // the proxied url and the <img /> uses a non-proxied url.
-    const el = document.getElementById(`${this._id}-img`);
-    if (!(el instanceof HTMLImageElement)) {
+    const el:any = document.getElementById(`${this._id}-img`);
+    if (!el) {
       return;
     }
 

@@ -68,5 +68,5 @@
 }
 
 .czi-image-view-body.error {
-  outline: var(--czi-border-red);
+  /* outline: var(--czi-border-red);*/
 }

@@ -7,7 +7,6 @@ import CustomEditorView from './CustomEditorView';
 import ImageNodeView from './ImageNodeView';
 import MathNodeView from './MathNodeView';
 import React from 'react';
-import applyDevTools from 'prosemirror-dev-tools';
 import createEmptyEditorState from '../createEmptyEditorState';
 import cx from 'classnames';
 import normalizeHTML from '../normalizeHTML';
@@ -21,6 +20,9 @@ import CustomNodeView from './CustomNodeView';
 import type {EditorRuntime} from '../Types';
 
 const EDITOR_EMPTY_STATE = createEmptyEditorState();
+
+const a = "xxx"
+var x;
 
 function transformPastedHTML(html: string): string {
   return normalizeHTML(html);

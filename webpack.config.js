@@ -35,6 +35,7 @@ var options = {
           plugins: ['transform-class-properties']
         },
       },
+
       {
         test: /\.css$/,
         use: [
