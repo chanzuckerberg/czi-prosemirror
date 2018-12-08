@@ -26,7 +26,6 @@ import TextColorCommand from './TextColorCommand';
 import TextHighlightCommand from './TextHighlightCommand';
 import TextLineSpacingCommand from './TextLineSpacingCommand';
 import createCommand from './createCommand';
-import {baseKeymap} from 'prosemirror-commands';
 
 
 const {
@@ -34,17 +33,17 @@ const {
   addColumnBefore,
   addRowAfter,
   addRowBefore,
-  columnResizing,
+  // columnResizing,
   deleteColumn,
   deleteRow,
   deleteTable,
   // fixTables,
   goToNextCell,
   mergeCells,
-  setCellAttr,
+  // setCellAttr,
   splitCell,
-  tableEditing,
-  tableNodes,
+  // tableEditing,
+  // tableNodes,
   toggleHeaderCell,
   toggleHeaderColumn,
   toggleHeaderRow,

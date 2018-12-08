@@ -9,7 +9,7 @@ import {joinPoint} from 'prosemirror-transform';
 // Join the selected block, or the closest ancestor of the selection
 // that can be joined, with the sibling after it.
 export default function joinDown(tr: Transform): Transform {
-  let sel = tr.selection;
+  const sel = tr.selection;
   let point;
   if (sel instanceof NodeSelection) {
     if (sel.node.isTextblock || !canJoin(tr.doc, sel.to)) {

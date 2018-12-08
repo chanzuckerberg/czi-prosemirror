@@ -1,12 +1,10 @@
 // @flow
 
-import {IMAGE} from './NodeNames';
-import {Node} from 'prosemirror-model';
-
 import type {NodeSpec} from './Types';
 
 function getAttrs(dom: HTMLElement) {
-  let {cssFloat, display, width, height, marginLeft, marginTop} = dom.style;
+  const {cssFloat, display, marginTop, marginLeft} = dom.style;
+  let {width, height} = dom.style;
   let align = dom.getAttribute('data-align') || dom.getAttribute('align');
   if (align) {
     align = /(left|right|center)/.test(align) ? align : null;

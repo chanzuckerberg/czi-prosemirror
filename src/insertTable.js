@@ -1,7 +1,6 @@
 // @flow
 
-import nullthrows from 'nullthrows';
-import {Fragment, Schema, Node, NodeType} from 'prosemirror-model';
+import {Fragment, Schema} from 'prosemirror-model';
 import {PARAGRAPH, TABLE, TABLE_ROW, TABLE_CELL} from './NodeNames';
 import {TextSelection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';

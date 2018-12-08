@@ -2,7 +2,6 @@
 
 import clamp from './ui/clamp';
 import convertToCSSPTValue from './convertToCSSPTValue';
-import {IMAGE} from './NodeNames';
 import {Node} from 'prosemirror-model';
 
 import type {NodeSpec} from './Types';
@@ -20,7 +19,6 @@ export const LINE_SPACING_VALUES = [
 ];
 
 const ALIGN_PATTERN = /(left|right|center|justify)/;
-const LINE_HEIGHT_PATTERN = /(100\%|115\%|150\%|200\%)/;
 
 // https://github.com/ProseMirror/prosemirror-schema-basic/blob/master/src/schema-basic.js
 // :: NodeSpec A plain paragraph textblock. Represented in the DOM
@@ -39,7 +37,7 @@ const ParagraphNodeSpec: NodeSpec = {
 };
 
 function getAttrs(dom: HTMLElement): Object {
-  let {lineHeight, textAlign, marginLeft} = dom.style;
+  const {lineHeight, textAlign, marginLeft} = dom.style;
 
   let align = dom.getAttribute('align') || textAlign || '';
   align = ALIGN_PATTERN.test(align) ? align : null;

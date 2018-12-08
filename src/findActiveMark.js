@@ -16,10 +16,6 @@ export default function findActiveMark(
   from = Math.max(2, from);
   to = Math.min(to, doc.nodeSize - 2);
 
-  let firstMark = null;
-  let fromNode = null;
-  let toNode = null;
-
   while (ii <= to) {
     const node = doc.nodeAt(ii);
     if (!node || !node.marks) {

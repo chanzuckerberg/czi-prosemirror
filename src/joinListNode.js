@@ -1,16 +1,11 @@
 // @flow
-// https://bitbucket.org/atlassian/atlaskit/src/98fad88c63576f0464984d21057ac146d4ca131a/packages/editor-core/src/plugins/lists/index.ts?at=ED-870-list-plugin&fileviewer=file-view-default
-// https://bitbucket.org/atlassian/atlaskit/src/98fad88c63576f0464984d21057ac146d4ca131a/packages/editor-core/src/commands/index.ts?at=ED-870-list-plugin&fileviewer=file-view-default
 
 import joinDown from './joinDown';
 import joinUp from './joinUp';
 import isListNode from './isListNode';
-import nullthrows from 'nullthrows';
-import {Fragment, Schema, Node, NodeType, ResolvedPos} from 'prosemirror-model';
-import {Selection} from 'prosemirror-state';
+import {Schema} from 'prosemirror-model';
 import {TextSelection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
-import {setBlockType} from 'prosemirror-commands';
 
 export default function joinListNode(
   tr: Transform,

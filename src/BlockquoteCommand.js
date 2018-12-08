@@ -1,17 +1,12 @@
 // @flow
 
 import UICommand from './ui/UICommand';
-import noop from './noop';
-import nullthrows from 'nullthrows';
 import toggleBlockquote from './toggleBlockquote';
-import {BLOCKQUOTE, PARAGRAPH} from './NodeNames';
-import {EditorState, Selection} from 'prosemirror-state';
+import {BLOCKQUOTE} from './NodeNames';
+import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
-import {Schema} from 'prosemirror-model';
 import {Transform} from 'prosemirror-transform';
 import {findParentNodeOfType} from 'prosemirror-utils';
-
-let findBlockQuote;
 
 class BlockquoteCommand extends UICommand {
 

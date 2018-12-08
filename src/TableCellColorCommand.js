@@ -6,8 +6,6 @@ import createPopUp from './ui/createPopUp';
 import nullthrows from 'nullthrows';
 import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
-import {Schema} from 'prosemirror-model';
-import {TextSelection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
 import {atAnchorRight} from './ui/PopUpPosition';
 import {setCellAttr} from 'prosemirror-tables';
@@ -61,7 +59,6 @@ class TableCellColorCommand extends UICommand {
     hex: ?string,
   ): boolean => {
     if (dispatch && hex !== undefined) {
-      let {tr, selection} = state;
       const cmd = setCellAttr('background', hex);
       cmd(state, dispatch, view);
       return true;

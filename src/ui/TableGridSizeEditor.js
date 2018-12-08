@@ -1,14 +1,9 @@
 // @flow
 
 import './czi-table-grid-size-editor.css';
-import CustomButton from './CustomButton';
 import React from 'react';
 import clamp from './clamp';
 import cx from 'classnames';
-import {EditorState} from 'prosemirror-state';
-import {EditorView} from 'prosemirror-view';
-import {TABLE_INSERT_TABLE} from '../EditorCommands';
-import {Transform} from 'prosemirror-transform';
 import {fromHTMlElement} from './rects';
 
 export type TableGridSizeEditorValue = {
@@ -19,7 +14,6 @@ export type TableGridSizeEditorValue = {
 const GUTTER_SIZE = 5;
 const CELL_SIZE = 16;
 const MAX_SIZE = 20;
-
 
 class GridCell extends React.PureComponent<any, any, any> {
   render(): React.Element<any> {

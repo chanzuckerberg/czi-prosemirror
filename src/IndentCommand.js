@@ -1,11 +1,9 @@
 // @flow
 
 import UICommand from './ui/UICommand';
-import noop from './noop';
 import updateIndentLevel from './updateIndentLevel';
-import {EditorState, Selection} from 'prosemirror-state';
+import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
-import {Schema, NodeType} from 'prosemirror-model';
 import {Transform} from 'prosemirror-transform';
 
 class IndentCommand extends UICommand {
@@ -25,7 +23,8 @@ class IndentCommand extends UICommand {
     dispatch: ?(tr: Transform) => void,
     view: ?EditorView,
   ): boolean => {
-    let {selection, tr, schema} = state;
+    const {selection, schema} = state;
+    let {tr} = state;
     tr = tr.setSelection(selection);
     tr = updateIndentLevel(tr, schema, this._delta);
     if (tr.docChanged) {

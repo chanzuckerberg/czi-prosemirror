@@ -1,10 +1,8 @@
 // @flow
 
+import './czi-custom-menu-item.css';
 import CustomButton from './CustomButton';
 import React from 'react';
-import cx from 'classnames';
-
-import './czi-custom-menu-item.css';
 
 class CustomMenuItemSeparator extends React.PureComponent<any, any, any> {
   render(): React.Element<any> {

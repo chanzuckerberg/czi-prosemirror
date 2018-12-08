@@ -4,7 +4,7 @@ import './ui/czi-editor.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import isEditorStateEmpty from './isEditorStateEmpty';
-import {EditorState, Plugin} from 'prosemirror-state';
+import {Plugin} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
 
 const CLASS_NAME_HAS_PLACEHOLDER = 'czi-has-placeholder';

@@ -3,7 +3,6 @@
 import './czi-inline-editor.css';
 import CustomButton from './CustomButton';
 import CustomEditorView from './CustomEditorView';
-import CustomNodeView from './CustomNodeView';
 import MathEditor from './MathEditor';
 import React from 'react';
 import createPopUp from './createPopUp';

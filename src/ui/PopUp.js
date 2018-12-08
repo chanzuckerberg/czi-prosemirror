@@ -2,7 +2,6 @@
 
 import PopUpManager from './PopUpManager';
 import React from 'react';
-import ReactDOM from 'react-dom';
 import uuid from './uuid';
 import {atAnchorBottom, atViewportCenter} from './PopUpPosition';
 
@@ -44,8 +43,7 @@ class PopUp extends React.PureComponent {
 
   render(): React.Element<any> {
     const dummy = {};
-    const {View, viewProps, close, popUpParams} = this.props;
-    const {autoDismiss, position, anchor} = (popUpParams || dummy);
+    const {View, viewProps, close} = this.props;
     return (
       <div data-pop-up-id={this._id} id={this._id}>
         <View
@@ -66,7 +64,7 @@ class PopUp extends React.PureComponent {
   }
 
   _getDetails = (): PopUpDetails => {
-    const {close, viewProps, popUpParams} = this.props;
+    const {close, popUpParams} = this.props;
     const {anchor, autoDismiss, position, modal} = popUpParams;
     return {
       anchor,

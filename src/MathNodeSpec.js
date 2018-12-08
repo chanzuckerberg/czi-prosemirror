@@ -1,8 +1,5 @@
 // @flow
 
-import {MATH} from './NodeNames';
-import {Node} from 'prosemirror-model';
-
 import type {NodeSpec} from './Types';
 
 function getAttrs(dom: HTMLElement) {

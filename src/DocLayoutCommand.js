@@ -1,17 +1,13 @@
 // @flow
 
 import DocLayoutEditor from './ui/DocLayoutEditor';
+import SetDocAttrStep from './SetDocAttrStep';
 import UICommand from './ui/UICommand';
 import createPopUp from './ui/createPopUp';
-import nullthrows from 'nullthrows';
-import {EditorState, Selection} from 'prosemirror-state';
+import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
-import {Fragment, Schema} from 'prosemirror-model';
-import {TextSelection} from 'prosemirror-state';
+import {Schema} from 'prosemirror-model';
 import {Transform} from 'prosemirror-transform';
-import {atViewportCenter} from './ui/PopUpPosition';
-import {showCursorPlaceholder, hideCursorPlaceholder} from './CursorPlaceholderPlugin';
-import SetDocAttrStep from './SetDocAttrStep';
 
 import type {DocLayoutEditorValue} from './ui/DocLayoutEditor';
 
@@ -79,7 +75,8 @@ class DocLayoutCommand extends UICommand {
     inputs: ?DocLayoutEditorValue,
   ): boolean => {
     if (dispatch) {
-      let {tr, selection, schema} = state;
+      const {selection, schema} = state;
+      let {tr} = state;
       // tr = view ? hideCursorPlaceholder(view.state) : tr;
       tr = tr.setSelection(selection);
 

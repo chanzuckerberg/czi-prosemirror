@@ -6,15 +6,12 @@ import MathInlineEditor from './MathInlineEditor';
 import React from 'react';
 import createPopUp from './createPopUp';
 import cx from 'classnames';
-import nullthrows from 'nullthrows';
 import renderLaTeXAsHTML from './renderLaTeXAsHTML';
 import uuid from './uuid';
-import {EditorView, Decoration} from "prosemirror-view";
+import {Decoration} from "prosemirror-view";
 import {Node} from 'prosemirror-model';
-import {TextSelection} from 'prosemirror-state';
 import {atAnchorBottomCenter} from './PopUpPosition';
 
-import type {EditorRuntime} from '../Types';
 import type {NodeViewProps} from './CustomNodeView';
 
 const EMPTY_SRC = 'data:image/gif;base64,' +
@@ -46,7 +43,7 @@ class MathViewBody extends React.PureComponent<any, any, any> {
     const readOnly = false;
     const {node, selected, focused} = this.props;
     const {attrs} = node;
-    const {align, latex} = attrs;
+    const {latex} = attrs;
 
     const active = focused && !readOnly;
     const className = cx('czi-math-view-body', {active, selected});

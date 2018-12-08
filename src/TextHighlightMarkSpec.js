@@ -1,7 +1,6 @@
 // @flow
 
 import toHexColor from './ui/toHexColor';
-import {MARK_TEXT_HIGHLIGHT} from './MarkNames';
 import {Node} from 'prosemirror-model';
 
 import type {MarkSpec} from './Types';

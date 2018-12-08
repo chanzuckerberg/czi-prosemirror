@@ -1,12 +1,9 @@
 // @flow
 
 import './czi-editor-toolbar.css';
-import * as EditorCommands from '../EditorCommands';
 import CommandButton from './CommandButton';
 import CommandMenuButton from './CommandMenuButton';
 import CustomButton from './CustomButton';
-import FontSizeCommandMenuButton from './FontSizeCommandMenuButton';
-import FontTypeCommandMenuButton from './FontTypeCommandMenuButton';
 import Icon from './Icon';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -15,15 +12,12 @@ import UICommand from './UICommand';
 import canUseCSSFont from './canUseCSSFont';
 import createEmptyEditorState from '../createEmptyEditorState';
 import cx from 'classnames';
-import findActiveMark from '../findActiveMark';
 import injectStyleSheet from './injectStyleSheet';
 import isReactClass from './isReactClass';
 import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
 import {Transform} from 'prosemirror-transform';
 import {parseLabel, COMMAND_GROUPS} from './EditorToolbarConfig';
-
-import type {ResizeObserverEntry} from './ResizeObserver';
 
 const CSS_CDN_URL = '//fonts.googleapis.com/icon?family=Material+Icons';
 const CSS_FONT = 'Material Icons';

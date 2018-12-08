@@ -2,9 +2,9 @@
 
 import UICommand from './ui/UICommand';
 import splitListItem from './splitListItem';
-import {EditorState, Selection} from 'prosemirror-state';
+import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
-import {Schema, NodeType} from 'prosemirror-model';
+import {Schema} from 'prosemirror-model';
 import {Transform} from 'prosemirror-transform';
 
 class ListSplitCommand extends UICommand {

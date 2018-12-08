@@ -1,7 +1,5 @@
 // @flow
 
-import {Node} from 'prosemirror-model';
-
 import type {MarkSpec} from './Types';
 
 const LinkMarkSpec: MarkSpec = {

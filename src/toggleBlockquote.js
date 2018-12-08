@@ -2,12 +2,9 @@
 
 import isInsideListItem from './isInsideListItem';
 import isListNode from './isListNode';
-import nullthrows from 'nullthrows';
-import {Fragment, Schema, Node, NodeType, ResolvedPos} from 'prosemirror-model';
+import {Schema} from 'prosemirror-model';
 import {PARAGRAPH, BLOCKQUOTE, HEADING, LIST_ITEM} from './NodeNames';
-import {Selection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
-import {setBlockType} from 'prosemirror-commands';
 import {unwrapNodesFromList} from './toggleList';
 
 export default function toggleBlockquote(
@@ -28,7 +25,6 @@ export default function toggleBlockquote(
   const {from, to} = tr.selection;
   let startWithBlockQuote = null;
   const poses = [];
-  const docType = doc.type;
   doc.nodesBetween(from, to, (node, pos, parentNode) => {
     const nodeType = node.type;
     const parentNodeType = parentNode.type;

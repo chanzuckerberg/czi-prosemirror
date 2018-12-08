@@ -1,11 +1,8 @@
 // @flow
 
-import {Node} from 'prosemirror-model';
-
 import type {MarkSpec} from './Types';
 
 const STRONG_DOM = ['strong', 0];
-
 const CSS_BOLD_PATTERN = /^(bold(er)?|[5-9]\d{2,})$/;
 
 const StrongMarkSpec: MarkSpec = {

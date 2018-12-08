@@ -4,7 +4,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {EditorView, Decoration} from "prosemirror-view";
 import {Node} from 'prosemirror-model';
-import {Transform} from 'prosemirror-transform';
 
 export type NodeViewProps = {
   editorView: EditorView,

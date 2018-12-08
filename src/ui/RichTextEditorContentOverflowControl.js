@@ -31,4 +31,4 @@ class RichTextEditorContentOverflowControl extends React.PureComponent {
   };
 }
 
-module.exports = RichTextEditorContentOverflowControl;
+export default RichTextEditorContentOverflowControl;

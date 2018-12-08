@@ -1,7 +1,6 @@
 // @flow
 
 import * as NodeNames from './NodeNames';
-import * as ProsemirrorTables from 'prosemirror-tables';
 import BlockquoteNodeSpec from './BlockquoteNodeSpec';
 import BulletListNodeSpec from './BulletListNodeSpec';
 import CodeBlockNodeSpec from './CodeBlockNodeSpec';

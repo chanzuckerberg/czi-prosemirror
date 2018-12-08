@@ -5,11 +5,7 @@ import './czi-form.css';
 import CustomButton from './CustomButton';
 import CustomRadioButton from './CustomRadioButton';
 import React from 'react';
-import cx from 'classnames';
-import {EditorState} from 'prosemirror-state';
-import {EditorView} from 'prosemirror-view';
 import {LAYOUT} from '../DocNodeSpec';
-import {Transform} from 'prosemirror-transform';
 
 export type DocLayoutEditorValue = {
   layout: ?string,
@@ -45,7 +41,7 @@ class DocLayoutEditor extends React.PureComponent<any, any, any> {
   }
 
   render(): React.Element<any> {
-    const {width, layout, selectedValue} = this.state;
+    const {width, selectedValue} = this.state;
     const customOption = width ?
       <CustomRadioButton
         checked={selectedValue === width}

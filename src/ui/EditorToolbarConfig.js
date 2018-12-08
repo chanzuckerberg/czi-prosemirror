@@ -1,11 +1,10 @@
 // @flow
 
 import * as EditorCommands from '../EditorCommands';
-import CommandButton from './CommandButton';
-import CommandMenuButton from './CommandMenuButton';
 import FontSizeCommandMenuButton from './FontSizeCommandMenuButton';
 import FontTypeCommandMenuButton from './FontTypeCommandMenuButton';
 import Icon from './Icon';
+// eslint-disable-next-line no-unused-vars
 import React from 'react';
 
 const ICON_LABEL_PATTERN = /\[([A-Za-z_\d]+)\](.*)/;
@@ -13,7 +12,12 @@ const ICON_LABEL_PATTERN = /\[([A-Za-z_\d]+)\](.*)/;
 export function parseLabel(input: string): Object {
   const matched = input.match(ICON_LABEL_PATTERN);
   if (matched) {
-    const [all, icon, label] = matched;
+    const [
+      // eslint-disable-next-line no-unused-vars
+      all,
+      icon,
+      label,
+    ] = matched;
     return {
       icon: icon ? Icon.get(icon) : null,
       title: label || null,
@@ -60,8 +64,8 @@ const {
   TABLE_DELETE_TABLE,
   TABLE_INSERT_TABLE,
   TABLE_MERGE_CELLS,
-  TABLE_MOVE_TO_NEXT_CELL,
-  TABLE_MOVE_TO_PREV_CELL,
+  // TABLE_MOVE_TO_NEXT_CELL,
+  // TABLE_MOVE_TO_PREV_CELL,
   TABLE_SPLIT_CELL,
   TABLE_TOGGLE_HEADER_CELL,
   TABLE_TOGGLE_HEADER_COLUMN,

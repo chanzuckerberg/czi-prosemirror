@@ -3,7 +3,6 @@
 import UICommand from './ui/UICommand';
 import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
-import {Schema} from 'prosemirror-model';
 import {Transform} from 'prosemirror-transform';
 
 class PrintCommand extends UICommand {

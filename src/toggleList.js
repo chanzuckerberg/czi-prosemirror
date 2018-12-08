@@ -1,18 +1,13 @@
 // @flow
 
-import applyMark from './applyMark';
 import isListNode from './isListNode';
-import joinListNode from './joinListNode';
 import nullthrows from 'nullthrows';
 import transformAndPreserveTextSelection from './transformAndPreserveTextSelection';
-import {AllSelection, TextSelection} from 'prosemirror-state';
-import {PARAGRAPH, LIST_ITEM, ORDERED_LIST, BULLET_LIST, TABLE, HEADING, TEXT} from './NodeNames';
-import {Fragment, Schema, Node, NodeType, ResolvedPos} from 'prosemirror-model';
-import {MARK_TEXT_SELECTION} from './MarkNames';
-import {Selection} from 'prosemirror-state';
+import {TextSelection} from 'prosemirror-state';
+import {PARAGRAPH, LIST_ITEM, HEADING} from './NodeNames';
+import {Fragment, Schema, Node, NodeType} from 'prosemirror-model';
 import {Transform} from 'prosemirror-transform';
 import {findParentNodeOfType} from 'prosemirror-utils';
-import {setBlockType} from 'prosemirror-commands';
 
 import type {SelectionMemo} from './transformAndPreserveTextSelection';
 
@@ -26,7 +21,7 @@ export default function toggleList(
     return tr;
   }
 
-  let {from, to} = selection;
+  const {from} = selection;
 
   const fromSelection = TextSelection.create(
     doc,
@@ -81,7 +76,6 @@ function wrapNodesWithListInternal(
   }
   const {from, to} = selection;
 
-  const listItem = schema.nodes[LIST_ITEM];
   const paragraph = schema.nodes[PARAGRAPH];
   const heading = schema.nodes[HEADING];
 
@@ -197,7 +191,7 @@ function wrapItemsWithListInternal(
 
   const listItemNodes = [];
   items.forEach(item => {
-    const {node, pos} = item;
+    const {node} = item;
     // Restore the annotated nodes with the copy of the original ones.
     const paragraphNode = paragraph.create(node.attrs, node.content, node.marks);
     const listItemNode = listItem.create(node.attrs, Fragment.from(paragraphNode));

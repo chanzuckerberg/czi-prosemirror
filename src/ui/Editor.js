@@ -21,8 +21,6 @@ import type {EditorRuntime} from '../Types';
 
 const EDITOR_EMPTY_STATE = createEmptyEditorState();
 
-var x;
-
 function transformPastedHTML(html: string): string {
   return normalizeHTML(html);
 }
@@ -57,12 +55,11 @@ class Editor extends React.PureComponent<any, any, any> {
 
   componentDidMount(): void {
     const {
-      embedded, onReady, editorState, readOnly,
+      onReady, editorState, readOnly,
       runtime, placeholder, disabled,
     } = this.props;
-    const editorNode = document.getElementById(this._id);
-    const templateNode = document.getElementById(this._id + 'template');
 
+    const editorNode = document.getElementById(this._id);
     if (editorNode) {
       // Reference: http://prosemirror.net/examples/basic/
       const view = this._editorView = new CustomEditorView(editorNode, {

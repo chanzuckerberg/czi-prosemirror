@@ -1,16 +1,11 @@
 // @flow
 
-import isListNode from './isListNode';
-import nullthrows from 'nullthrows';
-import {PARAGRAPH, HEADING} from './NodeNames';
-import {Fragment, Schema, Node, NodeType, Mark} from 'prosemirror-model';
-import {Selection} from 'prosemirror-state';
+import {Schema, Mark} from 'prosemirror-model';
 import {Transform} from 'prosemirror-transform';
-import {setBlockType} from 'prosemirror-commands';
 
 function markApplies(doc, ranges, type) {
   for (let i = 0; i < ranges.length; i++) {
-    let {$from, $to} = ranges[i];
+    const {$from, $to} = ranges[i];
     let can = $from.depth == 0 ? doc.type.allowsMarkType(type) : false;
     doc.nodesBetween($from.pos, $to.pos, node => {
       if (can) return false;
@@ -43,11 +38,11 @@ export default function applyMark(
 
   let has = false;
   for (let i = 0; !has && i < ranges.length; i++) {
-    let {$from, $to} = ranges[i];
+    const {$from, $to} = ranges[i];
     has = tr.doc.rangeHasMark($from.pos, $to.pos, markType);
   }
   for (let i = 0; i < ranges.length; i++) {
-    let {$from, $to} = ranges[i];
+    const {$from, $to} = ranges[i];
     if (has) {
       tr = tr.removeMark($from.pos, $to.pos, markType);
     }

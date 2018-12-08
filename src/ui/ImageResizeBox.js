@@ -1,27 +1,17 @@
 // @flow
 
 import './czi-image-resize-box.css';
-import CustomNodeView from './CustomNodeView';
 import React from 'react';
 import clamp from './clamp';
 import cx from 'classnames';
 import nullthrows from 'nullthrows';
-import resolveImage from './resolveImage';
-import type {NodeViewProps} from './CustomNodeView';
 import uuid from './uuid';
-import {EditorView} from "prosemirror-view";
-import {Node} from 'prosemirror-model';
 
 type Props = {
   height: number,
   onResizeEnd: (w: number, height: number) => void,
   src: string,
   width: number,
-};
-
-type State = {
-  currentWidth: number,
-  currentHeight: number,
 };
 
 export const MIN_SIZE = 20;
@@ -109,8 +99,8 @@ class ImageResizeBoxControl extends React.PureComponent<any, any, any> {
     }
     const {direction, width, height} = this.props;
 
-    let dx = (this._x2 - this._x1) * (/left/.test(direction) ? -1 : 1);
-    let dy = (this._y2 - this._y1) * (/top/.test(direction) ? -1 : 1);
+    const dx = (this._x2 - this._x1) * (/left/.test(direction) ? -1 : 1);
+    const dy = (this._y2 - this._y1) * (/top/.test(direction) ? -1 : 1);
 
     const el = nullthrows(this._el);
     const fn = nullthrows(ResizeDirection[direction]);

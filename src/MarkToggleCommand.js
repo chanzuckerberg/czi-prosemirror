@@ -17,7 +17,7 @@ class MarkToggleCommand extends UICommand {
   }
 
   isActive = (state: EditorState): boolean => {
-    const {schema, tr, doc, selection} = state;
+    const {schema, doc, selection} = state;
     const {from, to} = selection;
     const markType = schema.marks[this._markName];
     if (markType && from < to) {
@@ -31,7 +31,7 @@ class MarkToggleCommand extends UICommand {
     dispatch: ?(tr: Transform) => void,
     view: ?EditorView,
   ): boolean => {
-    const {schema, tr, selection} = state;
+    const {schema, selection} = state;
     if (selection.empty) {
       return false;
     }

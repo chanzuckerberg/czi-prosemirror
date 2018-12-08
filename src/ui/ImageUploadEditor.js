@@ -5,13 +5,8 @@ import './czi-image-upload-editor.css';
 import CustomButton from './CustomButton';
 import LoadingIndicator from './LoadingIndicator';
 import React from 'react';
-import clamp from './clamp';
 import cx from 'classnames';
-import resolveImage from './resolveImage';
 import uuid from './uuid';
-import {EditorState} from 'prosemirror-state';
-import {EditorView} from 'prosemirror-view';
-import {Transform} from 'prosemirror-transform';
 
 import type {EditorRuntime, ImageLike} from '../Types';
 
@@ -29,7 +24,6 @@ class ImageUploadEditor extends React.PureComponent<any, any, any> {
     error: null,
     id: uuid(),
     pending: false,
-    validValue: null,
   };
 
   componentWillUnmount(): void {
@@ -37,7 +31,7 @@ class ImageUploadEditor extends React.PureComponent<any, any, any> {
   }
 
   render(): React.Element<any> {
-    const {validValue, id, error, pending} = this.state;
+    const {id, error, pending} = this.state;
     const className = cx('czi-image-upload-editor', {pending, error});
     let label = 'Choose a image file...';
 
@@ -98,7 +92,6 @@ class ImageUploadEditor extends React.PureComponent<any, any, any> {
       error,
       id: uuid(),
       pending: false,
-      validValue: null,
     });
   };
 

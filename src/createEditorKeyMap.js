@@ -7,8 +7,6 @@ import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
 import {Transform} from 'prosemirror-transform';
 
-import {keymap} from 'prosemirror-keymap';
-
 type UserKeyCommand = (
   state: EditorState,
   dispatch: ?(tr: Transform) => void,

@@ -1,7 +1,6 @@
 // @flow
 
 import {fromHTMlElement, fromXY, isIntersected} from './rects';
-import {isCollapsed} from './rects';
 
 import type {Rect} from './rects';
 
@@ -72,10 +71,9 @@ class PopUpManager {
   };
 
   _onClick = (e: MouseEvent): void => {
-    const bridgeToDetails = new Map();
     const now = Date.now();
     let detailsWithModalToDismiss;
-    for (let [bridge, registeredAt] of this._bridges) {
+    for (const [bridge, registeredAt] of this._bridges) {
       if ((now - registeredAt) > CLICK_INTERVAL) {
         const details = bridge.getDetails();
         if (details.modal && details.autoDismiss) {
@@ -97,9 +95,12 @@ class PopUpManager {
   _syncPosition = (): void => {
     this._rafID = 0;
 
-    const bags = new Map();
     const bridgeToDetails = new Map();
-    for (let [bridge, registeredAt] of this._bridges) {
+    for (const [
+        bridge,
+        // eslint-disable-next-line no-unused-vars
+        registeredAt
+      ] of this._bridges) {
       const details = bridge.getDetails();
       bridgeToDetails.set(bridge, details);
       const {anchor, body} = details;
@@ -113,14 +114,13 @@ class PopUpManager {
 
     const pointer = fromXY(this._mx, this._my, 2);
     const hoveredAnchors = new Set();
-    for (let [bridge, details] of bridgeToDetails) {
+    for (const [bridge, details] of bridgeToDetails) {
       const {
         anchor,
         bodyRect,
         anchorRect,
         position,
         body,
-        close,
       } = details;
       if (!bodyRect && !anchorRect) {
         continue;
@@ -154,9 +154,13 @@ class PopUpManager {
 
     while (true) {
       const size = hoveredAnchors.size;
-      for (let [bridge, details] of bridgeToDetails) {
+      for (const [
+        // eslint-disable-next-line no-unused-vars
+        bridge,
+        details,
+      ] of bridgeToDetails) {
         const {anchor, body} = details;
-        for (let ha of hoveredAnchors) {
+        for (const ha of hoveredAnchors) {
           if (
             anchor &&
             body &&
@@ -173,10 +177,10 @@ class PopUpManager {
     }
 
     const now = Date.now();
-    for (let [bridge, registeredAt] of this._bridges) {
+    for (const [bridge, registeredAt] of this._bridges) {
       const details = bridgeToDetails.get(bridge);
       if (details) {
-        const {autoDismiss, anchor, body, close, modal} = details;
+        const {autoDismiss, anchor, close, modal} = details;
         if (
           autoDismiss &&
           // Modal is handled separately at `onClick`

@@ -21,8 +21,8 @@ const MAP_HEADING_LEVEL_TO_FONT_PT_SIZE = {
 
 export default function findActiveFontSize(state: EditorState): string {
   const {schema, doc, selection} = state;
-  const markType = state.schema.marks[MARK_FONT_SIZE];
-  const heading = state.schema.nodes[HEADING];
+  const markType = schema.marks[MARK_FONT_SIZE];
+  const heading = schema.nodes[HEADING];
   const defaultSize = String(FONT_PT_SIZE_DEFAULT);
   if (!markType) {
     return defaultSize;

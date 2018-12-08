@@ -1,7 +1,7 @@
 // @flow
 
 import UICommand from './ui/UICommand';
-import {EditorState, Selection} from 'prosemirror-state';
+import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
 import {Transform} from 'prosemirror-transform';
 
@@ -22,7 +22,7 @@ export default function createCommand(execute: ExecuteCall): UICommand {
       dispatch: ?(tr: Transform) => void,
       view: ?EditorView,
     ): boolean => {
-      let tr = state.tr;
+      const tr = state.tr;
       let endTr = tr;
       execute(state, (nextTr) => {
         endTr = nextTr;

@@ -3,12 +3,49 @@
   "parserOptions": {
     "sourceType": "module",
     "allowImportExportEverywhere": false,
-    "codeFrame": true
+    "codeFrame": true,
+    "ecmaFeatures": {
+      "jsx": true
+    },
   },
+  "plugins": ["react"],
   "rules": {
-    "strict": 0,
-    "semi": [2, "always"],
+    "react/jsx-uses-react": "error",
+    "react/jsx-uses-vars": "error",
+    "no-undef": "error",
     "no-unused-expression": [true, "allow-fast-null-checks"],
-    "no-unused-vars": ["error", { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }]
+    "no-unused-vars": ["error", { "vars": "all", "args": "none", "ignoreRestSiblings": false }],
+    "no-var": "error",
+    "prefer-const": "error",
+    "semi": [2, "always"],
+    "strict": 0,
+    "no-debugger": "error",
+    "no-invalid-regexp": "error",
+  },
+  "globals": {
+    "$ReadOnlyArray": false,
+    "Blob": false,
+    "Class": false,
+    "Component": false,
+    "Document": true,
+    "Element": false,
+    "Event": false,
+    "HTMLElement": false,
+    "Image": false,
+    "Map": false,
+    "MouseEvent": false,
+    "MutationObserver": false,
+    "Promise": false,
+    "Set": false,
+    "SyntheticEvent": false,
+    "SyntheticInputEvent": false,
+    "SyntheticMouseEvent": false,
+    "cancelAnimationFrame": false,
+    "clearTimeout": false,
+    "console": false,
+    "document": false,
+    "requestAnimationFrame": false,
+    "setTimeout": false,
+    "window": false
   }
 }

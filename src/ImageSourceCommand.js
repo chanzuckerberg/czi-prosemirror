@@ -1,11 +1,9 @@
 // @flow
 
-import ImageURLEditor from './ui/ImageURLEditor';
 import React from 'react';
 import UICommand from './ui/UICommand';
 import createPopUp from './ui/createPopUp';
-import nullthrows from 'nullthrows';
-import {EditorState, Selection} from 'prosemirror-state';
+import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
 import {Fragment, Schema} from 'prosemirror-model';
 import {IMAGE} from './NodeNames';
@@ -20,7 +18,7 @@ function insertImage(
   schema: Schema,
   src: ?string,
 ): Transform {
-  const {selection, doc} = tr;
+  const {selection} = tr;
   if (!selection) {
     return tr;
   }
@@ -40,7 +38,6 @@ function insertImage(
     title: '',
   };
 
-  const prevNode = tr.doc.nodeAt(from);
   const node = image.create(attrs, null, null);
   const frag = Fragment.from(node);
   tr = tr.insert(from, frag);
@@ -94,11 +91,12 @@ class ImageSourceCommand extends UICommand {
     inputs: ?ImageLike,
   ): boolean => {
     if (dispatch) {
-      let {tr, selection, schema} = state;
+      const {selection, schema} = state;
+      let {tr} = state;
       tr = view ? hideCursorPlaceholder(view.state) : tr;
       tr = tr.setSelection(selection);
       if (inputs) {
-        const {width, height, src} = inputs;
+        const {src} = inputs;
         tr = insertImage(tr, schema, src);
       }
       dispatch(tr);
@@ -110,7 +108,7 @@ class ImageSourceCommand extends UICommand {
 
   __isEnabled = (state: EditorState, view: ?EditorView): boolean => {
     const tr = state;
-    const {selection} = state.tr;
+    const {selection} = tr;
     if (selection instanceof TextSelection) {
       return selection.from === selection.to;
     }
