@@ -31,8 +31,8 @@ var options = {
         exclude: /node_modules/,
         loader: 'babel-loader',
         options: {
-          presets: ['env', 'react'],
-          plugins: ['transform-class-properties']
+          presets: ['env', 'react', ['es2015', {'modules': false}]],
+          plugins: ['transform-class-properties'],
         },
       },
 

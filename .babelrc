@@ -1,5 +1,5 @@
 {
-  "presets": ["flow"],
+  "presets": ["es2015", "react", "stage-1", "flow"],
   "plugins": [
     "transform-export-extensions",
     "flow-react-proptypes",

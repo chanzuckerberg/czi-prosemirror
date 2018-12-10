@@ -3,7 +3,7 @@
 import './czi-form.css';
 import './czi-math-editor.css';
 import CustomButton from './CustomButton';
-import MathQuillEditor from './mathquill-editor/MathQuillEditor';
+import MathQuillEditorLoadable from './mathquill-editor/MathQuillEditorLoadable';
 import React from 'react';
 import uuid from './uuid';
 
@@ -29,7 +29,7 @@ class MathEditor extends React.PureComponent<any, any, any> {
         <form className="czi-form">
           <fieldset>
             <legend>Insert Math</legend>
-            <MathQuillEditor
+            <MathQuillEditorLoadable
               onChange={this._onChange}
               value={value}
             />
