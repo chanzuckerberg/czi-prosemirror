@@ -78,7 +78,7 @@
     "node-mathquill": "0.10.0",
     "nullthrows": "1.0.1",
     "prosemirror-commands": "1.0.7",
-    "prosemirror-example-setup": "1.0.1",
+    "prosemirror-inputrules": "1.0.1",
     "prosemirror-model": "1.6.3",
     "prosemirror-schema-list": "1.0.1",
     "prosemirror-state": "1.2.2",

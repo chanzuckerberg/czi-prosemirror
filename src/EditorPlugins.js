@@ -6,17 +6,15 @@ import EditorAttributesPlugin from './EditorAttributesPlugin';
 import EditorSchema from './EditorSchema';
 import LinkTooltipPlugin from './LinkTooltipPlugin';
 import SelectionPlaceholderPlugin from './SelectionPlaceholderPlugin';
+import buildInputRules from './buildInputRules';
 import createEditorKeyMap from './createEditorKeyMap';
 import {Plugin} from 'prosemirror-state';
 import {Schema} from 'prosemirror-model';
 import {baseKeymap} from 'prosemirror-commands';
-import {buildInputRules} from 'prosemirror-example-setup';
 import {dropCursor} from 'prosemirror-dropcursor';
 import {gapCursor} from 'prosemirror-gapcursor';
 import {history} from 'prosemirror-history';
 import {keymap} from 'prosemirror-keymap';
-
-// import {PLUGINS} from './configs';
 
 const {
   columnResizing,
