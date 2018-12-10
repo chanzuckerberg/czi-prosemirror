@@ -36,7 +36,7 @@ function getAttrs(el) {
   var ww = (0, _convertToCSSPTValue2.default)(width) || (0, _convertToCSSPTValue2.default)(maxWidth);
   var pp = (0, _convertToCSSPTValue2.default)(padding);
   if (ww) {
-    attrs.width = ww;
+    attrs.width = ww + pp * 2;
   }
 
   if (pp) {

@@ -5,6 +5,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = normalizeHTML;
 
+var _patchBreakElements = require('./patchBreakElements');
+
+var _patchBreakElements2 = _interopRequireDefault(_patchBreakElements);
+
 var _patchElementInlineStyles = require('./patchElementInlineStyles');
 
 var _patchElementInlineStyles2 = _interopRequireDefault(_patchElementInlineStyles);
@@ -45,6 +49,7 @@ function normalizeHTML(html) {
     doc.open();
     doc.write(html);
     doc.close();
+    (0, _patchBreakElements2.default)(doc);
     (0, _patchStyleElements2.default)(doc);
     (0, _patchElementInlineStyles2.default)(doc);
     (0, _patchListElements2.default)(doc);

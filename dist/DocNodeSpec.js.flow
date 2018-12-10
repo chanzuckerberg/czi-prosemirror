@@ -22,7 +22,7 @@ export function getAttrs(el: HTMLElement): Object {
   const ww = convertToCSSPTValue(width) || convertToCSSPTValue(maxWidth);
   const pp = convertToCSSPTValue(padding);
   if (ww) {
-    attrs.width = ww;
+    attrs.width = ww + (pp * 2);
   }
 
   if (pp) {
