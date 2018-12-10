@@ -2,8 +2,8 @@
 
 export default function patchBreakElements(doc: Document): void {
   // This is a workaround to handle HTML converted from DraftJS that
-  // `<div><span><br /></span><div>` becomes `<p><br /><br />`.
-  // Block with single `<br />` should be collapsed into `<p />`.
+  // `<div><span><br /></span><div>` becomes `<p><br /><br /></p>`.
+  // Block with single `<br />` inside should be collapsed into `<p />`.
   const selector = 'div > span:only-child > br:only-child';
   Array.from(doc.querySelectorAll(selector)).forEach(patchBreakElement);
 }
