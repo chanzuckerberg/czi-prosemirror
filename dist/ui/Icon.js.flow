@@ -12,7 +12,7 @@ class Icon extends React.PureComponent<any, any, any> {
   // Get the static Icon.
   static get(type: string, title: ?string):  React.Element<any> {
     const key = `${type || ''}-${title || ''}`;
-    const icon = cached[key] || <Icon type={type} title={title} />;
+    const icon = cached[key] || <Icon title={title} type={type} />;
     cached[key] = icon;
     return icon;
   }

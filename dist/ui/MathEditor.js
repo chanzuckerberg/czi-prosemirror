@@ -32,9 +32,9 @@ var _CustomButton = require('./CustomButton');
 
 var _CustomButton2 = _interopRequireDefault(_CustomButton);
 
-var _MathQuillEditor = require('./mathquill-editor/MathQuillEditor');
+var _MathQuillEditorLoadable = require('./mathquill-editor/MathQuillEditorLoadable');
 
-var _MathQuillEditor2 = _interopRequireDefault(_MathQuillEditor);
+var _MathQuillEditorLoadable2 = _interopRequireDefault(_MathQuillEditorLoadable);
 
 var _react = require('react');
 
@@ -93,7 +93,7 @@ var MathEditor = function (_React$PureComponent) {
               null,
               'Insert Math'
             ),
-            _react2.default.createElement(_MathQuillEditor2.default, {
+            _react2.default.createElement(_MathQuillEditorLoadable2.default, {
               onChange: this._onChange,
               value: value
             })

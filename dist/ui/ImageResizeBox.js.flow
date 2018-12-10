@@ -224,11 +224,11 @@ class ImageResizeBox extends React.PureComponent<any, any, any> {
     });
 
     return (
-      <span id={boxID} className="czi-image-resize-box" style={style}>
+      <span className="czi-image-resize-box" id={boxID} style={style}>
         {controls}
         <img
-          src={src}
           className="czi-image-resize-box-image"
+          src={src}
         />
       </span>
     );

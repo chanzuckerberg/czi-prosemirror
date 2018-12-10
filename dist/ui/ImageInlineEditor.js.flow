@@ -41,11 +41,11 @@ class ImageInlineEditor extends React.PureComponent<any, any, any> {
       const {value, text} = ImageAlignValues[key];
       return (
         <CustomButton
-          key={key}
           active={align === value}
+          key={key}
           label={text}
-          value={value}
           onClick={onClick}
+          value={value}
         />
       );
     });

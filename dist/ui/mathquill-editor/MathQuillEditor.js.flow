@@ -10,7 +10,7 @@ import canUseCSSFont from './../canUseCSSFont';
 import cx from 'classnames';
 import injectStyleSheet from './../injectStyleSheet';
 
-// MathQuill requires this to get JQuery exported as global. 
+// MathQuill requires this to get JQuery exported as global.
 // eslint-disable-next-line no-unused-vars
 import jquery from 'jquery';
 

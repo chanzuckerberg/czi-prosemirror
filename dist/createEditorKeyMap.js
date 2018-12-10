@@ -52,6 +52,7 @@ function bindCommands() {
         cmd.execute(state, dispatch, view);
         return true;
       }
+      return false;
     });
   };
 }

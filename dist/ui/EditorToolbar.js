@@ -174,7 +174,7 @@ var EditorToolbar = function (_React$PureComponent) {
       }).filter(Boolean);
       return _react2.default.createElement(
         'div',
-        { key: 'g' + String(index), className: 'czi-custom-buttons' },
+        { className: 'czi-custom-buttons', key: 'g' + String(index) },
         buttons
       );
     }, _this._renderMenuButton = function (label, commandGroups) {

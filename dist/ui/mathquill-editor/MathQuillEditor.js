@@ -76,7 +76,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var babelPluginFlowReactPropTypes_proptype_MathQuillEditorSymbol = require('./MathQuillEditorSymbols').babelPluginFlowReactPropTypes_proptype_MathQuillEditorSymbol || require('prop-types').any;
 
-// MathQuill requires this to get JQuery exported as global. 
+// MathQuill requires this to get JQuery exported as global.
 // eslint-disable-next-line no-unused-vars
 
 

@@ -98,8 +98,8 @@ var CustomRadioButton = function (_React$PureComponent) {
       return _react2.default.createElement(
         _PointerSurface2.default,
         (0, _extends3.default)({}, pointerProps, {
-          disabled: disabled,
           className: klass,
+          disabled: disabled,
           onClick: onSelect,
           title: title || label }),
         _react2.default.createElement('input', {
@@ -107,9 +107,9 @@ var CustomRadioButton = function (_React$PureComponent) {
           className: 'czi-custom-radio-button-input',
           disabled: disabled,
           name: name || this._name,
+          onChange: _preventEventDefault2.default,
           tabIndex: disabled ? null : 0,
-          type: 'radio',
-          onChange: _preventEventDefault2.default
+          type: 'radio'
         }),
         _react2.default.createElement('span', { className: 'czi-custom-radio-button-icon' }),
         _react2.default.createElement(

@@ -46,6 +46,7 @@ function bindCommands(...commands: Array<UICommand>): UserKeyCommand {
         cmd.execute(state, dispatch, view);
         return true;
       }
+      return false;
     });
   };
 }

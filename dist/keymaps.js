@@ -31,6 +31,7 @@ function tooltip(keymap) {
     }
     return keymap.description + ' (' + shortcut + ')';
   }
+  return null;
 }
 
 function findKeymapByDescription(description) {

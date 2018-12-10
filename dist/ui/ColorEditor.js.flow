@@ -86,10 +86,10 @@ class ColorEditor extends React.PureComponent<any, any, any> {
         className="czi-color-editor-cell"
         key={`${hex}-${index}`}
         label=""
+        onClick={this._onSelectColor}
         style={style}
         title={hex}
         value={hex}
-        onClick={this._onSelectColor}
       />
     );
   };

@@ -61,7 +61,7 @@ function setCodeBlockNodeEnabled(tr, schema, pos, enabled) {
 
   var node = doc.nodeAt(pos);
   if (!node) {
-    return;
+    return tr;
   }
   if ((0, _isListNode2.default)(node)) {
     return tr;

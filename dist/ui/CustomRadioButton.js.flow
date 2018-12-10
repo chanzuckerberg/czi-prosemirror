@@ -36,8 +36,8 @@ class CustomRadioButton extends React.PureComponent<any, any, any> {
     return (
       <PointerSurface
         {...pointerProps}
-        disabled={disabled}
         className={klass}
+        disabled={disabled}
         onClick={onSelect}
         title={title || label}>
         <input
@@ -45,9 +45,9 @@ class CustomRadioButton extends React.PureComponent<any, any, any> {
           className="czi-custom-radio-button-input"
           disabled={disabled}
           name={name || this._name}
+          onChange={preventEventDefault}
           tabIndex={disabled ? null : 0}
           type="radio"
-          onChange={preventEventDefault}
         />
         <span className="czi-custom-radio-button-icon" />
         <span className="czi-custom-radio-button-label">

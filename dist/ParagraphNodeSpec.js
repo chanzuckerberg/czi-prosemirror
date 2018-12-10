@@ -40,8 +40,8 @@ var ParagraphNodeSpec = {
     indent: { default: null },
     lineSpacing: { default: null }
   },
-  content: "inline*",
-  group: "block",
+  content: 'inline*',
+  group: 'block',
   parseDOM: [{ tag: 'p', getAttrs: getAttrs }],
   toDOM: toDOM
 };

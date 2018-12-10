@@ -24,12 +24,17 @@ function markApplies(doc, ranges, type) {
 
     var can = $from.depth == 0 ? doc.type.allowsMarkType(type) : false;
     doc.nodesBetween($from.pos, $to.pos, function (node) {
-      if (can) return false;
+      if (can) {
+        return false;
+      };
       can = node.inlineContent && node.type.allowsMarkType(type);
+      return true;
     });
-    if (can) return {
+    if (can) {
+      return {
         v: true
       };
+    }
   };
 
   for (var i = 0; i < ranges.length; i++) {

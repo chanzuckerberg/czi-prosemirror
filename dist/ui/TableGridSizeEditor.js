@@ -200,10 +200,10 @@ var TableGridSizeEditor = function (_React$PureComponent2) {
         _react2.default.createElement(
           'div',
           {
-            onMouseEnter: this._onMouseEnter,
-            onMouseMove: this._onMouseMove,
+            className: 'czi-table-grid-size-editor-body',
             onMouseDown: this._onMouseDown,
-            className: 'czi-table-grid-size-editor-body', style: bodyStyle },
+            onMouseEnter: this._onMouseEnter,
+            onMouseMove: this._onMouseMove, style: bodyStyle },
           cells
         ),
         _react2.default.createElement(

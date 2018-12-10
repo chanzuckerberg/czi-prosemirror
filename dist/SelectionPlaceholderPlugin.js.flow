@@ -2,7 +2,7 @@
 
 import './ui/czi-selection-placeholder.css';
 import {EditorState, Plugin} from 'prosemirror-state';
-import {Decoration, DecorationSet} from "prosemirror-view";
+import {Decoration, DecorationSet} from 'prosemirror-view';
 import {Transform} from 'prosemirror-transform';
 
 const PLACE_HOLDER_ID = {name: 'SelectionPlaceholderPlugin'};

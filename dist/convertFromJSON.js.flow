@@ -16,12 +16,12 @@ export default function convertFromJSON(json: Object | string): EditorState {
       return createEmptyEditorState();
     }
   }
-  
+
   if (!json || typeof json !== 'object') {
     console.error('convertFromJSON: invalid object', json);
     return createEmptyEditorState();
   }
- 
+
   return EditorState.create({
     doc: schema.nodeFromJSON(json),
     schema,

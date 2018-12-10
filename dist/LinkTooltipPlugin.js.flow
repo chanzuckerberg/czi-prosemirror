@@ -9,7 +9,7 @@ import applyMark from './applyMark';
 import createPopUp from './ui/createPopUp';
 import findNodesWithSameMark from './findNodesWithSameMark';
 import {EditorState, Plugin} from 'prosemirror-state';
-import {EditorView} from "prosemirror-view";
+import {EditorView} from 'prosemirror-view';
 import {MARK_LINK} from './MarkNames';
 import {TextSelection} from 'prosemirror-state';
 import {showSelectionPlaceholder, hideSelectionPlaceholder} from './SelectionPlaceholderPlugin';

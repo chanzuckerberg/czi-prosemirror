@@ -275,11 +275,11 @@ var ImageResizeBox = function (_React$PureComponent2) {
 
       return _react2.default.createElement(
         'span',
-        { id: boxID, className: 'czi-image-resize-box', style: style },
+        { className: 'czi-image-resize-box', id: boxID, style: style },
         controls,
         _react2.default.createElement('img', {
-          src: src,
-          className: 'czi-image-resize-box-image'
+          className: 'czi-image-resize-box-image',
+          src: src
         })
       );
     }

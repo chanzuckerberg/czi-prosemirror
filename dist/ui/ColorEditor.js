@@ -96,10 +96,10 @@ var ColorEditor = function (_React$PureComponent) {
         className: 'czi-color-editor-cell',
         key: hex + '-' + index,
         label: '',
+        onClick: _this._onSelectColor,
         style: style,
         title: hex,
-        value: hex,
-        onClick: _this._onSelectColor
+        value: hex
       });
     }, _this._onSelectColor = function (hex) {
       _this.props.close(hex);

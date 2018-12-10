@@ -145,11 +145,11 @@ var MathInlineEditor = function (_React$PureComponent) {
             text = _MathAlignValues$key.text;
 
         return _react2.default.createElement(_CustomButton2.default, {
-          key: key,
           active: align === value,
+          key: key,
           label: text,
-          value: value,
-          onClick: onClick
+          onClick: onClick,
+          value: value
         });
       });
 
@@ -160,8 +160,8 @@ var MathInlineEditor = function (_React$PureComponent) {
         _react2.default.createElement(_CustomButton2.default, {
           key: 'edit',
           label: 'Edit',
-          value: latex || '',
-          onClick: this._editLatex
+          onClick: this._editLatex,
+          value: latex || ''
         })
       );
     }

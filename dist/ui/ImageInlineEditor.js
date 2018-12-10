@@ -95,11 +95,11 @@ var ImageInlineEditor = function (_React$PureComponent) {
             text = _ImageAlignValues$key.text;
 
         return _react2.default.createElement(_CustomButton2.default, {
-          key: key,
           active: align === value,
+          key: key,
           label: text,
-          value: value,
-          onClick: onClick
+          onClick: onClick,
+          value: value
         });
       });
 

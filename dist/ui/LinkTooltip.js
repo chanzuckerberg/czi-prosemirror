@@ -77,21 +77,21 @@ var LinkTooltip = function (_React$PureComponent) {
             { className: 'czi-link-tooltip-row' },
             _react2.default.createElement(_CustomButton2.default, {
               className: 'czi-link-tooltip-href',
-              value: href,
-              target: 'new',
               label: href,
+              onClick: this._openLink,
+              target: 'new',
               title: href,
-              onClick: this._openLink
+              value: href
             }),
             _react2.default.createElement(_CustomButton2.default, {
               label: 'Change',
-              value: editorView,
-              onClick: onEdit
+              onClick: onEdit,
+              value: editorView
             }),
             _react2.default.createElement(_CustomButton2.default, {
               label: 'Remove',
-              value: editorView,
-              onClick: onRemove
+              onClick: onRemove,
+              value: editorView
             })
           )
         )

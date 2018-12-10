@@ -30,4 +30,5 @@ function findActiveMark(doc, from, to, markType) {
     }
     ii++;
   }
+  return null;
 }

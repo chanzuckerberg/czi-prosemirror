@@ -5,14 +5,14 @@ import EditorPlugins from './EditorPlugins';
 import EditorSchema from './EditorSchema';
 
 const EMPTY_DOC_JSON = {
-  "type": "doc",
-  "content": [
+  'type': 'doc',
+  'content': [
     {
-      "type": "paragraph",
-      "content": [
+      'type': 'paragraph',
+      'content': [
         {
-          "type": "text",
-          "text": " ",
+          'type': 'text',
+          'text': ' ',
         },
       ],
     },

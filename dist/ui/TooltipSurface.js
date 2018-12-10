@@ -115,9 +115,9 @@ var TooltipSurface = function (_React$PureComponent2) {
           className: 'czi-tooltip-surface',
           'data-tooltip': tooltip,
           id: this._id,
+          onMouseDown: tooltip && this._onMouseLeave,
           onMouseEnter: tooltip && this._onMouseEnter,
           onMouseLeave: tooltip && this._onMouseLeave,
-          onMouseDown: tooltip && this._onMouseLeave,
           role: 'tooltip' },
         children
       );

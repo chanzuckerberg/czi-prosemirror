@@ -8,10 +8,15 @@ function markApplies(doc, ranges, type) {
     const {$from, $to} = ranges[i];
     let can = $from.depth == 0 ? doc.type.allowsMarkType(type) : false;
     doc.nodesBetween($from.pos, $to.pos, node => {
-      if (can) return false;
+      if (can) {
+        return false;
+      };
       can = node.inlineContent && node.type.allowsMarkType(type);
+      return true;
     });
-    if (can) return true;
+    if (can) {
+      return true;
+    }
   }
   return false;
 }

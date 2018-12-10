@@ -321,8 +321,8 @@ var ImageViewBody = function (_React$PureComponent) {
       var resizeBox = active ? _react2.default.createElement(_ImageResizeBox2.default, {
         height: height,
         onResizeEnd: this._onResizeEnd,
-        width: width,
-        src: src
+        src: src,
+        width: width
       }) : null;
 
       var imageStyle = {
