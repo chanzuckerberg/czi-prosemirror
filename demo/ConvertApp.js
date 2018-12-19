@@ -16,22 +16,6 @@ import RichTextEditor from '../src/ui/RichTextEditor';
 
 const LOCAL_STORAGE_KEY = 'convert-app';
 const RIGHT_ARROW_CHAR = '\u21E2';
-const DRAFT_JS_EXAMPLE = `
-{
-  "blocks": [
-    {
-      "key": "74nfs",
-      "text": "hello",
-      "type": "header-one",
-      "depth": 0,
-      "inlineStyleRanges": [],
-      "entityRanges": [],
-      "data": {}
-    }
-  ],
-  "entityMap": {}
-}
-`;
 
 function getInitialState(): Object {
   let html = '';
@@ -100,10 +84,11 @@ class ConvertApp extends React.PureComponent<any, any, any> {
                 onClick={this._toProseMirror}
                 value="prosemirrorJSON"
               />
+              <CustomButton
+                label={`ProseMirror ${RIGHT_ARROW_CHAR} JSON`}
+                onClick={this._toProseMirrorJSON}
+              />
             </div>
-            <a href="http://cdn.summitlearning.org/assets/index_docs_editor_0_0_9_4.html" target="new">
-              draft-js editor {'\u2197'}
-            </a>
           </ConvertAppArea>
           <ConvertAppArea
             className="prosemirror-json"

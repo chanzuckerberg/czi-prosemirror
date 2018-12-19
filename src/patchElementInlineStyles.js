@@ -25,6 +25,7 @@ const INLINE_STYLE_NAMES = [
   'fontStyle',
   'fontWeight',
   'textDecoration',
+  'textIndent',
 ];
 
 const INLINE_ELEMENT_NODE_NAMES = new Set([
@@ -63,7 +64,21 @@ function patchBlockElementStyle(
 ): void {
   const element: any = el;
   const elementStyle = element.style;
-  const value = elementStyle && elementStyle[inlineStyleName];
+  let value = elementStyle && elementStyle[inlineStyleName];
+
+
+  if (value && inlineStyleName === 'textIndent') {
+    const charactersSize = parseInt(value, 10) / 4;
+    if (charactersSize) {
+      // Replace text-indent with space characters
+      // https://www.fileformat.info/info/unicode/char/25a1/index.htm
+      const chars = (new Array(charactersSize).join('\u3000\u200C'));
+      const textNode = el.ownerDocument.createTextNode(chars);
+      el.insertBefore(textNode, el.firstChild);
+    }
+    value = '';
+  }
+
   if (!value) {
     return;
   }
@@ -84,7 +99,7 @@ function patchBlockElementStyle(
     if (nodeType === NODE_TYPE_ELEMENT) {
       if (INLINE_ELEMENT_NODE_NAMES.has(nodeName)) {
         const cssText =
-          `${hyphenize(inlineStyleName)}: ${value};` + style.cssText;
+           `${hyphenize(inlineStyleName)}: ${value};` + style.cssText;
         style.cssText = cssText;
       }
     } else if (nodeType === NODE_TYPE_TEXT) {
