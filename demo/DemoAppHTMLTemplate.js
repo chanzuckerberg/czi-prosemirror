@@ -48,6 +48,12 @@ class DemoAppHTMLTemplate extends React.PureComponent<any, any, any> {
   render(): React.Element<any> {
     return (
       <div style={{display: 'none'}}>
+        <ol>
+          <li><span style={STYLE_COLOR}>Kitten norwegian forest</span></li>
+          <li><span style={STYLE_BACKGROUND_COLOR}>Donskoy ragdoll and ragdoll</span></li>
+          <li><b>Siberian tomcat.</b></li>
+          <li><u>Burmese <i>lynx</i> and balinese</u></li>
+        </ol>
         <h1>Maine coon. Tomcat cornish rex siamese for cheetah savannah</h1>
         <p>
           Tomcat cornish rex siamese for cheetah savannah
