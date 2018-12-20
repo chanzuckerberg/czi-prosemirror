@@ -39,7 +39,7 @@ var DEFAULT_TEXT_COLOR = '#000000';
 var DEFAULT_BACKGROUND_COLOR = '#ffffff';
 var NODE_TYPE_TEXT = 3;
 var NODE_TYPE_ELEMENT = 1;
-var INLINE_STYLE_NAMES = ['backgroundColor', 'fontFamily', 'fontSize', 'fontStyle', 'fontWeight', 'textDecoration'];
+var INLINE_STYLE_NAMES = ['backgroundColor', 'fontFamily', 'fontSize', 'fontStyle', 'fontWeight', 'textDecoration', 'textIndent'];
 
 var INLINE_ELEMENT_NODE_NAMES = new _set2.default(['A', 'B', 'EM', 'I', 'SPAN', 'STRONG', 'U']);
 
@@ -72,6 +72,19 @@ function patchBlockElementStyle(el, inlineStyleName) {
   var element = el;
   var elementStyle = element.style;
   var value = elementStyle && elementStyle[inlineStyleName];
+
+  if (value && inlineStyleName === 'textIndent') {
+    var charactersSize = parseInt(value, 10) / 4;
+    if (charactersSize) {
+      // Replace text-indent with space characters
+      // https://www.fileformat.info/info/unicode/char/25a1/index.htm
+      var chars = new Array(charactersSize).join('\u3000\u200C');
+      var textNode = el.ownerDocument.createTextNode(chars);
+      el.insertBefore(textNode, el.firstChild);
+    }
+    value = '';
+  }
+
   if (!value) {
     return;
   }
