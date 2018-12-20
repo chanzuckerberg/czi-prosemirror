@@ -1,11 +1,12 @@
 // @flow
 
-import isInsideListItem from './isInsideListItem';
-import isListNode from './isListNode';
 import {BLOCKQUOTE, PARAGRAPH, HEADING, LIST_ITEM} from './NodeNames';
 import {Schema} from 'prosemirror-model';
 import {Transform} from 'prosemirror-transform';
 import {unwrapNodesFromList} from './toggleList';
+import compareNumber from './compareNumber';
+import isInsideListItem from './isInsideListItem';
+import isListNode from './isListNode';
 
 export default function toggleHeading(
   tr: Transform,
@@ -46,7 +47,7 @@ export default function toggleHeading(
     return !isListNode(node);
   });
   // Update from the bottom to avoid disruptive changes in pos.
-  poses.sort().reverse().forEach(pos => {
+  poses.sort(compareNumber).reverse().forEach(pos => {
     tr = setHeadingNode(
       tr,
       schema,

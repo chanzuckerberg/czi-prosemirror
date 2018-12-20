@@ -1,13 +1,14 @@
 // @flow
 
-import clamp from './ui/clamp';
-import isListNode from './isListNode';
-import transformAndPreserveTextSelection from './transformAndPreserveTextSelection';
+import {AllSelection, TextSelection} from 'prosemirror-state';
 import {BLOCKQUOTE, LIST_ITEM, HEADING, PARAGRAPH} from './NodeNames';
 import {Fragment, Schema} from 'prosemirror-model';
 import {MAX_INDENT_LEVEL, MIN_INDENT_LEVEL} from './ParagraphNodeSpec';
-import {AllSelection, TextSelection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
+import clamp from './ui/clamp';
+import compareNumber from './compareNumber';
+import isListNode from './isListNode';
+import transformAndPreserveTextSelection from './transformAndPreserveTextSelection';
 
 export default function updateIndentLevel(
   tr: Transform,
@@ -51,22 +52,32 @@ export default function updateIndentLevel(
     return true;
   });
 
-
   if (!listNodePoses.length) {
     return tr;
   }
 
-  tr = transformAndPreserveTextSelection(tr, schema, (memo) => {
-    let tr2 = memo.tr;
-    listNodePoses.sort().reverse().forEach(pos => {
-      tr2 = setListNodeIndent(
-        tr2,
+  // tr = transformAndPreserveTextSelection(tr, schema, (memo) => {
+  //   let tr2 = memo.tr;
+  //   listNodePoses.sort(compareNumber).reverse().forEach(pos => {
+  //     tr2 = setListNodeIndent(
+  //       tr2,
+  //       memo.schema,
+  //       pos,
+  //       delta,
+  //     );
+  //   });
+  //   return tr2;
+  // });
+
+  listNodePoses.sort(compareNumber).reverse().forEach(pos => {
+    tr = transformAndPreserveTextSelection(tr, schema, (memo) => {
+      return setListNodeIndent(
+        memo.tr,
         memo.schema,
         pos,
         delta,
       );
     });
-    return tr2;
   });
 
   return tr;
@@ -103,6 +114,7 @@ function setListNodeIndent(
   }
 
   const {from, to} = selection;
+  
   if (from <= pos && to >= (pos + listNode.nodeSize)) {
     return setNodeIndentMarkup(tr, schema, pos, delta);
   }
@@ -213,7 +225,6 @@ function mergeSiblingLists(
 
   return tr;
 }
-
 
 function setNodeIndentMarkup(
   tr: Transform,

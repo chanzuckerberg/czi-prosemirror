@@ -1,11 +1,12 @@
 // @flow
 
-import isInsideListItem from './isInsideListItem';
-import isListNode from './isListNode';
-import {Schema} from 'prosemirror-model';
 import {PARAGRAPH, BLOCKQUOTE, HEADING, LIST_ITEM} from './NodeNames';
+import {Schema} from 'prosemirror-model';
 import {Transform} from 'prosemirror-transform';
 import {unwrapNodesFromList} from './toggleList';
+import compareNumber from './compareNumber';
+import isInsideListItem from './isInsideListItem';
+import isListNode from './isListNode';
 
 export default function toggleBlockquote(
   tr: Transform,
@@ -39,7 +40,7 @@ export default function toggleBlockquote(
     return !isListNode(node);
   });
   // Update from the bottom to avoid disruptive changes in pos.
-  poses.sort().reverse().forEach(pos => {
+  poses.sort(compareNumber).reverse().forEach(pos => {
     tr = setBlockquoteNode(
       tr,
       schema,
