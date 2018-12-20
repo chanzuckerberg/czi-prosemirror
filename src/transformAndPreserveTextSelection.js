@@ -33,24 +33,44 @@ export default function transformAndPreserveTextSelection(
 
   // Mark current selection so that we could resume the selection later
   // after changing the whole list.
-  let selectionExpanded;
+  let fromOffset = 0;
+  let toOffset = 0;
   if (from === to) {
     if (from === 0) {
       return tr;
     }
-    // Selection is collapsed, create a temnporary selection that the marks can
+    // Selection is collapsed, create a temporary selection that the marks can
     // be applied to.
-    selectionExpanded = TextSelection.create(
+    const currentNode = tr.doc.nodeAt(from);
+    const prevNode = tr.doc.nodeAt(from - 1);
+    const nextNode = tr.doc.nodeAt(from + 1);
+
+    // Ensure that the mark is applied to the same type of node. 
+    if (prevNode && currentNode && currentNode.type === prevNode.type) {
+      fromOffset = -1;
+    } else if (nextNode && currentNode && currentNode.type === nextNode.type) {
+      toOffset = 1;
+    } else if (nextNode) {
+      // Could not find the same type of node, assume the next node is safe to use.
+      toOffset = 1;
+    } else if (prevNode) {
+       // Could not find the same type of node, assume the next node is safe to use.
+      fromOffset = -1;
+    } else {
+      // Selection can't be safely preserved.
+      return tr;
+    }
+    tr = tr.setSelection(TextSelection.create(
       doc,
-      from - 1,
-      to,
-    );
-    tr = tr.setSelection(selectionExpanded);
+      from + fromOffset,
+      to + toOffset,
+    ));
   }
 
    // This is an unique ID (by reference).
   const id = {};
   const findMark = mark => mark.attrs.id === id;
+
   const findMarkRange = () => {
     let markFrom = 0;
     let markTo = 0;
@@ -72,11 +92,11 @@ export default function transformAndPreserveTextSelection(
 
   const markRange = findMarkRange();
   const selectionRange = {
-    from: selectionExpanded ?
-      markRange.from + 1 :
-      markRange.from,
-    to: markRange.to,
+    from: Math.max(0, markRange.from - fromOffset),
+    to: Math.max(0, markRange.to - toOffset),
   };
+
+  selectionRange.to = Math.max(0, selectionRange.from, selectionRange.to);
 
   tr = tr.removeMark(markRange.from, markRange.to, markType);
   tr = tr.setSelection(TextSelection.create(
@@ -84,6 +104,7 @@ export default function transformAndPreserveTextSelection(
     selectionRange.from,
     selectionRange.to,
   ));
+
 
   return tr;
 }
