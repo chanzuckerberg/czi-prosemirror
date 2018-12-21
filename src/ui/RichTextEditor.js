@@ -96,7 +96,6 @@ class RichTextEditor extends React.PureComponent<any, any, any> {
 
     const mainClassName = cx(className, {
       'czi-rte': true,
-      'czi-vars': true,
       'with-fixed-layout': useFixedLayout,
       'disabled': disabled,
       'embedded': embedded,
