@@ -1,5 +1,6 @@
 // @flow
 
+import {PT_TO_PX_RATIO} from './convertToCSSPTValue';
 import convertToCSSPTValue from './convertToCSSPTValue';
 
 export default function patchTableElements(doc: Document): void {
@@ -17,18 +18,28 @@ function patchTableCell(tdElement: HTMLElement): void {
   if (!style) {
     return;
   }
-  const {backgroundColor} = style;
-  if (!backgroundColor) {
-    return;
+  const {backgroundColor, width} = style;
+  if (backgroundColor) {
+    const selector = 'span[style^=background-color]';
+    const spans = Array.from(tdElement.querySelectorAll(selector));
+    spans.some(spanElement => {
+      const spanStyle = spanElement.style;
+      if (spanStyle && spanStyle.backgroundColor === backgroundColor) {
+        spanStyle.backgroundColor = '';
+      }
+    });
   }
-  const selector = 'span[style^=background-color]';
-  const spans = Array.from(tdElement.querySelectorAll(selector));
-  spans.some(spanElement => {
-    const spanStyle = spanElement.style;
-    if (spanStyle && spanStyle.backgroundColor === backgroundColor) {
-      spanStyle.backgroundColor = '';
+
+  if (width) {
+    const ptValue = convertToCSSPTValue(width);
+    if (!ptValue) {
+      return;
     }
-  });
+    const pxValue = ptValue * PT_TO_PX_RATIO;
+    // Attribute "data-colwidth" is defined at 'prosemirror-tables';
+     tdElement.setAttribute('data-colwidth', String(Math.round(pxValue)));
+    console.log(tdElement);
+  }  
 }
 
 // Workaround to support "height" in table row by inject empty <p /> to
