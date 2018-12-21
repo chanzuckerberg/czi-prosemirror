@@ -45,7 +45,7 @@ export default function transformAndPreserveTextSelection(
     const prevNode = tr.doc.nodeAt(from - 1);
     const nextNode = tr.doc.nodeAt(from + 1);
 
-    // Ensure that the mark is applied to the same type of node. 
+    // Ensure that the mark is applied to the same type of node.
     if (prevNode && currentNode && currentNode.type === prevNode.type) {
       fromOffset = -1;
     } else if (nextNode && currentNode && currentNode.type === nextNode.type) {

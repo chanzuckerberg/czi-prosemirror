@@ -9,9 +9,6 @@ import {EditorView} from 'prosemirror-view';
 import {Transform} from 'prosemirror-transform';
 import {findParentNodeOfType} from 'prosemirror-utils';
 
-
-// https://github.com/atlassian/prosemirror-utils/tree/master/src
-// https://bitbucket.org/atlassian/atlaskit/src/34facee3f46197fefa8b8e22e83afd83d4d48f94/packages/editor-core/src/plugins/lists/?at=master
 class ListToggleCommand extends UICommand {
 
   _ordered: boolean;

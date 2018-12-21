@@ -114,7 +114,7 @@ function setListNodeIndent(
   }
 
   const {from, to} = selection;
-  
+
   if (from <= pos && to >= (pos + listNode.nodeSize)) {
     return setNodeIndentMarkup(tr, schema, pos, delta);
   }

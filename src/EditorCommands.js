@@ -2,6 +2,7 @@
 
 import * as MarkNames from './MarkNames';
 import * as ProsemirrorTables from 'prosemirror-tables';
+
 import BlockquoteCommand from './BlockquoteCommand';
 import CodeBlockCommand from './CodeBlockCommand';
 import DocLayoutCommand from './DocLayoutCommand';
@@ -13,6 +14,7 @@ import ImageFromURLCommand from './ImageFromURLCommand';
 import ImageUploadCommand from './ImageUploadCommand';
 import IndentCommand from './IndentCommand';
 import LinkSetURLCommand from './LinkSetURLCommand';
+import ListItemMergeCommand from './ListItemMergeCommand';
 import ListSplitCommand from './ListSplitCommand';
 import ListToggleCommand from './ListToggleCommand';
 import MarkToggleCommand from './MarkToggleCommand';
@@ -26,7 +28,6 @@ import TextColorCommand from './TextColorCommand';
 import TextHighlightCommand from './TextHighlightCommand';
 import TextLineSpacingCommand from './TextLineSpacingCommand';
 import createCommand from './createCommand';
-
 
 const {
   addColumnAfter,
@@ -82,6 +83,8 @@ export const IMAGE_UPLOAD = new ImageUploadCommand();
 export const INDENT_LESS = new IndentCommand(-1);
 export const INDENT_MORE = new IndentCommand(1);
 export const LINK_SET_URL = new LinkSetURLCommand();
+export const LIST_ITEM_MERGE_DOWN = new ListItemMergeCommand('down');
+export const LIST_ITEM_MERGE_UP = new ListItemMergeCommand('up');
 export const LIST_SPLIT = new ListSplitCommand();
 export const MATH_EDIT = new MathEditCommand();
 export const OL = new ListToggleCommand(true);

@@ -65,8 +65,8 @@ function makeKeyMapWithCommon(description: string, common: string): Keymap {
   return makeKeyMap(description, windows, mac, common);
 }
 
-export const KEY_TAB_SHIFT = makeKeyMapWithCommon('', 'Shift-Tab');
-export const KEY_TAB = makeKeyMapWithCommon('', 'Tab');
+export const KEY_BACK_DELETE = makeKeyMapWithCommon('', 'Backspace');
+export const KEY_FORWARD_DELETE = makeKeyMapWithCommon('', 'Delete');
 export const KEY_INSERT_HORIZONTAL_RULE = makeKeyMapWithCommon('Insert horizontal rule', 'Mod-Shift--');
 export const KEY_INSERT_NEW_LINE = makeKeyMapWithCommon('Insert new line', 'Shift-Enter');
 export const KEY_REDO = makeKeyMapWithCommon('Redo', 'Mod-Shift-z');
@@ -74,6 +74,8 @@ export const KEY_SET_NORMAL_TEXT = makeKeyMap('Normal text', 'Ctrl-0', 'Cmd-Alt-
 export const KEY_SHIFT_BACKSPACE = makeKeyMapWithCommon('Shift Backspace', 'Shift-Backspace');
 export const KEY_SPLIT_CODEBLOCK = makeKeyMapWithCommon('Split code block', 'Enter');
 export const KEY_SPLIT_LIST_ITEM = makeKeyMapWithCommon('Split list item', 'Enter');
+export const KEY_TAB = makeKeyMapWithCommon('', 'Tab');
+export const KEY_TAB_SHIFT = makeKeyMapWithCommon('', 'Shift-Tab');
 export const KEY_TOGGLE_BLOCK_QUOTE = makeKeyMap('Block quote', 'Ctrl-7', 'Cmd-Alt-7');
 export const KEY_TOGGLE_BOLD = makeKeyMapWithCommon('Toggle bold', 'Mod-b');
 export const KEY_TOGGLE_BULLET_LIST = makeKeyMapWithCommon('Toggle bullet list', 'Mod-Shift-b');
@@ -92,13 +94,15 @@ export const KEY_TOGGLE_UNDERLINE = makeKeyMapWithCommon('Toggle underline', 'Mo
 export const KEY_UNDO = makeKeyMapWithCommon('Undo', 'Mod-z');
 
 export const ALL_KEYS = [
+  KEY_BACK_DELETE,
+  KEY_FORWARD_DELETE,
   KEY_INSERT_HORIZONTAL_RULE,
   KEY_INSERT_NEW_LINE,
   KEY_SET_NORMAL_TEXT,
   KEY_SHIFT_BACKSPACE,
   KEY_SPLIT_LIST_ITEM,
-  KEY_TAB,
   KEY_TAB_SHIFT,
+  KEY_TAB,
   KEY_TOGGLE_BLOCK_QUOTE,
   KEY_TOGGLE_BOLD,
   KEY_TOGGLE_BULLET_LIST,
