@@ -1,12 +1,13 @@
 // @flow
 
-import findActiveMark from '../findActiveMark';
 import {EditorState} from 'prosemirror-state';
-import {HEADING} from '../NodeNames';
-import {MARK_FONT_SIZE} from '../MarkNames';
 import {findParentNodeOfType} from 'prosemirror-utils';
 
-// This should map to `--czi-editor-font-size` at `czi-editor.css`.
+import {MARK_FONT_SIZE} from '../MarkNames';
+import {HEADING} from '../NodeNames';
+import findActiveMark from '../findActiveMark';
+
+// This should map to `--czi-content-font-size` at `czi-editor.css`.
 const FONT_PT_SIZE_DEFAULT = 11;
 
 // This should map to `czi-heading.css`.

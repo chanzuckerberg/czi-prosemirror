@@ -13,7 +13,7 @@
   border: none;
   margin: 0 0 20px 0;
   padding: 0;
-  font-size: var(--czi-font-size-h2);
+  font-size: var(--czi-content-font-size-h2);
   user-select: none;
 }
 

@@ -1,5 +1,4 @@
 .czi-vars {
-  outline: solid 10px red;
   --czi-blockquote-background-color: rgba(0,0,0,0.05);
   --czi-blockquote-border: solid 8px rgba(0,0,0,0.6);
   --czi-blockquote-color: #555;
@@ -11,14 +10,8 @@
   --czi-button-radius: 5px;
   --czi-button-text-color: #666;
   --czi-color-grey-200: rgba(0,0,0,0.46);
-  --czi-editor-font-color: #000;
-  --czi-editor-font-family: Arial;
-  --czi-editor-font-size: 11pt;
-  --czi-editor-line-height: 1.5;
   --czi-font-family: Helvetica;
-  --czi-font-size-h1: 18px;
-  --czi-font-size-h2: 16px;
-  --czi-font-size-h3: 13px;
+
   --czi-font-size-small: 12px;
   --czi-font-size: 13px;
   --czi-link-color: rgb(0, 0, 238);
@@ -29,4 +22,15 @@
   --czi-placeholder-text-color: #dedede;
   --czi-selection-highlight-color-dark: rgba(152, 204, 253, 0.8);
   --czi-selection-highlight-color: rgba(152, 204, 253, 0.4);
+
+  /* content styles */
+  --czi-content-body-background-color: #fff;
+  --czi-content-font-color: #000;
+  --czi-content-font-family: Arial;
+  --czi-content-font-size-h1: 18px;
+  --czi-content-font-size-h2: 16px;
+  --czi-content-font-size-h3: 13px;
+  --czi-content-font-size: 11pt;
+  --czi-content-line-height: 1.5;
+  --czi-content-link-color: rgb(0, 0, 238);
 }

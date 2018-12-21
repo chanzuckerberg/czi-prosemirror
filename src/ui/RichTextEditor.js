@@ -16,7 +16,6 @@ import uuid from './uuid';
 import './czi-rte.css';
 import './czi-vars.css';
 
-// types
 import type {EditorRuntime} from '../Types';
 import type {ResizeObserverEntry} from './ResizeObserver';
 
