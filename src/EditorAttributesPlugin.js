@@ -13,7 +13,7 @@ const SPEC = {
 function renderAttributes(editorState: EditorState): Object {
   const {doc} = editorState;
   const attrs: Object = {
-    'class': 'czi-prosemirror-editor czi-vars',
+    'class': 'czi-prosemirror-editor',
   };
 
   const {width, padding, layout} = doc.attrs;
