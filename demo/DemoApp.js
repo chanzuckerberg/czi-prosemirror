@@ -52,7 +52,9 @@ class DemoApp extends React.PureComponent<any, any, any> {
   };
 
   _onReady = (editorView: EditorView): void => {
-    applyDevTools(editorView);
+    window.debugProseMirror = () => {
+      applyDevTools(editorView);
+    };
   };
 }
 
