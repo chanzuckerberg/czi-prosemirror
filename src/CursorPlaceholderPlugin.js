@@ -1,9 +1,10 @@
 // @flow
 
-import './ui/czi-cursor-placeholder.css';
-import {Decoration, DecorationSet} from 'prosemirror-view';
 import {EditorState, Plugin} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
+import {Decoration, DecorationSet} from 'prosemirror-view';
+
+import './ui/czi-cursor-placeholder.css';
 
 const PLACE_HOLDER_ID = {name: 'CursorPlaceholderPlugin'};
 

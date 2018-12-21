@@ -1,7 +1,8 @@
 // @flow
 
-import {ATTRIBUTE_LAYOUT, LAYOUT} from './DocNodeSpec';
 import {EditorState, Plugin} from 'prosemirror-state';
+
+import {ATTRIBUTE_LAYOUT, LAYOUT} from './DocNodeSpec';
 
 const SPEC = {
   props: {

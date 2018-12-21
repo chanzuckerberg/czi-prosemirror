@@ -1,9 +1,9 @@
-
-import applyMark from './applyMark';
 import {Schema} from 'prosemirror-model';
-import {MARK_TEXT_SELECTION} from './MarkNames';
 import {TextSelection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
+
+import {MARK_TEXT_SELECTION} from './MarkNames';
+import applyMark from './applyMark';
 
 export type SelectionMemo = {
   schema: Schema,

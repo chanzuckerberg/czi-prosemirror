@@ -1,10 +1,11 @@
 // @flow
 
+import {EditorState} from 'prosemirror-state';
+import {Transform} from 'prosemirror-transform';
+import {EditorView} from 'prosemirror-view';
+
 import UICommand from './ui/UICommand';
 import updateIndentLevel from './updateIndentLevel';
-import {EditorState} from 'prosemirror-state';
-import {EditorView} from 'prosemirror-view';
-import {Transform} from 'prosemirror-transform';
 
 class IndentCommand extends UICommand {
   _delta: number;

@@ -1,8 +1,9 @@
 // @flow
 
+import {Node} from 'prosemirror-model';
+
 import ParagraphNodeSpec from './ParagraphNodeSpec';
 import {getParagraphNodeAttrs, toParagraphDOM} from './ParagraphNodeSpec';
-import {Node} from 'prosemirror-model';
 
 import type {NodeSpec} from './Types';
 

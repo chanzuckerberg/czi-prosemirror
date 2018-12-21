@@ -1,16 +1,17 @@
 // @flow
 
-import './demo-app.css';
-
-import DemoAppHTMLTemplate from './DemoAppHTMLTemplate';
-import DemoAppRuntime from './DemoAppRuntime';
+import applyDevTools from 'prosemirror-dev-tools';
 import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import RichTextEditor from '../src/ui/RichTextEditor';
-import applyDevTools from 'prosemirror-dev-tools';
+
 import convertFromDOMElement from '../src/convertFromDOMElement';
+import RichTextEditor from '../src/ui/RichTextEditor';
+import DemoAppHTMLTemplate from './DemoAppHTMLTemplate';
+import DemoAppRuntime from './DemoAppRuntime';
+
+import './demo-app.css';
 
 // Reference: http://prosemirror.net/examples/basic/
 const defaultEditorState = (function() {

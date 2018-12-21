@@ -1,13 +1,14 @@
 // @flow
 
-import UICommand from './ui/UICommand';
-import noop from './noop';
-import toggleList from './toggleList';
-import {BULLET_LIST, ORDERED_LIST} from './NodeNames';
 import {EditorState} from 'prosemirror-state';
-import {EditorView} from 'prosemirror-view';
 import {Transform} from 'prosemirror-transform';
 import {findParentNodeOfType} from 'prosemirror-utils';
+import {EditorView} from 'prosemirror-view';
+
+import {BULLET_LIST, ORDERED_LIST} from './NodeNames';
+import noop from './noop';
+import toggleList from './toggleList';
+import UICommand from './ui/UICommand';
 
 class ListToggleCommand extends UICommand {
 

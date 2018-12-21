@@ -1,7 +1,8 @@
 // @flow
 
-import toHexColor from './ui/toHexColor';
 import {tableNodes} from 'prosemirror-tables';
+
+import toHexColor from './ui/toHexColor';
 
 const TableNodesSpecs = tableNodes({
   // https://github.com/ProseMirror/prosemirror-tables/blob/master/demo.js

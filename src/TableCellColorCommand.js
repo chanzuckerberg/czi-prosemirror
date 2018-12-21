@@ -1,14 +1,15 @@
 // @flow
 
-import ColorEditor from './ui/ColorEditor';
-import UICommand from './ui/UICommand';
-import createPopUp from './ui/createPopUp';
 import nullthrows from 'nullthrows';
 import {EditorState} from 'prosemirror-state';
-import {EditorView} from 'prosemirror-view';
-import {Transform} from 'prosemirror-transform';
-import {atAnchorRight} from './ui/PopUpPosition';
 import {setCellAttr} from 'prosemirror-tables';
+import {Transform} from 'prosemirror-transform';
+import {EditorView} from 'prosemirror-view';
+
+import ColorEditor from './ui/ColorEditor';
+import {atAnchorRight} from './ui/PopUpPosition';
+import UICommand from './ui/UICommand';
+import createPopUp from './ui/createPopUp';
 
 const setCellBackgroundBlack = setCellAttr('background', '#000000');
 

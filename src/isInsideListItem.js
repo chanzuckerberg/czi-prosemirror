@@ -1,6 +1,7 @@
 // @flow
 
 import {Node} from 'prosemirror-model';
+
 import {LIST_ITEM} from './NodeNames';
 
 export default function isInsideListItem(doc: Node, pos: number): boolean {

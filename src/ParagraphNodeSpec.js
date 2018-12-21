@@ -1,8 +1,9 @@
 // @flow
 
-import clamp from './ui/clamp';
-import convertToCSSPTValue from './convertToCSSPTValue';
 import {Node} from 'prosemirror-model';
+
+import convertToCSSPTValue from './convertToCSSPTValue';
+import clamp from './ui/clamp';
 
 import type {NodeSpec} from './Types';
 

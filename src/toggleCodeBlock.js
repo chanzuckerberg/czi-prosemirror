@@ -1,8 +1,9 @@
 // @flow
 
-import {PARAGRAPH, CODE_BLOCK} from './NodeNames';
 import {Schema} from 'prosemirror-model';
 import {Transform} from 'prosemirror-transform';
+
+import {CODE_BLOCK, PARAGRAPH} from './NodeNames';
 import compareNumber from './compareNumber';
 import isListNode from './isListNode';
 

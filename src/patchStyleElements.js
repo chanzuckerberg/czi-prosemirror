@@ -2,11 +2,12 @@
 
 import stable from 'stable';
 
+import toHexColor from './ui/toHexColor';
+
 const LIST_ITEM_PSEUDO_ELEMENT_BEFORE = /li:+before/;
 const NODE_NAME_SELECTOR = /^[a-zA-Z]+\d*$/;
 const PSEUDO_ELEMENT_ANY = /:+[a-z]+/;
 
-import toHexColor from './ui/toHexColor';
 
 type SelectorTextToCSSText = {
   afterContent: ?string,

@@ -1,6 +1,7 @@
 // @flow
 
-import * as NodeNames from './NodeNames';
+import {Schema} from 'prosemirror-model';
+
 import BlockquoteNodeSpec from './BlockquoteNodeSpec';
 import BulletListNodeSpec from './BulletListNodeSpec';
 import CodeBlockNodeSpec from './CodeBlockNodeSpec';
@@ -11,11 +12,11 @@ import HorizontalRuleNodeSpec from './HorizontalRuleNodeSpec';
 import ImageNodeSpec from './ImageNodeSpec';
 import ListItemNodeSpec from './ListItemNodeSpec';
 import MathNodeSpec from './MathNodeSpec';
+import * as NodeNames from './NodeNames';
 import OrderedListNodeSpec from './OrderedListNodeSpec';
 import ParagraphNodeSpec from './ParagraphNodeSpec';
 import TableNodesSpecs from './TableNodesSpecs';
 import TextNodeSpec from './TextNodeSpec';
-import {Schema} from 'prosemirror-model';
 
 const {
   BLOCKQUOTE,

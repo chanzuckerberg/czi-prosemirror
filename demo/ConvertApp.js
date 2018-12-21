@@ -1,18 +1,20 @@
 // @flow
 
-import './convert-app.css';
+import cx from 'classnames';
 import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
+import React from 'react';
+import ReactDOM from 'react-dom';
+
 import convertFromHTML from '../src/convertFromHTML';
 import convertFromJSON from '../src/convertFromJSON';
 import convertToJSON from '../src/convertToJSON';
 import createEmptyEditorState from '../src/createEmptyEditorState';
 import CustomButton from '../src/ui/CustomButton';
-import cx from 'classnames';
-import DemoAppHTMLTemplate from './DemoAppHTMLTemplate';
-import React from 'react';
-import ReactDOM from 'react-dom';
 import RichTextEditor from '../src/ui/RichTextEditor';
+import DemoAppHTMLTemplate from './DemoAppHTMLTemplate';
+
+import './convert-app.css';
 
 const LOCAL_STORAGE_KEY = 'convert-app';
 const RIGHT_ARROW_CHAR = '\u21E2';

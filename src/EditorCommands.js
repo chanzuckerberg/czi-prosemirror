@@ -1,6 +1,5 @@
 // @flow
 
-import * as MarkNames from './MarkNames';
 import * as ProsemirrorTables from 'prosemirror-tables';
 
 import BlockquoteCommand from './BlockquoteCommand';
@@ -17,6 +16,7 @@ import LinkSetURLCommand from './LinkSetURLCommand';
 import ListItemMergeCommand from './ListItemMergeCommand';
 import ListSplitCommand from './ListSplitCommand';
 import ListToggleCommand from './ListToggleCommand';
+import * as MarkNames from './MarkNames';
 import MarkToggleCommand from './MarkToggleCommand';
 import MarksClearCommand from './MarksClearCommand';
 import MathEditCommand from './MathEditCommand';

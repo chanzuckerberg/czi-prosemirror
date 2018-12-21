@@ -1,13 +1,14 @@
 // @flow
 
-import * as MarkNames from './MarkNames';
-import UICommand from './ui/UICommand';
-import {EditorState} from 'prosemirror-state';
-import {EditorView} from 'prosemirror-view';
 import {Schema} from 'prosemirror-model';
+import {EditorState} from 'prosemirror-state';
 import {AllSelection, TextSelection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
+import {EditorView} from 'prosemirror-view';
+
+import * as MarkNames from './MarkNames';
 import {setTextAlign} from './TextAlignCommand';
+import UICommand from './ui/UICommand';
 
 const {
   MARK_EM,

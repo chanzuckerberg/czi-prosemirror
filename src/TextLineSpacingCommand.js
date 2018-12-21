@@ -1,13 +1,14 @@
 // @flow
 
-import UICommand from './ui/UICommand';
-import {EditorState} from 'prosemirror-state';
-import {EditorView} from 'prosemirror-view';
-import {HEADING, LIST_ITEM, PARAGRAPH} from './NodeNames';
-import {LINE_SPACING_VALUES} from './ParagraphNodeSpec';
 import {Schema} from 'prosemirror-model';
+import {EditorState} from 'prosemirror-state';
 import {AllSelection, TextSelection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
+import {EditorView} from 'prosemirror-view';
+
+import {HEADING, LIST_ITEM, PARAGRAPH} from './NodeNames';
+import {LINE_SPACING_VALUES} from './ParagraphNodeSpec';
+import UICommand from './ui/UICommand';
 
 export function setTextLineSpacing(
   tr: Transform,

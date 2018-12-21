@@ -1,6 +1,6 @@
 // @flow
 
-import {Schema, Mark} from 'prosemirror-model';
+import {Mark, Schema} from 'prosemirror-model';
 import {Transform} from 'prosemirror-transform';
 
 function markApplies(doc, ranges, type) {

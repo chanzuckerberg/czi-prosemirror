@@ -1,6 +1,7 @@
 // @flow
 
 import Keymap from 'browserkeymap';
+
 import browser from './browser';
 
 // https://tinyurl.com/ybwf3wex

@@ -1,11 +1,11 @@
 // @flow
 
-import ParagraphNodeSpec from './ParagraphNodeSpec';
-import {getParagraphNodeAttrs, toParagraphDOM} from './ParagraphNodeSpec';
 import {Node} from 'prosemirror-model';
 
-import type {NodeSpec} from './Types';
+import ParagraphNodeSpec from './ParagraphNodeSpec';
+import {getParagraphNodeAttrs, toParagraphDOM} from './ParagraphNodeSpec';
 
+import type {NodeSpec} from './Types';
 
 // https://github.com/ProseMirror/prosemirror-schema-basic/blob/master/src/schema-basic.js
 // :: NodeSpec A plain paragraph textblock. Represented in the DOM

@@ -1,13 +1,14 @@
 // @flow
 
-import UICommand from './ui/UICommand';
-import noop from './noop';
-import toggleCodeBlock from './toggleCodeBlock';
 import {EditorState} from 'prosemirror-state';
-import {EditorView} from 'prosemirror-view';
-import {CODE_BLOCK} from './NodeNames';
 import {Transform} from 'prosemirror-transform';
 import {findParentNodeOfType} from 'prosemirror-utils';
+import {EditorView} from 'prosemirror-view';
+
+import {CODE_BLOCK} from './NodeNames';
+import noop from './noop';
+import toggleCodeBlock from './toggleCodeBlock';
+import UICommand from './ui/UICommand';
 
 class CodeBlockCommand extends UICommand {
 

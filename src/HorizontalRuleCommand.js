@@ -1,11 +1,12 @@
 // @flow
 
-import UICommand from './ui/UICommand';
-import {EditorState} from 'prosemirror-state';
-import {EditorView} from 'prosemirror-view';
-import {HORIZONTAL_RULE} from './NodeNames';
 import {Fragment, Schema} from 'prosemirror-model';
+import {EditorState} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
+import {EditorView} from 'prosemirror-view';
+
+import {HORIZONTAL_RULE} from './NodeNames';
+import UICommand from './ui/UICommand';
 
 function insertHorizontalRule(
   tr: Transform,

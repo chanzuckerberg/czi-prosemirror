@@ -1,10 +1,11 @@
 // @flow
 
-import EditorPlugins from './EditorPlugins';
-import EditorSchema from './EditorSchema';
 import {DOMParser} from 'prosemirror-model';
 import {EditorState} from 'prosemirror-state';
+
 import {getAttrs} from './DocNodeSpec';
+import EditorPlugins from './EditorPlugins';
+import EditorSchema from './EditorSchema';
 
 export default function convertFromDOMElement(el: HTMLElement): EditorState {
   const bodyEl = el.querySelector('body');

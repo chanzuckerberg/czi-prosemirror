@@ -1,19 +1,20 @@
 // @flow
 
+import nullthrows from 'nullthrows';
+import React from 'react';
+import ReactDOM from 'react-dom';
+
 import ColorEditor from '../src/ui/ColorEditor';
 import CustomButton from '../src/ui/CustomButton';
 import CustomRadioButton from '../src/ui/CustomRadioButton';
 import Editor from '../src/ui/Editor';
 import ImageURLEditor from '../src/ui/ImageURLEditor';
 import MathEditor from '../src/ui/MathEditor';
-import React from 'react';
-import ReactDOM from 'react-dom';
+import {atAnchorRight} from '../src/ui/PopUpPosition';
 import TableGridSizeEditor from '../src/ui/TableGridSizeEditor';
 import createPopUp from '../src/ui/createPopUp';
-import nullthrows from 'nullthrows';
 import renderLaTeXAsHTML from '../src/ui/renderLaTeXAsHTML';
 import uuid from '../src/ui/uuid';
-import {atAnchorRight} from '../src/ui/PopUpPosition';
 
 class MathEditorExample extends React.PureComponent<any, any, any> {
 

@@ -1,13 +1,14 @@
 // @flow
 
-import isListNode from './isListNode';
 import nullthrows from 'nullthrows';
-import transformAndPreserveTextSelection from './transformAndPreserveTextSelection';
+import {Fragment, Node, NodeType, Schema} from 'prosemirror-model';
 import {TextSelection} from 'prosemirror-state';
-import {PARAGRAPH, LIST_ITEM, HEADING} from './NodeNames';
-import {Fragment, Schema, Node, NodeType} from 'prosemirror-model';
 import {Transform} from 'prosemirror-transform';
 import {findParentNodeOfType} from 'prosemirror-utils';
+
+import {HEADING, LIST_ITEM, PARAGRAPH} from './NodeNames';
+import isListNode from './isListNode';
+import transformAndPreserveTextSelection from './transformAndPreserveTextSelection';
 
 import type {SelectionMemo} from './transformAndPreserveTextSelection';
 

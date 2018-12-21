@@ -1,13 +1,13 @@
+import {Schema} from 'prosemirror-model';
 
-import {DOC, PARAGRAPH, TEXT} from './NodeNames';
-
-import * as MarkNames from './MarkNames';
 import CodeMarkSpec from './CodeMarkSpec';
+import DocNodeSpec from './DocNodeSpec';
 import EMMarkSpec from './EMMarkSpec';
 import FontSizeMarkSpec from './FontSizeMarkSpec';
 import FontTypeMarkSpec from './FontTypeMarkSpec';
 import LinkMarkSpec from './LinkMarkSpec';
-import DocNodeSpec from './DocNodeSpec';
+import * as MarkNames from './MarkNames';
+import {DOC, PARAGRAPH, TEXT} from './NodeNames';
 import ParagraphNodeSpec from './ParagraphNodeSpec';
 import StrikeMarkSpec from './StrikeMarkSpec';
 import StrongMarkSpec from './StrongMarkSpec';
@@ -16,7 +16,6 @@ import TextHighlightMarkSpec from './TextHighlightMarkSpec';
 import TextNodeSpec from './TextNodeSpec';
 import TextSelectionMarkSpec from './TextSelectionMarkSpec';
 import TextUnderlineMarkSpec from './TextUnderlineMarkSpec';
-import {Schema} from 'prosemirror-model';
 
 const {
   MARK_CODE,

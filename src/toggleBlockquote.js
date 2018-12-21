@@ -1,12 +1,13 @@
 // @flow
 
-import {PARAGRAPH, BLOCKQUOTE, HEADING, LIST_ITEM} from './NodeNames';
 import {Schema} from 'prosemirror-model';
 import {Transform} from 'prosemirror-transform';
-import {unwrapNodesFromList} from './toggleList';
+
+import {BLOCKQUOTE, HEADING, LIST_ITEM, PARAGRAPH} from './NodeNames';
 import compareNumber from './compareNumber';
 import isInsideListItem from './isInsideListItem';
 import isListNode from './isListNode';
+import {unwrapNodesFromList} from './toggleList';
 
 export default function toggleBlockquote(
   tr: Transform,

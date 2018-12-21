@@ -1,16 +1,16 @@
 // @flow
 
+import nullthrows from 'nullthrows';
 import {Fragment, Schema} from 'prosemirror-model';
-import {HEADING, LIST_ITEM, PARAGRAPH} from './NodeNames';
-
 import {EditorState} from 'prosemirror-state';
-import {EditorView} from 'prosemirror-view';
 import {TextSelection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
-import UICommand from './ui/UICommand';
 import {findParentNodeOfType} from 'prosemirror-utils';
+import {EditorView} from 'prosemirror-view';
+
+import {HEADING, LIST_ITEM, PARAGRAPH} from './NodeNames';
 import nodeAt from './nodeAt';
-import nullthrows from 'nullthrows';
+import UICommand from './ui/UICommand';
 
 function mergeListItemUp(
   tr: Transform,

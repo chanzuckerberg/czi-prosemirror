@@ -1,9 +1,10 @@
 // @flow
 
-import DemoApp from './DemoApp';
+import nullthrows from 'nullthrows';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import nullthrows from 'nullthrows';
+
+import DemoApp from './DemoApp';
 
 function main(): void {
   const el = document.createElement('div');

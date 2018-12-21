@@ -1,8 +1,8 @@
 // @flow
 
-import {ATTRIBUTE_CSS_BEFORE_CONTENT} from './patchStyleElements';
-import {convertMarginLeftToIndentValue, ATTRIBUTE_INDENT} from './ParagraphNodeSpec';
 import {ATTRIBUTE_LIST_STYLE_TYPE} from './ListItemNodeSpec';
+import {ATTRIBUTE_INDENT, convertMarginLeftToIndentValue} from './ParagraphNodeSpec';
+import {ATTRIBUTE_CSS_BEFORE_CONTENT} from './patchStyleElements';
 
 export default function patchListElements(doc: Document): void {
   Array.from(doc.querySelectorAll('ol, ul')).forEach(patchListElementsElement);

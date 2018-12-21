@@ -1,14 +1,15 @@
 // @flow
 
-import {AllSelection, TextSelection} from 'prosemirror-state';
-import {BLOCKQUOTE, LIST_ITEM, HEADING, PARAGRAPH} from './NodeNames';
 import {Fragment, Schema} from 'prosemirror-model';
-import {MAX_INDENT_LEVEL, MIN_INDENT_LEVEL} from './ParagraphNodeSpec';
+import {AllSelection, TextSelection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
-import clamp from './ui/clamp';
+
+import {BLOCKQUOTE, HEADING, LIST_ITEM, PARAGRAPH} from './NodeNames';
+import {MAX_INDENT_LEVEL, MIN_INDENT_LEVEL} from './ParagraphNodeSpec';
 import compareNumber from './compareNumber';
 import isListNode from './isListNode';
 import transformAndPreserveTextSelection from './transformAndPreserveTextSelection';
+import clamp from './ui/clamp';
 
 export default function updateIndentLevel(
   tr: Transform,

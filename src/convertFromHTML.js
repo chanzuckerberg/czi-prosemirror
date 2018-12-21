@@ -1,9 +1,9 @@
 // @flow
 
+import {EditorState} from 'prosemirror-state';
 
 import convertFromDOMElement from './convertFromDOMElement';
 import normalizeHTML from './normalizeHTML';
-import {EditorState} from 'prosemirror-state';
 
 export default function convertFromHTML(html: string): EditorState {
   const root = document.createElement('html');

@@ -1,7 +1,8 @@
 // @flow
 
-import toHexColor from './ui/toHexColor';
 import {Node} from 'prosemirror-model';
+
+import toHexColor from './ui/toHexColor';
 
 import type {MarkSpec} from './Types';
 
