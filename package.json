@@ -55,6 +55,9 @@
     "html-loader": "0.4.5",
     "html-webpack-inline-source-plugin": "0.0.10",
     "html-webpack-plugin": "2.24.1",
+    "import-sort-cli": "^5.2.0",
+    "import-sort-parser-babylon": "^5.2.0",
+    "import-sort-style-module-grouping": "^0.1.0",
     "nano-fs": "1.2.4",
     "prop-types": "15.6.2",
     "prop-types-extra": "1.1.0",
@@ -96,5 +99,11 @@
     "style-loader": "0.19.1",
     "uuid": "3.3.2",
     "webfontloader": "1.6.28"
+  },
+  "importSort": {
+    ".js": {
+      "parser": "babylon",
+      "style": "module-grouping"
+    }
   }
 }
