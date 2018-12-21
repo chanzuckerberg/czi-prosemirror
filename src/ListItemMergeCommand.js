@@ -1,14 +1,16 @@
 // @flow
 
 import {Fragment, Schema} from 'prosemirror-model';
+import {HEADING, LIST_ITEM, PARAGRAPH} from './NodeNames';
 
 import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
-import {LIST_ITEM} from './NodeNames';
 import {TextSelection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
 import UICommand from './ui/UICommand';
 import {findParentNodeOfType} from 'prosemirror-utils';
+import nodeAt from './nodeAt';
+import nullthrows from 'nullthrows';
 
 function mergeListItemUp(
   tr: Transform,
@@ -76,8 +78,8 @@ function mergeListItemDown(
   if (!selection) {
     return tr;
   }
-  const nodeType = schema.nodes[LIST_ITEM];
-  if (!nodeType) {
+  const listItem = schema.nodes[LIST_ITEM];
+  if (!listItem) {
     return tr;
   }
   const {from, empty} = selection;
@@ -85,7 +87,7 @@ function mergeListItemDown(
     // Selection is collapsed.
     return tr;
   }
-  const result = findParentNodeOfType(nodeType)(selection);
+  const result = findParentNodeOfType(listItem)(selection);
   if (!result) {
     return tr;
   }
@@ -95,27 +97,51 @@ function mergeListItemDown(
     return tr;
   }
 
-  const nextFrom = pos + node.nodeSize;
-  if (nextFrom >= (tr.doc.content.size)) {
+  const $pos = tr.doc.resolve(pos);
+  const list = $pos.parent.type;
+  const listResult = findParentNodeOfType(list)(selection);
+  if (!listResult) {
     return tr;
   }
-  const nextNode = tr.doc.nodeAt(nextFrom);
+  let nextFrom = pos + node.nodeSize;
+  let nextNode = nodeAt(tr.doc, nextFrom);
+  let deleteFrom = nextFrom;
+  if ((listResult.start + listResult.node.content.size) === nextFrom) {
+    // It's at the end of the last list item. It shall bring the content of the
+    // block after the list.
+    nextNode = nodeAt(tr.doc, nextFrom + 1);
+    deleteFrom += 1;
+  }
 
-  if (!nextNode || nextNode.type !== nodeType) {
+  if (!nextNode) {
     return tr;
   }
 
-  if (nextNode.childCount !== 1) {
-    // list item should only have one child (paragraph).
-    return tr;
+  let nextContent;
+
+  switch (nextNode.type) {
+    case listItem:
+       // List item should only have one child (paragraph).
+      const paragraphNode = nullthrows(nextNode.firstChild);
+      nextContent = Fragment.from(paragraphNode.content);
+      break;
+
+    case schema.nodes[HEADING]:
+    case schema.nodes[PARAGRAPH]:
+      // Will bring in the content of the next block. 
+      nextContent = Fragment.from(nextNode.content);
+      break;
   }
 
-  const paragraphNode = nextNode.firstChild;
+  if (!nextContent) {
+    return tr;
+  }   
+
   const textNode = schema.text(' ');
-  // Delete the list item.
-  tr = tr.delete(nextFrom, nextFrom + nextNode.nodeSize);
+  // Delete the next node.
+  tr = tr.delete(deleteFrom, deleteFrom + nextNode.nodeSize);
   // Append extra space character to its previous list item.
-  tr = tr.insert(nextFrom - 2, Fragment.from(paragraphNode.content));
+  tr = tr.insert(nextFrom - 2, nextContent);
   // Move the content to the list item.
   tr = tr.insert(nextFrom - 2, Fragment.from(textNode));
   tr = tr.setSelection(TextSelection.create(
