@@ -16,9 +16,6 @@ export default function normalizeHTML(html: string): string {
   html = html.replace(/(\s*\&nbsp;\s*\&nbsp;\s*)/g, BRAILLE_PATTERN_BLANK);
 
   const sourceIsPage = /<body[\s>]/i.test(html);
-  // if (/<body[\s>]/i.test(html) === false) {
-  //   html = `<!doctype><html><body>${html}</body></html>`;
-  // }
 
   // Provides a dom node that will not execute scripts
   // https://developer.mozilla.org/en-US/docs/Web/API/DOMImplementation.createHTMLDocument

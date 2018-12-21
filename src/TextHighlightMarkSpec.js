@@ -14,8 +14,9 @@ const TextHighlightMarkSpec: MarkSpec = {
   group: 'inline',
   parseDOM: [
     {
-      style: 'background-color',
-      getAttrs: (backgroundColor) => {
+      tag: 'span[style*=background-color]',
+      getAttrs: (dom: HTMLElement) => {
+        const {backgroundColor} = dom.style;
         return {
           highlightColor: toHexColor(backgroundColor),
         };

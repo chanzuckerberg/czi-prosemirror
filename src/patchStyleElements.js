@@ -17,8 +17,8 @@ type SelectorTextToCSSText = {
 };
 
 export const ATTRIBUTE_CSS_BEFORE_CONTENT = 'data-attribute-css-before-content';
-const DEFAULT_TEXT_COLOR = '#000000';
-const DEFAULT_BACKGROUND_COLOR = '#ffffff';
+export const DEFAULT_TEXT_COLOR = '#000000';
+export const DEFAULT_BACKGROUND_COLOR = '#ffffff';
 
 // Node name only selector has less priority, we'll handle it
 // separately

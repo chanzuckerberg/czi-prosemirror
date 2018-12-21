@@ -1,6 +1,7 @@
 // @flow
 
 import hyphenize from './hyphenize';
+import {DEFAULT_BACKGROUND_COLOR, DEFAULT_TEXT_COLOR} from './patchStyleElements';
 import toHexColor from './ui/toHexColor';
 
 export default function patchElementInlineStyles(doc: Document): void {
@@ -14,8 +15,6 @@ export default function patchElementInlineStyles(doc: Document): void {
   bEls.forEach(patchBlockElement);
 }
 
-const DEFAULT_TEXT_COLOR = '#000000';
-const DEFAULT_BACKGROUND_COLOR = '#ffffff';
 const NODE_TYPE_TEXT = 3;
 const NODE_TYPE_ELEMENT = 1;
 const INLINE_STYLE_NAMES = [
@@ -51,7 +50,10 @@ function clearInlineStyles(el: HTMLElement): void {
   if (color && toHexColor(color) === DEFAULT_TEXT_COLOR) {
     style.color = '';
   }
-  if (backgroundColor && backgroundColor === DEFAULT_BACKGROUND_COLOR) {
+  if (
+    backgroundColor &&
+    toHexColor(backgroundColor) === DEFAULT_BACKGROUND_COLOR
+  ) {
     style.backgroundColor = '';
   }
 }

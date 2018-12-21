@@ -103,7 +103,7 @@ function mergeListItemDown(
   if (!listResult) {
     return tr;
   }
-  let nextFrom = pos + node.nodeSize;
+  const nextFrom = pos + node.nodeSize;
   let nextNode = nodeAt(tr.doc, nextFrom);
   let deleteFrom = nextFrom;
   if ((listResult.start + listResult.node.content.size) === nextFrom) {
@@ -128,14 +128,14 @@ function mergeListItemDown(
 
     case schema.nodes[HEADING]:
     case schema.nodes[PARAGRAPH]:
-      // Will bring in the content of the next block. 
+      // Will bring in the content of the next block.
       nextContent = Fragment.from(nextNode.content);
       break;
   }
 
   if (!nextContent) {
     return tr;
-  }   
+  }
 
   const textNode = schema.text(' ');
   // Delete the next node.

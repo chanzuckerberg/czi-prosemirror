@@ -4,8 +4,8 @@ import {tableNodes} from 'prosemirror-tables';
 
 import toHexColor from './ui/toHexColor';
 
+// https://github.com/ProseMirror/prosemirror-tables/blob/master/demo.js
 const TableNodesSpecs = tableNodes({
-  // https://github.com/ProseMirror/prosemirror-tables/blob/master/demo.js
   tableGroup: 'block',
   cellContent: 'block+',
   cellAttributes: {
