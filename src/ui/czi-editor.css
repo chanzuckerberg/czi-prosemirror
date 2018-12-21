@@ -14,13 +14,14 @@
 }
 
 .ProseMirror {
-  -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  color: var(--czi-editor-font-color);
   font-family: var(--czi-editor-font-family);
   font-size: var(--czi-editor-font-size);
   line-height: var(--czi-editor-line-height);
-  user-zoom: fixed;
   position: relative;
+  user-zoom: fixed;
 }
 
 .ProseMirror.czi-has-placeholder {

@@ -1,16 +1,17 @@
 // @flow
 import * as ProsemirrorTables from 'prosemirror-tables';
+
 import ContentPlaceholderPlugin from './ContentPlaceholderPlugin';
 import CursorPlaceholderPlugin from './CursorPlaceholderPlugin';
 import EditorAttributesPlugin from './EditorAttributesPlugin';
 import EditorSchema from './EditorSchema';
 import LinkTooltipPlugin from './LinkTooltipPlugin';
-import SelectionPlaceholderPlugin from './SelectionPlaceholderPlugin';
-import buildInputRules from './buildInputRules';
-import createEditorKeyMap from './createEditorKeyMap';
 import {Plugin} from 'prosemirror-state';
 import {Schema} from 'prosemirror-model';
+import SelectionPlaceholderPlugin from './SelectionPlaceholderPlugin';
 import {baseKeymap} from 'prosemirror-commands';
+import buildInputRules from './buildInputRules';
+import createEditorKeyMap from './createEditorKeyMap';
 import {dropCursor} from 'prosemirror-dropcursor';
 import {gapCursor} from 'prosemirror-gapcursor';
 import {history} from 'prosemirror-history';

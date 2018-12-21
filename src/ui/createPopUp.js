@@ -1,14 +1,15 @@
 // @flow
 
+import './czi-vars.css';
 import './czi-pop-up.css';
-import PopUp from './PopUp';
-import ReactDOM from 'react-dom';
-import uuid from './uuid';
-
-// eslint-disable-next-line no-unused-vars
-import React from 'react';
 
 import type {PopUpParams, ViewProps} from './PopUp';
+
+import PopUp from './PopUp';
+// eslint-disable-next-line no-unused-vars
+import React from 'react';
+import ReactDOM from 'react-dom';
+import uuid from './uuid';
 
 export type PopUpHandle = {
   close: (val: any) => void,
@@ -72,7 +73,7 @@ function getRootElement(
     element.setAttribute('data-pop-up-modal', 'y');
   }
 
-  element.className = 'czi-pop-up-element';
+  element.className = 'czi-pop-up-element czi-vars';
   element.id = id;
 
 

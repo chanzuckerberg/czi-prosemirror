@@ -1,18 +1,22 @@
 // @flow
 
-import './czi-rte.css';
+import cx from 'classnames';
 import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
-import createEmptyEditorState from '../createEmptyEditorState';
-import cx from 'classnames';
-import Editor from './Editor';
-import EditorToolbar from './EditorToolbar';
 import React from 'react';
 import ReactDOM from 'react-dom';
+
+import createEmptyEditorState from '../createEmptyEditorState';
+import Editor from './Editor';
+import EditorToolbar from './EditorToolbar';
 import ResizeObserver from './ResizeObserver';
 import RichTextEditorContentOverflowControl from './RichTextEditorContentOverflowControl';
 import uuid from './uuid';
 
+import './czi-rte.css';
+import './czi-vars.css';
+
+// types
 import type {EditorRuntime} from '../Types';
 import type {ResizeObserverEntry} from './ResizeObserver';
 
@@ -93,6 +97,7 @@ class RichTextEditor extends React.PureComponent<any, any, any> {
 
     const mainClassName = cx(className, {
       'czi-rte': true,
+      'czi-vars': true,
       'with-fixed-layout': useFixedLayout,
       'disabled': disabled,
       'embedded': embedded,
