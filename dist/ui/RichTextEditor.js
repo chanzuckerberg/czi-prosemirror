@@ -24,27 +24,13 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-require('./czi-rte.css');
-
-var _prosemirrorState = require('prosemirror-state');
-
-var _prosemirrorView = require('prosemirror-view');
-
-var _createEmptyEditorState = require('../createEmptyEditorState');
-
-var _createEmptyEditorState2 = _interopRequireDefault(_createEmptyEditorState);
-
 var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
-var _Editor = require('./Editor');
+var _prosemirrorState = require('prosemirror-state');
 
-var _Editor2 = _interopRequireDefault(_Editor);
-
-var _EditorToolbar = require('./EditorToolbar');
-
-var _EditorToolbar2 = _interopRequireDefault(_EditorToolbar);
+var _prosemirrorView = require('prosemirror-view');
 
 var _react = require('react');
 
@@ -53,6 +39,18 @@ var _react2 = _interopRequireDefault(_react);
 var _reactDom = require('react-dom');
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
+
+var _createEmptyEditorState = require('../createEmptyEditorState');
+
+var _createEmptyEditorState2 = _interopRequireDefault(_createEmptyEditorState);
+
+var _Editor = require('./Editor');
+
+var _Editor2 = _interopRequireDefault(_Editor);
+
+var _EditorToolbar = require('./EditorToolbar');
+
+var _EditorToolbar2 = _interopRequireDefault(_EditorToolbar);
 
 var _ResizeObserver = require('./ResizeObserver');
 
@@ -65,6 +63,10 @@ var _RichTextEditorContentOverflowControl2 = _interopRequireDefault(_RichTextEdi
 var _uuid = require('./uuid');
 
 var _uuid2 = _interopRequireDefault(_uuid);
+
+require('./czi-rte.css');
+
+require('./czi-vars.css');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

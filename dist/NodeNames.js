@@ -25,3 +25,4 @@ var TABLE_HEADER = exports.TABLE_HEADER = 'table_header';
 var TABLE_ROW = exports.TABLE_ROW = 'table_row';
 var TEXT = exports.TEXT = 'text';
 var UNDERLINE = exports.UNDERLINE = 'underline';
+var BOOKMARK = exports.BOOKMARK = 'bookmark';

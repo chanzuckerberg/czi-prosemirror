@@ -1,9 +1,10 @@
 // @flow
 
+import {Node} from 'prosemirror-model';
+
 import {ATTRIBUTE_LIST_STYLE_TYPE} from './ListItemNodeSpec';
 import {LIST_ITEM} from './NodeNames';
 import {ATTRIBUTE_INDENT, MIN_INDENT_LEVEL} from './ParagraphNodeSpec';
-import {Node} from 'prosemirror-model';
 
 import type {NodeSpec} from './Types';
 

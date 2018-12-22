@@ -1,11 +1,12 @@
 // @flow
 
+// eslint-disable-next-line no-unused-vars
+import React from 'react';
+
 import * as EditorCommands from '../EditorCommands';
 import FontSizeCommandMenuButton from './FontSizeCommandMenuButton';
 import FontTypeCommandMenuButton from './FontTypeCommandMenuButton';
 import Icon from './Icon';
-// eslint-disable-next-line no-unused-vars
-import React from 'react';
 
 const ICON_LABEL_PATTERN = /\[([A-Za-z_\d]+)\](.*)/;
 
@@ -30,7 +31,7 @@ export function parseLabel(input: string): Object {
 }
 
 const {
-  BLOCKQUOTE_INFO,
+  BLOCKQUOTE_TOGGLE,
   CLEAR_FORMAT,
   CODE,
   DOC_LAYOUT,
@@ -177,7 +178,7 @@ export const COMMAND_GROUPS = [
     '[functions] Math': MATH_EDIT,
     '[code] Code': CODE,
     '[format_strikethrough] Strike through': STRIKE,
-    '[format_quote] Block quote': BLOCKQUOTE_INFO,
+    '[format_quote] Block quote': BLOCKQUOTE_TOGGLE,
   },
   {
     '[settings_overscan] Page layout': DOC_LAYOUT,

@@ -1,9 +1,10 @@
 // @flow
 
 import {Fragment, Schema} from 'prosemirror-model';
-import {PARAGRAPH, TABLE, TABLE_ROW, TABLE_CELL} from './NodeNames';
 import {TextSelection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
+
+import {PARAGRAPH, TABLE, TABLE_CELL, TABLE_ROW} from './NodeNames';
 
 export default function insertTable(
   tr: Transform,

@@ -24,9 +24,15 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _UICommand2 = require('./ui/UICommand');
+var _prosemirrorState = require('prosemirror-state');
 
-var _UICommand3 = _interopRequireDefault(_UICommand2);
+var _prosemirrorTransform = require('prosemirror-transform');
+
+var _prosemirrorUtils = require('prosemirror-utils');
+
+var _prosemirrorView = require('prosemirror-view');
+
+var _NodeNames = require('./NodeNames');
 
 var _noop = require('./noop');
 
@@ -36,20 +42,12 @@ var _toggleList = require('./toggleList');
 
 var _toggleList2 = _interopRequireDefault(_toggleList);
 
-var _NodeNames = require('./NodeNames');
+var _UICommand2 = require('./ui/UICommand');
 
-var _prosemirrorState = require('prosemirror-state');
-
-var _prosemirrorView = require('prosemirror-view');
-
-var _prosemirrorTransform = require('prosemirror-transform');
-
-var _prosemirrorUtils = require('prosemirror-utils');
+var _UICommand3 = _interopRequireDefault(_UICommand2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// https://github.com/atlassian/prosemirror-utils/tree/master/src
-// https://bitbucket.org/atlassian/atlaskit/src/34facee3f46197fefa8b8e22e83afd83d4d48f94/packages/editor-core/src/plugins/lists/?at=master
 var ListToggleCommand = function (_UICommand) {
   (0, _inherits3.default)(ListToggleCommand, _UICommand);
 

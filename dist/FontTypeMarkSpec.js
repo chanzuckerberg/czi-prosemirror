@@ -9,11 +9,11 @@ var _set = require('babel-runtime/core-js/set');
 
 var _set2 = _interopRequireDefault(_set);
 
+var _prosemirrorModel = require('prosemirror-model');
+
 var _webfontloader = require('webfontloader');
 
 var _webfontloader2 = _interopRequireDefault(_webfontloader);
-
-var _prosemirrorModel = require('prosemirror-model');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

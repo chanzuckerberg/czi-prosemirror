@@ -1,18 +1,20 @@
 // @flow
 
-import './ui/czi-pop-up.css';
-import LinkTooltip from './ui/LinkTooltip';
-import LinkURLEditor from './ui/LinkURLEditor';
+import {EditorState, Plugin} from 'prosemirror-state';
+import {TextSelection} from 'prosemirror-state';
+import {EditorView} from 'prosemirror-view';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import applyMark from './applyMark';
-import createPopUp from './ui/createPopUp';
-import findNodesWithSameMark from './findNodesWithSameMark';
-import {EditorState, Plugin} from 'prosemirror-state';
-import {EditorView} from 'prosemirror-view';
+
 import {MARK_LINK} from './MarkNames';
-import {TextSelection} from 'prosemirror-state';
-import {showSelectionPlaceholder, hideSelectionPlaceholder} from './SelectionPlaceholderPlugin';
+import {hideSelectionPlaceholder, showSelectionPlaceholder} from './SelectionPlaceholderPlugin';
+import applyMark from './applyMark';
+import findNodesWithSameMark from './findNodesWithSameMark';
+import LinkTooltip from './ui/LinkTooltip';
+import LinkURLEditor from './ui/LinkURLEditor';
+import createPopUp from './ui/createPopUp';
+
+import './ui/czi-pop-up.css';
 
 // https://prosemirror.net/examples/tooltip/
 const SPEC = {

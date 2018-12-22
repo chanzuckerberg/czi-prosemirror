@@ -7,11 +7,11 @@ exports.default = insertTable;
 
 var _prosemirrorModel = require('prosemirror-model');
 
-var _NodeNames = require('./NodeNames');
-
 var _prosemirrorState = require('prosemirror-state');
 
 var _prosemirrorTransform = require('prosemirror-transform');
+
+var _NodeNames = require('./NodeNames');
 
 function insertTable(tr, schema, rows, cols) {
   if (!tr.selection || !tr.doc) {

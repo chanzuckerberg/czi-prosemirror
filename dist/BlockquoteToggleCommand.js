@@ -20,41 +20,41 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _UICommand2 = require('./ui/UICommand');
-
-var _UICommand3 = _interopRequireDefault(_UICommand2);
-
-var _toggleBlockquote = require('./toggleBlockquote');
-
-var _toggleBlockquote2 = _interopRequireDefault(_toggleBlockquote);
-
-var _NodeNames = require('./NodeNames');
-
 var _prosemirrorState = require('prosemirror-state');
-
-var _prosemirrorView = require('prosemirror-view');
 
 var _prosemirrorTransform = require('prosemirror-transform');
 
 var _prosemirrorUtils = require('prosemirror-utils');
 
+var _prosemirrorView = require('prosemirror-view');
+
+var _NodeNames = require('./NodeNames');
+
+var _toggleBlockquote = require('./toggleBlockquote');
+
+var _toggleBlockquote2 = _interopRequireDefault(_toggleBlockquote);
+
+var _UICommand2 = require('./ui/UICommand');
+
+var _UICommand3 = _interopRequireDefault(_UICommand2);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var BlockquoteCommand = function (_UICommand) {
-  (0, _inherits3.default)(BlockquoteCommand, _UICommand);
+var BlockquoteToggleCommand = function (_UICommand) {
+  (0, _inherits3.default)(BlockquoteToggleCommand, _UICommand);
 
-  function BlockquoteCommand() {
+  function BlockquoteToggleCommand() {
     var _ref;
 
     var _temp, _this, _ret;
 
-    (0, _classCallCheck3.default)(this, BlockquoteCommand);
+    (0, _classCallCheck3.default)(this, BlockquoteToggleCommand);
 
     for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = BlockquoteCommand.__proto__ || (0, _getPrototypeOf2.default)(BlockquoteCommand)).call.apply(_ref, [this].concat(args))), _this), _this.isActive = function (state) {
+    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = BlockquoteToggleCommand.__proto__ || (0, _getPrototypeOf2.default)(BlockquoteToggleCommand)).call.apply(_ref, [this].concat(args))), _this), _this.isActive = function (state) {
       var blockquote = state.schema.nodes[_NodeNames.BLOCKQUOTE];
       return !!(blockquote && (0, _prosemirrorUtils.findParentNodeOfType)(blockquote)(state.selection));
     }, _this.execute = function (state, dispatch, view) {
@@ -71,7 +71,7 @@ var BlockquoteCommand = function (_UICommand) {
     }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
   }
 
-  return BlockquoteCommand;
+  return BlockquoteToggleCommand;
 }(_UICommand3.default);
 
-exports.default = BlockquoteCommand;
+exports.default = BlockquoteToggleCommand;

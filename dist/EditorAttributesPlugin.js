@@ -20,9 +20,9 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _DocNodeSpec = require('./DocNodeSpec');
-
 var _prosemirrorState = require('prosemirror-state');
+
+var _DocNodeSpec = require('./DocNodeSpec');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

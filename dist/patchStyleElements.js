@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.ATTRIBUTE_CSS_BEFORE_CONTENT = undefined;
+exports.DEFAULT_BACKGROUND_COLOR = exports.DEFAULT_TEXT_COLOR = exports.ATTRIBUTE_CSS_BEFORE_CONTENT = undefined;
 
 var _map = require('babel-runtime/core-js/map');
 
@@ -26,13 +26,12 @@ var _toHexColor2 = _interopRequireDefault(_toHexColor);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var LIST_ITEM_PSEUDO_ELEMENT_BEFORE = /li:+before/;
-
 var NODE_NAME_SELECTOR = /^[a-zA-Z]+\d*$/;
 var PSEUDO_ELEMENT_ANY = /:+[a-z]+/;
 
 var ATTRIBUTE_CSS_BEFORE_CONTENT = exports.ATTRIBUTE_CSS_BEFORE_CONTENT = 'data-attribute-css-before-content';
-var DEFAULT_TEXT_COLOR = '#000000';
-var DEFAULT_BACKGROUND_COLOR = '#ffffff';
+var DEFAULT_TEXT_COLOR = exports.DEFAULT_TEXT_COLOR = '#000000';
+var DEFAULT_BACKGROUND_COLOR = exports.DEFAULT_BACKGROUND_COLOR = '#ffffff';
 
 // Node name only selector has less priority, we'll handle it
 // separately

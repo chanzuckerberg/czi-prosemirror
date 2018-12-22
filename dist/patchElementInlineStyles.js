@@ -18,6 +18,8 @@ var _hyphenize = require('./hyphenize');
 
 var _hyphenize2 = _interopRequireDefault(_hyphenize);
 
+var _patchStyleElements = require('./patchStyleElements');
+
 var _toHexColor = require('./ui/toHexColor');
 
 var _toHexColor2 = _interopRequireDefault(_toHexColor);
@@ -35,8 +37,6 @@ function patchElementInlineStyles(doc) {
   bEls.forEach(patchBlockElement);
 }
 
-var DEFAULT_TEXT_COLOR = '#000000';
-var DEFAULT_BACKGROUND_COLOR = '#ffffff';
 var NODE_TYPE_TEXT = 3;
 var NODE_TYPE_ELEMENT = 1;
 var INLINE_STYLE_NAMES = ['backgroundColor', 'fontFamily', 'fontSize', 'fontStyle', 'fontWeight', 'textDecoration', 'textIndent'];
@@ -58,10 +58,10 @@ function clearInlineStyles(el) {
   var color = style.color,
       backgroundColor = style.backgroundColor;
 
-  if (color && (0, _toHexColor2.default)(color) === DEFAULT_TEXT_COLOR) {
+  if (color && (0, _toHexColor2.default)(color) === _patchStyleElements.DEFAULT_TEXT_COLOR) {
     style.color = '';
   }
-  if (backgroundColor && backgroundColor === DEFAULT_BACKGROUND_COLOR) {
+  if (backgroundColor && (0, _toHexColor2.default)(backgroundColor) === _patchStyleElements.DEFAULT_BACKGROUND_COLOR) {
     style.backgroundColor = '';
   }
 }

@@ -10,15 +10,15 @@ var _defineProperty3 = _interopRequireDefault(_defineProperty2);
 
 var _nodes, _marks;
 
-var _NodeNames = require('./NodeNames');
-
-var _MarkNames = require('./MarkNames');
-
-var MarkNames = _interopRequireWildcard(_MarkNames);
+var _prosemirrorModel = require('prosemirror-model');
 
 var _CodeMarkSpec = require('./CodeMarkSpec');
 
 var _CodeMarkSpec2 = _interopRequireDefault(_CodeMarkSpec);
+
+var _DocNodeSpec = require('./DocNodeSpec');
+
+var _DocNodeSpec2 = _interopRequireDefault(_DocNodeSpec);
 
 var _EMMarkSpec = require('./EMMarkSpec');
 
@@ -36,9 +36,11 @@ var _LinkMarkSpec = require('./LinkMarkSpec');
 
 var _LinkMarkSpec2 = _interopRequireDefault(_LinkMarkSpec);
 
-var _DocNodeSpec = require('./DocNodeSpec');
+var _MarkNames = require('./MarkNames');
 
-var _DocNodeSpec2 = _interopRequireDefault(_DocNodeSpec);
+var MarkNames = _interopRequireWildcard(_MarkNames);
+
+var _NodeNames = require('./NodeNames');
 
 var _ParagraphNodeSpec = require('./ParagraphNodeSpec');
 
@@ -71,8 +73,6 @@ var _TextSelectionMarkSpec2 = _interopRequireDefault(_TextSelectionMarkSpec);
 var _TextUnderlineMarkSpec = require('./TextUnderlineMarkSpec');
 
 var _TextUnderlineMarkSpec2 = _interopRequireDefault(_TextUnderlineMarkSpec);
-
-var _prosemirrorModel = require('prosemirror-model');
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 

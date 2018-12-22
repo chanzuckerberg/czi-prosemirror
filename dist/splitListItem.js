@@ -7,9 +7,9 @@ exports.default = splitListItem;
 
 var _prosemirrorModel = require('prosemirror-model');
 
-var _NodeNames = require('./NodeNames');
-
 var _prosemirrorTransform = require('prosemirror-transform');
+
+var _NodeNames = require('./NodeNames');
 
 // Build a command that splits a non-empty textblock at the top level
 // of a list item by also splitting that list item.

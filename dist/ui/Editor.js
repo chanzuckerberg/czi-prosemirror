@@ -28,15 +28,45 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-require('./czi-editor.css');
+var _classnames = require('classnames');
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
+var _prosemirrorState = require('prosemirror-state');
+
+var _prosemirrorTransform = require('prosemirror-transform');
+
+var _prosemirrorView = require('prosemirror-view');
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
 
 require('prosemirror-gapcursor/style/gapcursor.css');
 
 require('prosemirror-view/style/prosemirror.css');
 
+var _NodeNames = require('../NodeNames');
+
+var _createEmptyEditorState = require('../createEmptyEditorState');
+
+var _createEmptyEditorState2 = _interopRequireDefault(_createEmptyEditorState);
+
+var _normalizeHTML = require('../normalizeHTML');
+
+var _normalizeHTML2 = _interopRequireDefault(_normalizeHTML);
+
+var _BookmarkNodeView = require('./BookmarkNodeView');
+
+var _BookmarkNodeView2 = _interopRequireDefault(_BookmarkNodeView);
+
 var _CustomEditorView = require('./CustomEditorView');
 
 var _CustomEditorView2 = _interopRequireDefault(_CustomEditorView);
+
+var _CustomNodeView = require('./CustomNodeView');
+
+var _CustomNodeView2 = _interopRequireDefault(_CustomNodeView);
 
 var _ImageNodeView = require('./ImageNodeView');
 
@@ -46,37 +76,11 @@ var _MathNodeView = require('./MathNodeView');
 
 var _MathNodeView2 = _interopRequireDefault(_MathNodeView);
 
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _createEmptyEditorState = require('../createEmptyEditorState');
-
-var _createEmptyEditorState2 = _interopRequireDefault(_createEmptyEditorState);
-
-var _classnames = require('classnames');
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
-var _normalizeHTML = require('../normalizeHTML');
-
-var _normalizeHTML2 = _interopRequireDefault(_normalizeHTML);
-
 var _uuid = require('./uuid');
 
 var _uuid2 = _interopRequireDefault(_uuid);
 
-var _prosemirrorState = require('prosemirror-state');
-
-var _prosemirrorView = require('prosemirror-view');
-
-var _prosemirrorTransform = require('prosemirror-transform');
-
-var _NodeNames = require('../NodeNames');
-
-var _CustomNodeView = require('./CustomNodeView');
-
-var _CustomNodeView2 = _interopRequireDefault(_CustomNodeView);
+require('./czi-editor.css');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -150,7 +154,7 @@ var Editor = function (_React$PureComponent) {
           dispatchTransaction: this._dispatchTransaction,
           editable: this._isEditable,
           transformPastedHTML: transformPastedHTML,
-          nodeViews: (_nodeViews = {}, (0, _defineProperty3.default)(_nodeViews, _NodeNames.IMAGE, bindNodeView(_ImageNodeView2.default)), (0, _defineProperty3.default)(_nodeViews, _NodeNames.MATH, bindNodeView(_MathNodeView2.default)), _nodeViews)
+          nodeViews: (_nodeViews = {}, (0, _defineProperty3.default)(_nodeViews, _NodeNames.IMAGE, bindNodeView(_ImageNodeView2.default)), (0, _defineProperty3.default)(_nodeViews, _NodeNames.MATH, bindNodeView(_MathNodeView2.default)), (0, _defineProperty3.default)(_nodeViews, _NodeNames.BOOKMARK, bindNodeView(_BookmarkNodeView2.default)), _nodeViews)
         });
 
         _view.runtime = runtime;

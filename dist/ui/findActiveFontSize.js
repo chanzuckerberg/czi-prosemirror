@@ -5,21 +5,21 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = findActiveFontSize;
 
+var _prosemirrorState = require('prosemirror-state');
+
+var _prosemirrorUtils = require('prosemirror-utils');
+
+var _MarkNames = require('../MarkNames');
+
+var _NodeNames = require('../NodeNames');
+
 var _findActiveMark = require('../findActiveMark');
 
 var _findActiveMark2 = _interopRequireDefault(_findActiveMark);
 
-var _prosemirrorState = require('prosemirror-state');
-
-var _NodeNames = require('../NodeNames');
-
-var _MarkNames = require('../MarkNames');
-
-var _prosemirrorUtils = require('prosemirror-utils');
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// This should map to `--czi-editor-font-size` at `czi-editor.css`.
+// This should map to `--czi-content-font-size` at `czi-editor.css`.
 var FONT_PT_SIZE_DEFAULT = 11;
 
 // This should map to `czi-heading.css`.

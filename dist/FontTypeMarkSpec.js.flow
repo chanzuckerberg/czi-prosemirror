@@ -1,7 +1,7 @@
 // @flow
 
-import WebFontLoader from 'webfontloader';
 import {Node} from 'prosemirror-model';
+import WebFontLoader from 'webfontloader';
 
 import type {MarkSpec} from './Types';
 

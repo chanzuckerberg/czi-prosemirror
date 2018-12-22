@@ -6,15 +6,15 @@ Object.defineProperty(exports, "__esModule", {
 exports.getParagraphNodeAttrs = exports.toParagraphDOM = exports.LINE_SPACING_VALUES = exports.ATTRIBUTE_INDENT = exports.MAX_INDENT_LEVEL = exports.MIN_INDENT_LEVEL = exports.INDENT_MARGIN_PT_SIZE = undefined;
 exports.convertMarginLeftToIndentValue = convertMarginLeftToIndentValue;
 
-var _clamp = require('./ui/clamp');
-
-var _clamp2 = _interopRequireDefault(_clamp);
+var _prosemirrorModel = require('prosemirror-model');
 
 var _convertToCSSPTValue = require('./convertToCSSPTValue');
 
 var _convertToCSSPTValue2 = _interopRequireDefault(_convertToCSSPTValue);
 
-var _prosemirrorModel = require('prosemirror-model');
+var _clamp = require('./ui/clamp');
+
+var _clamp2 = _interopRequireDefault(_clamp);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

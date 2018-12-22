@@ -14,13 +14,10 @@
 }
 
 .ProseMirror {
-  -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-family: var(--czi-editor-font-family);
-  font-size: var(--czi-editor-font-size);
-  line-height: var(--czi-editor-line-height);
-  user-zoom: fixed;
+  -webkit-font-smoothing: antialiased;
   position: relative;
+  user-zoom: fixed;
 }
 
 .ProseMirror.czi-has-placeholder {
@@ -29,11 +26,6 @@
 
 .ProseMirror.czi-has-placeholder {
   min-height: 100px;
-}
-
-.ProseMirror p {
-  line-height: var(--czi-editor-line-height);
-  margin: 0;
 }
 
 .prosemirror-editor-wrapper {
@@ -43,10 +35,10 @@
 .czi-editor-content-placeholder {
   box-sizing: border-box;
   color: var(--czi-placeholder-text-color);
-  font-family: var(--czi-editor-font-family);
-  font-size: var(--czi-editor-font-size);
+  font-family: var(--czi-content-font-family);
+  font-size: var(--czi-content-font-size);
   left: 0;
-  line-height: var(--czi-editor-line-height);
+  line-height: var(--czi-content-line-height);
   pointer-events: none;
   position: absolute;
   right: 0;
@@ -55,8 +47,7 @@
 }
 
 @media only screen {
-  .ProseMirror {
-    background: #fff;
+  .ProseMirror {    
     border-radius: 1px;
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
     box-sizing: border-box;
@@ -112,11 +103,26 @@
   }
 }
 
+/* Content Styles *************************************************************/
+
+.ProseMirror {
+  background: var(--czi-content-body-background-color);
+  color: var(--czi-content-font-color);
+  font-family: var(--czi-content-font-family);
+  font-size: var(--czi-content-font-size);
+  line-height: var(--czi-content-line-height);
+}
+
+.ProseMirror p {
+  line-height: var(--czi-content-line-height);
+  margin: 0;
+}
+
 .ProseMirror a:link,
 .ProseMirror a:visited,
 .ProseMirror a:hover,
 .ProseMirror a:active {
-  color: var(--czi-link-color);
+  color: var(--czi-content-link-color);
 }
 
 /* Blockquote */

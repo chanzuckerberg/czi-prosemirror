@@ -28,9 +28,21 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
+var _prosemirrorModel = require('prosemirror-model');
+
+var _prosemirrorState = require('prosemirror-state');
+
+var _prosemirrorTransform = require('prosemirror-transform');
+
+var _prosemirrorView = require('prosemirror-view');
+
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
+
+var _CursorPlaceholderPlugin = require('./CursorPlaceholderPlugin');
+
+var _NodeNames = require('./NodeNames');
 
 var _UICommand2 = require('./ui/UICommand');
 
@@ -39,18 +51,6 @@ var _UICommand3 = _interopRequireDefault(_UICommand2);
 var _createPopUp = require('./ui/createPopUp');
 
 var _createPopUp2 = _interopRequireDefault(_createPopUp);
-
-var _prosemirrorState = require('prosemirror-state');
-
-var _prosemirrorView = require('prosemirror-view');
-
-var _prosemirrorModel = require('prosemirror-model');
-
-var _NodeNames = require('./NodeNames');
-
-var _prosemirrorTransform = require('prosemirror-transform');
-
-var _CursorPlaceholderPlugin = require('./CursorPlaceholderPlugin');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

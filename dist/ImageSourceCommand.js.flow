@@ -1,15 +1,16 @@
 // @flow
 
-import React from 'react';
-import UICommand from './ui/UICommand';
-import createPopUp from './ui/createPopUp';
-import {EditorState} from 'prosemirror-state';
-import {EditorView} from 'prosemirror-view';
 import {Fragment, Schema} from 'prosemirror-model';
-import {IMAGE} from './NodeNames';
+import {EditorState} from 'prosemirror-state';
 import {TextSelection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
-import {showCursorPlaceholder, hideCursorPlaceholder} from './CursorPlaceholderPlugin';
+import {EditorView} from 'prosemirror-view';
+import React from 'react';
+
+import {hideCursorPlaceholder, showCursorPlaceholder} from './CursorPlaceholderPlugin';
+import {IMAGE} from './NodeNames';
+import UICommand from './ui/UICommand';
+import createPopUp from './ui/createPopUp';
 
 import type {ImageLike} from './Types';
 

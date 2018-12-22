@@ -5,17 +5,17 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = transformAndPreserveTextSelection;
 
-var _applyMark = require('./applyMark');
-
-var _applyMark2 = _interopRequireDefault(_applyMark);
-
 var _prosemirrorModel = require('prosemirror-model');
-
-var _MarkNames = require('./MarkNames');
 
 var _prosemirrorState = require('prosemirror-state');
 
 var _prosemirrorTransform = require('prosemirror-transform');
+
+var _MarkNames = require('./MarkNames');
+
+var _applyMark = require('./applyMark');
+
+var _applyMark2 = _interopRequireDefault(_applyMark);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -49,15 +49,34 @@ function transformAndPreserveTextSelection(tr, schema, fn) {
   // Mark current selection so that we could resume the selection later
   // after changing the whole list.
 
-  var selectionExpanded = void 0;
+  var fromOffset = 0;
+  var toOffset = 0;
   if (from === to) {
     if (from === 0) {
       return tr;
     }
-    // Selection is collapsed, create a temnporary selection that the marks can
+    // Selection is collapsed, create a temporary selection that the marks can
     // be applied to.
-    selectionExpanded = _prosemirrorState.TextSelection.create(doc, from - 1, to);
-    tr = tr.setSelection(selectionExpanded);
+    var currentNode = tr.doc.nodeAt(from);
+    var prevNode = tr.doc.nodeAt(from - 1);
+    var nextNode = tr.doc.nodeAt(from + 1);
+
+    // Ensure that the mark is applied to the same type of node.
+    if (prevNode && currentNode && currentNode.type === prevNode.type) {
+      fromOffset = -1;
+    } else if (nextNode && currentNode && currentNode.type === nextNode.type) {
+      toOffset = 1;
+    } else if (nextNode) {
+      // Could not find the same type of node, assume the next node is safe to use.
+      toOffset = 1;
+    } else if (prevNode) {
+      // Could not find the same type of node, assume the next node is safe to use.
+      fromOffset = -1;
+    } else {
+      // Selection can't be safely preserved.
+      return tr;
+    }
+    tr = tr.setSelection(_prosemirrorState.TextSelection.create(doc, from + fromOffset, to + toOffset));
   }
 
   // This is an unique ID (by reference).
@@ -65,6 +84,7 @@ function transformAndPreserveTextSelection(tr, schema, fn) {
   var findMark = function findMark(mark) {
     return mark.attrs.id === id;
   };
+
   var findMarkRange = function findMarkRange() {
     var markFrom = 0;
     var markTo = 0;
@@ -86,9 +106,11 @@ function transformAndPreserveTextSelection(tr, schema, fn) {
 
   var markRange = findMarkRange();
   var selectionRange = {
-    from: selectionExpanded ? markRange.from + 1 : markRange.from,
-    to: markRange.to
+    from: Math.max(0, markRange.from - fromOffset),
+    to: Math.max(0, markRange.to - toOffset)
   };
+
+  selectionRange.to = Math.max(0, selectionRange.from, selectionRange.to);
 
   tr = tr.removeMark(markRange.from, markRange.to, markType);
   tr = tr.setSelection(_prosemirrorState.TextSelection.create(tr.doc, selectionRange.from, selectionRange.to));

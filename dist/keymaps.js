@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.ALL_KEYS = exports.KEY_UNDO = exports.KEY_TOGGLE_UNDERLINE = exports.KEY_TOGGLE_STRIKETHROUGH = exports.KEY_TOGGLE_ORDERED_LIST = exports.KEY_TOGGLE_MONOSPACE = exports.KEY_TOGGLE_ITALIC = exports.KEY_TOGGLE_HEADING_6 = exports.KEY_TOGGLE_HEADING_5 = exports.KEY_TOGGLE_HEADING_4 = exports.KEY_TOGGLE_HEADING_3 = exports.KEY_TOGGLE_HEADING_2 = exports.KEY_TOGGLE_HEADING_1 = exports.KEY_TOGGLE_CODE_BLOCK = exports.KEY_TOGGLE_BULLET_LIST = exports.KEY_TOGGLE_BOLD = exports.KEY_TOGGLE_BLOCK_QUOTE = exports.KEY_SPLIT_LIST_ITEM = exports.KEY_SPLIT_CODEBLOCK = exports.KEY_SHIFT_BACKSPACE = exports.KEY_SET_NORMAL_TEXT = exports.KEY_REDO = exports.KEY_INSERT_NEW_LINE = exports.KEY_INSERT_HORIZONTAL_RULE = exports.KEY_TAB = exports.KEY_TAB_SHIFT = undefined;
+exports.ALL_KEYS = exports.KEY_UNDO = exports.KEY_TOGGLE_UNDERLINE = exports.KEY_TOGGLE_STRIKETHROUGH = exports.KEY_TOGGLE_ORDERED_LIST = exports.KEY_TOGGLE_MONOSPACE = exports.KEY_TOGGLE_ITALIC = exports.KEY_TOGGLE_HEADING_6 = exports.KEY_TOGGLE_HEADING_5 = exports.KEY_TOGGLE_HEADING_4 = exports.KEY_TOGGLE_HEADING_3 = exports.KEY_TOGGLE_HEADING_2 = exports.KEY_TOGGLE_HEADING_1 = exports.KEY_TOGGLE_CODE_BLOCK = exports.KEY_TOGGLE_BULLET_LIST = exports.KEY_TOGGLE_BOLD = exports.KEY_TOGGLE_BLOCK_QUOTE = exports.KEY_TAB_SHIFT = exports.KEY_TAB = exports.KEY_SPLIT_LIST_ITEM = exports.KEY_SPLIT_CODEBLOCK = exports.KEY_SHIFT_BACKSPACE = exports.KEY_SET_NORMAL_TEXT = exports.KEY_REDO = exports.KEY_INSERT_NEW_BLOCKQUOTE_LINE = exports.KEY_INSERT_NEW_LINE = exports.KEY_INSERT_HORIZONTAL_RULE = exports.KEY_FORWARD_DELETE = exports.KEY_BACK_DELETE = undefined;
 exports.tooltip = tooltip;
 exports.findKeymapByDescription = findKeymapByDescription;
 exports.findShortcutByDescription = findShortcutByDescription;
@@ -72,15 +72,18 @@ function makeKeyMapWithCommon(description, common) {
   return makeKeyMap(description, windows, mac, common);
 }
 
-var KEY_TAB_SHIFT = exports.KEY_TAB_SHIFT = makeKeyMapWithCommon('', 'Shift-Tab');
-var KEY_TAB = exports.KEY_TAB = makeKeyMapWithCommon('', 'Tab');
+var KEY_BACK_DELETE = exports.KEY_BACK_DELETE = makeKeyMapWithCommon('', 'Backspace');
+var KEY_FORWARD_DELETE = exports.KEY_FORWARD_DELETE = makeKeyMapWithCommon('', 'Delete');
 var KEY_INSERT_HORIZONTAL_RULE = exports.KEY_INSERT_HORIZONTAL_RULE = makeKeyMapWithCommon('Insert horizontal rule', 'Mod-Shift--');
 var KEY_INSERT_NEW_LINE = exports.KEY_INSERT_NEW_LINE = makeKeyMapWithCommon('Insert new line', 'Shift-Enter');
+var KEY_INSERT_NEW_BLOCKQUOTE_LINE = exports.KEY_INSERT_NEW_BLOCKQUOTE_LINE = makeKeyMapWithCommon('Insert new line in blockquote', 'Enter');
 var KEY_REDO = exports.KEY_REDO = makeKeyMapWithCommon('Redo', 'Mod-Shift-z');
 var KEY_SET_NORMAL_TEXT = exports.KEY_SET_NORMAL_TEXT = makeKeyMap('Normal text', 'Ctrl-0', 'Cmd-Alt-0');
 var KEY_SHIFT_BACKSPACE = exports.KEY_SHIFT_BACKSPACE = makeKeyMapWithCommon('Shift Backspace', 'Shift-Backspace');
 var KEY_SPLIT_CODEBLOCK = exports.KEY_SPLIT_CODEBLOCK = makeKeyMapWithCommon('Split code block', 'Enter');
 var KEY_SPLIT_LIST_ITEM = exports.KEY_SPLIT_LIST_ITEM = makeKeyMapWithCommon('Split list item', 'Enter');
+var KEY_TAB = exports.KEY_TAB = makeKeyMapWithCommon('', 'Tab');
+var KEY_TAB_SHIFT = exports.KEY_TAB_SHIFT = makeKeyMapWithCommon('', 'Shift-Tab');
 var KEY_TOGGLE_BLOCK_QUOTE = exports.KEY_TOGGLE_BLOCK_QUOTE = makeKeyMap('Block quote', 'Ctrl-7', 'Cmd-Alt-7');
 var KEY_TOGGLE_BOLD = exports.KEY_TOGGLE_BOLD = makeKeyMapWithCommon('Toggle bold', 'Mod-b');
 var KEY_TOGGLE_BULLET_LIST = exports.KEY_TOGGLE_BULLET_LIST = makeKeyMapWithCommon('Toggle bullet list', 'Mod-Shift-b');
@@ -98,4 +101,4 @@ var KEY_TOGGLE_STRIKETHROUGH = exports.KEY_TOGGLE_STRIKETHROUGH = makeKeyMapWith
 var KEY_TOGGLE_UNDERLINE = exports.KEY_TOGGLE_UNDERLINE = makeKeyMapWithCommon('Toggle underline', 'Mod-u');
 var KEY_UNDO = exports.KEY_UNDO = makeKeyMapWithCommon('Undo', 'Mod-z');
 
-var ALL_KEYS = exports.ALL_KEYS = [KEY_INSERT_HORIZONTAL_RULE, KEY_INSERT_NEW_LINE, KEY_SET_NORMAL_TEXT, KEY_SHIFT_BACKSPACE, KEY_SPLIT_LIST_ITEM, KEY_TAB, KEY_TAB_SHIFT, KEY_TOGGLE_BLOCK_QUOTE, KEY_TOGGLE_BOLD, KEY_TOGGLE_BULLET_LIST, KEY_TOGGLE_BULLET_LIST, KEY_TOGGLE_CODE_BLOCK, KEY_TOGGLE_HEADING_1, KEY_TOGGLE_HEADING_2, KEY_TOGGLE_HEADING_3, KEY_TOGGLE_HEADING_4, KEY_TOGGLE_HEADING_5, KEY_TOGGLE_HEADING_6, KEY_TOGGLE_ITALIC, KEY_TOGGLE_MONOSPACE, KEY_TOGGLE_ORDERED_LIST, KEY_TOGGLE_STRIKETHROUGH, KEY_TOGGLE_UNDERLINE, KEY_UNDO];
+var ALL_KEYS = exports.ALL_KEYS = [KEY_BACK_DELETE, KEY_FORWARD_DELETE, KEY_INSERT_HORIZONTAL_RULE, KEY_INSERT_NEW_LINE, KEY_INSERT_NEW_BLOCKQUOTE_LINE, KEY_SET_NORMAL_TEXT, KEY_SHIFT_BACKSPACE, KEY_SPLIT_LIST_ITEM, KEY_TAB_SHIFT, KEY_TAB, KEY_TOGGLE_BLOCK_QUOTE, KEY_TOGGLE_BOLD, KEY_TOGGLE_BULLET_LIST, KEY_TOGGLE_BULLET_LIST, KEY_TOGGLE_CODE_BLOCK, KEY_TOGGLE_HEADING_1, KEY_TOGGLE_HEADING_2, KEY_TOGGLE_HEADING_3, KEY_TOGGLE_HEADING_4, KEY_TOGGLE_HEADING_5, KEY_TOGGLE_HEADING_6, KEY_TOGGLE_ITALIC, KEY_TOGGLE_MONOSPACE, KEY_TOGGLE_ORDERED_LIST, KEY_TOGGLE_STRIKETHROUGH, KEY_TOGGLE_UNDERLINE, KEY_UNDO];

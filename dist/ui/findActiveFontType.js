@@ -6,17 +6,17 @@ Object.defineProperty(exports, "__esModule", {
 exports.FONT_TYPE_NAME_DEFAULT = undefined;
 exports.default = findActiveFontType;
 
-var _findActiveMark = require('../findActiveMark');
-
-var _findActiveMark2 = _interopRequireDefault(_findActiveMark);
-
 var _prosemirrorState = require('prosemirror-state');
 
 var _MarkNames = require('../MarkNames');
 
+var _findActiveMark = require('../findActiveMark');
+
+var _findActiveMark2 = _interopRequireDefault(_findActiveMark);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// This should map to `--czi-editor-font-size` at `czi-editor.css`.
+// This should map to `--czi-content-font-size` at `czi-editor.css`.
 var FONT_TYPE_NAME_DEFAULT = exports.FONT_TYPE_NAME_DEFAULT = 'Arial';
 
 function findActiveFontType(state) {

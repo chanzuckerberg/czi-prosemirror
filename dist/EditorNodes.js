@@ -10,13 +10,15 @@ var _defineProperty3 = _interopRequireDefault(_defineProperty2);
 
 var _nodes;
 
-var _NodeNames = require('./NodeNames');
-
-var NodeNames = _interopRequireWildcard(_NodeNames);
+var _prosemirrorModel = require('prosemirror-model');
 
 var _BlockquoteNodeSpec = require('./BlockquoteNodeSpec');
 
 var _BlockquoteNodeSpec2 = _interopRequireDefault(_BlockquoteNodeSpec);
+
+var _BookmarkNodeSpec = require('./BookmarkNodeSpec');
+
+var _BookmarkNodeSpec2 = _interopRequireDefault(_BookmarkNodeSpec);
 
 var _BulletListNodeSpec = require('./BulletListNodeSpec');
 
@@ -54,6 +56,10 @@ var _MathNodeSpec = require('./MathNodeSpec');
 
 var _MathNodeSpec2 = _interopRequireDefault(_MathNodeSpec);
 
+var _NodeNames = require('./NodeNames');
+
+var NodeNames = _interopRequireWildcard(_NodeNames);
+
 var _OrderedListNodeSpec = require('./OrderedListNodeSpec');
 
 var _OrderedListNodeSpec2 = _interopRequireDefault(_OrderedListNodeSpec);
@@ -70,13 +76,12 @@ var _TextNodeSpec = require('./TextNodeSpec');
 
 var _TextNodeSpec2 = _interopRequireDefault(_TextNodeSpec);
 
-var _prosemirrorModel = require('prosemirror-model');
-
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var BLOCKQUOTE = NodeNames.BLOCKQUOTE,
+    BOOKMARK = NodeNames.BOOKMARK,
     BULLET_LIST = NodeNames.BULLET_LIST,
     CODE_BLOCK = NodeNames.CODE_BLOCK,
     DOC = NodeNames.DOC,
@@ -95,11 +100,10 @@ var BLOCKQUOTE = NodeNames.BLOCKQUOTE,
 // !! Be careful with the order of these nodes, which may effect the parsing
 // outcome.!!
 
-var nodes = (_nodes = {}, (0, _defineProperty3.default)(_nodes, DOC, _DocNodeSpec2.default), (0, _defineProperty3.default)(_nodes, PARAGRAPH, _ParagraphNodeSpec2.default), (0, _defineProperty3.default)(_nodes, BLOCKQUOTE, _BlockquoteNodeSpec2.default), (0, _defineProperty3.default)(_nodes, HORIZONTAL_RULE, _HorizontalRuleNodeSpec2.default), (0, _defineProperty3.default)(_nodes, HEADING, _HeadingNodeSpec2.default), (0, _defineProperty3.default)(_nodes, CODE_BLOCK, _CodeBlockNodeSpec2.default), (0, _defineProperty3.default)(_nodes, TEXT, _TextNodeSpec2.default), (0, _defineProperty3.default)(_nodes, IMAGE, _ImageNodeSpec2.default), (0, _defineProperty3.default)(_nodes, MATH, _MathNodeSpec2.default), (0, _defineProperty3.default)(_nodes, HARD_BREAK, _HardBreakNodeSpec2.default), (0, _defineProperty3.default)(_nodes, BULLET_LIST, _BulletListNodeSpec2.default), (0, _defineProperty3.default)(_nodes, ORDERED_LIST, _OrderedListNodeSpec2.default), (0, _defineProperty3.default)(_nodes, LIST_ITEM, _ListItemNodeSpec2.default), _nodes);
+var nodes = (_nodes = {}, (0, _defineProperty3.default)(_nodes, DOC, _DocNodeSpec2.default), (0, _defineProperty3.default)(_nodes, PARAGRAPH, _ParagraphNodeSpec2.default), (0, _defineProperty3.default)(_nodes, BLOCKQUOTE, _BlockquoteNodeSpec2.default), (0, _defineProperty3.default)(_nodes, HORIZONTAL_RULE, _HorizontalRuleNodeSpec2.default), (0, _defineProperty3.default)(_nodes, HEADING, _HeadingNodeSpec2.default), (0, _defineProperty3.default)(_nodes, CODE_BLOCK, _CodeBlockNodeSpec2.default), (0, _defineProperty3.default)(_nodes, TEXT, _TextNodeSpec2.default), (0, _defineProperty3.default)(_nodes, IMAGE, _ImageNodeSpec2.default), (0, _defineProperty3.default)(_nodes, MATH, _MathNodeSpec2.default), (0, _defineProperty3.default)(_nodes, HARD_BREAK, _HardBreakNodeSpec2.default), (0, _defineProperty3.default)(_nodes, BULLET_LIST, _BulletListNodeSpec2.default), (0, _defineProperty3.default)(_nodes, ORDERED_LIST, _OrderedListNodeSpec2.default), (0, _defineProperty3.default)(_nodes, LIST_ITEM, _ListItemNodeSpec2.default), (0, _defineProperty3.default)(_nodes, BOOKMARK, _BookmarkNodeSpec2.default), _nodes);
 
 var marks = {};
 var schema = new _prosemirrorModel.Schema({ nodes: nodes, marks: marks });
-
 var EditorNodes = schema.spec.nodes.append(_TableNodesSpecs2.default);
 
 exports.default = EditorNodes;

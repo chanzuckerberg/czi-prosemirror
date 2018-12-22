@@ -1,6 +1,6 @@
 // @flow
 
-import {Node, Mark, MarkType} from 'prosemirror-model';
+import {Mark, MarkType, Node} from 'prosemirror-model';
 
 type Result = {
   mark: Mark,

@@ -24,9 +24,15 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _UICommand2 = require('./ui/UICommand');
+var _prosemirrorState = require('prosemirror-state');
 
-var _UICommand3 = _interopRequireDefault(_UICommand2);
+var _prosemirrorTransform = require('prosemirror-transform');
+
+var _prosemirrorUtils = require('prosemirror-utils');
+
+var _prosemirrorView = require('prosemirror-view');
+
+var _NodeNames = require('./NodeNames');
 
 var _noop = require('./noop');
 
@@ -36,15 +42,9 @@ var _toggleHeading = require('./toggleHeading');
 
 var _toggleHeading2 = _interopRequireDefault(_toggleHeading);
 
-var _prosemirrorState = require('prosemirror-state');
+var _UICommand2 = require('./ui/UICommand');
 
-var _prosemirrorView = require('prosemirror-view');
-
-var _NodeNames = require('./NodeNames');
-
-var _prosemirrorTransform = require('prosemirror-transform');
-
-var _prosemirrorUtils = require('prosemirror-utils');
+var _UICommand3 = _interopRequireDefault(_UICommand2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

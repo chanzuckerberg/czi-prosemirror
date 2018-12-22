@@ -1,13 +1,14 @@
 // @flow
 
-import UICommand from './ui/UICommand';
-import applyMark from './applyMark';
-import {EditorState} from 'prosemirror-state';
-import {EditorView} from 'prosemirror-view';
-import {MARK_FONT_SIZE} from './MarkNames';
 import {Schema} from 'prosemirror-model';
-import {AllSelection , TextSelection} from 'prosemirror-state';
+import {EditorState} from 'prosemirror-state';
+import {AllSelection, TextSelection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
+import {EditorView} from 'prosemirror-view';
+
+import {MARK_FONT_SIZE} from './MarkNames';
+import applyMark from './applyMark';
+import UICommand from './ui/UICommand';
 
 function setFontSize(
   tr: Transform,

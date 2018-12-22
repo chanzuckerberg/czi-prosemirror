@@ -1,9 +1,10 @@
 // @flow
 
 import {EditorState} from 'prosemirror-state';
-import createEmptyEditorState from './createEmptyEditorState';
+
 import EditorPlugins from './EditorPlugins';
 import EditorSchema from './EditorSchema';
+import createEmptyEditorState from './createEmptyEditorState';
 
 export default function convertFromJSON(json: Object | string): EditorState {
   const schema = EditorSchema;

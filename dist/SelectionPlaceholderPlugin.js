@@ -23,13 +23,13 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 exports.showSelectionPlaceholder = showSelectionPlaceholder;
 exports.hideSelectionPlaceholder = hideSelectionPlaceholder;
 
-require('./ui/czi-selection-placeholder.css');
-
 var _prosemirrorState = require('prosemirror-state');
+
+var _prosemirrorTransform = require('prosemirror-transform');
 
 var _prosemirrorView = require('prosemirror-view');
 
-var _prosemirrorTransform = require('prosemirror-transform');
+require('./ui/czi-selection-placeholder.css');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

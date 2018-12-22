@@ -1,7 +1,7 @@
 // @flow
 
-import {inputRules, wrappingInputRule, textblockTypeInputRule, smartQuotes, emDash, ellipsis, InputRule} from 'prosemirror-inputrules';
-import {Schema, NodeType} from 'prosemirror-model';
+import {InputRule, ellipsis, emDash, inputRules, smartQuotes, textblockTypeInputRule, wrappingInputRule} from 'prosemirror-inputrules';
+import {NodeType, Schema} from 'prosemirror-model';
 
 // This file is forked from
 // // https://github.com/ProseMirror/prosemirror-example-setup/blob/master/src/inputrules.js

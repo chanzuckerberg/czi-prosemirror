@@ -11,27 +11,27 @@ var _extends3 = _interopRequireDefault(_extends2);
 exports.default = toggleList;
 exports.unwrapNodesFromList = unwrapNodesFromList;
 
-var _isListNode = require('./isListNode');
-
-var _isListNode2 = _interopRequireDefault(_isListNode);
-
 var _nullthrows = require('nullthrows');
 
 var _nullthrows2 = _interopRequireDefault(_nullthrows);
 
-var _transformAndPreserveTextSelection = require('./transformAndPreserveTextSelection');
-
-var _transformAndPreserveTextSelection2 = _interopRequireDefault(_transformAndPreserveTextSelection);
+var _prosemirrorModel = require('prosemirror-model');
 
 var _prosemirrorState = require('prosemirror-state');
-
-var _NodeNames = require('./NodeNames');
-
-var _prosemirrorModel = require('prosemirror-model');
 
 var _prosemirrorTransform = require('prosemirror-transform');
 
 var _prosemirrorUtils = require('prosemirror-utils');
+
+var _NodeNames = require('./NodeNames');
+
+var _isListNode = require('./isListNode');
+
+var _isListNode2 = _interopRequireDefault(_isListNode);
+
+var _transformAndPreserveTextSelection = require('./transformAndPreserveTextSelection');
+
+var _transformAndPreserveTextSelection2 = _interopRequireDefault(_transformAndPreserveTextSelection);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -50,12 +50,15 @@ function toggleList(tr, schema, listNodeType) {
 
 
   var fromSelection = _prosemirrorState.TextSelection.create(doc, from, from);
-
+  var paragraph = schema.nodes[_NodeNames.PARAGRAPH];
+  var heading = schema.nodes[_NodeNames.HEADING];
   var result = (0, _prosemirrorUtils.findParentNodeOfType)(listNodeType)(fromSelection);
   if (result) {
     tr = unwrapNodesFromList(tr, schema, result.pos);
-  } else {
-    wrapNodesWithList(tr, schema, listNodeType);
+  } else if (paragraph && (0, _prosemirrorUtils.findParentNodeOfType)(paragraph)(fromSelection)) {
+    tr = wrapNodesWithList(tr, schema, listNodeType);
+  } else if (heading && (0, _prosemirrorUtils.findParentNodeOfType)(heading)(fromSelection)) {
+    tr = wrapNodesWithList(tr, schema, listNodeType);
   }
 
   return tr;
@@ -114,12 +117,13 @@ function wrapNodesWithListInternal(memo, listNodeType) {
       items = items || [];
       items.push({ node: node, pos: pos });
     } else {
-      items && lists.push(items);
+      items && items.length && lists.push(items);
       items = null;
     }
     return true;
   });
-  items && lists.push(items);
+  items && items.length && lists.push(items);
+  console.log(lists);
 
   lists = lists.filter(function (items) {
     return items.length > 0;

@@ -24,13 +24,21 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _DocLayoutEditor = require('./ui/DocLayoutEditor');
+var _prosemirrorModel = require('prosemirror-model');
 
-var _DocLayoutEditor2 = _interopRequireDefault(_DocLayoutEditor);
+var _prosemirrorState = require('prosemirror-state');
+
+var _prosemirrorTransform = require('prosemirror-transform');
+
+var _prosemirrorView = require('prosemirror-view');
 
 var _SetDocAttrStep = require('./SetDocAttrStep');
 
 var _SetDocAttrStep2 = _interopRequireDefault(_SetDocAttrStep);
+
+var _DocLayoutEditor = require('./ui/DocLayoutEditor');
+
+var _DocLayoutEditor2 = _interopRequireDefault(_DocLayoutEditor);
 
 var _UICommand2 = require('./ui/UICommand');
 
@@ -39,14 +47,6 @@ var _UICommand3 = _interopRequireDefault(_UICommand2);
 var _createPopUp = require('./ui/createPopUp');
 
 var _createPopUp2 = _interopRequireDefault(_createPopUp);
-
-var _prosemirrorState = require('prosemirror-state');
-
-var _prosemirrorView = require('prosemirror-view');
-
-var _prosemirrorModel = require('prosemirror-model');
-
-var _prosemirrorTransform = require('prosemirror-transform');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

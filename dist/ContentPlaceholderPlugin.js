@@ -24,7 +24,9 @@ var _createClass2 = require('babel-runtime/helpers/createClass');
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-require('./ui/czi-editor.css');
+var _prosemirrorState = require('prosemirror-state');
+
+var _prosemirrorView = require('prosemirror-view');
 
 var _react = require('react');
 
@@ -38,9 +40,7 @@ var _isEditorStateEmpty = require('./isEditorStateEmpty');
 
 var _isEditorStateEmpty2 = _interopRequireDefault(_isEditorStateEmpty);
 
-var _prosemirrorState = require('prosemirror-state');
-
-var _prosemirrorView = require('prosemirror-view');
+require('./ui/czi-editor.css');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

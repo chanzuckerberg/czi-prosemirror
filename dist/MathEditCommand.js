@@ -24,6 +24,22 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
+var _prosemirrorModel = require('prosemirror-model');
+
+var _prosemirrorState = require('prosemirror-state');
+
+var _prosemirrorTransform = require('prosemirror-transform');
+
+var _prosemirrorView = require('prosemirror-view');
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _CursorPlaceholderPlugin = require('./CursorPlaceholderPlugin');
+
+var _NodeNames = require('./NodeNames');
+
 var _MathEditor = require('./ui/MathEditor');
 
 var _MathEditor2 = _interopRequireDefault(_MathEditor);
@@ -36,24 +52,9 @@ var _createPopUp = require('./ui/createPopUp');
 
 var _createPopUp2 = _interopRequireDefault(_createPopUp);
 
-var _prosemirrorState = require('prosemirror-state');
-
-var _prosemirrorView = require('prosemirror-view');
-
-var _prosemirrorModel = require('prosemirror-model');
-
-var _NodeNames = require('./NodeNames');
-
-var _prosemirrorTransform = require('prosemirror-transform');
-
-var _CursorPlaceholderPlugin = require('./CursorPlaceholderPlugin');
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+// eslint-disable-next-line no-unused-vars
 function insertMath(tr, schema, latex) {
   var _tr = tr,
       selection = _tr.selection;
@@ -82,9 +83,6 @@ function insertMath(tr, schema, latex) {
   tr = tr.insert(from, frag);
   return tr;
 }
-
-// eslint-disable-next-line no-unused-vars
-
 
 var MathEditCommand = function (_UICommand) {
   (0, _inherits3.default)(MathEditCommand, _UICommand);

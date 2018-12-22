@@ -279,9 +279,6 @@ var CustomNodeView = function () {
         this.props.focused = pos === from;
       }
 
-      // const {selected, focused} = this.props;
-      // console.log({selected, focused});
-
       _reactDom2.default.render(this.renderReactComponent(), this.dom);
     }
   }]);

@@ -5,6 +5,16 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = joinListNode;
 
+var _prosemirrorModel = require('prosemirror-model');
+
+var _prosemirrorState = require('prosemirror-state');
+
+var _prosemirrorTransform = require('prosemirror-transform');
+
+var _isListNode = require('./isListNode');
+
+var _isListNode2 = _interopRequireDefault(_isListNode);
+
 var _joinDown = require('./joinDown');
 
 var _joinDown2 = _interopRequireDefault(_joinDown);
@@ -12,16 +22,6 @@ var _joinDown2 = _interopRequireDefault(_joinDown);
 var _joinUp = require('./joinUp');
 
 var _joinUp2 = _interopRequireDefault(_joinUp);
-
-var _isListNode = require('./isListNode');
-
-var _isListNode2 = _interopRequireDefault(_isListNode);
-
-var _prosemirrorModel = require('prosemirror-model');
-
-var _prosemirrorState = require('prosemirror-state');
-
-var _prosemirrorTransform = require('prosemirror-transform');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

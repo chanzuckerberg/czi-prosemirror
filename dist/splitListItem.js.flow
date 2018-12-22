@@ -1,8 +1,9 @@
 // @flow
 
 import {Fragment, Schema, Slice} from 'prosemirror-model';
+import {Transform, canSplit} from 'prosemirror-transform';
+
 import {LIST_ITEM} from './NodeNames';
-import {canSplit, Transform} from 'prosemirror-transform';
 
 // Build a command that splits a non-empty textblock at the top level
 // of a list item by also splitting that list item.

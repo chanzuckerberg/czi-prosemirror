@@ -5,15 +5,19 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = toggleCodeBlock;
 
-var _isListNode = require('./isListNode');
-
-var _isListNode2 = _interopRequireDefault(_isListNode);
-
 var _prosemirrorModel = require('prosemirror-model');
+
+var _prosemirrorTransform = require('prosemirror-transform');
 
 var _NodeNames = require('./NodeNames');
 
-var _prosemirrorTransform = require('prosemirror-transform');
+var _compareNumber = require('./compareNumber');
+
+var _compareNumber2 = _interopRequireDefault(_compareNumber);
+
+var _isListNode = require('./isListNode');
+
+var _isListNode2 = _interopRequireDefault(_isListNode);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -45,7 +49,7 @@ function toggleCodeBlock(tr, schema) {
   });
 
   // Update from the bottom to avoid disruptive changes in pos.
-  poses.sort().reverse().forEach(function (pos) {
+  poses.sort(_compareNumber2.default).reverse().forEach(function (pos) {
     tr = setCodeBlockNodeEnabled(tr, schema, pos, startWithCodeBlock ? false : true);
   });
   return tr;

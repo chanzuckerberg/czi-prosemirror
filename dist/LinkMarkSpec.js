@@ -17,9 +17,12 @@ var LinkMarkSpec = {
   parseDOM: [{
     tag: 'a[href]',
     getAttrs: function getAttrs(dom) {
+      var href = dom.getAttribute('href');
+      var target = href && href.indexOf('#') === 0 ? '' : 'blank';
       return {
         href: dom.getAttribute('href'),
-        title: dom.getAttribute('title')
+        title: dom.getAttribute('title'),
+        target: target
       };
     }
   }],

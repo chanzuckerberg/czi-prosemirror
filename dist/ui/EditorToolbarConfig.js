@@ -11,6 +11,10 @@ var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
 
 exports.parseLabel = parseLabel;
 
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
 var _EditorCommands = require('../EditorCommands');
 
 var EditorCommands = _interopRequireWildcard(_EditorCommands);
@@ -27,18 +31,13 @@ var _Icon = require('./Icon');
 
 var _Icon2 = _interopRequireDefault(_Icon);
 
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var ICON_LABEL_PATTERN = /\[([A-Za-z_\d]+)\](.*)/;
+
 // eslint-disable-next-line no-unused-vars
-
-
 function parseLabel(input) {
   var matched = input.match(ICON_LABEL_PATTERN);
   if (matched) {
@@ -60,7 +59,7 @@ function parseLabel(input) {
   };
 }
 
-var BLOCKQUOTE_INFO = EditorCommands.BLOCKQUOTE_INFO,
+var BLOCKQUOTE_TOGGLE = EditorCommands.BLOCKQUOTE_TOGGLE,
     CLEAR_FORMAT = EditorCommands.CLEAR_FORMAT,
     CODE = EditorCommands.CODE,
     DOC_LAYOUT = EditorCommands.DOC_LAYOUT,
@@ -181,7 +180,7 @@ var COMMAND_GROUPS = exports.COMMAND_GROUPS = [{
   '[functions] Math': MATH_EDIT,
   '[code] Code': CODE,
   '[format_strikethrough] Strike through': STRIKE,
-  '[format_quote] Block quote': BLOCKQUOTE_INFO
+  '[format_quote] Block quote': BLOCKQUOTE_TOGGLE
 }, {
   '[settings_overscan] Page layout': DOC_LAYOUT
 }];

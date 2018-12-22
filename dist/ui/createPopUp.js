@@ -10,11 +10,17 @@ var _from2 = _interopRequireDefault(_from);
 
 exports.default = createPopUp;
 
+require('./czi-vars.css');
+
 require('./czi-pop-up.css');
 
 var _PopUp = require('./PopUp');
 
 var _PopUp2 = _interopRequireDefault(_PopUp);
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
 
 var _reactDom = require('react-dom');
 
@@ -24,18 +30,13 @@ var _uuid = require('./uuid');
 
 var _uuid2 = _interopRequireDefault(_uuid);
 
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var babelPluginFlowReactPropTypes_proptype_ViewProps = require('./PopUp').babelPluginFlowReactPropTypes_proptype_ViewProps || require('prop-types').any;
 
+var babelPluginFlowReactPropTypes_proptype_PopUpParams = require('./PopUp').babelPluginFlowReactPropTypes_proptype_PopUpParams || require('prop-types').any;
 // eslint-disable-next-line no-unused-vars
 
-
-var babelPluginFlowReactPropTypes_proptype_PopUpParams = require('./PopUp').babelPluginFlowReactPropTypes_proptype_PopUpParams || require('prop-types').any;
 
 if (typeof exports !== 'undefined') Object.defineProperty(exports, 'babelPluginFlowReactPropTypes_proptype_PopUpHandle', {
   value: require('prop-types').shape({
@@ -98,7 +99,7 @@ function getRootElement(id, forceCreation, popUpParams) {
     element.setAttribute('data-pop-up-modal', 'y');
   }
 
-  element.className = 'czi-pop-up-element';
+  element.className = 'czi-pop-up-element czi-vars';
   element.id = id;
 
   var style = element.style;

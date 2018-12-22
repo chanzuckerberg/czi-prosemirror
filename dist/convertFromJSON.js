@@ -12,10 +12,6 @@ exports.default = convertFromJSON;
 
 var _prosemirrorState = require('prosemirror-state');
 
-var _createEmptyEditorState = require('./createEmptyEditorState');
-
-var _createEmptyEditorState2 = _interopRequireDefault(_createEmptyEditorState);
-
 var _EditorPlugins = require('./EditorPlugins');
 
 var _EditorPlugins2 = _interopRequireDefault(_EditorPlugins);
@@ -23,6 +19,10 @@ var _EditorPlugins2 = _interopRequireDefault(_EditorPlugins);
 var _EditorSchema = require('./EditorSchema');
 
 var _EditorSchema2 = _interopRequireDefault(_EditorSchema);
+
+var _createEmptyEditorState = require('./createEmptyEditorState');
+
+var _createEmptyEditorState2 = _interopRequireDefault(_createEmptyEditorState);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

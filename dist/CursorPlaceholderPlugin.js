@@ -23,13 +23,13 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 exports.showCursorPlaceholder = showCursorPlaceholder;
 exports.hideCursorPlaceholder = hideCursorPlaceholder;
 
-require('./ui/czi-cursor-placeholder.css');
-
-var _prosemirrorView = require('prosemirror-view');
-
 var _prosemirrorState = require('prosemirror-state');
 
 var _prosemirrorTransform = require('prosemirror-transform');
+
+var _prosemirrorView = require('prosemirror-view');
+
+require('./ui/czi-cursor-placeholder.css');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

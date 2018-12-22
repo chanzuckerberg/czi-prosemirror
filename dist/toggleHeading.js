@@ -10,6 +10,16 @@ var _extends3 = _interopRequireDefault(_extends2);
 
 exports.default = toggleHeading;
 
+var _prosemirrorModel = require('prosemirror-model');
+
+var _prosemirrorTransform = require('prosemirror-transform');
+
+var _NodeNames = require('./NodeNames');
+
+var _compareNumber = require('./compareNumber');
+
+var _compareNumber2 = _interopRequireDefault(_compareNumber);
+
 var _isInsideListItem = require('./isInsideListItem');
 
 var _isInsideListItem2 = _interopRequireDefault(_isInsideListItem);
@@ -17,12 +27,6 @@ var _isInsideListItem2 = _interopRequireDefault(_isInsideListItem);
 var _isListNode = require('./isListNode');
 
 var _isListNode2 = _interopRequireDefault(_isListNode);
-
-var _NodeNames = require('./NodeNames');
-
-var _prosemirrorModel = require('prosemirror-model');
-
-var _prosemirrorTransform = require('prosemirror-transform');
 
 var _toggleList = require('./toggleList');
 
@@ -64,7 +68,7 @@ function toggleHeading(tr, schema, level) {
     return !(0, _isListNode2.default)(node);
   });
   // Update from the bottom to avoid disruptive changes in pos.
-  poses.sort().reverse().forEach(function (pos) {
+  poses.sort(_compareNumber2.default).reverse().forEach(function (pos) {
     tr = setHeadingNode(tr, schema, pos, startWithHeadingBlock ? null : level);
   });
   return tr;

@@ -36,9 +36,13 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-require('./czi-form.css');
+var _classnames = require('classnames');
 
-require('./czi-image-upload-editor.css');
+var _classnames2 = _interopRequireDefault(_classnames);
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
 
 var _CustomButton = require('./CustomButton');
 
@@ -48,17 +52,13 @@ var _LoadingIndicator = require('./LoadingIndicator');
 
 var _LoadingIndicator2 = _interopRequireDefault(_LoadingIndicator);
 
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _classnames = require('classnames');
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
 var _uuid = require('./uuid');
 
 var _uuid2 = _interopRequireDefault(_uuid);
+
+require('./czi-form.css');
+
+require('./czi-image-upload-editor.css');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -171,7 +171,7 @@ var ImageUploadEditor = function (_React$PureComponent) {
           pending = _state.pending;
 
       var className = (0, _classnames2.default)('czi-image-upload-editor', { pending: pending, error: error });
-      var label = 'Choose a image file...';
+      var label = 'Choose an image file...';
 
       if (pending) {
         label = _react2.default.createElement(_LoadingIndicator2.default, null);

@@ -1,6 +1,7 @@
 // @flow
 
 import {EditorState} from 'prosemirror-state';
+
 import EditorPlugins from './EditorPlugins';
 import EditorSchema from './EditorSchema';
 

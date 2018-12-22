@@ -26,11 +26,11 @@ var _extends3 = _interopRequireDefault(_extends2);
 
 exports.setTextLineSpacing = setTextLineSpacing;
 
-var _UICommand2 = require('./ui/UICommand');
-
-var _UICommand3 = _interopRequireDefault(_UICommand2);
+var _prosemirrorModel = require('prosemirror-model');
 
 var _prosemirrorState = require('prosemirror-state');
+
+var _prosemirrorTransform = require('prosemirror-transform');
 
 var _prosemirrorView = require('prosemirror-view');
 
@@ -38,9 +38,9 @@ var _NodeNames = require('./NodeNames');
 
 var _ParagraphNodeSpec = require('./ParagraphNodeSpec');
 
-var _prosemirrorModel = require('prosemirror-model');
+var _UICommand2 = require('./ui/UICommand');
 
-var _prosemirrorTransform = require('prosemirror-transform');
+var _UICommand3 = _interopRequireDefault(_UICommand2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -52,14 +52,19 @@ function setTextLineSpacing(tr, schema, lineSpacing) {
   if (!selection || !doc) {
     return tr;
   }
+
+  if (!(selection instanceof _prosemirrorState.TextSelection) && !(selection instanceof _prosemirrorState.AllSelection)) {
+    return tr;
+  }
+
   var from = selection.from,
       to = selection.to;
-
 
   var paragraph = schema.nodes[_NodeNames.PARAGRAPH];
   var heading = schema.nodes[_NodeNames.HEADING];
   var listItem = schema.nodes[_NodeNames.LIST_ITEM];
-  if (!paragraph && !heading && !listItem) {
+  var blockquote = schema.nodes[_NodeNames.BLOCKQUOTE];
+  if (!paragraph && !heading && !listItem && !blockquote) {
     return tr;
   }
 
@@ -68,7 +73,7 @@ function setTextLineSpacing(tr, schema, lineSpacing) {
 
   doc.nodesBetween(from, to, function (node, pos, parentNode) {
     var nodeType = node.type;
-    if (nodeType === paragraph || nodeType === heading || nodeType === listItem) {
+    if (nodeType === paragraph || nodeType === heading || nodeType === listItem || nodeType === blockquote) {
       var _lineSpacing = node.attrs.lineSpacing || null;
       if (_lineSpacing !== lineSpacingValue) {
         tasks.push({
@@ -145,12 +150,6 @@ var TextLineSpacingCommand = function (_UICommand) {
         return keepLooking;
       });
       return active;
-    };
-
-    _this.isEnabled = function (state) {
-      var selection = state.selection;
-
-      return selection instanceof _prosemirrorState.TextSelection || selection instanceof _prosemirrorState.AllSelection;
     };
 
     _this.execute = function (state, dispatch, view) {

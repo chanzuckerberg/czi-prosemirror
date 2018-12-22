@@ -4,11 +4,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _prosemirrorModel = require('prosemirror-model');
+
 var _toHexColor = require('./ui/toHexColor');
 
 var _toHexColor2 = _interopRequireDefault(_toHexColor);
-
-var _prosemirrorModel = require('prosemirror-model');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -21,8 +21,10 @@ var TextHighlightMarkSpec = {
   inline: true,
   group: 'inline',
   parseDOM: [{
-    style: 'background-color',
-    getAttrs: function getAttrs(backgroundColor) {
+    tag: 'span[style*=background-color]',
+    getAttrs: function getAttrs(dom) {
+      var backgroundColor = dom.style.backgroundColor;
+
       return {
         highlightColor: (0, _toHexColor2.default)(backgroundColor)
       };

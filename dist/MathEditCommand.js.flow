@@ -1,18 +1,18 @@
 // @flow
 
+import {Fragment, Schema} from 'prosemirror-model';
+import {EditorState} from 'prosemirror-state';
+import {TextSelection} from 'prosemirror-state';
+import {Transform} from 'prosemirror-transform';
+import {EditorView} from 'prosemirror-view';
+// eslint-disable-next-line no-unused-vars
+import React from 'react';
+
+import {hideCursorPlaceholder, showCursorPlaceholder} from './CursorPlaceholderPlugin';
+import {MATH} from './NodeNames';
 import MathEditor from './ui/MathEditor';
 import UICommand from './ui/UICommand';
 import createPopUp from './ui/createPopUp';
-import {EditorState} from 'prosemirror-state';
-import {EditorView} from 'prosemirror-view';
-import {Fragment, Schema} from 'prosemirror-model';
-import {MATH} from './NodeNames';
-import {TextSelection} from 'prosemirror-state';
-import {Transform} from 'prosemirror-transform';
-import {showCursorPlaceholder, hideCursorPlaceholder} from './CursorPlaceholderPlugin';
-
-// eslint-disable-next-line no-unused-vars
-import React from 'react';
 
 function insertMath(
   tr: Transform,

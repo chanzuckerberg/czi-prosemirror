@@ -10,9 +10,19 @@ var _extends3 = _interopRequireDefault(_extends2);
 
 exports.default = updateIndentLevel;
 
-var _clamp = require('./ui/clamp');
+var _prosemirrorModel = require('prosemirror-model');
 
-var _clamp2 = _interopRequireDefault(_clamp);
+var _prosemirrorState = require('prosemirror-state');
+
+var _prosemirrorTransform = require('prosemirror-transform');
+
+var _NodeNames = require('./NodeNames');
+
+var _ParagraphNodeSpec = require('./ParagraphNodeSpec');
+
+var _compareNumber = require('./compareNumber');
+
+var _compareNumber2 = _interopRequireDefault(_compareNumber);
 
 var _isListNode = require('./isListNode');
 
@@ -22,15 +32,9 @@ var _transformAndPreserveTextSelection = require('./transformAndPreserveTextSele
 
 var _transformAndPreserveTextSelection2 = _interopRequireDefault(_transformAndPreserveTextSelection);
 
-var _NodeNames = require('./NodeNames');
+var _clamp = require('./ui/clamp');
 
-var _prosemirrorModel = require('prosemirror-model');
-
-var _ParagraphNodeSpec = require('./ParagraphNodeSpec');
-
-var _prosemirrorState = require('prosemirror-state');
-
-var _prosemirrorTransform = require('prosemirror-transform');
+var _clamp2 = _interopRequireDefault(_clamp);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -74,12 +78,23 @@ function updateIndentLevel(tr, schema, delta) {
     return tr;
   }
 
-  tr = (0, _transformAndPreserveTextSelection2.default)(tr, schema, function (memo) {
-    var tr2 = memo.tr;
-    listNodePoses.sort().reverse().forEach(function (pos) {
-      tr2 = setListNodeIndent(tr2, memo.schema, pos, delta);
+  // tr = transformAndPreserveTextSelection(tr, schema, (memo) => {
+  //   let tr2 = memo.tr;
+  //   listNodePoses.sort(compareNumber).reverse().forEach(pos => {
+  //     tr2 = setListNodeIndent(
+  //       tr2,
+  //       memo.schema,
+  //       pos,
+  //       delta,
+  //     );
+  //   });
+  //   return tr2;
+  // });
+
+  listNodePoses.sort(_compareNumber2.default).reverse().forEach(function (pos) {
+    tr = (0, _transformAndPreserveTextSelection2.default)(tr, schema, function (memo) {
+      return setListNodeIndent(memo.tr, memo.schema, pos, delta);
     });
-    return tr2;
   });
 
   return tr;
@@ -111,6 +126,7 @@ function setListNodeIndent(tr, schema, pos, delta) {
 
   var from = selection.from,
       to = selection.to;
+
 
   if (from <= pos && to >= pos + listNode.nodeSize) {
     return setNodeIndentMarkup(tr, schema, pos, delta);

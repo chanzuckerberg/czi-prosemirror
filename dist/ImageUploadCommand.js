@@ -24,6 +24,14 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
+var _prosemirrorState = require('prosemirror-state');
+
+var _prosemirrorView = require('prosemirror-view');
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
 var _ImageSourceCommand2 = require('./ImageSourceCommand');
 
 var _ImageSourceCommand3 = _interopRequireDefault(_ImageSourceCommand2);
@@ -31,14 +39,6 @@ var _ImageSourceCommand3 = _interopRequireDefault(_ImageSourceCommand2);
 var _ImageUploadEditor = require('./ui/ImageUploadEditor');
 
 var _ImageUploadEditor2 = _interopRequireDefault(_ImageUploadEditor);
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _prosemirrorState = require('prosemirror-state');
-
-var _prosemirrorView = require('prosemirror-view');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

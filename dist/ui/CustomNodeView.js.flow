@@ -168,9 +168,6 @@ class CustomNodeView {
       this.props.focused = pos === from;
     }
 
-    // const {selected, focused} = this.props;
-    // console.log({selected, focused});
-
     ReactDOM.render(this.renderReactComponent(), this.dom);
   }
 }

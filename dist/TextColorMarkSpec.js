@@ -4,11 +4,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _prosemirrorModel = require('prosemirror-model');
+
 var _toHexColor = require('./ui/toHexColor');
 
 var _toHexColor2 = _interopRequireDefault(_toHexColor);
-
-var _prosemirrorModel = require('prosemirror-model');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

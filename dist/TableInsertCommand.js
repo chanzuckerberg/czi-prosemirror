@@ -24,33 +24,33 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _UICommand2 = require('./ui/UICommand');
-
-var _UICommand3 = _interopRequireDefault(_UICommand2);
-
-var _TableGridSizeEditor = require('./ui/TableGridSizeEditor');
-
-var _TableGridSizeEditor2 = _interopRequireDefault(_TableGridSizeEditor);
-
-var _createPopUp = require('./ui/createPopUp');
-
-var _createPopUp2 = _interopRequireDefault(_createPopUp);
-
-var _insertTable = require('./insertTable');
-
-var _insertTable2 = _interopRequireDefault(_insertTable);
-
 var _nullthrows = require('nullthrows');
 
 var _nullthrows2 = _interopRequireDefault(_nullthrows);
 
 var _prosemirrorState = require('prosemirror-state');
 
-var _prosemirrorView = require('prosemirror-view');
-
 var _prosemirrorTransform = require('prosemirror-transform');
 
+var _prosemirrorView = require('prosemirror-view');
+
+var _insertTable = require('./insertTable');
+
+var _insertTable2 = _interopRequireDefault(_insertTable);
+
 var _PopUpPosition = require('./ui/PopUpPosition');
+
+var _TableGridSizeEditor = require('./ui/TableGridSizeEditor');
+
+var _TableGridSizeEditor2 = _interopRequireDefault(_TableGridSizeEditor);
+
+var _UICommand2 = require('./ui/UICommand');
+
+var _UICommand3 = _interopRequireDefault(_UICommand2);
+
+var _createPopUp = require('./ui/createPopUp');
+
+var _createPopUp2 = _interopRequireDefault(_createPopUp);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

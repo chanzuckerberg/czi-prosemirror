@@ -20,19 +20,19 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _UICommand2 = require('./ui/UICommand');
-
-var _UICommand3 = _interopRequireDefault(_UICommand2);
+var _prosemirrorModel = require('prosemirror-model');
 
 var _prosemirrorState = require('prosemirror-state');
+
+var _prosemirrorTransform = require('prosemirror-transform');
 
 var _prosemirrorView = require('prosemirror-view');
 
 var _NodeNames = require('./NodeNames');
 
-var _prosemirrorModel = require('prosemirror-model');
+var _UICommand2 = require('./ui/UICommand');
 
-var _prosemirrorTransform = require('prosemirror-transform');
+var _UICommand3 = _interopRequireDefault(_UICommand2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

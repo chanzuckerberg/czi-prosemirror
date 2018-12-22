@@ -1,17 +1,15 @@
 // @flow
 
-import UICommand from './ui/UICommand';
-import noop from './noop';
-import toggleList from './toggleList';
-import {BULLET_LIST, ORDERED_LIST} from './NodeNames';
 import {EditorState} from 'prosemirror-state';
-import {EditorView} from 'prosemirror-view';
 import {Transform} from 'prosemirror-transform';
 import {findParentNodeOfType} from 'prosemirror-utils';
+import {EditorView} from 'prosemirror-view';
 
+import {BULLET_LIST, ORDERED_LIST} from './NodeNames';
+import noop from './noop';
+import toggleList from './toggleList';
+import UICommand from './ui/UICommand';
 
-// https://github.com/atlassian/prosemirror-utils/tree/master/src
-// https://bitbucket.org/atlassian/atlaskit/src/34facee3f46197fefa8b8e22e83afd83d4d48f94/packages/editor-core/src/plugins/lists/?at=master
 class ListToggleCommand extends UICommand {
 
   _ordered: boolean;

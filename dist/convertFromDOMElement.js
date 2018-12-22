@@ -5,6 +5,12 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = convertFromDOMElement;
 
+var _prosemirrorModel = require('prosemirror-model');
+
+var _prosemirrorState = require('prosemirror-state');
+
+var _DocNodeSpec = require('./DocNodeSpec');
+
 var _EditorPlugins = require('./EditorPlugins');
 
 var _EditorPlugins2 = _interopRequireDefault(_EditorPlugins);
@@ -12,12 +18,6 @@ var _EditorPlugins2 = _interopRequireDefault(_EditorPlugins);
 var _EditorSchema = require('./EditorSchema');
 
 var _EditorSchema2 = _interopRequireDefault(_EditorSchema);
-
-var _prosemirrorModel = require('prosemirror-model');
-
-var _prosemirrorState = require('prosemirror-state');
-
-var _DocNodeSpec = require('./DocNodeSpec');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

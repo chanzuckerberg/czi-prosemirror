@@ -14,6 +14,10 @@ var _convertToCSSPTValue = require('./convertToCSSPTValue');
 
 var _convertToCSSPTValue2 = _interopRequireDefault(_convertToCSSPTValue);
 
+var _toHexColor = require('./ui/toHexColor');
+
+var _toHexColor2 = _interopRequireDefault(_toHexColor);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function patchTableElements(doc) {
@@ -34,19 +38,35 @@ function patchTableCell(tdElement) {
   if (!style) {
     return;
   }
-  var backgroundColor = style.backgroundColor;
+  var backgroundColor = style.backgroundColor,
+      width = style.width;
 
-  if (!backgroundColor) {
-    return;
+  if (backgroundColor) {
+    var tdBgColor = (0, _toHexColor2.default)(backgroundColor);
+    var selector = 'span[style*=background-color]';
+    var spans = (0, _from2.default)(tdElement.querySelectorAll(selector));
+    spans.some(function (spanElement) {
+      var spanStyle = spanElement.style;
+      if (!spanStyle || !spanStyle.backgroundColor) {
+        return;
+      }
+      var spanBgColor = (0, _toHexColor2.default)(spanStyle.backgroundColor);
+      if (spanBgColor === tdBgColor) {
+        // The span has the same bg color as the cell does, erase its bg color.
+        spanStyle.backgroundColor = '';
+      }
+    });
   }
-  var selector = 'span[style^=background-color]';
-  var spans = (0, _from2.default)(tdElement.querySelectorAll(selector));
-  spans.some(function (spanElement) {
-    var spanStyle = spanElement.style;
-    if (spanStyle && spanStyle.backgroundColor === backgroundColor) {
-      spanStyle.backgroundColor = '';
+
+  if (width) {
+    var ptValue = (0, _convertToCSSPTValue2.default)(width);
+    if (!ptValue) {
+      return;
     }
-  });
+    var pxValue = ptValue * _convertToCSSPTValue.PT_TO_PX_RATIO;
+    // Attribute "data-colwidth" is defined at 'prosemirror-tables';
+    tdElement.setAttribute('data-colwidth', String(Math.round(pxValue)));
+  }
 }
 
 // Workaround to support "height" in table row by inject empty <p /> to

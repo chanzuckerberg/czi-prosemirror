@@ -5,6 +5,16 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = toggleBlockquote;
 
+var _prosemirrorModel = require('prosemirror-model');
+
+var _prosemirrorTransform = require('prosemirror-transform');
+
+var _NodeNames = require('./NodeNames');
+
+var _compareNumber = require('./compareNumber');
+
+var _compareNumber2 = _interopRequireDefault(_compareNumber);
+
 var _isInsideListItem = require('./isInsideListItem');
 
 var _isInsideListItem2 = _interopRequireDefault(_isInsideListItem);
@@ -12,12 +22,6 @@ var _isInsideListItem2 = _interopRequireDefault(_isInsideListItem);
 var _isListNode = require('./isListNode');
 
 var _isListNode2 = _interopRequireDefault(_isListNode);
-
-var _prosemirrorModel = require('prosemirror-model');
-
-var _NodeNames = require('./NodeNames');
-
-var _prosemirrorTransform = require('prosemirror-transform');
 
 var _toggleList = require('./toggleList');
 
@@ -58,7 +62,7 @@ function toggleBlockquote(tr, schema) {
     return !(0, _isListNode2.default)(node);
   });
   // Update from the bottom to avoid disruptive changes in pos.
-  poses.sort().reverse().forEach(function (pos) {
+  poses.sort(_compareNumber2.default).reverse().forEach(function (pos) {
     tr = setBlockquoteNode(tr, schema, pos);
   });
   return tr;

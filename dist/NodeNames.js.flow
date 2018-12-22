@@ -20,3 +20,4 @@ export const TABLE_HEADER = 'table_header';
 export const TABLE_ROW = 'table_row';
 export const TEXT = 'text';
 export const UNDERLINE = 'underline';
+export const BOOKMARK = 'bookmark';

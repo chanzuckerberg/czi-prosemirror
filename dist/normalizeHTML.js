@@ -5,6 +5,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = normalizeHTML;
 
+var _patchAnchorElements = require('./patchAnchorElements');
+
+var _patchAnchorElements2 = _interopRequireDefault(_patchAnchorElements);
+
 var _patchBreakElements = require('./patchBreakElements');
 
 var _patchBreakElements2 = _interopRequireDefault(_patchBreakElements);
@@ -37,9 +41,6 @@ function normalizeHTML(html) {
   html = html.replace(/(\s*\&nbsp;\s*\&nbsp;\s*)/g, BRAILLE_PATTERN_BLANK);
 
   var sourceIsPage = /<body[\s>]/i.test(html);
-  // if (/<body[\s>]/i.test(html) === false) {
-  //   html = `<!doctype><html><body>${html}</body></html>`;
-  // }
 
   // Provides a dom node that will not execute scripts
   // https://developer.mozilla.org/en-US/docs/Web/API/DOMImplementation.createHTMLDocument
@@ -49,9 +50,12 @@ function normalizeHTML(html) {
     doc.open();
     doc.write(html);
     doc.close();
-    (0, _patchBreakElements2.default)(doc);
+    // styles.
     (0, _patchStyleElements2.default)(doc);
     (0, _patchElementInlineStyles2.default)(doc);
+    // contents.
+    (0, _patchAnchorElements2.default)(doc);
+    (0, _patchBreakElements2.default)(doc);
     (0, _patchListElements2.default)(doc);
     (0, _patchTableElements2.default)(doc);
     body = doc.getElementsByTagName('body')[0];

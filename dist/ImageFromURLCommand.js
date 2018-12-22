@@ -24,6 +24,10 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
 var _ImageSourceCommand2 = require('./ImageSourceCommand');
 
 var _ImageSourceCommand3 = _interopRequireDefault(_ImageSourceCommand2);
@@ -31,10 +35,6 @@ var _ImageSourceCommand3 = _interopRequireDefault(_ImageSourceCommand2);
 var _ImageURLEditor = require('./ui/ImageURLEditor');
 
 var _ImageURLEditor2 = _interopRequireDefault(_ImageURLEditor);
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

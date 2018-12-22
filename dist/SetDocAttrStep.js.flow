@@ -1,7 +1,7 @@
 // @flow
 
-import {Step, StepResult} from 'prosemirror-transform';
 import {Node} from 'prosemirror-model';
+import {Step, StepResult} from 'prosemirror-transform';
 
 type SetDocAttrStepJSONValue = {
   key: string,

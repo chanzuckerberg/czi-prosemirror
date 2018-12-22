@@ -8,11 +8,11 @@ var _extends2 = require('babel-runtime/helpers/extends');
 
 var _extends3 = _interopRequireDefault(_extends2);
 
+var _prosemirrorModel = require('prosemirror-model');
+
 var _ParagraphNodeSpec = require('./ParagraphNodeSpec');
 
 var _ParagraphNodeSpec2 = _interopRequireDefault(_ParagraphNodeSpec);
-
-var _prosemirrorModel = require('prosemirror-model');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

@@ -1,21 +1,25 @@
 // @flow
 
-import './czi-editor.css';
+import cx from 'classnames';
+import {EditorState} from 'prosemirror-state';
+import {Transform} from 'prosemirror-transform';
+import {EditorView} from 'prosemirror-view';
+import React from 'react';
+
 import 'prosemirror-gapcursor/style/gapcursor.css';
 import 'prosemirror-view/style/prosemirror.css';
+
+import {BOOKMARK, IMAGE, MATH} from '../NodeNames';
+import createEmptyEditorState from '../createEmptyEditorState';
+import normalizeHTML from '../normalizeHTML';
+import BookmarkNodeView from './BookmarkNodeView';
 import CustomEditorView from './CustomEditorView';
+import CustomNodeView from './CustomNodeView';
 import ImageNodeView from './ImageNodeView';
 import MathNodeView from './MathNodeView';
-import React from 'react';
-import createEmptyEditorState from '../createEmptyEditorState';
-import cx from 'classnames';
-import normalizeHTML from '../normalizeHTML';
 import uuid from './uuid';
-import {EditorState} from 'prosemirror-state';
-import {EditorView} from 'prosemirror-view';
-import {Transform} from 'prosemirror-transform';
-import {IMAGE, MATH} from '../NodeNames';
-import CustomNodeView from './CustomNodeView';
+
+import './czi-editor.css';
 
 import type {EditorRuntime} from '../Types';
 
@@ -70,6 +74,7 @@ class Editor extends React.PureComponent<any, any, any> {
         nodeViews: {
           [IMAGE]: bindNodeView(ImageNodeView),
           [MATH]: bindNodeView(MathNodeView),
+          [BOOKMARK]: bindNodeView(BookmarkNodeView),
         },
       });
 

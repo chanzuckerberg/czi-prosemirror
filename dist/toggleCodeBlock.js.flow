@@ -1,9 +1,11 @@
 // @flow
 
-import isListNode from './isListNode';
 import {Schema} from 'prosemirror-model';
-import {PARAGRAPH, CODE_BLOCK} from './NodeNames';
 import {Transform} from 'prosemirror-transform';
+
+import {CODE_BLOCK, PARAGRAPH} from './NodeNames';
+import compareNumber from './compareNumber';
+import isListNode from './isListNode';
 
 export default function toggleCodeBlock(
   tr: Transform,
@@ -30,7 +32,7 @@ export default function toggleCodeBlock(
   });
 
   // Update from the bottom to avoid disruptive changes in pos.
-  poses.sort().reverse().forEach(pos => {
+  poses.sort(compareNumber).reverse().forEach(pos => {
     tr = setCodeBlockNodeEnabled(
       tr,
       schema,

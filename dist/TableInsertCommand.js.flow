@@ -1,15 +1,16 @@
 // @flow
 
-import UICommand from './ui/UICommand';
-import TableGridSizeEditor from './ui/TableGridSizeEditor';
-import createPopUp from './ui/createPopUp';
-import insertTable from './insertTable';
 import nullthrows from 'nullthrows';
 import {EditorState} from 'prosemirror-state';
-import {EditorView} from 'prosemirror-view';
 import {TextSelection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
+import {EditorView} from 'prosemirror-view';
+
+import insertTable from './insertTable';
 import {atAnchorRight} from './ui/PopUpPosition';
+import TableGridSizeEditor from './ui/TableGridSizeEditor';
+import UICommand from './ui/UICommand';
+import createPopUp from './ui/createPopUp';
 
 import type {TableGridSizeEditorValue} from './ui/TableGridSizeEditor';
 

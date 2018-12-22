@@ -1,16 +1,17 @@
 // @flow
 
-import ColorEditor from './ui/ColorEditor';
-import UICommand from './ui/UICommand';
-import applyMark from './applyMark';
-import createPopUp from './ui/createPopUp';
-import findNodesWithSameMark from './findNodesWithSameMark';
 import nullthrows from 'nullthrows';
 import {AllSelection, TextSelection} from 'prosemirror-state';
 import {EditorState} from 'prosemirror-state';
-import {EditorView} from 'prosemirror-view';
-import {MARK_TEXT_HIGHLIGHT} from './MarkNames';
 import {Transform} from 'prosemirror-transform';
+import {EditorView} from 'prosemirror-view';
+
+import {MARK_TEXT_HIGHLIGHT} from './MarkNames';
+import applyMark from './applyMark';
+import findNodesWithSameMark from './findNodesWithSameMark';
+import ColorEditor from './ui/ColorEditor';
+import UICommand from './ui/UICommand';
+import createPopUp from './ui/createPopUp';
 
 class TextHighlightCommand extends UICommand {
 

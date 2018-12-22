@@ -14,9 +14,12 @@ const LinkMarkSpec: MarkSpec = {
     {
       tag: 'a[href]',
       getAttrs: (dom) => {
+        const href = dom.getAttribute('href');
+        const target = href && href.indexOf('#') === 0 ? '' : 'blank';
         return {
           href: dom.getAttribute('href'),
           title: dom.getAttribute('title'),
+          target,
         };
       },
     },

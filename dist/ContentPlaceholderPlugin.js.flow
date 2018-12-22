@@ -1,11 +1,13 @@
 // @flow
 
-import './ui/czi-editor.css';
-import React from 'react';
-import ReactDOM from 'react-dom';
-import isEditorStateEmpty from './isEditorStateEmpty';
 import {Plugin} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+import isEditorStateEmpty from './isEditorStateEmpty';
+
+import './ui/czi-editor.css';
 
 const CLASS_NAME_HAS_PLACEHOLDER = 'czi-has-placeholder';
 

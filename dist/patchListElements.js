@@ -10,11 +10,11 @@ var _from2 = _interopRequireDefault(_from);
 
 exports.default = patchListElements;
 
-var _patchStyleElements = require('./patchStyleElements');
+var _ListItemNodeSpec = require('./ListItemNodeSpec');
 
 var _ParagraphNodeSpec = require('./ParagraphNodeSpec');
 
-var _ListItemNodeSpec = require('./ListItemNodeSpec');
+var _patchStyleElements = require('./patchStyleElements');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

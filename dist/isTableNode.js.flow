@@ -1,9 +1,8 @@
 // @flow
 
-
 import {Node} from 'prosemirror-model';
 
-import {TABLE, TABLE_ROW, TABLE_HEADER, TABLE_CELL} from './NodeNames';
+import {TABLE, TABLE_CELL, TABLE_HEADER, TABLE_ROW} from './NodeNames';
 
 export default function isTableNode(node: Node): boolean {
   const name = (node instanceof Node) ? node.type.name : null;

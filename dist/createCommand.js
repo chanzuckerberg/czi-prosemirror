@@ -22,15 +22,15 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 
 exports.default = createCommand;
 
-var _UICommand2 = require('./ui/UICommand');
-
-var _UICommand3 = _interopRequireDefault(_UICommand2);
-
 var _prosemirrorState = require('prosemirror-state');
+
+var _prosemirrorTransform = require('prosemirror-transform');
 
 var _prosemirrorView = require('prosemirror-view');
 
-var _prosemirrorTransform = require('prosemirror-transform');
+var _UICommand2 = require('./ui/UICommand');
+
+var _UICommand3 = _interopRequireDefault(_UICommand2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

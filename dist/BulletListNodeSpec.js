@@ -4,13 +4,13 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _prosemirrorModel = require('prosemirror-model');
+
 var _ListItemNodeSpec = require('./ListItemNodeSpec');
 
 var _NodeNames = require('./NodeNames');
 
 var _ParagraphNodeSpec = require('./ParagraphNodeSpec');
-
-var _prosemirrorModel = require('prosemirror-model');
 
 var babelPluginFlowReactPropTypes_proptype_NodeSpec = require('./Types').babelPluginFlowReactPropTypes_proptype_NodeSpec || require('prop-types').any;
 

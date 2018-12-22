@@ -37,10 +37,10 @@
 .czi-mathquill-editor.empty .czi-mathquill-editor-element::before {
   color: var(--czi-placeholder-text-color);
   content: 'Type Something...';
-  font-family: var(--czi-editor-font-family);
-  font-size: var(--czi-editor-font-size);
+  font-family: var(--czi-content-font-family);
+  font-size: var(--czi-content-font-size);
   left: 8px;
-  line-height: var(--czi-editor-line-height);
+  line-height: var(--czi-content-line-height);
   top: 8px;
   position: absolute;
 }

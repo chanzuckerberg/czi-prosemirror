@@ -4,16 +4,16 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _prosemirrorTables = require('prosemirror-tables');
+
 var _toHexColor = require('./ui/toHexColor');
 
 var _toHexColor2 = _interopRequireDefault(_toHexColor);
 
-var _prosemirrorTables = require('prosemirror-tables');
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+// https://github.com/ProseMirror/prosemirror-tables/blob/master/demo.js
 var TableNodesSpecs = (0, _prosemirrorTables.tableNodes)({
-  // https://github.com/ProseMirror/prosemirror-tables/blob/master/demo.js
   tableGroup: 'block',
   cellContent: 'block+',
   cellAttributes: {

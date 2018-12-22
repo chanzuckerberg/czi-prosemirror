@@ -1,16 +1,17 @@
 // @flow
 
-import LinkURLEditor from './ui/LinkURLEditor';
-import UICommand from './ui/UICommand';
-import applyMark from './applyMark';
-import createPopUp from './ui/createPopUp';
-import findNodesWithSameMark from './findNodesWithSameMark';
 import {EditorState} from 'prosemirror-state';
-import {EditorView} from 'prosemirror-view';
-import {MARK_LINK} from './MarkNames';
 import {TextSelection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
-import {showSelectionPlaceholder, hideSelectionPlaceholder} from './SelectionPlaceholderPlugin';
+import {EditorView} from 'prosemirror-view';
+
+import {MARK_LINK} from './MarkNames';
+import {hideSelectionPlaceholder, showSelectionPlaceholder} from './SelectionPlaceholderPlugin';
+import applyMark from './applyMark';
+import findNodesWithSameMark from './findNodesWithSameMark';
+import LinkURLEditor from './ui/LinkURLEditor';
+import UICommand from './ui/UICommand';
+import createPopUp from './ui/createPopUp';
 
 class LinkSetURLCommand extends UICommand {
 

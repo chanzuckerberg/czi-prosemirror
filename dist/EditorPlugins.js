@@ -4,6 +4,20 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _prosemirrorCommands = require('prosemirror-commands');
+
+var _prosemirrorDropcursor = require('prosemirror-dropcursor');
+
+var _prosemirrorGapcursor = require('prosemirror-gapcursor');
+
+var _prosemirrorHistory = require('prosemirror-history');
+
+var _prosemirrorKeymap = require('prosemirror-keymap');
+
+var _prosemirrorModel = require('prosemirror-model');
+
+var _prosemirrorState = require('prosemirror-state');
+
 var _prosemirrorTables = require('prosemirror-tables');
 
 var ProsemirrorTables = _interopRequireWildcard(_prosemirrorTables);
@@ -39,20 +53,6 @@ var _buildInputRules2 = _interopRequireDefault(_buildInputRules);
 var _createEditorKeyMap = require('./createEditorKeyMap');
 
 var _createEditorKeyMap2 = _interopRequireDefault(_createEditorKeyMap);
-
-var _prosemirrorState = require('prosemirror-state');
-
-var _prosemirrorModel = require('prosemirror-model');
-
-var _prosemirrorCommands = require('prosemirror-commands');
-
-var _prosemirrorDropcursor = require('prosemirror-dropcursor');
-
-var _prosemirrorGapcursor = require('prosemirror-gapcursor');
-
-var _prosemirrorHistory = require('prosemirror-history');
-
-var _prosemirrorKeymap = require('prosemirror-keymap');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

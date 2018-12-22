@@ -20,21 +20,21 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _UICommand2 = require('./ui/UICommand');
+var _prosemirrorModel = require('prosemirror-model');
 
-var _UICommand3 = _interopRequireDefault(_UICommand2);
+var _prosemirrorState = require('prosemirror-state');
+
+var _prosemirrorTransform = require('prosemirror-transform');
+
+var _prosemirrorView = require('prosemirror-view');
 
 var _splitListItem = require('./splitListItem');
 
 var _splitListItem2 = _interopRequireDefault(_splitListItem);
 
-var _prosemirrorState = require('prosemirror-state');
+var _UICommand2 = require('./ui/UICommand');
 
-var _prosemirrorView = require('prosemirror-view');
-
-var _prosemirrorModel = require('prosemirror-model');
-
-var _prosemirrorTransform = require('prosemirror-transform');
+var _UICommand3 = _interopRequireDefault(_UICommand2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

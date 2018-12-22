@@ -24,15 +24,9 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-require('./ui/czi-pop-up.css');
+var _prosemirrorState = require('prosemirror-state');
 
-var _LinkTooltip = require('./ui/LinkTooltip');
-
-var _LinkTooltip2 = _interopRequireDefault(_LinkTooltip);
-
-var _LinkURLEditor = require('./ui/LinkURLEditor');
-
-var _LinkURLEditor2 = _interopRequireDefault(_LinkURLEditor);
+var _prosemirrorView = require('prosemirror-view');
 
 var _react = require('react');
 
@@ -42,25 +36,31 @@ var _reactDom = require('react-dom');
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
+var _MarkNames = require('./MarkNames');
+
+var _SelectionPlaceholderPlugin = require('./SelectionPlaceholderPlugin');
+
 var _applyMark = require('./applyMark');
 
 var _applyMark2 = _interopRequireDefault(_applyMark);
-
-var _createPopUp = require('./ui/createPopUp');
-
-var _createPopUp2 = _interopRequireDefault(_createPopUp);
 
 var _findNodesWithSameMark = require('./findNodesWithSameMark');
 
 var _findNodesWithSameMark2 = _interopRequireDefault(_findNodesWithSameMark);
 
-var _prosemirrorState = require('prosemirror-state');
+var _LinkTooltip = require('./ui/LinkTooltip');
 
-var _prosemirrorView = require('prosemirror-view');
+var _LinkTooltip2 = _interopRequireDefault(_LinkTooltip);
 
-var _MarkNames = require('./MarkNames');
+var _LinkURLEditor = require('./ui/LinkURLEditor');
 
-var _SelectionPlaceholderPlugin = require('./SelectionPlaceholderPlugin');
+var _LinkURLEditor2 = _interopRequireDefault(_LinkURLEditor);
+
+var _createPopUp = require('./ui/createPopUp');
+
+var _createPopUp2 = _interopRequireDefault(_createPopUp);
+
+require('./ui/czi-pop-up.css');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

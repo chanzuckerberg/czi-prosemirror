@@ -1,13 +1,14 @@
 // @flow
 
-import DocLayoutEditor from './ui/DocLayoutEditor';
+import {Schema} from 'prosemirror-model';
+import {EditorState} from 'prosemirror-state';
+import {Transform} from 'prosemirror-transform';
+import {EditorView} from 'prosemirror-view';
+
 import SetDocAttrStep from './SetDocAttrStep';
+import DocLayoutEditor from './ui/DocLayoutEditor';
 import UICommand from './ui/UICommand';
 import createPopUp from './ui/createPopUp';
-import {EditorState} from 'prosemirror-state';
-import {EditorView} from 'prosemirror-view';
-import {Schema} from 'prosemirror-model';
-import {Transform} from 'prosemirror-transform';
 
 import type {DocLayoutEditorValue} from './ui/DocLayoutEditor';
 

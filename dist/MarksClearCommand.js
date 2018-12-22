@@ -24,23 +24,23 @@ var _set = require('babel-runtime/core-js/set');
 
 var _set2 = _interopRequireDefault(_set);
 
+var _prosemirrorModel = require('prosemirror-model');
+
+var _prosemirrorState = require('prosemirror-state');
+
+var _prosemirrorTransform = require('prosemirror-transform');
+
+var _prosemirrorView = require('prosemirror-view');
+
 var _MarkNames = require('./MarkNames');
 
 var MarkNames = _interopRequireWildcard(_MarkNames);
 
+var _TextAlignCommand = require('./TextAlignCommand');
+
 var _UICommand2 = require('./ui/UICommand');
 
 var _UICommand3 = _interopRequireDefault(_UICommand2);
-
-var _prosemirrorState = require('prosemirror-state');
-
-var _prosemirrorView = require('prosemirror-view');
-
-var _prosemirrorModel = require('prosemirror-model');
-
-var _prosemirrorTransform = require('prosemirror-transform');
-
-var _TextAlignCommand = require('./TextAlignCommand');
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 

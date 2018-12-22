@@ -1,11 +1,12 @@
 // @flow
 
-import joinDown from './joinDown';
-import joinUp from './joinUp';
-import isListNode from './isListNode';
 import {Schema} from 'prosemirror-model';
 import {TextSelection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
+
+import isListNode from './isListNode';
+import joinDown from './joinDown';
+import joinUp from './joinUp';
 
 export default function joinListNode(
   tr: Transform,
