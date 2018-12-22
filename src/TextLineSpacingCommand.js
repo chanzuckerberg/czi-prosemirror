@@ -6,7 +6,7 @@ import {AllSelection, TextSelection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
 import {EditorView} from 'prosemirror-view';
 
-import {HEADING, LIST_ITEM, PARAGRAPH} from './NodeNames';
+import {BLOCKQUOTE, HEADING, LIST_ITEM, PARAGRAPH} from './NodeNames';
 import {LINE_SPACING_VALUES} from './ParagraphNodeSpec';
 import UICommand from './ui/UICommand';
 
@@ -19,12 +19,20 @@ export function setTextLineSpacing(
   if (!selection || !doc) {
     return tr;
   }
-  const {from, to} = selection;
 
+  if (
+    !(selection instanceof TextSelection) &&
+    !(selection instanceof AllSelection)
+  ) {
+    return tr;
+  }
+
+  const {from, to} = selection;
   const paragraph = schema.nodes[PARAGRAPH];
   const heading = schema.nodes[HEADING];
   const listItem = schema.nodes[LIST_ITEM];
-  if (!paragraph && !heading && !listItem) {
+  const blockquote = schema.nodes[BLOCKQUOTE];
+  if (!paragraph && !heading && !listItem && !blockquote) {
     return tr;
   }
 
@@ -36,7 +44,8 @@ export function setTextLineSpacing(
     if (
       nodeType === paragraph ||
       nodeType === heading ||
-      nodeType === listItem
+      nodeType === listItem ||
+      nodeType === blockquote
     ) {
       const lineSpacing = node.attrs.lineSpacing || null;
       if (lineSpacing !== lineSpacingValue) {
@@ -80,8 +89,6 @@ export function setTextLineSpacing(
   return tr;
 }
 
-
-
 function createGroup(): Array<{[string]: TextLineSpacingCommand}> {
   const group = {};
   group['Default'] = new TextLineSpacingCommand(null);
@@ -123,14 +130,6 @@ class TextLineSpacingCommand extends UICommand {
       return keepLooking;
     });
     return active;
-  };
-
-  isEnabled = (state: EditorState): boolean => {
-    const {selection} = state;
-    return (
-      selection instanceof TextSelection ||
-      selection instanceof AllSelection
-    );
   };
 
   execute = (
