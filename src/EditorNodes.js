@@ -3,6 +3,7 @@
 import {Schema} from 'prosemirror-model';
 
 import BlockquoteNodeSpec from './BlockquoteNodeSpec';
+import BookmarkNodeSpec from './BookmarkNodeSpec';
 import BulletListNodeSpec from './BulletListNodeSpec';
 import CodeBlockNodeSpec from './CodeBlockNodeSpec';
 import DocNodeSpec from './DocNodeSpec';
@@ -20,6 +21,7 @@ import TextNodeSpec from './TextNodeSpec';
 
 const {
   BLOCKQUOTE,
+  BOOKMARK,
   BULLET_LIST,
   CODE_BLOCK,
   DOC,
@@ -52,11 +54,11 @@ const nodes = {
   [BULLET_LIST]: BulletListNodeSpec,
   [ORDERED_LIST]: OrderedListNodeSpec,
   [LIST_ITEM]: ListItemNodeSpec,
+  [BOOKMARK]: BookmarkNodeSpec,
 };
 
 const marks = {};
 const schema = new Schema({nodes, marks});
-
 const EditorNodes = schema.spec.nodes.append(TableNodesSpecs);
 
 export default EditorNodes;

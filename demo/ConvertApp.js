@@ -40,6 +40,7 @@ function getInitialState(): Object {
     editorState,
     html,
     prosemirrorJSON,
+    readOnly: !false,
   };
 }
 
@@ -66,7 +67,7 @@ class ConvertApp extends React.PureComponent<any, any, any> {
   state = getInitialState();
 
   render(): React.Element<any> {
-    const {html, editorState, prosemirrorJSON} = this.state;
+    const {html, editorState, prosemirrorJSON, readOnly} = this.state;
     return (
       <div className="convert-app">
         <div className="grid-container">
@@ -121,7 +122,7 @@ class ConvertApp extends React.PureComponent<any, any, any> {
               height="100%"
               onChange={this._onEditorChange}
               placeholder="Type something here..."
-              readOnly={false}
+              readOnly={readOnly}
               width="100%"
             />
           </ConvertAppArea>

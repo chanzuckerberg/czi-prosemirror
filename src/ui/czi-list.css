@@ -107,7 +107,6 @@
   font-size: 1.12em;
 }
 
-
 /* Adjust list-style postion for text-alignment. */
 
 .ProseMirror li::before,
@@ -124,7 +123,7 @@
   float: left;
   margin: 0 0 -1em -3em;
   text-align: right;
-  left: -10px;
+  left: -12px;
 }
 
 .ProseMirror li[data-align="center"] {

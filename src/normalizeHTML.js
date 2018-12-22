@@ -1,5 +1,6 @@
 // @flow
 
+import patchAnchorElements from './patchAnchorElements';
 import patchBreakElements from './patchBreakElements';
 import patchElementInlineStyles from './patchElementInlineStyles';
 import patchListElements from './patchListElements';
@@ -29,9 +30,12 @@ export default function normalizeHTML(html: string): string {
     doc.open();
     doc.write(html);
     doc.close();
-    patchBreakElements(doc);
+    // styles.
     patchStyleElements(doc);
     patchElementInlineStyles(doc);
+    // contents.
+    patchAnchorElements(doc);
+    patchBreakElements(doc);
     patchListElements(doc);
     patchTableElements(doc);
     body = doc.getElementsByTagName('body')[0];
