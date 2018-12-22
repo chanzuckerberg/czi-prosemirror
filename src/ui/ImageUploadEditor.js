@@ -1,12 +1,14 @@
 // @flow
 
-import './czi-form.css';
-import './czi-image-upload-editor.css';
+import cx from 'classnames';
+import React from 'react';
+
 import CustomButton from './CustomButton';
 import LoadingIndicator from './LoadingIndicator';
-import React from 'react';
-import cx from 'classnames';
 import uuid from './uuid';
+
+import './czi-form.css';
+import './czi-image-upload-editor.css';
 
 import type {EditorRuntime, ImageLike} from '../Types';
 
@@ -33,7 +35,7 @@ class ImageUploadEditor extends React.PureComponent<any, any, any> {
   render(): React.Element<any> {
     const {id, error, pending} = this.state;
     const className = cx('czi-image-upload-editor', {pending, error});
-    let label = 'Choose a image file...';
+    let label = 'Choose an image file...';
 
     if (pending) {
       label = <LoadingIndicator />;
