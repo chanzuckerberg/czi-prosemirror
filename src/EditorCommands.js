@@ -2,7 +2,8 @@
 
 import * as ProsemirrorTables from 'prosemirror-tables';
 
-import BlockquoteCommand from './BlockquoteCommand';
+import BlockquoteInsertNewLineCommand from './BlockquoteInsertNewLineCommand';
+import BlockquoteToggleCommand from './BlockquoteToggleCommand';
 import CodeBlockCommand from './CodeBlockCommand';
 import DocLayoutCommand from './DocLayoutCommand';
 import HeadingCommand from './HeadingCommand';
@@ -64,7 +65,8 @@ const {
 document.execCommand('enableObjectResizing', false, 'false');
 document.execCommand('enableInlineTableEditing', false, 'false');
 
-export const BLOCKQUOTE_INFO = new BlockquoteCommand();
+export const BLOCKQUOTE_TOGGLE = new BlockquoteToggleCommand();
+export const BLOCKQUOTE_INSERT_NEW_LINE = new BlockquoteInsertNewLineCommand();
 export const CLEAR_FORMAT = new MarksClearCommand();
 export const CODE = new CodeBlockCommand();
 export const DOC_LAYOUT = new DocLayoutCommand();

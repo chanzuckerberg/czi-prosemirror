@@ -9,7 +9,7 @@ import {BLOCKQUOTE} from './NodeNames';
 import toggleBlockquote from './toggleBlockquote';
 import UICommand from './ui/UICommand';
 
-class BlockquoteCommand extends UICommand {
+class BlockquoteToggleCommand extends UICommand {
 
   isActive = (state: EditorState): boolean => {
     const blockquote = state.schema.nodes[BLOCKQUOTE];
@@ -35,4 +35,4 @@ class BlockquoteCommand extends UICommand {
   };
 }
 
-export default BlockquoteCommand;
+export default BlockquoteToggleCommand;

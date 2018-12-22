@@ -6,17 +6,17 @@ const STYLE_COLOR = {
   color: '#c40df2',
 };
 
-const STYLE_BOLD = {
-  fontWeight: 'bold',
-};
+// const STYLE_BOLD = {
+//   fontWeight: 'bold',
+// };
 
-const STYLE_TEXT_ALIGN = {
-  textAlign: 'right',
-};
+// const STYLE_TEXT_ALIGN = {
+//   textAlign: 'right',
+// };
 
-const STYLE_FONT_SIZE = {
-  fontSize: '64px',
-};
+// const STYLE_FONT_SIZE = {
+//   fontSize: '64px',
+// };
 
 const STYLE_FONT_FAMILY = {
   fontFamily: 'Arial Black',
@@ -26,23 +26,23 @@ const STYLE_BACKGROUND_COLOR = {
   backgroundColor: '#e8e87d',
 };
 
-const STYLE_UNDERLINE = {
-  textDecoration: 'underline',
-};
+// const STYLE_UNDERLINE = {
+//   textDecoration: 'underline',
+// };
 
 const STYLE_FLOAT_LEFT = {
   cssFloat: 'left',
 };
 
-const STYLE_MIXED = {
-  ...STYLE_BACKGROUND_COLOR,
-  ...STYLE_BOLD,
-  ...STYLE_COLOR,
-  ...STYLE_FONT_FAMILY,
-  ...STYLE_FONT_SIZE,
-  ...STYLE_TEXT_ALIGN,
-  ...STYLE_UNDERLINE,
-};
+// const STYLE_MIXED = {
+//   ...STYLE_BACKGROUND_COLOR,
+//   ...STYLE_BOLD,
+//   ...STYLE_COLOR,
+//   ...STYLE_FONT_FAMILY,
+//   ...STYLE_FONT_SIZE,
+//   ...STYLE_TEXT_ALIGN,
+//   ...STYLE_UNDERLINE,
+// };
 
 class DemoAppHTMLTemplate extends React.PureComponent<any, any, any> {
   render(): React.Element<any> {
@@ -137,7 +137,7 @@ class DemoAppHTMLTemplate extends React.PureComponent<any, any, any> {
           </tbody>
         </table>
       </div>
-    )
+    );
   }
 }
 

@@ -23,12 +23,14 @@ const {
   KEY_FORWARD_DELETE,
   KEY_REDO,
   KEY_SPLIT_LIST_ITEM,
+  KEY_INSERT_NEW_BLOCKQUOTE_LINE,
   KEY_TAB_SHIFT,
   KEY_TAB,
   KEY_UNDO,
 } = KeyMaps;
 
 const {
+  BLOCKQUOTE_INSERT_NEW_LINE,
   HISTORY_REDO,
   HISTORY_UNDO,
   INDENT_LESS,
@@ -71,6 +73,7 @@ export default function createEditorKeyMap(): UserKeyMap {
       INDENT_LESS,
     ),
     [KEY_UNDO.common]: HISTORY_UNDO.execute,
+    [KEY_INSERT_NEW_BLOCKQUOTE_LINE.common]: BLOCKQUOTE_INSERT_NEW_LINE.execute,
   };
 
   return result;
