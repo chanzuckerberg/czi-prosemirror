@@ -6,7 +6,7 @@
 # CZI-ProseMirror
 
 + Drop-In WYSIWYG editor based on ProseMirror & React
-+ Live DEMO: http://cdn.summitlearning.org/assets/czi_prosemirror_0_0_1_1_20181203104140_index.html
++ Live DEMO: http://cdn.summitlearning.org/assets/czi_prosemirror_0_0_1_1_20181222012211_index.html
 
 ---
 
