@@ -29,12 +29,15 @@ export default function toggleList(
     from,
     from,
   );
-
+  const paragraph = schema.nodes[PARAGRAPH];
+  const heading = schema.nodes[HEADING];
   const result = findParentNodeOfType(listNodeType)(fromSelection);
   if (result) {
     tr = unwrapNodesFromList(tr, schema, result.pos);
-  } else {
-    wrapNodesWithList(tr, schema, listNodeType);
+  } else if (paragraph && findParentNodeOfType(paragraph)(fromSelection)) {
+    tr = wrapNodesWithList(tr, schema, listNodeType);
+  } else if (heading && findParentNodeOfType(heading)(fromSelection)) {
+    tr = wrapNodesWithList(tr, schema, listNodeType);
   }
 
   return tr;
@@ -104,12 +107,13 @@ function wrapNodesWithListInternal(
       items = items || [];
       items.push({node, pos});
     } else {
-      items && lists.push(items);
+      items && items.length && lists.push(items);
       items = null;
     }
     return true;
   });
-  items && lists.push(items);
+  items && items.length && lists.push(items);
+  console.log(lists);
 
   lists = lists.filter(items => items.length > 0);
   if (!lists.length) {
