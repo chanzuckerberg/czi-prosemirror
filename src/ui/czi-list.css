@@ -72,8 +72,8 @@
   content: counter(czi-counter, upper-alpha) ".";
 }
 
-/* 
- * https://www.sitepoint.com/understanding-block-formatting-contexts-in-css/ 
+/*
+ * https://www.sitepoint.com/understanding-block-formatting-contexts-in-css/
  * this is need to force "block-context" to prevent broken style around
  * float siblings (e.g. An image is floafing around it.)
  *
@@ -116,14 +116,14 @@
   font-size: 1em;
   line-height: 1em;
   position: relative;
-  top: 3px;
+  top: 3.5px;
 }
 
 .ProseMirror li::before {
   float: left;
   margin: 0 0 -1em -3em;
   text-align: right;
-  left: -12px;
+  left: -8px;
 }
 
 .ProseMirror li[data-align="center"] {
@@ -143,14 +143,23 @@
   display: none;
 }
 
-.ProseMirror li[data-align="center"] p:first-child::before {
+.ProseMirror ul > li[data-align="center"] p:first-child::before {
   display: inline;
   position: relative;
-  top: 1px;
+  left: -4px;
+  top: 5px;
+}
+
+.ProseMirror ol > li[data-align="center"] p:first-child::before {
+  display: inline;
+  position: relative;
+  left: -4px;
+  top: 0;
 }
 
 .ProseMirror li[data-align="right"]::before {
   float: right;
+  left: 0;
   margin: 0 -3.5em -1em 0;
   text-align: left;
 }
