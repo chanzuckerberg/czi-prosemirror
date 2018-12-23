@@ -4,7 +4,7 @@
   clear: both;
   display: inline-block;
   line-height: 0;
-  margin: 0 2px;
+  margin: 0 2px; /* This should be synced to the constant IMAGE_MARGIN in JS. */
   max-width: 100%;
   text-align: center;
   vertical-align: baseline;
@@ -51,6 +51,7 @@
 }
 
 .czi-image-view-body.selected::after {
+  /* simulated selection highlight */
   background-color: var(--czi-selection-highlight-color-dark);
   bottom: 0;
   content: '';
@@ -60,6 +61,11 @@
   right: 0;
   top: 0;
   z-index: 2;
+}
+
+.czi-image-view-body.active.selected::after {
+  /* hide the highlight so user can resize the image easily. */
+  display: none;
 }
 
 .czi-image-view-body.active {

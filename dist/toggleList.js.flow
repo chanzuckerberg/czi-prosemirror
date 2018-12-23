@@ -113,7 +113,6 @@ function wrapNodesWithListInternal(
     return true;
   });
   items && items.length && lists.push(items);
-  console.log(lists);
 
   lists = lists.filter(items => items.length > 0);
   if (!lists.length) {

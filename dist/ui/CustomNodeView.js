@@ -24,6 +24,10 @@ var _set = require('babel-runtime/core-js/set');
 
 var _set2 = _interopRequireDefault(_set);
 
+var _prosemirrorModel = require('prosemirror-model');
+
+var _prosemirrorView = require('prosemirror-view');
+
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
@@ -31,10 +35,6 @@ var _react2 = _interopRequireDefault(_react);
 var _reactDom = require('react-dom');
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
-
-var _prosemirrorView = require('prosemirror-view');
-
-var _prosemirrorModel = require('prosemirror-model');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -213,7 +213,6 @@ var CustomNodeView = function () {
   (0, _createClass3.default)(CustomNodeView, [{
     key: 'update',
     value: function update(node, decorations) {
-      console.log('update');
       this.props = (0, _extends3.default)({}, this.props, {
         node: node
       });

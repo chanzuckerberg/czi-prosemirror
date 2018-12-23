@@ -123,7 +123,6 @@ function wrapNodesWithListInternal(memo, listNodeType) {
     return true;
   });
   items && items.length && lists.push(items);
-  console.log(lists);
 
   lists = lists.filter(function (items) {
     return items.length > 0;

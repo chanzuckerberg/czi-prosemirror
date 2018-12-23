@@ -1,9 +1,9 @@
 // @xflow
 
+import {Node} from 'prosemirror-model';
+import {Decoration, EditorView} from 'prosemirror-view';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {EditorView, Decoration} from 'prosemirror-view';
-import {Node} from 'prosemirror-model';
 
 export type NodeViewProps = {
   editorView: EditorView,
@@ -119,7 +119,6 @@ class CustomNodeView {
   }
 
   update(node: Node, decorations: Array<Decoration>): boolean {
-    console.log('update');
     this.props = {
       ...this.props,
       node,

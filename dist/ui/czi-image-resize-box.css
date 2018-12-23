@@ -149,3 +149,13 @@
   top: 5px;
   width: 10px;
 }
+
+.czi-image-resize-box-control::before {
+  bottom: -10px;
+  content: '';
+  left: -10px;
+  position: absolute;
+  right: -10px;
+  top: -10px;
+}
+
