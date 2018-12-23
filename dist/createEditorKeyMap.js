@@ -34,9 +34,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var KEY_BACK_DELETE = KeyMaps.KEY_BACK_DELETE,
     KEY_FORWARD_DELETE = KeyMaps.KEY_FORWARD_DELETE,
+    KEY_INSERT_NEW_LINE_IN_BLOCKQUOTE = KeyMaps.KEY_INSERT_NEW_LINE_IN_BLOCKQUOTE,
+    KEY_INSERT_NEW_LINE_IN_LIST_ITEM = KeyMaps.KEY_INSERT_NEW_LINE_IN_LIST_ITEM,
     KEY_REDO = KeyMaps.KEY_REDO,
     KEY_SPLIT_LIST_ITEM = KeyMaps.KEY_SPLIT_LIST_ITEM,
-    KEY_INSERT_NEW_BLOCKQUOTE_LINE = KeyMaps.KEY_INSERT_NEW_BLOCKQUOTE_LINE,
     KEY_TAB_SHIFT = KeyMaps.KEY_TAB_SHIFT,
     KEY_TAB = KeyMaps.KEY_TAB,
     KEY_UNDO = KeyMaps.KEY_UNDO;
@@ -45,6 +46,7 @@ var BLOCKQUOTE_INSERT_NEW_LINE = EditorCommands.BLOCKQUOTE_INSERT_NEW_LINE,
     HISTORY_UNDO = EditorCommands.HISTORY_UNDO,
     INDENT_LESS = EditorCommands.INDENT_LESS,
     INDENT_MORE = EditorCommands.INDENT_MORE,
+    LIST_ITEM_INSERT_NEW_LINE = EditorCommands.LIST_ITEM_INSERT_NEW_LINE,
     LIST_ITEM_MERGE_DOWN = EditorCommands.LIST_ITEM_MERGE_DOWN,
     LIST_ITEM_MERGE_UP = EditorCommands.LIST_ITEM_MERGE_UP,
     LIST_SPLIT = EditorCommands.LIST_SPLIT,
@@ -71,7 +73,7 @@ function bindCommands() {
 function createEditorKeyMap() {
   var _result;
 
-  var result = (_result = {}, (0, _defineProperty3.default)(_result, KEY_BACK_DELETE.common, LIST_ITEM_MERGE_UP.execute), (0, _defineProperty3.default)(_result, KEY_FORWARD_DELETE.common, LIST_ITEM_MERGE_DOWN.execute), (0, _defineProperty3.default)(_result, KEY_REDO.common, HISTORY_REDO.execute), (0, _defineProperty3.default)(_result, KEY_SPLIT_LIST_ITEM.common, LIST_SPLIT.execute), (0, _defineProperty3.default)(_result, KEY_TAB.common, bindCommands(TABLE_MOVE_TO_NEXT_CELL, INDENT_MORE)), (0, _defineProperty3.default)(_result, KEY_TAB_SHIFT.common, bindCommands(TABLE_MOVE_TO_PREV_CELL, INDENT_LESS)), (0, _defineProperty3.default)(_result, KEY_UNDO.common, HISTORY_UNDO.execute), (0, _defineProperty3.default)(_result, KEY_INSERT_NEW_BLOCKQUOTE_LINE.common, BLOCKQUOTE_INSERT_NEW_LINE.execute), _result);
+  var result = (_result = {}, (0, _defineProperty3.default)(_result, KEY_BACK_DELETE.common, LIST_ITEM_MERGE_UP.execute), (0, _defineProperty3.default)(_result, KEY_FORWARD_DELETE.common, LIST_ITEM_MERGE_DOWN.execute), (0, _defineProperty3.default)(_result, KEY_REDO.common, HISTORY_REDO.execute), (0, _defineProperty3.default)(_result, KEY_SPLIT_LIST_ITEM.common, LIST_SPLIT.execute), (0, _defineProperty3.default)(_result, KEY_TAB.common, bindCommands(TABLE_MOVE_TO_NEXT_CELL, INDENT_MORE)), (0, _defineProperty3.default)(_result, KEY_TAB_SHIFT.common, bindCommands(TABLE_MOVE_TO_PREV_CELL, INDENT_LESS)), (0, _defineProperty3.default)(_result, KEY_UNDO.common, HISTORY_UNDO.execute), (0, _defineProperty3.default)(_result, KEY_INSERT_NEW_LINE_IN_BLOCKQUOTE.common, BLOCKQUOTE_INSERT_NEW_LINE.execute), (0, _defineProperty3.default)(_result, KEY_INSERT_NEW_LINE_IN_LIST_ITEM.common, LIST_ITEM_INSERT_NEW_LINE.execute), _result);
 
   return result;
 }

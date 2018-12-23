@@ -39,7 +39,7 @@ var _UICommand3 = _interopRequireDefault(_UICommand2);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // This handles the case when user press SHIFT + ENTER key to insert a new line
-// into blockquote.
+// into list item.
 function insertNewLine(tr, schema) {
   var _tr = tr,
       selection = _tr.selection;
@@ -57,7 +57,7 @@ function insertNewLine(tr, schema) {
   if (!br) {
     return tr;
   }
-  var blockquote = schema.nodes[_NodeNames.BLOCKQUOTE];
+  var blockquote = schema.nodes[_NodeNames.LIST_ITEM];
   var result = (0, _prosemirrorUtils.findParentNodeOfType)(blockquote)(selection);
   if (!result) {
     return tr;
@@ -67,21 +67,21 @@ function insertNewLine(tr, schema) {
   return tr;
 }
 
-var BlockquoteInsertNewLineCommand = function (_UICommand) {
-  (0, _inherits3.default)(BlockquoteInsertNewLineCommand, _UICommand);
+var ListItemInsertNewLineCommand = function (_UICommand) {
+  (0, _inherits3.default)(ListItemInsertNewLineCommand, _UICommand);
 
-  function BlockquoteInsertNewLineCommand() {
+  function ListItemInsertNewLineCommand() {
     var _ref;
 
     var _temp, _this, _ret;
 
-    (0, _classCallCheck3.default)(this, BlockquoteInsertNewLineCommand);
+    (0, _classCallCheck3.default)(this, ListItemInsertNewLineCommand);
 
     for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = BlockquoteInsertNewLineCommand.__proto__ || (0, _getPrototypeOf2.default)(BlockquoteInsertNewLineCommand)).call.apply(_ref, [this].concat(args))), _this), _this.execute = function (state, dispatch, view) {
+    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = ListItemInsertNewLineCommand.__proto__ || (0, _getPrototypeOf2.default)(ListItemInsertNewLineCommand)).call.apply(_ref, [this].concat(args))), _this), _this.execute = function (state, dispatch, view) {
       var schema = state.schema,
           selection = state.selection;
 
@@ -95,7 +95,7 @@ var BlockquoteInsertNewLineCommand = function (_UICommand) {
     }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
   }
 
-  return BlockquoteInsertNewLineCommand;
+  return ListItemInsertNewLineCommand;
 }(_UICommand3.default);
 
-exports.default = BlockquoteInsertNewLineCommand;
+exports.default = ListItemInsertNewLineCommand;

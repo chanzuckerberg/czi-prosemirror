@@ -7,11 +7,11 @@ import {Transform} from 'prosemirror-transform';
 import {findParentNodeOfType} from 'prosemirror-utils';
 import {EditorView} from 'prosemirror-view';
 
-import {BLOCKQUOTE, HARD_BREAK} from './NodeNames';
+import {HARD_BREAK, LIST_ITEM} from './NodeNames';
 import UICommand from './ui/UICommand';
 
 // This handles the case when user press SHIFT + ENTER key to insert a new line
-// into blockquote.
+// into list item.
 function insertNewLine(tr: Transform, schema: Schema): Transform {
   const {selection} = tr;
   if(!selection) {
@@ -25,7 +25,7 @@ function insertNewLine(tr: Transform, schema: Schema): Transform {
   if (!br) {
     return tr;
   }
-  const blockquote = schema.nodes[BLOCKQUOTE];
+  const blockquote = schema.nodes[LIST_ITEM];
   const result = findParentNodeOfType(blockquote)(selection);
   if (!result) {
     return tr;
@@ -39,7 +39,7 @@ function insertNewLine(tr: Transform, schema: Schema): Transform {
   return tr;
 }
 
-class BlockquoteInsertNewLineCommand extends UICommand {
+class ListItemInsertNewLineCommand extends UICommand {
 
   execute = (
     state: EditorState,
@@ -60,4 +60,4 @@ class BlockquoteInsertNewLineCommand extends UICommand {
   };
 }
 
-export default BlockquoteInsertNewLineCommand;
+export default ListItemInsertNewLineCommand;
