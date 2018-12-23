@@ -70,7 +70,8 @@ export const KEY_BACK_DELETE = makeKeyMapWithCommon('', 'Backspace');
 export const KEY_FORWARD_DELETE = makeKeyMapWithCommon('', 'Delete');
 export const KEY_INSERT_HORIZONTAL_RULE = makeKeyMapWithCommon('Insert horizontal rule', 'Mod-Shift--');
 export const KEY_INSERT_NEW_LINE = makeKeyMapWithCommon('Insert new line', 'Shift-Enter');
-export const KEY_INSERT_NEW_BLOCKQUOTE_LINE = makeKeyMapWithCommon('Insert new line in blockquote', 'Shift-Enter');
+export const KEY_INSERT_NEW_LINE_IN_BLOCKQUOTE = makeKeyMapWithCommon('Insert new line in blockquote', 'Shift-Enter');
+export const KEY_INSERT_NEW_LINE_IN_LIST_ITEM = makeKeyMapWithCommon('Insert new line in list item', 'Shift-Enter');
 export const KEY_REDO = makeKeyMapWithCommon('Redo', 'Mod-Shift-z');
 export const KEY_SET_NORMAL_TEXT = makeKeyMap('Normal text', 'Ctrl-0', 'Cmd-Alt-0');
 export const KEY_SHIFT_BACKSPACE = makeKeyMapWithCommon('Shift Backspace', 'Shift-Backspace');
@@ -100,7 +101,8 @@ export const ALL_KEYS = [
   KEY_FORWARD_DELETE,
   KEY_INSERT_HORIZONTAL_RULE,
   KEY_INSERT_NEW_LINE,
-  KEY_INSERT_NEW_BLOCKQUOTE_LINE,
+  KEY_INSERT_NEW_LINE_IN_BLOCKQUOTE,
+  KEY_INSERT_NEW_LINE_IN_LIST_ITEM,
   KEY_SET_NORMAL_TEXT,
   KEY_SHIFT_BACKSPACE,
   KEY_SPLIT_LIST_ITEM,
