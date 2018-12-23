@@ -87,6 +87,8 @@ export default function transformAndPreserveTextSelection(
     };
   };
 
+  // TODO: This has side-effect. It will cause `tr.docChanged` to be `true`.
+  // No matter whether `fn({tr, schema})` did change the doc or not.
   tr = applyMark(tr, schema, markType, {id});
   tr = fn({tr, schema});
 

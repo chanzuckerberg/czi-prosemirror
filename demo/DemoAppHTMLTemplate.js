@@ -45,15 +45,31 @@ const STYLE_FLOAT_LEFT = {
 // };
 
 class DemoAppHTMLTemplate extends React.PureComponent<any, any, any> {
-  // render(): React.Element<any> {
-  //   return (
-  //     <blockquote style={{textAlign: 'center'}}>
-  //       Singapura bombay for norwegian forest tom tabby.
-  //     </blockquote>
-  //   );
-  // }
-
   render(): React.Element<any> {
+    return (
+      <div>
+       <p>xcxzcxz</p>
+      <table>
+        <tbody>
+          <tr>
+            <td>
+              <img
+                src="https://placekitten.com/1000/1000"
+              />
+            </td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+      <img
+        src="https://placekitten.com/2000/1000"
+      />
+      <p>xcxzcxz</p>
+      </div>
+    );
+  }
+
+  renderx(): React.Element<any> {
     return (
       <div style={{display: 'none'}}>
         <h1>Maine coon. Tomcat cornish rex siamese for cheetah savannah</h1>
