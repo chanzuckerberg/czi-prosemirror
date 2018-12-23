@@ -2,7 +2,6 @@
 
 import cx from 'classnames';
 import {EditorState} from 'prosemirror-state';
-import {EditorView} from 'prosemirror-view';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
@@ -12,7 +11,6 @@ import convertToJSON from '../src/convertToJSON';
 import createEmptyEditorState from '../src/createEmptyEditorState';
 import CustomButton from '../src/ui/CustomButton';
 import RichTextEditor from '../src/ui/RichTextEditor';
-import DemoAppHTMLTemplate from './DemoAppHTMLTemplate';
 
 import './convert-app.css';
 
@@ -40,7 +38,7 @@ function getInitialState(): Object {
     editorState,
     html,
     prosemirrorJSON,
-    readOnly: !false,
+    readOnly: false,
   };
 }
 
@@ -90,6 +88,13 @@ class ConvertApp extends React.PureComponent<any, any, any> {
               <CustomButton
                 label={`ProseMirror ${RIGHT_ARROW_CHAR} JSON`}
                 onClick={this._toProseMirrorJSON}
+              />
+            </div>
+             <div className="czi-custom-buttons">
+              <CustomButton
+                label={RIGHT_ARROW_CHAR + (readOnly ? ' Edit' : ' Read-only')}
+                onClick={this._toggleReadOnly}
+                value="html"
               />
             </div>
           </ConvertAppArea>
@@ -217,6 +222,10 @@ class ConvertApp extends React.PureComponent<any, any, any> {
       const editorState = convertFromJSON(this.state.prosemirrorJSON);
       this.setState({editorState});
     }
+  };
+
+  _toggleReadOnly = (): void => {
+    this.setState({readOnly: !this.state.readOnly});
   };
 }
 
