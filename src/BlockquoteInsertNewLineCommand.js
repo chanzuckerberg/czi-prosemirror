@@ -30,19 +30,6 @@ function insertNewLine(tr: Transform, schema: Schema): Transform {
   if (!result) {
     return tr;
   }
-
-  const {pos, node} = result;
-  const endPos = pos + node.nodeSize - 1;
-  if (
-    from === endPos &&
-    node.lastChild &&
-    node.lastChild.type === br
-  ) {
-   // It already has a hard break and the selection is at the end of the
-   // blockquote. It should let user to create a new block after blockquote.
-   return tr;
-  }
-
   tr = tr.insert(from,  Fragment.from(br.create()));
   tr = tr.setSelection(TextSelection.create(
     tr.doc,
