@@ -6,7 +6,7 @@ module.exports = {
     "codeFrame": true,
     "ecmaFeatures": {
       "jsx": true
-    },
+    }
   },
   "plugins": ["react"],
   "rules": {
@@ -25,7 +25,7 @@ module.exports = {
     "prefer-const": "error",
     "quotes": [2, "single", { "avoidEscape": true }],
     "semi": [2, "always"],
-    "strict": 0,
+    "strict": 0
   },
   "globals": {
     "$ReadOnlyArray": false,
@@ -45,11 +45,14 @@ module.exports = {
     "SyntheticEvent": false,
     "SyntheticInputEvent": false,
     "SyntheticMouseEvent": false,
+    "__dirname": false,
     "cancelAnimationFrame": false,
     "clearTimeout": false,
     "console": false,
     "document": false,
+    "module": false,
     "requestAnimationFrame": false,
+    "require": false,
     "setTimeout": false,
     "window": false
   }
