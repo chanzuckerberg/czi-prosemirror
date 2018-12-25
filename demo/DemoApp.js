@@ -2,6 +2,7 @@
 
 import applyDevTools from 'prosemirror-dev-tools';
 import {EditorState} from 'prosemirror-state';
+import {Transform} from 'prosemirror-transform';
 import {EditorView} from 'prosemirror-view';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -12,6 +13,9 @@ import DemoAppHTMLTemplate from './DemoAppHTMLTemplate';
 import DemoAppRuntime from './DemoAppRuntime';
 
 import './demo-app.css';
+
+// import initCollabEdit from './initCollabEdit';
+
 
 // Reference: http://prosemirror.net/examples/basic/
 const defaultEditorState = (function() {
@@ -27,11 +31,12 @@ class DemoApp extends React.PureComponent<any, any, any> {
     super(props, context);
     this.state = {
       editorState: defaultEditorState,
+      editorView: null,
     };
   }
 
   render(): React.Element<any> {
-    const {editorState, editorView} = this.state;
+    const {editorState} = this.state;
     const readOnly = /read/ig.test(window.location.search);
     return (
       <RichTextEditor
@@ -39,7 +44,6 @@ class DemoApp extends React.PureComponent<any, any, any> {
         embedded={false}
         height="100vh"
         onChange={this._onChange}
-        onReady={this._onReady}
         placeholder={readOnly ? '' : 'Type Something...'}
         readOnly={readOnly}
         runtime={this._runtime}
@@ -48,7 +52,9 @@ class DemoApp extends React.PureComponent<any, any, any> {
     );
   }
 
-  _onChange = (editorState: EditorState): void => {
+  _onChange = (data: {state: EditorState, transaction: Transform}): void => {
+    const {state, transaction} = data;
+    const editorState = state.apply(transaction);
     this.setState({editorState});
   };
 

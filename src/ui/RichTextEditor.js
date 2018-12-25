@@ -2,6 +2,8 @@
 
 import cx from 'classnames';
 import {EditorState} from 'prosemirror-state';
+import {Transction} from 'prosemirror-transform';
+import {Transform} from 'prosemirror-transform';
 import {EditorView} from 'prosemirror-view';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -34,8 +36,9 @@ type Props = {
   height?: ?(string | number),
   id?: ?string,
   maxContentHeight?: ?number,
+  onTransaction?: ?(tr: Transction) => void,
   onBlur?: () => void,
-  onChange?: (e: EditorState) => void,
+  onChange?: ({transaction: Transform, state: EditorState}) => void,
   onReady?: (editorView: EditorView) => void,
   placeholder?: ?(string | React.Element<any>),
   readOnly?: ?boolean,

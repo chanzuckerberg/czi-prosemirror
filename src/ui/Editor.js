@@ -2,6 +2,7 @@
 
 import cx from 'classnames';
 import {EditorState} from 'prosemirror-state';
+import {Transction} from 'prosemirror-transform';
 import {Transform} from 'prosemirror-transform';
 import {EditorView} from 'prosemirror-view';
 import React from 'react';
@@ -50,7 +51,7 @@ class Editor extends React.PureComponent<any, any, any> {
     disabled?: ?boolean,
     editorState?: ?EditorState,
     embedded?: ?boolean,
-    onChange?: ?(state: EditorState) => void,
+    onChange?: ({transaction: Transform, state: EditorState}) => void,
     onReady?: ?(view: EditorView) => void,
     placeholder?: ?(string | React.Element<any>),
     readOnly?: ?boolean,
@@ -124,12 +125,14 @@ class Editor extends React.PureComponent<any, any, any> {
   }
 
   _dispatchTransaction = (transaction: Transform): void => {
-    const {onChange, editorState, readOnly} = this.props;
-    if (readOnly === true) {
+    const {editorState, readOnly, onChange} = this.props;
+    if (readOnly === true || !onChange) {
       return;
     }
-    const nextState = (editorState || EDITOR_EMPTY_STATE).apply(transaction);
-    onChange && onChange(nextState);
+    onChange({
+      transaction,
+      state: editorState || EDITOR_EMPTY_STATE,
+    });
   };
 
   _isEditable = (): boolean => {
