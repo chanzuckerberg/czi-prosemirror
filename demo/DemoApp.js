@@ -8,8 +8,8 @@ import React from 'react';
 
 import RichTextEditor from '../src/ui/RichTextEditor';
 import DemoAppRuntime from './DemoAppRuntime';
-import DemoCollabStore from './DemoCollabStore';
-import DemoTemplateStore from './DemoTemplateStore';
+import DemoCollabDocument from './DemoCollabDocument';
+import DemoTemplateDocument from './DemoTemplateDocument';
 
 import './demo-app.css';
 
@@ -28,8 +28,8 @@ class DemoApp extends React.PureComponent<any, any, any> {
     const setState = this.setState.bind(this);
 
     this._store = COLLAB_EDITING ?
-      new DemoCollabStore(setState) :
-      new DemoTemplateStore(setState);
+      new DemoCollabDocument(setState, 0) :
+      new DemoTemplateDocument(setState);
 
     this.state = {
       editorState: this._store.editorState,

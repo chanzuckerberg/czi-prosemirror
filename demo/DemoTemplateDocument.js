@@ -20,9 +20,10 @@ const defaultEditorState = (function() {
   return convertFromDOMElement(templateNode);
 })();
 
-class DemoTemplateStore {
+class DemoTemplateDocument {
 
   _setState: SetStateCall;
+
   editorState: EditorState;
 
   constructor(setState: SetStateCall) {
@@ -43,4 +44,4 @@ class DemoTemplateStore {
   };
 }
 
-export default DemoTemplateStore;
+export default DemoTemplateDocument;
