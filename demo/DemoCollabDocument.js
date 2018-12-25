@@ -1,15 +1,18 @@
 // @flow
 
+import invariant from 'invariant';
 import nullthrows from 'nullthrows';
 import {collab, receiveTransaction, sendableSteps} from 'prosemirror-collab';
-import {history} from 'prosemirror-history';
+import {Schema} from 'prosemirror-model';
 import {EditorState} from 'prosemirror-state';
-import {Transform} from 'prosemirror-transform';
+import {Step, Transform} from 'prosemirror-transform';
 import ReactDOM from 'react-dom';
 
 import EditorPlugins from '../src/EditorPlugins';
 import EditorSchema from '../src/EditorSchema';
+import convertToJSON from '../src/convertToJSON';
 import {EMPTY_DOC_JSON} from '../src/createEmptyEditorState';
+import uuid from '../src/ui/uuid';
 import requestDocServer from './requestDocServer';
 
 type IdStrict = number;
@@ -39,7 +42,7 @@ type Sendable = {
   steps?: ?SendableSteps,
 };
 
-const POLL_DELAY = 50000000;
+const POLL_DELAY = 10000000;
 const MAX_DOC_CONTENT_SIZE = 40000;
 const HTTP_STATUS_GONE = 410;
 const HTTP_STATUS_DENIED = 500;
@@ -55,6 +58,10 @@ const ACTION_TYPE = {
   START: 'START',
   TRANSACTION: 'TRANSACTION',
 };
+
+function noop(): void {
+
+}
 
 function repeat<T>(val: T, n: number): Array<T> {
   const result = [];
@@ -80,6 +87,26 @@ function toSendable(editorState: EditorState): ?Sendable {
   return {steps};
 };
 
+// function forceStepKey(step: Step): void {
+//   if (!step.__key) {
+//     step.__key = String(step.jsonID) + '_' + uuid();
+//   }
+// }
+
+function toStepJSON(step: Step): Object {
+  // forceStepKey(step);
+  const json: Object = step.toJSON();
+  // json.key = step.__key;
+  // console.log(json.id, json);
+  return json;
+
+}
+
+function fromStepJSON(schema: Schema, raw: Object): Step {
+  const step = Step.fromJSON(schema, raw.json);
+  return step;
+}
+
 class DocumentState {
   editorState: EditorState;
   status: string;
@@ -90,6 +117,7 @@ class DocumentState {
 }
 
 class DemoCollabDocument {
+
   _backOff: number;
   _docId: IdStrict;
   _polling: boolean;
@@ -97,7 +125,6 @@ class DemoCollabDocument {
   _setState: SetStateCall;
   _version: number;
   _xhr: any;
-
   editorState: EditorState;
   state: DocumentState;
 
@@ -108,7 +135,8 @@ class DemoCollabDocument {
     this._docId = docId;
     this._polling = false;
     this._setState = setState;
-    this.state = new DocumentState(editorState, 'start');
+    this._version = 0;
+    this.state = new DocumentState(editorState, ACTION_TYPE.START);
 
     const store = this;
 
@@ -130,6 +158,7 @@ class DemoCollabDocument {
   dispatchTransaction = (transaction: Transform): void => {
     if (!this._ready) {
       // No not let user edit the document yet.
+      console.log('not ready yet');
       return;
     }
     ReactDOM.unstable_batchedUpdates(() => {
@@ -138,13 +167,25 @@ class DemoCollabDocument {
         editorState,
       };
       this._setState(state, () => {
-        this._dispatch({type: ACTION_TYPE.TRANSACTION, transaction});
+        this._dispatch({
+          type: ACTION_TYPE.TRANSACTION,
+          transaction,
+          version: this._version,
+        });
       });
     });
   };
 
 
   _dispatch(action: Action): void {
+    ReactDOM.unstable_batchedUpdates(() => {
+      this._dispatchStart(action);
+      const state = {editorState: this.state.editorState};
+      this._setState(state, noop);
+    });
+  }
+
+  _dispatchStart(action: Action): void {
     const {
       DETATCHED, POLL, LOADED, RESTART, START, TRANSACTION, SEND, RECOVER,
     } = ACTION_TYPE;
@@ -169,7 +210,7 @@ class DemoCollabDocument {
     }
 
     if (type === RESTART) {
-      this.state = new DocumentState(null, START);
+      this.state = new DocumentState(editorState, START);
       this._start();
       return;
     }
@@ -195,6 +236,9 @@ class DemoCollabDocument {
     }
 
     if (type === TRANSACTION) {
+      const vn = toVersion(version);
+      this._version = vn;
+
       const tr = nullthrows(transaction);
       const editStateNext = editorState.apply(tr);
       if (editStateNext.doc.content.size > MAX_DOC_CONTENT_SIZE) {
@@ -227,9 +271,6 @@ class DemoCollabDocument {
   _createEditorState(richTextBlob: ?Object, version: ?number): EditorState {
     const plugins = EditorPlugins.slice(0);
     plugins.push(collab({version: version || 0}));
-    if (richTextBlob) {
-      plugins.push(history({preserveItems: true}));
-    }
     return EditorState.create({
       doc: EditorSchema.nodeFromJSON(richTextBlob || EMPTY_DOC_JSON),
       schema: EditorSchema,
@@ -241,7 +282,7 @@ class DemoCollabDocument {
     let data;
     try {
       const payload = {
-        id: this._docId,
+        docId: this._docId,
         version: this._version,
       };
       data = await requestDocServer('get', payload);
@@ -249,7 +290,7 @@ class DemoCollabDocument {
       console.error(ex);
     }
 
-    const version = nullthrows(data && data.doc && data.doc.version);
+    const version = nullthrows(data && data.doc).version;
     const richTextBlob = nullthrows(data && data.doc).rich_text_blob;
     this._backOff = 0;
     this._dispatch({
@@ -257,7 +298,6 @@ class DemoCollabDocument {
       richTextBlob,
       version,
     });
-
   };
 
   _recover = async (orror: Object): Promise<void> => {
@@ -276,20 +316,27 @@ class DemoCollabDocument {
   };
 
   _poll = async (): Promise<void> => {
-    if (this._polling) {
+    if (this._polling || 1) {
       return;
     }
+    let response;
     this._polling = true;
     try {
-      const data = await requestDocServer('get', {
-        id: this._docId,
+      response = await requestDocServer('get', {
+        docId: this._docId,
         version: this._version,
       });
-      this._polling = false;
-      this._dispatch({type: ACTION_TYPE.POLL, ...data});
     } catch (ex) {
       console.error(ex);
     }
+    this._polling = false;
+    this._backOff = 0;
+    if (response) {
+
+    }
+
+
+    this._dispatch({type: ACTION_TYPE.POLL, ...response});
   };
 
   _send = async (
@@ -297,28 +344,29 @@ class DemoCollabDocument {
     sendable: Sendable,
   ): Promise<void> => {
 
-
-    const {steps} = sendable;
+    const sendableSteps = sendable ? sendable.steps : null;
     let clientID = 0;
     let stepsJSON = [];
 
-    if (steps) {
-      clientID = steps.clientID || 0;
-      stepsJSON = steps.steps.map(s => s.toJSON());
+    if (sendableSteps) {
+      clientID = sendableSteps.clientID || 0;
+      stepsJSON = sendableSteps.steps.map(toStepJSON);
     }
 
     const payload = {
       action: 'send',
       clientID,
-      id: this._docId,
+      docId: this._docId,
       steps: stepsJSON,
       version: this._version,
+      rich_text_blob: convertToJSON(this.state.editorState),
     };
 
     console.log('send>>>>>>>>>>>>>>>>>>>>>>>>>>', payload);
 
+    let response;
     try {
-      await requestDocServer('post', payload);
+      response = await requestDocServer('post', payload);
       this._backOff = 0;
     } catch (error) {
       console.error('send error', error);
@@ -331,10 +379,15 @@ class DemoCollabDocument {
       return;
     }
 
-    const tr = steps ?
+
+    const version = nullthrows(response).version;
+    const newSteps = nullthrows(response).steps;
+
+    const tr = newSteps && newSteps.length ?
       receiveTransaction(
-        editorState, steps.steps,
-        repeat(steps.clientID, steps.steps.length),
+        editorState,
+        newSteps.map(fromStepJSON.bind(null, editorState.schema)),
+        newSteps.map(s => s.client_id),
       ) :
       this.state.editorState.tr;
 
@@ -342,6 +395,7 @@ class DemoCollabDocument {
       type: ACTION_TYPE.TRANSACTION,
       transaction: tr,
       requestDone: true,
+      version,
     });
   };
 }

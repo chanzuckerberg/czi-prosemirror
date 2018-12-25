@@ -6,8 +6,8 @@ type Method = 'get' | 'post';
 type IdStrict = number;
 
 type Payload = {
-  id: IdStrict,
-  version?: ?number,
+  docId: IdStrict,
+  version: number,
   clientID?: ?number,
   steps?: ?Array<Object>,
 };
@@ -18,13 +18,13 @@ const DOC_SERVER_PORT = '3002';
 
 export default function requestDocServer(
   method: Method,
-  payload: Payload ,
+  payload: Payload,
 ): Promise<Object> {
   return new Promise((resolve, reject) => {
     const parsed: Object = parse(window.location.href, true);
-    const {id} = payload;
+    const {docId} = payload;
     let postData = null;
-    parsed.pathname = `${PATH_PREFIX}/${String(id)}/` + method.toLowerCase();
+    parsed.pathname = `${PATH_PREFIX}/${String(docId)}/` + method.toLowerCase();
 
     if (method === 'post') {
       const params: Object = {debug: 1};

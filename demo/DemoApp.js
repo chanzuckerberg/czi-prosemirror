@@ -28,7 +28,7 @@ class DemoApp extends React.PureComponent<any, any, any> {
     const setState = this.setState.bind(this);
 
     this._store = COLLAB_EDITING ?
-      new DemoCollabDocument(setState, 0) :
+      new DemoCollabDocument(setState, 1) :
       new DemoTemplateDocument(setState);
 
     this.state = {

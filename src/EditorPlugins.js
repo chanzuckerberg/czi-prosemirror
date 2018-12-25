@@ -34,7 +34,7 @@ function buildPlugins(schema: Schema): Array<Plugin> {
     buildInputRules(schema),
     dropCursor(),
     gapCursor(),
-    history(),
+    history({preserveItems: true}),
 
     keymap(createEditorKeyMap()),
     keymap(baseKeymap),
