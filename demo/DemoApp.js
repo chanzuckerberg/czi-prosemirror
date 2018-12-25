@@ -5,33 +5,35 @@ import {EditorState} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
 import {EditorView} from 'prosemirror-view';
 import React from 'react';
-import ReactDOM from 'react-dom';
 
-import convertFromDOMElement from '../src/convertFromDOMElement';
 import RichTextEditor from '../src/ui/RichTextEditor';
-import DemoAppHTMLTemplate from './DemoAppHTMLTemplate';
 import DemoAppRuntime from './DemoAppRuntime';
+import DemoCollabStore from './DemoCollabStore';
+import DemoTemplateStore from './DemoTemplateStore';
 
 import './demo-app.css';
 
-// import initCollabEdit from './initCollabEdit';
-
-
-// Reference: http://prosemirror.net/examples/basic/
-const defaultEditorState = (function() {
-  const templateNode = document.createElement('div');
-  ReactDOM.render(<DemoAppHTMLTemplate />, templateNode);
-  return convertFromDOMElement(templateNode);
-})();
+// If load from localhost, assumes collab-edit is enabled.
+const COLLAB_EDITING = /^https?:\/\/localhost:\d+/.test(window.location.href);
 
 class DemoApp extends React.PureComponent<any, any, any> {
-  _runtime = new DemoAppRuntime();
+  _runtime: any;
+  _store: any;
 
   constructor(props: any, context: any) {
     super(props, context);
+
+    this._runtime = new DemoAppRuntime();
+
+    const setState = this.setState.bind(this);
+
+    this._store = COLLAB_EDITING ?
+      new DemoCollabStore(setState) :
+      new DemoTemplateStore(setState);
+
     this.state = {
-      editorState: defaultEditorState,
-      editorView: null,
+      editorState: this._store.editorState,
+      editorView: this._store.editorState,
     };
   }
 
@@ -53,9 +55,8 @@ class DemoApp extends React.PureComponent<any, any, any> {
   }
 
   _onChange = (data: {state: EditorState, transaction: Transform}): void => {
-    const {state, transaction} = data;
-    const editorState = state.apply(transaction);
-    this.setState({editorState});
+    const {transaction} = data;
+    this._store.dispatchTransaction(transaction);
   };
 
   _onReady = (editorView: EditorView): void => {
