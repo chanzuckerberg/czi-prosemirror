@@ -8,8 +8,10 @@ import React from 'react';
 
 import RichTextEditor from '../src/ui/RichTextEditor';
 import DemoAppRuntime from './DemoAppRuntime';
-import DemoCollabDocument from './DemoCollabDocument';
-import DemoTemplateDocument from './DemoTemplateDocument';
+import DemoCollabConnector from './DemoCollabConnector';
+import DemoSimpleConnector from './DemoSimpleConnector';
+import createDemoColllabEditorState from './createDemoCollabEditorState';
+import createDemoTemplateEditorState from './createDemoTemplateEditorState';
 
 import './demo-app.css';
 
@@ -18,22 +20,28 @@ const COLLAB_EDITING = /^https?:\/\/localhost:\d+/.test(window.location.href);
 
 class DemoApp extends React.PureComponent<any, any, any> {
   _runtime: any;
-  _store: any;
+  _connector: any;
 
   constructor(props: any, context: any) {
     super(props, context);
 
     this._runtime = new DemoAppRuntime();
 
-    const setState = this.setState.bind(this);
+    const version = 0;
+    const userId = (Math.random() * 1000000000) >> 0;
+    const docId = 1;
 
-    this._store = COLLAB_EDITING ?
-      new DemoCollabDocument(setState, 1) :
-      new DemoTemplateDocument(setState);
+    const editorState = COLLAB_EDITING ?
+      createDemoColllabEditorState(version, userId) :
+      createDemoTemplateEditorState();
+
+    const setState = this.setState.bind(this);
+    this._connector = COLLAB_EDITING ?
+      new DemoCollabConnector(editorState, setState, {docId, userId, version}) :
+      new DemoSimpleConnector(editorState, setState);
 
     this.state = {
-      editorState: this._store.editorState,
-      editorView: this._store.editorState,
+      editorState,
     };
   }
 
@@ -56,7 +64,7 @@ class DemoApp extends React.PureComponent<any, any, any> {
 
   _onChange = (data: {state: EditorState, transaction: Transform}): void => {
     const {transaction} = data;
-    this._store.dispatchTransaction(transaction);
+    this._connector.onEdit(transaction);
   };
 
   _onReady = (editorView: EditorView): void => {

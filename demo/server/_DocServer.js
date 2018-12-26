@@ -13,7 +13,7 @@ function assertNumber(val, name) {
 function assertNotNull(val, name) {
   invariant(
     val !== null && val !== undefined,
-    name + '(' + String(val) + ') is null',
+    name + '(' + String(val) + ') is not a number',
   );
 }
 
@@ -34,6 +34,9 @@ function assertArray(val, name) {
 class DocServer {
 
   constructor() {
+    this.stepsCollection  = new Collection();
+    this.docsCollection = new Collection();
+
     this.requestCount = 0;
     this.startTime = Date.now();
     this.handleRequest = this.handleRequest.bind(this);
@@ -69,7 +72,7 @@ class DocServer {
       request.on('end', function() {
         const query = JSON.parse(querystring.parse(body).params);
         payload.params =  toParams(query.params);
-        // this.log(JSON.stringify(payload));
+        this.log(JSON.stringify(payload));
         this.handlePost(request, response,  payload);
         this.log('end');
         body = null;
@@ -93,7 +96,6 @@ class DocServer {
   }
 
   handleGet(request, response,  payload) {
-    throw new Error('not supported');
     const params = payload.params;
     const docId = params.docId;
     const version = params.version;
@@ -101,15 +103,15 @@ class DocServer {
     assertNumber(version, 'version');
 
 
-    let docModel = DocModel.findBy((model) => {
+    let docModel = this.docsCollection.findBy((model) => {
       return model.id === docId;
     });
 
     if (!docModel) {
       this.log('create doc model for ' + docId);
-      docModel = DocModel.create();
+      docModel = new DocModel({});
       docModel.update({id: docId, version: version});
-      DocModel.insert(docModel);
+      this.docsCollection.insert(docModel);
     } else {
       this.log('found doc model for ' + docId);
     }
@@ -122,82 +124,68 @@ class DocServer {
   handlePost(request, response,  payload) {
     const params = payload.params;
     const steps = params.steps;
-    const editorState = params.editorState;
+    const rtb = params.rich_text_blob;
     const version = params.version;
     const docId = params.docId;
-    const userId = params.userId;
+    const clientId = params.clientID;
 
     assertArray(steps, 'steps');
+    assertNotNull(clientId, 'clientId');
     assertNumber(docId, 'docId');
-    assertNumber(userId , 'userId');
     assertNumber(version, 'version');
-    assertObject(editorState, 'editorState');
+    assertObject(rtb, 'rich_text_blob');
 
-    let docModel = DocModel.findBy((model) => {
+    const docModel = this.docsCollection.findBy((model) => {
       return model.id === docId;
     });
-
-    if (!docModel) {
-      this.log('create doc model for ' + docId);
-      docModel = DocModel.create();
-      docModel.update({id: docId, version: version, editor_state: editorState});
-      DocModel.insert(docModel);
-    }
 
     assertNotNull(docModel, 'docModel');
     invariant(version <=  docModel.version, 'unmatched version ' + version);
 
-    const stepKeys = new Set();
-    steps.forEach(step => {
-      const stepKey = step.key;
-      stepKeys.add(stepKey);
-      assertNotNull(stepKey, 'stepKey');
-      let stepModel = StepModel.findBy(s => s.key === stepKey);
-      if (stepModel === null) {
-        this.log('insert step ' + stepKey);
-        stepModel = StepModel.create();
-        stepModel.update(step);
-        stepModel.update({doc_id: docId, version: version, created_by: userId});
-        StepModel.insert(stepModel);
+    const newSteps = this.stepsCollection.
+      where((s) => s.version > version && s.version <= docModel.version).
+      map(s => s.toJSON()).
+      sort(sortSteps);
+
+    if (version === docModel.version) {
+      invariant(
+        newSteps.length === 0,
+        'unexpected new steps for version ' + version,
+      );
+      this.log('update doc ');
+      this.log(steps);
+      if (steps.length) {
+        steps.forEach(step => {
+          const stepModel = new StepModel({
+            json: step.json,
+            doc_id: docId,
+            version: version,
+            client_id: clientId,
+          });
+          this.stepsCollection.insert(stepModel);
+        });
+        // docModel.update({rich_text_blob: rtb, version: docModel.version + 1});
       }
-    });
 
-    this.log('StepModel.size ' + StepModel.size);
-
-    const newSteps = StepModel.where(stepModel => {
-      const stepKey = stepModel.key;
-      if (
-        stepModel.doc_id === docId &&
-        stepModel.version >= version &&
-        !stepKeys.has(stepKey)
-      ) {
-        return true;
-      }
-      return false;
-    });
-
-    if (version < docModel.version && !newSteps) {
-      throw new Error('version ' + version + ' is too old');
-    }
-
-    if (newSteps.length === 0) {
-      docModel.update({
-        editor_state: editorState,
-        version: docModel.version + 1,
-      });
-      payload.accepted = true;
-      payload.steps = [];
-    } else if (docModel.version - version > 50) {
-      // too old.
-      payload.accepted = false;
-      payload.steps = [];
-      payload.editorState = docModel.editor_state;
     } else {
-      payload.accepted = false;
-      payload.steps = newSteps.map(step => step.toJSON()).sort(sortSteps);
+      throw new Error('WTF');
+      // const newSteps = this.stepsCollection.
+      //   where((s) => s.version > version && s.version <= docModel.version).
+      //   map(s => s.toJSON()).
+      //   sort(sortSteps);
+
+      // if (allSteps.length === steps.length) {
+      //   // User
+      // }
     }
-    payload.docId = docModel.id;
-    payload.version = docModel.version;
+
+    payload.doc = {
+      id: docModel.id,
+      version: docModel.version,
+    };
+
+    payload.steps = newSteps;
+
     this.respond(response, payload);
   }
 
@@ -208,63 +196,51 @@ class DocServer {
   }
 };
 
-function defineCollection(ModelClass) {
+class Collection {
+  constructor() {
+    this.models = [];
+  }
 
-  const models = [];
-  let index = 0;
-
-  const findBy = (predict) => {
+  findBy(predict) {
     let found = null;
-    models.some((model) => {
+    this.models.some((model) => {
       if (predict(model)) {
         found = model;
       }
     });
     return found;
-  };
+  }
 
-  const where = (predict) => {
-    return models.reduce((results, model) => {
+  where(predict) {
+    return this.models.reduce((results, model) => {
       if (predict(model)) {
         results.push(model);
       }
       return results;
     }, []);
-  };
+  }
 
-  const insert = (model) => {
+  insert(model) {
     const id = model.id;
     const predict = (m) => m.id === id;
     invariant(id, 'model id undefined');
-    invariant(findBy(predict) === null, 'duplicated model ' + id);
-    models.push(model);
-    ModelClass.size = models.length;
-    return model;
-  };
-
-  const create = (payload) => {
-    index++;
-    const model = new ModelClass(payload || {});
-    model.id = index;
-    return model;
-  };
-
-  ModelClass.create = create;
-  ModelClass.findBy = findBy;
-  ModelClass.insert = insert;
-  ModelClass.where = where;
-  ModelClass.size = 0;
+    invariant(this.findBy(predict) === null, 'duplicated model ' + id);
+    this.models.push(model);
+  }
 }
 
 class Model {
   constructor() {
+    Model._id =  Model._id || 1;
     this.created_at = Date.now();
     this.updated_at = Date.now();
     this.update = this.update.bind(this);
+    this.id =  Model._id;
+    Model._id++;
   }
 
   update(payload) {
-    payload && Object.assign(this, payload);
+    Object.assign(this, payload);
     this.updated_at = Date.now();
   }
 }
@@ -272,37 +248,40 @@ class Model {
 class DocModel extends Model {
   constructor(payload) {
     super();
-    this.update(payload);
+    this.rich_text_blob = payload.rich_text_blob;
+    this.version = payload.version;
+    DocModel.index++;
   }
   toJSON() {
     return {
       id: this.id,
       version: this.version,
-      editor_state: this.editor_state,
+      rich_text_blob: this.rich_text_blob,
     };
   }
 }
-
-defineCollection(DocModel);
 
 class StepModel extends Model {
   constructor(payload) {
-    super(payload);
-    this.update(payload);
+    super();
+    StepModel.order = StepModel.order || 1;
+    this.order = StepModel.order;
+    this.client_id = payload.client_id;
+    this.doc_id = payload.doc_id;
+    this.json = payload.json;
+    this.version = payload.version;
+    StepModel.order++;
   }
   toJSON() {
     return {
-      created_by: this.created_by,
-      data: this.data,
-      doc_id: this.doc_id,
+      client_id: this.client_id,
       id: this.id,
-      key: this.key,
+      json: this.json,
+      order: this.order,
       version: this.version,
     };
   }
 }
-
-defineCollection(StepModel);
 
 
 function sortSteps(a, b) {
@@ -323,8 +302,6 @@ function toParams(params) {
   });
   return params;
 }
-
-
 
 // class StepsModel {
 //   constructor(payload) {

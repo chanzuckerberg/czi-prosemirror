@@ -1,6 +1,5 @@
 // @flow
 
-import invariant from 'invariant';
 import nullthrows from 'nullthrows';
 import {collab, receiveTransaction, sendableSteps} from 'prosemirror-collab';
 import {Schema} from 'prosemirror-model';
@@ -116,26 +115,28 @@ class DocumentState {
   }
 }
 
-class DemoCollabDocument {
+class DemoCollabConnector {
 
   _backOff: number;
   _docId: IdStrict;
   _polling: boolean;
   _ready: boolean;
   _setState: SetStateCall;
+  _userId: string;
   _version: number;
   _xhr: any;
   editorState: EditorState;
   state: DocumentState;
 
   constructor(setState: SetStateCall, docId: IdStrict) {
-    const editorState = this._createEditorState();
-
     this._backOff = 0;
+    this._userId = uuid();
     this._docId = docId;
     this._polling = false;
     this._setState = setState;
     this._version = 0;
+
+    const editorState = this._createEditorState();
     this.state = new DocumentState(editorState, ACTION_TYPE.START);
 
     const store = this;
@@ -200,10 +201,10 @@ class DemoCollabDocument {
     } = action;
 
     if (type === LOADED) {
-      this._ready = true;
       const vn = toVersion(version);
-      const editStateNext = this._createEditorState(richTextBlob, vn);
+      this._ready = true;
       this._version = vn;
+      const editStateNext = this._createEditorState(richTextBlob);
       this.state = new DocumentState(editStateNext, POLL);
       this._poll();
       return;
@@ -241,6 +242,7 @@ class DemoCollabDocument {
 
       const tr = nullthrows(transaction);
       const editStateNext = editorState.apply(tr);
+
       if (editStateNext.doc.content.size > MAX_DOC_CONTENT_SIZE) {
         if (action !== DETATCHED) {
           console.error('Document too big. Detached.');
@@ -252,6 +254,7 @@ class DemoCollabDocument {
       if ((status === POLL) || requestDone) {
         const sendable = toSendable(editStateNext);
         if (sendable) {
+          console.log('>>>>>>>SENDABLE');
           this.state = new DocumentState(editStateNext, SEND);
           this._send(editStateNext, sendable);
           return;
@@ -270,7 +273,10 @@ class DemoCollabDocument {
 
   _createEditorState(richTextBlob: ?Object, version: ?number): EditorState {
     const plugins = EditorPlugins.slice(0);
-    plugins.push(collab({version: version || 0}));
+    plugins.push(collab({
+      version: version || 0,
+      clientID: this._userId,
+    }));
     return EditorState.create({
       doc: EditorSchema.nodeFromJSON(richTextBlob || EMPTY_DOC_JSON),
       schema: EditorSchema,
@@ -334,8 +340,6 @@ class DemoCollabDocument {
     if (response) {
 
     }
-
-
     this._dispatch({type: ACTION_TYPE.POLL, ...response});
   };
 
@@ -362,7 +366,7 @@ class DemoCollabDocument {
       rich_text_blob: convertToJSON(this.state.editorState),
     };
 
-    console.log('send>>>>>>>>>>>>>>>>>>>>>>>>>>', payload);
+    console.log('send start', payload);
 
     let response;
     try {
@@ -379,17 +383,18 @@ class DemoCollabDocument {
       return;
     }
 
+    const version = nullthrows(response.doc && response.doc.version);
+    const newSteps = nullthrows(response.steps);
+    console.log('version => ', this._version, version);
 
-    const version = nullthrows(response).version;
-    const newSteps = nullthrows(response).steps;
-
-    const tr = newSteps && newSteps.length ?
+    const tr = newSteps.length ?
       receiveTransaction(
         editorState,
         newSteps.map(fromStepJSON.bind(null, editorState.schema)),
         newSteps.map(s => s.client_id),
       ) :
       this.state.editorState.tr;
+
 
     this._dispatch({
       type: ACTION_TYPE.TRANSACTION,
@@ -400,4 +405,4 @@ class DemoCollabDocument {
   };
 }
 
-export default DemoCollabDocument;
+export default DemoCollabConnector;

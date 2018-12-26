@@ -54,11 +54,6 @@ export default function requestDocServer(
         reject(new Error('invalid JSON'));
         return;
       }
-      if (!result.doc) {
-        reject(new Error('doc not found'));
-        return;
-      }
-
       resolve(result);
       xhr = null;
     });
