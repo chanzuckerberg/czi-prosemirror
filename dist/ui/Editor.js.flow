@@ -5,6 +5,7 @@ import {EditorState} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
 import {EditorView} from 'prosemirror-view';
 import React from 'react';
+import WebFontLoader from 'webfontloader';
 
 import 'prosemirror-gapcursor/style/gapcursor.css';
 import 'prosemirror-view/style/prosemirror.css';
@@ -24,6 +25,15 @@ import './czi-editor.css';
 import type {EditorRuntime} from '../Types';
 
 const EDITOR_EMPTY_STATE = createEmptyEditorState();
+
+// WebFontLoader is for web only, its module can't be required
+// at server-side environment. Thus we'd get it from the global window
+// instead.
+// `window.__proseMirrorWebFontLoader` is defined at `Editor.js`.
+// See https://github.com/typekit/webfontloader/issues/383
+window.proseMirrorWebFontLoader =
+  window.__proseMirrorWebFontLoader ||
+  WebFontLoader;
 
 function transformPastedHTML(html: string): string {
   return normalizeHTML(html);
@@ -50,7 +60,7 @@ class Editor extends React.PureComponent<any, any, any> {
     disabled?: ?boolean,
     editorState?: ?EditorState,
     embedded?: ?boolean,
-    onChange?: ?(state: EditorState) => void,
+    onChange?: ({transaction: Transform, state: EditorState}) => void,
     onReady?: ?(view: EditorView) => void,
     placeholder?: ?(string | React.Element<any>),
     readOnly?: ?boolean,
@@ -124,12 +134,14 @@ class Editor extends React.PureComponent<any, any, any> {
   }
 
   _dispatchTransaction = (transaction: Transform): void => {
-    const {onChange, editorState, readOnly} = this.props;
-    if (readOnly === true) {
+    const {editorState, readOnly, onChange} = this.props;
+    if (readOnly === true || !onChange) {
       return;
     }
-    const nextState = (editorState || EDITOR_EMPTY_STATE).apply(transaction);
-    onChange && onChange(nextState);
+    onChange({
+      transaction,
+      state: editorState || EDITOR_EMPTY_STATE,
+    });
   };
 
   _isEditable = (): boolean => {

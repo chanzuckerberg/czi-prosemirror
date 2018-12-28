@@ -5,7 +5,7 @@ import {EditorState} from 'prosemirror-state';
 import EditorPlugins from './EditorPlugins';
 import EditorSchema from './EditorSchema';
 
-const EMPTY_DOC_JSON = {
+export const EMPTY_DOC_JSON = {
   'type': 'doc',
   'content': [
     {

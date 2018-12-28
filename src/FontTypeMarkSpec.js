@@ -1,7 +1,6 @@
 // @flow
 
 import {Node} from 'prosemirror-model';
-import WebFontLoader from 'webfontloader';
 
 import type {MarkSpec} from './Types';
 
@@ -44,7 +43,16 @@ const FontTypeMarkSpec: MarkSpec = {
     const {name} = node.attrs;
     const attrs = {};
     if (name) {
-      if (!RESOLVED_FONT_NAMES.has(name)) {
+      let WebFontLoader;
+      if (typeof window !== 'undefined') {
+        // WebFontLoader is for web only, its module can't be required
+        // at server-side environment. Thus we'd get it from the global window
+        // instead.
+        // `window.__proseMirrorWebFontLoader` is defined at `Editor.js`.
+        // See https://github.com/typekit/webfontloader/issues/383
+        WebFontLoader = window.__proseMirrorWebFontLoader;
+      }
+      if (WebFontLoader && !RESOLVED_FONT_NAMES.has(name)) {
         // TODO: Cache custom fonts and preload them earlier.
         RESOLVED_FONT_NAMES.add(name);
         // https://github.com/typekit/webfontloader

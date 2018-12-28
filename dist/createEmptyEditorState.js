@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.EMPTY_DOC_JSON = undefined;
 exports.default = createEmptyEditorState;
 
 var _prosemirrorState = require('prosemirror-state');
@@ -17,7 +18,7 @@ var _EditorSchema2 = _interopRequireDefault(_EditorSchema);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var EMPTY_DOC_JSON = {
+var EMPTY_DOC_JSON = exports.EMPTY_DOC_JSON = {
   'type': 'doc',
   'content': [{
     'type': 'paragraph',

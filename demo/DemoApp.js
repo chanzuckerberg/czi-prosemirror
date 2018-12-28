@@ -2,36 +2,52 @@
 
 import applyDevTools from 'prosemirror-dev-tools';
 import {EditorState} from 'prosemirror-state';
+import {Transform} from 'prosemirror-transform';
 import {EditorView} from 'prosemirror-view';
 import React from 'react';
-import ReactDOM from 'react-dom';
 
-import convertFromDOMElement from '../src/convertFromDOMElement';
+import createEmptyEditorState from '../src/createEmptyEditorState';
 import RichTextEditor from '../src/ui/RichTextEditor';
-import DemoAppHTMLTemplate from './DemoAppHTMLTemplate';
+import uuid from '../src/ui/uuid';
 import DemoAppRuntime from './DemoAppRuntime';
+import DemoCollabConnector from './DemoCollabConnector';
+import DemoSimpleConnector from './DemoSimpleConnector';
+import createDemoTemplateEditorState from './createDemoTemplateEditorState';
 
 import './demo-app.css';
 
-// Reference: http://prosemirror.net/examples/basic/
-const defaultEditorState = (function() {
-  const templateNode = document.createElement('div');
-  ReactDOM.render(<DemoAppHTMLTemplate />, templateNode);
-  return convertFromDOMElement(templateNode);
-})();
+// If load from localhost, assumes collab-edit is enabled.
+const COLLAB_EDITING = /^https?:\/\/localhost:\d+/.test(window.location.href) || 1;
 
 class DemoApp extends React.PureComponent<any, any, any> {
-  _runtime = new DemoAppRuntime();
+  _runtime: any;
+  _connector: any;
+  _clientID: string;
 
   constructor(props: any, context: any) {
     super(props, context);
+
+    this._runtime = new DemoAppRuntime();
+    this._clientID = uuid();
+
+    const docID = 1;
+
+    const editorState = COLLAB_EDITING ?
+      createEmptyEditorState() :
+      createDemoTemplateEditorState();
+
+    const setState = this.setState.bind(this);
+    this._connector = COLLAB_EDITING ?
+      new DemoCollabConnector(editorState, setState, {docID}) :
+      new DemoSimpleConnector(editorState, setState);
+
     this.state = {
-      editorState: defaultEditorState,
+      editorState,
     };
   }
 
   render(): React.Element<any> {
-    const {editorState, editorView} = this.state;
+    const {editorState} = this.state;
     const readOnly = /read/ig.test(window.location.search);
     return (
       <RichTextEditor
@@ -48,14 +64,16 @@ class DemoApp extends React.PureComponent<any, any, any> {
     );
   }
 
-  _onChange = (editorState: EditorState): void => {
-    this.setState({editorState});
+  _onChange = (data: {state: EditorState, transaction: Transform}): void => {
+    const {transaction} = data;
+    this._connector.onEdit(transaction);
   };
 
   _onReady = (editorView: EditorView): void => {
     window.debugProseMirror = () => {
       applyDevTools(editorView);
     };
+    window.debugProseMirror();
   };
 }
 

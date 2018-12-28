@@ -1,3 +1,4 @@
+// import {collab} from 'prosemirror-collab';
 import {baseKeymap} from 'prosemirror-commands';
 import {dropCursor} from 'prosemirror-dropcursor';
 import {gapCursor} from 'prosemirror-gapcursor';
@@ -34,7 +35,7 @@ function buildPlugins(schema: Schema): Array<Plugin> {
     buildInputRules(schema),
     dropCursor(),
     gapCursor(),
-    history(),
+    history({preserveItems: true}),
 
     keymap(createEditorKeyMap()),
     keymap(baseKeymap),
@@ -43,6 +44,12 @@ function buildPlugins(schema: Schema): Array<Plugin> {
     // https://github.com/ProseMirror/prosemirror-tables/blob/master/demo.js
     columnResizing(),
     tableEditing(),
+
+    // collab({
+    //   // TODO: This is only unique per window.
+    //   clientID: uuid(),
+    //   version: 0,
+    // }),
   ];
 
   return plugins;

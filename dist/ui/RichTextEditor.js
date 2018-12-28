@@ -30,6 +30,8 @@ var _classnames2 = _interopRequireDefault(_classnames);
 
 var _prosemirrorState = require('prosemirror-state');
 
+var _prosemirrorTransform = require('prosemirror-transform');
+
 var _prosemirrorView = require('prosemirror-view');
 
 var _react = require('react');
@@ -264,6 +266,7 @@ getContentOverflowInfo.propTypes = {
   height: require('prop-types').oneOfType([require('prop-types').string, require('prop-types').number]),
   id: require('prop-types').string,
   maxContentHeight: require('prop-types').number,
+  onTransaction: require('prop-types').func,
   onBlur: require('prop-types').func,
   onChange: require('prop-types').func,
   onReady: require('prop-types').func,
@@ -281,6 +284,7 @@ getContentOverflowInfo.propTypes = {
   height: require('prop-types').oneOfType([require('prop-types').string, require('prop-types').number]),
   id: require('prop-types').string,
   maxContentHeight: require('prop-types').number,
+  onTransaction: require('prop-types').func,
   onBlur: require('prop-types').func,
   onChange: require('prop-types').func,
   onReady: require('prop-types').func,

@@ -36,7 +36,27 @@ var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
 
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
-require('./czi-editor-toolbar.css');
+var _classnames = require('classnames');
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
+var _prosemirrorState = require('prosemirror-state');
+
+var _prosemirrorTransform = require('prosemirror-transform');
+
+var _prosemirrorView = require('prosemirror-view');
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = require('react-dom');
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
+var _createEmptyEditorState = require('../createEmptyEditorState');
+
+var _createEmptyEditorState2 = _interopRequireDefault(_createEmptyEditorState);
 
 var _CommandButton = require('./CommandButton');
 
@@ -50,17 +70,11 @@ var _CustomButton = require('./CustomButton');
 
 var _CustomButton2 = _interopRequireDefault(_CustomButton);
 
+var _EditorToolbarConfig = require('./EditorToolbarConfig');
+
 var _Icon = require('./Icon');
 
 var _Icon2 = _interopRequireDefault(_Icon);
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactDom = require('react-dom');
-
-var _reactDom2 = _interopRequireDefault(_reactDom);
 
 var _ResizeObserver = require('./ResizeObserver');
 
@@ -74,14 +88,6 @@ var _canUseCSSFont = require('./canUseCSSFont');
 
 var _canUseCSSFont2 = _interopRequireDefault(_canUseCSSFont);
 
-var _createEmptyEditorState = require('../createEmptyEditorState');
-
-var _createEmptyEditorState2 = _interopRequireDefault(_createEmptyEditorState);
-
-var _classnames = require('classnames');
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
 var _injectStyleSheet = require('./injectStyleSheet');
 
 var _injectStyleSheet2 = _interopRequireDefault(_injectStyleSheet);
@@ -90,13 +96,7 @@ var _isReactClass = require('./isReactClass');
 
 var _isReactClass2 = _interopRequireDefault(_isReactClass);
 
-var _prosemirrorState = require('prosemirror-state');
-
-var _prosemirrorView = require('prosemirror-view');
-
-var _prosemirrorTransform = require('prosemirror-transform');
-
-var _EditorToolbarConfig = require('./EditorToolbarConfig');
+require('./czi-editor-toolbar.css');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -224,8 +224,8 @@ var EditorToolbar = function (_React$PureComponent) {
           onChange = _this$props4.onChange,
           editorState = _this$props4.editorState;
 
-      var nextState = (editorState || EDITOR_EMPTY_STATE).apply(transaction);
-      onChange && onChange(nextState);
+      var state = editorState || EDITOR_EMPTY_STATE;
+      onChange && onChange({ transaction: transaction, state: state });
     }, _this._onBodyRef = function (ref) {
       if (ref) {
         _this._body = ref;

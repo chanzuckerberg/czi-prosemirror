@@ -1,23 +1,25 @@
 // @flow
 
-import './czi-editor-toolbar.css';
+import cx from 'classnames';
+import {EditorState} from 'prosemirror-state';
+import {Transform} from 'prosemirror-transform';
+import {EditorView} from 'prosemirror-view';
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+import createEmptyEditorState from '../createEmptyEditorState';
 import CommandButton from './CommandButton';
 import CommandMenuButton from './CommandMenuButton';
 import CustomButton from './CustomButton';
+import {COMMAND_GROUPS, parseLabel} from './EditorToolbarConfig';
 import Icon from './Icon';
-import React from 'react';
-import ReactDOM from 'react-dom';
 import ResizeObserver from './ResizeObserver';
 import UICommand from './UICommand';
 import canUseCSSFont from './canUseCSSFont';
-import createEmptyEditorState from '../createEmptyEditorState';
-import cx from 'classnames';
 import injectStyleSheet from './injectStyleSheet';
 import isReactClass from './isReactClass';
-import {EditorState} from 'prosemirror-state';
-import {EditorView} from 'prosemirror-view';
-import {Transform} from 'prosemirror-transform';
-import {parseLabel, COMMAND_GROUPS} from './EditorToolbarConfig';
+
+import './czi-editor-toolbar.css';
 
 const CSS_CDN_URL = '//fonts.googleapis.com/icon?family=Material+Icons';
 const CSS_FONT = 'Material Icons';
@@ -41,7 +43,7 @@ class EditorToolbar extends React.PureComponent<any, any, any> {
     disabled?: ?boolean,
     editorState: EditorState,
     editorView: ?EditorView,
-    onChange?: ?(state: EditorState) => void,
+    onChange?: ({transaction: Transform, state: EditorState}) => void,
     onReady?: ?(view: EditorView) => void,
     readOnly?: ?boolean,
   };
@@ -162,8 +164,8 @@ class EditorToolbar extends React.PureComponent<any, any, any> {
 
   _dispatchTransaction = (transaction: Transform): void => {
     const {onChange, editorState} = this.props;
-    const nextState = (editorState || EDITOR_EMPTY_STATE).apply(transaction);
-    onChange && onChange(nextState);
+    const state = editorState || EDITOR_EMPTY_STATE;
+    onChange && onChange({transaction, state});
   };
 
   _onBodyRef = (ref: any): void => {

@@ -42,6 +42,10 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _webfontloader = require('webfontloader');
+
+var _webfontloader2 = _interopRequireDefault(_webfontloader);
+
 require('prosemirror-gapcursor/style/gapcursor.css');
 
 require('prosemirror-view/style/prosemirror.css');
@@ -88,6 +92,13 @@ var babelPluginFlowReactPropTypes_proptype_EditorRuntime = require('../Types').b
 
 var EDITOR_EMPTY_STATE = (0, _createEmptyEditorState2.default)();
 
+// WebFontLoader is for web only, its module can't be required
+// at server-side environment. Thus we'd get it from the global window
+// instead.
+// `window.__proseMirrorWebFontLoader` is defined at `Editor.js`.
+// See https://github.com/typekit/webfontloader/issues/383
+window.proseMirrorWebFontLoader = window.__proseMirrorWebFontLoader || _webfontloader2.default;
+
 function transformPastedHTML(html) {
   return (0, _normalizeHTML2.default)(html);
 }
@@ -114,15 +125,17 @@ var Editor = function (_React$PureComponent) {
 
     return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = Editor.__proto__ || (0, _getPrototypeOf2.default)(Editor)).call.apply(_ref, [this].concat(args))), _this), _this._id = (0, _uuid2.default)(), _this._editorView = null, _this._dispatchTransaction = function (transaction) {
       var _this$props = _this.props,
-          onChange = _this$props.onChange,
           editorState = _this$props.editorState,
-          readOnly = _this$props.readOnly;
+          readOnly = _this$props.readOnly,
+          onChange = _this$props.onChange;
 
-      if (readOnly === true) {
+      if (readOnly === true || !onChange) {
         return;
       }
-      var nextState = (editorState || EDITOR_EMPTY_STATE).apply(transaction);
-      onChange && onChange(nextState);
+      onChange({
+        transaction: transaction,
+        state: editorState || EDITOR_EMPTY_STATE
+      });
     }, _this._isEditable = function () {
       var _this$props2 = _this.props,
           disabled = _this$props2.disabled,

@@ -11,10 +11,6 @@ var _set2 = _interopRequireDefault(_set);
 
 var _prosemirrorModel = require('prosemirror-model');
 
-var _webfontloader = require('webfontloader');
-
-var _webfontloader2 = _interopRequireDefault(_webfontloader);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var babelPluginFlowReactPropTypes_proptype_MarkSpec = require('./Types').babelPluginFlowReactPropTypes_proptype_MarkSpec || require('prop-types').any;
@@ -47,11 +43,20 @@ var FontTypeMarkSpec = {
 
     var attrs = {};
     if (name) {
-      if (!RESOLVED_FONT_NAMES.has(name)) {
+      var WebFontLoader = void 0;
+      if (typeof window !== 'undefined') {
+        // WebFontLoader is for web only, its module can't be required
+        // at server-side environment. Thus we'd get it from the global window
+        // instead.
+        // `window.__proseMirrorWebFontLoader` is defined at `Editor.js`.
+        // See https://github.com/typekit/webfontloader/issues/383
+        WebFontLoader = window.__proseMirrorWebFontLoader;
+      }
+      if (WebFontLoader && !RESOLVED_FONT_NAMES.has(name)) {
         // TODO: Cache custom fonts and preload them earlier.
         RESOLVED_FONT_NAMES.add(name);
         // https://github.com/typekit/webfontloader
-        _webfontloader2.default.load({ google: { families: [name] } });
+        WebFontLoader.load({ google: { families: [name] } });
       }
       attrs.style = 'font-family: ' + name;
     }
