@@ -1,6 +1,8 @@
 // @node-only
 const assetion = require('./assertion');
-const createModelClass = require('./createModelClass');
+const DemoDocModel = require('./DemoDocModel');
+const DemoDocChangeModel = require('./DemoDocChangeModel');
+const DemoDocRevisionModel = require('./DemoDocRevisionModel');
 
 // PM Deps
 const EditorSchema = require('../../dist/EditorSchema');
@@ -8,40 +10,22 @@ const {Step} = require('prosemirror-transform');
 
 const EMPTY_DOC_JSON = {
   'type': 'doc',
-  'content': [{
-    'type': 'paragraph',
-    'content': [{
-      'type': 'text',
-      'text': ' ',
-    }, ],
-  }, ],
+  'content': [
+    {
+      'type': 'paragraph',
+      'content': [
+        {
+          'type': 'text',
+          'text': ' ',
+        },
+      ],
+    },
+  ],
 };
-
-const DocModel = createModelClass({
-  id: 0,
-  doc: EMPTY_DOC_JSON,
-  version: 0,
-});
-
-const DocStepModel = createModelClass({
-  client_id: '',
-  doc_id: '',
-  from: 0,
-  id: 0,
-  slice: {},
-  stepType: '',
-  to: 0,
-});
-
-const DocRevisionModel = createModelClass({
-  confirmed: false,
-  doc_id: '',
-  version: 0,
-});
 
 class DemoCollabController {
   get_all(params) {
-    return DocModel.where(() => true).map(m => m.toJSON());
+    return DemoDocModel.where(() => true).map(m => m.toJSON());
   }
 
   get_doc(params) {
@@ -65,11 +49,11 @@ class DemoCollabController {
 
     // If the server version is greater than the given version,
     // return the data immediately.
-    if (eventsData.steps.length) {
+    if (eventsData.changes.length) {
       return outputEvents(docModel, eventsData);
     }
 
-    const revModel = DocRevisionModel.findOrCreate(x => {
+    const revModel = DemoDocRevisionModel.findOrCreate(x => {
       return x.doc_id = docId && x.version === version;
     }, () => {
       return {doc_id: docId, version: version, confirmed: false};
@@ -88,7 +72,7 @@ class DemoCollabController {
     assetion.present(clientID, 'clientID');
     assetion.number(nonNegInteger(version), 'version');
 
-    const docModel = DocModel.find(docId);
+    const docModel = DemoDocModel.find(docId);
     const result = addEvents(docModel, version, steps, clientID);
     if (!result) {
       const error = new Error(
@@ -114,17 +98,21 @@ function addEvents(docModel, version, stepsJSON, clientID) {
   const changed = applyProseMirrorSteps(
     clientID,
     docModel.id,
-    docModel.doc,
+    docModel.doc_json,
     stepsJSON,
   );
   // PM Process Ends.
 
   changed.stepsJSON.forEach(step => {
-    DocStepModel.create(step);
+    DemoDocChangeModel.create({
+      client_id: clientID,
+      doc_id: docModel.id,
+      step_json: step,
+    });
   });
 
   docModel.update({
-    doc: changed.docJSON,
+    doc_json: changed.docJSON,
     version: docModel.version + stepsJSON.length,
   });
 
@@ -136,7 +124,7 @@ function addEvents(docModel, version, stepsJSON, clientID) {
 }
 
 function confirmVersion(docId, version) {
-  const revModels = DocRevisionModel.where((x) => {
+  const revModels = DemoDocRevisionModel.where((x) => {
     return x.doc_id === docId && x.version === version;
   });
   revModels.forEach(x => {
@@ -150,9 +138,6 @@ function applyProseMirrorSteps(
   docJSON,
   stepsJSON,
 ) {
-  // console.log(EditorSchema);
-  // console.log(Object.keys(EditorSchema));
-  // console.log(EditorSchema.nodeFromJSON);
   const schema = EditorSchema.default;
   let docNode = schema.nodeFromJSON(docJSON);
 
@@ -170,12 +155,7 @@ function applyProseMirrorSteps(
   const newDocJSON = docNode.toJSON();
 
   const newStepsJSON = steps.map(step => {
-    const result = step.toJSON();
-    result.clientID = clientID;
-    result.docID = docID;
-    result.client_id = clientID;
-    result.doc_id = docID;
-    return result;
+    return step.toJSON();
   });
 
   return {
@@ -188,13 +168,13 @@ function applyProseMirrorSteps(
 function getEvents(docModel, version) {
   checkVersion(docModel, version);
   const docId = docModel.id;
-  const stepModels = DocStepModel.where(x => x.doc_id === docId);
-  const startIndex = stepModels.length - (docModel.version - version);
+  const changeModels = DemoDocChangeModel.where(x => x.doc_id === docId);
+  const startIndex = changeModels.length - (docModel.version - version);
   if (startIndex < 0) {
     return null;
   }
   return {
-    steps: stepModels.slice(startIndex),
+    changes: changeModels.slice(startIndex),
   };
 }
 
@@ -212,18 +192,23 @@ function checkVersion(docModel, version) {
 function outputEvents(docModel, eventsData) {
   return {
     version: docModel.version,
-    steps: eventsData.steps.map(s => s.toJSON()),
-    clientIDs: eventsData.steps.map(s => s.client_id),
+    steps: eventsData.changes.map(x => {
+      const json = x.toJSON();
+      const step = json.step_json;
+      step.clientID = json.client_id;
+      return step;
+    }),
+    clientIDs: eventsData.changes.map(s => s.client_id),
   };
 }
 
 function ensureDocModel(docId) {
-  assetion.number(docId, 'ensureDocModel.docId');
-  let model = DocModel.findBy(x => x.id === docId);
+  assetion.number(docId, 'ensuredocModel.docId');
+  let model = DemoDocModel.findBy(x => x.id === docId);
   if (!model) {
-    model = DocModel.create({
+    model = DemoDocModel.create({
       id: docId,
-      doc: EMPTY_DOC_JSON,
+      doc_json: EMPTY_DOC_JSON,
       version: 0,
     });
   }

@@ -102,7 +102,7 @@ class EditorConnection {
       this.report.success()
       this.backOff = 0
       this.dispatch({type: "loaded",
-                     doc: EditorSchema.nodeFromJSON(data.doc),
+                     doc: EditorSchema.nodeFromJSON(data.doc_json),
                      version: data.version,
                      users: data.users,
                      })
