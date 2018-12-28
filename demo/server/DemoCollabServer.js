@@ -98,6 +98,25 @@ function handleServerRequest(server, request, response) {
       throw new Error('responseData not found for ' + action);
     }
 
+    if (responseData instanceof Promise) {
+      responseData.
+        then((data) => {
+          response.writeHead(200, {
+            'Content-Type': 'text/plain',
+            'Access-Control-Allow-Origin': '*',
+          });
+          response.end(JSON.stringify(data, null, 2));
+        }).
+        catch(error => {
+          response.writeHead(error.status || 500, {
+            'Content-Type': 'text/plain',
+            'Access-Control-Allow-Origin': '*',
+          });
+          response.end(JSON.stringify(error.message || 'Error', null, 2));
+        });
+      return;
+    }
+
     response.writeHead(200, {
       'Content-Type': 'text/plain',
       'Access-Control-Allow-Origin': '*',

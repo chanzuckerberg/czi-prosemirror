@@ -3,10 +3,7 @@ const assetion = require('./assertion');
 const DemoDocModel = require('./DemoDocModel');
 const DemoDocChangeModel = require('./DemoDocChangeModel');
 const DemoDocRevisionModel = require('./DemoDocRevisionModel');
-
-// PM Deps
-const EditorSchema = require('../../dist/EditorSchema');
-const {Step} = require('prosemirror-transform');
+const applyProseMirrorSteps = require('./applyProseMirrorSteps');
 
 const EMPTY_DOC_JSON = {
   'type': 'doc',
@@ -73,54 +70,54 @@ class DemoCollabController {
     assetion.number(nonNegInteger(version), 'version');
 
     const docModel = DemoDocModel.find(docId);
-    const result = addEvents(docModel, version, steps, clientID);
-    if (!result) {
-      const error = new Error(
-        'Version not current. docModel.version = ' + docModel.version + ', ' +
-        'params.version = ' + params.version
-      );
-      error.status = 409;
-      throw error;
-    }
-    return result;
+    return new Promise((resolve, reject) => {
+      addEvents(docModel, version, steps, clientID).then(resolve).catch(reject);
+    });
   }
 }
 
 // Mutations
 
 function addEvents(docModel, version, stepsJSON, clientID) {
-  checkVersion(docModel, version);
-  if (docModel.version !== version) {
-    return null;
-  }
+  return new Promise((resolve, reject) => {
+    checkVersion(docModel, version);
 
-  // PM Process Start
-  const changed = applyProseMirrorSteps(
-    clientID,
-    docModel.id,
-    docModel.doc_json,
-    stepsJSON,
-  );
-  // PM Process Ends.
+    if (docModel.version !== version) {
+      const error = new Error(
+        'Version not current. docModel.version = ' + docModel.version + ', ' +
+        'params.version = ' + version
+      );
+      error.status = 409;
+      reject(error);
+      return;
+    }
 
-  changed.stepsJSON.forEach(step => {
-    DemoDocChangeModel.create({
-      client_id: clientID,
-      doc_id: docModel.id,
-      step_json: step,
-    });
+    // PM Process Start
+    applyProseMirrorSteps(
+      clientID,
+      docModel.id,
+      docModel.doc_json,
+      stepsJSON,
+    ).then(changed => {
+      changed.stepsJSON.forEach(step => {
+        DemoDocChangeModel.create({
+          client_id: clientID,
+          doc_id: docModel.id,
+          step_json: step,
+        });
+      });
+      docModel.update({
+        doc_json: changed.docJSON,
+        version: docModel.version + stepsJSON.length,
+      });
+
+      confirmVersion(docModel.id, version);
+
+      resolve({
+        version: docModel.version,
+      });
+    }).catch(reject);
   });
-
-  docModel.update({
-    doc_json: changed.docJSON,
-    version: docModel.version + stepsJSON.length,
-  });
-
-  confirmVersion(docModel.id, version);
-
-  return {
-    version: docModel.version,
-  };
 }
 
 function confirmVersion(docId, version) {
@@ -131,39 +128,6 @@ function confirmVersion(docId, version) {
     x.update({confirmed: true});
   });
 }
-
-function applyProseMirrorSteps(
-  clientID,
-  docID,
-  docJSON,
-  stepsJSON,
-) {
-  const schema = EditorSchema.default;
-  let docNode = schema.nodeFromJSON(docJSON);
-
-  const steps = stepsJSON.map(step => {
-    const result = Step.fromJSON(schema, step);
-    result.clientID = clientID;
-    return result;
-  });
-
-  steps.forEach(step => {
-    const result = step.apply(docNode);
-    docNode = result.doc;
-  });
-
-  const newDocJSON = docNode.toJSON();
-
-  const newStepsJSON = steps.map(step => {
-    return step.toJSON();
-  });
-
-  return {
-    docJSON: newDocJSON,
-    stepsJSON: newStepsJSON,
-  };
-}
-
 
 function getEvents(docModel, version) {
   checkVersion(docModel, version);
@@ -224,6 +188,8 @@ function nonNegInteger(str) {
   err.status = 400;
   throw err;
 }
+
+
 
 
 module.exports = DemoCollabController;
