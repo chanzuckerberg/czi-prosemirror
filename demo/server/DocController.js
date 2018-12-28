@@ -76,6 +76,12 @@ const DocStepModel = createModelClass({
   to: 0,
 });
 
+const DocRevisionModel = createModelClass({
+  confirmed: false,
+  doc_id: '',
+  version: 0,
+});
+
 class DocController {
   get_all(params) {
     return DocModel.where(() => true).map(m => m.toJSON());
@@ -106,14 +112,13 @@ class DocController {
       return outputEvents(docModel, eventsData);
     }
 
-    const wait = new Waiting(docId, response, () => {
-      const docModel = DocModel.find(docId);
-      const eventsData = getEvents(docModel, version);
-      console.log('finish version ' + version);
-      wait.send(outputEvents(docModel, eventsData));
+    const revModel = DocRevisionModel.findOrCreate(x => {
+      return x.doc_id = docId && x.version === version;
+    }, () => {
+      return {doc_id: docId, version: version, confirmed: false};
     });
 
-    return wait;
+    return revModel.toJSON();
   }
 
   post_events(params) {
@@ -158,8 +163,7 @@ function addEvents(docModel, version, stepsJSON, clientID) {
   // PM Process Ends.
 
   changed.stepsJSON.forEach(step => {
-    const stepModel = DocStepModel.create(step);
-    DocStepModel.insert(stepModel);
+    DocStepModel.create(step);
   });
 
   docModel.update({
@@ -168,22 +172,28 @@ function addEvents(docModel, version, stepsJSON, clientID) {
   });
 
   // Node's waiting.
-  sendUpdates(docModel.id);
+  sendUpdates(docModel.id, version);
 
   return {
     version: docModel.version,
   };
 }
 
-function sendUpdates(docId) {
+function sendUpdates(docId, version) {
   // TODO: It should notify all the clients who are polling that the new steps.
   // Maybe this could be done via pusher?
-  let ii = 0;
-  while (waitingsFocDoc[docId] && waitingsFocDoc[docId].length) {
-    waitingsFocDoc[docId].pop().finish();
-    ii++;
-  }
-  console.log('flushed ' + ii + ' waiting for ' + docId);
+  // let ii = 0;
+  // while (waitingsFocDoc[docId] && waitingsFocDoc[docId].length) {
+  //   waitingsFocDoc[docId].pop().finish();
+  //   ii++;
+  // }
+  // console.log('flushed ' + ii + ' waiting for ' + docId);
+  const revModels = DocRevisionModel.where((x) => {
+    return x.doc_id === docId && x.version === version;
+  });
+  revModels.forEach(x => {
+    x.update({confirmed: true});
+  });
 }
 
 function applyProseMirrorSteps(
@@ -268,7 +278,6 @@ function ensureDocModel(docId) {
       doc: EMPTY_DOC_JSON,
       version: 0,
     });
-    DocModel.insert(model);
   }
   return model;
 }
@@ -283,6 +292,5 @@ function nonNegInteger(str) {
   throw err;
 }
 
-DocController.Waiting = Waiting;
 
 module.exports = DocController;

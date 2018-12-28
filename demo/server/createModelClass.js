@@ -90,8 +90,20 @@ function createModelClass(spec) {
     payload = payload || {};
     payload.id = payload.id || index++;
     const model = new Model(payload);
+
+    Model.insert(model);
     return model;
   };
+
+  Model.findOrCreate = (findBy, createPayload) => {
+    let model = Model.findBy(findBy);
+    if (!model) {
+      model = Model.create(createPayload());
+    }
+    return model;
+  };
+
+
 
   return Model;
 }

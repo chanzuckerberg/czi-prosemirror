@@ -116,12 +116,16 @@ class EditorConnection {
   // for a new version of the document to be created if the client
   // is already up-to-date.
   poll() {
-
     let query = "version=" + getVersion(this.state.edit);
     console.log('poll', query);
     this.run(GET(this.url + "/events?" + query)).then(data => {
+      console.log('poll:success', data);
       this.report.success()
       data = JSON.parse(data)
+      if (data.confirmed === false) {
+        this.poll();
+        return;
+      }
       this.backOff = 0
       if (data.steps && (data.steps.length)) {
         let tr = receiveTransaction(this.state.edit, data.steps.map(j => Step.fromJSON(EditorSchema, j)), data.clientIDs)
