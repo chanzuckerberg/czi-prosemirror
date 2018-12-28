@@ -1,3 +1,3 @@
 #!/bin/bash
 
-node demo/server/runDocServer.js
+node demo/server/runDemoCollabServer.js
