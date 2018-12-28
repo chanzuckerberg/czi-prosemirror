@@ -1,3 +1,5 @@
+/*eslint-disable */
+
 var webpack = require("webpack"),
     CleanWebpackPlugin = require("clean-webpack-plugin"),
     CopyWebpackPlugin = require("copy-webpack-plugin"),
@@ -15,10 +17,10 @@ var isDev = env.NODE_ENV === "development" || 0;
 
 var options = {
   entry: {
-    convert: path.join(__dirname, "demo", "ConvertApp.js"),
-    demo: path.join(__dirname, "demo", "index.js"),
+    convert: path.join(__dirname, "demo", "client", "ConvertApp.js"),
+    demo: path.join(__dirname, "demo", "client", "index.js"),
     playground: path.join(__dirname, "playground", "playground.js"),
-    ui: path.join(__dirname, "demo", "UIExamples.js"),
+    ui: path.join(__dirname, "demo", "client", "UIExamples.js"),
   },
   output: {
     path: path.join(__dirname, "bin"),
