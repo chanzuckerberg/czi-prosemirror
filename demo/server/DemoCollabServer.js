@@ -1,12 +1,12 @@
 // @node-only
 
-const DocController = require('./DocController');
+const DemoCollabController = require('./DemoCollabController');
 const url = require('url');
 
 
 class DemoCollabServer {
   constructor() {
-    this.controller = new DocController();
+    this.controller = new DemoCollabController();
     this.handleRequest = this.handleRequest.bind(this);
   }
 
@@ -55,7 +55,7 @@ function handleServerRequest(server, request, response) {
     if (!(server instanceof DemoCollabServer)) {
       throw new Error('invalid server ' + String(server));
     }
-    if (!(server.controller instanceof DocController)) {
+    if (!(server.controller instanceof DemoCollabController)) {
       throw new Error('invalid controller ' + String(server.controller));
     }
     if (!request.params) {

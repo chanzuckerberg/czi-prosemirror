@@ -6,8 +6,6 @@ const createModelClass = require('./createModelClass');
 const EditorSchema = require('../../dist/EditorSchema');
 const {Step} = require('prosemirror-transform');
 
-const waitingsFocDoc = {};
-
 const EMPTY_DOC_JSON = {
   'type': 'doc',
   'content': [{
@@ -18,47 +16,6 @@ const EMPTY_DOC_JSON = {
     }, ],
   }, ],
 };
-
-class Waiting {
-  constructor(docId, response, finish) {
-
-    this.response = response;
-    this.docId = docId;
-    this.finish = finish;
-    response.setTimeout(1000 * 60 * 5, () => {
-      this.abort();
-      this.send({});
-    });
-
-    const waitings = waitingsFocDoc[docId] || [];
-    waitings.push(this);
-    waitingsFocDoc[docId] = waitings;
-
-    console.log('docId waitings = ' + waitings.length);
-  }
-
-  abort() {
-    const docId = this.docId;
-    const waitings = waitingsFocDoc[docId];
-    const index =  waitings ? waitings.indexOf(this) : -1;
-    if (index > -1) {
-      waitings.splice(index, 1);
-    }
-  }
-
-  send(data) {
-    if (this.done) {
-      return;
-    }
-    this.done = true;
-    const response = this.response;
-    response.writeHead(200, {
-      'Content-Type': 'text/plain',
-      'Access-Control-Allow-Origin': '*',
-    });
-    response.end(JSON.stringify(data, null, 2));
-  }
-}
 
 const DocModel = createModelClass({
   id: 0,
@@ -82,7 +39,7 @@ const DocRevisionModel = createModelClass({
   version: 0,
 });
 
-class DocController {
+class DemoCollabController {
   get_all(params) {
     return DocModel.where(() => true).map(m => m.toJSON());
   }
@@ -171,23 +128,14 @@ function addEvents(docModel, version, stepsJSON, clientID) {
     version: docModel.version + stepsJSON.length,
   });
 
-  // Node's waiting.
-  sendUpdates(docModel.id, version);
+  confirmVersion(docModel.id, version);
 
   return {
     version: docModel.version,
   };
 }
 
-function sendUpdates(docId, version) {
-  // TODO: It should notify all the clients who are polling that the new steps.
-  // Maybe this could be done via pusher?
-  // let ii = 0;
-  // while (waitingsFocDoc[docId] && waitingsFocDoc[docId].length) {
-  //   waitingsFocDoc[docId].pop().finish();
-  //   ii++;
-  // }
-  // console.log('flushed ' + ii + ' waiting for ' + docId);
+function confirmVersion(docId, version) {
   const revModels = DocRevisionModel.where((x) => {
     return x.doc_id === docId && x.version === version;
   });
@@ -293,4 +241,4 @@ function nonNegInteger(str) {
 }
 
 
-module.exports = DocController;
+module.exports = DemoCollabController;
