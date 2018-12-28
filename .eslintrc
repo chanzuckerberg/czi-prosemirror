@@ -6,7 +6,7 @@
     "codeFrame": true,
     "ecmaFeatures": {
       "jsx": true
-    },
+    }
   },
   "plugins": ["react"],
   "rules": {
@@ -25,7 +25,7 @@
     "prefer-const": "error",
     "quotes": [2, "single", { "avoidEscape": true }],
     "semi": [2, "always"],
-    "strict": 0,
+    "strict": 0
   },
   "globals": {
     "$ReadOnlyArray": false,
@@ -49,6 +49,8 @@
     "clearTimeout": false,
     "console": false,
     "document": false,
+    "module": false,
+    "require": false,
     "requestAnimationFrame": false,
     "setTimeout": false,
     "window": false

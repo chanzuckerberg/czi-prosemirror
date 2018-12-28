@@ -49,6 +49,8 @@ module.exports = {
     "clearTimeout": false,
     "console": false,
     "document": false,
+    "module": false,
+    "require": false,
     "requestAnimationFrame": false,
     "setTimeout": false,
     "window": false

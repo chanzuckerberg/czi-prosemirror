@@ -18,7 +18,7 @@ class MathEditorExample extends React.PureComponent<any, any, any> {
   _popup = null;
 
   state = {
-    'latex': " \\displaystyle\\sum_{ 1  }^{ 2  } \\left(3 \\right)   ",
+    'latex': '   \\' + 'displaystyle\\sum_{ 1  }^{ 2  } \\left(3 \\right)   ',
   };
 
   componentDidMount(): void {
@@ -124,7 +124,7 @@ class ColorEditorExample extends React.PureComponent<any, any, any> {
 
   render() {
     const {hex} = this.state;
-    const style = {backgroundColor: hex || 'transparent'}
+    const style = {backgroundColor: hex || 'transparent'};
     return (
       <div>
         <CustomButton

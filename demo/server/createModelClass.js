@@ -25,10 +25,13 @@ function createModelClass(spec) {
     }
 
     validate() {
-      // const model = this;
-      // Object.keys(modelSpec).forEach(key => {
-      //   assertion.present(model[key], 'validate:' + key);
-      // });
+      const model = this;
+      Object.keys(modelSpec).forEach(key => {
+        const specValue = modelSpec[key];
+        if (specValue !== null && specValue !== undefined) {
+          assertion.present(model[key], 'validate:' + key);
+        }
+      });
     }
 
     update(payload) {
