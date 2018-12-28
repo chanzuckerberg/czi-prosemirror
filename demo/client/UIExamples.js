@@ -11,7 +11,7 @@ import MathEditor from '../../src/ui/MathEditor';
 import TableGridSizeEditor from '../../src/ui/TableGridSizeEditor';
 import createPopUp from '../../src/ui/createPopUp';
 import renderLaTeXAsHTML from '../../src/ui/renderLaTeXAsHTML';
-import uuid from '../../src/ui/uuid';
+import uuid from '../../src/uuid';
 
 class MathEditorExample extends React.PureComponent<any, any, any> {
 

@@ -13,12 +13,12 @@ import 'prosemirror-view/style/prosemirror.css';
 import {BOOKMARK, IMAGE, MATH} from '../NodeNames';
 import createEmptyEditorState from '../createEmptyEditorState';
 import normalizeHTML from '../normalizeHTML';
+import uuid from '../uuid';
 import BookmarkNodeView from './BookmarkNodeView';
 import CustomEditorView from './CustomEditorView';
 import CustomNodeView from './CustomNodeView';
 import ImageNodeView from './ImageNodeView';
 import MathNodeView from './MathNodeView';
-import uuid from './uuid';
 
 import './czi-editor.css';
 

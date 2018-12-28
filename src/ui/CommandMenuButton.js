@@ -1,15 +1,16 @@
 // @flow
 
+import cx from 'classnames';
+import {EditorState} from 'prosemirror-state';
+import {Transform} from 'prosemirror-transform';
+import {EditorView} from 'prosemirror-view';
+import React from 'react';
+
+import uuid from '../uuid';
 import CommandMenu from './CommandMenu';
 import CustomButton from './CustomButton';
-import React from 'react';
 import UICommand from './UICommand';
 import createPopUp from './createPopUp';
-import cx from 'classnames';
-import uuid from './uuid';
-import {EditorState} from 'prosemirror-state';
-import {EditorView} from 'prosemirror-view';
-import {Transform} from 'prosemirror-transform';
 
 import './czi-custom-menu-button.css';
 

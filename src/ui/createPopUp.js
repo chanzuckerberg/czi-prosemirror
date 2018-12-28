@@ -1,15 +1,16 @@
 // @flow
 
-import './czi-vars.css';
-import './czi-pop-up.css';
-
-import type {PopUpParams, ViewProps} from './PopUp';
-
-import PopUp from './PopUp';
 // eslint-disable-next-line no-unused-vars
 import React from 'react';
 import ReactDOM from 'react-dom';
-import uuid from './uuid';
+
+import uuid from '../uuid';
+import PopUp from './PopUp';
+
+import './czi-pop-up.css';
+import './czi-vars.css';
+
+import type {PopUpParams, ViewProps} from './PopUp';
 
 export type PopUpHandle = {
   close: (val: any) => void,

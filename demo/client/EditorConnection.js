@@ -6,7 +6,7 @@ import {Step} from 'prosemirror-transform';
 
 import EditorPlugins from '../../src/EditorPlugins';
 import EditorSchema from '../../src/EditorSchema';
-import uuid from '../../src/ui/uuid';
+import uuid from '../../src/uuid';
 import {GET, POST} from "./http"
 import throttle from './throttle';
 

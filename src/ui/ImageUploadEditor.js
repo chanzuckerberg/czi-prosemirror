@@ -3,9 +3,9 @@
 import cx from 'classnames';
 import React from 'react';
 
+import uuid from '../uuid';
 import CustomButton from './CustomButton';
 import LoadingIndicator from './LoadingIndicator';
-import uuid from './uuid';
 
 import './czi-form.css';
 import './czi-image-upload-editor.css';

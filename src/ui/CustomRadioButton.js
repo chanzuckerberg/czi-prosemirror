@@ -1,11 +1,13 @@
 // @flow
 
-import './czi-custom-radio-button.css';
-import PointerSurface from './PointerSurface';
-import React from 'react';
 import cx from 'classnames';
-import uuid from './uuid';
+import React from 'react';
+
+import uuid from '../uuid';
+import PointerSurface from './PointerSurface';
 import preventEventDefault from './preventEventDefault';
+
+import './czi-custom-radio-button.css';
 
 import type {PointerSurfaceProps} from './PointerSurface';
 

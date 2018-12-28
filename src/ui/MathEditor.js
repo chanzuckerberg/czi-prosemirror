@@ -1,11 +1,13 @@
 // @flow
 
-import './czi-form.css';
-import './czi-math-editor.css';
+import React from 'react';
+
+import uuid from '../uuid';
 import CustomButton from './CustomButton';
 import MathQuillEditorLoadable from './mathquill-editor/MathQuillEditorLoadable';
-import React from 'react';
-import uuid from './uuid';
+
+import './czi-form.css';
+import './czi-math-editor.css';
 
 class MathEditor extends React.PureComponent<any, any, any> {
 

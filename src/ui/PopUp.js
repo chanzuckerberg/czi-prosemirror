@@ -1,12 +1,13 @@
 // @flow
 
-import PopUpManager from './PopUpManager';
 import React from 'react';
-import uuid from './uuid';
+
+import uuid from '../uuid';
+import PopUpManager from './PopUpManager';
 import {atAnchorBottom, atViewportCenter} from './PopUpPosition';
 
-import type {Rect} from './rects';
 import type {PopUpDetails} from './PopUpManager';
+import type {Rect} from './rects';
 
 type PositionHandler = (anchorRect: ?Rect, bodyRect: ?Rect) => Rect;
 

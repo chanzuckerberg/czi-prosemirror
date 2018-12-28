@@ -1,11 +1,12 @@
 // @flow
 
-import './czi-tooltip-surface.css';
-import './czi-animations.css';
-
 import React from 'react';
+
+import uuid from '../uuid';
 import createPopUp from './createPopUp';
-import uuid from './uuid';
+
+import './czi-animations.css';
+import './czi-tooltip-surface.css';
 
 class TooltipView extends React.PureComponent<any, any, any> {
   render(): React.Element<any> {

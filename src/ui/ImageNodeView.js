@@ -6,6 +6,7 @@ import {Decoration} from 'prosemirror-view';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import uuid from '../uuid';
 import CustomNodeView from './CustomNodeView';
 import ImageInlineEditor from './ImageInlineEditor';
 import ImageResizeBox from './ImageResizeBox';
@@ -14,7 +15,6 @@ import {atAnchorBottomCenter} from './PopUpPosition';
 import ResizeObserver from './ResizeObserver';
 import createPopUp from './createPopUp';
 import resolveImage from './resolveImage';
-import uuid from './uuid';
 
 import './czi-image-view.css';
 

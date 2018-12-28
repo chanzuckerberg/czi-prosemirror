@@ -8,7 +8,7 @@ import React from 'react';
 
 import createEmptyEditorState from '../../src/createEmptyEditorState';
 import RichTextEditor from '../../src/ui/RichTextEditor';
-import uuid from '../../src/ui/uuid';
+import uuid from '../../src/uuid';
 import DemoAppRuntime from './DemoAppRuntime';
 import DemoCollabConnector from './DemoCollabConnector';
 import DemoSimpleConnector from './DemoSimpleConnector';

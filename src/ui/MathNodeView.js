@@ -1,16 +1,18 @@
 // @flow
 
-import './czi-math-view.css';
+import cx from 'classnames';
+import {Node} from 'prosemirror-model';
+import {Decoration} from 'prosemirror-view';
+import React from 'react';
+
+import uuid from '../uuid';
 import CustomNodeView from './CustomNodeView';
 import MathInlineEditor from './MathInlineEditor';
-import React from 'react';
-import createPopUp from './createPopUp';
-import cx from 'classnames';
-import renderLaTeXAsHTML from './renderLaTeXAsHTML';
-import uuid from './uuid';
-import {Decoration} from 'prosemirror-view';
-import {Node} from 'prosemirror-model';
 import {atAnchorBottomCenter} from './PopUpPosition';
+import createPopUp from './createPopUp';
+import renderLaTeXAsHTML from './renderLaTeXAsHTML';
+
+import './czi-math-view.css';
 
 import type {NodeViewProps} from './CustomNodeView';
 

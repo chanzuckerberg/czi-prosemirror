@@ -9,11 +9,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import createEmptyEditorState from '../createEmptyEditorState';
+import uuid from '../uuid';
 import Editor from './Editor';
 import EditorToolbar from './EditorToolbar';
 import ResizeObserver from './ResizeObserver';
 import RichTextEditorContentOverflowControl from './RichTextEditorContentOverflowControl';
-import uuid from './uuid';
 
 import './czi-rte.css';
 import './czi-vars.css';
