@@ -19,7 +19,6 @@ var options = {
   entry: {
     convert: path.join(__dirname, "demo", "client", "ConvertApp.js"),
     demo: path.join(__dirname, "demo", "client", "index.js"),
-    playground: path.join(__dirname, "playground", "playground.js"),
     ui: path.join(__dirname, "demo", "client", "UIExamples.js"),
   },
   output: {
