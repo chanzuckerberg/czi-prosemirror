@@ -43,7 +43,7 @@ class EditorConnection {
     this.request = null;
     this.backOff = 0;
     this.view = null;
-    this.poll = throttle(this.poll, 1000, this);
+    this.poll = throttle(this.poll, 800, this);
     this.ready = false;
     this.onReady = onReady;
     this.start();
