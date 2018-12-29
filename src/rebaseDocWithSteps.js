@@ -16,11 +16,10 @@ export default function rebaseDocWithSteps(
 ): Promise<RebaseResult> {
   return new Promise((resolve, reject) => {
     // TODO: Move this into a separate server request.
-    const schema = EditorSchema.default;
-    let docNode = schema.nodeFromJSON(docJSON);
+    let docNode = EditorSchema.nodeFromJSON(docJSON);
 
     const steps = stepsJSON.map(step => {
-      const result = Step.fromJSON(schema, step);
+      const result = Step.fromJSON(EditorSchema, step);
       result.clientID = clientID;
       return result;
     });
