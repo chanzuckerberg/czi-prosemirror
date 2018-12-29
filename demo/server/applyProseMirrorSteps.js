@@ -1,14 +1,20 @@
-// @node-only
+// @flow
 
-const {Step} = require('prosemirror-transform');
-const EditorSchema = require('../../dist/EditorSchema');
+import {Step} from 'prosemirror-transform';
+
+import EditorSchema from '../../dist/EditorSchema';
+
+type ProseMirrorRebaseResult = {
+  docJSON: Object,
+  stepsJSON: Array<Object>,
+};
 
 function applyProseMirrorSteps(
-  clientID,
-  docID,
-  docJSON,
-  stepsJSON,
-) {
+  clientID: string,
+  docID: number,
+  docJSON: Object,
+  stepsJSON: Object,
+): Promise<ProseMirrorRebaseResult> {
   return new Promise((resolve, reject) => {
     // TODO: Move this into a separate server request.
     const schema = EditorSchema.default;
