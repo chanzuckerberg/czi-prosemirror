@@ -8,5 +8,5 @@ const DemoDemoDocModel = createModelClass({
   version: 0,
 });
 
-module.exports = DemoDemoDocModel;
+export default DemoDemoDocModel;
 

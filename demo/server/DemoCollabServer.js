@@ -1,17 +1,18 @@
-// @node-only
+// @flow
 
-const DemoCollabController = require('./DemoCollabController');
-const url = require('url');
+import url from 'url';
 
+import DemoCollabController from './DemoCollabController';
 
 class DemoCollabServer {
+  controller: DemoCollabController;
+
   constructor() {
     this.controller = new DemoCollabController();
-    this.handleRequest = this.handleRequest.bind(this);
   }
 
-  handleRequest(request, response) {
-    const parsed = url.parse(request.url, true);
+  handleRequest = (request: any, response: any): void => {
+    const parsed: Object = url.parse(request.url, true);
     const path = parsed.pathname || '';
     const method = request.method.toUpperCase();
     request.path = path;
@@ -37,7 +38,7 @@ class DemoCollabServer {
       });
       request.on('end', function() {
         // assume data is posted as `application/json`.
-        request.params = JSON.parse(body);
+        request.params = JSON.parse(String(body));
         log(body);
         log(request.params);
         handleServerRequest(this, request, response);
@@ -48,7 +49,7 @@ class DemoCollabServer {
       handleServerRequest(this, request, response);
     }
   }
-}
+};
 
 function handleServerRequest(server, request, response) {
   try {
@@ -135,8 +136,15 @@ function handleServerRequest(server, request, response) {
   }
 }
 
-function getResponseData(controller, action, params, request, response) {
+function getResponseData(
+  controller: DemoCollabController,
+  action: string,
+  params: Object,
+  request: any,
+  response: any
+): ?Object {
   const method = String(action);
+  // $FlowFixMe
   const fn = controller[method];
   if (typeof fn === 'function') {
     const result = fn.call(controller, params, request, response);
@@ -145,7 +153,7 @@ function getResponseData(controller, action, params, request, response) {
   throw new Error('method ' + method + ' is unsupported');
 }
 
-function normalizeParams(params) {
+function normalizeParams(params: Object) {
   const re = /\d+/;
   Object.keys(params).forEach(key => {
     const value = params[key];
@@ -156,13 +164,10 @@ function normalizeParams(params) {
   return params;
 }
 
-function log() {
-  const args = Array.prototype.slice.call(arguments).map(arg => {
-    return JSON.stringify(arg);
-  });
+function log(...args: any): void {
   console.log('==========================================================\n');
-  console.log(args.join(', '));
+  console.log(args.map(a => JSON.stringify(a)).join(', '));
   console.log('----------------------------------------------------------\n');
 }
 
-module.exports = DemoCollabServer;
+export default DemoCollabServer;

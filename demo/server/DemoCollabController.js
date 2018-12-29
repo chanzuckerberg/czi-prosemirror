@@ -1,9 +1,10 @@
-// @node-only
+// @flow
+
 import rebaseDocWithSteps from '../../src/rebaseDocWithSteps';
-const assetion = require('./assertion');
-const DemoDocModel = require('./DemoDocModel');
-const DemoDocChangeModel = require('./DemoDocChangeModel');
-const DemoDocRevisionModel = require('./DemoDocRevisionModel');
+import DemoDocChangeModel from './DemoDocChangeModel';
+import DemoDocModel from './DemoDocModel';
+import DemoDocRevisionModel from './DemoDocRevisionModel';
+import * as assetion from './assertion';
 
 const EMPTY_DOC_JSON = {
   'type': 'doc',
@@ -21,11 +22,11 @@ const EMPTY_DOC_JSON = {
 };
 
 class DemoCollabController {
-  get_all(params) {
+  get_all(params: Object): Array<Object> {
     return DemoDocModel.where(() => true).map(m => m.toJSON());
   }
 
-  get_doc(params) {
+  get_doc(params: Object): Object  {
     const docId = params.docId;
     assetion.number(docId, 'params.docId');
 
@@ -33,13 +34,13 @@ class DemoCollabController {
     return model.toJSON();
   }
 
-  get_events(params, request, response) {
+  get_events(params: Object, request: any, response: any): Object {
     const docId = params.docId;
     const version = nonNegInteger(params.version || 0);
     const docModel = ensureDocModel(docId);
     const eventsData = getEvents(docModel, version);
     if (!eventsData) {
-      const error = new Error('History no longer available');
+      const error: Object = new Error('History no longer available');
       error.status = 410;
       throw error;
     }
@@ -59,7 +60,7 @@ class DemoCollabController {
     return revModel.toJSON();
   }
 
-  post_events(params) {
+  post_events(params: Object): Object {
     const docId = params.docId;
     const steps = params.steps;
     const clientID = params.clientID;
@@ -78,12 +79,16 @@ class DemoCollabController {
 
 // Mutations
 
-function addEvents(docModel, version, stepsJSON, clientID) {
+function addEvents(
+  docModel: DemoDocModel,
+  version: number,
+  stepsJSON: Array<Object>,
+  clientID: string): Promise<Object> {
   return new Promise((resolve, reject) => {
     checkVersion(docModel, version);
 
     if (docModel.version !== version) {
-      const error = new Error(
+      const error: Object = new Error(
         'Version not current. docModel.version = ' + docModel.version + ', ' +
         'params.version = ' + version
       );
@@ -119,7 +124,7 @@ function addEvents(docModel, version, stepsJSON, clientID) {
   });
 }
 
-function confirmVersion(docId, version) {
+function confirmVersion(docId: number, version: number): void {
   const revModels = DemoDocRevisionModel.where((x) => {
     return x.doc_id === docId && x.version === version;
   });
@@ -128,7 +133,7 @@ function confirmVersion(docId, version) {
   });
 }
 
-function getEvents(docModel, version) {
+function getEvents(docModel: DemoDocModel, version: number): ?Object {
   checkVersion(docModel, version);
   const docId = docModel.id;
   const changeModels = DemoDocChangeModel.where(x => x.doc_id === docId);
@@ -141,9 +146,9 @@ function getEvents(docModel, version) {
   };
 }
 
-function checkVersion(docModel, version) {
+function checkVersion(docModel: DemoDocModel, version: number): void {
   if (version < 0 || version > docModel.version) {
-    const err = new Error(
+    const err: Object = new Error(
       'Invalid version. docModel.version = ' + docModel.version + ', ' +
       'version = ' + version
     );
@@ -152,7 +157,7 @@ function checkVersion(docModel, version) {
   }
 }
 
-function outputEvents(docModel, eventsData) {
+function outputEvents(docModel: DemoDocModel, eventsData: Object): Object {
   return {
     version: docModel.version,
     steps: eventsData.changes.map(x => {
@@ -165,7 +170,7 @@ function outputEvents(docModel, eventsData) {
   };
 }
 
-function ensureDocModel(docId) {
+function ensureDocModel(docId: number): DemoDocModel {
   assetion.number(docId, 'ensuredocModel.docId');
   let model = DemoDocModel.findBy(x => x.id === docId);
   if (!model) {
@@ -178,17 +183,14 @@ function ensureDocModel(docId) {
   return model;
 }
 
-function nonNegInteger(str) {
-  const num = Number(str);
-  if (!isNaN(num) && Math.floor(num) == num && num >= 0) {
+function nonNegInteger(val: any): number {
+  const num = typeof val === 'number' ? val : Number(val);
+  if (!isNaN(num) && Math.floor(num) === num && num >= 0) {
     return num;
   }
-  const err = new Error('Not a non-negative integer: ' + str);
+  const err: Object = new Error('Not a non-negative integer: ' + val);
   err.status = 400;
   throw err;
 }
 
-
-
-
-module.exports = DemoCollabController;
+export default DemoCollabController;

@@ -7,4 +7,4 @@ const DemoDocChangeModel = createModelClass({
   step_json: {},
 });
 
-module.exports = DemoDocChangeModel;
+export default DemoDocChangeModel;

@@ -7,4 +7,4 @@ const CollaborationModel = createModelClass({
   doc_id: 0,
 });
 
-module.exports = CollaborationModel;
+export default CollaborationModel;
