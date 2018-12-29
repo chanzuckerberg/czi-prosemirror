@@ -3,6 +3,7 @@
 import rebaseDocWithSteps from '../../src/rebaseDocWithSteps';
 import DemoDocChangeModel from './DemoDocChangeModel';
 import DemoDocModel from './DemoDocModel';
+import DemoDocRevisionModel from './DemoDocRevisionModel';
 import * as assetion from './assertion';
 
 const EMPTY_DOC_JSON = {
@@ -49,8 +50,14 @@ class DemoCollabController {
     if (eventsData.changes.length) {
       return outputEvents(docModel, eventsData);
     }
-    // Let user know that the current version isn't finalized yet.
-    return {confirmed: false};
+
+    const revModel = DemoDocRevisionModel.findOrCreate(x => {
+      return x.doc_id = docId && x.version === version;
+    }, () => {
+      return {doc_id: docId, version: version, confirmed: false};
+    });
+
+    return revModel.toJSON();
   }
 
   post_events(params: Object): Object {
@@ -108,10 +115,21 @@ function addEvents(
         version: docModel.version + stepsJSON.length,
       });
 
+      confirmVersion(docModel.id, version);
+
       resolve({
         version: docModel.version,
       });
     }).catch(reject);
+  });
+}
+
+function confirmVersion(docId: number, version: number): void {
+  const revModels = DemoDocRevisionModel.where((x) => {
+    return x.doc_id === docId && x.version === version;
+  });
+  revModels.forEach(x => {
+    x.update({confirmed: true});
   });
 }
 
