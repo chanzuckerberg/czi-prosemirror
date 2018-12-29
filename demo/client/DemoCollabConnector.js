@@ -40,10 +40,14 @@ class DemoCollabConnector {
       window.location.host.replace('3001', '3002') + '/docs/' +
       docID;
 
+    const herokuUrl =
+       window.location.protocol +
+      '//boiling-beach-99050.herokuapp.com/docs/' + docID;
+
     this._connection = new EditorConnection(
       setState,
       new Reporter(),
-      url,
+      herokuUrl || url,
     );
 
     this._connection.view = {
