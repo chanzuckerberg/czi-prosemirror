@@ -1,7 +1,6 @@
 // @node-only
 
-const createModelClass = require('./createModelClass');
-
+import createModelClass from './createModelClass';
 
 const DemoDemoDocModel = createModelClass({
   id: 0,

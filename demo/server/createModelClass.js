@@ -1,12 +1,14 @@
-// @node-only
+// @flow
 
-const assertion = require('./assertion');
-const invariant = require('invariant');
+import invariant from 'invariant';
 
-function createModelClass(spec) {
+import * as assertion from './assertion';
+
+export default function createModelClass(spec: Object): Function {
   assertion.object(spec, 'model.spec');
 
-  const models = [];
+  const models: Array<Model> = [];
+
   const modelSpec = Object.assign({
     created_at: 0,
     updated_at: 0,
@@ -14,34 +16,102 @@ function createModelClass(spec) {
 
   let index = 0;
 
+  function findBy(predict: (m: Model) => any): ?Model {
+    let found: any = null;
+    models.some((model) => {
+      if (predict(model)) {
+        found = model;
+      }
+      return !!found;
+    });
+    return found;
+  };
+
+  function find(id: any): ?Model {
+    assertion.present(id, 'Model.find(id)');
+    const model = findBy(x => x.id === id);
+    assertion.present(model, 'Model.find(id)');
+    return model;
+  };
+
+  function where(predict: (m: Model) => any): Array<Model> {
+    return models.reduce((results, model) => {
+      if (predict(model)) {
+        results.push(model);
+      }
+      return results;
+    }, []);
+  };
+
+  function insert(model: Model): Model {
+    const id = model.id;
+    assertion.present(id, 'model.id');
+    const predict = (m) => m.id === id;
+    invariant(findBy(predict) === null, 'duplicated model ' + id);
+    models.push(model);
+    Model.size = models.length;
+    return model;
+  };
+
+  function create(payload: ?Object): Model {
+    payload = payload || {};
+    payload.id = payload.id || index++;
+    const model = new Model(payload);
+    insert(model);
+    return model;
+  }
+
+  function findOrCreate(
+    predict: (x: Model) => any,
+    createPayload: () => ?Object
+  ): Model {
+    let model = findBy(predict);
+    if (!model) {
+      model = create(createPayload());
+    }
+    return model;
+  };
+
   class Model {
-    constructor(payload) {
-      this.created_at = Date.now();
-      this.updated_at = Date.now();
-      this.update = this.update.bind(this);
-      this.validate = this.validate.bind(this);
-      payload && Object.assign(this, payload);
+    id: any;
+
+    static size = 0;
+    static create = create;
+    static find = find;
+    static findBy = findBy;
+    static where = where;
+    static findOrCreate = findOrCreate;
+
+    constructor(payload: ?Object) {
+      const model: Object = this;
+      model.created_at = Date.now();
+      model.updated_at = Date.now();
+      model.update = this.update.bind(this);
+      payload && Object.assign(model, payload);
       this.validate();
     }
 
-    validate() {
-      const model = this;
+    validate = (): Model => {
+      const model: Object = this;
       Object.keys(modelSpec).forEach(key => {
         const specValue = modelSpec[key];
         if (specValue !== null && specValue !== undefined) {
           assertion.present(model[key], 'validate:' + key);
         }
       });
-    }
+      return this;
+    };
 
-    update(payload) {
-      payload && Object.assign(this, payload);
-      this.updated_at = Date.now();
+    update = (payload: ?Object): Model => {
+      const model: Object = this;
+      payload && Object.assign(model, payload);
+      model.updated_at = Date.now();
       this.validate();
-    }
+      return this;
+    };
 
-    toJSON() {
-      const model = this;
+    toJSON(): Object {
+      const model: Object = this;
       const json = {};
       Object.keys(model).forEach(key => {
         const val = model[key];
@@ -51,64 +121,5 @@ function createModelClass(spec) {
     }
   }
 
-  Model.size = 0;
-
-  Model.find = (id) => {
-    assertion.present(id, 'Model.find(id)');
-    const model = Model.findBy(x => x.id === id);
-    assertion.present(model, 'Model.find(id)');
-    return model;
-  };
-
-  Model.findBy = (predict) => {
-    let found = null;
-    models.some((model) => {
-      if (predict(model)) {
-        found = model;
-      }
-    });
-    return found;
-  };
-
-  Model.where = (predict) => {
-    return models.reduce((results, model) => {
-      if (predict(model)) {
-        results.push(model);
-      }
-      return results;
-    }, []);
-  };
-
-  Model.insert = (model) => {
-    const id = model.id;
-    assertion.present(id, 'model.id');
-    const predict = (m) => m.id === id;
-    invariant(Model.findBy(predict) === null, 'duplicated model ' + id);
-    models.push(model);
-    Model.size = models.length;
-    return model;
-  };
-
-  Model.create = (payload) => {
-    payload = payload || {};
-    payload.id = payload.id || index++;
-    const model = new Model(payload);
-
-    Model.insert(model);
-    return model;
-  };
-
-  Model.findOrCreate = (findBy, createPayload) => {
-    let model = Model.findBy(findBy);
-    if (!model) {
-      model = Model.create(createPayload());
-    }
-    return model;
-  };
-
-
-
   return Model;
 }
-
-module.exports = createModelClass;

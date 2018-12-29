@@ -1,5 +1,5 @@
-// @node-only
-const createModelClass = require('./createModelClass');
+// @flow
+import createModelClass from './createModelClass';
 
 const DemoDocChangeModel = createModelClass({
   client_id: '',

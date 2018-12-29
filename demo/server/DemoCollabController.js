@@ -1,9 +1,9 @@
 // @node-only
+import rebaseDocWithSteps from '../../src/rebaseDocWithSteps';
 const assetion = require('./assertion');
 const DemoDocModel = require('./DemoDocModel');
 const DemoDocChangeModel = require('./DemoDocChangeModel');
 const DemoDocRevisionModel = require('./DemoDocRevisionModel');
-const applyProseMirrorSteps = require('./applyProseMirrorSteps');
 
 const EMPTY_DOC_JSON = {
   'type': 'doc',
@@ -93,9 +93,8 @@ function addEvents(docModel, version, stepsJSON, clientID) {
     }
 
     // PM Process Start
-    applyProseMirrorSteps(
+    rebaseDocWithSteps(
       clientID,
-      docModel.id,
       docModel.doc_json,
       stepsJSON,
     ).then(changed => {

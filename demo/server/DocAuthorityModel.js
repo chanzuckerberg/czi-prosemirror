@@ -1,6 +1,6 @@
 // @node-only
 
-const createModelClass = require('./createModelClass');
+import createModelClass from './createModelClass';
 
 const CollaborationModel = createModelClass({
   client_id: '',

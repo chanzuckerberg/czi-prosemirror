@@ -1,6 +1,5 @@
 // @node-only
-const createModelClass = require('./createModelClass');
-
+import createModelClass from './createModelClass';
 const DemoDocRevisionModel = createModelClass({
   confirmed: false,
   doc_id: '',
