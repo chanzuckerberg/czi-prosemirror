@@ -17,6 +17,7 @@ export default function createModelClass(spec: Object): Function {
   let index = 0;
 
   function findBy(predict: (m: Model) => any): ?Model {
+    purge();
     let found: any = null;
     models.some((model) => {
       if (predict(model)) {
@@ -28,6 +29,7 @@ export default function createModelClass(spec: Object): Function {
   };
 
   function find(id: any): ?Model {
+    purge();
     assertion.present(id, 'Model.find(id)');
     const model = findBy(x => x.id === id);
     assertion.present(model, 'Model.find(id)');
@@ -35,6 +37,7 @@ export default function createModelClass(spec: Object): Function {
   };
 
   function where(predict: (m: Model) => any): Array<Model> {
+    purge();
     return models.reduce((results, model) => {
       if (predict(model)) {
         results.push(model);
@@ -52,6 +55,27 @@ export default function createModelClass(spec: Object): Function {
     Model.size = models.length;
     return model;
   };
+
+  function purge() {
+    // Need this so we don't kill the demo server with too much memory
+    // consumption
+    if (models.length > 5000) {
+      const t24hous = 24 * 60 * 60 * 1000;
+      const now = Date.now();
+      let model: Object = models[0];
+      while (model) {
+        if ((now - model.updated_at) > t24hous) {
+          models.shift();
+        }
+        model = models[0];
+      }
+    }
+    if (models.length > 5000) {
+      // purge the first 2000 models.
+      models.splice(0, 2000);
+    }
+  }
+
 
   function create(payload: ?Object): Model {
     payload = payload || {};
