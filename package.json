@@ -5,9 +5,7 @@
   "description": "rich text editor built with React and ProseMirror",
   "main": "dist/index.js",
   "scripts": {
-    "build_bin": "node utils/build_bin.js",
-    "flow": "flow",
-    "start": "node utils/webserver.js"
+    "flow": "flow"
   },
   "devDependencies": {
     "async-await": "0.1.40",

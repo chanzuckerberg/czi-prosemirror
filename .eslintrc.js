@@ -28,6 +28,7 @@ module.exports = {
     "strict": 0,
   },
   "globals": {
+    "__dirname": false,
     "$ReadOnlyArray": false,
     "Blob": false,
     "Class": false,
@@ -50,6 +51,7 @@ module.exports = {
     "console": false,
     "document": false,
     "module": false,
+    "process": false,
     "require": false,
     "requestAnimationFrame": false,
     "setTimeout": false,
