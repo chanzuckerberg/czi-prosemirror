@@ -1,38 +1,31 @@
-// @node-only
+// @flow
 
-const invariant = require('invariant');
+import invariant from 'invariant';
 
-function number(val, name) {
+export function number(val: any, name: string): void {
   invariant(
     typeof val === 'number' && !isNaN(val),
     name + '(' + String(val) + ') is not a number',
   );
 }
 
-function present(val, name) {
+export function present(val: any, name: string): void {
   invariant(
     val !== null && val !== undefined && val !== '',
     name + '(' + String(val) + ') is not present',
   );
 }
 
-function object(val, name) {
+export function object(val: any, name: string): void {
   invariant(
     typeof val === 'object' && val !== null,
     name + '(' + String(val) + ') is not an Object',
   );
 }
 
-function array(val, name) {
+export function array(val: any, name: string): void {
   invariant(
     Array.isArray(val),
     name + '(' + String(val) + ') is not an Array',
   );
 }
-
-module.exports = {
-  number,
-  present,
-  object,
-  array,
-};
