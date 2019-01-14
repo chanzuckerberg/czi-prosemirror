@@ -5,11 +5,13 @@ import {EditorState} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
 import {EditorView} from 'prosemirror-view';
 import React from 'react';
+import webfontloader from 'webfontloader';
 
 import 'prosemirror-gapcursor/style/gapcursor.css';
 import 'prosemirror-view/style/prosemirror.css';
 
 import {BOOKMARK, IMAGE, MATH} from '../NodeNames';
+import WebFontLoader from '../WebFontLoader';
 import createEmptyEditorState from '../createEmptyEditorState';
 import normalizeHTML from '../normalizeHTML';
 import BookmarkNodeView from './BookmarkNodeView';
@@ -24,6 +26,8 @@ import './czi-editor.css';
 import type {EditorRuntime} from '../Types';
 
 const EDITOR_EMPTY_STATE = createEmptyEditorState();
+
+WebFontLoader.setImplementation(webfontloader);
 
 function transformPastedHTML(html: string): string {
   return normalizeHTML(html);
