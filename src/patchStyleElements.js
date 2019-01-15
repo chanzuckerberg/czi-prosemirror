@@ -16,8 +16,6 @@ type SelectorTextToCSSText = {
 };
 
 export const ATTRIBUTE_CSS_BEFORE_CONTENT = 'data-attribute-css-before-content';
-export const DEFAULT_TEXT_COLOR = '#000000';
-export const DEFAULT_BACKGROUND_COLOR = '#ffffff';
 
 // Node name only selector has less priority, we'll handle it
 // separately
@@ -62,12 +60,12 @@ export default function patchStyleElements(doc: Document): void {
         // e.g. rules['color'] = 'red'.
         if (key === 'color') {
           const color = toHexColor(String(cssStyleValue));
-          if (!color || color === DEFAULT_TEXT_COLOR) {
+          if (!color) {
             return;
           }
         } else if (key === 'background-color') {
           const color = toHexColor(String(cssStyleValue));
-          if (!color || color === DEFAULT_BACKGROUND_COLOR) {
+          if (!color) {
             return;
           }
         }

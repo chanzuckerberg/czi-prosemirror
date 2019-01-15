@@ -1,17 +1,11 @@
 // @flow
 
 import hyphenize from './hyphenize';
-import {DEFAULT_BACKGROUND_COLOR, DEFAULT_TEXT_COLOR} from './patchStyleElements';
-import toHexColor from './ui/toHexColor';
 
 const BLOCK_TAG_SELECTOR =
   ('p,h1,h2,h3,h4,h5,h6,li').replace(/\w+/g, (m) => `${m}[style]`);
 
 export default function patchElementInlineStyles(doc: Document): void {
-  // Clean up inline styles added by brower while copying content.
-  const iEls = Array.from(doc.querySelectorAll('*[style]'));
-  iEls.forEach(clearInlineStyles);
-
   // Ensure that inline-styles can be correctly translated as inline marks.
   // Workaround to patch inline styles added to block tags.
   const bEls = Array.from(doc.querySelectorAll(BLOCK_TAG_SELECTOR));
@@ -42,23 +36,6 @@ const INLINE_ELEMENT_NODE_NAMES = new Set([
 
 function patchBlockElement(el: HTMLElement): void {
   INLINE_STYLE_NAMES.forEach((name) => patchBlockElementStyle(el, name));
-}
-
-function clearInlineStyles(el: HTMLElement): void {
-  const {style} = el;
-  if (!style) {
-    return;
-  }
-  const {color, backgroundColor} = style;
-  if (color && toHexColor(color) === DEFAULT_TEXT_COLOR) {
-    style.color = '';
-  }
-  if (
-    backgroundColor &&
-    toHexColor(backgroundColor) === DEFAULT_BACKGROUND_COLOR
-  ) {
-    style.backgroundColor = '';
-  }
 }
 
 // Move the specified inline style of the element to its child nodes. This
