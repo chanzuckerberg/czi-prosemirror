@@ -123,8 +123,6 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
     const {attrs} = node;
     const {align, crop} = attrs;
 
-
-
     // It's only active when the image's fully loaded.
     const loading = !originalSize.complete && !originalSize.src;
     const active = focused && !readOnly && originalSize.complete;
@@ -141,11 +139,13 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
       height =  originalSize.height;
     }
 
-    if (!crop && width > maxSize.width) {
+    let scale = 1;
+    if (width > maxSize.width) {
       // Scale image to fit its containing space.
       // If the image is not cropped.
       width = maxSize.width;
       height = width / aspectRatio;
+      scale =  maxSize.width / width;
     }
 
     const className = cx('czi-image-view-body', {
@@ -177,11 +177,20 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
     const clipStyle = {};
 
     if (crop) {
-      clipStyle.width = crop.width + 'px';
-      clipStyle.height = crop.height + 'px';
-      imageStyle.left = crop.left + 'px';
-      imageStyle.top = crop.top + 'px';
+      const cropped = {...crop};
+      if (scale !== 1) {
+        scale = maxSize.width / cropped.width;
+        cropped.width *= scale;
+        cropped.height *= scale;
+        cropped.left *= scale;
+        cropped.top *= scale;
+      }
+      clipStyle.width = cropped.width + 'px';
+      clipStyle.height = cropped.height + 'px';
+      imageStyle.left = cropped.left + 'px';
+      imageStyle.top = cropped.top + 'px';
     }
+
 
     return (
       <span
@@ -325,6 +334,8 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
     const width = this._body ?
       getMaxResizeWidth(ReactDOM.findDOMNode(this._body)) :
       MAX_SIZE;
+
+    console.log('max-width', width);
 
     this.setState({
       maxSize: {
