@@ -8,7 +8,6 @@ const LIST_ITEM_PSEUDO_ELEMENT_BEFORE = /li:+before/;
 const NODE_NAME_SELECTOR = /^[a-zA-Z]+\d*$/;
 const PSEUDO_ELEMENT_ANY = /:+[a-z]+/;
 
-
 type SelectorTextToCSSText = {
   afterContent: ?string,
   beforeContent: ?string,
@@ -101,6 +100,7 @@ function buildElementToCSSTexts(
 ): Map<HTMLElement, Array<string>> {
   const {selectorText, cssText, beforeContent} = bag;
   const els = Array.from(doc.querySelectorAll(selectorText));
+
   els.forEach(el => {
     const style = el.style;
     if (!style || !(el instanceof HTMLElement)) {

@@ -4,14 +4,17 @@ import hyphenize from './hyphenize';
 import {DEFAULT_BACKGROUND_COLOR, DEFAULT_TEXT_COLOR} from './patchStyleElements';
 import toHexColor from './ui/toHexColor';
 
+const BLOCK_TAG_SELECTOR =
+  ('p,h1,h2,h3,h4,h5,h6').replace(/\w+/g, (m) => `${m}[style]`);
+
 export default function patchElementInlineStyles(doc: Document): void {
   // Clean up inline styles added by brower while copying content.
   const iEls = Array.from(doc.querySelectorAll('*[style]'));
   iEls.forEach(clearInlineStyles);
 
   // Ensure that inline-styles can be correctly translated as inline marks.
-  // Workaround to patch inline styles added to <p /> by google doc.
-  const bEls = Array.from(doc.querySelectorAll('p[style]'));
+  // Workaround to patch inline styles added to block tags.
+  const bEls = Array.from(doc.querySelectorAll(BLOCK_TAG_SELECTOR));
   bEls.forEach(patchBlockElement);
 }
 
@@ -67,7 +70,6 @@ function patchBlockElementStyle(
   const element: any = el;
   const elementStyle = element.style;
   let value = elementStyle && elementStyle[inlineStyleName];
-
 
   if (value && inlineStyleName === 'textIndent') {
     const charactersSize = parseInt(value, 10) / 4;
