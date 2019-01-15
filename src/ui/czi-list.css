@@ -8,29 +8,17 @@
 .ProseMirror ul {
   counter-reset: none;
   list-style-type: none;
+  margin-block-end: 0;
+  margin-block-start: 0;
   margin: 0;
   padding: 0;
-
-  /* https://www.sitepoint.com/understanding-block-formatting-contexts-in-css/ */
-  /* this is need to force "block-context" to prevent broken style around */
-  /* float siblings */
-  /* overflow: auto; */
 }
 
 .ProseMirror li {
   margin: 0;
-  padding: 0 0 0 2em;
+  padding: 0;
   position: relative;
 }
-
-/* https://www.sitepoint.com/understanding-block-formatting-contexts-in-css/
- * this is need to force "block-context" to prevent broken style around
- * float siblings
- *
- * .ProseMirror li > p {
- *  overflow-x: hidden;
- * }
- */
 
 .ProseMirror ol {
   counter-reset: czi-counter;
@@ -39,6 +27,12 @@
 
 .ProseMirror ol li {
   counter-increment: czi-counter;
+}
+
+.ProseMirror li > p {
+  margin: 0;
+  margin-block-end: 0;
+  margin-block-start: 0;
 }
 
 .ProseMirror li > p::before {
@@ -74,7 +68,7 @@
   display: inline-block;
   font-size: 1em;
   line-height: 1em;
-  min-width: 3em;
+  min-width: 42px;
   padding: 0 5px 0 0;
   position: relative;
   text-align: right;
