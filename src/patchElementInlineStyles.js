@@ -5,7 +5,7 @@ import {DEFAULT_BACKGROUND_COLOR, DEFAULT_TEXT_COLOR} from './patchStyleElements
 import toHexColor from './ui/toHexColor';
 
 const BLOCK_TAG_SELECTOR =
-  ('p,h1,h2,h3,h4,h5,h6').replace(/\w+/g, (m) => `${m}[style]`);
+  ('p,h1,h2,h3,h4,h5,h6,li').replace(/\w+/g, (m) => `${m}[style]`);
 
 export default function patchElementInlineStyles(doc: Document): void {
   // Clean up inline styles added by brower while copying content.
