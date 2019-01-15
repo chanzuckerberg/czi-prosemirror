@@ -52,6 +52,11 @@
   content: counter(czi-counter, lower-latin) ".";
 }
 
+.ProseMirror ol[data-list-style-type="upper-latin"] li::before,
+.ProseMirror ol[data-list-style-type="upper-latin"] li[data-align="center"] p:first-child::before {
+  content: counter(czi-counter, upper-latin) ".";
+}
+
 .ProseMirror ol[data-list-style-type="lower-roman"] li::before,
 .ProseMirror ol[data-list-style-type="lower-roman"] li[data-align="center"] p:first-child::before {
   content: counter(czi-counter, lower-roman) ".";
