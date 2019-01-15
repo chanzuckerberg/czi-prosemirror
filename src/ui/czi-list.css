@@ -41,130 +41,64 @@
   counter-increment: czi-counter;
 }
 
-.ProseMirror li::before,
-.ProseMirror li[data-align="center"] p:first-child::before {
+.ProseMirror li > p::before {
   content: counter(czi-counter) ".";
 }
 
 /* https://css-tricks.com/numbering-in-style/ */
-.ProseMirror ol[data-list-style-type="lower-latin"] li::before,
-.ProseMirror ol[data-list-style-type="lower-latin"] li[data-align="center"] p:first-child::before {
+.ProseMirror ol[data-list-style-type="lower-latin"] li > p::before {
   content: counter(czi-counter, lower-latin) ".";
 }
 
-.ProseMirror ol[data-list-style-type="upper-latin"] li::before,
-.ProseMirror ol[data-list-style-type="upper-latin"] li[data-align="center"] p:first-child::before {
+.ProseMirror ol[data-list-style-type="upper-latin"] li > p::before {
   content: counter(czi-counter, upper-latin) ".";
 }
 
-.ProseMirror ol[data-list-style-type="lower-roman"] li::before,
-.ProseMirror ol[data-list-style-type="lower-roman"] li[data-align="center"] p:first-child::before {
+.ProseMirror ol[data-list-style-type="lower-roman"] li > p::before {
   content: counter(czi-counter, lower-roman) ".";
 }
 
-.ProseMirror ol[data-list-style-type="upper-roman"] li::before,
-.ProseMirror ol[data-list-style-type="upper-roman"] li[data-align="center"] p:first-child::before {
+.ProseMirror ol[data-list-style-type="upper-roman"] li > p::before {
   content: counter(czi-counter, upper-roman) ".";
 }
 
-.ProseMirror ol[data-list-style-type="lower-alpha"] li::before,
-.ProseMirror ol[data-list-style-type="lower-alpha"] li[data-align="center"] p:first-child::before {
+.ProseMirror ol[data-list-style-type="lower-alpha"] li > p::before {
   content: counter(czi-counter, lower-alpha) ".";
 }
 
-.ProseMirror ol[data-list-style-type="upper-roman"] li::before,
-.ProseMirror ol[data-list-style-type="upper-roman"] li[data-align="center"] p:first-child::before {
+.ProseMirror ol[data-list-style-type="upper-roman"] li > p::before {
   content: counter(czi-counter, upper-alpha) ".";
 }
 
-/*
- * https://www.sitepoint.com/understanding-block-formatting-contexts-in-css/
- * this is need to force "block-context" to prevent broken style around
- * float siblings (e.g. An image is floafing around it.)
- *
- * .ProseMirror li::before + p {
- *  overflow-x: hidden;
- * }
- */
-
-.ProseMirror ul li[data-align="center"] p:first-child::before,
-.ProseMirror ul > li::before {
-  content: '\2022'; /* disc */
-  font-size: 2em;
-  line-height: 0.5em;
+.ProseMirror li > p::before {
+  display: inline-block;
+  font-size: 1em;
+  line-height: 1em;
+  min-width: 3em;
+  padding: 0 5px 0 0;
+  position: relative;
+  text-align: right;
+  top: 0;
 }
 
-.ProseMirror ul[data-list-style-type="circle"] li[data-align="center"] p:first-child::before,
-.ProseMirror ul[data-list-style-type="circle"] > li::before {
+.ProseMirror ul li > p::before {
+  content: '\2022'; /* disc */
+  font-size: 2em;
+  top: 5px;
+}
+
+.ProseMirror ul[data-list-style-type="circle"] li > p::before {
   content: '\25cb';
   font-size: 1.3em;
 }
 
-.ProseMirror ul[data-list-style-type="square"] li[data-align="center"] p:first-child::before,
-.ProseMirror ul[data-list-style-type="square"] > li::before {
+.ProseMirror ul[data-list-style-type="square"] li > p::before {
   content: '\25a0';
   font-size: 1.12em;
 }
 
-.ProseMirror ul[data-list-style-type="box"] li[data-align="center"] p:first-child::before,
-.ProseMirror ul[data-list-style-type="box"] > li::before {
+.ProseMirror ul[data-list-style-type="box"] li > p::before {
   content: '\274f';
   font-size: 1.12em;
 }
 
-/* Adjust list-style postion for text-alignment. */
-
-.ProseMirror li::before,
-.ProseMirror li[data-align="center"] p:first-child::before {
-  display: inline-block;
-  width: 3em;
-  font-size: 1em;
-  line-height: 1em;
-  position: relative;
-  top: 3.5px;
-}
-
-.ProseMirror li::before {
-  float: left;
-  margin: 0 0 -1em -3em;
-  text-align: right;
-  left: -8px;
-}
-
-.ProseMirror li[data-align="center"] {
-  padding: 0;
-}
-
-.ProseMirror li[data-align="right"] {
-  padding-right: 2em;
-}
-
-.ProseMirror li[data-align="center"] {
-  text-align: center;
-}
-
-.ProseMirror li[data-align="center"]::before {
-  /* hide it, we'd show the bullet with <p />  instead. */
-  display: none;
-}
-
-.ProseMirror ul > li[data-align="center"] p:first-child::before {
-  display: inline;
-  position: relative;
-  left: -4px;
-  top: 5px;
-}
-
-.ProseMirror ol > li[data-align="center"] p:first-child::before {
-  display: inline;
-  position: relative;
-  left: -4px;
-  top: 0;
-}
-
-.ProseMirror li[data-align="right"]::before {
-  float: right;
-  left: 0;
-  margin: 0 -3.5em -1em 0;
-  text-align: left;
-}
