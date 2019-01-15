@@ -335,8 +335,6 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
       getMaxResizeWidth(ReactDOM.findDOMNode(this._body)) :
       MAX_SIZE;
 
-    console.log('max-width', width);
-
     this.setState({
       maxSize: {
         width,

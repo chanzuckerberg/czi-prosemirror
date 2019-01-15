@@ -20,6 +20,8 @@ export default function normalizeHTML(html: string): string {
     document.implementation &&
     document.implementation.createHTMLDocument
   ) {
+    html = html.replace(/&nbsp;/g, '\u202F');
+
     const doc = document.implementation.createHTMLDocument('');
     doc.open();
     doc.write(html);
