@@ -2,6 +2,7 @@
 
 import cx from 'classnames';
 import {EditorState} from 'prosemirror-state';
+import {Transaction} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
 import {EditorView} from 'prosemirror-view';
 import React from 'react';
@@ -24,6 +25,22 @@ import uuid from './uuid';
 import './czi-editor.css';
 
 import type {EditorRuntime} from '../Types';
+
+// Monkey patch the `scrollIntoView` mathod of 'Transaction'.
+// Why this is necessary?
+// It appears that promse-mirror does call `scrollIntoView` extensively
+// from many of the built-in transformations, thus cause unwanted page
+// scrolls. To make the behavior more manageable, this patched method asks
+// developer to explicitly use `scrollIntoView(true)` to enforce page scroll.
+const scrollIntoView = Transaction.prototype.scrollIntoView;
+const scrollIntoViewPatched = function(forced: boolean): Transaction {
+  if (forced === true && scrollIntoView) {
+    return scrollIntoView.call(this);
+  } else {
+    return this;
+  }
+};
+Transaction.prototype.scrollIntoView = scrollIntoViewPatched;
 
 const EDITOR_EMPTY_STATE = createEmptyEditorState();
 
