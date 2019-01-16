@@ -48,17 +48,3 @@
   font-weight: bold;
   line-height: 0;
 }
-
-/*
-.czi-icon.text_color {
-  display: inline-block;
-  font-size: 0;
-  height: 24px;
-  width: 24px;
-  overflow: hidden;
-}
-
-.czi-icon.text_color {
-  background-image: url(@material-design-icons/content/svg/production/ic_font_download_24px.svg);
-}
-*/
