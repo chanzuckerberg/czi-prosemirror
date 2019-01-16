@@ -8,6 +8,9 @@ const LIST_ITEM_PSEUDO_ELEMENT_BEFORE = /li:+before/;
 const NODE_NAME_SELECTOR = /^[a-zA-Z]+\d*$/;
 const PSEUDO_ELEMENT_ANY = /:+[a-z]+/;
 
+//  Assume these className from Google doc has less specificity.
+const WEAK_CLASS_SELECTOR = /\.title/;
+
 type SelectorTextToCSSText = {
   afterContent: ?string,
   beforeContent: ?string,
@@ -121,16 +124,31 @@ function buildElementToCSSTexts(
 function sortBySpecificity(
   one: SelectorTextToCSSText,
   two: SelectorTextToCSSText,
-): boolean {
+): number {
   // This is just the naive implementation of sorting selectors by css
   // specificity.
   // 1. NodeName selectors has less priority.
-  const aa = NODE_NAME_SELECTOR.test(one.selectorText);
-  const bb = NODE_NAME_SELECTOR.test(two.selectorText);
-  if (!aa && bb) {
-    return true;
+  let aa = NODE_NAME_SELECTOR.test(one.selectorText);
+  let bb = NODE_NAME_SELECTOR.test(two.selectorText);
+  if (aa && !bb) {
+    return -1;
   }
-  return false;
+
+  if (!aa && bb) {
+    return 1;
+  }
+
+  // Assume both are className selector.
+  // Assume these className from Google doc has less specificity.
+  aa = WEAK_CLASS_SELECTOR.test(one.selectorText);
+  bb = WEAK_CLASS_SELECTOR.test(two.selectorText);
+  if (aa && !bb) {
+    return -1;
+  }
+  if (!aa && bb) {
+    return 1;
+  }
+  return 0;
 }
 
 function buildSelectorTextToCSSText(
