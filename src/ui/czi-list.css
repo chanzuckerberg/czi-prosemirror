@@ -68,8 +68,6 @@
   display: inline-block;
   font-size: 1em;
   line-height: 1em;
-  min-width: 42px;
-  padding: 0 5px 0 0;
   position: relative;
   text-align: right;
   top: 0;
@@ -94,5 +92,19 @@
 .ProseMirror ul[data-list-style-type="box"] li > p::before {
   content: '\274f';
   font-size: 1.12em;
+  top: 1px;
 }
 
+/* bullet indentation */
+.ProseMirror li {
+  /* This assumes the space needed for 3 digits numbers */
+  --czi-list-style-indent: 42px;
+  --czi-list-style-indent-reverse: -42px;
+  padding: 0 0 0 var(--czi-list-style-indent);
+}
+
+.ProseMirror li > p::before {
+  left: -5px;
+  margin-left: var(--czi-list-style-indent-reverse);
+  width: var(--czi-list-style-indent);
+}

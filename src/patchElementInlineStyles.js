@@ -16,6 +16,7 @@ const NODE_TYPE_TEXT = 3;
 const NODE_TYPE_ELEMENT = 1;
 const INLINE_STYLE_NAMES = [
   'backgroundColor',
+  'color',
   'fontFamily',
   'fontSize',
   'fontStyle',
@@ -66,6 +67,7 @@ function patchBlockElementStyle(
 
   // Remove the style.
   elementStyle[inlineStyleName] = '';
+  console.log(el, value);
 
   const childNodes = Array.from(element.childNodes);
   childNodes.forEach((node) => {
@@ -81,7 +83,7 @@ function patchBlockElementStyle(
       if (INLINE_ELEMENT_NODE_NAMES.has(nodeName)) {
         const cssText =
            `${hyphenize(inlineStyleName)}: ${value};` + style.cssText;
-        style.cssText = cssText;
+       style.cssText = cssText;
       }
     } else if (nodeType === NODE_TYPE_TEXT) {
       if (ownerDocument && parentElement) {
