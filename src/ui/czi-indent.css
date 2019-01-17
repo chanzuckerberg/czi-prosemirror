@@ -1,29 +1,29 @@
 /* Indent */
 
 .ProseMirror *[data-indent="1"] {
-  margin-left: 24pt;
+  margin-left: 12pt;
 }
 
 .ProseMirror *[data-indent="2"] {
-  margin-left: 48pt;
+  margin-left: 24pt;
 }
 
 .ProseMirror *[data-indent="3"] {
-  margin-left: 72pt;
+  margin-left: 36pt;
 }
 
 .ProseMirror *[data-indent="4"] {
-  margin-left: 86pt;
+  margin-left: 48pt;
 }
 
 .ProseMirror *[data-indent="5"] {
-  margin-left: 104pt;
+  margin-left: 60pt;
 }
 
 .ProseMirror *[data-indent="6"] {
-  margin-left: 128pt;
+  margin-left: 72pt;
 }
 
 .ProseMirror *[data-indent="7"] {
-  margin-left: 156pt;
+  margin-left: 84pt;
 }
