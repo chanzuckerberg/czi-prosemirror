@@ -1,6 +1,6 @@
 // @flow
 
-import {ATTRIBUTE_BOOKMARK_ID} from './BookmarkNodeSpec';
+import {ATTRIBUTE_BOOKMARK_ID, ATTRIBUTE_BOOKMARK_VISIBLE} from './BookmarkNodeSpec';
 
 const BLOCK_NODE_NAME_PATTERN = /(P|H1|H2|H3|H4|H5|H6)/;
 
@@ -14,6 +14,15 @@ function patchAnchorElement(node: HTMLElement): void {
     // This looks like a bookmark generated from Google Doc, will render
     // this as BookmarkNode.
     node.setAttribute(ATTRIBUTE_BOOKMARK_ID, id);
+
+    // Google Doc always inject anchor links before <table />.
+    //   <a id="t.3060ecccc199a88a1e4cc1252769f957b88f2207"></a>
+    //   <a id="t.0"></a>
+    //   <table class="c23">
+    // and these anchor link should not be visible.
+    const visible = node.id.indexOf('t.') !== 0;
+
+    visible && node.setAttribute(ATTRIBUTE_BOOKMARK_VISIBLE, 'true');
   }
   const nextNode = node.nextElementSibling;
   if (!nextNode) {
