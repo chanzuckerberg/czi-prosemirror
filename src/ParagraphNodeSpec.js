@@ -30,6 +30,10 @@ const ParagraphNodeSpec: NodeSpec = {
     id: {default: null},
     indent: {default: null},
     lineSpacing: {default: null},
+    // TODO: Add UI to let user edit / clear padding.
+    paddingBottom: {default: null},
+    // TODO: Add UI to let user edit / clear padding.
+    paddingTop: {default: null},
   },
   content: 'inline*',
   group: 'block',
@@ -38,7 +42,13 @@ const ParagraphNodeSpec: NodeSpec = {
 };
 
 function getAttrs(dom: HTMLElement): Object {
-  const {lineHeight, textAlign, marginLeft} = dom.style;
+  const {
+    lineHeight,
+    textAlign,
+    marginLeft,
+    paddingTop,
+    paddingBottom,
+  } = dom.style;
 
   let align = dom.getAttribute('align') || textAlign || '';
   align = ALIGN_PATTERN.test(align) ? align : null;
@@ -55,11 +65,11 @@ function getAttrs(dom: HTMLElement): Object {
     lineHeight :
     null;
 
-  return {align, indent, lineSpacing};
+  return {align, indent, lineSpacing, paddingTop, paddingBottom};
 }
 
 function toDOM(node: Node): Array<any> {
-  const {align, indent, lineSpacing} = node.attrs;
+  const {align, indent, lineSpacing, paddingTop, paddingBottom} = node.attrs;
   const attrs = {};
 
   let style = '';
@@ -69,6 +79,14 @@ function toDOM(node: Node): Array<any> {
 
   if (lineSpacing) {
     style += `line-height: ${lineSpacing};`;
+  }
+
+  if (paddingTop) {
+    style += `padding-top: ${paddingTop};`;
+  }
+
+  if (paddingBottom) {
+    style += `padding-bottom: ${paddingBottom};`;
   }
 
   style && (attrs.style = style);
