@@ -3,6 +3,7 @@
 import type {NodeSpec} from './Types';
 
 export const ATTRIBUTE_LIST_STYLE_TYPE = 'data-list-style-type';
+export const ATTRIBUTE_LIST_STYLE_COLOR = 'data-list-style-color';
 
 const ALIGN_PATTERN = /(left|right|center|justify)/;
 
@@ -16,6 +17,11 @@ function getAttrs(dom: HTMLElement) {
     attrs.align = align;
   }
 
+  const color = dom.getAttribute(ATTRIBUTE_LIST_STYLE_COLOR);
+  if (color) {
+    attrs.color = color;
+  }
+
   return attrs;
 }
 
@@ -23,7 +29,9 @@ function getAttrs(dom: HTMLElement) {
 const ListItemNodeSpec: NodeSpec = {
   attrs: {
     align: {default: null},
+    color: {default: null},
     id: {default: null},
+    style: {default: null},
   },
 
   // NOTE that do not support nested lists `'paragraph block*'` because of
@@ -34,9 +42,12 @@ const ListItemNodeSpec: NodeSpec = {
 
   toDOM(node) {
     const attrs = {};
-    const {align} = node.attrs;
+    const {align, color} = node.attrs;
     if (align) {
       attrs['data-align'] = align;
+    }
+    if (color) {
+      attrs.style = `--czi-list-style-color: ${color}`;
     }
     return ['li', attrs, 0];
   },
