@@ -4,6 +4,7 @@ import patchAnchorElements from './patchAnchorElements';
 import patchBreakElements from './patchBreakElements';
 import patchElementInlineStyles from './patchElementInlineStyles';
 import patchListElements from './patchListElements';
+import patchParagraphElements from './patchParagraphElements';
 import patchStyleElements from './patchStyleElements';
 import patchTableElements from './patchTableElements';
 
@@ -33,6 +34,7 @@ export default function normalizeHTML(html: string): string {
     patchAnchorElements(doc);
     patchBreakElements(doc);
     patchListElements(doc);
+    patchParagraphElements(doc);
     patchTableElements(doc);
     body = doc.getElementsByTagName('body')[0];
 

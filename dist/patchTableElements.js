@@ -10,6 +10,10 @@ var _from2 = _interopRequireDefault(_from);
 
 exports.default = patchTableElements;
 
+var _nullthrows = require('nullthrows');
+
+var _nullthrows2 = _interopRequireDefault(_nullthrows);
+
 var _convertToCSSPTValue = require('./convertToCSSPTValue');
 
 var _convertToCSSPTValue2 = _interopRequireDefault(_convertToCSSPTValue);
@@ -20,14 +24,19 @@ var _toHexColor2 = _interopRequireDefault(_toHexColor);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+// This value is arbitrary. It assumes the page use the default size
+// with default padding.
+var DEFAULT_TABLE_WIDTH = 666;
+
+// This value is originally defined at prosemirror-table.
+var ATTRIBUTE_CELL_WIDTH = 'data-colwidth';
+
 function patchTableElements(doc) {
   (0, _from2.default)(doc.querySelectorAll('td')).forEach(patchTableCell);
   (0, _from2.default)(doc.querySelectorAll('tr[style^=height]')).forEach(patchTableRow);
 }
 
 // The height of each line: ~= 21px
-
-
 var LINE_HEIGHT_PT_VALUE = 15.81149997;
 
 // Workaround to patch HTML from Google Doc that Table Cells will apply
@@ -65,7 +74,25 @@ function patchTableCell(tdElement) {
     }
     var pxValue = ptValue * _convertToCSSPTValue.PT_TO_PX_RATIO;
     // Attribute "data-colwidth" is defined at 'prosemirror-tables';
-    tdElement.setAttribute('data-colwidth', String(Math.round(pxValue)));
+    var rowEl = (0, _nullthrows2.default)(tdElement.parentElement);
+    tdElement.setAttribute(ATTRIBUTE_CELL_WIDTH, String(Math.round(pxValue)));
+
+    if (rowEl.lastElementChild === tdElement) {
+      var cells = (0, _from2.default)(rowEl.children);
+      var tableWidth = cells.reduce(function (sum, td) {
+        var ww = parseInt(td.getAttribute(ATTRIBUTE_CELL_WIDTH), 10);
+        sum += ww;
+        return sum;
+      }, 0);
+      if (isNaN(tableWidth) || tableWidth <= DEFAULT_TABLE_WIDTH) {
+        return;
+      }
+      var scale = DEFAULT_TABLE_WIDTH / tableWidth;
+      cells.forEach(function (cell) {
+        var ww = parseInt(cell.getAttribute(ATTRIBUTE_CELL_WIDTH), 10);
+        cell.setAttribute(ATTRIBUTE_CELL_WIDTH, String(Math.round(ww * scale)));
+      });
+    }
   }
 }
 

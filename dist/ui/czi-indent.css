@@ -1,29 +1,59 @@
 /* Indent */
 
 .ProseMirror *[data-indent="1"] {
-  margin-left: 24pt;
+  margin-left: 18pt;
 }
 
 .ProseMirror *[data-indent="2"] {
-  margin-left: 48pt;
+  margin-left: 42pt;
 }
 
 .ProseMirror *[data-indent="3"] {
-  margin-left: 72pt;
+  margin-left: 66pt;
 }
 
 .ProseMirror *[data-indent="4"] {
-  margin-left: 86pt;
+  margin-left: 80pt;
 }
 
 .ProseMirror *[data-indent="5"] {
-  margin-left: 104pt;
+  margin-left: 98pt;
 }
 
 .ProseMirror *[data-indent="6"] {
-  margin-left: 128pt;
+  margin-left: 122pt;
 }
 
 .ProseMirror *[data-indent="7"] {
-  margin-left: 156pt;
+  margin-left: 150pt;
+}
+
+/* list item indents */
+
+.ProseMirror ol[data-indent="1"], ul[data-indent="1"] {
+  margin-left: 12pt;
+}
+
+.ProseMirror ol[data-indent="2"], ul[data-indent="2"] {
+  margin-left: 24pt;
+}
+
+.ProseMirror ol[data-indent="3"], ul[data-indent="3"] {
+  margin-left: 36pt;
+}
+
+.ProseMirror ol[data-indent="4"], ul[data-indent="4"] {
+  margin-left: 48pt;
+}
+
+.ProseMirror ol[data-indent="5"], ul[data-indent="5"] {
+  margin-left: 60pt;
+}
+
+.ProseMirror ol[data-indent="6"], ul[data-indent="6"] {
+  margin-left: 72pt;
+}
+
+.ProseMirror ol[data-indent="7"], ul[data-indent="7"] {
+  margin-left: 84pt;
 }

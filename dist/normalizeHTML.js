@@ -21,6 +21,10 @@ var _patchListElements = require('./patchListElements');
 
 var _patchListElements2 = _interopRequireDefault(_patchListElements);
 
+var _patchParagraphElements = require('./patchParagraphElements');
+
+var _patchParagraphElements2 = _interopRequireDefault(_patchParagraphElements);
+
 var _patchStyleElements = require('./patchStyleElements');
 
 var _patchStyleElements2 = _interopRequireDefault(_patchStyleElements);
@@ -53,6 +57,7 @@ function normalizeHTML(html) {
     (0, _patchAnchorElements2.default)(doc);
     (0, _patchBreakElements2.default)(doc);
     (0, _patchListElements2.default)(doc);
+    (0, _patchParagraphElements2.default)(doc);
     (0, _patchTableElements2.default)(doc);
     body = doc.getElementsByTagName('body')[0];
 
