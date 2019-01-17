@@ -24,8 +24,10 @@ class SetDocAttrStep extends Step {
   }
 
   apply(doc: Node): void {
-    this.prevValue = doc.attrs[this.key];
-    doc.attrs[this.key] = this.value;
+    const attrs = {...doc.attrs};
+    this.prevValue = attrs[this.key];
+    attrs[this.key] = this.value;
+    doc.attrs = attrs;
     return StepResult.ok(doc);
   }
 
