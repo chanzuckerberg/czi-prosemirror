@@ -1,17 +1,14 @@
 // @flow
 
 import hyphenize from './hyphenize';
-import {DEFAULT_BACKGROUND_COLOR, DEFAULT_TEXT_COLOR} from './patchStyleElements';
-import toHexColor from './ui/toHexColor';
+
+const BLOCK_TAG_SELECTOR =
+  ('p,h1,h2,h3,h4,h5,h6,li').replace(/\w+/g, (m) => `${m}[style]`);
 
 export default function patchElementInlineStyles(doc: Document): void {
-  // Clean up inline styles added by brower while copying content.
-  const iEls = Array.from(doc.querySelectorAll('*[style]'));
-  iEls.forEach(clearInlineStyles);
-
   // Ensure that inline-styles can be correctly translated as inline marks.
-  // Workaround to patch inline styles added to <p /> by google doc.
-  const bEls = Array.from(doc.querySelectorAll('p[style]'));
+  // Workaround to patch inline styles added to block tags.
+  const bEls = Array.from(doc.querySelectorAll(BLOCK_TAG_SELECTOR));
   bEls.forEach(patchBlockElement);
 }
 
@@ -19,6 +16,7 @@ const NODE_TYPE_TEXT = 3;
 const NODE_TYPE_ELEMENT = 1;
 const INLINE_STYLE_NAMES = [
   'backgroundColor',
+  'color',
   'fontFamily',
   'fontSize',
   'fontStyle',
@@ -41,23 +39,6 @@ function patchBlockElement(el: HTMLElement): void {
   INLINE_STYLE_NAMES.forEach((name) => patchBlockElementStyle(el, name));
 }
 
-function clearInlineStyles(el: HTMLElement): void {
-  const {style} = el;
-  if (!style) {
-    return;
-  }
-  const {color, backgroundColor} = style;
-  if (color && toHexColor(color) === DEFAULT_TEXT_COLOR) {
-    style.color = '';
-  }
-  if (
-    backgroundColor &&
-    toHexColor(backgroundColor) === DEFAULT_BACKGROUND_COLOR
-  ) {
-    style.backgroundColor = '';
-  }
-}
-
 // Move the specified inline style of the element to its child nodes. This
 // assumes that its child nodes are inline elements.
 function patchBlockElementStyle(
@@ -67,7 +48,6 @@ function patchBlockElementStyle(
   const element: any = el;
   const elementStyle = element.style;
   let value = elementStyle && elementStyle[inlineStyleName];
-
 
   if (value && inlineStyleName === 'textIndent') {
     const charactersSize = parseInt(value, 10) / 4;
@@ -87,6 +67,7 @@ function patchBlockElementStyle(
 
   // Remove the style.
   elementStyle[inlineStyleName] = '';
+  console.log(el, value);
 
   const childNodes = Array.from(element.childNodes);
   childNodes.forEach((node) => {
@@ -102,7 +83,7 @@ function patchBlockElementStyle(
       if (INLINE_ELEMENT_NODE_NAMES.has(nodeName)) {
         const cssText =
            `${hyphenize(inlineStyleName)}: ${value};` + style.cssText;
-        style.cssText = cssText;
+       style.cssText = cssText;
       }
     } else if (nodeType === NODE_TYPE_TEXT) {
       if (ownerDocument && parentElement) {

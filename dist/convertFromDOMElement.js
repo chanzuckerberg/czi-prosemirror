@@ -23,7 +23,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function convertFromDOMElement(el) {
   var bodyEl = el.querySelector('body');
-  var doc = _prosemirrorModel.DOMParser.fromSchema(_EditorSchema2.default).parse(el);
+
+  // https://prosemirror.net/docs/ref/#model.ParseOptions.preserveWhitespace
+  var doc = _prosemirrorModel.DOMParser.fromSchema(_EditorSchema2.default).parse(el, { preserveWhitespace: true });
 
   if (bodyEl) {
     // Unfortunately the root node `doc` does not supoort `parseDOM`, thus

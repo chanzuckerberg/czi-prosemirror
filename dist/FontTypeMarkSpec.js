@@ -11,9 +11,9 @@ var _set2 = _interopRequireDefault(_set);
 
 var _prosemirrorModel = require('prosemirror-model');
 
-var _webfontloader = require('webfontloader');
+var _WebFontLoader = require('./WebFontLoader');
 
-var _webfontloader2 = _interopRequireDefault(_webfontloader);
+var _WebFontLoader2 = _interopRequireDefault(_WebFontLoader);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -51,7 +51,7 @@ var FontTypeMarkSpec = {
         // TODO: Cache custom fonts and preload them earlier.
         RESOLVED_FONT_NAMES.add(name);
         // https://github.com/typekit/webfontloader
-        _webfontloader2.default.load({ google: { families: [name] } });
+        _WebFontLoader2.default.load({ google: { families: [name] } });
       }
       attrs.style = 'font-family: ' + name;
     }

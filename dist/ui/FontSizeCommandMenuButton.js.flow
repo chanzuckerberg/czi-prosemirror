@@ -1,12 +1,13 @@
 // @flow
 
-import CommandMenuButton from './CommandMenuButton';
-import FontSizeCommand from '../FontSizeCommand';
-import React from 'react';
-import findActiveFontSize from './findActiveFontSize';
 import {EditorState} from 'prosemirror-state';
-import {EditorView} from 'prosemirror-view';
 import {Transform} from 'prosemirror-transform';
+import {EditorView} from 'prosemirror-view';
+import React from 'react';
+
+import FontSizeCommand from '../FontSizeCommand';
+import CommandMenuButton from './CommandMenuButton';
+import findActiveFontSize from './findActiveFontSize';
 
 const FONT_PT_SIZES = [8, 9, 11, 10, 12, 14, 18, 24, 30, 36, 48, 60, 72, 90];
 
@@ -31,9 +32,10 @@ class FontSizeCommandMenuButton extends React.PureComponent<any, any, any> {
   render(): React.Element<any> {
     const {dispatch, editorState, editorView} = this.props;
     const fontSize = findActiveFontSize(editorState);
+    const className = String(fontSize).length <= 2 ? 'width-30' : 'width-60';
     return (
       <CommandMenuButton
-        className="width-30"
+        className={className}
         commandGroups={COMMAND_GROUPS}
         dispatch={dispatch}
         editorState={editorState}

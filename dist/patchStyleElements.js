@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.DEFAULT_BACKGROUND_COLOR = exports.DEFAULT_TEXT_COLOR = exports.ATTRIBUTE_CSS_BEFORE_CONTENT = undefined;
+exports.ATTRIBUTE_CSS_BEFORE_CONTENT = undefined;
 
 var _map = require('babel-runtime/core-js/map');
 
@@ -29,9 +29,10 @@ var LIST_ITEM_PSEUDO_ELEMENT_BEFORE = /li:+before/;
 var NODE_NAME_SELECTOR = /^[a-zA-Z]+\d*$/;
 var PSEUDO_ELEMENT_ANY = /:+[a-z]+/;
 
+//  Assume these className from Google doc has less specificity.
+var WEAK_CLASS_SELECTOR = /\.title/;
+
 var ATTRIBUTE_CSS_BEFORE_CONTENT = exports.ATTRIBUTE_CSS_BEFORE_CONTENT = 'data-attribute-css-before-content';
-var DEFAULT_TEXT_COLOR = exports.DEFAULT_TEXT_COLOR = '#000000';
-var DEFAULT_BACKGROUND_COLOR = exports.DEFAULT_BACKGROUND_COLOR = '#ffffff';
 
 // Node name only selector has less priority, we'll handle it
 // separately
@@ -76,12 +77,12 @@ function patchStyleElements(doc) {
         // e.g. rules['color'] = 'red'.
         if (key === 'color') {
           var color = (0, _toHexColor2.default)(String(cssStyleValue));
-          if (!color || color === DEFAULT_TEXT_COLOR) {
+          if (!color) {
             return;
           }
         } else if (key === 'background-color') {
           var _color = (0, _toHexColor2.default)(String(cssStyleValue));
-          if (!_color || _color === DEFAULT_BACKGROUND_COLOR) {
+          if (!_color) {
             return;
           }
         }
@@ -107,6 +108,7 @@ function buildElementToCSSTexts(doc, elementToCSSTexts, bag) {
       beforeContent = bag.beforeContent;
 
   var els = (0, _from2.default)(doc.querySelectorAll(selectorText));
+
   els.forEach(function (el) {
     var style = el.style;
     if (!style || !(el instanceof HTMLElement)) {
@@ -132,10 +134,25 @@ function sortBySpecificity(one, two) {
   // 1. NodeName selectors has less priority.
   var aa = NODE_NAME_SELECTOR.test(one.selectorText);
   var bb = NODE_NAME_SELECTOR.test(two.selectorText);
-  if (!aa && bb) {
-    return true;
+  if (aa && !bb) {
+    return -1;
   }
-  return false;
+
+  if (!aa && bb) {
+    return 1;
+  }
+
+  // Assume both are className selector.
+  // Assume these className from Google doc has less specificity.
+  aa = WEAK_CLASS_SELECTOR.test(one.selectorText);
+  bb = WEAK_CLASS_SELECTOR.test(two.selectorText);
+  if (aa && !bb) {
+    return -1;
+  }
+  if (!aa && bb) {
+    return 1;
+  }
+  return 0;
 }
 
 function buildSelectorTextToCSSText(result, selectorText, cssText) {

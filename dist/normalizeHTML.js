@@ -31,14 +31,8 @@ var _patchTableElements2 = _interopRequireDefault(_patchTableElements);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var BRAILLE_PATTERN_BLANK = '\u2800';
-
 function normalizeHTML(html) {
   var body = null;
-
-  // All space characters will be collapsed. That said, `&nbsp;` should
-  // be replace by "\u2800" so we could keep the blank space visible.
-  html = html.replace(/(\s*\&nbsp;\s*\&nbsp;\s*)/g, BRAILLE_PATTERN_BLANK);
 
   var sourceIsPage = /<body[\s>]/i.test(html);
 
@@ -46,6 +40,8 @@ function normalizeHTML(html) {
   // https://developer.mozilla.org/en-US/docs/Web/API/DOMImplementation.createHTMLDocument
   // https://developer.mozilla.org/en-US/Add-ons/Code_snippets/HTML_to_DOM
   if (typeof document !== 'undefined' && document.implementation && document.implementation.createHTMLDocument) {
+    html = html.replace(/&nbsp;/g, '\u202F');
+
     var doc = document.implementation.createHTMLDocument('');
     doc.open();
     doc.write(html);

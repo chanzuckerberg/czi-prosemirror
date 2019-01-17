@@ -8,6 +8,8 @@ const LIST_ITEM_PSEUDO_ELEMENT_BEFORE = /li:+before/;
 const NODE_NAME_SELECTOR = /^[a-zA-Z]+\d*$/;
 const PSEUDO_ELEMENT_ANY = /:+[a-z]+/;
 
+//  Assume these className from Google doc has less specificity.
+const WEAK_CLASS_SELECTOR = /\.title/;
 
 type SelectorTextToCSSText = {
   afterContent: ?string,
@@ -17,8 +19,6 @@ type SelectorTextToCSSText = {
 };
 
 export const ATTRIBUTE_CSS_BEFORE_CONTENT = 'data-attribute-css-before-content';
-export const DEFAULT_TEXT_COLOR = '#000000';
-export const DEFAULT_BACKGROUND_COLOR = '#ffffff';
 
 // Node name only selector has less priority, we'll handle it
 // separately
@@ -63,12 +63,12 @@ export default function patchStyleElements(doc: Document): void {
         // e.g. rules['color'] = 'red'.
         if (key === 'color') {
           const color = toHexColor(String(cssStyleValue));
-          if (!color || color === DEFAULT_TEXT_COLOR) {
+          if (!color) {
             return;
           }
         } else if (key === 'background-color') {
           const color = toHexColor(String(cssStyleValue));
-          if (!color || color === DEFAULT_BACKGROUND_COLOR) {
+          if (!color) {
             return;
           }
         }
@@ -101,6 +101,7 @@ function buildElementToCSSTexts(
 ): Map<HTMLElement, Array<string>> {
   const {selectorText, cssText, beforeContent} = bag;
   const els = Array.from(doc.querySelectorAll(selectorText));
+
   els.forEach(el => {
     const style = el.style;
     if (!style || !(el instanceof HTMLElement)) {
@@ -123,16 +124,31 @@ function buildElementToCSSTexts(
 function sortBySpecificity(
   one: SelectorTextToCSSText,
   two: SelectorTextToCSSText,
-): boolean {
+): number {
   // This is just the naive implementation of sorting selectors by css
   // specificity.
   // 1. NodeName selectors has less priority.
-  const aa = NODE_NAME_SELECTOR.test(one.selectorText);
-  const bb = NODE_NAME_SELECTOR.test(two.selectorText);
-  if (!aa && bb) {
-    return true;
+  let aa = NODE_NAME_SELECTOR.test(one.selectorText);
+  let bb = NODE_NAME_SELECTOR.test(two.selectorText);
+  if (aa && !bb) {
+    return -1;
   }
-  return false;
+
+  if (!aa && bb) {
+    return 1;
+  }
+
+  // Assume both are className selector.
+  // Assume these className from Google doc has less specificity.
+  aa = WEAK_CLASS_SELECTOR.test(one.selectorText);
+  bb = WEAK_CLASS_SELECTOR.test(two.selectorText);
+  if (aa && !bb) {
+    return -1;
+  }
+  if (!aa && bb) {
+    return 1;
+  }
+  return 0;
 }
 
 function buildSelectorTextToCSSText(

@@ -80,10 +80,15 @@ var BookmarkViewBody = function (_React$PureComponent) {
   (0, _createClass3.default)(BookmarkViewBody, [{
     key: 'render',
     value: function render() {
+      var _props$node$attrs = this.props.node.attrs,
+          id = _props$node$attrs.id,
+          visible = _props$node$attrs.visible;
+
+      var icon = id && visible ? _Icon2.default.get('bookmark') : null;
       return _react2.default.createElement(
         'span',
         { onClick: this._onClick },
-        _Icon2.default.get('bookmark')
+        icon
       );
     }
   }]);
@@ -129,11 +134,14 @@ var BookmarkNodeView = function (_CustomNodeView) {
   }, {
     key: '_updateDOM',
     value: function _updateDOM(el) {
-      var id = this.props.node.attrs.id;
+      var _props$node$attrs2 = this.props.node.attrs,
+          id = _props$node$attrs2.id,
+          visible = _props$node$attrs2.visible;
 
       el.setAttribute('id', id);
       el.setAttribute('title', id);
       el.setAttribute(_BookmarkNodeSpec.ATTRIBUTE_BOOKMARK_ID, id);
+      visible && el.setAttribute(_BookmarkNodeSpec.ATTRIBUTE_BOOKMARK_VISIBLE, 'true');
     }
   }]);
   return BookmarkNodeView;

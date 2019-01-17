@@ -18,28 +18,22 @@ var _hyphenize = require('./hyphenize');
 
 var _hyphenize2 = _interopRequireDefault(_hyphenize);
 
-var _patchStyleElements = require('./patchStyleElements');
-
-var _toHexColor = require('./ui/toHexColor');
-
-var _toHexColor2 = _interopRequireDefault(_toHexColor);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function patchElementInlineStyles(doc) {
-  // Clean up inline styles added by brower while copying content.
-  var iEls = (0, _from2.default)(doc.querySelectorAll('*[style]'));
-  iEls.forEach(clearInlineStyles);
+var BLOCK_TAG_SELECTOR = 'p,h1,h2,h3,h4,h5,h6,li'.replace(/\w+/g, function (m) {
+  return m + '[style]';
+});
 
+function patchElementInlineStyles(doc) {
   // Ensure that inline-styles can be correctly translated as inline marks.
-  // Workaround to patch inline styles added to <p /> by google doc.
-  var bEls = (0, _from2.default)(doc.querySelectorAll('p[style]'));
+  // Workaround to patch inline styles added to block tags.
+  var bEls = (0, _from2.default)(doc.querySelectorAll(BLOCK_TAG_SELECTOR));
   bEls.forEach(patchBlockElement);
 }
 
 var NODE_TYPE_TEXT = 3;
 var NODE_TYPE_ELEMENT = 1;
-var INLINE_STYLE_NAMES = ['backgroundColor', 'fontFamily', 'fontSize', 'fontStyle', 'fontWeight', 'textDecoration', 'textIndent'];
+var INLINE_STYLE_NAMES = ['backgroundColor', 'color', 'fontFamily', 'fontSize', 'fontStyle', 'fontWeight', 'textDecoration', 'textIndent'];
 
 var INLINE_ELEMENT_NODE_NAMES = new _set2.default(['A', 'B', 'EM', 'I', 'SPAN', 'STRONG', 'U']);
 
@@ -47,23 +41,6 @@ function patchBlockElement(el) {
   INLINE_STYLE_NAMES.forEach(function (name) {
     return patchBlockElementStyle(el, name);
   });
-}
-
-function clearInlineStyles(el) {
-  var style = el.style;
-
-  if (!style) {
-    return;
-  }
-  var color = style.color,
-      backgroundColor = style.backgroundColor;
-
-  if (color && (0, _toHexColor2.default)(color) === _patchStyleElements.DEFAULT_TEXT_COLOR) {
-    style.color = '';
-  }
-  if (backgroundColor && (0, _toHexColor2.default)(backgroundColor) === _patchStyleElements.DEFAULT_BACKGROUND_COLOR) {
-    style.backgroundColor = '';
-  }
 }
 
 // Move the specified inline style of the element to its child nodes. This
@@ -91,6 +68,7 @@ function patchBlockElementStyle(el, inlineStyleName) {
 
   // Remove the style.
   elementStyle[inlineStyleName] = '';
+  console.log(el, value);
 
   var childNodes = (0, _from2.default)(element.childNodes);
   childNodes.forEach(function (node) {

@@ -9,7 +9,12 @@ import EditorSchema from './EditorSchema';
 
 export default function convertFromDOMElement(el: HTMLElement): EditorState {
   const bodyEl = el.querySelector('body');
-  const doc = DOMParser.fromSchema(EditorSchema).parse(el);
+
+  // https://prosemirror.net/docs/ref/#model.ParseOptions.preserveWhitespace
+  const doc = DOMParser.fromSchema(EditorSchema).parse(
+    el,
+    {preserveWhitespace: true},
+  );
 
   if (bodyEl) {
     // Unfortunately the root node `doc` does not supoort `parseDOM`, thus

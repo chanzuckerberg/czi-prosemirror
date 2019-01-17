@@ -32,6 +32,20 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
+var _classnames = require('classnames');
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
+var _prosemirrorState = require('prosemirror-state');
+
+var _prosemirrorTransform = require('prosemirror-transform');
+
+var _prosemirrorView = require('prosemirror-view');
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
 var _CommandMenu = require('./CommandMenu');
 
 var _CommandMenu2 = _interopRequireDefault(_CommandMenu);
@@ -39,10 +53,6 @@ var _CommandMenu2 = _interopRequireDefault(_CommandMenu);
 var _CustomButton = require('./CustomButton');
 
 var _CustomButton2 = _interopRequireDefault(_CustomButton);
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
 
 var _UICommand = require('./UICommand');
 
@@ -52,19 +62,9 @@ var _createPopUp = require('./createPopUp');
 
 var _createPopUp2 = _interopRequireDefault(_createPopUp);
 
-var _classnames = require('classnames');
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
 var _uuid = require('./uuid');
 
 var _uuid2 = _interopRequireDefault(_uuid);
-
-var _prosemirrorState = require('prosemirror-state');
-
-var _prosemirrorView = require('prosemirror-view');
-
-var _prosemirrorTransform = require('prosemirror-transform');
 
 require('./czi-custom-menu-button.css');
 

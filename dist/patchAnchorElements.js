@@ -27,6 +27,15 @@ function patchAnchorElement(node) {
     // This looks like a bookmark generated from Google Doc, will render
     // this as BookmarkNode.
     node.setAttribute(_BookmarkNodeSpec.ATTRIBUTE_BOOKMARK_ID, id);
+
+    // Google Doc always inject anchor links before <table />.
+    //   <a id="t.3060ecccc199a88a1e4cc1252769f957b88f2207"></a>
+    //   <a id="t.0"></a>
+    //   <table class="c23">
+    // and these anchor link should not be visible.
+    var visible = node.id.indexOf('t.') !== 0;
+
+    visible && node.setAttribute(_BookmarkNodeSpec.ATTRIBUTE_BOOKMARK_VISIBLE, 'true');
   }
   var nextNode = node.nextElementSibling;
   if (!nextNode) {

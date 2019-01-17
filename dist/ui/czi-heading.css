@@ -4,6 +4,7 @@
 .ProseMirror h4,
 .ProseMirror h5,
 .ProseMirror h6 {
+  font-weight: normal;
   line-height: var(--czi-content-line-height);
   orphans: 2;
   widows: 2;

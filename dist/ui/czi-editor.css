@@ -47,7 +47,7 @@
 }
 
 @media only screen {
-  .ProseMirror {    
+  .ProseMirror {
     border-radius: 1px;
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
     box-sizing: border-box;
@@ -111,6 +111,10 @@
   font-family: var(--czi-content-font-family);
   font-size: var(--czi-content-font-size);
   line-height: var(--czi-content-line-height);
+}
+
+.ProseMirror.ProseMirror {
+  word-wrap: initial;
 }
 
 .ProseMirror p {

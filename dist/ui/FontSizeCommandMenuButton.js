@@ -24,27 +24,27 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _CommandMenuButton = require('./CommandMenuButton');
+var _prosemirrorState = require('prosemirror-state');
 
-var _CommandMenuButton2 = _interopRequireDefault(_CommandMenuButton);
+var _prosemirrorTransform = require('prosemirror-transform');
 
-var _FontSizeCommand = require('../FontSizeCommand');
-
-var _FontSizeCommand2 = _interopRequireDefault(_FontSizeCommand);
+var _prosemirrorView = require('prosemirror-view');
 
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _FontSizeCommand = require('../FontSizeCommand');
+
+var _FontSizeCommand2 = _interopRequireDefault(_FontSizeCommand);
+
+var _CommandMenuButton = require('./CommandMenuButton');
+
+var _CommandMenuButton2 = _interopRequireDefault(_CommandMenuButton);
+
 var _findActiveFontSize = require('./findActiveFontSize');
 
 var _findActiveFontSize2 = _interopRequireDefault(_findActiveFontSize);
-
-var _prosemirrorState = require('prosemirror-state');
-
-var _prosemirrorView = require('prosemirror-view');
-
-var _prosemirrorTransform = require('prosemirror-transform');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -74,8 +74,9 @@ var FontSizeCommandMenuButton = function (_React$PureComponent) {
           editorView = _props.editorView;
 
       var fontSize = (0, _findActiveFontSize2.default)(editorState);
+      var className = String(fontSize).length <= 2 ? 'width-30' : 'width-60';
       return _react2.default.createElement(_CommandMenuButton2.default, {
-        className: 'width-30',
+        className: className,
         commandGroups: COMMAND_GROUPS,
         dispatch: dispatch,
         editorState: editorState,

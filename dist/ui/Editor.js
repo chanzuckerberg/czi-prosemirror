@@ -42,11 +42,19 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _webfontloader = require('webfontloader');
+
+var _webfontloader2 = _interopRequireDefault(_webfontloader);
+
 require('prosemirror-gapcursor/style/gapcursor.css');
 
 require('prosemirror-view/style/prosemirror.css');
 
 var _NodeNames = require('../NodeNames');
+
+var _WebFontLoader = require('../WebFontLoader');
+
+var _WebFontLoader2 = _interopRequireDefault(_WebFontLoader);
 
 var _createEmptyEditorState = require('../createEmptyEditorState');
 
@@ -84,9 +92,27 @@ require('./czi-editor.css');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+// Monkey patch the `scrollIntoView` mathod of 'Transaction'.
+// Why this is necessary?
+// It appears that promse-mirror does call `scrollIntoView` extensively
+// from many of the built-in transformations, thus cause unwanted page
+// scrolls. To make the behavior more manageable, this patched method asks
+// developer to explicitly use `scrollIntoView(true)` to enforce page scroll.
 var babelPluginFlowReactPropTypes_proptype_EditorRuntime = require('../Types').babelPluginFlowReactPropTypes_proptype_EditorRuntime || require('prop-types').any;
 
+var scrollIntoView = _prosemirrorState.Transaction.prototype.scrollIntoView;
+var scrollIntoViewPatched = function scrollIntoViewPatched(forced) {
+  if (forced === true && scrollIntoView) {
+    return scrollIntoView.call(this);
+  } else {
+    return this;
+  }
+};
+_prosemirrorState.Transaction.prototype.scrollIntoView = scrollIntoViewPatched;
+
 var EDITOR_EMPTY_STATE = (0, _createEmptyEditorState2.default)();
+
+_WebFontLoader2.default.setImplementation(_webfontloader2.default);
 
 function transformPastedHTML(html) {
   return (0, _normalizeHTML2.default)(html);

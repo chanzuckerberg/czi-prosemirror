@@ -6,8 +6,8 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = convertToCSSPTValue;
 var SIZE_PATTERN = /([\d\.]+)(px|pt)/i;
 
-var PX_TO_PT_RATIO = exports.PX_TO_PT_RATIO = 0.75292857;
-var PT_TO_PX_RATIO = exports.PT_TO_PX_RATIO = 1 / PX_TO_PT_RATIO;
+var PX_TO_PT_RATIO = exports.PX_TO_PT_RATIO = 0.7518796992481203; // 1 / 1.33.
+var PT_TO_PX_RATIO = exports.PT_TO_PX_RATIO = 1.33;
 
 function convertToCSSPTValue(styleValue) {
   var matches = styleValue.match(SIZE_PATTERN);

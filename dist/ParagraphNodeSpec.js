@@ -38,7 +38,11 @@ var ParagraphNodeSpec = {
     align: { default: null },
     id: { default: null },
     indent: { default: null },
-    lineSpacing: { default: null }
+    lineSpacing: { default: null },
+    // TODO: Add UI to let user edit / clear padding.
+    paddingBottom: { default: null },
+    // TODO: Add UI to let user edit / clear padding.
+    paddingTop: { default: null }
   },
   content: 'inline*',
   group: 'block',
@@ -50,7 +54,9 @@ function getAttrs(dom) {
   var _dom$style = dom.style,
       lineHeight = _dom$style.lineHeight,
       textAlign = _dom$style.textAlign,
-      marginLeft = _dom$style.marginLeft;
+      marginLeft = _dom$style.marginLeft,
+      paddingTop = _dom$style.paddingTop,
+      paddingBottom = _dom$style.paddingBottom;
 
 
   var align = dom.getAttribute('align') || textAlign || '';
@@ -66,14 +72,16 @@ function getAttrs(dom) {
 
   var lineSpacing = lineHeight ? lineHeight : null;
 
-  return { align: align, indent: indent, lineSpacing: lineSpacing };
+  return { align: align, indent: indent, lineSpacing: lineSpacing, paddingTop: paddingTop, paddingBottom: paddingBottom };
 }
 
 function toDOM(node) {
   var _node$attrs = node.attrs,
       align = _node$attrs.align,
       indent = _node$attrs.indent,
-      lineSpacing = _node$attrs.lineSpacing;
+      lineSpacing = _node$attrs.lineSpacing,
+      paddingTop = _node$attrs.paddingTop,
+      paddingBottom = _node$attrs.paddingBottom;
 
   var attrs = {};
 
@@ -84,6 +92,14 @@ function toDOM(node) {
 
   if (lineSpacing) {
     style += 'line-height: ' + lineSpacing + ';';
+  }
+
+  if (paddingTop) {
+    style += 'padding-top: ' + paddingTop + ';';
+  }
+
+  if (paddingBottom) {
+    style += 'padding-bottom: ' + paddingBottom + ';';
   }
 
   style && (attrs.style = style);

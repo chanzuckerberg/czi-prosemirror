@@ -2,8 +2,8 @@
 
 const SIZE_PATTERN = /([\d\.]+)(px|pt)/i;
 
-export const PX_TO_PT_RATIO = 0.75292857;
-export const PT_TO_PX_RATIO = 1 / PX_TO_PT_RATIO;
+export const PX_TO_PT_RATIO = 0.7518796992481203; // 1 / 1.33.
+export const PT_TO_PX_RATIO = 1.33;
 
 export default function convertToCSSPTValue(styleValue: string): number {
   const matches = styleValue.match(SIZE_PATTERN);

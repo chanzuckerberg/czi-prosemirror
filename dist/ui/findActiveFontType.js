@@ -32,5 +32,16 @@ function findActiveFontType(state) {
       to = selection.to;
 
   var mark = markType ? (0, _findActiveMark2.default)(doc, from, to, markType) : null;
-  return mark && mark.attrs.name || FONT_TYPE_NAME_DEFAULT;
+  var fontName = mark && mark.attrs.name;
+  if (!fontName) {
+    return FONT_TYPE_NAME_DEFAULT;
+  }
+
+  var domDoc = typeof document === 'undefined' ? null : document;
+
+  if (domDoc && domDoc.fonts && domDoc.fonts.check) {
+    return domDoc.fonts.check('12px "' + fontName + '"') ? fontName : FONT_TYPE_NAME_DEFAULT;
+  }
+
+  return fontName;
 }

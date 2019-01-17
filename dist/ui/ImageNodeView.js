@@ -355,11 +355,13 @@ var ImageViewBody = function (_React$PureComponent) {
         height = originalSize.height;
       }
 
-      if (!crop && width > maxSize.width) {
+      var scale = 1;
+      if (width > maxSize.width) {
         // Scale image to fit its containing space.
         // If the image is not cropped.
         width = maxSize.width;
         height = width / aspectRatio;
+        scale = maxSize.width / width;
       }
 
       var className = (0, _classnames2.default)('czi-image-view-body', {
@@ -389,10 +391,18 @@ var ImageViewBody = function (_React$PureComponent) {
       var clipStyle = {};
 
       if (crop) {
-        clipStyle.width = crop.width + 'px';
-        clipStyle.height = crop.height + 'px';
-        imageStyle.left = crop.left + 'px';
-        imageStyle.top = crop.top + 'px';
+        var cropped = (0, _extends3.default)({}, crop);
+        if (scale !== 1) {
+          scale = maxSize.width / cropped.width;
+          cropped.width *= scale;
+          cropped.height *= scale;
+          cropped.left *= scale;
+          cropped.top *= scale;
+        }
+        clipStyle.width = cropped.width + 'px';
+        clipStyle.height = cropped.height + 'px';
+        imageStyle.left = cropped.left + 'px';
+        imageStyle.top = cropped.top + 'px';
       }
 
       return _react2.default.createElement(

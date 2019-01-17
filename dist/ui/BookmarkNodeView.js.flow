@@ -4,7 +4,7 @@ import {Node} from 'prosemirror-model';
 import {Decoration} from 'prosemirror-view';
 import React from 'react';
 
-import {ATTRIBUTE_BOOKMARK_ID} from './../BookmarkNodeSpec';
+import {ATTRIBUTE_BOOKMARK_ID, ATTRIBUTE_BOOKMARK_VISIBLE} from './../BookmarkNodeSpec';
 import CustomNodeView from './CustomNodeView';
 import Icon from './Icon';
 
@@ -17,7 +17,9 @@ class BookmarkViewBody extends React.PureComponent<any, any, any> {
   props: NodeViewProps;
 
   render(): React.Element<any> {
-    return <span onClick={this._onClick}>{Icon.get('bookmark')}</span>;
+    const {id, visible} = this.props.node.attrs;
+    const icon = (id && visible) ? Icon.get('bookmark') : null;
+    return <span onClick={this._onClick}>{icon}</span>;
   }
 
   _onClick = (e: SyntheticEvent): void => {
@@ -52,10 +54,11 @@ class BookmarkNodeView extends CustomNodeView {
   }
 
   _updateDOM(el: HTMLElement): void {
-    const {id} = this.props.node.attrs;
+    const {id, visible} = this.props.node.attrs;
     el.setAttribute('id', id);
     el.setAttribute('title', id);
     el.setAttribute(ATTRIBUTE_BOOKMARK_ID, id);
+    visible && el.setAttribute(ATTRIBUTE_BOOKMARK_VISIBLE, 'true');
   }
 }
 
