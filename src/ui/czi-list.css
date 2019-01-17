@@ -99,8 +99,8 @@
 /* bullet indentation */
 .ProseMirror li {
   /* This assumes the space needed for 3 digits numbers */
-  --czi-list-style-indent: 42px;
-  --czi-list-style-indent-reverse: -42px;
+  --czi-list-style-indent: 32pt;
+  --czi-list-style-indent-reverse: -32pt;
   padding: 0 0 0 var(--czi-list-style-indent);
 }
 
