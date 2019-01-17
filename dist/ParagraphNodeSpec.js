@@ -4,6 +4,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.getParagraphNodeAttrs = exports.toParagraphDOM = exports.LINE_SPACING_VALUES = exports.ATTRIBUTE_INDENT = exports.MAX_INDENT_LEVEL = exports.MIN_INDENT_LEVEL = exports.INDENT_MARGIN_PT_SIZE = undefined;
+
+var _set = require('babel-runtime/core-js/set');
+
+var _set2 = _interopRequireDefault(_set);
+
 exports.convertMarginLeftToIndentValue = convertMarginLeftToIndentValue;
 
 var _prosemirrorModel = require('prosemirror-model');
@@ -28,6 +33,8 @@ var ATTRIBUTE_INDENT = exports.ATTRIBUTE_INDENT = 'data-indent';
 var LINE_SPACING_VALUES = exports.LINE_SPACING_VALUES = ['100%', '115%', '150%', // Default value.
 '200%'];
 
+var EMPTY_CSS_VALUE = new _set2.default(['', '0%', '0pt', '0px']);
+
 var ALIGN_PATTERN = /(left|right|center|justify)/;
 
 // https://github.com/ProseMirror/prosemirror-schema-basic/blob/master/src/schema-basic.js
@@ -36,6 +43,7 @@ var ALIGN_PATTERN = /(left|right|center|justify)/;
 var ParagraphNodeSpec = {
   attrs: {
     align: { default: null },
+    color: { default: null },
     id: { default: null },
     indent: { default: null },
     lineSpacing: { default: null },
@@ -94,11 +102,11 @@ function toDOM(node) {
     style += 'line-height: ' + lineSpacing + ';';
   }
 
-  if (paddingTop) {
+  if (paddingTop && !EMPTY_CSS_VALUE.has(paddingTop)) {
     style += 'padding-top: ' + paddingTop + ';';
   }
 
-  if (paddingBottom) {
+  if (paddingBottom && !EMPTY_CSS_VALUE.has(paddingBottom)) {
     style += 'padding-bottom: ' + paddingBottom + ';';
   }
 

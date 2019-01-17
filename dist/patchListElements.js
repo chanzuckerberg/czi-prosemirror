@@ -16,6 +16,10 @@ var _ParagraphNodeSpec = require('./ParagraphNodeSpec');
 
 var _patchStyleElements = require('./patchStyleElements');
 
+var _toHexColor = require('./ui/toHexColor');
+
+var _toHexColor2 = _interopRequireDefault(_toHexColor);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function patchListElements(doc) {
@@ -23,8 +27,6 @@ function patchListElements(doc) {
 }
 
 // This assumes that every 36pt maps to one indent level.
-
-
 var CHAR_BULLET = '\u25CF';
 var CHAR_CIRCLE = '\u25CB';
 var CHAR_SQUARE = '\u25A0';
@@ -42,10 +44,10 @@ function patchListElementsElement(listElement) {
     // TODO: Handle this later.
     console.error('nested list is not supported', listElement);
   }
-  (0, _from2.default)(children).some(function (child) {
-    var style = child.style;
+  (0, _from2.default)(children).some(function (listItemElement) {
+    var style = listItemElement.style;
 
-    var bc = child.getAttribute(_patchStyleElements.ATTRIBUTE_CSS_BEFORE_CONTENT) || '';
+    var bc = listItemElement.getAttribute(_patchStyleElements.ATTRIBUTE_CSS_BEFORE_CONTENT) || '';
     if (beforeContent === undefined) {
       beforeContent = bc;
     }
@@ -59,6 +61,16 @@ function patchListElementsElement(listElement) {
     }
     if (ml !== marginLeft) {
       marginLeft = null;
+    }
+
+    var firstElementChild = listItemElement.firstElementChild,
+        lastElementChild = listItemElement.lastElementChild;
+
+    if (firstElementChild && firstElementChild === lastElementChild) {
+      // If <li /> has only only one child with the same text color, assume
+      var el = firstElementChild;
+      var color = el.style ? el.style.color : null;
+      color && listItemElement.setAttribute(_ListItemNodeSpec.ATTRIBUTE_LIST_STYLE_COLOR, (0, _toHexColor2.default)(color));
     }
   });
 

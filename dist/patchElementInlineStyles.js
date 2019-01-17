@@ -68,7 +68,6 @@ function patchBlockElementStyle(el, inlineStyleName) {
 
   // Remove the style.
   elementStyle[inlineStyleName] = '';
-  console.log(el, value);
 
   var childNodes = (0, _from2.default)(element.childNodes);
   childNodes.forEach(function (node) {

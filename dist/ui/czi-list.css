@@ -36,6 +36,7 @@
 }
 
 .ProseMirror li > p::before {
+  color: var(--czi-list-style-color);
   content: counter(czi-counter) ".";
 }
 

@@ -19,7 +19,15 @@ export const LINE_SPACING_VALUES = [
   '200%',
 ];
 
+const EMPTY_CSS_VALUE = new Set([
+  '',
+  '0%',
+  '0pt',
+  '0px',
+]);
+
 const ALIGN_PATTERN = /(left|right|center|justify)/;
+
 
 // https://github.com/ProseMirror/prosemirror-schema-basic/blob/master/src/schema-basic.js
 // :: NodeSpec A plain paragraph textblock. Represented in the DOM
@@ -27,6 +35,7 @@ const ALIGN_PATTERN = /(left|right|center|justify)/;
 const ParagraphNodeSpec: NodeSpec = {
   attrs: {
     align: {default: null},
+    color: {default: null},
     id: {default: null},
     indent: {default: null},
     lineSpacing: {default: null},
@@ -69,7 +78,9 @@ function getAttrs(dom: HTMLElement): Object {
 }
 
 function toDOM(node: Node): Array<any> {
-  const {align, indent, lineSpacing, paddingTop, paddingBottom} = node.attrs;
+  const {
+    align, indent, lineSpacing, paddingTop, paddingBottom
+  } = node.attrs;
   const attrs = {};
 
   let style = '';
@@ -81,11 +92,11 @@ function toDOM(node: Node): Array<any> {
     style += `line-height: ${lineSpacing};`;
   }
 
-  if (paddingTop) {
+  if (paddingTop && !EMPTY_CSS_VALUE.has(paddingTop)) {
     style += `padding-top: ${paddingTop};`;
   }
 
-  if (paddingBottom) {
+  if (paddingBottom && !EMPTY_CSS_VALUE.has(paddingBottom)) {
     style += `padding-bottom: ${paddingBottom};`;
   }
 

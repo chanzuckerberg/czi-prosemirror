@@ -7,6 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 var babelPluginFlowReactPropTypes_proptype_NodeSpec = require('./Types').babelPluginFlowReactPropTypes_proptype_NodeSpec || require('prop-types').any;
 
 var ATTRIBUTE_LIST_STYLE_TYPE = exports.ATTRIBUTE_LIST_STYLE_TYPE = 'data-list-style-type';
+var ATTRIBUTE_LIST_STYLE_COLOR = exports.ATTRIBUTE_LIST_STYLE_COLOR = 'data-list-style-color';
 
 var ALIGN_PATTERN = /(left|right|center|justify)/;
 
@@ -21,6 +22,11 @@ function getAttrs(dom) {
     attrs.align = align;
   }
 
+  var color = dom.getAttribute(ATTRIBUTE_LIST_STYLE_COLOR);
+  if (color) {
+    attrs.color = color;
+  }
+
   return attrs;
 }
 
@@ -28,7 +34,9 @@ function getAttrs(dom) {
 var ListItemNodeSpec = {
   attrs: {
     align: { default: null },
-    id: { default: null }
+    color: { default: null },
+    id: { default: null },
+    style: { default: null }
   },
 
   // NOTE that do not support nested lists `'paragraph block*'` because of
@@ -39,10 +47,15 @@ var ListItemNodeSpec = {
 
   toDOM: function toDOM(node) {
     var attrs = {};
-    var align = node.attrs.align;
+    var _node$attrs = node.attrs,
+        align = _node$attrs.align,
+        color = _node$attrs.color;
 
     if (align) {
       attrs['data-align'] = align;
+    }
+    if (color) {
+      attrs.style = '--czi-list-style-color: ' + color;
     }
     return ['li', attrs, 0];
   }
