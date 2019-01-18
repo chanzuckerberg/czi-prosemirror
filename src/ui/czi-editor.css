@@ -113,10 +113,6 @@
   line-height: var(--czi-content-line-height);
 }
 
-.ProseMirror.ProseMirror {
-  word-wrap: initial;
-}
-
 .ProseMirror p {
   line-height: var(--czi-content-line-height);
   margin: 0;

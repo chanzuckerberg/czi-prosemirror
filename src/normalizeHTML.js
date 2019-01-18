@@ -21,7 +21,17 @@ export default function normalizeHTML(html: string): string {
     document.implementation &&
     document.implementation.createHTMLDocument
   ) {
-    html = html.replace(/&nbsp;/g, '\u202F');
+    html = html.
+      replace(/&nbsp;/g, '\u202F').
+      replace(/_+/g, (matched) => {
+        // This is a workround to convert "_______" into none-wrapped text
+        // that apppears like a horizontal line.
+        if (matched && matched.length >= 20) {
+          // needs extra space after it so user can escape the <nobr />.
+          matched = `<nobr>${String(matched)}</nobr> `;
+        }
+        return matched;
+      });
 
     const doc = document.implementation.createHTMLDocument('');
     doc.open();

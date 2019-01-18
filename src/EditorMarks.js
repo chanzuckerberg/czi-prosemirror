@@ -13,6 +13,7 @@ import StrikeMarkSpec from './StrikeMarkSpec';
 import StrongMarkSpec from './StrongMarkSpec';
 import TextColorMarkSpec from './TextColorMarkSpec';
 import TextHighlightMarkSpec from './TextHighlightMarkSpec';
+import TextNoWrapMarkSpec from './TextNoWrapMarkSpec';
 import TextNodeSpec from './TextNodeSpec';
 import TextSelectionMarkSpec from './TextSelectionMarkSpec';
 import TextUnderlineMarkSpec from './TextUnderlineMarkSpec';
@@ -23,6 +24,7 @@ const {
   MARK_FONT_SIZE,
   MARK_FONT_TYPE,
   MARK_LINK,
+  MARK_NO_BREAK,
   MARK_STRIKE,
   MARK_STRONG,
   MARK_TEXT_COLOR,
@@ -50,6 +52,7 @@ const marks = {
   [MARK_TEXT_HIGHLIGHT]: TextHighlightMarkSpec,
   [MARK_TEXT_SELECTION]: TextSelectionMarkSpec,
   [MARK_UNDERLINE]: TextUnderlineMarkSpec,
+  [MARK_NO_BREAK]: TextNoWrapMarkSpec,
 };
 
 const schema = new Schema({nodes, marks});
