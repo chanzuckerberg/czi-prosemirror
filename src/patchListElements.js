@@ -17,11 +17,26 @@ const CHAR_BOX = '\u274f';
 const INLINE_NODE_NAME_PATTERN = /^(#text)|(A|SPAN|B|STRONG)$/;
 
 function patchListElementsElement(listElement: HTMLElement): void {
+
   // If the children of `listElement` all have teh same marginLeft, assume
   // it to be indented.
   let marginLeft = undefined;
   let beforeContent = undefined;
   const {parentElement, children} = listElement;
+
+  // A workaround to patch the issue when <ul /> or <ol /> is pasted as the
+  // first child of <body />, its first <li /> somehow can't be wrapped
+  // with the list. The hack is to prepend zero-width-space character
+  // before the list.
+  if (
+    parentElement &&
+    parentElement.nodeName === 'BODY' &&
+    parentElement.firstChild === listElement
+  ) {
+    const tt = parentElement.ownerDocument.createTextNode('\u200B');
+    parentElement.insertBefore(tt, listElement);
+  }
+
   if (parentElement && parentElement.nodeName === 'LI') {
     // TODO: Handle this later.
     console.error('nested list is not supported', listElement);
