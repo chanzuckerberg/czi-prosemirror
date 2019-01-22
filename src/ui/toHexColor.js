@@ -3,7 +3,7 @@
 import Color from 'color';
 
 const ColorMaping = {
-  'transparent': '',
+  'transparent': 'rgba(0,0,0,0)',
   'inherit': '',
 };
 
