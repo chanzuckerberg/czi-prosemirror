@@ -6,6 +6,7 @@ export const MARK_EM = 'em';
 export const MARK_FONT_SIZE = 'mark-font-size';
 export const MARK_FONT_TYPE = 'mark-font-type';
 export const MARK_LINK = 'link';
+export const MARK_NO_BREAK = 'mark-no-break';
 export const MARK_STRIKE = 'strike';
 export const MARK_STRONG = 'strong';
 export const MARK_TEXT_COLOR = 'mark-text-color';

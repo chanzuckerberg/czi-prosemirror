@@ -19,7 +19,7 @@ export const LINE_SPACING_VALUES = [
   '200%',
 ];
 
-const EMPTY_CSS_VALUE = new Set([
+export const EMPTY_CSS_VALUE = new Set([
   '',
   '0%',
   '0pt',

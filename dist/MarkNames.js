@@ -11,6 +11,7 @@ var MARK_EM = exports.MARK_EM = 'em';
 var MARK_FONT_SIZE = exports.MARK_FONT_SIZE = 'mark-font-size';
 var MARK_FONT_TYPE = exports.MARK_FONT_TYPE = 'mark-font-type';
 var MARK_LINK = exports.MARK_LINK = 'link';
+var MARK_NO_BREAK = exports.MARK_NO_BREAK = 'mark-no-break';
 var MARK_STRIKE = exports.MARK_STRIKE = 'strike';
 var MARK_STRONG = exports.MARK_STRONG = 'strong';
 var MARK_TEXT_COLOR = exports.MARK_TEXT_COLOR = 'mark-text-color';

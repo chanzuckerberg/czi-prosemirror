@@ -20,6 +20,11 @@
   user-zoom: fixed;
 }
 
+.ProseMirror nobr {
+  hyphens: none;
+  white-space: nowrap;
+}
+
 .ProseMirror.czi-has-placeholder {
   min-height: 100px;
 }
@@ -111,10 +116,6 @@
   font-family: var(--czi-content-font-family);
   font-size: var(--czi-content-font-size);
   line-height: var(--czi-content-line-height);
-}
-
-.ProseMirror.ProseMirror {
-  word-wrap: initial;
 }
 
 .ProseMirror p {

@@ -62,6 +62,10 @@ var _TextHighlightMarkSpec = require('./TextHighlightMarkSpec');
 
 var _TextHighlightMarkSpec2 = _interopRequireDefault(_TextHighlightMarkSpec);
 
+var _TextNoWrapMarkSpec = require('./TextNoWrapMarkSpec');
+
+var _TextNoWrapMarkSpec2 = _interopRequireDefault(_TextNoWrapMarkSpec);
+
 var _TextNodeSpec = require('./TextNodeSpec');
 
 var _TextNodeSpec2 = _interopRequireDefault(_TextNodeSpec);
@@ -83,6 +87,7 @@ var MARK_CODE = MarkNames.MARK_CODE,
     MARK_FONT_SIZE = MarkNames.MARK_FONT_SIZE,
     MARK_FONT_TYPE = MarkNames.MARK_FONT_TYPE,
     MARK_LINK = MarkNames.MARK_LINK,
+    MARK_NO_BREAK = MarkNames.MARK_NO_BREAK,
     MARK_STRIKE = MarkNames.MARK_STRIKE,
     MARK_STRONG = MarkNames.MARK_STRONG,
     MARK_TEXT_COLOR = MarkNames.MARK_TEXT_COLOR,
@@ -94,7 +99,7 @@ var MARK_CODE = MarkNames.MARK_CODE,
 
 var nodes = (_nodes = {}, (0, _defineProperty3.default)(_nodes, _NodeNames.DOC, _DocNodeSpec2.default), (0, _defineProperty3.default)(_nodes, _NodeNames.PARAGRAPH, _ParagraphNodeSpec2.default), (0, _defineProperty3.default)(_nodes, _NodeNames.TEXT, _TextNodeSpec2.default), _nodes);
 
-var marks = (_marks = {}, (0, _defineProperty3.default)(_marks, MARK_CODE, _CodeMarkSpec2.default), (0, _defineProperty3.default)(_marks, MARK_EM, _EMMarkSpec2.default), (0, _defineProperty3.default)(_marks, MARK_FONT_SIZE, _FontSizeMarkSpec2.default), (0, _defineProperty3.default)(_marks, MARK_FONT_TYPE, _FontTypeMarkSpec2.default), (0, _defineProperty3.default)(_marks, MARK_LINK, _LinkMarkSpec2.default), (0, _defineProperty3.default)(_marks, MARK_STRIKE, _StrikeMarkSpec2.default), (0, _defineProperty3.default)(_marks, MARK_STRONG, _StrongMarkSpec2.default), (0, _defineProperty3.default)(_marks, MARK_TEXT_COLOR, _TextColorMarkSpec2.default), (0, _defineProperty3.default)(_marks, MARK_TEXT_HIGHLIGHT, _TextHighlightMarkSpec2.default), (0, _defineProperty3.default)(_marks, MARK_TEXT_SELECTION, _TextSelectionMarkSpec2.default), (0, _defineProperty3.default)(_marks, MARK_UNDERLINE, _TextUnderlineMarkSpec2.default), _marks);
+var marks = (_marks = {}, (0, _defineProperty3.default)(_marks, MARK_CODE, _CodeMarkSpec2.default), (0, _defineProperty3.default)(_marks, MARK_EM, _EMMarkSpec2.default), (0, _defineProperty3.default)(_marks, MARK_FONT_SIZE, _FontSizeMarkSpec2.default), (0, _defineProperty3.default)(_marks, MARK_FONT_TYPE, _FontTypeMarkSpec2.default), (0, _defineProperty3.default)(_marks, MARK_LINK, _LinkMarkSpec2.default), (0, _defineProperty3.default)(_marks, MARK_STRIKE, _StrikeMarkSpec2.default), (0, _defineProperty3.default)(_marks, MARK_STRONG, _StrongMarkSpec2.default), (0, _defineProperty3.default)(_marks, MARK_TEXT_COLOR, _TextColorMarkSpec2.default), (0, _defineProperty3.default)(_marks, MARK_TEXT_HIGHLIGHT, _TextHighlightMarkSpec2.default), (0, _defineProperty3.default)(_marks, MARK_TEXT_SELECTION, _TextSelectionMarkSpec2.default), (0, _defineProperty3.default)(_marks, MARK_UNDERLINE, _TextUnderlineMarkSpec2.default), (0, _defineProperty3.default)(_marks, MARK_NO_BREAK, _TextNoWrapMarkSpec2.default), _marks);
 
 var schema = new _prosemirrorModel.Schema({ nodes: nodes, marks: marks });
 

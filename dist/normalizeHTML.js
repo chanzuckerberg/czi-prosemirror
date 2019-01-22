@@ -44,7 +44,15 @@ function normalizeHTML(html) {
   // https://developer.mozilla.org/en-US/docs/Web/API/DOMImplementation.createHTMLDocument
   // https://developer.mozilla.org/en-US/Add-ons/Code_snippets/HTML_to_DOM
   if (typeof document !== 'undefined' && document.implementation && document.implementation.createHTMLDocument) {
-    html = html.replace(/&nbsp;/g, '\u202F');
+    html = html.replace(/&nbsp;/g, '\u202F').replace(/_+/g, function (matched) {
+      // This is a workround to convert "_______" into none-wrapped text
+      // that apppears like a horizontal line.
+      if (matched && matched.length >= 20) {
+        // needs extra space after it so user can escape the <nobr />.
+        matched = '<nobr>' + String(matched) + '</nobr> ';
+      }
+      return matched;
+    });
 
     var doc = document.implementation.createHTMLDocument('');
     doc.open();
