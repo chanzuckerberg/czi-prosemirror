@@ -4,9 +4,13 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _extends2 = require('babel-runtime/helpers/extends');
+var _defineProperty2 = require('babel-runtime/helpers/defineProperty');
 
-var _extends3 = _interopRequireDefault(_extends2);
+var _defineProperty3 = _interopRequireDefault(_defineProperty2);
+
+var _extends3 = require('babel-runtime/helpers/extends');
+
+var _extends4 = _interopRequireDefault(_extends3);
 
 var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
 
@@ -53,11 +57,10 @@ var SetDocAttrStep = function (_Step) {
   (0, _createClass3.default)(SetDocAttrStep, [{
     key: 'apply',
     value: function apply(doc) {
-      var attrs = (0, _extends3.default)({}, doc.attrs);
-      this.prevValue = attrs[this.key];
-      attrs[this.key] = this.value;
-      doc.attrs = attrs;
-      return _prosemirrorTransform.StepResult.ok(doc);
+      this.prevValue = doc.attrs[this.key];
+      var attrs = (0, _extends4.default)({}, doc.attrs, (0, _defineProperty3.default)({}, this.key, this.value));
+      var docNew = doc.type.create(attrs, doc.content, doc.marks);
+      return _prosemirrorTransform.StepResult.ok(docNew);
     }
   }, {
     key: 'invert',

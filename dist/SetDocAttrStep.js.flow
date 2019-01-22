@@ -24,11 +24,13 @@ class SetDocAttrStep extends Step {
   }
 
   apply(doc: Node): void {
-    const attrs = {...doc.attrs};
-    this.prevValue = attrs[this.key];
-    attrs[this.key] = this.value;
-    doc.attrs = attrs;
-    return StepResult.ok(doc);
+    this.prevValue = doc.attrs[this.key];
+    const attrs = {
+      ...doc.attrs,
+      [this.key]: this.value,
+    };
+    const docNew = doc.type.create(attrs, doc.content, doc.marks);
+    return StepResult.ok(docNew);
   }
 
   invert(): SetDocAttrStep {
