@@ -12,7 +12,7 @@ var _color2 = _interopRequireDefault(_color);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var ColorMaping = {
-  'transparent': '',
+  'transparent': 'rgba(0,0,0,0)',
   'inherit': ''
 };
 

@@ -1,5 +1,6 @@
 // @flow
 
+import {convertMarginLeftToIndentValue} from './ParagraphNodeSpec';
 import hyphenize from './hyphenize';
 
 const BLOCK_TAG_SELECTOR =
@@ -50,13 +51,18 @@ function patchBlockElementStyle(
   let value = elementStyle && elementStyle[inlineStyleName];
 
   if (value && inlineStyleName === 'textIndent') {
-    const charactersSize = parseInt(value, 10) / 4;
-    if (charactersSize) {
-      // Replace text-indent with space characters
-      // https://www.fileformat.info/info/unicode/char/25a1/index.htm
-      const chars = (new Array(charactersSize).join('\u3000\u200C'));
-      const textNode = el.ownerDocument.createTextNode(chars);
-      el.insertBefore(textNode, el.firstChild);
+    const indent = convertMarginLeftToIndentValue(value);
+    if (indent) {
+      // Replace text-indent with spacer.
+      const doc = el.ownerDocument;
+      const frag = doc.createDocumentFragment();
+      const spacer = doc.createElement('span');
+      spacer.innerHTML = '___';
+      spacer.style.color = 'transparent';
+      for (let ii = 0; ii < indent; ii++) {
+        frag.appendChild(spacer.cloneNode(true));
+      }
+      el.insertBefore(frag, el.firstChild);
     }
     value = '';
   }

@@ -14,6 +14,8 @@ var _from2 = _interopRequireDefault(_from);
 
 exports.default = patchElementInlineStyles;
 
+var _ParagraphNodeSpec = require('./ParagraphNodeSpec');
+
 var _hyphenize = require('./hyphenize');
 
 var _hyphenize2 = _interopRequireDefault(_hyphenize);
@@ -51,13 +53,18 @@ function patchBlockElementStyle(el, inlineStyleName) {
   var value = elementStyle && elementStyle[inlineStyleName];
 
   if (value && inlineStyleName === 'textIndent') {
-    var charactersSize = parseInt(value, 10) / 4;
-    if (charactersSize) {
-      // Replace text-indent with space characters
-      // https://www.fileformat.info/info/unicode/char/25a1/index.htm
-      var chars = new Array(charactersSize).join('\u3000\u200C');
-      var textNode = el.ownerDocument.createTextNode(chars);
-      el.insertBefore(textNode, el.firstChild);
+    var indent = (0, _ParagraphNodeSpec.convertMarginLeftToIndentValue)(value);
+    if (indent) {
+      // Replace text-indent with spacer.
+      var doc = el.ownerDocument;
+      var frag = doc.createDocumentFragment();
+      var spacer = doc.createElement('span');
+      spacer.innerHTML = '___';
+      spacer.style.color = 'transparent';
+      for (var ii = 0; ii < indent; ii++) {
+        frag.appendChild(spacer.cloneNode(true));
+      }
+      el.insertBefore(frag, el.firstChild);
     }
     value = '';
   }
