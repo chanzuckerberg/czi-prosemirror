@@ -10,6 +10,8 @@ import convertFromDOMElement from '../src/convertFromDOMElement';
 import RichTextEditor from '../src/ui/RichTextEditor';
 import DemoAppHTMLTemplate from './DemoAppHTMLTemplate';
 import DemoAppRuntime from './DemoAppRuntime';
+/* eslint-disable-next-line */
+import preloadLoadableModules from './preloadLoadableModules';
 
 import './demo-app.css';
 
@@ -19,6 +21,7 @@ const defaultEditorState = (function() {
   ReactDOM.render(<DemoAppHTMLTemplate />, templateNode);
   return convertFromDOMElement(templateNode);
 })();
+
 
 class DemoApp extends React.PureComponent<any, any, any> {
   _runtime = new DemoAppRuntime();
@@ -31,8 +34,8 @@ class DemoApp extends React.PureComponent<any, any, any> {
   }
 
   render(): React.Element<any> {
-    const {editorState, editorView} = this.state;
-    const readOnly = /read/ig.test(window.location.search);
+    const {editorState} = this.state;
+    const readOnly =  /read/ig.test(window.location.search);
     return (
       <RichTextEditor
         editorState={editorState}
