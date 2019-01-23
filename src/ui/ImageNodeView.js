@@ -140,7 +140,10 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
     }
 
     let scale = 1;
-    if (width > maxSize.width) {
+    if (
+      (width > maxSize.width) &&
+      (!crop || crop.width > maxSize.width)
+    ) {
       // Scale image to fit its containing space.
       // If the image is not cropped.
       width = maxSize.width;
@@ -175,7 +178,6 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
     };
 
     const clipStyle = {};
-
     if (crop) {
       const cropped = {...crop};
       if (scale !== 1) {
@@ -190,7 +192,6 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
       imageStyle.left = cropped.left + 'px';
       imageStyle.top = cropped.top + 'px';
     }
-
 
     return (
       <span
