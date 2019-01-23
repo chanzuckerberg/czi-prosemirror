@@ -26,7 +26,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 // This value is arbitrary. It assumes the page use the default size
 // with default padding.
-var DEFAULT_TABLE_WIDTH = 666;
+var DEFAULT_TABLE_WIDTH = 624;
 
 // This value is originally defined at prosemirror-table.
 var ATTRIBUTE_CELL_WIDTH = 'data-colwidth';
@@ -75,7 +75,7 @@ function patchTableCell(tdElement) {
     var pxValue = ptValue * _convertToCSSPTValue.PT_TO_PX_RATIO;
     // Attribute "data-colwidth" is defined at 'prosemirror-tables';
     var rowEl = (0, _nullthrows2.default)(tdElement.parentElement);
-    tdElement.setAttribute(ATTRIBUTE_CELL_WIDTH, String(Math.round(pxValue)));
+    tdElement.setAttribute(ATTRIBUTE_CELL_WIDTH, String(Math.floor(pxValue)));
 
     if (rowEl.lastElementChild === tdElement) {
       var cells = (0, _from2.default)(rowEl.children);
@@ -90,7 +90,7 @@ function patchTableCell(tdElement) {
       var scale = DEFAULT_TABLE_WIDTH / tableWidth;
       cells.forEach(function (cell) {
         var ww = parseInt(cell.getAttribute(ATTRIBUTE_CELL_WIDTH), 10);
-        cell.setAttribute(ATTRIBUTE_CELL_WIDTH, String(Math.round(ww * scale)));
+        cell.setAttribute(ATTRIBUTE_CELL_WIDTH, String(Math.floor(ww * scale)));
       });
     }
   }

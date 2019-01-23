@@ -8,7 +8,7 @@ import toHexColor from './ui/toHexColor';
 
 // This value is arbitrary. It assumes the page use the default size
 // with default padding.
-const DEFAULT_TABLE_WIDTH = 666;
+const DEFAULT_TABLE_WIDTH = 624;
 
 // This value is originally defined at prosemirror-table.
 const ATTRIBUTE_CELL_WIDTH = 'data-colwidth';
@@ -54,7 +54,7 @@ function patchTableCell(tdElement: HTMLElement): void {
     const pxValue = ptValue * PT_TO_PX_RATIO;
     // Attribute "data-colwidth" is defined at 'prosemirror-tables';
     const rowEl = nullthrows(tdElement.parentElement);
-    tdElement.setAttribute(ATTRIBUTE_CELL_WIDTH, String(Math.round(pxValue)));
+    tdElement.setAttribute(ATTRIBUTE_CELL_WIDTH, String(Math.floor(pxValue)));
 
     if (rowEl.lastElementChild === tdElement) {
       const cells = Array.from(rowEl.children);
@@ -69,7 +69,7 @@ function patchTableCell(tdElement: HTMLElement): void {
       const scale = DEFAULT_TABLE_WIDTH / tableWidth;
       cells.forEach(cell => {
         const ww = parseInt(cell.getAttribute(ATTRIBUTE_CELL_WIDTH), 10);
-        cell.setAttribute(ATTRIBUTE_CELL_WIDTH, String(Math.round(ww * scale)));
+        cell.setAttribute(ATTRIBUTE_CELL_WIDTH, String(Math.floor(ww * scale)));
       });
     }
   }

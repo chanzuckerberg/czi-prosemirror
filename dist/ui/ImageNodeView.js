@@ -356,7 +356,7 @@ var ImageViewBody = function (_React$PureComponent) {
       }
 
       var scale = 1;
-      if (width > maxSize.width) {
+      if (width > maxSize.width && (!crop || crop.width > maxSize.width)) {
         // Scale image to fit its containing space.
         // If the image is not cropped.
         width = maxSize.width;
@@ -389,7 +389,6 @@ var ImageViewBody = function (_React$PureComponent) {
       };
 
       var clipStyle = {};
-
       if (crop) {
         var cropped = (0, _extends3.default)({}, crop);
         if (scale !== 1) {
