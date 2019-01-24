@@ -8,6 +8,8 @@ import patchParagraphElements from './patchParagraphElements';
 import patchStyleElements from './patchStyleElements';
 import patchTableElements from './patchTableElements';
 
+const CHAR_NO_BREAK_SPACE = '\u202F';
+
 export default function normalizeHTML(html: string): string {
   let body: ?HTMLElement = null;
 
@@ -22,7 +24,7 @@ export default function normalizeHTML(html: string): string {
     document.implementation.createHTMLDocument
   ) {
     html = html.
-      replace(/&nbsp;/g, '\u202F').
+      replace(/&nbsp;/g, CHAR_NO_BREAK_SPACE).
       replace(/_+/g, (matched) => {
         // This is a workround to convert "_______" into none-wrapped text
         // that apppears like a horizontal line.
