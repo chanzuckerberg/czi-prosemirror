@@ -74,7 +74,7 @@ class TableMergeCellsCommand extends UICommand {
       mergeCells(state, (nextTr) => {
         endTr = nextTr;
       }, view);
-      // Also cmerge onsecutive blank paragraphs into one.
+      // Also merge onsecutive blank paragraphs into one.
       endTr = purgeConsecutiveBlankParagraphNodes(endTr, schema);
     }
     const changed = endTr.docChanged || (endTr !== tr);
