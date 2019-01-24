@@ -1,7 +1,9 @@
 // @flow
 
 import cx from 'classnames';
+import applyDevTools from 'prosemirror-dev-tools';
 import {EditorState} from 'prosemirror-state';
+import {EditorView} from 'prosemirror-view';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
@@ -126,6 +128,7 @@ class ConvertApp extends React.PureComponent<any, any, any> {
               embedded={false}
               height="100%"
               onChange={this._onEditorChange}
+              onReady={this._onReady}
               placeholder="Type something here..."
               readOnly={readOnly}
               width="100%"
@@ -135,6 +138,12 @@ class ConvertApp extends React.PureComponent<any, any, any> {
       </div>
     );
   }
+
+  _onReady = (editorView: EditorView): void => {
+    window.debugProseMirror = () => {
+      applyDevTools(editorView);
+    };
+  };
 
   _onEditorChange = (editorState: EditorState): void => {
     this.setState({editorState});

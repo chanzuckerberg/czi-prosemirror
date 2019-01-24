@@ -1,6 +1,7 @@
 // @flow
 
 import {EditorState} from 'prosemirror-state';
+import {mergeCells} from 'prosemirror-tables';
 import {Transform} from 'prosemirror-transform';
 import {EditorView} from 'prosemirror-view';
 

@@ -35,6 +35,7 @@ module.exports = {
     "Document": true,
     "Element": false,
     "Event": false,
+    "FileReader": false,
     "HTMLElement": false,
     "Image": false,
     "Map": false,
