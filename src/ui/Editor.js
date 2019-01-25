@@ -75,6 +75,8 @@ function bindNodeView(NodeView: CustomNodeView): Function {
 
 class Editor extends React.PureComponent<any, any, any> {
 
+  static EDITOR_EMPTY_STATE = EDITOR_EMPTY_STATE;
+
   _id = uuid();
 
   _editorView = null;
@@ -85,6 +87,7 @@ class Editor extends React.PureComponent<any, any, any> {
     const {
       onReady, editorState, readOnly,
       runtime, placeholder, disabled,
+      dispatchTransaction,
     } = this.props;
 
     const editorNode = document.getElementById(this._id);
@@ -92,7 +95,7 @@ class Editor extends React.PureComponent<any, any, any> {
       // Reference: http://prosemirror.net/examples/basic/
       const view = this._editorView = new CustomEditorView(editorNode, {
         state: editorState || EDITOR_EMPTY_STATE,
-        dispatchTransaction: this._dispatchTransaction,
+        dispatchTransaction,
         editable: this._isEditable,
         transformPastedHTML,
         nodeViews: {
@@ -146,20 +149,6 @@ class Editor extends React.PureComponent<any, any, any> {
   focus(): void {
     this._editorView && this._editorView.focus();
   }
-
-  _dispatchTransaction = (transaction: Transform): void => {
-    const {dispatchTransaction, onChange, editorState, readOnly} = this.props;
-    if (readOnly === true) {
-      return;
-    }
-    if (dispatchTransaction) {
-      dispatchTransaction(transaction);
-    }
-    if (onChange) {
-      const nextState = (editorState || EDITOR_EMPTY_STATE).apply(transaction);
-      onChange(nextState);
-    }
-  };
 
   _isEditable = (): boolean => {
     const {disabled, readOnly} = this.props;

@@ -42,7 +42,6 @@ class EditorFrameset extends React.PureComponent<any, any, any> {
       width,
     } = this.props;
 
-
     const useFixedLayout = width !== undefined || height !== undefined;
 
     const mainClassName = cx(className, {

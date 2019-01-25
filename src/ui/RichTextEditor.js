@@ -1,5 +1,6 @@
 // @flow
 
+import {Transform} from 'prosemirror-transform';
 import {EditorView} from 'prosemirror-view';
 import React from 'react';
 
@@ -65,15 +66,16 @@ class RichTextEditor extends React.PureComponent<any, any, any> {
     const toolbar = (!!readOnly === true) ? null :
       <EditorToolbar
         disabled={disabled}
-        editorState={editorState}
+        dispatchTransaction={this._dispatchTransaction}
+        editorState={editorState || Editor.EDITOR_EMPTY_STATE}
         editorView={editorView}
-        onChange={onChange}
         readOnly={readOnly}
       />;
 
     const body =
       <Editor
         disabled={disabled}
+        dispatchTransaction={this._dispatchTransaction}
         editorState={editorState}
         embedded={embedded}
         id={this._id}
@@ -95,6 +97,18 @@ class RichTextEditor extends React.PureComponent<any, any, any> {
       />
     );
   }
+
+  _dispatchTransaction = (tr: Transform): void => {
+    const {onChange, editorState, readOnly} = this.props;
+    if (readOnly === true) {
+      return;
+    }
+
+    if (onChange) {
+      const nextState = (editorState || Editor.EDITOR_EMPTY_STATE).apply(tr);
+      onChange(nextState);
+    }
+  };
 
   _onReady = (editorView: EditorView): void => {
     if (editorView !== this.state.editorView) {
