@@ -10,7 +10,6 @@ import createEmptyEditorState from '../createEmptyEditorState';
 import Editor from './Editor';
 import EditorToolbar from './EditorToolbar';
 import ResizeObserver from './ResizeObserver';
-import RichTextEditorContentOverflowControl from './RichTextEditorContentOverflowControl';
 import uuid from './uuid';
 
 import './czi-rte.css';
@@ -18,12 +17,6 @@ import './czi-vars.css';
 
 import type {EditorRuntime} from '../Types';
 import type {ResizeObserverEntry} from './ResizeObserver';
-
-type ContentOverflowInfo = {
-  className?: ?string,
-  control?: ?React.Element<any>,
-  style?: ?Object,
-};
 
 type Props = {
   className?: ?string,
@@ -33,7 +26,6 @@ type Props = {
   header?: ?React.Element<any>,
   height?: ?(string | number),
   id?: ?string,
-  maxContentHeight?: ?number,
   onBlur?: () => void,
   onChange?: (e: EditorState) => void,
   onReady?: (editorView: EditorView) => void,
@@ -106,12 +98,6 @@ class RichTextEditor extends React.PureComponent<any, any, any> {
       height: toCSS(height === undefined && useFixedLayout ? 'auto' : height),
     };
 
-    const contentOverflowInfo = getContentOverflowInfo(
-      this.props,
-      this.state,
-      this._onContentOverflowToggle,
-    );
-
     const {editorView} = this.state;
 
     const toolbar = (!!readOnly === true) ? null :
@@ -131,12 +117,7 @@ class RichTextEditor extends React.PureComponent<any, any, any> {
             {toolbar}
           </div>
           <div className="czi-rte-frame-body">
-            <div
-              className={cx(
-                'czi-rte-frame-body-scroll',
-                contentOverflowInfo.className,
-              )}
-              style={contentOverflowInfo.style}>
+            <div className="czi-rte-frame-body-scroll">
               <Editor
                 disabled={disabled}
                 editorState={editorState}
@@ -151,9 +132,7 @@ class RichTextEditor extends React.PureComponent<any, any, any> {
               />
             </div>
           </div>
-          <div className="czi-rte-frame-footer">
-            {contentOverflowInfo.control}
-          </div>
+          <div className="czi-rte-frame-footer" />
         </div>
       </div>
     );
@@ -194,47 +173,6 @@ class RichTextEditor extends React.PureComponent<any, any, any> {
     this.setState({
       contentHeight: info.contentRect.height,
     });
-  };
-}
-
-function getContentOverflowInfo(
-  props: Props,
-  state: State,
-  onToggle: (v: boolean) => void,
-): ContentOverflowInfo {
-  const {maxContentHeight} = props;
-  const {contentHeight, contentOverflowHidden} = state;
-  if (
-    contentHeight === null ||
-    maxContentHeight === null ||
-    maxContentHeight === undefined ||
-    contentHeight <= maxContentHeight
-  ) {
-    // nothing to clamp.
-    return {};
-  }
-
-  // Content could be clamped.
-  const style = contentOverflowHidden ?
-     {
-       maxHeight: String(maxContentHeight) + 'px',
-     } :
-     null;
-
-  const control =
-    <RichTextEditorContentOverflowControl
-      contentOverflowHidden={contentOverflowHidden}
-      onToggle={onToggle}
-    />;
-
-  const className = contentOverflowHidden ?
-    'czi-rte-content-overflow-clamped' :
-    null;
-
-  return {
-    style,
-    control,
-    className,
   };
 }
 

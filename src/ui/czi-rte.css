@@ -70,13 +70,6 @@
   top: 0;
 }
 
-.czi-rte-content-overflow-clamped {
-  -webkit-mask-image: linear-gradient(to top, rgba(255,255,255,0) 0, rgba(255,255,255,1) 2.5em);
-  mask-image: linear-gradient(to top, rgba(255,255,255,0) 0, rgba(255,255,255,1) 2.5em);
-  overflow-x: visible;
-  overflow-y: hidden;
-}
-
 .czi-rte-frame-footer {
   display: flex;
 }
