@@ -25,6 +25,10 @@
   white-space: nowrap;
 }
 
+.ProseMirror .tableWrapper {
+  overflow-x: visible;
+}
+
 .ProseMirror.czi-has-placeholder {
   min-height: 100px;
 }

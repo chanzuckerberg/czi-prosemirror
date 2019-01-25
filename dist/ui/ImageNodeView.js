@@ -372,7 +372,7 @@ var ImageViewBody = function (_React$PureComponent) {
         selected: selected
       });
 
-      var resizeBox = active ? _react2.default.createElement(_ImageResizeBox2.default, {
+      var resizeBox = active && !crop ? _react2.default.createElement(_ImageResizeBox2.default, {
         height: height,
         onResizeEnd: this._onResizeEnd,
         src: src,

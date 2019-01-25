@@ -35,6 +35,7 @@ var CHAR_BULLET = '\u25CF';
 var CHAR_CIRCLE = '\u25CB';
 var CHAR_SQUARE = '\u25A0';
 var CHAR_BOX = '\u274F';
+var CHAR_ZERO_SPACE = '\u200B';
 var INLINE_NODE_NAME_PATTERN = /^(#text)|(A|SPAN|B|STRONG)$/;
 
 function patchListElementsElement(listElement) {
@@ -52,7 +53,7 @@ function patchListElementsElement(listElement) {
   // before the list.
 
   if (parentElement && parentElement.nodeName === 'BODY' && parentElement.firstChild === listElement) {
-    var tt = parentElement.ownerDocument.createTextNode('\u200B');
+    var tt = parentElement.ownerDocument.createTextNode(CHAR_ZERO_SPACE);
     parentElement.insertBefore(tt, listElement);
   }
 

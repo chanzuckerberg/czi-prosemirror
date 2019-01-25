@@ -26,7 +26,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 // This value is arbitrary. It assumes the page use the default size
 // with default padding.
-var DEFAULT_TABLE_WIDTH = 624;
+var DEFAULT_TABLE_WIDTH = 666; // 624;
 
 // This value is originally defined at prosemirror-table.
 var ATTRIBUTE_CELL_WIDTH = 'data-colwidth';

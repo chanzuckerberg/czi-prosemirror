@@ -38,11 +38,6 @@
   position: relative;
 }
 
-.czi-image-view-body.active .czi-image-view-body-img-clip {
-  overflow-x: visible;
-  overflow-y: hidden;
-}
-
 .czi-image-view-body {
   clear: both;
   display: inline-block;

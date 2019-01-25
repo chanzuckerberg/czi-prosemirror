@@ -14,6 +14,7 @@ const CHAR_BULLET = '\u25cf';
 const CHAR_CIRCLE = '\u25cb';
 const CHAR_SQUARE = '\u25a0';
 const CHAR_BOX = '\u274f';
+const CHAR_ZERO_SPACE = '\u200B';
 const INLINE_NODE_NAME_PATTERN = /^(#text)|(A|SPAN|B|STRONG)$/;
 
 function patchListElementsElement(listElement: HTMLElement): void {
@@ -33,7 +34,7 @@ function patchListElementsElement(listElement: HTMLElement): void {
     parentElement.nodeName === 'BODY' &&
     parentElement.firstChild === listElement
   ) {
-    const tt = parentElement.ownerDocument.createTextNode('\u200B');
+    const tt = parentElement.ownerDocument.createTextNode(CHAR_ZERO_SPACE);
     parentElement.insertBefore(tt, listElement);
   }
 

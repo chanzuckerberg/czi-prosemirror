@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.UNDERLINE = exports.UL = exports.TEXT_LINE_SPACINGS = exports.TEXT_HIGHLIGHT = exports.TEXT_COLOR = exports.TEXT_ALIGN_RIGHT = exports.TEXT_ALIGN_LEFT = exports.TEXT_ALIGN_JUSTIFY = exports.TEXT_ALIGN_CENTER = exports.TABLE_TOGGLE_HEADER_ROW = exports.TABLE_TOGGLE_HEADER_COLUMN = exports.TABLE_TOGGLE_HEADER_CELL = exports.TABLE_SPLIT_CELL = exports.TABLE_MOVE_TO_PREV_CELL = exports.TABLE_MOVE_TO_NEXT_CELL = exports.TABLE_MERGE_CELLS = exports.TABLE_INSERT_TABLE = exports.TABLE_DELETE_TABLE = exports.TABLE_DELETE_ROW = exports.TABLE_DELETE_COLUMN = exports.TABLE_CELL_COLOR = exports.TABLE_ADD_ROW_BEFORE = exports.TABLE_ADD_ROW_AFTER = exports.TABLE_ADD_COLUMN_BEFORE = exports.TABLE_ADD_COLUMN_AFTER = exports.STRONG = exports.STRIKE = exports.PRINT = exports.OL = exports.MATH_EDIT = exports.LIST_SPLIT = exports.LIST_ITEM_MERGE_UP = exports.LIST_ITEM_MERGE_DOWN = exports.LIST_ITEM_INSERT_NEW_LINE = exports.LINK_SET_URL = exports.INDENT_MORE = exports.INDENT_LESS = exports.IMAGE_UPLOAD = exports.IMAGE_FROM_URL = exports.HR = exports.HISTORY_UNDO = exports.HISTORY_REDO = exports.H6 = exports.H5 = exports.H4 = exports.H3 = exports.H2 = exports.H1 = exports.EM = exports.DOC_LAYOUT = exports.CODE = exports.CLEAR_FORMAT = exports.BLOCKQUOTE_INSERT_NEW_LINE = exports.BLOCKQUOTE_TOGGLE = undefined;
+exports.UNDERLINE = exports.UL = exports.TEXT_LINE_SPACINGS = exports.TEXT_HIGHLIGHT = exports.TEXT_COLOR = exports.TEXT_ALIGN_RIGHT = exports.TEXT_ALIGN_LEFT = exports.TEXT_ALIGN_JUSTIFY = exports.TEXT_ALIGN_CENTER = exports.TABLE_TOGGLE_HEADER_ROW = exports.TABLE_TOGGLE_HEADER_COLUMN = exports.TABLE_TOGGLE_HEADER_CELL = exports.TABLE_SPLIT_ROW = exports.TABLE_MOVE_TO_PREV_CELL = exports.TABLE_MOVE_TO_NEXT_CELL = exports.TABLE_MERGE_CELLS = exports.TABLE_INSERT_TABLE = exports.TABLE_DELETE_TABLE = exports.TABLE_DELETE_ROW = exports.TABLE_DELETE_COLUMN = exports.TABLE_CELL_COLOR = exports.TABLE_ADD_ROW_BEFORE = exports.TABLE_ADD_ROW_AFTER = exports.TABLE_ADD_COLUMN_BEFORE = exports.TABLE_ADD_COLUMN_AFTER = exports.STRONG = exports.STRIKE = exports.PRINT = exports.OL = exports.MATH_EDIT = exports.LIST_SPLIT = exports.LIST_ITEM_MERGE_UP = exports.LIST_ITEM_MERGE_DOWN = exports.LIST_ITEM_INSERT_NEW_LINE = exports.LINK_SET_URL = exports.INDENT_MORE = exports.INDENT_LESS = exports.IMAGE_UPLOAD = exports.IMAGE_FROM_URL = exports.HR = exports.HISTORY_UNDO = exports.HISTORY_REDO = exports.H6 = exports.H5 = exports.H4 = exports.H3 = exports.H2 = exports.H1 = exports.EM = exports.DOC_LAYOUT = exports.CODE = exports.CLEAR_FORMAT = exports.BLOCKQUOTE_INSERT_NEW_LINE = exports.BLOCKQUOTE_TOGGLE = undefined;
 
 var _prosemirrorTables = require('prosemirror-tables');
 
@@ -101,6 +101,10 @@ var _TableInsertCommand = require('./TableInsertCommand');
 
 var _TableInsertCommand2 = _interopRequireDefault(_TableInsertCommand);
 
+var _TableMergeCellsCommand = require('./TableMergeCellsCommand');
+
+var _TableMergeCellsCommand2 = _interopRequireDefault(_TableMergeCellsCommand);
+
 var _TextAlignCommand = require('./TextAlignCommand');
 
 var _TextAlignCommand2 = _interopRequireDefault(_TextAlignCommand);
@@ -133,7 +137,6 @@ var addColumnAfter = ProsemirrorTables.addColumnAfter,
     deleteRow = ProsemirrorTables.deleteRow,
     deleteTable = ProsemirrorTables.deleteTable,
     goToNextCell = ProsemirrorTables.goToNextCell,
-    mergeCells = ProsemirrorTables.mergeCells,
     splitCell = ProsemirrorTables.splitCell,
     toggleHeaderCell = ProsemirrorTables.toggleHeaderCell,
     toggleHeaderColumn = ProsemirrorTables.toggleHeaderColumn,
@@ -189,10 +192,10 @@ var TABLE_DELETE_COLUMN = exports.TABLE_DELETE_COLUMN = (0, _createCommand2.defa
 var TABLE_DELETE_ROW = exports.TABLE_DELETE_ROW = (0, _createCommand2.default)(deleteRow);
 var TABLE_DELETE_TABLE = exports.TABLE_DELETE_TABLE = (0, _createCommand2.default)(deleteTable);
 var TABLE_INSERT_TABLE = exports.TABLE_INSERT_TABLE = new _TableInsertCommand2.default();
-var TABLE_MERGE_CELLS = exports.TABLE_MERGE_CELLS = (0, _createCommand2.default)(mergeCells);
+var TABLE_MERGE_CELLS = exports.TABLE_MERGE_CELLS = new _TableMergeCellsCommand2.default();
 var TABLE_MOVE_TO_NEXT_CELL = exports.TABLE_MOVE_TO_NEXT_CELL = (0, _createCommand2.default)(goToNextCell(1));
 var TABLE_MOVE_TO_PREV_CELL = exports.TABLE_MOVE_TO_PREV_CELL = (0, _createCommand2.default)(goToNextCell(-1));
-var TABLE_SPLIT_CELL = exports.TABLE_SPLIT_CELL = (0, _createCommand2.default)(splitCell);
+var TABLE_SPLIT_ROW = exports.TABLE_SPLIT_ROW = (0, _createCommand2.default)(splitCell);
 var TABLE_TOGGLE_HEADER_CELL = exports.TABLE_TOGGLE_HEADER_CELL = (0, _createCommand2.default)(toggleHeaderCell);
 var TABLE_TOGGLE_HEADER_COLUMN = exports.TABLE_TOGGLE_HEADER_COLUMN = (0, _createCommand2.default)(toggleHeaderColumn);
 var TABLE_TOGGLE_HEADER_ROW = exports.TABLE_TOGGLE_HEADER_ROW = (0, _createCommand2.default)(toggleHeaderRow);

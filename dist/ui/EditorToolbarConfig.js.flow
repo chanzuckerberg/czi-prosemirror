@@ -67,7 +67,7 @@ const {
   TABLE_MERGE_CELLS,
   // TABLE_MOVE_TO_NEXT_CELL,
   // TABLE_MOVE_TO_PREV_CELL,
-  TABLE_SPLIT_CELL,
+  TABLE_SPLIT_ROW,
   TABLE_TOGGLE_HEADER_CELL,
   TABLE_TOGGLE_HEADER_COLUMN,
   TABLE_TOGGLE_HEADER_ROW,
@@ -108,7 +108,7 @@ export const COMMAND_GROUPS = [
       },
       {
         'Merge Cells': TABLE_MERGE_CELLS,
-        'Split Cells': TABLE_SPLIT_CELL,
+        'Split Row': TABLE_SPLIT_ROW,
       },
       // Disable these commands cause user rarely use them.
       {

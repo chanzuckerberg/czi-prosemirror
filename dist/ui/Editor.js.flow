@@ -69,6 +69,7 @@ class Editor extends React.PureComponent<any, any, any> {
 
   props: {
     disabled?: ?boolean,
+    dispatchTransaction?: ?(tr: Transform) => void,
     editorState?: ?EditorState,
     embedded?: ?boolean,
     onChange?: ?(state: EditorState) => void,
@@ -145,12 +146,17 @@ class Editor extends React.PureComponent<any, any, any> {
   }
 
   _dispatchTransaction = (transaction: Transform): void => {
-    const {onChange, editorState, readOnly} = this.props;
+    const {dispatchTransaction, onChange, editorState, readOnly} = this.props;
     if (readOnly === true) {
       return;
     }
-    const nextState = (editorState || EDITOR_EMPTY_STATE).apply(transaction);
-    onChange && onChange(nextState);
+    if (dispatchTransaction) {
+      dispatchTransaction(transaction);
+    }
+    if (onChange) {
+      const nextState = (editorState || EDITOR_EMPTY_STATE).apply(transaction);
+      onChange(nextState);
+    }
   };
 
   _isEditable = (): boolean => {

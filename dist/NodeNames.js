@@ -7,6 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 
 // https://github.com/ProseMirror/prosemirror-schema-basic/blob/master/src/schema-basic.js
 var BLOCKQUOTE = exports.BLOCKQUOTE = 'blockquote';
+var BOOKMARK = exports.BOOKMARK = 'bookmark';
 var BULLET_LIST = exports.BULLET_LIST = 'bullet_list';
 var CODE_BLOCK = exports.CODE_BLOCK = 'code_block';
 var DOC = exports.DOC = 'doc';
@@ -25,4 +26,3 @@ var TABLE_HEADER = exports.TABLE_HEADER = 'table_header';
 var TABLE_ROW = exports.TABLE_ROW = 'table_row';
 var TEXT = exports.TEXT = 'text';
 var UNDERLINE = exports.UNDERLINE = 'underline';
-var BOOKMARK = exports.BOOKMARK = 'bookmark';

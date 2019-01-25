@@ -8,7 +8,7 @@ import toHexColor from './ui/toHexColor';
 
 // This value is arbitrary. It assumes the page use the default size
 // with default padding.
-const DEFAULT_TABLE_WIDTH = 624;
+const DEFAULT_TABLE_WIDTH = 666; // 624;
 
 // This value is originally defined at prosemirror-table.
 const ATTRIBUTE_CELL_WIDTH = 'data-colwidth';

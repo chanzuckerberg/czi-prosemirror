@@ -4,7 +4,7 @@ import {tableNodes} from 'prosemirror-tables';
 
 import toHexColor from './ui/toHexColor';
 
-const NO_VISIBLE_BORDER_WIDTH = new Set(['0pt', '0px'])
+const NO_VISIBLE_BORDER_WIDTH = new Set(['0pt', '0px']);
 
 // https://github.com/ProseMirror/prosemirror-tables/blob/master/demo.js
 const TableNodesSpecs = tableNodes({

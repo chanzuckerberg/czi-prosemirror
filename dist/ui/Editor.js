@@ -140,6 +140,7 @@ var Editor = function (_React$PureComponent) {
 
     return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = Editor.__proto__ || (0, _getPrototypeOf2.default)(Editor)).call.apply(_ref, [this].concat(args))), _this), _this._id = (0, _uuid2.default)(), _this._editorView = null, _this._dispatchTransaction = function (transaction) {
       var _this$props = _this.props,
+          dispatchTransaction = _this$props.dispatchTransaction,
           onChange = _this$props.onChange,
           editorState = _this$props.editorState,
           readOnly = _this$props.readOnly;
@@ -147,8 +148,13 @@ var Editor = function (_React$PureComponent) {
       if (readOnly === true) {
         return;
       }
-      var nextState = (editorState || EDITOR_EMPTY_STATE).apply(transaction);
-      onChange && onChange(nextState);
+      if (dispatchTransaction) {
+        dispatchTransaction(transaction);
+      }
+      if (onChange) {
+        var nextState = (editorState || EDITOR_EMPTY_STATE).apply(transaction);
+        onChange(nextState);
+      }
     }, _this._isEditable = function () {
       var _this$props2 = _this.props,
           disabled = _this$props2.disabled,

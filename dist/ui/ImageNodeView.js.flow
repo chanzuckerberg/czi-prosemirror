@@ -159,7 +159,7 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
       selected,
     });
 
-    const resizeBox = active ?
+    const resizeBox = (active && !crop) ?
       <ImageResizeBox
         height={height}
         onResizeEnd={this._onResizeEnd}
