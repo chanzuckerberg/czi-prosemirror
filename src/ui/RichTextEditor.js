@@ -1,43 +1,20 @@
 // @flow
 
-import cx from 'classnames';
-import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 import createEmptyEditorState from '../createEmptyEditorState';
 import Editor from './Editor';
+import EditorFrameset from './EditorFrameset';
 import EditorToolbar from './EditorToolbar';
-import ResizeObserver from './ResizeObserver';
 import uuid from './uuid';
 
-import './czi-rte.css';
-import './czi-vars.css';
+import type {EditorFramesetProps} from './EditorFrameset';
+import type {EditorProps} from './Editor';
 
-import type {EditorRuntime} from '../Types';
-import type {ResizeObserverEntry} from './ResizeObserver';
-
-type Props = {
-  className?: ?string,
-  disabled?: ?boolean,
-  editorState?: ?EditorState,
-  embedded?: ?boolean,
-  header?: ?React.Element<any>,
-  height?: ?(string | number),
-  id?: ?string,
-  onBlur?: () => void,
-  onChange?: (e: EditorState) => void,
-  onReady?: (editorView: EditorView) => void,
-  placeholder?: ?(string | React.Element<any>),
-  readOnly?: ?boolean,
-  runtime?: ?EditorRuntime,
-  width?: ?(string | number),
-};
+type Props = EditorFramesetProps & EditorProps;
 
 type State = {
-  contentHeight: number,
-  contentOverflowHidden: boolean,
   editorView: ?EditorView,
 };
 
@@ -51,7 +28,6 @@ class RichTextEditor extends React.PureComponent<any, any, any> {
   state: State;
 
   _id: string;
-  _editor: ?Editor;
 
   constructor(props: any, context: any) {
     super(props, context);
@@ -84,20 +60,6 @@ class RichTextEditor extends React.PureComponent<any, any, any> {
     editorState = editorState || EMPTY_EDITOR_STATE;
     runtime = runtime || EMPTY_EDITOR_RUNTIME;
 
-    const useFixedLayout = width !== undefined || height !== undefined;
-
-    const mainClassName = cx(className, {
-      'czi-rte': true,
-      'with-fixed-layout': useFixedLayout,
-      'disabled': disabled,
-      'embedded': embedded,
-    });
-
-    const mainStyle = {
-      width: toCSS(width === undefined && useFixedLayout ? 'auto' : width),
-      height: toCSS(height === undefined && useFixedLayout ? 'auto' : height),
-    };
-
     const {editorView} = this.state;
 
     const toolbar = (!!readOnly === true) ? null :
@@ -109,51 +71,30 @@ class RichTextEditor extends React.PureComponent<any, any, any> {
         readOnly={readOnly}
       />;
 
+    const body =
+      <Editor
+        disabled={disabled}
+        editorState={editorState}
+        embedded={embedded}
+        id={this._id}
+        onChange={onChange}
+        onReady={this._onReady}
+        placeholder={placeholder}
+        readOnly={readOnly}
+        runtime={runtime}
+      />;
+
     return (
-      <div className={mainClassName} style={mainStyle}>
-        <div className="czi-rte-frameset">
-          <div className="czi-rte-frame-head">
-            {header}
-            {toolbar}
-          </div>
-          <div className="czi-rte-frame-body">
-            <div className="czi-rte-frame-body-scroll">
-              <Editor
-                disabled={disabled}
-                editorState={editorState}
-                embedded={embedded}
-                id={this._id}
-                onChange={onChange}
-                onReady={this._onReady}
-                placeholder={placeholder}
-                readOnly={readOnly}
-                ref={this._onEditorRef}
-                runtime={runtime}
-              />
-            </div>
-          </div>
-          <div className="czi-rte-frame-footer" />
-        </div>
-      </div>
+      <EditorFrameset
+        body={body}
+        className={className}
+        header={header}
+        height={height}
+        toolbar={toolbar}
+        width={width}
+      />
     );
   }
-
-  _onEditorRef = (ref: any) => {
-    if (ref) {
-      // Mounting
-      const el = ReactDOM.findDOMNode(ref);
-      if (el instanceof HTMLElement) {
-        ResizeObserver.observe(el, this._onContentResize);
-      }
-    } else {
-      // Unmounting.
-      const el = ReactDOM.findDOMNode(this._editor);
-      if (el instanceof HTMLElement) {
-        ResizeObserver.unobserve(el);
-      }
-    }
-    this._editor = ref;
-  };
 
   _onReady = (editorView: EditorView): void => {
     if (editorView !== this.state.editorView) {
@@ -162,28 +103,6 @@ class RichTextEditor extends React.PureComponent<any, any, any> {
       onReady && onReady(editorView);
     }
   };
-
-  _onContentOverflowToggle = (contentOverflowHidden: boolean): void => {
-    this.setState({
-      contentOverflowHidden,
-    });
-  };
-
-  _onContentResize = (info: ResizeObserverEntry): void => {
-    this.setState({
-      contentHeight: info.contentRect.height,
-    });
-  };
-}
-
-function toCSS(val: ?(number|string)): string {
-  if (typeof val === 'number') {
-    return val + 'px';
-  }
-  if (val === undefined || val === null) {
-    return 'auto';
-  }
-  return String(val);
 }
 
 export default RichTextEditor;

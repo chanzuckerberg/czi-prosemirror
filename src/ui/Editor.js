@@ -26,6 +26,18 @@ import './czi-editor.css';
 
 import type {EditorRuntime} from '../Types';
 
+export type EditorProps = {
+  disabled?: ?boolean,
+  dispatchTransaction?: ?(tr: Transform) => void,
+  editorState?: ?EditorState,
+  embedded?: ?boolean,
+  onChange?: ?(state: EditorState) => void,
+  onReady?: ?(view: EditorView) => void,
+  placeholder?: ?(string | React.Element<any>),
+  readOnly?: ?boolean,
+  runtime?: ?EditorRuntime,
+};
+
 // Monkey patch the `scrollIntoView` mathod of 'Transaction'.
 // Why this is necessary?
 // It appears that promse-mirror does call `scrollIntoView` extensively
@@ -67,17 +79,7 @@ class Editor extends React.PureComponent<any, any, any> {
 
   _editorView = null;
 
-  props: {
-    disabled?: ?boolean,
-    dispatchTransaction?: ?(tr: Transform) => void,
-    editorState?: ?EditorState,
-    embedded?: ?boolean,
-    onChange?: ?(state: EditorState) => void,
-    onReady?: ?(view: EditorView) => void,
-    placeholder?: ?(string | React.Element<any>),
-    readOnly?: ?boolean,
-    runtime?: ?EditorRuntime,
-  };
+  props: EditorProps;
 
   componentDidMount(): void {
     const {
