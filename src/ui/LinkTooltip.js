@@ -2,6 +2,7 @@
 
 import {EditorView} from 'prosemirror-view';
 import React from 'react';
+import scrollIntoView from 'smooth-scroll-into-view-if-needed';
 
 import CustomButton from './CustomButton';
 
@@ -12,12 +13,18 @@ class LinkTooltip extends React.PureComponent<any, any, any> {
   props: {
     editorView: EditorView,
     href: string,
+    onCancel: (view: EditorView) => void,
     onEdit: (view: EditorView) => void,
     onRemove: (view: EditorView) => void,
   };
 
+  _unmounted = false;
 
-  render(): React.Element<any> {
+  state = {
+    hidden: false,
+  };
+
+  render(): ?React.Element<any> {
     const {href, editorView, onEdit, onRemove} = this.props;
     return (
       <div className="czi-link-tooltip">
@@ -52,7 +59,17 @@ class LinkTooltip extends React.PureComponent<any, any, any> {
       const id = href.substr(1);
       const el = document.getElementById(id);
       if (el) {
-        el.scrollIntoView(true);
+        const {onCancel, editorView} = this.props;
+        onCancel(editorView);
+        (async () => {
+          // https://www.npmjs.com/package/smooth-scroll-into-view-if-needed
+          await scrollIntoView(el, {
+            scrollMode: 'if-needed',
+            // block: 'nearest',
+            // inline: 'nearest',
+            behavior: 'smooth',
+          });
+        })();
         return;
       }
     }

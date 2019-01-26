@@ -95,6 +95,7 @@
     "react": "15.5.4",
     "react-dom": "15.5.4",
     "resize-observer-polyfill": "1.5.0",
+    "smooth-scroll-into-view-if-needed": "^1.1.23",
     "stable": "0.1.8",
     "style-loader": "0.19.1",
     "uuid": "3.3.2",

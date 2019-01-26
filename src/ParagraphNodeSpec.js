@@ -74,7 +74,8 @@ function getAttrs(dom: HTMLElement): Object {
     lineHeight :
     null;
 
-  return {align, indent, lineSpacing, paddingTop, paddingBottom};
+  const id = dom.getAttribute('id') || '';
+  return {align, indent, lineSpacing, paddingTop, paddingBottom, id};
 }
 
 function toDOM(node: Node): Array<any> {
