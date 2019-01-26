@@ -79,7 +79,7 @@ function getAttrs(dom: HTMLElement): Object {
 
 function toDOM(node: Node): Array<any> {
   const {
-    align, indent, lineSpacing, paddingTop, paddingBottom
+    align, indent, lineSpacing, paddingTop, paddingBottom, id,
   } = node.attrs;
   const attrs = {};
 
@@ -104,6 +104,10 @@ function toDOM(node: Node): Array<any> {
 
   if (indent) {
     attrs[ATTRIBUTE_INDENT] = String(indent);
+  }
+
+  if (id) {
+    attrs.id = id;
   }
 
   return ['p', attrs, 0];

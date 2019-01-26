@@ -1,9 +1,11 @@
 // @flow
 
-import './czi-link-tooltip.css';
-import React from 'react';
 import {EditorView} from 'prosemirror-view';
+import React from 'react';
+
 import CustomButton from './CustomButton';
+
+import './czi-link-tooltip.css';
 
 class LinkTooltip extends React.PureComponent<any, any, any> {
 
@@ -46,6 +48,14 @@ class LinkTooltip extends React.PureComponent<any, any, any> {
   }
 
   _openLink = (href: string): void => {
+    if (href && href.indexOf('#') === 0) {
+      const id = href.substr(1);
+      const el = document.getElementById(id);
+      if (el) {
+        el.scrollIntoView(true);
+        return;
+      }
+    }
     window.open(href);
   };
 }
