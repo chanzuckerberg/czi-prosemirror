@@ -70,8 +70,8 @@ class LinkTooltip extends React.PureComponent<any, any, any> {
             behavior: 'smooth',
           });
         })();
-        return;
       }
+      return;
     }
     window.open(href);
   };
