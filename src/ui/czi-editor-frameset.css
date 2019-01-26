@@ -2,7 +2,7 @@
   position: relative;
 }
 
-.czi-editor-frameset-main {
+.czi-editor-frame-main {
   position: relative;
   z-index: 0;
 }
@@ -20,11 +20,11 @@
   padding-top: 20px;
 }
 
-.czi-editor.embedded .czi-editor-frame-body-scroll {
+.czi-editor-frameset.embedded .czi-editor-frame-body-scroll {
   padding-top: unset;
 }
 
-.czi-editor.with-fixed-layout .czi-editor-frameset {
+.czi-editor-frameset.with-fixed-layout .czi-editor-frame-main {
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -36,13 +36,13 @@
   z-index: 2;
 }
 
-.czi-editor.with-fixed-layout .czi-editor-frame-body {
+.czi-editor-frameset.with-fixed-layout .czi-editor-frame-body {
   flex: 1;
   position: relative;
   z-index: 1;
 }
 
-.czi-editor.with-fixed-layout .czi-editor-frame-body-scroll {
+.czi-editor-frameset.with-fixed-layout .czi-editor-frame-body-scroll {
   bottom: 0;
   left: 0;
   overflow: auto;
@@ -56,20 +56,20 @@
 }
 
 @media only print {
-  .czi-editor.with-fixed-layout {
+  .czi-editor-frameset.with-fixed-layout {
     height: auto !important;
     width: auto !important;
   }
 
-  .czi-editor.with-fixed-layout .czi-editor-frameset {
+  .czi-editor-frameset.with-fixed-layout .czi-editor-frameset {
     height: auto;
   }
 
-  .czi-editor.with-fixed-layout .czi-editor-frame-body-scroll {
+  .czi-editor-frameset.with-fixed-layout .czi-editor-frame-body-scroll {
     position: relative;
   }
 
-  .czi-editor.with-fixed-layout .czi-editor-frame-body {
+  .czi-editor-frameset.with-fixed-layout .czi-editor-frame-body {
     height: auto !important;
     max-height: auto !important;
     overflow: visible;

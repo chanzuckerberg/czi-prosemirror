@@ -57,7 +57,7 @@ class EditorFrameset extends React.PureComponent<any, any, any> {
 
     return (
       <div className={mainClassName} style={mainStyle}>
-        <div className="czi-editor-frameset-main">
+        <div className="czi-editor-frame-main">
           <div className="czi-editor-frame-head">
             {header}
             {toolbar}
