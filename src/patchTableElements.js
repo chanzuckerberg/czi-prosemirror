@@ -19,6 +19,7 @@ export default function patchTableElements(doc: Document): void {
 }
 
  // The height of each line: ~= 21px
+const LINE_HEIGHT_PX_VALUE = 21;
 const LINE_HEIGHT_PT_VALUE = 15.81149997;
 
 // Workaround to patch HTML from Google Doc that Table Cells will apply
@@ -96,12 +97,16 @@ function patchTableRow(trElement: HTMLElement): void {
     return;
   }
 
-  const pEls = firstCell.querySelectorAll('p');
-  const heightNeeded = ptValue - (LINE_HEIGHT_PT_VALUE * pEls.length);
-  if (heightNeeded < 0) {
+  const cellPxHeight = Array.from(firstCell.children).reduce((sum, childNode) => {
+    return sum + getEstimatedPxHeight(childNode);
+  }, 0);
+
+  const cellPtHeight = convertToCSSPTValue(String(cellPxHeight) + 'px');
+  if (cellPtHeight >= ptValue) {
     return;
   }
-  let pElsNeeded = Math.round(heightNeeded / LINE_HEIGHT_PT_VALUE);
+
+  let pElsNeeded = Math.round((ptValue - cellPtHeight) / LINE_HEIGHT_PT_VALUE);
   if (pElsNeeded <= 0) {
     return;
   }
@@ -112,4 +117,24 @@ function patchTableRow(trElement: HTMLElement): void {
     frag.appendChild(line.cloneNode(false));
   }
   firstCell.appendChild(frag);
+}
+
+
+function getEstimatedPxHeight(el: HTMLElement): number {
+  const imgs = el.querySelectorAll('img');
+  if (imgs.length) {
+    return Array.from(imgs).reduce(
+      (sum, nn) => {
+        return sum + getEstimatedPxHeight(nn);
+      },
+      0,
+    );
+  }
+  if (el.height) {
+    return parseFloat(el.height) || LINE_HEIGHT_PX_VALUE;
+  }
+  if (el.style && el.style.height) {
+    return convertToCSSPTValue(el.style.height) || LINE_HEIGHT_PX_VALUE;
+  }
+  return LINE_HEIGHT_PX_VALUE;
 }
