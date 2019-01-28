@@ -80,7 +80,8 @@ function getAttrs(dom) {
 
   var lineSpacing = lineHeight ? lineHeight : null;
 
-  return { align: align, indent: indent, lineSpacing: lineSpacing, paddingTop: paddingTop, paddingBottom: paddingBottom };
+  var id = dom.getAttribute('id') || '';
+  return { align: align, indent: indent, lineSpacing: lineSpacing, paddingTop: paddingTop, paddingBottom: paddingBottom, id: id };
 }
 
 function toDOM(node) {
@@ -89,7 +90,8 @@ function toDOM(node) {
       indent = _node$attrs.indent,
       lineSpacing = _node$attrs.lineSpacing,
       paddingTop = _node$attrs.paddingTop,
-      paddingBottom = _node$attrs.paddingBottom;
+      paddingBottom = _node$attrs.paddingBottom,
+      id = _node$attrs.id;
 
   var attrs = {};
 
@@ -114,6 +116,10 @@ function toDOM(node) {
 
   if (indent) {
     attrs[ATTRIBUTE_INDENT] = String(indent);
+  }
+
+  if (id) {
+    attrs.id = id;
   }
 
   return ['p', attrs, 0];

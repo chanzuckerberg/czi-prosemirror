@@ -29,6 +29,7 @@ const EMPTY_SRC = 'data:image/gif;base64,' +
 const IMAGE_MARGIN = 2;
 
 const MAX_SIZE = 100000;
+const IMAGE_PLACEHOLDER_SIZE = 24;
 
 const DEFAULT_ORIGINAL_SIZE = {
   src: '',
@@ -130,6 +131,12 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
     const aspectRatio = originalSize.width / originalSize.height;
 
     let {width, height} = attrs;
+
+    if (loading) {
+      width = width || IMAGE_PLACEHOLDER_SIZE;
+      height = height || IMAGE_PLACEHOLDER_SIZE;
+    }
+
     if (width && !height) {
       height = width / aspectRatio;
     } else if (height && !width) {

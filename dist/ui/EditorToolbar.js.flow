@@ -1,37 +1,22 @@
 // @flow
 
-import './czi-editor-toolbar.css';
+import cx from 'classnames';
+import {EditorState} from 'prosemirror-state';
+import {Transform} from 'prosemirror-transform';
+import {EditorView} from 'prosemirror-view';
+import React from 'react';
+import ReactDOM from 'react-dom';
+
 import CommandButton from './CommandButton';
 import CommandMenuButton from './CommandMenuButton';
 import CustomButton from './CustomButton';
+import {COMMAND_GROUPS, parseLabel} from './EditorToolbarConfig';
 import Icon from './Icon';
-import React from 'react';
-import ReactDOM from 'react-dom';
 import ResizeObserver from './ResizeObserver';
 import UICommand from './UICommand';
-import canUseCSSFont from './canUseCSSFont';
-import createEmptyEditorState from '../createEmptyEditorState';
-import cx from 'classnames';
-import injectStyleSheet from './injectStyleSheet';
 import isReactClass from './isReactClass';
-import {EditorState} from 'prosemirror-state';
-import {EditorView} from 'prosemirror-view';
-import {Transform} from 'prosemirror-transform';
-import {parseLabel, COMMAND_GROUPS} from './EditorToolbarConfig';
 
-const CSS_CDN_URL = '//fonts.googleapis.com/icon?family=Material+Icons';
-const CSS_FONT = 'Material Icons';
-
-(async function() {
-  const fontSupported = await canUseCSSFont(CSS_FONT);
-  if (!fontSupported) {
-    console.info('Add CSS from ', CSS_CDN_URL);
-    injectStyleSheet(CSS_CDN_URL);
-  }
-})();
-
-
-const EDITOR_EMPTY_STATE = createEmptyEditorState();
+import './czi-editor-toolbar.css';
 
 class EditorToolbar extends React.PureComponent<any, any, any> {
 
@@ -39,9 +24,9 @@ class EditorToolbar extends React.PureComponent<any, any, any> {
 
   props: {
     disabled?: ?boolean,
+    dispatchTransaction?: ?(tr: Transform) => void,
     editorState: EditorState,
     editorView: ?EditorView,
-    onChange?: ?(state: EditorState) => void,
     onReady?: ?(view: EditorView) => void,
     readOnly?: ?boolean,
   };
@@ -96,10 +81,10 @@ class EditorToolbar extends React.PureComponent<any, any, any> {
       if (isReactClass(obj)) {
         // JSX requies the component to be named with upper camel case.
         const ThatComponent = obj;
-        const {editorState, editorView} = this.props;
+        const {editorState, editorView, dispatchTransaction} = this.props;
         return (
           <ThatComponent
-            dispatch={this._dispatchTransaction}
+            dispatch={dispatchTransaction}
             editorState={editorState}
             editorView={editorView}
             key={label}
@@ -124,14 +109,14 @@ class EditorToolbar extends React.PureComponent<any, any, any> {
     label: string,
     commandGroups: Array<{[string]: UICommand}>,
   ): React.Element<any> => {
-    const {editorState, editorView, disabled} = this.props;
+    const {editorState, editorView, disabled, dispatchTransaction} = this.props;
     const {icon, title} = parseLabel(label);
     return (
       <CommandMenuButton
         commandGroups={commandGroups}
         disabled={disabled}
-        dispatch={this._dispatchTransaction}
-        editorState={editorState || EDITOR_EMPTY_STATE}
+        dispatch={dispatchTransaction}
+        editorState={editorState}
         editorView={editorView}
         icon={icon}
         key={label}
@@ -142,15 +127,15 @@ class EditorToolbar extends React.PureComponent<any, any, any> {
   };
 
   _renderButton = (label: string, command: UICommand): React.Element<any> => {
-    const {disabled, editorState, editorView} = this.props;
+    const {disabled, editorState, editorView, dispatchTransaction} = this.props;
     const {icon, title} = parseLabel(label);
 
     return (
       <CommandButton
         command={command}
         disabled={disabled}
-        dispatch={this._dispatchTransaction}
-        editorState={editorState || EDITOR_EMPTY_STATE}
+        dispatch={dispatchTransaction}
+        editorState={editorState}
         editorView={editorView}
         icon={icon}
         key={label}
@@ -158,12 +143,6 @@ class EditorToolbar extends React.PureComponent<any, any, any> {
         title={title}
       />
     );
-  };
-
-  _dispatchTransaction = (transaction: Transform): void => {
-    const {onChange, editorState} = this.props;
-    const nextState = (editorState || EDITOR_EMPTY_STATE).apply(transaction);
-    onChange && onChange(nextState);
   };
 
   _onBodyRef = (ref: any): void => {

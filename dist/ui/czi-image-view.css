@@ -45,6 +45,19 @@
   position: relative;
 }
 
+.czi-image-view-body.loading::before {
+  animation: czi_animation_blink normal 800ms infinite ease-in-out;
+  background-color: #cdcdcd;
+  bottom: 0;
+  content: '';
+  cursor: wait;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 3;
+}
+
 .czi-image-view-body.selected::after {
   /* simulated selection highlight */
   background-color: var(--czi-selection-highlight-color-dark);
@@ -71,3 +84,10 @@
 .czi-image-view-body.error {
   /* outline: var(--czi-border-red);*/
 }
+
+@keyframes czi_animation_blink {
+  0% {opacity: 1;}
+  50%{opacity: 0.5;}
+  100%{opacity: 1;}
+}
+

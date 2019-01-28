@@ -24,21 +24,13 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _classnames = require('classnames');
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
-var _prosemirrorState = require('prosemirror-state');
+var _prosemirrorTransform = require('prosemirror-transform');
 
 var _prosemirrorView = require('prosemirror-view');
 
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
-
-var _reactDom = require('react-dom');
-
-var _reactDom2 = _interopRequireDefault(_reactDom);
 
 var _createEmptyEditorState = require('../createEmptyEditorState');
 
@@ -48,31 +40,23 @@ var _Editor = require('./Editor');
 
 var _Editor2 = _interopRequireDefault(_Editor);
 
+var _EditorFrameset = require('./EditorFrameset');
+
+var _EditorFrameset2 = _interopRequireDefault(_EditorFrameset);
+
 var _EditorToolbar = require('./EditorToolbar');
 
 var _EditorToolbar2 = _interopRequireDefault(_EditorToolbar);
-
-var _ResizeObserver = require('./ResizeObserver');
-
-var _ResizeObserver2 = _interopRequireDefault(_ResizeObserver);
-
-var _RichTextEditorContentOverflowControl = require('./RichTextEditorContentOverflowControl');
-
-var _RichTextEditorContentOverflowControl2 = _interopRequireDefault(_RichTextEditorContentOverflowControl);
 
 var _uuid = require('./uuid');
 
 var _uuid2 = _interopRequireDefault(_uuid);
 
-require('./czi-rte.css');
-
-require('./czi-vars.css');
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var babelPluginFlowReactPropTypes_proptype_EditorRuntime = require('../Types').babelPluginFlowReactPropTypes_proptype_EditorRuntime || require('prop-types').any;
+var babelPluginFlowReactPropTypes_proptype_EditorFramesetProps = require('./EditorFrameset').babelPluginFlowReactPropTypes_proptype_EditorFramesetProps || require('prop-types').any;
 
-var babelPluginFlowReactPropTypes_proptype_ResizeObserverEntry = require('./ResizeObserver').babelPluginFlowReactPropTypes_proptype_ResizeObserverEntry || require('prop-types').any;
+var babelPluginFlowReactPropTypes_proptype_EditorProps = require('./Editor').babelPluginFlowReactPropTypes_proptype_EditorProps || require('prop-types').any;
 
 var EMPTY_EDITOR_STATE = (0, _createEmptyEditorState2.default)();
 var EMPTY_EDITOR_RUNTIME = {};
@@ -85,42 +69,29 @@ var RichTextEditor = function (_React$PureComponent) {
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (RichTextEditor.__proto__ || (0, _getPrototypeOf2.default)(RichTextEditor)).call(this, props, context));
 
-    _this._onEditorRef = function (ref) {
-      if (ref) {
-        // Mounting
-        var el = _reactDom2.default.findDOMNode(ref);
-        if (el instanceof HTMLElement) {
-          _ResizeObserver2.default.observe(el, _this._onContentResize);
-        }
-      } else {
-        // Unmounting.
-        var _el = _reactDom2.default.findDOMNode(_this._editor);
-        if (_el instanceof HTMLElement) {
-          _ResizeObserver2.default.unobserve(_el);
-        }
+    _this._dispatchTransaction = function (tr) {
+      var _this$props = _this.props,
+          onChange = _this$props.onChange,
+          editorState = _this$props.editorState,
+          readOnly = _this$props.readOnly;
+
+      if (readOnly === true) {
+        return;
       }
-      _this._editor = ref;
+
+      if (onChange) {
+        var nextState = (editorState || _Editor2.default.EDITOR_EMPTY_STATE).apply(tr);
+        onChange(nextState);
+      }
     };
 
     _this._onReady = function (editorView) {
       if (editorView !== _this.state.editorView) {
         _this.setState({ editorView: editorView });
-        var _onReady = _this.props.onReady;
+        var onReady = _this.props.onReady;
 
-        _onReady && _onReady(editorView);
+        onReady && onReady(editorView);
       }
-    };
-
-    _this._onContentOverflowToggle = function (contentOverflowHidden) {
-      _this.setState({
-        contentOverflowHidden: contentOverflowHidden
-      });
-    };
-
-    _this._onContentResize = function (info) {
-      _this.setState({
-        contentHeight: info.contentRect.height
-      });
     };
 
     _this._id = (0, _uuid2.default)();
@@ -153,150 +124,41 @@ var RichTextEditor = function (_React$PureComponent) {
       editorState = editorState || EMPTY_EDITOR_STATE;
       runtime = runtime || EMPTY_EDITOR_RUNTIME;
 
-      var useFixedLayout = width !== undefined || height !== undefined;
-
-      var mainClassName = (0, _classnames2.default)(className, {
-        'czi-rte': true,
-        'with-fixed-layout': useFixedLayout,
-        'disabled': disabled,
-        'embedded': embedded
-      });
-
-      var mainStyle = {
-        width: toCSS(width === undefined && useFixedLayout ? 'auto' : width),
-        height: toCSS(height === undefined && useFixedLayout ? 'auto' : height)
-      };
-
-      var contentOverflowInfo = getContentOverflowInfo(this.props, this.state, this._onContentOverflowToggle);
-
       var editorView = this.state.editorView;
 
 
       var toolbar = !!readOnly === true ? null : _react2.default.createElement(_EditorToolbar2.default, {
         disabled: disabled,
-        editorState: editorState,
+        dispatchTransaction: this._dispatchTransaction,
+        editorState: editorState || _Editor2.default.EDITOR_EMPTY_STATE,
         editorView: editorView,
-        onChange: onChange,
         readOnly: readOnly
       });
 
-      return _react2.default.createElement(
-        'div',
-        { className: mainClassName, style: mainStyle },
-        _react2.default.createElement(
-          'div',
-          { className: 'czi-rte-frameset' },
-          _react2.default.createElement(
-            'div',
-            { className: 'czi-rte-frame-head' },
-            header,
-            toolbar
-          ),
-          _react2.default.createElement(
-            'div',
-            { className: 'czi-rte-frame-body' },
-            _react2.default.createElement(
-              'div',
-              {
-                className: (0, _classnames2.default)('czi-rte-frame-body-scroll', contentOverflowInfo.className),
-                style: contentOverflowInfo.style },
-              _react2.default.createElement(_Editor2.default, {
-                disabled: disabled,
-                editorState: editorState,
-                embedded: embedded,
-                id: this._id,
-                onChange: onChange,
-                onReady: this._onReady,
-                placeholder: placeholder,
-                readOnly: readOnly,
-                ref: this._onEditorRef,
-                runtime: runtime
-              })
-            )
-          ),
-          _react2.default.createElement(
-            'div',
-            { className: 'czi-rte-frame-footer' },
-            contentOverflowInfo.control
-          )
-        )
-      );
+      var body = _react2.default.createElement(_Editor2.default, {
+        disabled: disabled,
+        dispatchTransaction: this._dispatchTransaction,
+        editorState: editorState,
+        embedded: embedded,
+        id: this._id,
+        onChange: onChange,
+        onReady: this._onReady,
+        placeholder: placeholder,
+        readOnly: readOnly,
+        runtime: runtime
+      });
+
+      return _react2.default.createElement(_EditorFrameset2.default, {
+        body: body,
+        className: className,
+        header: header,
+        height: height,
+        toolbar: toolbar,
+        width: width
+      });
     }
   }]);
   return RichTextEditor;
 }(_react2.default.PureComponent);
-
-function getContentOverflowInfo(props, state, onToggle) {
-  var maxContentHeight = props.maxContentHeight;
-  var contentHeight = state.contentHeight,
-      contentOverflowHidden = state.contentOverflowHidden;
-
-  if (contentHeight === null || maxContentHeight === null || maxContentHeight === undefined || contentHeight <= maxContentHeight) {
-    // nothing to clamp.
-    return {};
-  }
-
-  // Content could be clamped.
-  var style = contentOverflowHidden ? {
-    maxHeight: String(maxContentHeight) + 'px'
-  } : null;
-
-  var control = _react2.default.createElement(_RichTextEditorContentOverflowControl2.default, {
-    contentOverflowHidden: contentOverflowHidden,
-    onToggle: onToggle
-  });
-
-  var className = contentOverflowHidden ? 'czi-rte-content-overflow-clamped' : null;
-
-  return {
-    style: style,
-    control: control,
-    className: className
-  };
-}
-
-getContentOverflowInfo.propTypes = {
-  className: require('prop-types').string,
-  disabled: require('prop-types').bool,
-  editorState: require('prop-types').any,
-  embedded: require('prop-types').bool,
-  header: require('prop-types').any,
-  height: require('prop-types').oneOfType([require('prop-types').string, require('prop-types').number]),
-  id: require('prop-types').string,
-  maxContentHeight: require('prop-types').number,
-  onBlur: require('prop-types').func,
-  onChange: require('prop-types').func,
-  onReady: require('prop-types').func,
-  placeholder: require('prop-types').oneOfType([require('prop-types').string, require('prop-types').any]),
-  readOnly: require('prop-types').bool,
-  runtime: babelPluginFlowReactPropTypes_proptype_EditorRuntime,
-  width: require('prop-types').oneOfType([require('prop-types').string, require('prop-types').number])
-};
-getContentOverflowInfo.propTypes = {
-  className: require('prop-types').string,
-  disabled: require('prop-types').bool,
-  editorState: require('prop-types').any,
-  embedded: require('prop-types').bool,
-  header: require('prop-types').any,
-  height: require('prop-types').oneOfType([require('prop-types').string, require('prop-types').number]),
-  id: require('prop-types').string,
-  maxContentHeight: require('prop-types').number,
-  onBlur: require('prop-types').func,
-  onChange: require('prop-types').func,
-  onReady: require('prop-types').func,
-  placeholder: require('prop-types').oneOfType([require('prop-types').string, require('prop-types').any]),
-  readOnly: require('prop-types').bool,
-  runtime: babelPluginFlowReactPropTypes_proptype_EditorRuntime,
-  width: require('prop-types').oneOfType([require('prop-types').string, require('prop-types').number])
-};
-function toCSS(val) {
-  if (typeof val === 'number') {
-    return val + 'px';
-  }
-  if (val === undefined || val === null) {
-    return 'auto';
-  }
-  return String(val);
-}
 
 exports.default = RichTextEditor;

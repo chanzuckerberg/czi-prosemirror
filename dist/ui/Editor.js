@@ -92,14 +92,27 @@ require('./czi-editor.css');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var babelPluginFlowReactPropTypes_proptype_EditorRuntime = require('../Types').babelPluginFlowReactPropTypes_proptype_EditorRuntime || require('prop-types').any;
+
 // Monkey patch the `scrollIntoView` mathod of 'Transaction'.
 // Why this is necessary?
 // It appears that promse-mirror does call `scrollIntoView` extensively
 // from many of the built-in transformations, thus cause unwanted page
 // scrolls. To make the behavior more manageable, this patched method asks
 // developer to explicitly use `scrollIntoView(true)` to enforce page scroll.
-var babelPluginFlowReactPropTypes_proptype_EditorRuntime = require('../Types').babelPluginFlowReactPropTypes_proptype_EditorRuntime || require('prop-types').any;
-
+if (typeof exports !== 'undefined') Object.defineProperty(exports, 'babelPluginFlowReactPropTypes_proptype_EditorProps', {
+  value: require('prop-types').shape({
+    disabled: require('prop-types').bool,
+    dispatchTransaction: require('prop-types').func,
+    editorState: require('prop-types').any,
+    embedded: require('prop-types').bool,
+    onChange: require('prop-types').func,
+    onReady: require('prop-types').func,
+    placeholder: require('prop-types').oneOfType([require('prop-types').string, require('prop-types').any]),
+    readOnly: require('prop-types').bool,
+    runtime: babelPluginFlowReactPropTypes_proptype_EditorRuntime
+  })
+});
 var scrollIntoView = _prosemirrorState.Transaction.prototype.scrollIntoView;
 var scrollIntoViewPatched = function scrollIntoViewPatched(forced) {
   if (forced === true && scrollIntoView) {
@@ -138,27 +151,10 @@ var Editor = function (_React$PureComponent) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = Editor.__proto__ || (0, _getPrototypeOf2.default)(Editor)).call.apply(_ref, [this].concat(args))), _this), _this._id = (0, _uuid2.default)(), _this._editorView = null, _this._dispatchTransaction = function (transaction) {
+    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = Editor.__proto__ || (0, _getPrototypeOf2.default)(Editor)).call.apply(_ref, [this].concat(args))), _this), _this._id = (0, _uuid2.default)(), _this._editorView = null, _this._isEditable = function () {
       var _this$props = _this.props,
-          dispatchTransaction = _this$props.dispatchTransaction,
-          onChange = _this$props.onChange,
-          editorState = _this$props.editorState,
+          disabled = _this$props.disabled,
           readOnly = _this$props.readOnly;
-
-      if (readOnly === true) {
-        return;
-      }
-      if (dispatchTransaction) {
-        dispatchTransaction(transaction);
-      }
-      if (onChange) {
-        var nextState = (editorState || EDITOR_EMPTY_STATE).apply(transaction);
-        onChange(nextState);
-      }
-    }, _this._isEditable = function () {
-      var _this$props2 = _this.props,
-          disabled = _this$props2.disabled,
-          readOnly = _this$props2.readOnly;
 
       return !!_this._editorView && !readOnly && !disabled;
     }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
@@ -173,7 +169,8 @@ var Editor = function (_React$PureComponent) {
           readOnly = _props.readOnly,
           runtime = _props.runtime,
           placeholder = _props.placeholder,
-          disabled = _props.disabled;
+          disabled = _props.disabled,
+          dispatchTransaction = _props.dispatchTransaction;
 
 
       var editorNode = document.getElementById(this._id);
@@ -183,7 +180,7 @@ var Editor = function (_React$PureComponent) {
         // Reference: http://prosemirror.net/examples/basic/
         var _view = this._editorView = new _CustomEditorView2.default(editorNode, {
           state: editorState || EDITOR_EMPTY_STATE,
-          dispatchTransaction: this._dispatchTransaction,
+          dispatchTransaction: dispatchTransaction,
           editable: this._isEditable,
           transformPastedHTML: transformPastedHTML,
           nodeViews: (_nodeViews = {}, (0, _defineProperty3.default)(_nodeViews, _NodeNames.IMAGE, bindNodeView(_ImageNodeView2.default)), (0, _defineProperty3.default)(_nodeViews, _NodeNames.MATH, bindNodeView(_MathNodeView2.default)), (0, _defineProperty3.default)(_nodeViews, _NodeNames.BOOKMARK, bindNodeView(_BookmarkNodeView2.default)), _nodeViews)
@@ -246,4 +243,5 @@ var Editor = function (_React$PureComponent) {
   return Editor;
 }(_react2.default.PureComponent);
 
+Editor.EDITOR_EMPTY_STATE = EDITOR_EMPTY_STATE;
 exports.default = Editor;

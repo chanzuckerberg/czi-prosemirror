@@ -28,15 +28,23 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _regenerator = require('babel-runtime/regenerator');
+var _classnames = require('classnames');
 
-var _regenerator2 = _interopRequireDefault(_regenerator);
+var _classnames2 = _interopRequireDefault(_classnames);
 
-var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
+var _prosemirrorState = require('prosemirror-state');
 
-var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+var _prosemirrorTransform = require('prosemirror-transform');
 
-require('./czi-editor-toolbar.css');
+var _prosemirrorView = require('prosemirror-view');
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = require('react-dom');
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
 
 var _CommandButton = require('./CommandButton');
 
@@ -50,17 +58,11 @@ var _CustomButton = require('./CustomButton');
 
 var _CustomButton2 = _interopRequireDefault(_CustomButton);
 
+var _EditorToolbarConfig = require('./EditorToolbarConfig');
+
 var _Icon = require('./Icon');
 
 var _Icon2 = _interopRequireDefault(_Icon);
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactDom = require('react-dom');
-
-var _reactDom2 = _interopRequireDefault(_reactDom);
 
 var _ResizeObserver = require('./ResizeObserver');
 
@@ -70,71 +72,19 @@ var _UICommand = require('./UICommand');
 
 var _UICommand2 = _interopRequireDefault(_UICommand);
 
-var _canUseCSSFont = require('./canUseCSSFont');
-
-var _canUseCSSFont2 = _interopRequireDefault(_canUseCSSFont);
-
-var _createEmptyEditorState = require('../createEmptyEditorState');
-
-var _createEmptyEditorState2 = _interopRequireDefault(_createEmptyEditorState);
-
-var _classnames = require('classnames');
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
-var _injectStyleSheet = require('./injectStyleSheet');
-
-var _injectStyleSheet2 = _interopRequireDefault(_injectStyleSheet);
-
 var _isReactClass = require('./isReactClass');
 
 var _isReactClass2 = _interopRequireDefault(_isReactClass);
 
-var _prosemirrorState = require('prosemirror-state');
-
-var _prosemirrorView = require('prosemirror-view');
-
-var _prosemirrorTransform = require('prosemirror-transform');
-
-var _EditorToolbarConfig = require('./EditorToolbarConfig');
+require('./czi-editor-toolbar.css');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var CSS_CDN_URL = '//fonts.googleapis.com/icon?family=Material+Icons';
-var CSS_FONT = 'Material Icons';
-
-(0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
-  var fontSupported;
-  return _regenerator2.default.wrap(function _callee$(_context) {
-    while (1) {
-      switch (_context.prev = _context.next) {
-        case 0:
-          _context.next = 2;
-          return (0, _canUseCSSFont2.default)(CSS_FONT);
-
-        case 2:
-          fontSupported = _context.sent;
-
-          if (!fontSupported) {
-            console.info('Add CSS from ', CSS_CDN_URL);
-            (0, _injectStyleSheet2.default)(CSS_CDN_URL);
-          }
-
-        case 4:
-        case 'end':
-          return _context.stop();
-      }
-    }
-  }, _callee, this);
-}))();
-
-var EDITOR_EMPTY_STATE = (0, _createEmptyEditorState2.default)();
 
 var EditorToolbar = function (_React$PureComponent) {
   (0, _inherits3.default)(EditorToolbar, _React$PureComponent);
 
   function EditorToolbar() {
-    var _ref2;
+    var _ref;
 
     var _temp, _this, _ret;
 
@@ -144,7 +94,7 @@ var EditorToolbar = function (_React$PureComponent) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref2 = EditorToolbar.__proto__ || (0, _getPrototypeOf2.default)(EditorToolbar)).call.apply(_ref2, [this].concat(args))), _this), _this._body = null, _this.state = {
+    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = EditorToolbar.__proto__ || (0, _getPrototypeOf2.default)(EditorToolbar)).call.apply(_ref, [this].concat(args))), _this), _this._body = null, _this.state = {
       expanded: false,
       wrapped: null
     }, _this._renderButtonsGroup = function (group, index) {
@@ -156,10 +106,11 @@ var EditorToolbar = function (_React$PureComponent) {
           var ThatComponent = obj;
           var _this$props = _this.props,
               _editorState = _this$props.editorState,
-              _editorView = _this$props.editorView;
+              _editorView = _this$props.editorView,
+              _dispatchTransaction = _this$props.dispatchTransaction;
 
           return _react2.default.createElement(ThatComponent, {
-            dispatch: _this._dispatchTransaction,
+            dispatch: _dispatchTransaction,
             editorState: _editorState,
             editorView: _editorView,
             key: label
@@ -181,7 +132,8 @@ var EditorToolbar = function (_React$PureComponent) {
       var _this$props2 = _this.props,
           editorState = _this$props2.editorState,
           editorView = _this$props2.editorView,
-          disabled = _this$props2.disabled;
+          disabled = _this$props2.disabled,
+          dispatchTransaction = _this$props2.dispatchTransaction;
 
       var _parseLabel = (0, _EditorToolbarConfig.parseLabel)(label),
           icon = _parseLabel.icon,
@@ -190,8 +142,8 @@ var EditorToolbar = function (_React$PureComponent) {
       return _react2.default.createElement(_CommandMenuButton2.default, {
         commandGroups: commandGroups,
         disabled: disabled,
-        dispatch: _this._dispatchTransaction,
-        editorState: editorState || EDITOR_EMPTY_STATE,
+        dispatch: dispatchTransaction,
+        editorState: editorState,
         editorView: editorView,
         icon: icon,
         key: label,
@@ -202,7 +154,8 @@ var EditorToolbar = function (_React$PureComponent) {
       var _this$props3 = _this.props,
           disabled = _this$props3.disabled,
           editorState = _this$props3.editorState,
-          editorView = _this$props3.editorView;
+          editorView = _this$props3.editorView,
+          dispatchTransaction = _this$props3.dispatchTransaction;
 
       var _parseLabel2 = (0, _EditorToolbarConfig.parseLabel)(label),
           icon = _parseLabel2.icon,
@@ -211,21 +164,14 @@ var EditorToolbar = function (_React$PureComponent) {
       return _react2.default.createElement(_CommandButton2.default, {
         command: command,
         disabled: disabled,
-        dispatch: _this._dispatchTransaction,
-        editorState: editorState || EDITOR_EMPTY_STATE,
+        dispatch: dispatchTransaction,
+        editorState: editorState,
         editorView: editorView,
         icon: icon,
         key: label,
         label: icon ? null : title,
         title: title
       });
-    }, _this._dispatchTransaction = function (transaction) {
-      var _this$props4 = _this.props,
-          onChange = _this$props4.onChange,
-          editorState = _this$props4.editorState;
-
-      var nextState = (editorState || EDITOR_EMPTY_STATE).apply(transaction);
-      onChange && onChange(nextState);
     }, _this._onBodyRef = function (ref) {
       if (ref) {
         _this._body = ref;

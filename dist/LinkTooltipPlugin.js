@@ -90,6 +90,14 @@ var LinkTooltipView = function () {
     this._el = null;
     this._popUp = null;
 
+    this._onCancel = function (view) {
+      if (_this2._popUp) {
+        return;
+      }
+      _this2.destroy();
+      view.focus();
+    };
+
     this._onEdit = function (view) {
       if (_this2._popUp) {
         return;
@@ -216,6 +224,7 @@ var LinkTooltipView = function () {
       _reactDom2.default.render(_react2.default.createElement(_LinkTooltip2.default, {
         editorView: view,
         href: result.mark.attrs.href,
+        onCancel: this._onCancel,
         onEdit: this._onEdit,
         onRemove: this._onRemove
       }), el);
@@ -229,6 +238,7 @@ var LinkTooltipView = function () {
         _reactDom2.default.unmountComponentAtNode(el);
       }
       this._popUp && this._popUp.close();
+      this._popUp = null;
     }
   }]);
   return LinkTooltipView;

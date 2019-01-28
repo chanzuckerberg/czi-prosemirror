@@ -4,6 +4,14 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _regenerator = require('babel-runtime/regenerator');
+
+var _regenerator2 = _interopRequireDefault(_regenerator);
+
+var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
+
+var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+
 var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
@@ -24,17 +32,21 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-require('./czi-link-tooltip.css');
+var _prosemirrorView = require('prosemirror-view');
 
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _prosemirrorView = require('prosemirror-view');
+var _smoothScrollIntoViewIfNeeded = require('smooth-scroll-into-view-if-needed');
+
+var _smoothScrollIntoViewIfNeeded2 = _interopRequireDefault(_smoothScrollIntoViewIfNeeded);
 
 var _CustomButton = require('./CustomButton');
 
 var _CustomButton2 = _interopRequireDefault(_CustomButton);
+
+require('./czi-link-tooltip.css');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -42,7 +54,8 @@ var LinkTooltip = function (_React$PureComponent) {
   (0, _inherits3.default)(LinkTooltip, _React$PureComponent);
 
   function LinkTooltip() {
-    var _ref;
+    var _ref,
+        _this2 = this;
 
     var _temp, _this, _ret;
 
@@ -52,7 +65,41 @@ var LinkTooltip = function (_React$PureComponent) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = LinkTooltip.__proto__ || (0, _getPrototypeOf2.default)(LinkTooltip)).call.apply(_ref, [this].concat(args))), _this), _this._openLink = function (href) {
+    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = LinkTooltip.__proto__ || (0, _getPrototypeOf2.default)(LinkTooltip)).call.apply(_ref, [this].concat(args))), _this), _this._unmounted = false, _this.state = {
+      hidden: false
+    }, _this._openLink = function (href) {
+      if (href && href.indexOf('#') === 0) {
+        var id = href.substr(1);
+        var el = document.getElementById(id);
+        if (el) {
+          var _this$props = _this.props,
+              _onCancel = _this$props.onCancel,
+              _editorView = _this$props.editorView;
+
+          _onCancel(_editorView);
+          (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
+            return _regenerator2.default.wrap(function _callee$(_context) {
+              while (1) {
+                switch (_context.prev = _context.next) {
+                  case 0:
+                    _context.next = 2;
+                    return (0, _smoothScrollIntoViewIfNeeded2.default)(el, {
+                      scrollMode: 'if-needed',
+                      // block: 'nearest',
+                      // inline: 'nearest',
+                      behavior: 'smooth'
+                    });
+
+                  case 2:
+                  case 'end':
+                    return _context.stop();
+                }
+              }
+            }, _callee, _this2);
+          }))();
+        }
+        return;
+      }
       window.open(href);
     }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
   }

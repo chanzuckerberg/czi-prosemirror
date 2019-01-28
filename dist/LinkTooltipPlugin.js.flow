@@ -88,6 +88,7 @@ class LinkTooltipView {
       <LinkTooltip
         editorView={view}
         href={result.mark.attrs.href}
+        onCancel={this._onCancel}
         onEdit={this._onEdit}
         onRemove={this._onRemove}
       />,
@@ -102,6 +103,15 @@ class LinkTooltipView {
       ReactDOM.unmountComponentAtNode(el);
     }
     this._popUp && this._popUp.close();
+    this._popUp = null;
+  }
+
+  _onCancel  = (view: EditorView): void => {
+    if (this._popUp) {
+      return;
+    }
+    this.destroy();
+    view.focus();
   }
 
   _onEdit = (view: EditorView): void => {

@@ -102,6 +102,7 @@ var EMPTY_SRC = 'data:image/gif;base64,' + 'R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAA
 var IMAGE_MARGIN = 2;
 
 var MAX_SIZE = 100000;
+var IMAGE_PLACEHOLDER_SIZE = 24;
 
 var DEFAULT_ORIGINAL_SIZE = {
   src: '',
@@ -345,6 +346,12 @@ var ImageViewBody = function (_React$PureComponent) {
 
       var width = attrs.width,
           height = attrs.height;
+
+
+      if (loading) {
+        width = width || IMAGE_PLACEHOLDER_SIZE;
+        height = height || IMAGE_PLACEHOLDER_SIZE;
+      }
 
       if (width && !height) {
         height = width / aspectRatio;

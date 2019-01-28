@@ -28,21 +28,65 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-require('./czi-icon.css');
+var _regenerator = require('babel-runtime/regenerator');
+
+var _regenerator2 = _interopRequireDefault(_regenerator);
+
+var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
+
+var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+
+var _classnames = require('classnames');
+
+var _classnames2 = _interopRequireDefault(_classnames);
 
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _classnames = require('classnames');
+var _canUseCSSFont = require('./canUseCSSFont');
 
-var _classnames2 = _interopRequireDefault(_classnames);
+var _canUseCSSFont2 = _interopRequireDefault(_canUseCSSFont);
+
+var _injectStyleSheet = require('./injectStyleSheet');
+
+var _injectStyleSheet2 = _interopRequireDefault(_injectStyleSheet);
+
+require('./czi-icon.css');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var VALID_CHARS = /[a-z_]+/;
 
 var cached = {};
+
+var CSS_CDN_URL = '//fonts.googleapis.com/icon?family=Material+Icons';
+var CSS_FONT = 'Material Icons';
+
+(0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
+  var fontSupported;
+  return _regenerator2.default.wrap(function _callee$(_context) {
+    while (1) {
+      switch (_context.prev = _context.next) {
+        case 0:
+          _context.next = 2;
+          return (0, _canUseCSSFont2.default)(CSS_FONT);
+
+        case 2:
+          fontSupported = _context.sent;
+
+          if (!fontSupported) {
+            console.info('Add CSS from ', CSS_CDN_URL);
+            (0, _injectStyleSheet2.default)(CSS_CDN_URL);
+          }
+
+        case 4:
+        case 'end':
+          return _context.stop();
+      }
+    }
+  }, _callee, this);
+}))();
 
 var Icon = function (_React$PureComponent) {
   (0, _inherits3.default)(Icon, _React$PureComponent);
