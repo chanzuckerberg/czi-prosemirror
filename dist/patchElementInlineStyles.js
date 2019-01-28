@@ -14,8 +14,6 @@ var _from2 = _interopRequireDefault(_from);
 
 exports.default = patchElementInlineStyles;
 
-var _ParagraphNodeSpec = require('./ParagraphNodeSpec');
-
 var _hyphenize = require('./hyphenize');
 
 var _hyphenize2 = _interopRequireDefault(_hyphenize);
@@ -52,21 +50,18 @@ function patchBlockElementStyle(el, inlineStyleName) {
   var elementStyle = element.style;
   var value = elementStyle && elementStyle[inlineStyleName];
 
-  if (value && inlineStyleName === 'textIndent') {
-    var indent = (0, _ParagraphNodeSpec.convertMarginLeftToIndentValue)(value);
-    if (indent) {
-      // Replace text-indent with spacer.
-      var doc = el.ownerDocument;
-      var frag = doc.createDocumentFragment();
-      var spacer = doc.createElement('span');
-      spacer.innerHTML = '___';
-      spacer.style.color = 'transparent';
-      for (var ii = 0; ii < indent; ii++) {
-        frag.appendChild(spacer.cloneNode(true));
-      }
-      el.insertBefore(frag, el.firstChild);
+  if (inlineStyleName === 'textIndent' && value) {
+    // This is the workaround to fix the issue that people with mix both
+    // text-indent and margin-left together.
+    // For instance, `margin-left: -100px` and `text-indent: 100px` shall
+    // offset each other.
+    var pattern = /^-/;
+    var marginLeft = (elementStyle.marginLeft || '').replace(pattern, '');
+    var textIndent = (value || '').replace(pattern, '');
+    if (marginLeft === textIndent) {
+      elementStyle.marginLeft = '';
+      elementStyle.textIndent = '';
     }
-    value = '';
   }
 
   if (!value) {

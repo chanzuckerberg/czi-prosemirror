@@ -1,6 +1,5 @@
 // @flow
 
-import {convertMarginLeftToIndentValue} from './ParagraphNodeSpec';
 import hyphenize from './hyphenize';
 
 const BLOCK_TAG_SELECTOR =
@@ -48,23 +47,20 @@ function patchBlockElementStyle(
 ): void {
   const element: any = el;
   const elementStyle = element.style;
-  let value = elementStyle && elementStyle[inlineStyleName];
+  const value = elementStyle && elementStyle[inlineStyleName];
 
-  if (value && inlineStyleName === 'textIndent') {
-    const indent = convertMarginLeftToIndentValue(value);
-    if (indent) {
-      // Replace text-indent with spacer.
-      const doc = el.ownerDocument;
-      const frag = doc.createDocumentFragment();
-      const spacer = doc.createElement('span');
-      spacer.innerHTML = '___';
-      spacer.style.color = 'transparent';
-      for (let ii = 0; ii < indent; ii++) {
-        frag.appendChild(spacer.cloneNode(true));
-      }
-      el.insertBefore(frag, el.firstChild);
+  if (inlineStyleName === 'textIndent' && value) {
+    // This is the workaround to fix the issue that people with mix both
+    // text-indent and margin-left together.
+    // For instance, `margin-left: -100px` and `text-indent: 100px` shall
+    // offset each other.
+    const pattern = /^-/;
+    const marginLeft = (elementStyle.marginLeft || '').replace(pattern, '');
+    const textIndent = (value || '').replace(pattern, '');
+    if (marginLeft === textIndent) {
+      elementStyle.marginLeft = '';
+      elementStyle.textIndent = '';
     }
-    value = '';
   }
 
   if (!value) {
