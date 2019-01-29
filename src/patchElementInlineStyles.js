@@ -54,12 +54,14 @@ function patchBlockElementStyle(
     // text-indent and margin-left together.
     // For instance, `margin-left: -100px` and `text-indent: 100px` shall
     // offset each other.
-    const pattern = /^-/;
-    const marginLeft = (elementStyle.marginLeft || '').replace(pattern, '');
-    const textIndent = (value || '').replace(pattern, '');
-    if (marginLeft === textIndent) {
-      elementStyle.marginLeft = '';
-      elementStyle.textIndent = '';
+
+    const marginLeft = (elementStyle.marginLeft || '');
+    switch (true) {
+      case value === ('-' + marginLeft):
+      case marginLeft === ('-' + value):
+        elementStyle.marginLeft = '';
+        elementStyle.textIndent = '';
+        break;
     }
   }
 
