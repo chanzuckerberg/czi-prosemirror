@@ -38,7 +38,7 @@ print(node_command)
 os.system(node_command)
 
 # Generate files for flow types checking.
-os.system("flow-copy-source -v -i '**/__tests__/**' src dist")
+os.system("node ./node_modules/flow-copy-source/bin/flow-copy-source.js -v -i '**/__tests__/**' src dist")
 
 # Copy CSS files.
 os.system('cp src/ui/*.css dist/ui')
