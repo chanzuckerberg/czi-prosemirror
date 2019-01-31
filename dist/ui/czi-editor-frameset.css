@@ -11,7 +11,7 @@
   background-color: var(--czi-page-background-color);
 }
 
-.czi-editor.embedded .czi-editor-frame-body {
+.czi-editor-frameset.embedded .czi-editor-frame-body {
   background-color: unset;
 }
 
