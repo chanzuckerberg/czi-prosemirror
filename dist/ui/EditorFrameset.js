@@ -4,10 +4,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _defineProperty2 = require('babel-runtime/helpers/defineProperty');
-
-var _defineProperty3 = _interopRequireDefault(_defineProperty2);
-
 var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
@@ -28,8 +24,6 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _require$shape;
-
 var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
@@ -43,12 +37,16 @@ require('./czi-editor-frameset.css');
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 if (typeof exports !== 'undefined') Object.defineProperty(exports, 'babelPluginFlowReactPropTypes_proptype_EditorFramesetProps', {
-  value: require('prop-types').shape((_require$shape = {
+  value: require('prop-types').shape({
     body: require('prop-types').any,
     className: require('prop-types').string,
     embedded: require('prop-types').bool,
-    header: require('prop-types').any
-  }, (0, _defineProperty3.default)(_require$shape, 'header', require('prop-types').any), (0, _defineProperty3.default)(_require$shape, 'height', require('prop-types').oneOfType([require('prop-types').string, require('prop-types').number])), (0, _defineProperty3.default)(_require$shape, 'toolbar', require('prop-types').any), (0, _defineProperty3.default)(_require$shape, 'toolbar', require('prop-types').any), (0, _defineProperty3.default)(_require$shape, 'width', require('prop-types').oneOfType([require('prop-types').string, require('prop-types').number])), _require$shape))
+    header: require('prop-types').any,
+    height: require('prop-types').oneOfType([require('prop-types').string, require('prop-types').number]),
+    toolbarPlacement: require('prop-types').oneOf(['header', 'body']),
+    toolbar: require('prop-types').any,
+    width: require('prop-types').oneOfType([require('prop-types').string, require('prop-types').number])
+  })
 });
 
 
@@ -79,6 +77,7 @@ var EditorFrameset = function (_React$PureComponent) {
           embedded = _props.embedded,
           header = _props.header,
           height = _props.height,
+          toolbarPlacement = _props.toolbarPlacement,
           toolbar = _props.toolbar,
           width = _props.width;
 
@@ -96,6 +95,9 @@ var EditorFrameset = function (_React$PureComponent) {
         height: toCSS(height === undefined && useFixedLayout ? 'auto' : height)
       };
 
+      var toolbarHeader = toolbarPlacement === 'header' || !toolbarPlacement ? toolbar : null;
+      var toolbarBody = toolbarPlacement === 'body' && toolbar;
+
       return _react2.default.createElement(
         'div',
         { className: mainClassName, style: mainStyle },
@@ -106,11 +108,12 @@ var EditorFrameset = function (_React$PureComponent) {
             'div',
             { className: 'czi-editor-frame-head' },
             header,
-            toolbar
+            toolbarHeader
           ),
           _react2.default.createElement(
             'div',
             { className: 'czi-editor-frame-body' },
+            toolbarBody,
             _react2.default.createElement(
               'div',
               { className: 'czi-editor-frame-body-scroll' },
