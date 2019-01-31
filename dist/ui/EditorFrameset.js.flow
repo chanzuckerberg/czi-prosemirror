@@ -10,7 +10,7 @@ export type EditorFramesetProps  = {
   embedded: ?boolean,
   header: ?React.Element<any>,
   height: ?(string | number),
-  renderToolbarInFrameBody?: boolean,
+  toolbarPlacement?: 'header' | 'body' | null,
   toolbar: ?React.Element<any>,
   width: ?(string | number),
 };
@@ -37,7 +37,7 @@ class EditorFrameset extends React.PureComponent<any, any, any> {
       embedded,
       header,
       height,
-      renderToolbarInFrameBody,
+      toolbarPlacement,
       toolbar,
       width,
     } = this.props;
@@ -55,15 +55,20 @@ class EditorFrameset extends React.PureComponent<any, any, any> {
       height: toCSS(height === undefined && useFixedLayout ? 'auto' : height),
     };
 
+    const toolbarHeader = (toolbarPlacement === 'header' || !toolbarPlacement)
+      ? toolbar
+      : null;
+    const toolbarBody = toolbarPlacement === 'body' && toolbar;
+
     return (
       <div className={mainClassName} style={mainStyle}>
         <div className="czi-editor-frame-main">
           <div className="czi-editor-frame-head">
             {header}
-            {!renderToolbarInFrameBody && toolbar}
+            {toolbarHeader}
           </div>
           <div className="czi-editor-frame-body">
-            {renderToolbarInFrameBody && toolbar}
+            {toolbarBody}
             <div className="czi-editor-frame-body-scroll">
               {body}
             </div>

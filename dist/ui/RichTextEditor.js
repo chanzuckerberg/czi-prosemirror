@@ -151,6 +151,7 @@ var RichTextEditor = function (_React$PureComponent) {
       return _react2.default.createElement(_EditorFrameset2.default, {
         body: body,
         className: className,
+        embedded: embedded,
         header: header,
         height: height,
         toolbar: toolbar,

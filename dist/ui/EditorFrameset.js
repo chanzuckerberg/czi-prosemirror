@@ -43,7 +43,7 @@ if (typeof exports !== 'undefined') Object.defineProperty(exports, 'babelPluginF
     embedded: require('prop-types').bool,
     header: require('prop-types').any,
     height: require('prop-types').oneOfType([require('prop-types').string, require('prop-types').number]),
-    renderToolbarInFrameBody: require('prop-types').bool,
+    toolbarPlacement: require('prop-types').oneOf(['header', 'body']),
     toolbar: require('prop-types').any,
     width: require('prop-types').oneOfType([require('prop-types').string, require('prop-types').number])
   })
@@ -77,7 +77,7 @@ var EditorFrameset = function (_React$PureComponent) {
           embedded = _props.embedded,
           header = _props.header,
           height = _props.height,
-          renderToolbarInFrameBody = _props.renderToolbarInFrameBody,
+          toolbarPlacement = _props.toolbarPlacement,
           toolbar = _props.toolbar,
           width = _props.width;
 
@@ -95,6 +95,9 @@ var EditorFrameset = function (_React$PureComponent) {
         height: toCSS(height === undefined && useFixedLayout ? 'auto' : height)
       };
 
+      var toolbarHeader = toolbarPlacement === 'header' || !toolbarPlacement ? toolbar : null;
+      var toolbarBody = toolbarPlacement === 'body' && toolbar;
+
       return _react2.default.createElement(
         'div',
         { className: mainClassName, style: mainStyle },
@@ -105,12 +108,12 @@ var EditorFrameset = function (_React$PureComponent) {
             'div',
             { className: 'czi-editor-frame-head' },
             header,
-            !renderToolbarInFrameBody && toolbar
+            toolbarHeader
           ),
           _react2.default.createElement(
             'div',
             { className: 'czi-editor-frame-body' },
-            renderToolbarInFrameBody && toolbar,
+            toolbarBody,
             _react2.default.createElement(
               'div',
               { className: 'czi-editor-frame-body-scroll' },
