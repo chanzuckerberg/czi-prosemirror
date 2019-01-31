@@ -63,7 +63,7 @@
     "prop-types": "15.6.2",
     "prop-types-extra": "1.1.0",
     "prosemirror-dev-tools": "2.1.1",
-    "react-loadable": "5.5.0",
+    "react-loadable": "5.3.1",
     "regenerator": "0.12.3",
     "uglifyjs-webpack-plugin": "1.2.5",
     "webpack": "3.5.4",
