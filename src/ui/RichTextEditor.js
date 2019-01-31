@@ -90,6 +90,7 @@ class RichTextEditor extends React.PureComponent<any, any, any> {
       <EditorFrameset
         body={body}
         className={className}
+        embedded={embedded}
         header={header}
         height={height}
         toolbar={toolbar}
