@@ -23,6 +23,9 @@ export type PopUpBridge = {
 const CLICK_INTERVAL = 350;
 const DUMMY_RECT = {x: -10000, y: -10000, w: 0, h: 0};
 
+// https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener#Improving_scrolling_performance_with_passive_listeners
+const LISTENER_OPTION = true;
+
 class PopUpManager {
 
   _bridges = new Map();
@@ -50,17 +53,33 @@ class PopUpManager {
   }
 
   _observe(): void {
-    document.addEventListener('mousemove', this._onMouseChange, false);
-    document.addEventListener('mouseup', this._onMouseChange, false);
-    document.addEventListener('click', this._onClick, false);
+    const opt = LISTENER_OPTION;
+    document.addEventListener('mousemove', this._onMouseChange, opt);
+    document.addEventListener('mouseup', this._onMouseChange, opt);
+    document.addEventListener('click', this._onClick, opt);
+    window.addEventListener('scroll', this._onScroll, opt);
+    window.addEventListener('resize', this._onResize, opt);
   }
 
   _unobserve(): void {
-    document.removeEventListener('mousemove', this._onMouseChange, false);
-    document.removeEventListener('mouseup', this._onMouseChange, false);
-    document.removeEventListener('click', this._onClick, false);
+    const opt = LISTENER_OPTION;
+    document.removeEventListener('mousemove', this._onMouseChange, opt);
+    document.removeEventListener('mouseup', this._onMouseChange, opt);
+    document.removeEventListener('click', this._onClick, opt);
+    window.removeEventListener('scroll', this._onScroll, opt);
+    window.removeEventListener('resize', this._onResize, opt);
     this._rafID && cancelAnimationFrame(this._rafID);
   }
+
+  _onScroll = (e: Event): void => {
+    this._rafID && cancelAnimationFrame(this._rafID);
+    this._rafID = requestAnimationFrame(this._syncPosition);
+  };
+
+  _onResize = (e: Event): void => {
+    this._rafID && cancelAnimationFrame(this._rafID);
+    this._rafID = requestAnimationFrame(this._syncPosition);
+  };
 
   _onMouseChange = (e: MouseEvent): void => {
     this._mx = e.clientX;
