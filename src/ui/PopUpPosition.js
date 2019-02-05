@@ -61,3 +61,17 @@ export function atViewportCenter(anchorRect: ?Rect, bodyRect: ?Rect): Rect {
 
   return rect;
 }
+
+export function atAnchorTopRight(anchorRect: ?Rect, bodyRect: ?Rect): Rect {
+  const rect = {x: 0, y: 0, w: 0, h: 0};
+  if (anchorRect && bodyRect) {
+    rect.x = anchorRect.x + anchorRect.w + 1 - bodyRect.w;
+    rect.y = anchorRect.y;
+  }
+
+  if (!anchorRect || isCollapsed(anchorRect)) {
+    rect.x = -10000;
+  }
+
+  return rect;
+}

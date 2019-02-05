@@ -36,9 +36,7 @@ class LinkTooltipView {
   constructor(editorView: EditorView) {
     const el: any = document.createElement('div');
     this._el = el;
-
     el.className = 'czi-pop-up-element';
-
     const {parentNode} = editorView.dom;
     parentNode && parentNode.appendChild(el);
 

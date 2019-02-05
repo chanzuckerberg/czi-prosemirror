@@ -2,9 +2,8 @@
 
 import {fromHTMlElement, fromXY, isIntersected} from './rects';
 
-import type {Rect} from './rects';
-
 import type {PositionHandler} from './PopUpPosition';
+import type {Rect} from './rects';
 
 export type PopUpDetails = {
   anchor: ?HTMLElement,

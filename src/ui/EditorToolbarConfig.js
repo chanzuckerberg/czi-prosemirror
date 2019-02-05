@@ -82,6 +82,39 @@ const {
   UNDERLINE,
 } = EditorCommands;
 
+export const TABLE_COMMANDS_GROUP = [
+  {
+    'Insert Table...': TABLE_INSERT_TABLE,
+  },
+  {
+    'Fill Color...': TABLE_CELL_COLOR,
+  },
+  {
+    'Insert Column Before': TABLE_ADD_COLUMN_BEFORE,
+    'Insert Column After': TABLE_ADD_COLUMN_AFTER,
+    'Delete Column': TABLE_DELETE_COLUMN,
+  },
+  {
+    'Insert Row Before': TABLE_ADD_ROW_BEFORE,
+    'Insert Row After': TABLE_ADD_ROW_AFTER,
+    'Delete Row': TABLE_DELETE_ROW,
+  },
+  {
+    'Merge Cells': TABLE_MERGE_CELLS,
+    'Split Row': TABLE_SPLIT_ROW,
+  },
+  // Disable these commands cause user rarely use them.
+  {
+    'Toggle Header Column': TABLE_TOGGLE_HEADER_COLUMN,
+    'Toggle Header Cow': TABLE_TOGGLE_HEADER_ROW,
+    'Toggle Header Cells': TABLE_TOGGLE_HEADER_CELL,
+  },
+  {
+    'Delete Table': TABLE_DELETE_TABLE,
+  },
+];
+
+
 export const COMMAND_GROUPS = [
   {
     '[undo] Undo': HISTORY_UNDO,
@@ -89,37 +122,7 @@ export const COMMAND_GROUPS = [
     '[print] Print': PRINT,
   },
   {
-    '[grid_on] Table...': [
-      {
-        'Insert Table...': TABLE_INSERT_TABLE,
-      },
-      {
-        'Fill Color...': TABLE_CELL_COLOR,
-      },
-      {
-        'Insert Column Before': TABLE_ADD_COLUMN_BEFORE,
-        'Insert Column After': TABLE_ADD_COLUMN_AFTER,
-        'Delete Column': TABLE_DELETE_COLUMN,
-      },
-      {
-        'Insert Row Before': TABLE_ADD_ROW_BEFORE,
-        'Insert Row After': TABLE_ADD_ROW_AFTER,
-        'Delete Row': TABLE_DELETE_ROW,
-      },
-      {
-        'Merge Cells': TABLE_MERGE_CELLS,
-        'Split Row': TABLE_SPLIT_ROW,
-      },
-      // Disable these commands cause user rarely use them.
-      {
-        'Toggle Header Column': TABLE_TOGGLE_HEADER_COLUMN,
-        'Toggle Header Cow': TABLE_TOGGLE_HEADER_ROW,
-        'Toggle Header Cells': TABLE_TOGGLE_HEADER_CELL,
-      },
-      {
-        'Delete Table': TABLE_DELETE_TABLE,
-      },
-    ],
+    '[grid_on] Table...': TABLE_COMMANDS_GROUP,
   },
   {
     '[H1] Header 1': H1,
