@@ -83,6 +83,10 @@ class Editor extends React.PureComponent<any, any, any> {
 
   props: EditorProps;
 
+  state = {
+    isPrinting: false,
+  };
+
   componentDidMount(): void {
     const {
       onReady, editorState, readOnly,
@@ -113,6 +117,9 @@ class Editor extends React.PureComponent<any, any, any> {
 
       onReady && onReady(this._editorView);
     }
+
+    window.addEventListener('beforeprint', this._onPrintStart, false);
+    window.addEventListener('afterprint', this._onPrintEnd, false);
   }
 
   componentDidUpdate(): void {
@@ -121,10 +128,11 @@ class Editor extends React.PureComponent<any, any, any> {
       const {
         runtime, editorState, placeholder, readOnly, disabled,
       } = this.props;
+      const {isPrinting} = this.state;
       const state = editorState || EDITOR_EMPTY_STATE;
       view.runtime = runtime;
       view.placeholder = placeholder;
-      view.readOnly = !!readOnly;
+      view.readOnly = !!readOnly || isPrinting;
       view.disabled = !!disabled;
       view.updateState(state);
     }
@@ -133,6 +141,8 @@ class Editor extends React.PureComponent<any, any, any> {
   componentWillUnmount(): void {
     this._editorView && this._editorView.destroy();
     this._editorView = null;
+    window.removeEventListener('beforeprint', this._onPrintStart, false);
+    window.removeEventListener('afterprint', this._onPrintEnd, false);
   }
 
   render(): React.Element<any> {
@@ -152,7 +162,17 @@ class Editor extends React.PureComponent<any, any, any> {
 
   _isEditable = (): boolean => {
     const {disabled, readOnly} = this.props;
-    return !!this._editorView && !readOnly && !disabled;
+    const {isPrinting} = this.state;
+    return !isPrinting && !!this._editorView && !readOnly && !disabled;
+  };
+
+  _onPrintStart = (): void => {
+    this.setState({isPrinting: true});
+
+  };
+
+  _onPrintEnd = (): void => {
+    this.setState({isPrinting: false});
   };
 }
 

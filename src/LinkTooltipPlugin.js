@@ -50,6 +50,12 @@ class LinkTooltipView {
       return;
     }
 
+
+    if (view.readOnly) {
+      this.destroy();
+      return;
+    }
+
     const {state} = view;
     const {doc, selection, schema} = state;
     const markType = schema.marks[MARK_LINK];
@@ -60,8 +66,7 @@ class LinkTooltipView {
     const result = findNodesWithSameMark(doc, from, to, markType);
 
     if (!result) {
-      el.parentNode && el.parentNode.removeChild(el);
-      ReactDOM.unmountComponentAtNode(el);
+      this.destroy();
       return;
     }
 
