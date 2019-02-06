@@ -14,6 +14,7 @@ import EditorAttributesPlugin from './EditorAttributesPlugin';
 import EditorSchema from './EditorSchema';
 import LinkTooltipPlugin from './LinkTooltipPlugin';
 import SelectionPlaceholderPlugin from './SelectionPlaceholderPlugin';
+import TableCellTooltipPlugin from './TableCellTooltipPlugin';
 import buildInputRules from './buildInputRules';
 import createEditorKeyMap from './createEditorKeyMap';
 
@@ -30,6 +31,7 @@ function buildPlugins(schema: Schema): Array<Plugin> {
     new EditorAttributesPlugin(),
     new LinkTooltipPlugin(),
     new SelectionPlaceholderPlugin(),
+    new TableCellTooltipPlugin(),
 
     buildInputRules(schema),
     dropCursor(),

@@ -88,8 +88,38 @@ var CSS_FONT = 'Material Icons';
   }, _callee, this);
 }))();
 
-var Icon = function (_React$PureComponent) {
-  (0, _inherits3.default)(Icon, _React$PureComponent);
+var SuperscriptIcon = function (_React$PureComponent) {
+  (0, _inherits3.default)(SuperscriptIcon, _React$PureComponent);
+
+  function SuperscriptIcon() {
+    (0, _classCallCheck3.default)(this, SuperscriptIcon);
+    return (0, _possibleConstructorReturn3.default)(this, (SuperscriptIcon.__proto__ || (0, _getPrototypeOf2.default)(SuperscriptIcon)).apply(this, arguments));
+  }
+
+  (0, _createClass3.default)(SuperscriptIcon, [{
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'span',
+        { className: 'superscript-wrap' },
+        _react2.default.createElement(
+          'span',
+          { className: 'superscript-base' },
+          'x'
+        ),
+        _react2.default.createElement(
+          'span',
+          { className: 'superscript-top' },
+          'y'
+        )
+      );
+    }
+  }]);
+  return SuperscriptIcon;
+}(_react2.default.PureComponent);
+
+var Icon = function (_React$PureComponent2) {
+  (0, _inherits3.default)(Icon, _React$PureComponent2);
 
   function Icon() {
     (0, _classCallCheck3.default)(this, Icon);
@@ -105,7 +135,10 @@ var Icon = function (_React$PureComponent) {
 
       var className = '';
       var children = '';
-      if (!type || !VALID_CHARS.test(type)) {
+      if (type === 'superscript') {
+        className = (0, _classnames2.default)('czi-icon', (0, _defineProperty3.default)({}, type, true));
+        children = _react2.default.createElement(SuperscriptIcon, null);
+      } else if (!type || !VALID_CHARS.test(type)) {
         className = (0, _classnames2.default)('czi-icon-unknown');
         children = title || type;
       } else {

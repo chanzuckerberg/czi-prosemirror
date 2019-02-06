@@ -24,21 +24,29 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-require('./czi-table-grid-size-editor.css');
+var _classnames = require('classnames');
+
+var _classnames2 = _interopRequireDefault(_classnames);
 
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactDom = require('react-dom');
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
 var _clamp = require('./clamp');
 
 var _clamp2 = _interopRequireDefault(_clamp);
 
-var _classnames = require('classnames');
+var _htmlElementToRect = require('./htmlElementToRect');
 
-var _classnames2 = _interopRequireDefault(_classnames);
+var _htmlElementToRect2 = _interopRequireDefault(_htmlElementToRect);
 
 var _rects = require('./rects');
+
+require('./czi-table-grid-size-editor.css');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -102,9 +110,11 @@ var TableGridSizeEditor = function (_React$PureComponent2) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this2 = (0, _possibleConstructorReturn3.default)(this, (_ref = TableGridSizeEditor.__proto__ || (0, _getPrototypeOf2.default)(TableGridSizeEditor)).call.apply(_ref, [this].concat(args))), _this2), _this2._ex = 0, _this2._ey = 0, _this2._mx = 0, _this2._my = 0, _this2._rafID = 0, _this2.state = {
+    return _ret = (_temp = (_this2 = (0, _possibleConstructorReturn3.default)(this, (_ref = TableGridSizeEditor.__proto__ || (0, _getPrototypeOf2.default)(TableGridSizeEditor)).call.apply(_ref, [this].concat(args))), _this2), _this2._ex = 0, _this2._ey = 0, _this2._mx = 0, _this2._my = 0, _this2._rafID = 0, _this2._ref = null, _this2._entered = false, _this2.state = {
       rows: 1,
       cols: 1
+    }, _this2._onRef = function (ref) {
+      _this2._ref = ref;
     }, _this2._onMouseEnter = function (e) {
       var node = e.currentTarget;
       if (node instanceof HTMLElement) {
@@ -115,8 +125,22 @@ var TableGridSizeEditor = function (_React$PureComponent2) {
         _this2._ey = rect.y;
         _this2._mx = mx;
         _this2._my = my;
+        if (!_this2._entered) {
+          _this2._entered = true;
+          document.addEventListener('mousemove', _this2._onMouseMove, true);
+        }
       }
     }, _this2._onMouseMove = function (e) {
+      var el = _this2._ref && _reactDom2.default.findDOMNode(_this2._ref);
+      var elRect = el ? (0, _htmlElementToRect2.default)(el) : null;
+      var mouseRect = (0, _rects.fromXY)(e.screenX, e.screenY, 10);
+
+      if (elRect && mouseRect && (0, _rects.isIntersected)(elRect, mouseRect, 50)) {
+        // This prevents `PopUpManager` from collapsing the editor.
+        e.preventDefault();
+        e.stopImmediatePropagation();
+      }
+
       var mx = Math.round(e.clientX);
       var my = Math.round(e.clientY);
       if (mx !== _this2._mx || my !== _this2._my) {
@@ -149,6 +173,9 @@ var TableGridSizeEditor = function (_React$PureComponent2) {
   (0, _createClass3.default)(TableGridSizeEditor, [{
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
+      if (this._entered) {
+        document.removeEventListener('mousemove', this._onMouseMove, true);
+      }
       this._rafID && cancelAnimationFrame(this._rafID);
     }
   }, {
@@ -196,14 +223,14 @@ var TableGridSizeEditor = function (_React$PureComponent2) {
 
       return _react2.default.createElement(
         'div',
-        { className: 'czi-table-grid-size-editor' },
+        { className: 'czi-table-grid-size-editor', ref: this._onRef },
         _react2.default.createElement(
           'div',
           {
             className: 'czi-table-grid-size-editor-body',
             onMouseDown: this._onMouseDown,
             onMouseEnter: this._onMouseEnter,
-            onMouseMove: this._onMouseMove, style: bodyStyle },
+            style: bodyStyle },
           cells
         ),
         _react2.default.createElement(

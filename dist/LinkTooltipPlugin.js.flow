@@ -3,15 +3,15 @@
 import {EditorState, Plugin} from 'prosemirror-state';
 import {TextSelection} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
-import React from 'react';
-import ReactDOM from 'react-dom';
 
 import {MARK_LINK} from './MarkNames';
 import {hideSelectionPlaceholder, showSelectionPlaceholder} from './SelectionPlaceholderPlugin';
 import applyMark from './applyMark';
 import findNodesWithSameMark from './findNodesWithSameMark';
+import lookUpElement from './lookUpElement';
 import LinkTooltip from './ui/LinkTooltip';
 import LinkURLEditor from './ui/LinkURLEditor';
+import {atAnchorTopCenter} from './ui/PopUpPosition';
 import createPopUp from './ui/createPopUp';
 
 import './ui/czi-pop-up.css';
@@ -30,25 +30,17 @@ class LinkTooltipPlugin extends Plugin {
 }
 
 class LinkTooltipView {
-  _el = null;
-  _popUp = null;
+  _anchorEl = null;
+  _popup = null;
+  _editor = null;
 
   constructor(editorView: EditorView) {
-    const el: any = document.createElement('div');
-    this._el = el;
-
-    el.className = 'czi-pop-up-element';
-
-    const {parentNode} = editorView.dom;
-    parentNode && parentNode.appendChild(el);
-
     this.update(editorView, null);
   }
 
   update(view: EditorView, lastState: EditorState): void {
-
-    const el = this._el;
-    if (!el) {
+    if (view.readOnly) {
+      this.destroy();
       return;
     }
 
@@ -62,60 +54,62 @@ class LinkTooltipView {
     const result = findNodesWithSameMark(doc, from, to, markType);
 
     if (!result) {
-      el.parentNode && el.parentNode.removeChild(el);
-      ReactDOM.unmountComponentAtNode(el);
+      this.destroy();
+      return;
+    }
+    const domFound = view.domAtPos(from);
+    if (!domFound) {
+      this.destroy();
+      return;
+    }
+    const anchorEl = lookUpElement(domFound.node, el => el.nodeName === 'A');
+    if (!anchorEl) {
+      this.destroy();
       return;
     }
 
-    // These are in screen coordinates
-    const start = view.coordsAtPos(from);
-    const end = view.coordsAtPos(to);
+    const popup = this._popup;
+    const viewPops = {
+      editorState: state,
+      editorView: view,
+      href: result.mark.attrs.href,
+      onCancel: this._onCancel,
+      onEdit: this._onEdit,
+      onRemove: this._onRemove,
+    };
 
-    // The box in which the tooltip is positioned, to use as base
-    // const box = el.offsetParent.getBoundingClientRect();
-    // Find a center-ish x position from the selection endpoints (when
-    // crossing lines, end may be more to the left)
-    const left = Math.max((start.left + end.left) / 2, start.left + 3);
-    el.style.left = left + 'px';
-    el.style.top = start.top + 'px';
-
-    const {body} = document;
-    if (!el.parentNode && body) {
-      body.appendChild(el);
+    if (popup && anchorEl  === this._anchorEl) {
+      popup.update(viewPops);
+    } else {
+      popup && popup.close();
+      this._anchorEl = anchorEl;
+      this._popup = createPopUp(LinkTooltip, viewPops, {
+        anchor: anchorEl,
+        autoDismiss: false,
+        onClose: this._onClose,
+        position: atAnchorTopCenter,
+      });
     }
-
-    ReactDOM.render(
-      <LinkTooltip
-        editorView={view}
-        href={result.mark.attrs.href}
-        onCancel={this._onCancel}
-        onEdit={this._onEdit}
-        onRemove={this._onRemove}
-      />,
-      el,
-    );
   }
 
   destroy() {
-    const el = this._el;
-    if (el && el.parentNode) {
-      el.parentNode.removeChild(el);
-      ReactDOM.unmountComponentAtNode(el);
-    }
-    this._popUp && this._popUp.close();
-    this._popUp = null;
+    this._popup && this._popup.close();
+    this._editor && this._editor.close();
   }
 
   _onCancel  = (view: EditorView): void => {
-    if (this._popUp) {
-      return;
-    }
     this.destroy();
     view.focus();
   }
 
+  _onClose = (): void => {
+    this._anchorEl = null;
+    this._editor = null;
+    this._popup = null;
+  };
+
   _onEdit = (view: EditorView): void => {
-    if (this._popUp) {
+    if (this._editor) {
       return;
     }
 
@@ -144,9 +138,9 @@ class LinkTooltipView {
     view.dispatch(tr);
 
     const href = result ? result.mark.attrs.href : null;
-    this._popUp = createPopUp(LinkURLEditor,  {href}, {
+    this._editor = createPopUp(LinkURLEditor,  {href}, {
       onClose: (value) => {
-        this._popUp = null;
+        this._editor = null;
         this._onEditEnd(view, selection, value);
       },
     });

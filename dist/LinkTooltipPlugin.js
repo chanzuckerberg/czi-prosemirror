@@ -28,14 +28,6 @@ var _prosemirrorState = require('prosemirror-state');
 
 var _prosemirrorView = require('prosemirror-view');
 
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactDom = require('react-dom');
-
-var _reactDom2 = _interopRequireDefault(_reactDom);
-
 var _MarkNames = require('./MarkNames');
 
 var _SelectionPlaceholderPlugin = require('./SelectionPlaceholderPlugin');
@@ -48,6 +40,10 @@ var _findNodesWithSameMark = require('./findNodesWithSameMark');
 
 var _findNodesWithSameMark2 = _interopRequireDefault(_findNodesWithSameMark);
 
+var _lookUpElement = require('./lookUpElement');
+
+var _lookUpElement2 = _interopRequireDefault(_lookUpElement);
+
 var _LinkTooltip = require('./ui/LinkTooltip');
 
 var _LinkTooltip2 = _interopRequireDefault(_LinkTooltip);
@@ -55,6 +51,8 @@ var _LinkTooltip2 = _interopRequireDefault(_LinkTooltip);
 var _LinkURLEditor = require('./ui/LinkURLEditor');
 
 var _LinkURLEditor2 = _interopRequireDefault(_LinkURLEditor);
+
+var _PopUpPosition = require('./ui/PopUpPosition');
 
 var _createPopUp = require('./ui/createPopUp');
 
@@ -87,19 +85,23 @@ var LinkTooltipView = function () {
     var _this2 = this;
 
     (0, _classCallCheck3.default)(this, LinkTooltipView);
-    this._el = null;
-    this._popUp = null;
+    this._anchorEl = null;
+    this._popup = null;
+    this._editor = null;
 
     this._onCancel = function (view) {
-      if (_this2._popUp) {
-        return;
-      }
       _this2.destroy();
       view.focus();
     };
 
+    this._onClose = function () {
+      _this2._anchorEl = null;
+      _this2._editor = null;
+      _this2._popup = null;
+    };
+
     this._onEdit = function (view) {
-      if (_this2._popUp) {
+      if (_this2._editor) {
         return;
       }
 
@@ -124,9 +126,9 @@ var LinkTooltipView = function () {
       view.dispatch(tr);
 
       var href = result ? result.mark.attrs.href : null;
-      _this2._popUp = (0, _createPopUp2.default)(_LinkURLEditor2.default, { href: href }, {
+      _this2._editor = (0, _createPopUp2.default)(_LinkURLEditor2.default, { href: href }, {
         onClose: function onClose(value) {
-          _this2._popUp = null;
+          _this2._editor = null;
           _this2._onEditEnd(view, selection, value);
         }
       });
@@ -161,24 +163,14 @@ var LinkTooltipView = function () {
       view.focus();
     };
 
-    var el = document.createElement('div');
-    this._el = el;
-
-    el.className = 'czi-pop-up-element';
-
-    var parentNode = editorView.dom.parentNode;
-
-    parentNode && parentNode.appendChild(el);
-
     this.update(editorView, null);
   }
 
   (0, _createClass3.default)(LinkTooltipView, [{
     key: 'update',
     value: function update(view, lastState) {
-
-      var el = this._el;
-      if (!el) {
+      if (view.readOnly) {
+        this.destroy();
         return;
       }
 
@@ -197,48 +189,50 @@ var LinkTooltipView = function () {
       var result = (0, _findNodesWithSameMark2.default)(doc, from, to, markType);
 
       if (!result) {
-        el.parentNode && el.parentNode.removeChild(el);
-        _reactDom2.default.unmountComponentAtNode(el);
+        this.destroy();
+        return;
+      }
+      var domFound = view.domAtPos(from);
+      if (!domFound) {
+        this.destroy();
+        return;
+      }
+      var anchorEl = (0, _lookUpElement2.default)(domFound.node, function (el) {
+        return el.nodeName === 'A';
+      });
+      if (!anchorEl) {
+        this.destroy();
         return;
       }
 
-      // These are in screen coordinates
-      var start = view.coordsAtPos(from);
-      var end = view.coordsAtPos(to);
-
-      // The box in which the tooltip is positioned, to use as base
-      // const box = el.offsetParent.getBoundingClientRect();
-      // Find a center-ish x position from the selection endpoints (when
-      // crossing lines, end may be more to the left)
-      var left = Math.max((start.left + end.left) / 2, start.left + 3);
-      el.style.left = left + 'px';
-      el.style.top = start.top + 'px';
-
-      var _document = document,
-          body = _document.body;
-
-      if (!el.parentNode && body) {
-        body.appendChild(el);
-      }
-
-      _reactDom2.default.render(_react2.default.createElement(_LinkTooltip2.default, {
+      var popup = this._popup;
+      var viewPops = {
+        editorState: state,
         editorView: view,
         href: result.mark.attrs.href,
         onCancel: this._onCancel,
         onEdit: this._onEdit,
         onRemove: this._onRemove
-      }), el);
+      };
+
+      if (popup && anchorEl === this._anchorEl) {
+        popup.update(viewPops);
+      } else {
+        popup && popup.close();
+        this._anchorEl = anchorEl;
+        this._popup = (0, _createPopUp2.default)(_LinkTooltip2.default, viewPops, {
+          anchor: anchorEl,
+          autoDismiss: false,
+          onClose: this._onClose,
+          position: _PopUpPosition.atAnchorTopCenter
+        });
+      }
     }
   }, {
     key: 'destroy',
     value: function destroy() {
-      var el = this._el;
-      if (el && el.parentNode) {
-        el.parentNode.removeChild(el);
-        _reactDom2.default.unmountComponentAtNode(el);
-      }
-      this._popUp && this._popUp.close();
-      this._popUp = null;
+      this._popup && this._popup.close();
+      this._editor && this._editor.close();
     }
   }]);
   return LinkTooltipView;

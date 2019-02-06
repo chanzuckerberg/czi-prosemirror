@@ -7,6 +7,8 @@ exports.atAnchorBottom = atAnchorBottom;
 exports.atAnchorBottomCenter = atAnchorBottomCenter;
 exports.atAnchorRight = atAnchorRight;
 exports.atViewportCenter = atViewportCenter;
+exports.atAnchorTopRight = atAnchorTopRight;
+exports.atAnchorTopCenter = atAnchorTopCenter;
 
 var _rects = require('./rects');
 
@@ -17,6 +19,15 @@ function atAnchorBottom(anchorRect, bodyRect) {
   if (anchorRect && bodyRect) {
     rect.x = anchorRect.x;
     rect.y = anchorRect.y + anchorRect.h;
+
+    var viewportWidth = window.innerWidth;
+    var viewportHeight = window.innerHeight;
+    if (rect.x + bodyRect.w > viewportWidth) {
+      rect.x = anchorRect.x - bodyRect.w + anchorRect.w;
+    }
+    if (rect.y + bodyRect.h > viewportHeight) {
+      rect.y = anchorRect.y - bodyRect.h;
+    }
   }
 
   if (!anchorRect || (0, _rects.isCollapsed)(anchorRect)) {
@@ -45,6 +56,10 @@ function atAnchorRight(anchorRect, bodyRect) {
   if (anchorRect && bodyRect) {
     rect.x = anchorRect.x + anchorRect.w + 1;
     rect.y = anchorRect.y;
+    var viewportWidth = window.innerWidth;
+    if (rect.x + bodyRect.w > viewportWidth) {
+      rect.x = anchorRect.x - bodyRect.w;
+    }
   }
 
   if (!anchorRect || (0, _rects.isCollapsed)(anchorRect)) {
@@ -62,6 +77,34 @@ function atViewportCenter(anchorRect, bodyRect) {
   }
 
   if (!bodyRect || (0, _rects.isCollapsed)(bodyRect)) {
+    rect.x = -10000;
+  }
+
+  return rect;
+}
+
+function atAnchorTopRight(anchorRect, bodyRect) {
+  var rect = { x: 0, y: 0, w: 0, h: 0 };
+  if (anchorRect && bodyRect) {
+    rect.x = anchorRect.x + anchorRect.w + 1 - bodyRect.w;
+    rect.y = anchorRect.y;
+  }
+
+  if (!anchorRect || (0, _rects.isCollapsed)(anchorRect)) {
+    rect.x = -10000;
+  }
+
+  return rect;
+}
+
+function atAnchorTopCenter(anchorRect, bodyRect) {
+  var rect = { x: 0, y: 0, w: 0, h: 0 };
+  if (anchorRect && bodyRect) {
+    rect.x = anchorRect.x + (anchorRect.w - bodyRect.w) / 2;
+    rect.y = anchorRect.y;
+  }
+
+  if (!anchorRect || (0, _rects.isCollapsed)(anchorRect)) {
     rect.x = -10000;
   }
 

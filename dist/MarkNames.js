@@ -14,6 +14,7 @@ var MARK_LINK = exports.MARK_LINK = 'link';
 var MARK_NO_BREAK = exports.MARK_NO_BREAK = 'mark-no-break';
 var MARK_STRIKE = exports.MARK_STRIKE = 'strike';
 var MARK_STRONG = exports.MARK_STRONG = 'strong';
+var MARK_SUPER = exports.MARK_SUPER = 'super';
 var MARK_TEXT_COLOR = exports.MARK_TEXT_COLOR = 'mark-text-color';
 var MARK_TEXT_HIGHLIGHT = exports.MARK_TEXT_HIGHLIGHT = 'mark-text-highlight';
 var MARK_TEXT_SELECTION = exports.MARK_TEXT_SELECTION = 'mark-text-selection';

@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.UNDERLINE = exports.UL = exports.TEXT_LINE_SPACINGS = exports.TEXT_HIGHLIGHT = exports.TEXT_COLOR = exports.TEXT_ALIGN_RIGHT = exports.TEXT_ALIGN_LEFT = exports.TEXT_ALIGN_JUSTIFY = exports.TEXT_ALIGN_CENTER = exports.TABLE_TOGGLE_HEADER_ROW = exports.TABLE_TOGGLE_HEADER_COLUMN = exports.TABLE_TOGGLE_HEADER_CELL = exports.TABLE_SPLIT_ROW = exports.TABLE_MOVE_TO_PREV_CELL = exports.TABLE_MOVE_TO_NEXT_CELL = exports.TABLE_MERGE_CELLS = exports.TABLE_INSERT_TABLE = exports.TABLE_DELETE_TABLE = exports.TABLE_DELETE_ROW = exports.TABLE_DELETE_COLUMN = exports.TABLE_CELL_COLOR = exports.TABLE_ADD_ROW_BEFORE = exports.TABLE_ADD_ROW_AFTER = exports.TABLE_ADD_COLUMN_BEFORE = exports.TABLE_ADD_COLUMN_AFTER = exports.STRONG = exports.STRIKE = exports.PRINT = exports.OL = exports.MATH_EDIT = exports.LIST_SPLIT = exports.LIST_ITEM_MERGE_UP = exports.LIST_ITEM_MERGE_DOWN = exports.LIST_ITEM_INSERT_NEW_LINE = exports.LINK_SET_URL = exports.INDENT_MORE = exports.INDENT_LESS = exports.IMAGE_UPLOAD = exports.IMAGE_FROM_URL = exports.HR = exports.HISTORY_UNDO = exports.HISTORY_REDO = exports.H6 = exports.H5 = exports.H4 = exports.H3 = exports.H2 = exports.H1 = exports.EM = exports.DOC_LAYOUT = exports.CODE = exports.CLEAR_FORMAT = exports.BLOCKQUOTE_INSERT_NEW_LINE = exports.BLOCKQUOTE_TOGGLE = undefined;
+exports.UNDERLINE = exports.UL = exports.TEXT_LINE_SPACINGS = exports.TEXT_HIGHLIGHT = exports.TEXT_COLOR = exports.TEXT_ALIGN_RIGHT = exports.TEXT_ALIGN_LEFT = exports.TEXT_ALIGN_JUSTIFY = exports.TEXT_ALIGN_CENTER = exports.TABLE_TOGGLE_HEADER_ROW = exports.TABLE_TOGGLE_HEADER_COLUMN = exports.TABLE_TOGGLE_HEADER_CELL = exports.TABLE_SPLIT_ROW = exports.TABLE_MOVE_TO_PREV_CELL = exports.TABLE_MOVE_TO_NEXT_CELL = exports.TABLE_MERGE_CELLS = exports.TABLE_INSERT_TABLE = exports.TABLE_DELETE_TABLE = exports.TABLE_DELETE_ROW = exports.TABLE_DELETE_COLUMN = exports.TABLE_CELL_COLOR = exports.TABLE_ADD_ROW_BEFORE = exports.TABLE_ADD_ROW_AFTER = exports.TABLE_ADD_COLUMN_BEFORE = exports.TABLE_ADD_COLUMN_AFTER = exports.SUPER = exports.STRONG = exports.STRIKE = exports.PRINT = exports.OL = exports.MATH_EDIT = exports.LIST_SPLIT = exports.LIST_ITEM_MERGE_UP = exports.LIST_ITEM_MERGE_DOWN = exports.LIST_ITEM_INSERT_NEW_LINE = exports.LINK_SET_URL = exports.INDENT_MORE = exports.INDENT_LESS = exports.IMAGE_UPLOAD = exports.IMAGE_FROM_URL = exports.HR = exports.HISTORY_UNDO = exports.HISTORY_REDO = exports.H6 = exports.H5 = exports.H4 = exports.H3 = exports.H2 = exports.H1 = exports.EM = exports.DOC_LAYOUT = exports.CODE = exports.CLEAR_FORMAT = exports.BLOCKQUOTE_INSERT_NEW_LINE = exports.BLOCKQUOTE_TOGGLE = undefined;
 
 var _prosemirrorTables = require('prosemirror-tables');
 
@@ -144,6 +144,7 @@ var addColumnAfter = ProsemirrorTables.addColumnAfter,
 var MARK_STRONG = MarkNames.MARK_STRONG,
     MARK_EM = MarkNames.MARK_EM,
     MARK_STRIKE = MarkNames.MARK_STRIKE,
+    MARK_SUPER = MarkNames.MARK_SUPER,
     MARK_UNDERLINE = MarkNames.MARK_UNDERLINE;
 
 // Note that Firefox will, by default, add various kinds of controls to
@@ -183,6 +184,7 @@ var OL = exports.OL = new _ListToggleCommand2.default(true);
 var PRINT = exports.PRINT = new _PrintCommand2.default();
 var STRIKE = exports.STRIKE = new _MarkToggleCommand2.default(MARK_STRIKE);
 var STRONG = exports.STRONG = new _MarkToggleCommand2.default(MARK_STRONG);
+var SUPER = exports.SUPER = new _MarkToggleCommand2.default(MARK_SUPER);
 var TABLE_ADD_COLUMN_AFTER = exports.TABLE_ADD_COLUMN_AFTER = (0, _createCommand2.default)(addColumnAfter);
 var TABLE_ADD_COLUMN_BEFORE = exports.TABLE_ADD_COLUMN_BEFORE = (0, _createCommand2.default)(addColumnBefore);
 var TABLE_ADD_ROW_AFTER = exports.TABLE_ADD_ROW_AFTER = (0, _createCommand2.default)(addRowAfter);

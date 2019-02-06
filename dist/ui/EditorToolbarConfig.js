@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.COMMAND_GROUPS = undefined;
+exports.COMMAND_GROUPS = exports.TABLE_COMMANDS_GROUP = undefined;
 
 var _slicedToArray2 = require('babel-runtime/helpers/slicedToArray');
 
@@ -80,9 +80,9 @@ var BLOCKQUOTE_TOGGLE = EditorCommands.BLOCKQUOTE_TOGGLE,
     LINK_SET_URL = EditorCommands.LINK_SET_URL,
     MATH_EDIT = EditorCommands.MATH_EDIT,
     OL = EditorCommands.OL,
-    PRINT = EditorCommands.PRINT,
     STRIKE = EditorCommands.STRIKE,
     STRONG = EditorCommands.STRONG,
+    SUPER = EditorCommands.SUPER,
     TABLE_ADD_COLUMN_AFTER = EditorCommands.TABLE_ADD_COLUMN_AFTER,
     TABLE_ADD_COLUMN_BEFORE = EditorCommands.TABLE_ADD_COLUMN_BEFORE,
     TABLE_ADD_ROW_AFTER = EditorCommands.TABLE_ADD_ROW_AFTER,
@@ -106,35 +106,36 @@ var BLOCKQUOTE_TOGGLE = EditorCommands.BLOCKQUOTE_TOGGLE,
     TEXT_LINE_SPACINGS = EditorCommands.TEXT_LINE_SPACINGS,
     UL = EditorCommands.UL,
     UNDERLINE = EditorCommands.UNDERLINE;
+var TABLE_COMMANDS_GROUP = exports.TABLE_COMMANDS_GROUP = [{
+  'Insert Table...': TABLE_INSERT_TABLE
+}, {
+  'Fill Color...': TABLE_CELL_COLOR
+}, {
+  'Insert Column Before': TABLE_ADD_COLUMN_BEFORE,
+  'Insert Column After': TABLE_ADD_COLUMN_AFTER,
+  'Delete Column': TABLE_DELETE_COLUMN
+}, {
+  'Insert Row Before': TABLE_ADD_ROW_BEFORE,
+  'Insert Row After': TABLE_ADD_ROW_AFTER,
+  'Delete Row': TABLE_DELETE_ROW
+}, {
+  'Merge Cells': TABLE_MERGE_CELLS,
+  'Split Row': TABLE_SPLIT_ROW
+},
+// Disable these commands cause user rarely use them.
+{
+  'Toggle Header Column': TABLE_TOGGLE_HEADER_COLUMN,
+  'Toggle Header Cow': TABLE_TOGGLE_HEADER_ROW,
+  'Toggle Header Cells': TABLE_TOGGLE_HEADER_CELL
+}, {
+  'Delete Table': TABLE_DELETE_TABLE
+}];
+
 var COMMAND_GROUPS = exports.COMMAND_GROUPS = [{
   '[undo] Undo': HISTORY_UNDO,
-  '[redo] Redo': HISTORY_REDO,
-  '[print] Print': PRINT
+  '[redo] Redo': HISTORY_REDO
 }, {
-  '[grid_on] Table...': [{
-    'Insert Table...': TABLE_INSERT_TABLE
-  }, {
-    'Fill Color...': TABLE_CELL_COLOR
-  }, {
-    'Insert Column Before': TABLE_ADD_COLUMN_BEFORE,
-    'Insert Column After': TABLE_ADD_COLUMN_AFTER,
-    'Delete Column': TABLE_DELETE_COLUMN
-  }, {
-    'Insert Row Before': TABLE_ADD_ROW_BEFORE,
-    'Insert Row After': TABLE_ADD_ROW_AFTER,
-    'Delete Row': TABLE_DELETE_ROW
-  }, {
-    'Merge Cells': TABLE_MERGE_CELLS,
-    'Split Row': TABLE_SPLIT_ROW
-  },
-  // Disable these commands cause user rarely use them.
-  {
-    'Toggle Header Column': TABLE_TOGGLE_HEADER_COLUMN,
-    'Toggle Header Cow': TABLE_TOGGLE_HEADER_ROW,
-    'Toggle Header Cells': TABLE_TOGGLE_HEADER_CELL
-  }, {
-    'Delete Table': TABLE_DELETE_TABLE
-  }]
+  '[grid_on] Table...': TABLE_COMMANDS_GROUP
 }, {
   '[H1] Header 1': H1,
   '[H2] Heading 2': H2,
@@ -153,7 +154,8 @@ var COMMAND_GROUPS = exports.COMMAND_GROUPS = [{
   '[format_italic] Italic': EM,
   '[format_underline] Underline': UNDERLINE,
   '[format_color_text] Text color': TEXT_COLOR,
-  '[border_color] Highlight color': TEXT_HIGHLIGHT
+  '[border_color] Highlight color': TEXT_HIGHLIGHT,
+  '[superscript] Superscript': SUPER
 }, {
   '[link] Apply link': LINK_SET_URL,
   '[image] Insert image': [{

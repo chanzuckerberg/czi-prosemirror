@@ -2,9 +2,8 @@
 
 import {fromHTMlElement, fromXY, isIntersected} from './rects';
 
-import type {Rect} from './rects';
-
 import type {PositionHandler} from './PopUpPosition';
+import type {Rect} from './rects';
 
 export type PopUpDetails = {
   anchor: ?HTMLElement,
@@ -54,14 +53,28 @@ class PopUpManager {
     document.addEventListener('mousemove', this._onMouseChange, false);
     document.addEventListener('mouseup', this._onMouseChange, false);
     document.addEventListener('click', this._onClick, false);
+    window.addEventListener('scroll', this._onScroll, true);
+    window.addEventListener('resize', this._onResize, true);
   }
 
   _unobserve(): void {
     document.removeEventListener('mousemove', this._onMouseChange, false);
     document.removeEventListener('mouseup', this._onMouseChange, false);
     document.removeEventListener('click', this._onClick, false);
+    window.removeEventListener('scroll', this._onScroll, true);
+    window.removeEventListener('resize', this._onResize, true);
     this._rafID && cancelAnimationFrame(this._rafID);
   }
+
+  _onScroll = (e: Event): void => {
+    this._rafID && cancelAnimationFrame(this._rafID);
+    this._rafID = requestAnimationFrame(this._syncPosition);
+  };
+
+  _onResize = (e: Event): void => {
+    this._rafID && cancelAnimationFrame(this._rafID);
+    this._rafID = requestAnimationFrame(this._syncPosition);
+  };
 
   _onMouseChange = (e: MouseEvent): void => {
     this._mx = e.clientX;

@@ -151,12 +151,19 @@ var Editor = function (_React$PureComponent) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = Editor.__proto__ || (0, _getPrototypeOf2.default)(Editor)).call.apply(_ref, [this].concat(args))), _this), _this._id = (0, _uuid2.default)(), _this._editorView = null, _this._isEditable = function () {
+    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = Editor.__proto__ || (0, _getPrototypeOf2.default)(Editor)).call.apply(_ref, [this].concat(args))), _this), _this._id = (0, _uuid2.default)(), _this._editorView = null, _this.state = {
+      isPrinting: false
+    }, _this._isEditable = function () {
       var _this$props = _this.props,
           disabled = _this$props.disabled,
           readOnly = _this$props.readOnly;
+      var isPrinting = _this.state.isPrinting;
 
-      return !!_this._editorView && !readOnly && !disabled;
+      return !isPrinting && !!_this._editorView && !readOnly && !disabled;
+    }, _this._onPrintStart = function () {
+      _this.setState({ isPrinting: true });
+    }, _this._onPrintEnd = function () {
+      _this.setState({ isPrinting: false });
     }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
   }
 
@@ -194,6 +201,9 @@ var Editor = function (_React$PureComponent) {
 
         onReady && onReady(this._editorView);
       }
+
+      window.addEventListener('beforeprint', this._onPrintStart, false);
+      window.addEventListener('afterprint', this._onPrintEnd, false);
     }
   }, {
     key: 'componentDidUpdate',
@@ -206,11 +216,12 @@ var Editor = function (_React$PureComponent) {
             _placeholder = _props2.placeholder,
             _readOnly = _props2.readOnly,
             _disabled = _props2.disabled;
+        var isPrinting = this.state.isPrinting;
 
         var _state = _editorState || EDITOR_EMPTY_STATE;
         view.runtime = _runtime;
         view.placeholder = _placeholder;
-        view.readOnly = !!_readOnly;
+        view.readOnly = !!_readOnly || isPrinting;
         view.disabled = !!_disabled;
         view.updateState(_state);
       }
@@ -220,6 +231,8 @@ var Editor = function (_React$PureComponent) {
     value: function componentWillUnmount() {
       this._editorView && this._editorView.destroy();
       this._editorView = null;
+      window.removeEventListener('beforeprint', this._onPrintStart, false);
+      window.removeEventListener('afterprint', this._onPrintEnd, false);
     }
   }, {
     key: 'render',

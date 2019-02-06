@@ -32,9 +32,9 @@ var _rects = require('./rects');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var babelPluginFlowReactPropTypes_proptype_Rect = require('./rects').babelPluginFlowReactPropTypes_proptype_Rect || require('prop-types').any;
-
 var babelPluginFlowReactPropTypes_proptype_PositionHandler = require('./PopUpPosition').babelPluginFlowReactPropTypes_proptype_PositionHandler || require('prop-types').any;
+
+var babelPluginFlowReactPropTypes_proptype_Rect = require('./rects').babelPluginFlowReactPropTypes_proptype_Rect || require('prop-types').any;
 
 if (typeof exports !== 'undefined') Object.defineProperty(exports, 'babelPluginFlowReactPropTypes_proptype_PopUpDetails', {
   value: require('prop-types').shape({
@@ -68,6 +68,16 @@ var PopUpManager = function () {
     this._mx = 0;
     this._my = 0;
     this._rafID = 0;
+
+    this._onScroll = function (e) {
+      _this._rafID && cancelAnimationFrame(_this._rafID);
+      _this._rafID = requestAnimationFrame(_this._syncPosition);
+    };
+
+    this._onResize = function (e) {
+      _this._rafID && cancelAnimationFrame(_this._rafID);
+      _this._rafID = requestAnimationFrame(_this._syncPosition);
+    };
 
     this._onMouseChange = function (e) {
       _this._mx = e.clientX;
@@ -366,6 +376,8 @@ var PopUpManager = function () {
       document.addEventListener('mousemove', this._onMouseChange, false);
       document.addEventListener('mouseup', this._onMouseChange, false);
       document.addEventListener('click', this._onClick, false);
+      window.addEventListener('scroll', this._onScroll, true);
+      window.addEventListener('resize', this._onResize, true);
     }
   }, {
     key: '_unobserve',
@@ -373,6 +385,8 @@ var PopUpManager = function () {
       document.removeEventListener('mousemove', this._onMouseChange, false);
       document.removeEventListener('mouseup', this._onMouseChange, false);
       document.removeEventListener('click', this._onClick, false);
+      window.removeEventListener('scroll', this._onScroll, true);
+      window.removeEventListener('resize', this._onResize, true);
       this._rafID && cancelAnimationFrame(this._rafID);
     }
   }]);
