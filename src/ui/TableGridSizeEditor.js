@@ -1,10 +1,14 @@
 // @flow
 
-import './czi-table-grid-size-editor.css';
-import React from 'react';
-import clamp from './clamp';
 import cx from 'classnames';
-import {fromHTMlElement} from './rects';
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+import clamp from './clamp';
+import htmlElementToRect from './htmlElementToRect';
+import {fromHTMlElement, fromXY, isIntersected} from './rects';
+
+import './czi-table-grid-size-editor.css';
 
 export type TableGridSizeEditorValue = {
   cols: number,
@@ -42,6 +46,8 @@ class TableGridSizeEditor extends React.PureComponent<any, any, any> {
   _mx = 0;
   _my = 0;
   _rafID = 0;
+  _ref = null;
+  _entered = false;
 
   props: {
     close: (val: TableGridSizeEditorValue) => void,
@@ -53,6 +59,9 @@ class TableGridSizeEditor extends React.PureComponent<any, any, any> {
   };
 
   componentWillUnmount(): void {
+    if (this._entered) {
+      document.removeEventListener('mousemove', this._onMouseMove, true);
+    }
     this._rafID && cancelAnimationFrame(this._rafID);
   }
 
@@ -97,12 +106,12 @@ class TableGridSizeEditor extends React.PureComponent<any, any, any> {
     const bodyStyle = {width: w + 'px', height: h + 'px'};
 
     return (
-      <div className="czi-table-grid-size-editor">
+      <div className="czi-table-grid-size-editor" ref={this._onRef}>
         <div
           className="czi-table-grid-size-editor-body"
           onMouseDown={this._onMouseDown}
           onMouseEnter={this._onMouseEnter}
-          onMouseMove={this._onMouseMove} style={bodyStyle}>
+          style={bodyStyle}>
           {cells}
         </div>
         <div className="czi-table-grid-size-editor-footer">
@@ -111,6 +120,10 @@ class TableGridSizeEditor extends React.PureComponent<any, any, any> {
       </div>
     );
   }
+
+  _onRef = (ref: any): void => {
+    this._ref = ref;
+  };
 
   _onMouseEnter = (e: MouseEvent): void => {
     const node = e.currentTarget;
@@ -122,10 +135,24 @@ class TableGridSizeEditor extends React.PureComponent<any, any, any> {
       this._ey = rect.y;
       this._mx = mx;
       this._my = my;
+      if (!this._entered) {
+        this._entered = true;
+        document.addEventListener('mousemove', this._onMouseMove, true);
+      }
     }
   };
 
   _onMouseMove = (e: MouseEvent): void => {
+    const el = this._ref && ReactDOM.findDOMNode(this._ref);
+    const elRect = el ? htmlElementToRect(el) : null;
+    const mouseRect = fromXY(e.screenX, e.screenY, 10);
+
+    if (elRect && mouseRect && isIntersected(elRect, mouseRect, 50)) {
+      // This prevents `PopUpManager` from collapsing the editor.
+      e.preventDefault();
+      e.stopImmediatePropagation();
+    }
+
     const mx = Math.round(e.clientX);
     const my = Math.round(e.clientY);
     if (mx !== this._mx || my !== this._my) {
