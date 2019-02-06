@@ -11,6 +11,11 @@ export function atAnchorBottom(anchorRect: ?Rect, bodyRect: ?Rect): Rect {
   if (anchorRect && bodyRect) {
     rect.x = anchorRect.x;
     rect.y = anchorRect.y + anchorRect.h;
+
+    const viewportWidth = window.innerWidth;
+    if ((rect.x + bodyRect.w) > viewportWidth) {
+      rect.x = anchorRect.x - bodyRect.w +  anchorRect.w;
+    }
   }
 
   if (!anchorRect || isCollapsed(anchorRect)) {
@@ -39,6 +44,10 @@ export function atAnchorRight(anchorRect: ?Rect, bodyRect: ?Rect): Rect {
   if (anchorRect && bodyRect) {
     rect.x = anchorRect.x + anchorRect.w + 1;
     rect.y = anchorRect.y;
+    const viewportWidth = window.innerWidth;
+     if ((rect.x + bodyRect.w) > viewportWidth) {
+      rect.x = anchorRect.x - bodyRect.w;
+    }
   }
 
   if (!anchorRect || isCollapsed(anchorRect)) {
