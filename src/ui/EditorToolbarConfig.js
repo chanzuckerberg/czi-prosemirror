@@ -52,9 +52,9 @@ const {
   LINK_SET_URL,
   MATH_EDIT,
   OL,
-  PRINT,
   STRIKE,
   STRONG,
+  SUPER,
   TABLE_ADD_COLUMN_AFTER,
   TABLE_ADD_COLUMN_BEFORE,
   TABLE_ADD_ROW_AFTER,
@@ -119,7 +119,6 @@ export const COMMAND_GROUPS = [
   {
     '[undo] Undo': HISTORY_UNDO,
     '[redo] Redo': HISTORY_REDO,
-    '[print] Print': PRINT,
   },
   {
     '[grid_on] Table...': TABLE_COMMANDS_GROUP,
@@ -146,6 +145,7 @@ export const COMMAND_GROUPS = [
     '[format_underline] Underline': UNDERLINE,
     '[format_color_text] Text color': TEXT_COLOR,
     '[border_color] Highlight color': TEXT_HIGHLIGHT,
+    '[superscript] Superscript': SUPER,
   },
   {
     '[link] Apply link': LINK_SET_URL,

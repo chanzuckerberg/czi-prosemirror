@@ -48,3 +48,17 @@
   font-weight: bold;
   line-height: 0;
 }
+
+.czi-icon.superscript {
+  display: inline-block;
+  font-family: Arial;
+  font-size: 12px;
+  height: 16px;
+  text-align: center;
+  width: 20px;
+}
+
+.czi-icon .superscript-top {
+  margin: 0 2px;
+  vertical-align: super;
+}
