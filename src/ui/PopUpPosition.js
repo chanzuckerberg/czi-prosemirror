@@ -13,8 +13,12 @@ export function atAnchorBottom(anchorRect: ?Rect, bodyRect: ?Rect): Rect {
     rect.y = anchorRect.y + anchorRect.h;
 
     const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
     if ((rect.x + bodyRect.w) > viewportWidth) {
       rect.x = anchorRect.x - bodyRect.w +  anchorRect.w;
+    }
+    if ((rect.y + bodyRect.h) > viewportHeight) {
+      rect.y = anchorRect.y - bodyRect.h;
     }
   }
 
