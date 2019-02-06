@@ -9,6 +9,7 @@ export const MARK_LINK = 'link';
 export const MARK_NO_BREAK = 'mark-no-break';
 export const MARK_STRIKE = 'strike';
 export const MARK_STRONG = 'strong';
+export const MARK_SUPER = 'super';
 export const MARK_TEXT_COLOR = 'mark-text-color';
 export const MARK_TEXT_HIGHLIGHT = 'mark-text-highlight';
 export const MARK_TEXT_SELECTION = 'mark-text-selection';
