@@ -30,7 +30,7 @@ class TableCellTooltipView {
     }
 
     // These is screen coordinate.
-    const domFound = view.domAtPos(result.pos + 1, result.pos);
+    const domFound = view.domAtPos(result.pos + 1);
     if (!domFound) {
       this.destroy();
       return;
