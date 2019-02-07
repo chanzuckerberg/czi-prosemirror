@@ -35,10 +35,10 @@ function renderAttributes(editorState: EditorState): Object {
 
 // Unfortunately the root node `doc` does not supoort `toDOM`, thus
 // we'd have to assign its `attributes` manually.
-class EditorAttributesPlugin extends Plugin {
+class EditorPageLayoutPlugin extends Plugin {
   constructor() {
     super(SPEC);
   }
 }
 
-export default EditorAttributesPlugin;
+export default EditorPageLayoutPlugin;
