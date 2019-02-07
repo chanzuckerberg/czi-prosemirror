@@ -1,17 +1,25 @@
 // @flow
 
+import {Schema} from 'prosemirror-model';
 import {DOMParser} from 'prosemirror-model';
 import {EditorState} from 'prosemirror-state';
+import {Plugin} from 'prosemirror-state';
 
 import {getAttrs} from './DocNodeSpec';
 import EditorPlugins from './EditorPlugins';
 import EditorSchema from './EditorSchema';
 
-export default function convertFromDOMElement(el: HTMLElement): EditorState {
+export default function convertFromDOMElement(
+  el: HTMLElement,
+  schema: ?Schema,
+  plugins: ?Array<Plugin>,
+): EditorState {
+  const effectiveSchema = schema || EditorSchema;
+  const effectivePlugins = plugins || EditorPlugins;
   const bodyEl = el.querySelector('body');
 
   // https://prosemirror.net/docs/ref/#model.ParseOptions.preserveWhitespace
-  const doc = DOMParser.fromSchema(EditorSchema).parse(
+  const doc = DOMParser.fromSchema(effectiveSchema).parse(
     el,
     {preserveWhitespace: true},
   );
@@ -24,6 +32,6 @@ export default function convertFromDOMElement(el: HTMLElement): EditorState {
 
   return EditorState.create({
     doc,
-    plugins: EditorPlugins,
+    plugins: effectivePlugins,
   });
 }

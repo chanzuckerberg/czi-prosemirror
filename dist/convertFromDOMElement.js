@@ -21,11 +21,13 @@ var _EditorSchema2 = _interopRequireDefault(_EditorSchema);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function convertFromDOMElement(el) {
+function convertFromDOMElement(el, schema, plugins) {
+  var effectiveSchema = schema || _EditorSchema2.default;
+  var effectivePlugins = plugins || _EditorPlugins2.default;
   var bodyEl = el.querySelector('body');
 
   // https://prosemirror.net/docs/ref/#model.ParseOptions.preserveWhitespace
-  var doc = _prosemirrorModel.DOMParser.fromSchema(_EditorSchema2.default).parse(el, { preserveWhitespace: true });
+  var doc = _prosemirrorModel.DOMParser.fromSchema(effectiveSchema).parse(el, { preserveWhitespace: true });
 
   if (bodyEl) {
     // Unfortunately the root node `doc` does not supoort `parseDOM`, thus
@@ -35,6 +37,6 @@ function convertFromDOMElement(el) {
 
   return _prosemirrorState.EditorState.create({
     doc: doc,
-    plugins: _EditorPlugins2.default
+    plugins: effectivePlugins
   });
 }

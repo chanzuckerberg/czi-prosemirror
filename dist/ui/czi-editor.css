@@ -67,8 +67,6 @@
     position: relative;
     width: 16.25cm;
     z-index: 1;
-    /* transform: scale(0.5);
-    transform-origin: top; */
   }
 
   .ProseMirror[data-layout="us_letter_portrait"] {
