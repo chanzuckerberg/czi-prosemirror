@@ -18,3 +18,24 @@
   padding: 16px;
   width: 100%;
 }
+
+.simple-editor-toolbar {
+  padding: 4px 10px;
+}
+
+.simple-editor-toolbar .czi-custom-button {
+  border: none;
+  display: inline-flex;
+  flex-direction: column;
+  font-weight: normal;
+  height: 24px;
+  justify-content: center;
+  margin: 0 2px;
+  text-align: center;
+  width: 24px;
+}
+
+
+.simple-editor-toolbar .czi-icon {
+  font-size: 16px;
+}

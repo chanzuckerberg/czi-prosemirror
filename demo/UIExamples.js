@@ -18,11 +18,8 @@ import SimpleEditor from './SimpleEditor';
 class SimpleEditorExample extends React.PureComponent<any, any, any> {
   state = {
     editorState: SimpleEditor.convertFromHTML(`
-       <h1>header</h1>
-       <ul><li>list a</li><li>list 2</li></ul>
-       <p>paragraph</p>
-       <b>bold</b>
-       <a href="#">link</a>
+       <b>simple editor example</b>
+       <p>type something here</p>
     `),
   };
 
