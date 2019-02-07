@@ -1,25 +1,45 @@
 // @flow
 
-import {Transform} from 'prosemirror-transform';
-import {EditorView} from 'prosemirror-view';
+import {EditorState} from 'prosemirror-state';
 import React from 'react';
 
+import convertFromHTML from '../src/convertFromHTML';
+import convertFromJSON from '../src/convertFromJSON';
 import createEmptyEditorState from '../src/createEmptyEditorState';
 import Editor from '../src/ui/Editor';
 import EditorFrameset from '../src/ui/EditorFrameset';
-import uuid from '../src/ui/uuid';
+
+import './simple-editor.css';
 
 class SimpleEditor extends React.PureComponent<any, any, any> {
+
+  static convertFromJSON = (json: string | Object):EditorState => {
+    return convertFromJSON(json);
+  };
+
+  static convertFromHTML = (html: string):EditorState => {
+    return convertFromHTML(html);
+  };
+
+  static createEmptyEditorState = (): EditorState => {
+    return createEmptyEditorState();
+  };
+
   render(): React.Element<any> {
+    const {editorState, onChange} = this.props;
     const toolbar = <div>toolbar</div>;
-    const body = <div>body</div>;
+    const body =
+      <Editor
+        editorState={editorState}
+        onChange={onChange}
+      />;
     return (
       <EditorFrameset
         body={body}
         className="simple-editor"
-        height={200}
+        height={400}
         toolbar={toolbar}
-        width={400}
+        width={500}
       />
     );
   }
