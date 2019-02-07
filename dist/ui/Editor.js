@@ -4,6 +4,10 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _keys = require('babel-runtime/core-js/object/keys');
+
+var _keys2 = _interopRequireDefault(_keys);
+
 var _defineProperty2 = require('babel-runtime/helpers/defineProperty');
 
 var _defineProperty3 = _interopRequireDefault(_defineProperty2);
@@ -108,6 +112,7 @@ if (typeof exports !== 'undefined') Object.defineProperty(exports, 'babelPluginF
     embedded: require('prop-types').bool,
     onChange: require('prop-types').func,
     onReady: require('prop-types').func,
+    nodeViews: require('prop-types').shape({}),
     placeholder: require('prop-types').oneOfType([require('prop-types').string, require('prop-types').any]),
     readOnly: require('prop-types').bool,
     runtime: babelPluginFlowReactPropTypes_proptype_EditorRuntime
@@ -177,12 +182,28 @@ var Editor = function (_React$PureComponent) {
           runtime = _props.runtime,
           placeholder = _props.placeholder,
           disabled = _props.disabled,
-          dispatchTransaction = _props.dispatchTransaction;
+          dispatchTransaction = _props.dispatchTransaction,
+          nodeViews = _props.nodeViews;
 
 
       var editorNode = document.getElementById(this._id);
       if (editorNode) {
-        var _nodeViews;
+        var _ref2;
+
+        var effectiveNodeViews = nodeViews || (_ref2 = {}, (0, _defineProperty3.default)(_ref2, _NodeNames.IMAGE, _ImageNodeView2.default), (0, _defineProperty3.default)(_ref2, _NodeNames.MATH, _MathNodeView2.default), (0, _defineProperty3.default)(_ref2, _NodeNames.BOOKMARK, _BookmarkNodeView2.default), _ref2);
+        var boundNodeViews = {};
+
+        var _ref3 = editorState ? editorState.schema : {},
+            nodes = _ref3.nodes;
+
+        (0, _keys2.default)(effectiveNodeViews).forEach(function (nodeName) {
+          var nodeView = effectiveNodeViews[nodeName];
+          delete effectiveNodeViews[nodeName];
+          // Only valid and supported node views should be used.
+          if (nodes[nodeName]) {
+            boundNodeViews[nodeName] = bindNodeView(nodeView);
+          }
+        });
 
         // Reference: http://prosemirror.net/examples/basic/
         var _view = this._editorView = new _CustomEditorView2.default(editorNode, {
@@ -190,7 +211,7 @@ var Editor = function (_React$PureComponent) {
           dispatchTransaction: dispatchTransaction,
           editable: this._isEditable,
           transformPastedHTML: transformPastedHTML,
-          nodeViews: (_nodeViews = {}, (0, _defineProperty3.default)(_nodeViews, _NodeNames.IMAGE, bindNodeView(_ImageNodeView2.default)), (0, _defineProperty3.default)(_nodeViews, _NodeNames.MATH, bindNodeView(_MathNodeView2.default)), (0, _defineProperty3.default)(_nodeViews, _NodeNames.BOOKMARK, bindNodeView(_BookmarkNodeView2.default)), _nodeViews)
+          nodeViews: boundNodeViews
         });
 
         _view.runtime = runtime;

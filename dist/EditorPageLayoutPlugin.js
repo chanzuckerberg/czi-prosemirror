@@ -63,15 +63,15 @@ function renderAttributes(editorState) {
 // Unfortunately the root node `doc` does not supoort `toDOM`, thus
 // we'd have to assign its `attributes` manually.
 
-var EditorAttributesPlugin = function (_Plugin) {
-  (0, _inherits3.default)(EditorAttributesPlugin, _Plugin);
+var EditorPageLayoutPlugin = function (_Plugin) {
+  (0, _inherits3.default)(EditorPageLayoutPlugin, _Plugin);
 
-  function EditorAttributesPlugin() {
-    (0, _classCallCheck3.default)(this, EditorAttributesPlugin);
-    return (0, _possibleConstructorReturn3.default)(this, (EditorAttributesPlugin.__proto__ || (0, _getPrototypeOf2.default)(EditorAttributesPlugin)).call(this, SPEC));
+  function EditorPageLayoutPlugin() {
+    (0, _classCallCheck3.default)(this, EditorPageLayoutPlugin);
+    return (0, _possibleConstructorReturn3.default)(this, (EditorPageLayoutPlugin.__proto__ || (0, _getPrototypeOf2.default)(EditorPageLayoutPlugin)).call(this, SPEC));
   }
 
-  return EditorAttributesPlugin;
+  return EditorPageLayoutPlugin;
 }(_prosemirrorState.Plugin);
 
-exports.default = EditorAttributesPlugin;
+exports.default = EditorPageLayoutPlugin;

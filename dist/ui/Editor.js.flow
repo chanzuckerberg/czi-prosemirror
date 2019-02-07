@@ -33,6 +33,8 @@ export type EditorProps = {
   embedded?: ?boolean,
   onChange?: ?(state: EditorState) => void,
   onReady?: ?(view: EditorView) => void,
+  // Mapping for custom node views.
+  nodeViews?: ?{[nodeName: string]: CustomNodeView},
   placeholder?: ?(string | React.Element<any>),
   readOnly?: ?boolean,
   runtime?: ?EditorRuntime,
@@ -91,22 +93,36 @@ class Editor extends React.PureComponent<any, any, any> {
     const {
       onReady, editorState, readOnly,
       runtime, placeholder, disabled,
-      dispatchTransaction,
+      dispatchTransaction, nodeViews,
     } = this.props;
 
     const editorNode = document.getElementById(this._id);
     if (editorNode) {
+      const effectiveNodeViews = nodeViews || {
+        [IMAGE]: ImageNodeView,
+        [MATH]: MathNodeView,
+        [BOOKMARK]: BookmarkNodeView,
+      };
+      const boundNodeViews = {};
+
+      const {nodes} = editorState ? editorState.schema : {};
+
+      Object.keys(effectiveNodeViews).forEach(nodeName => {
+        const nodeView = effectiveNodeViews[nodeName];
+        delete effectiveNodeViews[nodeName];
+        // Only valid and supported node views should be used.
+        if (nodes[nodeName]) {
+          boundNodeViews[nodeName] = bindNodeView(nodeView);
+        }
+      });
+
       // Reference: http://prosemirror.net/examples/basic/
       const view = this._editorView = new CustomEditorView(editorNode, {
         state: editorState || EDITOR_EMPTY_STATE,
         dispatchTransaction,
         editable: this._isEditable,
         transformPastedHTML,
-        nodeViews: {
-          [IMAGE]: bindNodeView(ImageNodeView),
-          [MATH]: bindNodeView(MathNodeView),
-          [BOOKMARK]: bindNodeView(BookmarkNodeView),
-        },
+        nodeViews: boundNodeViews,
       });
 
       view.runtime = runtime;

@@ -10,7 +10,7 @@ import * as ProsemirrorTables from 'prosemirror-tables';
 
 import ContentPlaceholderPlugin from './ContentPlaceholderPlugin';
 import CursorPlaceholderPlugin from './CursorPlaceholderPlugin';
-import EditorAttributesPlugin from './EditorAttributesPlugin';
+import EditorPageLayoutPlugin from './EditorPageLayoutPlugin';
 import EditorSchema from './EditorSchema';
 import LinkTooltipPlugin from './LinkTooltipPlugin';
 import SelectionPlaceholderPlugin from './SelectionPlaceholderPlugin';
@@ -28,7 +28,7 @@ function buildPlugins(schema: Schema): Array<Plugin> {
   const plugins = [
     new ContentPlaceholderPlugin(),
     new CursorPlaceholderPlugin(),
-    new EditorAttributesPlugin(),
+    new EditorPageLayoutPlugin(),
     new LinkTooltipPlugin(),
     new SelectionPlaceholderPlugin(),
     new TableCellTooltipPlugin(),
