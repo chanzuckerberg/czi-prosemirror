@@ -102,6 +102,10 @@ function findSelectionPlaceholder(state) {
   if (!singletonInstance) {
     return null;
   }
+  if (!state.plugins.includes(singletonInstance)) {
+    console.warn('SelectionPlaceholderPlugin is not installed');
+    return null;
+  }
   var decos = singletonInstance.getState(state);
   var found = decos.find(null, null, specFinder);
   var pos = found.length ? found[0] : null;

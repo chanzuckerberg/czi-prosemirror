@@ -1,0 +1,41 @@
+.simple-editor {
+  border: solid 1px #ccc;
+}
+
+.simple-editor .czi-editor-frame-body {
+  background-color: #fff;
+}
+
+.simple-editor .czi-editor-frame-body-scroll {
+  padding-top: 0;
+}
+
+.simple-editor .ProseMirror {
+  border-radius: 0;
+  box-shadow: none;
+  margin: 0;
+  min-height: 300px;
+  padding: 16px;
+  width: 100%;
+}
+
+.simple-editor-toolbar {
+  padding: 4px 10px;
+}
+
+.simple-editor-toolbar .czi-custom-button {
+  border: none;
+  display: inline-flex;
+  flex-direction: column;
+  font-weight: normal;
+  height: 24px;
+  justify-content: center;
+  margin: 0 2px;
+  text-align: center;
+  width: 24px;
+}
+
+
+.simple-editor-toolbar .czi-icon {
+  font-size: 16px;
+}

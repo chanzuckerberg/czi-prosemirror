@@ -5,6 +5,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = convertFromHTML;
 
+var _prosemirrorModel = require('prosemirror-model');
+
 var _prosemirrorState = require('prosemirror-state');
 
 var _convertFromDOMElement = require('./convertFromDOMElement');
@@ -17,9 +19,9 @@ var _normalizeHTML2 = _interopRequireDefault(_normalizeHTML);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function convertFromHTML(html) {
+function convertFromHTML(html, schema, plugins) {
   var root = document.createElement('html');
   var newHTML = (0, _normalizeHTML2.default)(html);
   root.innerHTML = newHTML;
-  return (0, _convertFromDOMElement2.default)(root);
+  return (0, _convertFromDOMElement2.default)(root, schema, plugins);
 }

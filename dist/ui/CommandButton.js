@@ -24,23 +24,23 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _CustomButton = require('./CustomButton');
+var _prosemirrorState = require('prosemirror-state');
 
-var _CustomButton2 = _interopRequireDefault(_CustomButton);
+var _prosemirrorTransform = require('prosemirror-transform');
+
+var _prosemirrorView = require('prosemirror-view');
 
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _CustomButton = require('./CustomButton');
+
+var _CustomButton2 = _interopRequireDefault(_CustomButton);
+
 var _UICommand = require('./UICommand');
 
 var _UICommand2 = _interopRequireDefault(_UICommand);
-
-var _prosemirrorState = require('prosemirror-state');
-
-var _prosemirrorView = require('prosemirror-view');
-
-var _prosemirrorTransform = require('prosemirror-transform');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

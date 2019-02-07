@@ -3,17 +3,15 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = createEmptyEditorState;
+exports.default = createEmptyEditorStateschema;
+
+var _prosemirrorModel = require('prosemirror-model');
 
 var _prosemirrorState = require('prosemirror-state');
 
-var _EditorPlugins = require('./EditorPlugins');
+var _convertFromJSON = require('./convertFromJSON');
 
-var _EditorPlugins2 = _interopRequireDefault(_EditorPlugins);
-
-var _EditorSchema = require('./EditorSchema');
-
-var _EditorSchema2 = _interopRequireDefault(_EditorSchema);
+var _convertFromJSON2 = _interopRequireDefault(_convertFromJSON);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -28,12 +26,7 @@ var EMPTY_DOC_JSON = {
   }]
 };
 
-var EDITOR_EMPTY_STATE = _prosemirrorState.EditorState.create({
-  doc: _EditorSchema2.default.nodeFromJSON(EMPTY_DOC_JSON),
-  schema: _EditorSchema2.default,
-  plugins: _EditorPlugins2.default
-});
-
-function createEmptyEditorState() {
-  return EDITOR_EMPTY_STATE;
+function createEmptyEditorStateschema(schema, plugins) {
+  // TODO: Check if schema support doc and paragraph nodes.
+  return (0, _convertFromJSON2.default)(EMPTY_DOC_JSON, schema, plugins);
 }

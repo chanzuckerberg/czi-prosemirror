@@ -72,6 +72,10 @@ function findSelectionPlaceholder(state: EditorState): ?Decoration {
   if (!singletonInstance) {
     return null;
   }
+  if (!state.plugins.includes(singletonInstance)) {
+    console.warn('SelectionPlaceholderPlugin is not installed');
+    return null;
+  }
   const decos = singletonInstance.getState(state);
   const found = decos.find(null, null, specFinder);
   const pos = found.length ? found[0] : null;

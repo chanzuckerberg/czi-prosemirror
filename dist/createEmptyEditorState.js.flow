@@ -1,9 +1,10 @@
 // @flow
 
+import {Schema} from 'prosemirror-model';
 import {EditorState} from 'prosemirror-state';
+import {Plugin} from 'prosemirror-state';
 
-import EditorPlugins from './EditorPlugins';
-import EditorSchema from './EditorSchema';
+import convertFromJSON from './convertFromJSON';
 
 const EMPTY_DOC_JSON = {
   'type': 'doc',
@@ -20,12 +21,10 @@ const EMPTY_DOC_JSON = {
   ],
 };
 
-const EDITOR_EMPTY_STATE = EditorState.create({
-  doc: EditorSchema.nodeFromJSON(EMPTY_DOC_JSON),
-  schema: EditorSchema,
-  plugins: EditorPlugins,
-});
-
-export default function createEmptyEditorState(): EditorState {
-  return EDITOR_EMPTY_STATE;
+export default function createEmptyEditorStateschema(
+  schema: ?Schema,
+  plugins: ?Array<Plugin>,
+): EditorState {
+  // TODO: Check if schema support doc and paragraph nodes.
+  return convertFromJSON(EMPTY_DOC_JSON, schema, plugins);
 }
