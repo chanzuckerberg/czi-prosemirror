@@ -1,32 +1,47 @@
 // @flow
 
-import nullthrows from 'nullthrows';
+import {EditorState} from 'prosemirror-state';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
 import ColorEditor from '../src/ui/ColorEditor';
 import CustomButton from '../src/ui/CustomButton';
 import CustomRadioButton from '../src/ui/CustomRadioButton';
-import Editor from '../src/ui/Editor';
 import ImageURLEditor from '../src/ui/ImageURLEditor';
 import MathEditor from '../src/ui/MathEditor';
-import {atAnchorRight} from '../src/ui/PopUpPosition';
 import TableGridSizeEditor from '../src/ui/TableGridSizeEditor';
 import createPopUp from '../src/ui/createPopUp';
 import renderLaTeXAsHTML from '../src/ui/renderLaTeXAsHTML';
 import uuid from '../src/ui/uuid';
+import SimpleEditor from './SimpleEditor';
+
+class SimpleEditorExample extends React.PureComponent<any, any, any> {
+  state = {
+    editorState: null,
+  };
+
+  render() {
+    return (
+      <SimpleEditor
+        editorState={this.state.editorState}
+        onChange={this._onChange}
+      />
+    );
+  }
+
+  _onChange = (editorState: EditorState): void => {
+    this.setState({editorState});
+  }
+}
+
 
 class MathEditorExample extends React.PureComponent<any, any, any> {
 
   _popup = null;
 
   state = {
-    'latex': " \\displaystyle\\sum_{ 1  }^{ 2  } \\left(3 \\right)   ",
+    'latex': ' \\displaystyle\\sum_{ 1  }^{ 2  } \\left(3 \\right)   ',
   };
-
-  componentDidMount(): void {
-    setTimeout(this._onClick, 100);
-  }
 
   render() {
     const html = renderLaTeXAsHTML(this.state.latex);
@@ -127,7 +142,7 @@ class ColorEditorExample extends React.PureComponent<any, any, any> {
 
   render() {
     const {hex} = this.state;
-    const style = {backgroundColor: hex || 'transparent'}
+    const style = {backgroundColor: hex || 'transparent'};
     return (
       <div>
         <CustomButton
@@ -200,6 +215,8 @@ class Examples extends React.PureComponent<any, any, any> {
   render() {
     return (
      <div>
+       <SimpleEditorExample />
+       <hr />
        <MathEditorExample />
        <hr />
        <TableGridSizeEditorExample />
