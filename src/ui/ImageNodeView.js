@@ -7,6 +7,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import CustomNodeView from './CustomNodeView';
+import Icon from './Icon';
 import ImageInlineEditor from './ImageInlineEditor';
 import ImageResizeBox from './ImageResizeBox';
 import {MIN_SIZE} from './ImageResizeBox';
@@ -125,10 +126,11 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
     const {align, crop} = attrs;
 
     // It's only active when the image's fully loaded.
-    const loading = !originalSize.complete && !originalSize.src;
-    const active = focused && !readOnly && originalSize.complete;
+    const loading = originalSize === DEFAULT_ORIGINAL_SIZE;
+    const active = !loading && focused && !readOnly && originalSize.complete;
     const src =  originalSize.complete ? originalSize.src : EMPTY_SRC;
-    const aspectRatio = originalSize.width / originalSize.height;
+    const aspectRatio = loading ? 1 : originalSize.width / originalSize.height;
+    const error = !loading && originalSize.src && !originalSize.complete;
 
     let {width, height} = attrs;
 
@@ -160,7 +162,7 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
 
     const className = cx('czi-image-view-body', {
       active,
-      error: originalSize.src && !originalSize.complete,
+      error,
       focused,
       loading,
       selected,
@@ -200,13 +202,19 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
       imageStyle.top = cropped.top + 'px';
     }
 
+    const errorView = error ? Icon.get('error') : null;
+    const errorTitle = error ?
+      `Unable to load image from ${attrs.src || ''}` :
+      undefined;
+
     return (
       <span
         className={className}
         data-active={active ? 'true' : undefined}
-        data-src={src || ''}
+        data-original-src={String(attrs.src)}
         id={this._id}
-        ref={this._onBodyRef}>
+        ref={this._onBodyRef}
+        title={errorTitle}>
         <span
           className="czi-image-view-body-img-clip" style={clipStyle}>
           <span style={imageStyle}>
@@ -214,12 +222,12 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
               alt=""
               className="czi-image-view-body-img"
               data-align={align}
-              data-src={src}
               height={height}
               id={`${this._id}-img`}
               src={src}
               width={width}
             />
+            {errorView}
           </span>
         </span>
         {resizeBox}
