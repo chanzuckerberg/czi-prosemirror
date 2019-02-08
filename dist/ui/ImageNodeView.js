@@ -60,6 +60,10 @@ var _CustomNodeView2 = require('./CustomNodeView');
 
 var _CustomNodeView3 = _interopRequireDefault(_CustomNodeView2);
 
+var _Icon = require('./Icon');
+
+var _Icon2 = _interopRequireDefault(_Icon);
+
 var _ImageInlineEditor = require('./ImageInlineEditor');
 
 var _ImageInlineEditor2 = _interopRequireDefault(_ImageInlineEditor);
@@ -339,10 +343,11 @@ var ImageViewBody = function (_React$PureComponent) {
 
       // It's only active when the image's fully loaded.
 
-      var loading = !originalSize.complete && !originalSize.src;
-      var active = focused && !readOnly && originalSize.complete;
+      var loading = originalSize === DEFAULT_ORIGINAL_SIZE;
+      var active = !loading && focused && !readOnly && originalSize.complete;
       var src = originalSize.complete ? originalSize.src : EMPTY_SRC;
-      var aspectRatio = originalSize.width / originalSize.height;
+      var aspectRatio = loading ? 1 : originalSize.width / originalSize.height;
+      var error = !loading && originalSize.src && !originalSize.complete;
 
       var width = attrs.width,
           height = attrs.height;
@@ -373,7 +378,7 @@ var ImageViewBody = function (_React$PureComponent) {
 
       var className = (0, _classnames2.default)('czi-image-view-body', {
         active: active,
-        error: originalSize.src && !originalSize.complete,
+        error: error,
         focused: focused,
         loading: loading,
         selected: selected
@@ -411,14 +416,18 @@ var ImageViewBody = function (_React$PureComponent) {
         imageStyle.top = cropped.top + 'px';
       }
 
+      var errorView = error ? _Icon2.default.get('error') : null;
+      var errorTitle = error ? 'Unable to load image from ' + (attrs.src || '') : undefined;
+
       return _react2.default.createElement(
         'span',
         {
           className: className,
           'data-active': active ? 'true' : undefined,
-          'data-src': src || '',
+          'data-original-src': String(attrs.src),
           id: this._id,
-          ref: this._onBodyRef },
+          ref: this._onBodyRef,
+          title: errorTitle },
         _react2.default.createElement(
           'span',
           {
@@ -430,12 +439,12 @@ var ImageViewBody = function (_React$PureComponent) {
               alt: '',
               className: 'czi-image-view-body-img',
               'data-align': align,
-              'data-src': src,
               height: height,
               id: this._id + '-img',
               src: src,
               width: width
-            })
+            }),
+            errorView
           )
         ),
         resizeBox

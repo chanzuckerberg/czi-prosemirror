@@ -35,8 +35,6 @@ var _patchTableElements2 = _interopRequireDefault(_patchTableElements);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var CHAR_NO_BREAK_SPACE = '\u202F';
-
 function normalizeHTML(html) {
   var body = null;
 
@@ -46,7 +44,7 @@ function normalizeHTML(html) {
   // https://developer.mozilla.org/en-US/docs/Web/API/DOMImplementation.createHTMLDocument
   // https://developer.mozilla.org/en-US/Add-ons/Code_snippets/HTML_to_DOM
   if (typeof document !== 'undefined' && document.implementation && document.implementation.createHTMLDocument) {
-    html = html.replace(/&nbsp;/g, CHAR_NO_BREAK_SPACE).replace(/_+/g, function (matched) {
+    html = html.replace(/_+/g, function (matched) {
       // This is a workround to convert "_______" into none-wrapped text
       // that apppears like a horizontal line.
       if (matched && matched.length >= 20) {

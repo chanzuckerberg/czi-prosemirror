@@ -5,7 +5,7 @@ import {Transform} from 'prosemirror-transform';
 import {EditorView} from 'prosemirror-view';
 
 import * as EditorCommands from './EditorCommands';
-import * as KeyMaps from './keymaps';
+import * as EditorKeyMap from './EditorKeyMap';
 import UICommand from './ui/UICommand';
 
 type UserKeyCommand = (
@@ -27,11 +27,14 @@ const {
   KEY_SPLIT_LIST_ITEM,
   KEY_TAB_SHIFT,
   KEY_TAB,
+  KEY_TOGGLE_BOLD,
+  KEY_TOGGLE_ITALIC,
   KEY_UNDO,
-} = KeyMaps;
+} = EditorKeyMap;
 
 const {
   BLOCKQUOTE_INSERT_NEW_LINE,
+  EM,
   HISTORY_REDO,
   HISTORY_UNDO,
   INDENT_LESS,
@@ -42,6 +45,7 @@ const {
   LIST_SPLIT,
   TABLE_MOVE_TO_NEXT_CELL,
   TABLE_MOVE_TO_PREV_CELL,
+  STRONG,
 } = EditorCommands;
 
 function bindCommands(...commands: Array<UICommand>): UserKeyCommand {
@@ -74,6 +78,8 @@ export default function createEditorKeyMap(): UserKeyMap {
       TABLE_MOVE_TO_PREV_CELL,
       INDENT_LESS,
     ),
+    [KEY_TOGGLE_BOLD.common]: STRONG,
+    [KEY_TOGGLE_ITALIC.common]: EM,
     [KEY_UNDO.common]: HISTORY_UNDO.execute,
     [KEY_INSERT_NEW_LINE_IN_BLOCKQUOTE.common]:
       BLOCKQUOTE_INSERT_NEW_LINE.execute,

@@ -58,6 +58,28 @@
   z-index: 3;
 }
 
+.czi-image-view-body.error::before {
+  background-color: #fff;
+  outline : solid 1px #cdcdcd;
+  bottom: 0;
+  content: '';
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 3;
+}
+
+.czi-image-view-body .czi-icon.error {
+  color: #cdcdcd;
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  z-index: 4;
+  margin: -15px 0 0 -15px;
+  font-size: 30px;
+}
+
 .czi-image-view-body.selected::after {
   /* simulated selection highlight */
   background-color: var(--czi-selection-highlight-color-dark);

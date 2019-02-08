@@ -8,9 +8,28 @@ exports.default = isEditorStateEmpty;
 var _prosemirrorState = require('prosemirror-state');
 
 function isEditorStateEmpty(editorState) {
-  if (editorState.doc.nodeSize < 10) {
-    var text = editorState.doc.textContent;
+  var doc = editorState.doc;
+  var nodeSize = doc.nodeSize;
+
+  if (nodeSize < 2) {
+    var text = doc.textContent;
     return !text || text === ' ';
+  } else if (nodeSize < 10) {
+    var isEmpty = true;
+    doc.nodesBetween(0, doc.nodeSize - 2, function (node, ii) {
+      if (isEmpty) {
+        var nodeType = node.type;
+        if (nodeType.isAtom) {
+          // e.g. Image, Video...etc.
+          isEmpty = false;
+        } else if (nodeType.isText) {
+          var _text = doc.textContent;
+          isEmpty = !_text || _text === ' ';
+        }
+      }
+      return isEmpty;
+    });
+    return isEmpty;
   } else {
     return false;
   }
