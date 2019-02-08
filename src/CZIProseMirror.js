@@ -59,7 +59,7 @@ export function executeCommand(name: string, viewID: ?string): boolean {
       }
     }
   }
-  return true;
+  return false;
 }
 
 export function registerCommand(name: string, command: UICommand): void {

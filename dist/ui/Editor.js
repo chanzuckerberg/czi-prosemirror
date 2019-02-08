@@ -32,6 +32,10 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
+var _freeze = require('babel-runtime/core-js/object/freeze');
+
+var _freeze2 = _interopRequireDefault(_freeze);
+
 var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
@@ -53,6 +57,8 @@ var _webfontloader2 = _interopRequireDefault(_webfontloader);
 require('prosemirror-gapcursor/style/gapcursor.css');
 
 require('prosemirror-view/style/prosemirror.css');
+
+var _CZIProseMirror = require('../CZIProseMirror');
 
 var _NodeNames = require('../NodeNames');
 
@@ -129,6 +135,7 @@ var scrollIntoViewPatched = function scrollIntoViewPatched(forced) {
 _prosemirrorState.Transaction.prototype.scrollIntoView = scrollIntoViewPatched;
 
 var EDITOR_EMPTY_STATE = (0, _createEmptyEditorState2.default)();
+(0, _freeze2.default)(EDITOR_EMPTY_STATE);
 
 _WebFontLoader2.default.setImplementation(_webfontloader2.default);
 
@@ -220,7 +227,10 @@ var Editor = function (_React$PureComponent) {
         _view.disabled = !!disabled;
         _view.updateState(editorState || EDITOR_EMPTY_STATE);
 
-        onReady && onReady(this._editorView);
+        // Expose the view to CZIProseMirror so developer could debug it.
+        (0, _CZIProseMirror.registerEditorView)(this._id, _view);
+
+        onReady && onReady(_view);
       }
 
       window.addEventListener('beforeprint', this._onPrintStart, false);
@@ -252,6 +262,7 @@ var Editor = function (_React$PureComponent) {
     value: function componentWillUnmount() {
       this._editorView && this._editorView.destroy();
       this._editorView = null;
+      (0, _CZIProseMirror.releaseEditorView)(this._id);
       window.removeEventListener('beforeprint', this._onPrintStart, false);
       window.removeEventListener('afterprint', this._onPrintEnd, false);
     }
