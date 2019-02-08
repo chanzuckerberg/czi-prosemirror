@@ -12,8 +12,6 @@ import {EditorView} from 'prosemirror-view';
 import React from 'react';
 
 import DocNodeSpec from '../src//DocNodeSpec';
-import ContentPlaceholderPlugin from '../src/ContentPlaceholderPlugin';
-import CursorPlaceholderPlugin from '../src/CursorPlaceholderPlugin';
 import * as EditorCommands from '../src/EditorCommands';
 import HardBreakNodeSpec from '../src/HardBreakNodeSpec';
 import LinkMarkSpec from '../src/LinkMarkSpec';
