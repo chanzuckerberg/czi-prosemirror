@@ -173,6 +173,7 @@ class Editor extends React.PureComponent<any, any, any> {
     return (
       <div
         className={className}
+        data-czi-prosemirror-editor-id={this._id}
         id={this._id}
       />
     );
