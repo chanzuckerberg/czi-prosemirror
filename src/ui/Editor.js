@@ -11,6 +11,7 @@ import webfontloader from 'webfontloader';
 import 'prosemirror-gapcursor/style/gapcursor.css';
 import 'prosemirror-view/style/prosemirror.css';
 
+import {registerEditorView, releaseEditorView} from '../CZIProseMirror';
 import {BOOKMARK, IMAGE, MATH} from '../NodeNames';
 import WebFontLoader from '../WebFontLoader';
 import createEmptyEditorState from '../createEmptyEditorState';
@@ -57,6 +58,7 @@ const scrollIntoViewPatched = function(forced: boolean): Transaction {
 Transaction.prototype.scrollIntoView = scrollIntoViewPatched;
 
 const EDITOR_EMPTY_STATE = createEmptyEditorState();
+Object.freeze(EDITOR_EMPTY_STATE);
 
 WebFontLoader.setImplementation(webfontloader);
 
@@ -131,7 +133,10 @@ class Editor extends React.PureComponent<any, any, any> {
       view.disabled = !!disabled;
       view.updateState(editorState || EDITOR_EMPTY_STATE);
 
-      onReady && onReady(this._editorView);
+      // Expose the view to CZIProseMirror so developer could debug it.
+      registerEditorView(this._id, view);
+
+      onReady && onReady(view);
     }
 
     window.addEventListener('beforeprint', this._onPrintStart, false);
@@ -157,6 +162,7 @@ class Editor extends React.PureComponent<any, any, any> {
   componentWillUnmount(): void {
     this._editorView && this._editorView.destroy();
     this._editorView = null;
+    releaseEditorView(this._id);
     window.removeEventListener('beforeprint', this._onPrintStart, false);
     window.removeEventListener('afterprint', this._onPrintEnd, false);
   }

@@ -6,6 +6,8 @@ import {EditorView} from 'prosemirror-view';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import * as CZIProseMirror from '../src/CZIProseMirror';
+import {HR} from '../src/EditorCommands';
 import convertFromDOMElement from '../src/convertFromDOMElement';
 import RichTextEditor from '../src/ui/RichTextEditor';
 import DemoAppHTMLTemplate from './DemoAppHTMLTemplate';
@@ -59,6 +61,8 @@ class DemoApp extends React.PureComponent<any, any, any> {
     window.debugProseMirror = () => {
       applyDevTools(editorView);
     };
+    CZIProseMirror.registerCommand('hr', HR);
+    window.CZIProseMirror = CZIProseMirror;
   };
 }
 
