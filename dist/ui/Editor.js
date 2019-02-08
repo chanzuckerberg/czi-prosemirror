@@ -276,6 +276,7 @@ var Editor = function (_React$PureComponent) {
       var className = (0, _classnames2.default)('prosemirror-editor-wrapper', { embedded: embedded, readOnly: readOnly });
       return _react2.default.createElement('div', {
         className: className,
+        'data-czi-prosemirror-editor-id': this._id,
         id: this._id
       });
     }
