@@ -109,7 +109,8 @@ class Editor extends React.PureComponent<any, any, any> {
     if (editorNode) {
       const effectiveNodeViews = Object.assign(
         {},
-        nodeViews || DEFAULT_NODE_VIEWS,
+        DEFAULT_NODE_VIEWS,
+        nodeViews,
       );
       const boundNodeViews = {};
 
@@ -117,7 +118,6 @@ class Editor extends React.PureComponent<any, any, any> {
 
       Object.keys(effectiveNodeViews).forEach(nodeName => {
         const nodeView = effectiveNodeViews[nodeName];
-        delete effectiveNodeViews[nodeName];
         // Only valid and supported node views should be used.
         if (nodes[nodeName]) {
           boundNodeViews[nodeName] = bindNodeView(nodeView);

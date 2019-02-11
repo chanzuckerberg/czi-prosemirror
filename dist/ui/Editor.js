@@ -205,7 +205,7 @@ var Editor = function (_React$PureComponent) {
 
       var editorNode = document.getElementById(this._id);
       if (editorNode) {
-        var effectiveNodeViews = (0, _assign2.default)({}, nodeViews || DEFAULT_NODE_VIEWS);
+        var effectiveNodeViews = (0, _assign2.default)({}, DEFAULT_NODE_VIEWS, nodeViews);
         var boundNodeViews = {};
 
         var _ref2 = editorState ? editorState.schema : {},
@@ -213,7 +213,6 @@ var Editor = function (_React$PureComponent) {
 
         (0, _keys2.default)(effectiveNodeViews).forEach(function (nodeName) {
           var nodeView = effectiveNodeViews[nodeName];
-          delete effectiveNodeViews[nodeName];
           // Only valid and supported node views should be used.
           if (nodes[nodeName]) {
             boundNodeViews[nodeName] = bindNodeView(nodeView);
