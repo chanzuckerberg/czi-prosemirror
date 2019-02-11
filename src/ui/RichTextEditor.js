@@ -48,6 +48,7 @@ class RichTextEditor extends React.PureComponent<any, any, any> {
       header,
       height,
       onChange,
+      nodeViews,
       placeholder,
       readOnly,
       width,
@@ -79,6 +80,7 @@ class RichTextEditor extends React.PureComponent<any, any, any> {
         editorState={editorState}
         embedded={embedded}
         id={this._id}
+        nodeViews={nodeViews}
         onChange={onChange}
         onReady={this._onReady}
         placeholder={placeholder}

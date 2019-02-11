@@ -3,14 +3,15 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.DEFAULT_NODE_VIEWS = undefined;
 
 var _keys = require('babel-runtime/core-js/object/keys');
 
 var _keys2 = _interopRequireDefault(_keys);
 
-var _defineProperty2 = require('babel-runtime/helpers/defineProperty');
+var _assign = require('babel-runtime/core-js/object/assign');
 
-var _defineProperty3 = _interopRequireDefault(_defineProperty2);
+var _assign2 = _interopRequireDefault(_assign);
 
 var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
 
@@ -32,9 +33,15 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
+var _defineProperty2 = require('babel-runtime/helpers/defineProperty');
+
+var _defineProperty3 = _interopRequireDefault(_defineProperty2);
+
 var _freeze = require('babel-runtime/core-js/object/freeze');
 
 var _freeze2 = _interopRequireDefault(_freeze);
+
+var _Object$freeze2;
 
 var _classnames = require('classnames');
 
@@ -104,12 +111,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var babelPluginFlowReactPropTypes_proptype_EditorRuntime = require('../Types').babelPluginFlowReactPropTypes_proptype_EditorRuntime || require('prop-types').any;
 
-// Monkey patch the `scrollIntoView` mathod of 'Transaction'.
-// Why this is necessary?
-// It appears that promse-mirror does call `scrollIntoView` extensively
-// from many of the built-in transformations, thus cause unwanted page
-// scrolls. To make the behavior more manageable, this patched method asks
-// developer to explicitly use `scrollIntoView(true)` to enforce page scroll.
+// Default custom node views.
 if (typeof exports !== 'undefined') Object.defineProperty(exports, 'babelPluginFlowReactPropTypes_proptype_EditorProps', {
   value: require('prop-types').shape({
     disabled: require('prop-types').bool,
@@ -124,6 +126,16 @@ if (typeof exports !== 'undefined') Object.defineProperty(exports, 'babelPluginF
     runtime: babelPluginFlowReactPropTypes_proptype_EditorRuntime
   })
 });
+var DEFAULT_NODE_VIEWS = exports.DEFAULT_NODE_VIEWS = (0, _freeze2.default)((_Object$freeze2 = {}, (0, _defineProperty3.default)(_Object$freeze2, _NodeNames.IMAGE, _ImageNodeView2.default), (0, _defineProperty3.default)(_Object$freeze2, _NodeNames.MATH, _MathNodeView2.default), (0, _defineProperty3.default)(_Object$freeze2, _NodeNames.BOOKMARK, _BookmarkNodeView2.default), _Object$freeze2));
+
+var EDITOR_EMPTY_STATE = (0, _freeze2.default)((0, _createEmptyEditorState2.default)());
+
+// Monkey patch the `scrollIntoView` mathod of 'Transaction'.
+// Why this is necessary?
+// It appears that promse-mirror does call `scrollIntoView` extensively
+// from many of the built-in transformations, thus cause unwanted page
+// scrolls. To make the behavior more manageable, this patched method asks
+// developer to explicitly use `scrollIntoView(true)` to enforce page scroll.
 var scrollIntoView = _prosemirrorState.Transaction.prototype.scrollIntoView;
 var scrollIntoViewPatched = function scrollIntoViewPatched(forced) {
   if (forced === true && scrollIntoView) {
@@ -134,9 +146,7 @@ var scrollIntoViewPatched = function scrollIntoViewPatched(forced) {
 };
 _prosemirrorState.Transaction.prototype.scrollIntoView = scrollIntoViewPatched;
 
-var EDITOR_EMPTY_STATE = (0, _createEmptyEditorState2.default)();
-(0, _freeze2.default)(EDITOR_EMPTY_STATE);
-
+// Sets the implementation so that `FontTypeMarkSpec` can load custom fonts.
 _WebFontLoader2.default.setImplementation(_webfontloader2.default);
 
 function transformPastedHTML(html) {
@@ -195,13 +205,11 @@ var Editor = function (_React$PureComponent) {
 
       var editorNode = document.getElementById(this._id);
       if (editorNode) {
-        var _ref2;
-
-        var effectiveNodeViews = nodeViews || (_ref2 = {}, (0, _defineProperty3.default)(_ref2, _NodeNames.IMAGE, _ImageNodeView2.default), (0, _defineProperty3.default)(_ref2, _NodeNames.MATH, _MathNodeView2.default), (0, _defineProperty3.default)(_ref2, _NodeNames.BOOKMARK, _BookmarkNodeView2.default), _ref2);
+        var effectiveNodeViews = (0, _assign2.default)({}, nodeViews || DEFAULT_NODE_VIEWS);
         var boundNodeViews = {};
 
-        var _ref3 = editorState ? editorState.schema : {},
-            nodes = _ref3.nodes;
+        var _ref2 = editorState ? editorState.schema : {},
+            nodes = _ref2.nodes;
 
         (0, _keys2.default)(effectiveNodeViews).forEach(function (nodeName) {
           var nodeView = effectiveNodeViews[nodeName];

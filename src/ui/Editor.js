@@ -41,6 +41,15 @@ export type EditorProps = {
   runtime?: ?EditorRuntime,
 };
 
+// Default custom node views.
+export const DEFAULT_NODE_VIEWS = Object.freeze({
+  [IMAGE]: ImageNodeView,
+  [MATH]: MathNodeView,
+  [BOOKMARK]: BookmarkNodeView,
+});
+
+const EDITOR_EMPTY_STATE = Object.freeze(createEmptyEditorState());
+
 // Monkey patch the `scrollIntoView` mathod of 'Transaction'.
 // Why this is necessary?
 // It appears that promse-mirror does call `scrollIntoView` extensively
@@ -57,9 +66,7 @@ const scrollIntoViewPatched = function(forced: boolean): Transaction {
 };
 Transaction.prototype.scrollIntoView = scrollIntoViewPatched;
 
-const EDITOR_EMPTY_STATE = createEmptyEditorState();
-Object.freeze(EDITOR_EMPTY_STATE);
-
+// Sets the implementation so that `FontTypeMarkSpec` can load custom fonts.
 WebFontLoader.setImplementation(webfontloader);
 
 function transformPastedHTML(html: string): string {
@@ -100,18 +107,17 @@ class Editor extends React.PureComponent<any, any, any> {
 
     const editorNode = document.getElementById(this._id);
     if (editorNode) {
-      const effectiveNodeViews = nodeViews || {
-        [IMAGE]: ImageNodeView,
-        [MATH]: MathNodeView,
-        [BOOKMARK]: BookmarkNodeView,
-      };
+      const effectiveNodeViews = Object.assign(
+        {},
+        DEFAULT_NODE_VIEWS,
+        nodeViews,
+      );
       const boundNodeViews = {};
 
       const {nodes} = editorState ? editorState.schema : {};
 
       Object.keys(effectiveNodeViews).forEach(nodeName => {
         const nodeView = effectiveNodeViews[nodeName];
-        delete effectiveNodeViews[nodeName];
         // Only valid and supported node views should be used.
         if (nodes[nodeName]) {
           boundNodeViews[nodeName] = bindNodeView(nodeView);

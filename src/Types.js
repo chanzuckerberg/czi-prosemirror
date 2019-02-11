@@ -8,6 +8,7 @@ export type NodeSpec = {
   draggable?: ?boolean,
   group?: ?string,
   inline?: ?boolean,
+  name?: ?string,
   parseDOM?: ?Array<any>,
   toDOM?: ?(node: any) => Array<any>,
 };

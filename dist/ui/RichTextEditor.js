@@ -113,6 +113,7 @@ var RichTextEditor = function (_React$PureComponent) {
           header = _props.header,
           height = _props.height,
           onChange = _props.onChange,
+          nodeViews = _props.nodeViews,
           placeholder = _props.placeholder,
           readOnly = _props.readOnly,
           width = _props.width;
@@ -141,6 +142,7 @@ var RichTextEditor = function (_React$PureComponent) {
         editorState: editorState,
         embedded: embedded,
         id: this._id,
+        nodeViews: nodeViews,
         onChange: onChange,
         onReady: this._onReady,
         placeholder: placeholder,

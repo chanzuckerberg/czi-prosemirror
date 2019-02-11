@@ -13,6 +13,7 @@ if (typeof exports !== 'undefined') Object.defineProperty(exports, 'babelPluginF
     draggable: require('prop-types').bool,
     group: require('prop-types').string,
     inline: require('prop-types').bool,
+    name: require('prop-types').string,
     parseDOM: require('prop-types').arrayOf(require('prop-types').any),
     toDOM: require('prop-types').func
   })
