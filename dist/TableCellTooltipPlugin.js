@@ -46,11 +46,39 @@ var _createPopUp = require('./ui/createPopUp');
 
 var _createPopUp2 = _interopRequireDefault(_createPopUp);
 
+var _rects = require('./ui/rects');
+
 require('./ui/czi-pop-up.css');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function isElementFullyVisible(el) {
+  var _fromHTMlElement = (0, _rects.fromHTMlElement)(el),
+      x = _fromHTMlElement.x,
+      y = _fromHTMlElement.y,
+      w = _fromHTMlElement.w,
+      h = _fromHTMlElement.h;
+  // Only checks the top-left point.
+
+
+  var nwEl = w && h ? document.elementFromPoint(x + 1, y + 1) : null;
+  if (!nwEl) {
+    return false;
+  }
+
+  if (nwEl === el) {
+    return true;
+  }
+
+  if (el.contains(nwEl)) {
+    return true;
+  }
+
+  return false;
+}
 /* eslint-disable-next-line */
+
+
 var TableCellTooltipView = function () {
   function TableCellTooltipView(editorView) {
     var _this = this;
@@ -73,11 +101,12 @@ var TableCellTooltipView = function () {
   (0, _createClass3.default)(TableCellTooltipView, [{
     key: 'update',
     value: function update(view, lastState) {
-      var state = view.state;
+      var state = view.state,
+          readOnly = view.readOnly;
 
       var result = (0, _findActionableCell2.default)(state);
 
-      if (!result) {
+      if (!result || readOnly) {
         this.destroy();
         return;
       }
@@ -96,9 +125,19 @@ var TableCellTooltipView = function () {
         editorView: view
       };
 
-      if (popUp && cellEl === this._cellElement) {
+      if (cellEl && !isElementFullyVisible(cellEl)) {
+        cellEl = null;
+      }
+
+      if (!cellEl) {
+        // Closes the popup.
+        popUp && popUp.close();
+        this._cellElement = null;
+      } else if (popUp && cellEl === this._cellElement) {
+        // Updates the popup.
         popUp.update(viewPops);
       } else {
+        // Creates a new popup.
         popUp && popUp.close();
         this._cellElement = cellEl;
         this._popUp = (0, _createPopUp2.default)(_TableCellTooltip2.default, viewPops, {

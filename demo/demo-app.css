@@ -10,3 +10,11 @@ body {
   border: none;
   margin: 0;
 }
+
+#demo-app {
+  height: 50vh;
+  margin: 10vh;
+  overflow: hidden;
+  position: relative;
+  width: 80vw;
+}
