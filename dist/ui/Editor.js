@@ -47,6 +47,8 @@ var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
+var _prosemirrorModel = require('prosemirror-model');
+
 var _prosemirrorState = require('prosemirror-state');
 
 var _prosemirrorTransform = require('prosemirror-transform');
@@ -159,6 +161,10 @@ function bindNodeView(NodeView) {
   };
 }
 
+function getSchema(editorState) {
+  return editorState ? editorState.schema : EDITOR_EMPTY_STATE.schema;
+}
+
 var Editor = function (_React$PureComponent) {
   (0, _inherits3.default)(Editor, _React$PureComponent);
 
@@ -207,9 +213,9 @@ var Editor = function (_React$PureComponent) {
       if (editorNode) {
         var effectiveNodeViews = (0, _assign2.default)({}, DEFAULT_NODE_VIEWS, nodeViews);
         var boundNodeViews = {};
+        var schema = getSchema(editorState);
+        var nodes = schema.nodes;
 
-        var _ref2 = editorState ? editorState.schema : {},
-            nodes = _ref2.nodes;
 
         (0, _keys2.default)(effectiveNodeViews).forEach(function (nodeName) {
           var nodeView = effectiveNodeViews[nodeName];
@@ -221,11 +227,12 @@ var Editor = function (_React$PureComponent) {
 
         // Reference: http://prosemirror.net/examples/basic/
         var _view = this._editorView = new _CustomEditorView2.default(editorNode, {
-          state: editorState || EDITOR_EMPTY_STATE,
+          clipboardSerializer: _prosemirrorModel.DOMSerializer.fromSchema(schema),
           dispatchTransaction: dispatchTransaction,
           editable: this._isEditable,
-          transformPastedHTML: transformPastedHTML,
-          nodeViews: boundNodeViews
+          nodeViews: boundNodeViews,
+          state: editorState || EDITOR_EMPTY_STATE,
+          transformPastedHTML: transformPastedHTML
         });
 
         _view.runtime = runtime;
@@ -245,9 +252,17 @@ var Editor = function (_React$PureComponent) {
     }
   }, {
     key: 'componentDidUpdate',
-    value: function componentDidUpdate() {
+    value: function componentDidUpdate(prevProps) {
       var view = this._editorView;
       if (view) {
+        var prevSchema = getSchema(prevProps.editorState);
+        var currSchema = getSchema(this.props.editorState);
+        if (prevSchema !== currSchema) {
+          // schema should never change.
+          // TODO: re-create the editor view if schema changed.
+          console.error('editor schema changed.');
+        }
+
         var _props2 = this.props,
             _runtime = _props2.runtime,
             _editorState = _props2.editorState,

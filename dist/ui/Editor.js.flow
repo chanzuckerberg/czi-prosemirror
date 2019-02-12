@@ -1,8 +1,8 @@
 // @flow
 
 import cx from 'classnames';
-import {EditorState} from 'prosemirror-state';
-import {Transaction} from 'prosemirror-state';
+import {DOMSerializer, Schema} from 'prosemirror-model';
+import {EditorState, Transaction} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
 import {EditorView} from 'prosemirror-view';
 import React from 'react';
@@ -84,6 +84,10 @@ function bindNodeView(NodeView: CustomNodeView): Function {
   };
 }
 
+function getSchema(editorState: ?EditorState): Schema {
+  return editorState ? editorState.schema : EDITOR_EMPTY_STATE.schema;
+}
+
 class Editor extends React.PureComponent<any, any, any> {
 
   static EDITOR_EMPTY_STATE = EDITOR_EMPTY_STATE;
@@ -113,8 +117,8 @@ class Editor extends React.PureComponent<any, any, any> {
         nodeViews,
       );
       const boundNodeViews = {};
-
-      const {nodes} = editorState ? editorState.schema : {};
+      const schema = getSchema(editorState);
+      const {nodes} = schema;
 
       Object.keys(effectiveNodeViews).forEach(nodeName => {
         const nodeView = effectiveNodeViews[nodeName];
@@ -126,11 +130,12 @@ class Editor extends React.PureComponent<any, any, any> {
 
       // Reference: http://prosemirror.net/examples/basic/
       const view = this._editorView = new CustomEditorView(editorNode, {
-        state: editorState || EDITOR_EMPTY_STATE,
+        clipboardSerializer: DOMSerializer.fromSchema(schema),
         dispatchTransaction,
         editable: this._isEditable,
-        transformPastedHTML,
         nodeViews: boundNodeViews,
+        state: editorState || EDITOR_EMPTY_STATE,
+        transformPastedHTML,
       });
 
       view.runtime = runtime;
@@ -149,9 +154,17 @@ class Editor extends React.PureComponent<any, any, any> {
     window.addEventListener('afterprint', this._onPrintEnd, false);
   }
 
-  componentDidUpdate(): void {
+  componentDidUpdate(prevProps: EditorProps): void {
     const view = this._editorView;
     if (view)  {
+      const prevSchema = getSchema(prevProps.editorState);
+      const currSchema = getSchema(this.props.editorState);
+      if (prevSchema !== currSchema) {
+        // schema should never change.
+        // TODO: re-create the editor view if schema changed.
+        console.error('editor schema changed.');
+      }
+
       const {
         runtime, editorState, placeholder, readOnly, disabled,
       } = this.props;
