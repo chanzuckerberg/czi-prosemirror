@@ -21,10 +21,10 @@ class TableCellTooltipView {
   }
 
   update(view: EditorView, lastState: EditorState): void {
-    const {state} = view;
+    const {state, readOnly} = view;
     const result = findActionableCell(state);
 
-    if (!result) {
+    if (!result || readOnly) {
       this.destroy();
       return;
     }

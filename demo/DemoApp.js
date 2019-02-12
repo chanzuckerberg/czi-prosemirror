@@ -42,13 +42,13 @@ class DemoApp extends React.PureComponent<any, any, any> {
       <RichTextEditor
         editorState={editorState}
         embedded={false}
-        height="100vh"
+        height="100%"
         onChange={this._onChange}
         onReady={this._onReady}
         placeholder={readOnly ? '' : 'Type Something...'}
         readOnly={readOnly}
         runtime={this._runtime}
-        width="100vw"
+        width="100%"
       />
     );
   }
