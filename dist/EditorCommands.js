@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.UNDERLINE = exports.UL = exports.TEXT_LINE_SPACINGS = exports.TEXT_HIGHLIGHT = exports.TEXT_COLOR = exports.TEXT_ALIGN_RIGHT = exports.TEXT_ALIGN_LEFT = exports.TEXT_ALIGN_JUSTIFY = exports.TEXT_ALIGN_CENTER = exports.TABLE_TOGGLE_HEADER_ROW = exports.TABLE_TOGGLE_HEADER_COLUMN = exports.TABLE_TOGGLE_HEADER_CELL = exports.TABLE_SPLIT_ROW = exports.TABLE_MOVE_TO_PREV_CELL = exports.TABLE_MOVE_TO_NEXT_CELL = exports.TABLE_MERGE_CELLS = exports.TABLE_INSERT_TABLE = exports.TABLE_DELETE_TABLE = exports.TABLE_DELETE_ROW = exports.TABLE_DELETE_COLUMN = exports.TABLE_CELL_COLOR = exports.TABLE_ADD_ROW_BEFORE = exports.TABLE_ADD_ROW_AFTER = exports.TABLE_ADD_COLUMN_BEFORE = exports.TABLE_ADD_COLUMN_AFTER = exports.SUPER = exports.STRONG = exports.STRIKE = exports.PRINT = exports.OL = exports.MATH_EDIT = exports.LIST_SPLIT = exports.LIST_ITEM_MERGE_UP = exports.LIST_ITEM_MERGE_DOWN = exports.LIST_ITEM_INSERT_NEW_LINE = exports.LINK_SET_URL = exports.INDENT_MORE = exports.INDENT_LESS = exports.IMAGE_UPLOAD = exports.IMAGE_FROM_URL = exports.HR = exports.HISTORY_UNDO = exports.HISTORY_REDO = exports.H6 = exports.H5 = exports.H4 = exports.H3 = exports.H2 = exports.H1 = exports.EM = exports.DOC_LAYOUT = exports.CODE = exports.CLEAR_FORMAT = exports.BLOCKQUOTE_INSERT_NEW_LINE = exports.BLOCKQUOTE_TOGGLE = undefined;
+exports.UNDERLINE = exports.UL = exports.TEXT_LINE_SPACINGS = exports.TEXT_INSERT_TAB_SPACE = exports.TEXT_HIGHLIGHT = exports.TEXT_COLOR = exports.TEXT_ALIGN_RIGHT = exports.TEXT_ALIGN_LEFT = exports.TEXT_ALIGN_JUSTIFY = exports.TEXT_ALIGN_CENTER = exports.TABLE_TOGGLE_HEADER_ROW = exports.TABLE_TOGGLE_HEADER_COLUMN = exports.TABLE_TOGGLE_HEADER_CELL = exports.TABLE_SPLIT_ROW = exports.TABLE_MOVE_TO_PREV_CELL = exports.TABLE_MOVE_TO_NEXT_CELL = exports.TABLE_MERGE_CELLS = exports.TABLE_INSERT_TABLE = exports.TABLE_DELETE_TABLE = exports.TABLE_DELETE_ROW = exports.TABLE_DELETE_COLUMN = exports.TABLE_CELL_COLOR = exports.TABLE_ADD_ROW_BEFORE = exports.TABLE_ADD_ROW_AFTER = exports.TABLE_ADD_COLUMN_BEFORE = exports.TABLE_ADD_COLUMN_AFTER = exports.SUPER = exports.STRONG = exports.STRIKE = exports.PRINT = exports.OL = exports.MATH_EDIT = exports.LIST_SPLIT = exports.LIST_ITEM_MERGE_UP = exports.LIST_ITEM_MERGE_DOWN = exports.LIST_ITEM_INSERT_NEW_LINE = exports.LINK_SET_URL = exports.INDENT_MORE = exports.INDENT_LESS = exports.IMAGE_UPLOAD = exports.IMAGE_FROM_URL = exports.HR = exports.HISTORY_UNDO = exports.HISTORY_REDO = exports.H6 = exports.H5 = exports.H4 = exports.H3 = exports.H2 = exports.H1 = exports.EM = exports.DOC_LAYOUT = exports.CODE = exports.CLEAR_FORMAT = exports.BLOCKQUOTE_INSERT_NEW_LINE = exports.BLOCKQUOTE_TOGGLE = undefined;
 
 var _prosemirrorTables = require('prosemirror-tables');
 
@@ -117,6 +117,10 @@ var _TextHighlightCommand = require('./TextHighlightCommand');
 
 var _TextHighlightCommand2 = _interopRequireDefault(_TextHighlightCommand);
 
+var _TextInsertTabSpaceCommand = require('./TextInsertTabSpaceCommand');
+
+var _TextInsertTabSpaceCommand2 = _interopRequireDefault(_TextInsertTabSpaceCommand);
+
 var _TextLineSpacingCommand = require('./TextLineSpacingCommand');
 
 var _TextLineSpacingCommand2 = _interopRequireDefault(_TextLineSpacingCommand);
@@ -207,6 +211,7 @@ var TEXT_ALIGN_LEFT = exports.TEXT_ALIGN_LEFT = new _TextAlignCommand2.default('
 var TEXT_ALIGN_RIGHT = exports.TEXT_ALIGN_RIGHT = new _TextAlignCommand2.default('right');
 var TEXT_COLOR = exports.TEXT_COLOR = new _TextColorCommand2.default();
 var TEXT_HIGHLIGHT = exports.TEXT_HIGHLIGHT = new _TextHighlightCommand2.default();
+var TEXT_INSERT_TAB_SPACE = exports.TEXT_INSERT_TAB_SPACE = new _TextInsertTabSpaceCommand2.default();
 var TEXT_LINE_SPACINGS = exports.TEXT_LINE_SPACINGS = _TextLineSpacingCommand2.default.createGroup();
 var UL = exports.UL = new _ListToggleCommand2.default(false);
 var UNDERLINE = exports.UNDERLINE = new _MarkToggleCommand2.default(MARK_UNDERLINE);

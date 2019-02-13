@@ -55,6 +55,7 @@ var BLOCKQUOTE_INSERT_NEW_LINE = EditorCommands.BLOCKQUOTE_INSERT_NEW_LINE,
     LIST_SPLIT = EditorCommands.LIST_SPLIT,
     TABLE_MOVE_TO_NEXT_CELL = EditorCommands.TABLE_MOVE_TO_NEXT_CELL,
     TABLE_MOVE_TO_PREV_CELL = EditorCommands.TABLE_MOVE_TO_PREV_CELL,
+    TEXT_INSERT_TAB_SPACE = EditorCommands.TEXT_INSERT_TAB_SPACE,
     STRONG = EditorCommands.STRONG;
 
 
@@ -77,7 +78,7 @@ function bindCommands() {
 function createEditorKeyMap() {
   var _result;
 
-  var result = (_result = {}, (0, _defineProperty3.default)(_result, KEY_BACK_DELETE.common, LIST_ITEM_MERGE_UP.execute), (0, _defineProperty3.default)(_result, KEY_FORWARD_DELETE.common, LIST_ITEM_MERGE_DOWN.execute), (0, _defineProperty3.default)(_result, KEY_REDO.common, HISTORY_REDO.execute), (0, _defineProperty3.default)(_result, KEY_SPLIT_LIST_ITEM.common, LIST_SPLIT.execute), (0, _defineProperty3.default)(_result, KEY_TAB.common, bindCommands(TABLE_MOVE_TO_NEXT_CELL, INDENT_MORE)), (0, _defineProperty3.default)(_result, KEY_TAB_SHIFT.common, bindCommands(TABLE_MOVE_TO_PREV_CELL, INDENT_LESS)), (0, _defineProperty3.default)(_result, KEY_TOGGLE_BOLD.common, STRONG), (0, _defineProperty3.default)(_result, KEY_TOGGLE_ITALIC.common, EM), (0, _defineProperty3.default)(_result, KEY_UNDO.common, HISTORY_UNDO.execute), (0, _defineProperty3.default)(_result, KEY_INSERT_NEW_LINE_IN_BLOCKQUOTE.common, BLOCKQUOTE_INSERT_NEW_LINE.execute), (0, _defineProperty3.default)(_result, KEY_INSERT_NEW_LINE_IN_LIST_ITEM.common, LIST_ITEM_INSERT_NEW_LINE.execute), _result);
+  var result = (_result = {}, (0, _defineProperty3.default)(_result, KEY_BACK_DELETE.common, LIST_ITEM_MERGE_UP.execute), (0, _defineProperty3.default)(_result, KEY_FORWARD_DELETE.common, LIST_ITEM_MERGE_DOWN.execute), (0, _defineProperty3.default)(_result, KEY_REDO.common, HISTORY_REDO.execute), (0, _defineProperty3.default)(_result, KEY_SPLIT_LIST_ITEM.common, LIST_SPLIT.execute), (0, _defineProperty3.default)(_result, KEY_TAB.common, bindCommands(TABLE_MOVE_TO_NEXT_CELL, TEXT_INSERT_TAB_SPACE, INDENT_MORE)), (0, _defineProperty3.default)(_result, KEY_TAB_SHIFT.common, bindCommands(TABLE_MOVE_TO_PREV_CELL, TEXT_INSERT_TAB_SPACE, INDENT_LESS)), (0, _defineProperty3.default)(_result, KEY_TOGGLE_BOLD.common, STRONG), (0, _defineProperty3.default)(_result, KEY_TOGGLE_ITALIC.common, EM), (0, _defineProperty3.default)(_result, KEY_UNDO.common, HISTORY_UNDO.execute), (0, _defineProperty3.default)(_result, KEY_INSERT_NEW_LINE_IN_BLOCKQUOTE.common, BLOCKQUOTE_INSERT_NEW_LINE.execute), (0, _defineProperty3.default)(_result, KEY_INSERT_NEW_LINE_IN_LIST_ITEM.common, LIST_ITEM_INSERT_NEW_LINE.execute), _result);
 
   return result;
 }
