@@ -4,14 +4,6 @@
 @import './czi-table.css';
 @import './czi-vars.css';
 
-#demo-app {
-  width: 80vw;
-  height: 50vh;
-  margin: 10vh;
-  overflow: hidden;
-  position: relative;
-}
-
 .czi-text-selection {
    /* var(--czi-selection-highlight-color-dark); */
   background: red;

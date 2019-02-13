@@ -45,6 +45,7 @@ const {
   LIST_SPLIT,
   TABLE_MOVE_TO_NEXT_CELL,
   TABLE_MOVE_TO_PREV_CELL,
+  TEXT_INSERT_TAB_SPACE,
   STRONG,
 } = EditorCommands;
 
@@ -72,10 +73,12 @@ export default function createEditorKeyMap(): UserKeyMap {
     [KEY_SPLIT_LIST_ITEM.common]: LIST_SPLIT.execute,
     [KEY_TAB.common]: bindCommands(
       TABLE_MOVE_TO_NEXT_CELL,
+      TEXT_INSERT_TAB_SPACE,
       INDENT_MORE,
     ),
     [KEY_TAB_SHIFT.common]: bindCommands(
       TABLE_MOVE_TO_PREV_CELL,
+      TEXT_INSERT_TAB_SPACE,
       INDENT_LESS,
     ),
     [KEY_TOGGLE_BOLD.common]: STRONG,
