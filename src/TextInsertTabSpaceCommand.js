@@ -9,6 +9,8 @@ import {EditorView} from 'prosemirror-view';
 import {HEADING, LIST_ITEM, PARAGRAPH} from './NodeNames';
 import UICommand from './ui/UICommand';
 
+const WIDE_SPACE_CHAR = '\u3000';
+
 class TextInsertTabSpaceCommand extends UICommand {
   execute = (
     state: EditorState,
@@ -42,9 +44,7 @@ class TextInsertTabSpaceCommand extends UICommand {
    }
 
     if (dispatch) {
-      // `\u00a0` is NO-BREAK SPACE.
-      // 4 spaces for tab.
-      const textNode = schema.text('\u00a0\u00a0\u00a0\u00a0');
+      const textNode = schema.text(WIDE_SPACE_CHAR);
       dispatch(tr.insert(to, Fragment.from(textNode)));
     }
 
