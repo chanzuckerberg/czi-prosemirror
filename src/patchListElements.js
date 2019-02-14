@@ -119,6 +119,10 @@ function patchListElementsElement(listElement: HTMLElement): void {
         listStyleType = 'upper-roman';
         break;
 
+      case beforeContent.indexOf('-') > -1:
+        listStyleType = 'dash';
+        break;
+
       default:
         console.log('unknown list style type', beforeContent);
         break;

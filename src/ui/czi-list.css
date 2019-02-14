@@ -76,8 +76,10 @@
 
 .ProseMirror ul li > p::before {
   content: '\2022'; /* disc */
-  font-size: 2em;
-  top: 5px;
+}
+
+.ProseMirror ul[data-list-style-type="dash"] li > p::before {
+  content: '\2012';
 }
 
 .ProseMirror ul[data-list-style-type="circle"] li > p::before {
@@ -99,8 +101,8 @@
 /* bullet indentation */
 .ProseMirror li {
   /* This assumes the space needed for 3 digits numbers */
-  --czi-list-style-indent: 32pt;
-  --czi-list-style-indent-reverse: -32pt;
+  --czi-list-style-indent: 24pt;
+  --czi-list-style-indent-reverse: -24pt;
   padding: 0 0 0 var(--czi-list-style-indent);
 }
 
