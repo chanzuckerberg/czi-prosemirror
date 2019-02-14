@@ -56,6 +56,10 @@
 }
 
 @media only print {
+  .czi-editor-frame-body {
+    background-color: transparent;
+  }
+
   .czi-editor-frameset.with-fixed-layout {
     height: auto !important;
     width: auto !important;
