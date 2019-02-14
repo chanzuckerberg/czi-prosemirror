@@ -24,11 +24,13 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-require('./czi-custom-menu.css');
-
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
+
+require('./czi-custom-menu.css');
+
+require('./czi-custom-scrollbar.css');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -47,7 +49,7 @@ var CustomMenu = function (_React$Component) {
 
       return _react2.default.createElement(
         'div',
-        { className: 'czi-custom-menu' },
+        { className: 'czi-custom-menu czi-custom-scrollbar' },
         children
       );
     }

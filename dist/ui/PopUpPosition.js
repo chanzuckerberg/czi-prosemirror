@@ -26,7 +26,7 @@ function atAnchorBottom(anchorRect, bodyRect) {
       rect.x = anchorRect.x - bodyRect.w + anchorRect.w;
     }
     if (rect.y + bodyRect.h > viewportHeight) {
-      rect.y = anchorRect.y - bodyRect.h;
+      rect.y = Math.max(anchorRect.y - bodyRect.h, 2);
     }
   }
 
@@ -58,7 +58,7 @@ function atAnchorRight(anchorRect, bodyRect) {
     rect.y = anchorRect.y;
     var viewportWidth = window.innerWidth;
     if (rect.x + bodyRect.w > viewportWidth) {
-      rect.x = anchorRect.x - bodyRect.w;
+      rect.x = Math.max(2, anchorRect.x - bodyRect.w);
     }
   }
 
