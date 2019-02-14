@@ -21,6 +21,7 @@ if (typeof exports !== 'undefined') Object.defineProperty(exports, 'babelPluginF
 if (typeof exports !== 'undefined') Object.defineProperty(exports, 'babelPluginFlowReactPropTypes_proptype_MarkSpec', {
   value: require('prop-types').shape({
     attrs: require('prop-types').shape({}),
+    name: require('prop-types').string,
     parseDOM: require('prop-types').arrayOf(require('prop-types').any).isRequired,
     toDOM: require('prop-types').func.isRequired
   })

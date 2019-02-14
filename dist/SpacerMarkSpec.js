@@ -30,7 +30,7 @@ var SpacerMarkSpec = {
   inline: true,
   spanning: false,
   parseDOM: [{
-    tag: 'span[data-spacer-size]',
+    tag: 'span[' + DOM_ATTRIBUTE_SIZE + ']',
     getAttrs: function getAttrs(el) {
       return {
         size: el.getAttribute(DOM_ATTRIBUTE_SIZE) || SPACER_SIZE_TAB
