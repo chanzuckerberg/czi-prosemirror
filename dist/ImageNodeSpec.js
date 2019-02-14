@@ -6,6 +6,8 @@ Object.defineProperty(exports, "__esModule", {
 
 var babelPluginFlowReactPropTypes_proptype_NodeSpec = require('./Types').babelPluginFlowReactPropTypes_proptype_NodeSpec || require('prop-types').any;
 
+var CSS_ROTATE_PATTERN = /rotate\(([0-9\.]+)rad\)/i;
+
 function getAttrs(dom) {
   var _dom$style = dom.style,
       cssFloat = _dom$style.cssFloat,
@@ -31,9 +33,11 @@ function getAttrs(dom) {
   height = height || dom.getAttribute('height');
 
   var crop = null;
+  var rotate = null;
   var parentElement = dom.parentElement;
 
   if (parentElement instanceof HTMLElement) {
+    // Special case for Google doc's image.
     var ps = parentElement.style;
     if (ps.display === 'inline-block' && ps.overflow === 'hidden' && ps.width && ps.height && marginLeft && marginTop) {
       crop = {
@@ -43,6 +47,13 @@ function getAttrs(dom) {
         top: parseInt(marginTop, 10) || 0
       };
     }
+    if (ps.transform) {
+      // example: `rotate(1.57rad) translateZ(0px)`;
+      var mm = ps.transform.match(CSS_ROTATE_PATTERN);
+      if (mm && mm[1]) {
+        rotate = parseFloat(mm[1]) || null;
+      }
+    }
   }
 
   return {
@@ -50,6 +61,7 @@ function getAttrs(dom) {
     alt: dom.getAttribute('alt') || null,
     crop: crop,
     height: parseInt(height, 10) || null,
+    rotate: rotate,
     src: dom.getAttribute('src') || null,
     title: dom.getAttribute('title') || null,
     width: parseInt(width, 10) || null
@@ -64,6 +76,7 @@ var ImageNodeSpec = {
     alt: { default: '' },
     crop: { default: null },
     height: { default: null },
+    rotate: { default: null },
     src: { default: null },
     title: { default: '' },
     width: { default: null }

@@ -9,6 +9,7 @@ import LinkMarkSpec from './LinkMarkSpec';
 import * as MarkNames from './MarkNames';
 import {DOC, PARAGRAPH, TEXT} from './NodeNames';
 import ParagraphNodeSpec from './ParagraphNodeSpec';
+import SpacerMarkSpec from './SpacerMarkSpec';
 import StrikeMarkSpec from './StrikeMarkSpec';
 import StrongMarkSpec from './StrongMarkSpec';
 import TextColorMarkSpec from './TextColorMarkSpec';
@@ -33,6 +34,7 @@ const {
   MARK_TEXT_HIGHLIGHT,
   MARK_TEXT_SELECTION,
   MARK_UNDERLINE,
+  MARK_SPACER,
 } = MarkNames;
 
 // These nodes are required to build basic marks.
@@ -48,6 +50,7 @@ const marks = {
   [MARK_FONT_SIZE]: FontSizeMarkSpec,
   [MARK_FONT_TYPE]: FontTypeMarkSpec,
   [MARK_LINK]: LinkMarkSpec,
+  [MARK_SPACER]: SpacerMarkSpec,
   [MARK_STRIKE]: StrikeMarkSpec,
   [MARK_STRONG]: StrongMarkSpec,
   [MARK_SUPER]: TextSuperMarkSpec,

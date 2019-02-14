@@ -339,7 +339,8 @@ var ImageViewBody = function (_React$PureComponent) {
       var readOnly = editorView.readOnly;
       var attrs = node.attrs;
       var align = attrs.align,
-          crop = attrs.crop;
+          crop = attrs.crop,
+          rotate = attrs.rotate;
 
       // It's only active when the image's fully loaded.
 
@@ -384,7 +385,7 @@ var ImageViewBody = function (_React$PureComponent) {
         selected: selected
       });
 
-      var resizeBox = active && !crop ? _react2.default.createElement(_ImageResizeBox2.default, {
+      var resizeBox = active && !crop && !rotate ? _react2.default.createElement(_ImageResizeBox2.default, {
         height: height,
         onResizeEnd: this._onResizeEnd,
         src: src,
@@ -414,6 +415,10 @@ var ImageViewBody = function (_React$PureComponent) {
         clipStyle.height = cropped.height + 'px';
         imageStyle.left = cropped.left + 'px';
         imageStyle.top = cropped.top + 'px';
+      }
+
+      if (rotate) {
+        clipStyle.transform = 'rotate(' + rotate + 'rad)';
       }
 
       var errorView = error ? _Icon2.default.get('error') : null;

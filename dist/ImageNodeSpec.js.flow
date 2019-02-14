@@ -2,6 +2,8 @@
 
 import type {NodeSpec} from './Types';
 
+const CSS_ROTATE_PATTERN =  /rotate\(([0-9\.]+)rad\)/i;
+
 function getAttrs(dom: HTMLElement) {
   const {cssFloat, display, marginTop, marginLeft} = dom.style;
   let {width, height} = dom.style;
@@ -20,8 +22,10 @@ function getAttrs(dom: HTMLElement) {
   height = height || dom.getAttribute('height');
 
   let crop = null;
+  let rotate = null;
   const {parentElement} = dom;
   if (parentElement instanceof HTMLElement) {
+    // Special case for Google doc's image.
     const ps = parentElement.style;
     if (
       ps.display === 'inline-block' &&
@@ -38,6 +42,13 @@ function getAttrs(dom: HTMLElement) {
         top: parseInt(marginTop, 10) || 0,
       };
     }
+    if (ps.transform) {
+      // example: `rotate(1.57rad) translateZ(0px)`;
+      const mm = ps.transform.match(CSS_ROTATE_PATTERN);
+      if (mm && mm[1]) {
+        rotate = parseFloat(mm[1]) || null;
+      }
+    }
   }
 
   return {
@@ -45,6 +56,7 @@ function getAttrs(dom: HTMLElement) {
     alt: dom.getAttribute('alt') || null,
     crop,
     height: parseInt(height, 10) || null,
+    rotate,
     src: dom.getAttribute('src') || null,
     title: dom.getAttribute('title')|| null,
     width: parseInt(width, 10) || null,
@@ -59,6 +71,7 @@ const ImageNodeSpec: NodeSpec = {
     alt: {default: ''},
     crop: {default: null},
     height: {default: null},
+    rotate: {default: null},
     src: {default: null},
     title: {default: ''},
     width: {default: null},

@@ -46,6 +46,10 @@ var _ParagraphNodeSpec = require('./ParagraphNodeSpec');
 
 var _ParagraphNodeSpec2 = _interopRequireDefault(_ParagraphNodeSpec);
 
+var _SpacerMarkSpec = require('./SpacerMarkSpec');
+
+var _SpacerMarkSpec2 = _interopRequireDefault(_SpacerMarkSpec);
+
 var _StrikeMarkSpec = require('./StrikeMarkSpec');
 
 var _StrikeMarkSpec2 = _interopRequireDefault(_StrikeMarkSpec);
@@ -98,13 +102,14 @@ var MARK_CODE = MarkNames.MARK_CODE,
     MARK_TEXT_COLOR = MarkNames.MARK_TEXT_COLOR,
     MARK_TEXT_HIGHLIGHT = MarkNames.MARK_TEXT_HIGHLIGHT,
     MARK_TEXT_SELECTION = MarkNames.MARK_TEXT_SELECTION,
-    MARK_UNDERLINE = MarkNames.MARK_UNDERLINE;
+    MARK_UNDERLINE = MarkNames.MARK_UNDERLINE,
+    MARK_SPACER = MarkNames.MARK_SPACER;
 
 // These nodes are required to build basic marks.
 
 var nodes = (_nodes = {}, (0, _defineProperty3.default)(_nodes, _NodeNames.DOC, _DocNodeSpec2.default), (0, _defineProperty3.default)(_nodes, _NodeNames.PARAGRAPH, _ParagraphNodeSpec2.default), (0, _defineProperty3.default)(_nodes, _NodeNames.TEXT, _TextNodeSpec2.default), _nodes);
 
-var marks = (_marks = {}, (0, _defineProperty3.default)(_marks, MARK_CODE, _CodeMarkSpec2.default), (0, _defineProperty3.default)(_marks, MARK_EM, _EMMarkSpec2.default), (0, _defineProperty3.default)(_marks, MARK_FONT_SIZE, _FontSizeMarkSpec2.default), (0, _defineProperty3.default)(_marks, MARK_FONT_TYPE, _FontTypeMarkSpec2.default), (0, _defineProperty3.default)(_marks, MARK_LINK, _LinkMarkSpec2.default), (0, _defineProperty3.default)(_marks, MARK_STRIKE, _StrikeMarkSpec2.default), (0, _defineProperty3.default)(_marks, MARK_STRONG, _StrongMarkSpec2.default), (0, _defineProperty3.default)(_marks, MARK_SUPER, _TextSuperMarkSpec2.default), (0, _defineProperty3.default)(_marks, MARK_TEXT_COLOR, _TextColorMarkSpec2.default), (0, _defineProperty3.default)(_marks, MARK_TEXT_HIGHLIGHT, _TextHighlightMarkSpec2.default), (0, _defineProperty3.default)(_marks, MARK_TEXT_SELECTION, _TextSelectionMarkSpec2.default), (0, _defineProperty3.default)(_marks, MARK_UNDERLINE, _TextUnderlineMarkSpec2.default), (0, _defineProperty3.default)(_marks, MARK_NO_BREAK, _TextNoWrapMarkSpec2.default), _marks);
+var marks = (_marks = {}, (0, _defineProperty3.default)(_marks, MARK_CODE, _CodeMarkSpec2.default), (0, _defineProperty3.default)(_marks, MARK_EM, _EMMarkSpec2.default), (0, _defineProperty3.default)(_marks, MARK_FONT_SIZE, _FontSizeMarkSpec2.default), (0, _defineProperty3.default)(_marks, MARK_FONT_TYPE, _FontTypeMarkSpec2.default), (0, _defineProperty3.default)(_marks, MARK_LINK, _LinkMarkSpec2.default), (0, _defineProperty3.default)(_marks, MARK_SPACER, _SpacerMarkSpec2.default), (0, _defineProperty3.default)(_marks, MARK_STRIKE, _StrikeMarkSpec2.default), (0, _defineProperty3.default)(_marks, MARK_STRONG, _StrongMarkSpec2.default), (0, _defineProperty3.default)(_marks, MARK_SUPER, _TextSuperMarkSpec2.default), (0, _defineProperty3.default)(_marks, MARK_TEXT_COLOR, _TextColorMarkSpec2.default), (0, _defineProperty3.default)(_marks, MARK_TEXT_HIGHLIGHT, _TextHighlightMarkSpec2.default), (0, _defineProperty3.default)(_marks, MARK_TEXT_SELECTION, _TextSelectionMarkSpec2.default), (0, _defineProperty3.default)(_marks, MARK_UNDERLINE, _TextUnderlineMarkSpec2.default), (0, _defineProperty3.default)(_marks, MARK_NO_BREAK, _TextNoWrapMarkSpec2.default), _marks);
 
 var schema = new _prosemirrorModel.Schema({ nodes: nodes, marks: marks });
 

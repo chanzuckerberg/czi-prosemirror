@@ -19,3 +19,4 @@ var MARK_TEXT_COLOR = exports.MARK_TEXT_COLOR = 'mark-text-color';
 var MARK_TEXT_HIGHLIGHT = exports.MARK_TEXT_HIGHLIGHT = 'mark-text-highlight';
 var MARK_TEXT_SELECTION = exports.MARK_TEXT_SELECTION = 'mark-text-selection';
 var MARK_UNDERLINE = exports.MARK_UNDERLINE = 'underline';
+var MARK_SPACER = exports.MARK_SPACER = 'spacer';

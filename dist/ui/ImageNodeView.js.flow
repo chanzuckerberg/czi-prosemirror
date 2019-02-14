@@ -123,7 +123,7 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
     const {editorView, node, selected, focused} = this.props;
     const {readOnly} = editorView;
     const {attrs} = node;
-    const {align, crop} = attrs;
+    const {align, crop, rotate} = attrs;
 
     // It's only active when the image's fully loaded.
     const loading = originalSize === DEFAULT_ORIGINAL_SIZE;
@@ -168,7 +168,7 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
       selected,
     });
 
-    const resizeBox = (active && !crop) ?
+    const resizeBox = (active && !crop && !rotate) ?
       <ImageResizeBox
         height={height}
         onResizeEnd={this._onResizeEnd}
@@ -177,7 +177,7 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
       /> :
       null;
 
-    const imageStyle = {
+    const imageStyle: Object = {
       display: 'inline-block',
       height: height + 'px',
       left: '0',
@@ -186,7 +186,7 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
       position: 'relative',
     };
 
-    const clipStyle = {};
+    const clipStyle: Object = {};
     if (crop) {
       const cropped = {...crop};
       if (scale !== 1) {
@@ -200,6 +200,11 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
       clipStyle.height = cropped.height + 'px';
       imageStyle.left = cropped.left + 'px';
       imageStyle.top = cropped.top + 'px';
+    }
+
+
+    if (rotate) {
+      clipStyle.transform = `rotate(${rotate}rad)`;
     }
 
     const errorView = error ? Icon.get('error') : null;
