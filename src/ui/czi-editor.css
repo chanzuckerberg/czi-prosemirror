@@ -168,3 +168,10 @@
   /* character. */
   letter-spacing: 50px;
 }
+
+.ProseMirror hr[data-page-break] {
+  height: 0;
+  margin: 0;
+  page-break-before: always;
+  visibility: hidden;
+}
