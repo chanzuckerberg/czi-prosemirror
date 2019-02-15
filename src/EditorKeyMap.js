@@ -46,7 +46,7 @@ export function findShortcutByKeymap(keymap: Keymap): ?string {
   return keymap.windows;
 }
 
-function makeKeyMap(
+export function makeKeyMap(
   description: string,
   windows: string,
   mac: string,
@@ -60,7 +60,7 @@ function makeKeyMap(
   };
 }
 
-function makeKeyMapWithCommon(description: string, common: string): Keymap {
+export function makeKeyMapWithCommon(description: string, common: string): Keymap {
   const windows = common.replace(/Mod/i, 'Ctrl');
   const mac = common.replace(/Mod/i, 'Cmd');
   return makeKeyMap(description, windows, mac, common);
