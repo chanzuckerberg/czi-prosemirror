@@ -8,6 +8,8 @@ exports.tooltip = tooltip;
 exports.findKeymapByDescription = findKeymapByDescription;
 exports.findShortcutByDescription = findShortcutByDescription;
 exports.findShortcutByKeymap = findShortcutByKeymap;
+exports.makeKeyMap = makeKeyMap;
+exports.makeKeyMapWithCommon = makeKeyMapWithCommon;
 
 var _browserkeymap = require('browserkeymap');
 
