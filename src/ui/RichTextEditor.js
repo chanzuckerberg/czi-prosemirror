@@ -8,12 +8,15 @@ import createEmptyEditorState from '../createEmptyEditorState';
 import Editor from './Editor';
 import EditorFrameset from './EditorFrameset';
 import EditorToolbar from './EditorToolbar';
+import Frag from './Frag';
 import uuid from './uuid';
 
 import type {EditorFramesetProps} from './EditorFrameset';
 import type {EditorProps} from './Editor';
 
-type Props = EditorFramesetProps & EditorProps;
+type Props = EditorFramesetProps & EditorProps & {
+  children?: ?React.Children,
+};
 
 type State = {
   editorView: ?EditorView,
@@ -42,6 +45,7 @@ class RichTextEditor extends React.PureComponent<any, any, any> {
 
   render(): React.Element<any> {
     const {
+      children,
       className,
       disabled,
       embedded,
@@ -74,19 +78,22 @@ class RichTextEditor extends React.PureComponent<any, any, any> {
       />;
 
     const body =
-      <Editor
-        disabled={disabled}
-        dispatchTransaction={this._dispatchTransaction}
-        editorState={editorState}
-        embedded={embedded}
-        id={this._id}
-        nodeViews={nodeViews}
-        onChange={onChange}
-        onReady={this._onReady}
-        placeholder={placeholder}
-        readOnly={readOnly}
-        runtime={runtime}
-      />;
+      <Frag>
+        <Editor
+          disabled={disabled}
+          dispatchTransaction={this._dispatchTransaction}
+          editorState={editorState}
+          embedded={embedded}
+          id={this._id}
+          nodeViews={nodeViews}
+          onChange={onChange}
+          onReady={this._onReady}
+          placeholder={placeholder}
+          readOnly={readOnly}
+          runtime={runtime}
+        />
+        {children}
+      </Frag>;
 
     return (
       <EditorFrameset
