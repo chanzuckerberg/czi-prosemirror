@@ -81,8 +81,8 @@ export default function createEditorKeyMap(): UserKeyMap {
       TEXT_INSERT_TAB_SPACE,
       INDENT_LESS,
     ),
-    [KEY_TOGGLE_BOLD.common]: STRONG,
-    [KEY_TOGGLE_ITALIC.common]: EM,
+    [KEY_TOGGLE_BOLD.common]: STRONG.execute,
+    [KEY_TOGGLE_ITALIC.common]: EM.execute,
     [KEY_UNDO.common]: HISTORY_UNDO.execute,
     [KEY_INSERT_NEW_LINE_IN_BLOCKQUOTE.common]:
       BLOCKQUOTE_INSERT_NEW_LINE.execute,

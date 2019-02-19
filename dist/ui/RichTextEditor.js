@@ -48,6 +48,10 @@ var _EditorToolbar = require('./EditorToolbar');
 
 var _EditorToolbar2 = _interopRequireDefault(_EditorToolbar);
 
+var _Frag = require('./Frag');
+
+var _Frag2 = _interopRequireDefault(_Frag);
+
 var _uuid = require('./uuid');
 
 var _uuid2 = _interopRequireDefault(_uuid);
@@ -107,6 +111,7 @@ var RichTextEditor = function (_React$PureComponent) {
     key: 'render',
     value: function render() {
       var _props = this.props,
+          children = _props.children,
           className = _props.className,
           disabled = _props.disabled,
           embedded = _props.embedded,
@@ -136,19 +141,24 @@ var RichTextEditor = function (_React$PureComponent) {
         readOnly: readOnly
       });
 
-      var body = _react2.default.createElement(_Editor2.default, {
-        disabled: disabled,
-        dispatchTransaction: this._dispatchTransaction,
-        editorState: editorState,
-        embedded: embedded,
-        id: this._id,
-        nodeViews: nodeViews,
-        onChange: onChange,
-        onReady: this._onReady,
-        placeholder: placeholder,
-        readOnly: readOnly,
-        runtime: runtime
-      });
+      var body = _react2.default.createElement(
+        _Frag2.default,
+        null,
+        _react2.default.createElement(_Editor2.default, {
+          disabled: disabled,
+          dispatchTransaction: this._dispatchTransaction,
+          editorState: editorState,
+          embedded: embedded,
+          id: this._id,
+          nodeViews: nodeViews,
+          onChange: onChange,
+          onReady: this._onReady,
+          placeholder: placeholder,
+          readOnly: readOnly,
+          runtime: runtime
+        }),
+        children
+      );
 
       return _react2.default.createElement(_EditorFrameset2.default, {
         body: body,
