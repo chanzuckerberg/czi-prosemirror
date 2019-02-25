@@ -40,7 +40,7 @@ function atAnchorBottom(anchorRect, bodyRect) {
 function atAnchorBottomCenter(anchorRect, bodyRect) {
   var rect = { x: 0, y: 0, w: 0, h: 0 };
   if (anchorRect && bodyRect) {
-    rect.x = anchorRect.x - (bodyRect.w - anchorRect.w) / 2;
+    rect.x = Math.max(anchorRect.x - (bodyRect.w - anchorRect.w) / 2, 10);
     rect.y = anchorRect.y + anchorRect.h;
   }
 
