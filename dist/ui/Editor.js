@@ -113,9 +113,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var babelPluginFlowReactPropTypes_proptype_EditorRuntime = require('../Types').babelPluginFlowReactPropTypes_proptype_EditorRuntime || require('prop-types').any;
 
-// Default custom node views.
 if (typeof exports !== 'undefined') Object.defineProperty(exports, 'babelPluginFlowReactPropTypes_proptype_EditorProps', {
   value: require('prop-types').shape({
+    autoFocus: require('prop-types').bool,
     disabled: require('prop-types').bool,
     dispatchTransaction: require('prop-types').func,
     editorState: require('prop-types').any,
@@ -128,6 +128,11 @@ if (typeof exports !== 'undefined') Object.defineProperty(exports, 'babelPluginF
     runtime: babelPluginFlowReactPropTypes_proptype_EditorRuntime
   })
 });
+
+
+var AUTO_FOCUS_DELAY = 350;
+
+// Default custom node views.
 var DEFAULT_NODE_VIEWS = exports.DEFAULT_NODE_VIEWS = (0, _freeze2.default)((_Object$freeze2 = {}, (0, _defineProperty3.default)(_Object$freeze2, _NodeNames.IMAGE, _ImageNodeView2.default), (0, _defineProperty3.default)(_Object$freeze2, _NodeNames.MATH, _MathNodeView2.default), (0, _defineProperty3.default)(_Object$freeze2, _NodeNames.BOOKMARK, _BookmarkNodeView2.default), _Object$freeze2));
 
 var EDITOR_EMPTY_STATE = (0, _freeze2.default)((0, _createEmptyEditorState2.default)());
@@ -179,8 +184,13 @@ var Editor = function (_React$PureComponent) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = Editor.__proto__ || (0, _getPrototypeOf2.default)(Editor)).call.apply(_ref, [this].concat(args))), _this), _this._id = (0, _uuid2.default)(), _this._editorView = null, _this.state = {
+    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = Editor.__proto__ || (0, _getPrototypeOf2.default)(Editor)).call.apply(_ref, [this].concat(args))), _this), _this._autoFocusTimer = 0, _this._id = (0, _uuid2.default)(), _this._editorView = null, _this.state = {
       isPrinting: false
+    }, _this.focus = function () {
+      var view = _this._editorView;
+      if (view && !view.disabled && !view.readOnly) {
+        view.focus();
+      }
     }, _this._isEditable = function () {
       var _this$props = _this.props,
           disabled = _this$props.disabled,
@@ -245,6 +255,9 @@ var Editor = function (_React$PureComponent) {
         (0, _CZIProseMirror.registerEditorView)(this._id, _view);
 
         onReady && onReady(_view);
+
+        this._autoFocusTimer && clearTimeout(this._autoFocusTimer);
+        this._autoFocusTimer = this.props.autoFocus ? setTimeout(this.focus, AUTO_FOCUS_DELAY) : 0;
       }
 
       window.addEventListener('beforeprint', this._onPrintStart, false);
@@ -277,6 +290,9 @@ var Editor = function (_React$PureComponent) {
         view.readOnly = !!_readOnly || isPrinting;
         view.disabled = !!_disabled;
         view.updateState(_state);
+
+        this._autoFocusTimer && clearTimeout(this._autoFocusTimer);
+        this._autoFocusTimer = !prevProps.autoFocus && this.props.autoFocus ? setTimeout(this.focus, AUTO_FOCUS_DELAY) : 0;
       }
     }
   }, {
@@ -301,11 +317,6 @@ var Editor = function (_React$PureComponent) {
         'data-czi-prosemirror-editor-id': this._id,
         id: this._id
       });
-    }
-  }, {
-    key: 'focus',
-    value: function focus() {
-      this._editorView && this._editorView.focus();
     }
   }]);
   return Editor;

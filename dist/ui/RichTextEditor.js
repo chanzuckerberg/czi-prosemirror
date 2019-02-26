@@ -111,6 +111,7 @@ var RichTextEditor = function (_React$PureComponent) {
     key: 'render',
     value: function render() {
       var _props = this.props,
+          autoFocus = _props.autoFocus,
           children = _props.children,
           className = _props.className,
           disabled = _props.disabled,
@@ -145,6 +146,7 @@ var RichTextEditor = function (_React$PureComponent) {
         _Frag2.default,
         null,
         _react2.default.createElement(_Editor2.default, {
+          autoFocus: autoFocus,
           disabled: disabled,
           dispatchTransaction: this._dispatchTransaction,
           editorState: editorState,

@@ -45,6 +45,7 @@ class RichTextEditor extends React.PureComponent<any, any, any> {
 
   render(): React.Element<any> {
     const {
+      autoFocus,
       children,
       className,
       disabled,
@@ -80,6 +81,7 @@ class RichTextEditor extends React.PureComponent<any, any, any> {
     const body =
       <Frag>
         <Editor
+          autoFocus={autoFocus}
           disabled={disabled}
           dispatchTransaction={this._dispatchTransaction}
           editorState={editorState}
