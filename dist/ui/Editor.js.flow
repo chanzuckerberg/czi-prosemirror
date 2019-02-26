@@ -33,6 +33,7 @@ export type EditorProps = {
   dispatchTransaction?: ?(tr: Transform) => void,
   editorState?: ?EditorState,
   embedded?: ?boolean,
+  onBlur?: ?() => void,
   onChange?: ?(state: EditorState) => void,
   onReady?: ?(view: EditorView) => void,
   // Mapping for custom node views.
@@ -207,9 +208,18 @@ class Editor extends React.PureComponent<any, any, any> {
         className={className}
         data-czi-prosemirror-editor-id={this._id}
         id={this._id}
+        onBlur={this._onBlur}
       />
     );
   }
+
+  _onBlur = (): void => {
+    const {onBlur} = this.props;
+    const view = this._editorView;
+    if (view && !view.disabled && !view.readOnly && onBlur) {
+      onBlur();
+    }
+  };
 
   focus = (): void => {
     const view = this._editorView;

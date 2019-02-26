@@ -120,6 +120,7 @@ if (typeof exports !== 'undefined') Object.defineProperty(exports, 'babelPluginF
     dispatchTransaction: require('prop-types').func,
     editorState: require('prop-types').any,
     embedded: require('prop-types').bool,
+    onBlur: require('prop-types').func,
     onChange: require('prop-types').func,
     onReady: require('prop-types').func,
     nodeViews: require('prop-types').shape({}),
@@ -186,6 +187,13 @@ var Editor = function (_React$PureComponent) {
 
     return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = Editor.__proto__ || (0, _getPrototypeOf2.default)(Editor)).call.apply(_ref, [this].concat(args))), _this), _this._autoFocusTimer = 0, _this._id = (0, _uuid2.default)(), _this._editorView = null, _this.state = {
       isPrinting: false
+    }, _this._onBlur = function () {
+      var onBlur = _this.props.onBlur;
+
+      var view = _this._editorView;
+      if (view && !view.disabled && !view.readOnly && onBlur) {
+        onBlur();
+      }
     }, _this.focus = function () {
       var view = _this._editorView;
       if (view && !view.disabled && !view.readOnly) {
@@ -315,7 +323,8 @@ var Editor = function (_React$PureComponent) {
       return _react2.default.createElement('div', {
         className: className,
         'data-czi-prosemirror-editor-id': this._id,
-        id: this._id
+        id: this._id,
+        onBlur: this._onBlur
       });
     }
   }]);
