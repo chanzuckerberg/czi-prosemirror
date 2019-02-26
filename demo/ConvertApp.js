@@ -123,6 +123,7 @@ class ConvertApp extends React.PureComponent<any, any, any> {
             className="prosemirror"
             title="ProseMirror View">
             <RichTextEditor
+              autoFocus={true}
               disabled={false}
               editorState={editorState}
               embedded={false}

@@ -40,6 +40,7 @@ class DemoApp extends React.PureComponent<any, any, any> {
     const readOnly =  /read/ig.test(window.location.search);
     return (
       <RichTextEditor
+        autoFocus={true}
         editorState={editorState}
         embedded={false}
         height="100%"

@@ -28,6 +28,7 @@ import './czi-editor.css';
 import type {EditorRuntime} from '../Types';
 
 export type EditorProps = {
+  autoFocus?: ?boolean,
   disabled?: ?boolean,
   dispatchTransaction?: ?(tr: Transform) => void,
   editorState?: ?EditorState,
@@ -40,6 +41,8 @@ export type EditorProps = {
   readOnly?: ?boolean,
   runtime?: ?EditorRuntime,
 };
+
+const AUTO_FOCUS_DELAY = 350;
 
 // Default custom node views.
 export const DEFAULT_NODE_VIEWS = Object.freeze({
@@ -92,8 +95,8 @@ class Editor extends React.PureComponent<any, any, any> {
 
   static EDITOR_EMPTY_STATE = EDITOR_EMPTY_STATE;
 
+  _autoFocusTimer = 0;
   _id = uuid();
-
   _editorView = null;
 
   props: EditorProps;
@@ -148,6 +151,11 @@ class Editor extends React.PureComponent<any, any, any> {
       registerEditorView(this._id, view);
 
       onReady && onReady(view);
+
+      this._autoFocusTimer && clearTimeout(this._autoFocusTimer);
+      this._autoFocusTimer = this.props.autoFocus ?
+        setTimeout(this.focus, AUTO_FOCUS_DELAY) :
+        0;
     }
 
     window.addEventListener('beforeprint', this._onPrintStart, false);
@@ -175,6 +183,11 @@ class Editor extends React.PureComponent<any, any, any> {
       view.readOnly = !!readOnly || isPrinting;
       view.disabled = !!disabled;
       view.updateState(state);
+
+      this._autoFocusTimer && clearTimeout(this._autoFocusTimer);
+      this._autoFocusTimer = (!prevProps.autoFocus && this.props.autoFocus) ?
+        setTimeout(this.focus, AUTO_FOCUS_DELAY) :
+        0;
     }
   }
 
@@ -198,9 +211,12 @@ class Editor extends React.PureComponent<any, any, any> {
     );
   }
 
-  focus(): void {
-    this._editorView && this._editorView.focus();
-  }
+  focus = (): void => {
+    const view = this._editorView;
+    if (view && !view.disabled && !view.readOnly) {
+      view.focus();
+    }
+  };
 
   _isEditable = (): boolean => {
     const {disabled, readOnly} = this.props;
