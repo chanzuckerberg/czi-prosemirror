@@ -100,7 +100,7 @@ var LinkURLEditor = function (_React$PureComponent) {
             _react2.default.createElement(
               'legend',
               null,
-              'Add A Link'
+              'Add a Link'
             ),
             _react2.default.createElement('input', {
               autoFocus: true,
