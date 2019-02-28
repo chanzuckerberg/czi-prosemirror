@@ -35,6 +35,13 @@ npm run start
 ```
 Test http://localhost:3001/ from your browser
 
+### Build the distribution files
+
+```
+# At the working directory `czi-prosemirror`
+python ./build_dist.py
+```
+
 ## Development with React
 
 ```
