@@ -1,9 +1,12 @@
 // @flow
 
+import React from 'react';
+
+import sanitizeURL from '../sanitizeURL';
+import CustomButton from './CustomButton';
+
 import './czi-form.css';
 import './czi-image-url-editor.css';
-import CustomButton from './CustomButton';
-import React from 'react';
 
 const BAD_CHARACTER_PATTER = /\s/;
 
@@ -79,7 +82,7 @@ class LinkURLEditor extends React.PureComponent<any, any, any> {
 
   _apply = (): void => {
     const {url} = this.state;
-    this.props.close(url);
+    this.props.close(sanitizeURL(url));
   };
 }
 
