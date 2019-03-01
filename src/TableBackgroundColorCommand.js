@@ -13,7 +13,7 @@ import createPopUp from './ui/createPopUp';
 
 const setCellBackgroundBlack = setCellAttr('background', '#000000');
 
-class TableCellColorCommand extends UICommand {
+class TableBackgroundColorCommand extends UICommand {
   _popUp = null;
 
   shouldRespondToUIEvent = (e: (SyntheticEvent | MouseEvent)): boolean => {
@@ -68,4 +68,4 @@ class TableCellColorCommand extends UICommand {
   };
 }
 
-export default TableCellColorCommand;
+export default TableBackgroundColorCommand;
