@@ -4,7 +4,7 @@ import nullthrows from 'nullthrows';
 
 import {PT_TO_PX_RATIO} from './convertToCSSPTValue';
 import convertToCSSPTValue from './convertToCSSPTValue';
-import toHexColor from './ui/toHexColor';
+import toCSSColor from './ui/toCSSColor';
 
 // This value is arbitrary. It assumes the page use the default size
 // with default padding.
@@ -31,7 +31,7 @@ function patchTableCell(tdElement: HTMLElement): void {
   }
   const {backgroundColor, width} = style;
   if (backgroundColor) {
-    const tdBgColor = toHexColor(backgroundColor);
+    const tdBgColor = toCSSColor(backgroundColor);
     const selector = 'span[style*=background-color]';
     const spans = Array.from(tdElement.querySelectorAll(selector));
     spans.some(spanElement => {
@@ -39,7 +39,7 @@ function patchTableCell(tdElement: HTMLElement): void {
       if (!spanStyle || !spanStyle.backgroundColor) {
         return;
       }
-      const spanBgColor = toHexColor(spanStyle.backgroundColor);
+      const spanBgColor = toCSSColor(spanStyle.backgroundColor);
       if (spanBgColor === tdBgColor) {
         // The span has the same bg color as the cell does, erase its bg color.
         spanStyle.backgroundColor = '';

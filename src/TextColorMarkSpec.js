@@ -2,7 +2,7 @@
 
 import {Node} from 'prosemirror-model';
 
-import toHexColor from './ui/toHexColor';
+import toCSSColor from './ui/toCSSColor';
 
 import type {MarkSpec} from './Types';
 
@@ -17,7 +17,7 @@ const TextColorMarkSpec: MarkSpec = {
       style: 'color',
       getAttrs: (color) => {
         return {
-          color: toHexColor(color),
+          color: toCSSColor(color),
         };
       },
     },

@@ -2,7 +2,7 @@
 
 import stable from 'stable';
 
-import toHexColor from './ui/toHexColor';
+import toCSSColor from './ui/toCSSColor';
 
 const LIST_ITEM_PSEUDO_ELEMENT_BEFORE = /li:+before/;
 const NODE_NAME_SELECTOR = /^[a-zA-Z]+\d*$/;
@@ -62,12 +62,12 @@ export default function patchStyleElements(doc: Document): void {
       rule.styleMap.forEach((cssStyleValue, key) => {
         // e.g. rules['color'] = 'red'.
         if (key === 'color') {
-          const color = toHexColor(String(cssStyleValue));
+          const color = toCSSColor(String(cssStyleValue));
           if (!color) {
             return;
           }
         } else if (key === 'background-color') {
-          const color = toHexColor(String(cssStyleValue));
+          const color = toCSSColor(String(cssStyleValue));
           if (!color) {
             return;
           }
