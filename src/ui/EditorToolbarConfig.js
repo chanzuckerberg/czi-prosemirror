@@ -59,6 +59,7 @@ const {
   TABLE_ADD_COLUMN_BEFORE,
   TABLE_ADD_ROW_AFTER,
   TABLE_ADD_ROW_BEFORE,
+  TABLE_BORDER_COLOR,
   TABLE_CELL_COLOR,
   TABLE_DELETE_COLUMN,
   TABLE_DELETE_ROW,
@@ -88,6 +89,7 @@ export const TABLE_COMMANDS_GROUP = [
   },
   {
     'Fill Color...': TABLE_CELL_COLOR,
+    'Border Color....': TABLE_BORDER_COLOR,
   },
   {
     'Insert Column Before': TABLE_ADD_COLUMN_BEFORE,

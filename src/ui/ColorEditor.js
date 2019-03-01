@@ -1,11 +1,12 @@
 // @flow
 
-import './czi-color-editor.css';
-
 import Color from 'color';
-import CustomButton from './CustomButton';
 import React from 'react';
+
+import CustomButton from './CustomButton';
 import clamp from './clamp';
+
+import './czi-color-editor.css';
 
 function generateGreyColors(count: number): Array<Color> {
   let cc = 255;
@@ -56,7 +57,7 @@ class ColorEditor extends React.PureComponent<any, any, any> {
             className="czi-color-editor-color-transparent"
             label="Transparent"
             onClick={this._onSelectColor}
-            value=""
+            value="rgba(0,0,0,0)"
           />
         </div>
         <div className="czi-color-editor-section">
