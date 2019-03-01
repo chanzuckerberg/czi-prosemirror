@@ -60,6 +60,7 @@
 
 .czi-custom-button.disabled,
 .czi-custom-button.disabled:hover {
+  -webkit-text-stroke-width: 0;
   background: #ffffff;
   border-color: #ccc;
   color: #dedede;
