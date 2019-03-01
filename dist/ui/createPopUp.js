@@ -103,7 +103,8 @@ function getRootElement(id, forceCreation, popUpParams) {
   element.id = id;
 
   var style = element.style;
-  style.zIndex = Z_INDEX_BASE + popUpsCount * 3;
+  var modalZIndexOffset = popUpParams && popUpParams.modal ? 1 : 0;
+  style.zIndex = Z_INDEX_BASE + popUpsCount * 3 + modalZIndexOffset;
 
   // Populates the default ARIA attributes here.
   // http://accessibility.athena-ict.com/aria/examples/dialog.shtml
