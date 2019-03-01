@@ -106,7 +106,7 @@ export const TABLE_COMMANDS_GROUP = [
   // Disable these commands cause user rarely use them.
   {
     'Toggle Header Column': TABLE_TOGGLE_HEADER_COLUMN,
-    'Toggle Header Cow': TABLE_TOGGLE_HEADER_ROW,
+    'Toggle Header Row': TABLE_TOGGLE_HEADER_ROW,
     'Toggle Header Cells': TABLE_TOGGLE_HEADER_CELL,
   },
   {

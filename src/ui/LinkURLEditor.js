@@ -43,7 +43,7 @@ class LinkURLEditor extends React.PureComponent<any, any, any> {
       <div className="czi-image-url-editor">
         <form className="czi-form">
           <fieldset>
-            <legend>Add A Link</legend>
+            <legend>Add a Link</legend>
             <input
               autoFocus={true}
               onChange={this._onURLChange}
