@@ -32,7 +32,7 @@ class MarkToggleCommand extends UICommand {
     dispatch: ?(tr: Transform) => void,
     view: ?EditorView,
   ): boolean => {
-    const {schema, selection} = state;
+    const {schema, selection, tr} = state;
     const markType = schema.marks[this._markName];
     if (!markType) {
       return false;
@@ -40,6 +40,15 @@ class MarkToggleCommand extends UICommand {
 
     if (selection.empty && !(selection instanceof TextSelection)) {
       return false;
+    }
+
+    const {from, to} = selection;
+    if (tr && (to === from + 1)) {
+      const node = tr.doc.nodeAt(from);
+      if (node.isAtom) {
+        // An atomic node (e.g. Image) is selected.
+        return false;
+      }
     }
 
     // TODO: Replace `toggleMark` with transform that does not change scroll
