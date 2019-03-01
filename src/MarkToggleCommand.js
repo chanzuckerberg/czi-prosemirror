@@ -1,7 +1,7 @@
 // @flow
 
 import {toggleMark} from 'prosemirror-commands';
-import {EditorState} from 'prosemirror-state';
+import {EditorState, TextSelection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
 import {EditorView} from 'prosemirror-view';
 
@@ -33,11 +33,12 @@ class MarkToggleCommand extends UICommand {
     view: ?EditorView,
   ): boolean => {
     const {schema, selection} = state;
-    if (selection.empty) {
-      return false;
-    }
     const markType = schema.marks[this._markName];
     if (!markType) {
+      return false;
+    }
+
+    if (selection.empty && !(selection instanceof TextSelection)) {
       return false;
     }
 
