@@ -4,7 +4,7 @@ import React from 'react';
 
 import sanitizeURL from '../sanitizeURL';
 import CustomButton from './CustomButton';
-import {ENTER} from './keyCodes';
+import {ENTER} from './KeyCodes';
 
 import './czi-form.css';
 import './czi-image-url-editor.css';
