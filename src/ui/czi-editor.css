@@ -61,36 +61,34 @@
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
     box-sizing: border-box;
     margin: 0 auto 0 auto;
-    min-height: 29.7cm;
     outline: none;
     padding: 2.7cm;
     position: relative;
-    width: 16.25cm;
     z-index: 1;
   }
 
   .ProseMirror[data-layout="us_letter_portrait"] {
     min-height: 279mm;
     padding: 15.5mm;
-    width: 216mm;
+    width: var(--czi-doc-width-us-letter-portrait);
   }
 
   .ProseMirror[data-layout="us_letter_landscape"] {
     min-height: 216mm;
     padding: 15.5mm;
-    width: 279mm;
+    width: var(--czi-doc-width-us-letter-landscape);
   }
 
   .ProseMirror[data-layout="desktop_screen_4_3"] {
     min-height: 90vh;
     padding: 15.5mm;
-    width: 120vh;
+    width: var(--czi-doc-width-us-desktop-screen-4-3);
   }
 
   .ProseMirror[data-layout="desktop_screen_16_9"] {
     min-height: 80vh;
     padding: 15.5mm;
-    width: 142vh;;
+    width: var(--czi-doc-width-us-desktop-screen-16-9);
   }
 
   .prosemirror-editor-wrapper.embedded .ProseMirror {
