@@ -46,6 +46,20 @@ export function atAnchorBottomCenter(anchorRect: ?Rect, bodyRect: ?Rect): Rect {
   return rect;
 }
 
+export function atAnchorBottomLeft(anchorRect: ?Rect, bodyRect: ?Rect): Rect {
+  const rect = {x: 0, y: 0, w: 0, h: 0};
+  if (anchorRect && bodyRect) {
+    rect.x = anchorRect.x;
+    rect.y = anchorRect.y + anchorRect.h;
+  }
+
+  if (!anchorRect || isCollapsed(anchorRect)) {
+    rect.x = -10000;
+  }
+
+  return rect;
+}
+
 export function atAnchorRight(anchorRect: ?Rect, bodyRect: ?Rect): Rect {
   const rect = {x: 0, y: 0, w: 0, h: 0};
   if (anchorRect && bodyRect) {

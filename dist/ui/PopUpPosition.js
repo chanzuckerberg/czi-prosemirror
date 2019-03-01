@@ -5,6 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.atAnchorBottom = atAnchorBottom;
 exports.atAnchorBottomCenter = atAnchorBottomCenter;
+exports.atAnchorBottomLeft = atAnchorBottomLeft;
 exports.atAnchorRight = atAnchorRight;
 exports.atViewportCenter = atViewportCenter;
 exports.atAnchorTopRight = atAnchorTopRight;
@@ -41,6 +42,20 @@ function atAnchorBottomCenter(anchorRect, bodyRect) {
   var rect = { x: 0, y: 0, w: 0, h: 0 };
   if (anchorRect && bodyRect) {
     rect.x = Math.max(anchorRect.x - (bodyRect.w - anchorRect.w) / 2, 10);
+    rect.y = anchorRect.y + anchorRect.h;
+  }
+
+  if (!anchorRect || (0, _rects.isCollapsed)(anchorRect)) {
+    rect.x = -10000;
+  }
+
+  return rect;
+}
+
+function atAnchorBottomLeft(anchorRect, bodyRect) {
+  var rect = { x: 0, y: 0, w: 0, h: 0 };
+  if (anchorRect && bodyRect) {
+    rect.x = anchorRect.x;
     rect.y = anchorRect.y + anchorRect.h;
   }
 
