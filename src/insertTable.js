@@ -6,6 +6,8 @@ import {Transform} from 'prosemirror-transform';
 
 import {PARAGRAPH, TABLE, TABLE_CELL, TABLE_ROW} from './NodeNames';
 
+const ZERO_WIDTH_SPACE_CHAR = '\u200b';
+
 export default function insertTable(
   tr: Transform,
   schema: Schema,
@@ -33,7 +35,7 @@ export default function insertTable(
   for (let rr = 0; rr < rows; rr++) {
     const cellNodes = [];
     for (let cc = 0; cc < cols; cc++) {
-      const textNode = schema.text(' ');
+      const textNode = schema.text(ZERO_WIDTH_SPACE_CHAR);
       const paragraphNode = paragraph.create({}, Fragment.from(textNode));
       const cellNode = cell.create({}, Fragment.from(paragraphNode));
       cellNodes.push(cellNode);
