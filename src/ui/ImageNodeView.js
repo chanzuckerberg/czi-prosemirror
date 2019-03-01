@@ -218,6 +218,7 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
         data-active={active ? 'true' : undefined}
         data-original-src={String(attrs.src)}
         id={this._id}
+        onKeyDown={this._onKeyDown}
         ref={this._onBodyRef}
         title={errorTitle}>
         <span
@@ -293,6 +294,10 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
       originalSize.height = MIN_SIZE;
     }
     this.setState({originalSize});
+  };
+
+  _onKeyDown = (e: any): void => {
+    console.log(e.keyCode);
   };
 
   _onResizeEnd = (width: number, height: number): void => {
@@ -373,6 +378,7 @@ class ImageNodeView extends CustomNodeView {
     const el = document.createElement('span');
     el.className = 'czi-image-view';
     this._updateDOM(el);
+    console.log('created');
     return el;
   }
 

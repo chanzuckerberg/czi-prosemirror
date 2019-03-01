@@ -45,7 +45,7 @@ class MarkToggleCommand extends UICommand {
     const {from, to} = selection;
     if (tr && (to === from + 1)) {
       const node = tr.doc.nodeAt(from);
-      if (node.isAtom) {
+      if (node.isAtom && !node.isText && node.isLeaf) {
         // An atomic node (e.g. Image) is selected.
         return false;
       }

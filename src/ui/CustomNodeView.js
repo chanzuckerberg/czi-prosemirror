@@ -158,6 +158,12 @@ class CustomNodeView {
     throw new Error('not implemented');
   }
 
+  destroy(): void {
+    // Called when the node view is removed from the editor or the whole
+    // editor is destroyed.
+    // sub-class may override this method.
+  }
+
   __renderReactComponent(): void {
     const {editorView, getPos} = this.props;
     if (editorView.state && editorView.state.selection) {

@@ -38,6 +38,7 @@ module.exports = {
     "FileReader": false,
     "HTMLElement": false,
     "Image": false,
+    "KeyboardEvent": false,
     "Map": false,
     "MouseEvent": false,
     "MutationObserver": false,
