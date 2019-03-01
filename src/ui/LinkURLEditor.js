@@ -8,6 +8,7 @@ import CustomButton from './CustomButton';
 import './czi-form.css';
 import './czi-image-url-editor.css';
 
+const KEY_CODE_ENTER = 13;
 const BAD_CHARACTER_PATTER = /\s/;
 
 class LinkURLEditor extends React.PureComponent<any, any, any> {
@@ -46,6 +47,7 @@ class LinkURLEditor extends React.PureComponent<any, any, any> {
             <input
               autoFocus={true}
               onChange={this._onURLChange}
+              onKeyDown={this._onKeyDown}
               placeholder="Paste a URL"
               spellCheck={false}
               type="text"
@@ -69,6 +71,13 @@ class LinkURLEditor extends React.PureComponent<any, any, any> {
     );
   }
 
+  _onKeyDown = (e: SyntheticInputEvent) => {
+    if (e.keyCode === KEY_CODE_ENTER) {
+      e.preventDefault();
+      this._apply();
+    }
+  };
+
   _onURLChange = (e: SyntheticInputEvent) => {
     const url = e.target.value;
     this.setState({
@@ -82,7 +91,9 @@ class LinkURLEditor extends React.PureComponent<any, any, any> {
 
   _apply = (): void => {
     const {url} = this.state;
-    this.props.close(sanitizeURL(url));
+    if (url && !BAD_CHARACTER_PATTER.test(url)) {
+      this.props.close(sanitizeURL(url));
+    }
   };
 }
 
