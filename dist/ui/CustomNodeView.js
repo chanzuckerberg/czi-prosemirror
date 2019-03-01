@@ -264,6 +264,13 @@ var CustomNodeView = function () {
       throw new Error('not implemented');
     }
   }, {
+    key: 'destroy',
+    value: function destroy() {
+      // Called when the node view is removed from the editor or the whole
+      // editor is destroyed.
+      // sub-class may override this method.
+    }
+  }, {
     key: '__renderReactComponent',
     value: function __renderReactComponent() {
       var _props = this.props,

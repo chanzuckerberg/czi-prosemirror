@@ -33,6 +33,10 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
+var _set = require('babel-runtime/core-js/set');
+
+var _set2 = _interopRequireDefault(_set);
+
 var _defineProperty2 = require('babel-runtime/helpers/defineProperty');
 
 var _defineProperty3 = _interopRequireDefault(_defineProperty2);
@@ -103,6 +107,8 @@ var _MathNodeView = require('./MathNodeView');
 
 var _MathNodeView2 = _interopRequireDefault(_MathNodeView);
 
+var _keyCodes = require('./keyCodes');
+
 var _uuid = require('./uuid');
 
 var _uuid2 = _interopRequireDefault(_uuid);
@@ -159,6 +165,25 @@ _WebFontLoader2.default.setImplementation(_webfontloader2.default);
 
 function transformPastedHTML(html) {
   return (0, _normalizeHTML2.default)(html);
+}
+
+var AtomicNodeKeyCodes = new _set2.default([_keyCodes.BACKSPACE, _keyCodes.DELETE, _keyCodes.DOWN_ARROW, _keyCodes.LEFT_ARROW, _keyCodes.RIGHT_ARROW, _keyCodes.UP_ARROW]);
+function handleKeyDown(view, event) {
+  var _view$state = view.state,
+      selection = _view$state.selection,
+      tr = _view$state.tr;
+  var from = selection.from,
+      to = selection.to;
+
+  if (from === to - 1) {
+    var node = tr.doc.nodeAt(from);
+    if (node.isAtom && !node.isText && node.isLeaf) {
+      // An atomic node (e.g. Image) is selected.
+      // Only whitelisted keyCode should be allowed.
+      return !AtomicNodeKeyCodes.has(event.keyCode);
+    }
+  }
+  return false;
 }
 
 function bindNodeView(NodeView) {
@@ -250,7 +275,8 @@ var Editor = function (_React$PureComponent) {
           editable: this._isEditable,
           nodeViews: boundNodeViews,
           state: editorState || EDITOR_EMPTY_STATE,
-          transformPastedHTML: transformPastedHTML
+          transformPastedHTML: transformPastedHTML,
+          handleKeyDown: handleKeyDown
         });
 
         _view.runtime = runtime;

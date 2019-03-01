@@ -4,11 +4,11 @@ import React from 'react';
 
 import sanitizeURL from '../sanitizeURL';
 import CustomButton from './CustomButton';
+import {ENTER} from './keyCodes';
 
 import './czi-form.css';
 import './czi-image-url-editor.css';
 
-const KEY_CODE_ENTER = 13;
 const BAD_CHARACTER_PATTER = /\s/;
 
 class LinkURLEditor extends React.PureComponent<any, any, any> {
@@ -72,7 +72,7 @@ class LinkURLEditor extends React.PureComponent<any, any, any> {
   }
 
   _onKeyDown = (e: SyntheticInputEvent) => {
-    if (e.keyCode === KEY_CODE_ENTER) {
+    if (e.keyCode === ENTER) {
       e.preventDefault();
       this._apply();
     }

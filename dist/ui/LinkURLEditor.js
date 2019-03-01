@@ -36,13 +36,13 @@ var _CustomButton = require('./CustomButton');
 
 var _CustomButton2 = _interopRequireDefault(_CustomButton);
 
+var _keyCodes = require('./keyCodes');
+
 require('./czi-form.css');
 
 require('./czi-image-url-editor.css');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var KEY_CODE_ENTER = 13;
 
 var BAD_CHARACTER_PATTER = /\s/;
 
@@ -63,7 +63,7 @@ var LinkURLEditor = function (_React$PureComponent) {
     return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = LinkURLEditor.__proto__ || (0, _getPrototypeOf2.default)(LinkURLEditor)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
       url: _this.props.href
     }, _this._onKeyDown = function (e) {
-      if (e.keyCode === KEY_CODE_ENTER) {
+      if (e.keyCode === _keyCodes.ENTER) {
         e.preventDefault();
         _this._apply();
       }

@@ -227,7 +227,9 @@ var ImageViewBody = function (_React$PureComponent) {
           }
         }
       }, _callee, _this2);
-    })), _this._onResizeEnd = function (width, height) {
+    })), _this._onKeyDown = function (e) {
+      console.log(e.keyCode);
+    }, _this._onResizeEnd = function (width, height) {
       var _this$props = _this.props,
           getPos = _this$props.getPos,
           node = _this$props.node,
@@ -431,6 +433,7 @@ var ImageViewBody = function (_React$PureComponent) {
           'data-active': active ? 'true' : undefined,
           'data-original-src': String(attrs.src),
           id: this._id,
+          onKeyDown: this._onKeyDown,
           ref: this._onBodyRef,
           title: errorTitle },
         _react2.default.createElement(
@@ -506,6 +509,7 @@ var ImageNodeView = function (_CustomNodeView) {
       var el = document.createElement('span');
       el.className = 'czi-image-view';
       this._updateDOM(el);
+      console.log('created');
       return el;
     }
 

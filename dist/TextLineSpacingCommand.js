@@ -95,8 +95,8 @@ function setTextLineSpacing(tr, schema, lineSpacing) {
     var node = job.node,
         pos = job.pos,
         nodeType = job.nodeType;
+    var attrs = node.attrs;
 
-    var attrs = void 0;
     if (lineSpacingValue) {
       attrs = (0, _extends3.default)({}, attrs, {
         lineSpacing: lineSpacingValue
@@ -114,10 +114,10 @@ function setTextLineSpacing(tr, schema, lineSpacing) {
 
 function createGroup() {
   var group = {};
-  group['Default'] = new TextLineSpacingCommand(null);
-
+  group['Single'] = new TextLineSpacingCommand(null);
   _ParagraphNodeSpec.LINE_SPACING_VALUES.forEach(function (lineSpacing) {
-    group[' ' + lineSpacing + ' '] = new TextLineSpacingCommand(lineSpacing);
+    var label = lineSpacing === '200%' ? 'Double' : ' ' + lineSpacing + ' ';
+    group[label] = new TextLineSpacingCommand(lineSpacing);
   });
   return [group];
 }
@@ -150,6 +150,10 @@ var TextLineSpacingCommand = function (_UICommand) {
         return keepLooking;
       });
       return active;
+    };
+
+    _this.isEnabled = function (state) {
+      return _this.isActive(state) || _this.execute(state);
     };
 
     _this.execute = function (state, dispatch, view) {

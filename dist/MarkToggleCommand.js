@@ -62,7 +62,8 @@ var MarkToggleCommand = function (_UICommand) {
 
     _this.execute = function (state, dispatch, view) {
       var schema = state.schema,
-          selection = state.selection;
+          selection = state.selection,
+          tr = state.tr;
 
       var markType = schema.marks[_this._markName];
       if (!markType) {
@@ -71,6 +72,17 @@ var MarkToggleCommand = function (_UICommand) {
 
       if (selection.empty && !(selection instanceof _prosemirrorState.TextSelection)) {
         return false;
+      }
+
+      var from = selection.from,
+          to = selection.to;
+
+      if (tr && to === from + 1) {
+        var node = tr.doc.nodeAt(from);
+        if (node.isAtom && !node.isText && node.isLeaf) {
+          // An atomic node (e.g. Image) is selected.
+          return false;
+        }
       }
 
       // TODO: Replace `toggleMark` with transform that does not change scroll
