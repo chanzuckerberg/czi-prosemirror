@@ -20,8 +20,8 @@ import BookmarkNodeView from './BookmarkNodeView';
 import CustomEditorView from './CustomEditorView';
 import CustomNodeView from './CustomNodeView';
 import ImageNodeView from './ImageNodeView';
+import {BACKSPACE, DELETE, DOWN_ARROW, LEFT_ARROW, RIGHT_ARROW, UP_ARROW} from './KeyCodes';
 import MathNodeView from './MathNodeView';
-import {BACKSPACE, DELETE, DOWN_ARROW, LEFT_ARROW, RIGHT_ARROW, UP_ARROW} from './keyCodes';
 import uuid from './uuid';
 
 import './czi-editor.css';

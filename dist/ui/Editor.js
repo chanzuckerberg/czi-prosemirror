@@ -103,11 +103,11 @@ var _ImageNodeView = require('./ImageNodeView');
 
 var _ImageNodeView2 = _interopRequireDefault(_ImageNodeView);
 
+var _KeyCodes = require('./KeyCodes');
+
 var _MathNodeView = require('./MathNodeView');
 
 var _MathNodeView2 = _interopRequireDefault(_MathNodeView);
-
-var _keyCodes = require('./keyCodes');
 
 var _uuid = require('./uuid');
 
@@ -167,7 +167,7 @@ function transformPastedHTML(html) {
   return (0, _normalizeHTML2.default)(html);
 }
 
-var AtomicNodeKeyCodes = new _set2.default([_keyCodes.BACKSPACE, _keyCodes.DELETE, _keyCodes.DOWN_ARROW, _keyCodes.LEFT_ARROW, _keyCodes.RIGHT_ARROW, _keyCodes.UP_ARROW]);
+var AtomicNodeKeyCodes = new _set2.default([_KeyCodes.BACKSPACE, _KeyCodes.DELETE, _KeyCodes.DOWN_ARROW, _KeyCodes.LEFT_ARROW, _KeyCodes.RIGHT_ARROW, _KeyCodes.UP_ARROW]);
 function handleKeyDown(view, event) {
   var _view$state = view.state,
       selection = _view$state.selection,
