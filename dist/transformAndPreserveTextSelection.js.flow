@@ -3,6 +3,7 @@ import {TextSelection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
 
 import {MARK_TEXT_SELECTION} from './MarkNames';
+import {TEXT} from './NodeNames';
 import applyMark from './applyMark';
 
 export type SelectionMemo = {
@@ -45,8 +46,12 @@ export default function transformAndPreserveTextSelection(
     const prevNode = tr.doc.nodeAt(from - 1);
     const nextNode = tr.doc.nodeAt(from + 1);
 
-    // Ensure that the mark is applied to the same type of node.
-    if (prevNode && currentNode && currentNode.type === prevNode.type) {
+    if (!currentNode && prevNode && prevNode.type.name === TEXT) {
+      // The selection is at the end of the text node. Select the last
+      // character instead.
+      fromOffset = -1;
+    } else if (prevNode && currentNode && currentNode.type === prevNode.type) {
+      // Ensure that the mark is applied to the same type of node.
       fromOffset = -1;
     } else if (nextNode && currentNode && currentNode.type === nextNode.type) {
       toOffset = 1;

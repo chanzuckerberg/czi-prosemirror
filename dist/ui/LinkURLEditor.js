@@ -24,19 +24,25 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-require('./czi-form.css');
+var _react = require('react');
 
-require('./czi-image-url-editor.css');
+var _react2 = _interopRequireDefault(_react);
+
+var _sanitizeURL = require('../sanitizeURL');
+
+var _sanitizeURL2 = _interopRequireDefault(_sanitizeURL);
 
 var _CustomButton = require('./CustomButton');
 
 var _CustomButton2 = _interopRequireDefault(_CustomButton);
 
-var _react = require('react');
+require('./czi-form.css');
 
-var _react2 = _interopRequireDefault(_react);
+require('./czi-image-url-editor.css');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var KEY_CODE_ENTER = 13;
 
 var BAD_CHARACTER_PATTER = /\s/;
 
@@ -56,6 +62,11 @@ var LinkURLEditor = function (_React$PureComponent) {
 
     return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = LinkURLEditor.__proto__ || (0, _getPrototypeOf2.default)(LinkURLEditor)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
       url: _this.props.href
+    }, _this._onKeyDown = function (e) {
+      if (e.keyCode === KEY_CODE_ENTER) {
+        e.preventDefault();
+        _this._apply();
+      }
     }, _this._onURLChange = function (e) {
       var url = e.target.value;
       _this.setState({
@@ -66,7 +77,9 @@ var LinkURLEditor = function (_React$PureComponent) {
     }, _this._apply = function () {
       var url = _this.state.url;
 
-      _this.props.close(url);
+      if (url && !BAD_CHARACTER_PATTER.test(url)) {
+        _this.props.close((0, _sanitizeURL2.default)(url));
+      }
     }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
   }
 
@@ -105,6 +118,7 @@ var LinkURLEditor = function (_React$PureComponent) {
             _react2.default.createElement('input', {
               autoFocus: true,
               onChange: this._onURLChange,
+              onKeyDown: this._onKeyDown,
               placeholder: 'Paste a URL',
               spellCheck: false,
               type: 'text',

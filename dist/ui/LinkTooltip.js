@@ -42,6 +42,10 @@ var _smoothScrollIntoViewIfNeeded = require('smooth-scroll-into-view-if-needed')
 
 var _smoothScrollIntoViewIfNeeded2 = _interopRequireDefault(_smoothScrollIntoViewIfNeeded);
 
+var _sanitizeURL = require('../sanitizeURL');
+
+var _sanitizeURL2 = _interopRequireDefault(_sanitizeURL);
+
 var _CustomButton = require('./CustomButton');
 
 var _CustomButton2 = _interopRequireDefault(_CustomButton);
@@ -100,7 +104,9 @@ var LinkTooltip = function (_React$PureComponent) {
         }
         return;
       }
-      window.open(href);
+      if (href) {
+        window.open((0, _sanitizeURL2.default)(href));
+      }
     }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
   }
 

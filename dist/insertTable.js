@@ -13,6 +13,8 @@ var _prosemirrorTransform = require('prosemirror-transform');
 
 var _NodeNames = require('./NodeNames');
 
+var ZERO_WIDTH_SPACE_CHAR = '\u200B';
+
 function insertTable(tr, schema, rows, cols) {
   if (!tr.selection || !tr.doc) {
     return tr;
@@ -39,7 +41,7 @@ function insertTable(tr, schema, rows, cols) {
   for (var rr = 0; rr < rows; rr++) {
     var cellNodes = [];
     for (var cc = 0; cc < cols; cc++) {
-      var textNode = schema.text(' ');
+      var textNode = schema.text(ZERO_WIDTH_SPACE_CHAR);
       var paragraphNode = paragraph.create({}, _prosemirrorModel.Fragment.from(textNode));
       var cellNode = cell.create({}, _prosemirrorModel.Fragment.from(paragraphNode));
       cellNodes.push(cellNode);

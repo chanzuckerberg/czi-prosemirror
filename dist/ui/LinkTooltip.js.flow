@@ -4,6 +4,7 @@ import {EditorView} from 'prosemirror-view';
 import React from 'react';
 import scrollIntoView from 'smooth-scroll-into-view-if-needed';
 
+import sanitizeURL from '../sanitizeURL';
 import CustomButton from './CustomButton';
 
 import './czi-link-tooltip.css';
@@ -73,7 +74,9 @@ class LinkTooltip extends React.PureComponent<any, any, any> {
       }
       return;
     }
-    window.open(href);
+    if (href) {
+      window.open(sanitizeURL(href));
+    }
   };
 }
 

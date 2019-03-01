@@ -2,6 +2,8 @@
 
 import {EditorState} from 'prosemirror-state';
 
+const ZERO_WIDTH_SPACE_CHAR = '\u200b';
+
 export default function isEditorStateEmpty(editorState: EditorState): boolean {
   const {doc} = editorState;
   const {nodeSize} = doc;
@@ -18,7 +20,7 @@ export default function isEditorStateEmpty(editorState: EditorState): boolean {
           isEmpty = false;
         } else if (nodeType.isText) {
           const text = doc.textContent;
-          isEmpty = !text || text === ' ';
+          isEmpty = !text || text === ' ' || text === ZERO_WIDTH_SPACE_CHAR;
         }
       }
       return isEmpty;

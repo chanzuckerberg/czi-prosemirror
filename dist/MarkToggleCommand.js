@@ -64,11 +64,12 @@ var MarkToggleCommand = function (_UICommand) {
       var schema = state.schema,
           selection = state.selection;
 
-      if (selection.empty) {
-        return false;
-      }
       var markType = schema.marks[_this._markName];
       if (!markType) {
+        return false;
+      }
+
+      if (selection.empty && !(selection instanceof _prosemirrorState.TextSelection)) {
         return false;
       }
 

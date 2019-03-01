@@ -13,6 +13,8 @@ var _prosemirrorTransform = require('prosemirror-transform');
 
 var _MarkNames = require('./MarkNames');
 
+var _NodeNames = require('./NodeNames');
+
 var _applyMark = require('./applyMark');
 
 var _applyMark2 = _interopRequireDefault(_applyMark);
@@ -61,8 +63,12 @@ function transformAndPreserveTextSelection(tr, schema, fn) {
     var prevNode = tr.doc.nodeAt(from - 1);
     var nextNode = tr.doc.nodeAt(from + 1);
 
-    // Ensure that the mark is applied to the same type of node.
-    if (prevNode && currentNode && currentNode.type === prevNode.type) {
+    if (!currentNode && prevNode && prevNode.type.name === _NodeNames.TEXT) {
+      // The selection is at the end of the text node. Select the last
+      // character instead.
+      fromOffset = -1;
+    } else if (prevNode && currentNode && currentNode.type === prevNode.type) {
+      // Ensure that the mark is applied to the same type of node.
       fromOffset = -1;
     } else if (nextNode && currentNode && currentNode.type === nextNode.type) {
       toOffset = 1;
