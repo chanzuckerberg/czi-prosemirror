@@ -2,7 +2,7 @@
 
 import {Node} from 'prosemirror-model';
 
-import toHexColor from './ui/toHexColor';
+import {isTransparent, toCSSColor} from './ui/toCSSColor';
 
 import type {MarkSpec} from './Types';
 
@@ -17,8 +17,9 @@ const TextHighlightMarkSpec: MarkSpec = {
       tag: 'span[style*=background-color]',
       getAttrs: (dom: HTMLElement) => {
         const {backgroundColor} = dom.style;
+        const color = toCSSColor(backgroundColor);
         return {
-          highlightColor: toHexColor(backgroundColor),
+          highlightColor: isTransparent(color) ? '' : color,
         };
       },
     },

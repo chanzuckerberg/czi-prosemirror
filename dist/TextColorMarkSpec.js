@@ -6,9 +6,9 @@ Object.defineProperty(exports, "__esModule", {
 
 var _prosemirrorModel = require('prosemirror-model');
 
-var _toHexColor = require('./ui/toHexColor');
+var _toCSSColor = require('./ui/toCSSColor');
 
-var _toHexColor2 = _interopRequireDefault(_toHexColor);
+var _toCSSColor2 = _interopRequireDefault(_toCSSColor);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -24,7 +24,7 @@ var TextColorMarkSpec = {
     style: 'color',
     getAttrs: function getAttrs(color) {
       return {
-        color: (0, _toHexColor2.default)(color)
+        color: (0, _toCSSColor2.default)(color)
       };
     }
   }],

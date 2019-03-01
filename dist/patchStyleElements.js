@@ -19,9 +19,9 @@ var _stable = require('stable');
 
 var _stable2 = _interopRequireDefault(_stable);
 
-var _toHexColor = require('./ui/toHexColor');
+var _toCSSColor = require('./ui/toCSSColor');
 
-var _toHexColor2 = _interopRequireDefault(_toHexColor);
+var _toCSSColor2 = _interopRequireDefault(_toCSSColor);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -76,12 +76,12 @@ function patchStyleElements(doc) {
       rule.styleMap.forEach(function (cssStyleValue, key) {
         // e.g. rules['color'] = 'red'.
         if (key === 'color') {
-          var color = (0, _toHexColor2.default)(String(cssStyleValue));
+          var color = (0, _toCSSColor2.default)(String(cssStyleValue));
           if (!color) {
             return;
           }
         } else if (key === 'background-color') {
-          var _color = (0, _toHexColor2.default)(String(cssStyleValue));
+          var _color = (0, _toCSSColor2.default)(String(cssStyleValue));
           if (!_color) {
             return;
           }

@@ -66,7 +66,7 @@ export function setTextLineSpacing(
 
   tasks.forEach(job => {
     const {node, pos, nodeType} = job;
-    let attrs;
+    let {attrs} = node;
     if (lineSpacingValue) {
       attrs = {
         ...attrs,

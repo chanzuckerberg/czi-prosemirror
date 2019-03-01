@@ -18,9 +18,9 @@ var _convertToCSSPTValue = require('./convertToCSSPTValue');
 
 var _convertToCSSPTValue2 = _interopRequireDefault(_convertToCSSPTValue);
 
-var _toHexColor = require('./ui/toHexColor');
+var _toCSSColor = require('./ui/toCSSColor');
 
-var _toHexColor2 = _interopRequireDefault(_toHexColor);
+var _toCSSColor2 = _interopRequireDefault(_toCSSColor);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -52,7 +52,7 @@ function patchTableCell(tdElement) {
       width = style.width;
 
   if (backgroundColor) {
-    var tdBgColor = (0, _toHexColor2.default)(backgroundColor);
+    var tdBgColor = (0, _toCSSColor2.default)(backgroundColor);
     var selector = 'span[style*=background-color]';
     var spans = (0, _from2.default)(tdElement.querySelectorAll(selector));
     spans.some(function (spanElement) {
@@ -60,7 +60,7 @@ function patchTableCell(tdElement) {
       if (!spanStyle || !spanStyle.backgroundColor) {
         return;
       }
-      var spanBgColor = (0, _toHexColor2.default)(spanStyle.backgroundColor);
+      var spanBgColor = (0, _toCSSColor2.default)(spanStyle.backgroundColor);
       if (spanBgColor === tdBgColor) {
         // The span has the same bg color as the cell does, erase its bg color.
         spanStyle.backgroundColor = '';

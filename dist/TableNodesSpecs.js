@@ -10,9 +10,9 @@ var _set2 = _interopRequireDefault(_set);
 
 var _prosemirrorTables = require('prosemirror-tables');
 
-var _toHexColor = require('./ui/toHexColor');
+var _toCSSColor = require('./ui/toCSSColor');
 
-var _toHexColor2 = _interopRequireDefault(_toHexColor);
+var _toCSSColor2 = _interopRequireDefault(_toCSSColor);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -35,7 +35,7 @@ var TableNodesSpecs = (0, _prosemirrorTables.tableNodes)({
           return 'transparent';
         }
 
-        return borderColor && (0, _toHexColor2.default)(borderColor) || null;
+        return borderColor && (0, _toCSSColor2.default)(borderColor) || null;
       },
       setDOMAttr: function setDOMAttr(value, attrs) {
         if (value) {

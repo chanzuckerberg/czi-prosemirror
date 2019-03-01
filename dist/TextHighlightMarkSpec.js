@@ -6,11 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _prosemirrorModel = require('prosemirror-model');
 
-var _toHexColor = require('./ui/toHexColor');
-
-var _toHexColor2 = _interopRequireDefault(_toHexColor);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _toCSSColor = require('./ui/toCSSColor');
 
 var babelPluginFlowReactPropTypes_proptype_MarkSpec = require('./Types').babelPluginFlowReactPropTypes_proptype_MarkSpec || require('prop-types').any;
 
@@ -25,8 +21,9 @@ var TextHighlightMarkSpec = {
     getAttrs: function getAttrs(dom) {
       var backgroundColor = dom.style.backgroundColor;
 
+      var color = (0, _toCSSColor.toCSSColor)(backgroundColor);
       return {
-        highlightColor: (0, _toHexColor2.default)(backgroundColor)
+        highlightColor: (0, _toCSSColor.isTransparent)(color) ? '' : color
       };
     }
   }],

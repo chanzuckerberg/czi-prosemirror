@@ -20,9 +20,9 @@ var _ParagraphNodeSpec = require('./ParagraphNodeSpec');
 
 var _patchStyleElements = require('./patchStyleElements');
 
-var _toHexColor = require('./ui/toHexColor');
+var _toCSSColor = require('./ui/toCSSColor');
 
-var _toHexColor2 = _interopRequireDefault(_toHexColor);
+var _toCSSColor2 = _interopRequireDefault(_toCSSColor);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -90,7 +90,7 @@ function patchListElementsElement(listElement) {
       // If <li /> has only only one child with the same text color, assume
       var el = firstElementChild;
       var color = el.style ? el.style.color : null;
-      color && listItemElement.setAttribute(_ListItemNodeSpec.ATTRIBUTE_LIST_STYLE_COLOR, (0, _toHexColor2.default)(color));
+      color && listItemElement.setAttribute(_ListItemNodeSpec.ATTRIBUTE_LIST_STYLE_COLOR, (0, _toCSSColor2.default)(color));
     }
   });
 

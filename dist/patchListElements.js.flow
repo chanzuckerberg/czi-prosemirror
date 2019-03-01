@@ -3,7 +3,7 @@
 import {ATTRIBUTE_LIST_STYLE_COLOR, ATTRIBUTE_LIST_STYLE_TYPE} from './ListItemNodeSpec';
 import {ATTRIBUTE_INDENT, EMPTY_CSS_VALUE, convertMarginLeftToIndentValue} from './ParagraphNodeSpec';
 import {ATTRIBUTE_CSS_BEFORE_CONTENT} from './patchStyleElements';
-import toHexColor from './ui/toHexColor';
+import toCSSColor from './ui/toCSSColor';
 
 export default function patchListElements(doc: Document): void {
   Array.from(doc.querySelectorAll('ol, ul')).forEach(patchListElementsElement);
@@ -71,7 +71,7 @@ function patchListElementsElement(listElement: HTMLElement): void {
       const color = el.style ? el.style.color : null;
       color && listItemElement.setAttribute(
         ATTRIBUTE_LIST_STYLE_COLOR,
-        toHexColor(color),
+        toCSSColor(color),
       );
     }
   });

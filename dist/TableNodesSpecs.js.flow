@@ -2,7 +2,7 @@
 
 import {tableNodes} from 'prosemirror-tables';
 
-import toHexColor from './ui/toHexColor';
+import toCSSColor from './ui/toCSSColor';
 
 const NO_VISIBLE_BORDER_WIDTH = new Set(['0pt', '0px']);
 
@@ -20,7 +20,7 @@ const TableNodesSpecs = tableNodes({
           return 'transparent';
         }
 
-        return (borderColor && toHexColor(borderColor)) || null;
+        return (borderColor && toCSSColor(borderColor)) || null;
       },
       setDOMAttr(value, attrs) {
         if (value) {
