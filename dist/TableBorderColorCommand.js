@@ -52,26 +52,26 @@ var _createPopUp2 = _interopRequireDefault(_createPopUp);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var setCellBackgroundBlack = (0, _prosemirrorTables.setCellAttr)('background', '#000000');
+var setCellBorderBlack = (0, _prosemirrorTables.setCellAttr)('borderColor', '#000000');
 
-var TableCellColorCommand = function (_UICommand) {
-  (0, _inherits3.default)(TableCellColorCommand, _UICommand);
+var TableBorderColorCommand = function (_UICommand) {
+  (0, _inherits3.default)(TableBorderColorCommand, _UICommand);
 
-  function TableCellColorCommand() {
+  function TableBorderColorCommand() {
     var _ref;
 
     var _temp, _this, _ret;
 
-    (0, _classCallCheck3.default)(this, TableCellColorCommand);
+    (0, _classCallCheck3.default)(this, TableBorderColorCommand);
 
     for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = TableCellColorCommand.__proto__ || (0, _getPrototypeOf2.default)(TableCellColorCommand)).call.apply(_ref, [this].concat(args))), _this), _this._popUp = null, _this.shouldRespondToUIEvent = function (e) {
+    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = TableBorderColorCommand.__proto__ || (0, _getPrototypeOf2.default)(TableBorderColorCommand)).call.apply(_ref, [this].concat(args))), _this), _this._popUp = null, _this.shouldRespondToUIEvent = function (e) {
       return e.type === _UICommand3.default.EventType.MOUSEENTER;
     }, _this.isEnabled = function (state) {
-      return setCellBackgroundBlack(state.tr);
+      return setCellBorderBlack(state.tr);
     }, _this.waitForUserInput = function (state, dispatch, view, event) {
       if (_this._popUp) {
         return _promise2.default.resolve(undefined);
@@ -94,9 +94,9 @@ var TableCellColorCommand = function (_UICommand) {
           }
         });
       });
-    }, _this.executeWithUserInput = function (state, dispatch, view, hex) {
-      if (dispatch && hex !== undefined) {
-        var cmd = (0, _prosemirrorTables.setCellAttr)('background', hex);
+    }, _this.executeWithUserInput = function (state, dispatch, view, color) {
+      if (dispatch && color !== undefined) {
+        var cmd = (0, _prosemirrorTables.setCellAttr)('borderColor', color);
         cmd(state, dispatch, view);
         return true;
       }
@@ -104,7 +104,7 @@ var TableCellColorCommand = function (_UICommand) {
     }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
   }
 
-  return TableCellColorCommand;
+  return TableBorderColorCommand;
 }(_UICommand3.default);
 
-exports.default = TableCellColorCommand;
+exports.default = TableBorderColorCommand;

@@ -24,13 +24,13 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
 var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
 
 var _preventEventDefault = require('./preventEventDefault');
 
@@ -75,6 +75,10 @@ var PointerSurface = function (_React$PureComponent) {
           value = _this$props.value;
 
       onMouseEnter && onMouseEnter(value, e);
+    }, _this._onMouseLeave = function (e) {
+      _this._pressedTarget = null;
+      var mouseUpEvent = e;
+      _this._onMouseUpCapture(mouseUpEvent);
     }, _this._onMouseDown = function (e) {
       e.preventDefault();
 
@@ -97,8 +101,6 @@ var PointerSurface = function (_React$PureComponent) {
     }, _this._onMouseUp = function (e) {
       e.preventDefault();
 
-      _this.setState({ pressed: false });
-
       if (_this._clicked || e.type === 'keypress') {
         var _this$props2 = _this.props,
             _onClick = _this$props2.onClick,
@@ -117,6 +119,7 @@ var PointerSurface = function (_React$PureComponent) {
       }
       var target = e.target;
       _this._clicked = _this._pressedTarget instanceof HTMLElement && target instanceof HTMLElement && (target === _this._pressedTarget || target.contains(_this._pressedTarget) || _this._pressedTarget.contains(target));
+      _this.setState({ pressed: false });
     }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
   }
 
@@ -151,6 +154,7 @@ var PointerSurface = function (_React$PureComponent) {
           onKeyPress: disabled ? _preventEventDefault2.default : this._onMouseUp,
           onMouseDown: disabled ? _preventEventDefault2.default : this._onMouseDown,
           onMouseEnter: disabled ? _preventEventDefault2.default : this._onMouseEnter,
+          onMouseLeave: disabled ? null : this._onMouseLeave,
           onMouseUp: disabled ? _preventEventDefault2.default : this._onMouseUp,
           role: 'button',
           style: style,

@@ -1,7 +1,8 @@
 // @flow
 
-import React from 'react';
 import cx from 'classnames';
+import React from 'react';
+
 import preventEventDefault from './preventEventDefault';
 
 export type PointerSurfaceProps  = {
@@ -50,6 +51,7 @@ class PointerSurface extends React.PureComponent<any, any, any> {
         onKeyPress={disabled ? preventEventDefault : this._onMouseUp}
         onMouseDown={disabled ? preventEventDefault : this._onMouseDown}
         onMouseEnter={disabled ? preventEventDefault : this._onMouseEnter}
+        onMouseLeave={disabled ? null : this._onMouseLeave}
         onMouseUp={disabled ? preventEventDefault : this._onMouseUp}
         role="button"
         style={style}
@@ -73,6 +75,12 @@ class PointerSurface extends React.PureComponent<any, any, any> {
     e.preventDefault();
     const {onMouseEnter, value} = this.props;
     onMouseEnter && onMouseEnter(value, e);
+  };
+
+  _onMouseLeave  = (e: SyntheticEvent): void => {
+    this._pressedTarget = null;
+    const mouseUpEvent: any = e;
+    this._onMouseUpCapture(mouseUpEvent);
   };
 
   _onMouseDown = (e: SyntheticEvent): void => {
@@ -99,8 +107,6 @@ class PointerSurface extends React.PureComponent<any, any, any> {
   _onMouseUp = (e: SyntheticEvent): void => {
     e.preventDefault();
 
-    this.setState({pressed: false});
-
     if (this._clicked || e.type === 'keypress') {
       const {onClick, value, disabled} = this.props;
       !disabled && onClick && onClick(value, e);
@@ -123,6 +129,7 @@ class PointerSurface extends React.PureComponent<any, any, any> {
         target.contains(this._pressedTarget) ||
         this._pressedTarget.contains(target)
       );
+    this.setState({pressed: false});
   }
 }
 

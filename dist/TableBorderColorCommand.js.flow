@@ -11,9 +11,9 @@ import {atAnchorRight} from './ui/PopUpPosition';
 import UICommand from './ui/UICommand';
 import createPopUp from './ui/createPopUp';
 
-const setCellBackgroundBlack = setCellAttr('background', '#000000');
+const setCellBorderBlack = setCellAttr('borderColor', '#000000');
 
-class TableCellColorCommand extends UICommand {
+class TableBorderColorCommand extends UICommand {
   _popUp = null;
 
   shouldRespondToUIEvent = (e: (SyntheticEvent | MouseEvent)): boolean => {
@@ -21,7 +21,7 @@ class TableCellColorCommand extends UICommand {
   };
 
   isEnabled = (state: EditorState): boolean => {
-    return setCellBackgroundBlack(state.tr);
+    return setCellBorderBlack(state.tr);
   };
 
   waitForUserInput = (
@@ -57,10 +57,10 @@ class TableCellColorCommand extends UICommand {
     state: EditorState,
     dispatch: ?(tr: Transform) => void,
     view: ?EditorView,
-    hex: ?string,
+    color: ?string,
   ): boolean => {
-    if (dispatch && hex !== undefined) {
-      const cmd = setCellAttr('background', hex);
+    if (dispatch && color !== undefined) {
+      const cmd = setCellAttr('borderColor', color);
       cmd(state, dispatch, view);
       return true;
     }
@@ -68,4 +68,4 @@ class TableCellColorCommand extends UICommand {
   };
 }
 
-export default TableCellColorCommand;
+export default TableBorderColorCommand;

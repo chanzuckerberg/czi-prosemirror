@@ -24,23 +24,23 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-require('./czi-color-editor.css');
-
 var _color = require('color');
 
 var _color2 = _interopRequireDefault(_color);
-
-var _CustomButton = require('./CustomButton');
-
-var _CustomButton2 = _interopRequireDefault(_CustomButton);
 
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _CustomButton = require('./CustomButton');
+
+var _CustomButton2 = _interopRequireDefault(_CustomButton);
+
 var _clamp = require('./clamp');
 
 var _clamp2 = _interopRequireDefault(_clamp);
+
+require('./czi-color-editor.css');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -122,7 +122,7 @@ var ColorEditor = function (_React$PureComponent) {
             className: 'czi-color-editor-color-transparent',
             label: 'Transparent',
             onClick: this._onSelectColor,
-            value: ''
+            value: 'rgba(0,0,0,0)'
           })
         ),
         _react2.default.createElement(
