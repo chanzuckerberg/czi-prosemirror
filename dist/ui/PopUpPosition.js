@@ -17,7 +17,7 @@ var babelPluginFlowReactPropTypes_proptype_Rect = require('./rects').babelPlugin
 function atAnchorBottom(anchorRect, bodyRect) {
   var rect = { x: 0, y: 0, w: 0, h: 0 };
   if (anchorRect && bodyRect) {
-    rect.x = anchorRect.x;
+    rect.x = anchorRect.x + anchorRect.w / 2;
     rect.y = anchorRect.y + anchorRect.h;
 
     var viewportWidth = window.innerWidth;
