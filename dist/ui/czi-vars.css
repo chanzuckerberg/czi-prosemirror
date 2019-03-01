@@ -23,6 +23,11 @@
   --czi-selection-highlight-color-dark: rgba(152, 204, 253, 0.8);
   --czi-selection-highlight-color: rgba(152, 204, 253, 0.4);
 
+  --czi-doc-width-us-letter-portrait: 216mm;
+  --czi-doc-width-us-letter-landscape: 279mm;
+  --czi-doc-width-us-desktop-screen-4-3: 120vh;
+  --czi-doc-width-us-desktop-screen-16-9: 142vh;
+
   /* content styles */
   --czi-content-body-background-color: #fff;
   --czi-content-font-color: #000;
