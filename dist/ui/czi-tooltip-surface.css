@@ -20,6 +20,12 @@
   user-select: none;
 }
 
+@media only print {
+  .czi-tooltip-view {
+    display: none;
+  }
+}
+
 .czi-tooltip-view.czi-animation-fade-in {
   animation-duration: 250ms;
   animation-delay: 150ms;
