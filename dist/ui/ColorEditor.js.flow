@@ -89,7 +89,6 @@ class ColorEditor extends React.PureComponent<any, any, any> {
         label=""
         onClick={this._onSelectColor}
         style={style}
-        title={hex}
         value={hex}
       />
     );

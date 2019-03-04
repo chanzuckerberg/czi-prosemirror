@@ -98,7 +98,6 @@ var ColorEditor = function (_React$PureComponent) {
         label: '',
         onClick: _this._onSelectColor,
         style: style,
-        title: hex,
         value: hex
       });
     }, _this._onSelectColor = function (hex) {
