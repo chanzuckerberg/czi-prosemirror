@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.atAnchorBottom = atAnchorBottom;
+exports.atAnchorBottomLeft = atAnchorBottomLeft;
 exports.atAnchorBottomCenter = atAnchorBottomCenter;
 exports.atAnchorRight = atAnchorRight;
 exports.atViewportCenter = atViewportCenter;
@@ -14,7 +14,7 @@ var _rects = require('./rects');
 
 var babelPluginFlowReactPropTypes_proptype_Rect = require('./rects').babelPluginFlowReactPropTypes_proptype_Rect || require('prop-types').any;
 
-function atAnchorBottom(anchorRect, bodyRect) {
+function atAnchorBottomLeft(anchorRect, bodyRect) {
   var rect = { x: 0, y: 0, w: 0, h: 0 };
   if (anchorRect && bodyRect) {
     rect.x = anchorRect.x;

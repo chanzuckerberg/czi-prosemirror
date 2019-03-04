@@ -5,6 +5,7 @@ import './czi-animations.css';
 
 import React from 'react';
 import createPopUp from './createPopUp';
+import { atAnchorBottomCenter } from './PopUpPosition';
 import uuid from './uuid';
 
 class TooltipView extends React.PureComponent<any, any, any> {
@@ -55,6 +56,7 @@ class TooltipSurface extends React.PureComponent<any, any, any> {
       this._popUp = createPopUp(TooltipView, {tooltip}, {
         anchor: document.getElementById(this._id),
         onClose: this._onClose,
+        position: atAnchorBottomCenter,
       });
     }
   };

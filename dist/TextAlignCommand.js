@@ -90,8 +90,8 @@ function setTextAlign(tr, schema, alignment) {
     var node = job.node,
         pos = job.pos,
         nodeType = job.nodeType;
+    var attrs = node.attrs;
 
-    var attrs = void 0;
     if (alignment) {
       attrs = (0, _extends3.default)({}, attrs, {
         align: alignment

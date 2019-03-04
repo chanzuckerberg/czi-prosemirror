@@ -54,7 +54,7 @@ export function setTextAlign(
 
   tasks.forEach(job => {
     const {node, pos, nodeType} = job;
-    let attrs;
+    let {attrs} = node;
     if (alignment) {
       attrs = {
         ...attrs,
