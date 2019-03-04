@@ -9,7 +9,7 @@ export type PositionHandler = (anchorRect: ?Rect, bodyRect: ?Rect) => Rect;
 export function atAnchorBottom(anchorRect: ?Rect, bodyRect: ?Rect): Rect {
   const rect = {x: 0, y: 0, w: 0, h: 0};
   if (anchorRect && bodyRect) {
-    rect.x = anchorRect.x + anchorRect.w / 2;
+    rect.x = anchorRect.x;
     rect.y = anchorRect.y + anchorRect.h;
 
     const viewportWidth = window.innerWidth;
