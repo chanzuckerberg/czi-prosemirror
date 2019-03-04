@@ -36,6 +36,8 @@ var _createPopUp = require('./createPopUp');
 
 var _createPopUp2 = _interopRequireDefault(_createPopUp);
 
+var _PopUpPosition = require('./PopUpPosition');
+
 var _uuid = require('./uuid');
 
 var _uuid2 = _interopRequireDefault(_uuid);
@@ -85,7 +87,8 @@ var TooltipSurface = function (_React$PureComponent2) {
 
         _this2._popUp = (0, _createPopUp2.default)(TooltipView, { tooltip: _tooltip }, {
           anchor: document.getElementById(_this2._id),
-          onClose: _this2._onClose
+          onClose: _this2._onClose,
+          position: _PopUpPosition.atAnchorBottomCenter
         });
       }
     }, _this2._onMouseLeave = function () {

@@ -6,7 +6,7 @@ import type {Rect} from './rects';
 
 export type PositionHandler = (anchorRect: ?Rect, bodyRect: ?Rect) => Rect;
 
-export function atAnchorBottom(anchorRect: ?Rect, bodyRect: ?Rect): Rect {
+export function atAnchorBottomLeft(anchorRect: ?Rect, bodyRect: ?Rect): Rect {
   const rect = {x: 0, y: 0, w: 0, h: 0};
   if (anchorRect && bodyRect) {
     rect.x = anchorRect.x;

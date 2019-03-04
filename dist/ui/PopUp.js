@@ -107,7 +107,7 @@ var PopUp = function (_React$PureComponent) {
         body: document.getElementById(_this._id),
         close: close,
         modal: modal === true,
-        position: position || (modal ? _PopUpPosition.atViewportCenter : _PopUpPosition.atAnchorBottom)
+        position: position || (modal ? _PopUpPosition.atViewportCenter : _PopUpPosition.atAnchorBottomLeft)
       };
     }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
   }
