@@ -12,7 +12,7 @@
   color: #fff;
   font-family: var(--czi-font-family);
   font-size: var(--czi-font-size);
-  margin: 20px 0 0 -50px;
+  margin: 20px 0 0 -40px;
   min-width: 100px;
   padding: 6px 8px;
   pointer-events: none;
@@ -29,7 +29,7 @@
   background-color: #393939;
   content: '';
   height: 8px;
-  left: -4px;
+  left: 8px;
   position: absolute;
   top: -4px;
   transform: rotate(45deg);
