@@ -28,6 +28,10 @@ var _createClass2 = require('babel-runtime/helpers/createClass');
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
+var _clamp = require('./clamp');
+
+var _clamp2 = _interopRequireDefault(_clamp);
+
 var _rects = require('./rects');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -215,8 +219,10 @@ var PopUpManager = function () {
           var transform = 'translate(' + x + 'px, ' + y + 'px)';
 
           if (_body2 && _bodyRect && _this._transforms.get(_bridge) !== transform) {
+            var ax = _anchorRect ? (0, _clamp2.default)(0, _anchorRect.x - x + _anchorRect.w / 2, _bodyRect.w - _anchorRect.w / 2) : 0;
             _this._transforms.set(_bridge, transform);
             _body2.style.transform = transform;
+            _body2.style.setProperty('--czi-pop-up-anchor-offset-left', ax + 'px');
             _bodyRect.x = x;
             _bodyRect.y = y;
           }

@@ -28,25 +28,25 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
 var _PopUpManager = require('./PopUpManager');
 
 var _PopUpManager2 = _interopRequireDefault(_PopUpManager);
 
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
+var _PopUpPosition = require('./PopUpPosition');
 
 var _uuid = require('./uuid');
 
 var _uuid2 = _interopRequireDefault(_uuid);
 
-var _PopUpPosition = require('./PopUpPosition');
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var babelPluginFlowReactPropTypes_proptype_Rect = require('./rects').babelPluginFlowReactPropTypes_proptype_Rect || require('prop-types').any;
-
 var babelPluginFlowReactPropTypes_proptype_PopUpDetails = require('./PopUpManager').babelPluginFlowReactPropTypes_proptype_PopUpDetails || require('prop-types').any;
+
+var babelPluginFlowReactPropTypes_proptype_Rect = require('./rects').babelPluginFlowReactPropTypes_proptype_Rect || require('prop-types').any;
 
 if (typeof exports !== 'undefined') Object.defineProperty(exports, 'babelPluginFlowReactPropTypes_proptype_PopUpParams', {
   value: require('prop-types').shape({
@@ -92,7 +92,7 @@ var PopUp = function (_React$PureComponent) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = PopUp.__proto__ || (0, _getPrototypeOf2.default)(PopUp)).call.apply(_ref, [this].concat(args))), _this), _this._bridge = null, _this._id = (0, _uuid2.default)(), _this._rafId = NaN, _this._transform = '', _this._getDetails = function () {
+    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = PopUp.__proto__ || (0, _getPrototypeOf2.default)(PopUp)).call.apply(_ref, [this].concat(args))), _this), _this._bridge = null, _this._id = (0, _uuid2.default)(), _this._getDetails = function () {
       var _this$props = _this.props,
           close = _this$props.close,
           popUpParams = _this$props.popUpParams;

@@ -35,7 +35,8 @@
   background-color: #393939;
   content: '';
   height: 8px;
-  left: 46px;
+  left: var(--czi-pop-up-anchor-offset-left);
+  margin-left: -6px;
   position: absolute;
   top: -4px;
   transform: rotate(45deg);
