@@ -22,6 +22,7 @@
   --czi-placeholder-text-color: #dedede;
   --czi-selection-highlight-color-dark: rgba(152, 204, 253, 0.8);
   --czi-selection-highlight-color: rgba(152, 204, 253, 0.4);
+  --czi-table-header-background-color: rgba(0,0,0,0.05);
 
   --czi-doc-width-us-letter-portrait: 216mm;
   --czi-doc-width-us-letter-landscape: 279mm;
