@@ -1,5 +1,6 @@
 // @flow
 
+import clamp from './clamp';
 import {fromHTMlElement, fromXY, isIntersected} from './rects';
 
 import type {PositionHandler} from './PopUpPosition';
@@ -143,8 +144,16 @@ class PopUpManager {
       const transform = `translate(${x}px, ${y}px)`;
 
       if (body && bodyRect && this._transforms.get(bridge) !== transform) {
+        const ax = anchorRect ?
+          clamp(
+            0,
+            anchorRect.x - x + (anchorRect.w / 2),
+            bodyRect.w - (anchorRect.w / 2),
+          ) :
+          0;
         this._transforms.set(bridge, transform);
         body.style.transform = transform;
+        body.style.setProperty('--czi-pop-up-anchor-offset-left', `${ax}px`);
         bodyRect.x = x;
         bodyRect.y = y;
       }
