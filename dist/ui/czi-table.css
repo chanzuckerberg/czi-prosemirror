@@ -21,7 +21,7 @@
 
 .ProseMirror td,
 .ProseMirror th {
-  border: 1px solid #000;
+  border: 1.5px solid #000;
   box-sizing: border-box;
   min-width: 1em;
   padding: 8px;
@@ -29,10 +29,11 @@
   vertical-align: top;
 }
 
-.ProseMirror  th {
-   font-weight: bold;
-   text-align: left;
- }
+.ProseMirror th {
+  background-color: var(--czi-table-header-background-color);
+  font-weight: bold;
+  text-align: left;
+}
 
 .ProseMirror .column-resize-handle {
   position: absolute;
