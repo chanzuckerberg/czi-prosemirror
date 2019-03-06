@@ -37,7 +37,8 @@ var MAP_HEADING_LEVEL_TO_FONT_PT_SIZE = {
 function findActiveFontSize(state) {
   var schema = state.schema,
       doc = state.doc,
-      selection = state.selection;
+      selection = state.selection,
+      tr = state.tr;
 
   var markType = schema.marks[_MarkNames.MARK_FONT_SIZE];
   var heading = schema.nodes[_NodeNames.HEADING];
@@ -45,8 +46,18 @@ function findActiveFontSize(state) {
   if (!markType) {
     return defaultSize;
   }
+
   var from = selection.from,
-      to = selection.to;
+      to = selection.to,
+      empty = selection.empty;
+
+  if (empty) {
+    var storedMarks = tr.storedMarks || state.storedMarks || selection.$cursor.marks() || [];
+    var sm = storedMarks.find(function (m) {
+      return m.type === markType;
+    });
+    return sm ? String(sm.attrs.pt || defaultSize) : defaultSize;
+  }
 
   var mark = markType ? (0, _findActiveMark2.default)(doc, from, to, markType) : null;
   if (mark) {

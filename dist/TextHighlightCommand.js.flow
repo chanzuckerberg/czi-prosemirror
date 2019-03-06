@@ -84,7 +84,7 @@ class TextHighlightCommand extends UICommand {
     color: ?string,
   ): boolean => {
     if (dispatch && color !== undefined) {
-      const {schema, storedMarks} = state;
+      const {schema} = state;
       let {tr} = state;
       const markType = schema.marks[MARK_TEXT_HIGHLIGHT];
       const attrs = color ? {highlightColor: color} : null;
@@ -94,7 +94,7 @@ class TextHighlightCommand extends UICommand {
         markType,
         attrs,
       );
-      if (tr.docChanged || tr.storedMarks !== storedMarks) {
+      if (tr.docChanged || tr.storedMarksSet) {
         // If selection is empty, the color is added to `storedMarks`, which
         // works like `toggleMark`
         // (see https://prosemirror.net/docs/ref/#commands.toggleMark).

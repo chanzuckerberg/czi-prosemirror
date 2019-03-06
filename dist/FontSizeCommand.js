@@ -69,7 +69,8 @@ var FontSizeCommand = function (_UICommand) {
 
     _this.isEnabled = function (state) {
       var schema = state.schema,
-          selection = state.selection;
+          selection = state.selection,
+          tr = state.tr;
 
       if (!(selection instanceof _prosemirrorState.TextSelection || selection instanceof _prosemirrorState.AllSelection)) {
         return false;
@@ -78,7 +79,19 @@ var FontSizeCommand = function (_UICommand) {
       if (!markType) {
         return false;
       }
-      return !selection.empty;
+
+      var from = selection.from,
+          to = selection.to;
+
+
+      if (to === from + 1) {
+        var node = tr.doc.nodeAt(from);
+        if (node.isAtom && !node.isText && node.isLeaf) {
+          // An atomic node (e.g. Image) is selected.
+          return false;
+        }
+      }
+      return true;
     };
 
     _this.execute = function (state, dispatch, view) {
@@ -86,8 +99,11 @@ var FontSizeCommand = function (_UICommand) {
           selection = state.selection;
 
       var tr = setFontSize(state.tr.setSelection(selection), schema, _this._pt);
-      if (dispatch && tr.docChanged) {
-        dispatch(tr);
+      if (tr.docChanged || tr.storedMarksSet) {
+        // If selection is empty, the color is added to `storedMarks`, which
+        // works like `toggleMark`
+        // (see https://prosemirror.net/docs/ref/#commands.toggleMark).
+        dispatch && dispatch(tr);
         return true;
       }
       return false;

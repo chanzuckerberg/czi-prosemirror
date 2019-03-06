@@ -80,20 +80,20 @@ class TextColorCommand extends UICommand {
     state: EditorState,
     dispatch: ?(tr: Transform) => void,
     view: ?EditorView,
-    hex: ?string,
+    color: ?string,
   ): boolean => {
-    if (dispatch && hex !== undefined) {
-      const {schema, storedMarks} = state;
+    if (dispatch && color !== undefined) {
+      const {schema} = state;
       let {tr} = state;
       const markType = schema.marks[MARK_TEXT_COLOR];
-      const attrs = hex ? {color: hex} : null;
+      const attrs = color ? {color} : null;
       tr = applyMark(
         state.tr.setSelection(state.selection),
         schema,
         markType,
         attrs,
       );
-      if (tr.docChanged || tr.storedMarks !== storedMarks) {
+      if (tr.docChanged || tr.storedMarksSet) {
         // If selection is empty, the color is added to `storedMarks`, which
         // works like `toggleMark`
         // (see https://prosemirror.net/docs/ref/#commands.toggleMark).

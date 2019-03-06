@@ -22,14 +22,25 @@ var FONT_TYPE_NAME_DEFAULT = exports.FONT_TYPE_NAME_DEFAULT = 'Arial';
 function findActiveFontType(state) {
   var schema = state.schema,
       doc = state.doc,
-      selection = state.selection;
+      selection = state.selection,
+      tr = state.tr;
 
   var markType = schema.marks[_MarkNames.MARK_FONT_TYPE];
   if (!markType) {
     return FONT_TYPE_NAME_DEFAULT;
   }
   var from = selection.from,
-      to = selection.to;
+      to = selection.to,
+      empty = selection.empty;
+
+
+  if (empty) {
+    var storedMarks = tr.storedMarks || state.storedMarks || selection.$cursor.marks() || [];
+    var sm = storedMarks.find(function (m) {
+      return m.type === markType;
+    });
+    return sm && sm.attrs.name || FONT_TYPE_NAME_DEFAULT;
+  }
 
   var mark = markType ? (0, _findActiveMark2.default)(doc, from, to, markType) : null;
   var fontName = mark && mark.attrs.name;

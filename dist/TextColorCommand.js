@@ -130,16 +130,15 @@ var TextColorCommand = function (_UICommand) {
           }
         });
       });
-    }, _this.executeWithUserInput = function (state, dispatch, view, hex) {
-      if (dispatch && hex !== undefined) {
-        var schema = state.schema,
-            storedMarks = state.storedMarks;
+    }, _this.executeWithUserInput = function (state, dispatch, view, color) {
+      if (dispatch && color !== undefined) {
+        var schema = state.schema;
         var _tr = state.tr;
 
         var markType = schema.marks[_MarkNames.MARK_TEXT_COLOR];
-        var attrs = hex ? { color: hex } : null;
+        var attrs = color ? { color: color } : null;
         _tr = (0, _applyMark2.default)(state.tr.setSelection(state.selection), schema, markType, attrs);
-        if (_tr.docChanged || _tr.storedMarks !== storedMarks) {
+        if (_tr.docChanged || _tr.storedMarksSet) {
           // If selection is empty, the color is added to `storedMarks`, which
           // works like `toggleMark`
           // (see https://prosemirror.net/docs/ref/#commands.toggleMark).
