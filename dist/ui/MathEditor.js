@@ -24,9 +24,9 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-require('./czi-form.css');
+var _react = require('react');
 
-require('./czi-math-editor.css');
+var _react2 = _interopRequireDefault(_react);
 
 var _CustomButton = require('./CustomButton');
 
@@ -36,13 +36,17 @@ var _MathQuillEditorLoadable = require('./mathquill-editor/MathQuillEditorLoadab
 
 var _MathQuillEditorLoadable2 = _interopRequireDefault(_MathQuillEditorLoadable);
 
-var _react = require('react');
+var _preventEventDefault = require('./preventEventDefault');
 
-var _react2 = _interopRequireDefault(_react);
+var _preventEventDefault2 = _interopRequireDefault(_preventEventDefault);
 
 var _uuid = require('./uuid');
 
 var _uuid2 = _interopRequireDefault(_uuid);
+
+require('./czi-form.css');
+
+require('./czi-math-editor.css');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -84,7 +88,7 @@ var MathEditor = function (_React$PureComponent) {
         { className: 'czi-math-editor' },
         _react2.default.createElement(
           'form',
-          { className: 'czi-form' },
+          { className: 'czi-form', onSubmit: _preventEventDefault2.default },
           _react2.default.createElement(
             'fieldset',
             null,

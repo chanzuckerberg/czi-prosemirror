@@ -24,9 +24,11 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-require('./czi-body-layout-editor.css');
+var _react = require('react');
 
-require('./czi-form.css');
+var _react2 = _interopRequireDefault(_react);
+
+var _DocNodeSpec = require('../DocNodeSpec');
 
 var _CustomButton = require('./CustomButton');
 
@@ -36,11 +38,13 @@ var _CustomRadioButton = require('./CustomRadioButton');
 
 var _CustomRadioButton2 = _interopRequireDefault(_CustomRadioButton);
 
-var _react = require('react');
+var _preventEventDefault = require('./preventEventDefault');
 
-var _react2 = _interopRequireDefault(_react);
+var _preventEventDefault2 = _interopRequireDefault(_preventEventDefault);
 
-var _DocNodeSpec = require('../DocNodeSpec');
+require('./czi-body-layout-editor.css');
+
+require('./czi-form.css');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -111,7 +115,7 @@ var DocLayoutEditor = function (_React$PureComponent) {
         { className: 'czi-body-layout-editor' },
         _react2.default.createElement(
           'form',
-          { className: 'czi-form' },
+          { className: 'czi-form', onSubmit: _preventEventDefault2.default },
           _react2.default.createElement(
             'fieldset',
             null,

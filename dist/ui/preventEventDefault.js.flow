@@ -1,5 +1,5 @@
 // @flow
 
-export default function preventEventDefault(e: SyntheticEvent | Event): void {
+export default function preventEventDefault(e: SyntheticEvent): void {
   e.preventDefault();
-}
+};

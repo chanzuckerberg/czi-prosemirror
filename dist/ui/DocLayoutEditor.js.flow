@@ -1,11 +1,14 @@
 // @flow
 
-import './czi-body-layout-editor.css';
-import './czi-form.css';
+import React from 'react';
+
+import {LAYOUT} from '../DocNodeSpec';
 import CustomButton from './CustomButton';
 import CustomRadioButton from './CustomRadioButton';
-import React from 'react';
-import {LAYOUT} from '../DocNodeSpec';
+import preventEventDefault from './preventEventDefault';
+
+import './czi-body-layout-editor.css';
+import './czi-form.css';
 
 export type DocLayoutEditorValue = {
   layout: ?string,
@@ -54,7 +57,7 @@ class DocLayoutEditor extends React.PureComponent<any, any, any> {
 
     return (
       <div className="czi-body-layout-editor">
-        <form className="czi-form">
+        <form className="czi-form" onSubmit={preventEventDefault}>
           <fieldset>
             <legend>Page Layout</legend>
             <CustomRadioButton

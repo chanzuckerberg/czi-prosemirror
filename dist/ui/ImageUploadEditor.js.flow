@@ -5,6 +5,7 @@ import React from 'react';
 
 import CustomButton from './CustomButton';
 import LoadingIndicator from './LoadingIndicator';
+import preventEventDefault from './preventEventDefault';
 import uuid from './uuid';
 
 import './czi-form.css';
@@ -45,7 +46,7 @@ class ImageUploadEditor extends React.PureComponent<any, any, any> {
 
     return (
       <div className={className}>
-        <form className="czi-form">
+        <form className="czi-form" onSubmit={preventEventDefault}>
           <fieldset>
             <legend>Upload Image</legend>
             <div className="czi-image-upload-editor-body">

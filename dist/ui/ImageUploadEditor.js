@@ -52,6 +52,10 @@ var _LoadingIndicator = require('./LoadingIndicator');
 
 var _LoadingIndicator2 = _interopRequireDefault(_LoadingIndicator);
 
+var _preventEventDefault = require('./preventEventDefault');
+
+var _preventEventDefault2 = _interopRequireDefault(_preventEventDefault);
+
 var _uuid = require('./uuid');
 
 var _uuid2 = _interopRequireDefault(_uuid);
@@ -184,7 +188,7 @@ var ImageUploadEditor = function (_React$PureComponent) {
         { className: className },
         _react2.default.createElement(
           'form',
-          { className: 'czi-form' },
+          { className: 'czi-form', onSubmit: _preventEventDefault2.default },
           _react2.default.createElement(
             'fieldset',
             null,

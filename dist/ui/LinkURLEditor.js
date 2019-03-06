@@ -38,6 +38,10 @@ var _CustomButton2 = _interopRequireDefault(_CustomButton);
 
 var _KeyCodes = require('./KeyCodes');
 
+var _preventEventDefault = require('./preventEventDefault');
+
+var _preventEventDefault2 = _interopRequireDefault(_preventEventDefault);
+
 require('./czi-form.css');
 
 require('./czi-image-url-editor.css');
@@ -106,7 +110,7 @@ var LinkURLEditor = function (_React$PureComponent) {
         { className: 'czi-image-url-editor' },
         _react2.default.createElement(
           'form',
-          { className: 'czi-form' },
+          { className: 'czi-form', onSubmit: _preventEventDefault2.default },
           _react2.default.createElement(
             'fieldset',
             null,

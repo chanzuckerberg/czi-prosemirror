@@ -28,21 +28,25 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-require('./czi-form.css');
+var _react = require('react');
 
-require('./czi-image-url-editor.css');
+var _react2 = _interopRequireDefault(_react);
 
 var _CustomButton = require('./CustomButton');
 
 var _CustomButton2 = _interopRequireDefault(_CustomButton);
 
-var _react = require('react');
+var _preventEventDefault = require('./preventEventDefault');
 
-var _react2 = _interopRequireDefault(_react);
+var _preventEventDefault2 = _interopRequireDefault(_preventEventDefault);
 
 var _resolveImage = require('./resolveImage');
 
 var _resolveImage2 = _interopRequireDefault(_resolveImage);
+
+require('./czi-form.css');
+
+require('./czi-image-url-editor.css');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -108,7 +112,7 @@ var ImageURLEditor = function (_React$PureComponent) {
         { className: 'czi-image-url-editor' },
         _react2.default.createElement(
           'form',
-          { className: 'czi-form' },
+          { className: 'czi-form', onSubmit: _preventEventDefault2.default },
           _react2.default.createElement(
             'fieldset',
             null,
