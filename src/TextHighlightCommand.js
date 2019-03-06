@@ -81,13 +81,13 @@ class TextHighlightCommand extends UICommand {
     state: EditorState,
     dispatch: ?(tr: Transform) => void,
     view: ?EditorView,
-    hex: ?string,
+    color: ?string,
   ): boolean => {
-    if (dispatch && hex !== undefined) {
+    if (dispatch && color !== undefined) {
       const {schema, storedMarks} = state;
       let {tr} = state;
       const markType = schema.marks[MARK_TEXT_HIGHLIGHT];
-      const attrs = hex ? {highlightColor: hex} : null;
+      const attrs = color ? {highlightColor: color} : null;
       tr = applyMark(
         tr.setSelection(state.selection),
         schema,
