@@ -29,6 +29,10 @@ var _isListNode = require('./isListNode');
 
 var _isListNode2 = _interopRequireDefault(_isListNode);
 
+var _nodeAt = require('./nodeAt');
+
+var _nodeAt2 = _interopRequireDefault(_nodeAt);
+
 var _transformAndPreserveTextSelection = require('./transformAndPreserveTextSelection');
 
 var _transformAndPreserveTextSelection2 = _interopRequireDefault(_transformAndPreserveTextSelection);
@@ -210,10 +214,18 @@ function wrapItemsWithListInternal(tr, schema, listNodeType, items) {
   var listNodeAttrs = { indent: 0, start: 1 };
   var $fromPos = tr.doc.resolve(fromPos);
   var $toPos = tr.doc.resolve(toPos);
-  if ($fromPos.nodeBefore && $fromPos.nodeBefore.type === listNodeType && $fromPos.nodeBefore.attrs.indent === 0) {
+
+  var hasSameListNodeBefore = $fromPos.nodeBefore && $fromPos.nodeBefore.type === listNodeType && $fromPos.nodeBefore.attrs.indent === 0;
+
+  var hasSameListNodeAfter = $toPos.nodeAfter && $toPos.nodeAfter.type === listNodeType && $toPos.nodeAfter.attrs.indent === 0;
+
+  if (hasSameListNodeBefore) {
     tr = tr.delete(fromPos, toPos);
     tr = tr.insert(fromPos - 1, _prosemirrorModel.Fragment.from(listItemNodes));
-  } else if ($toPos.nodeAfter && $toPos.nodeAfter.type === listNodeType && $toPos.nodeAfter.attrs.indent === 0) {
+    if (hasSameListNodeAfter) {
+      tr = tr.delete(toPos + 1, toPos + 3);
+    }
+  } else if (hasSameListNodeAfter) {
     tr = tr.delete(fromPos, toPos);
     tr = tr.insert(fromPos + 1, _prosemirrorModel.Fragment.from(listItemNodes));
   } else {

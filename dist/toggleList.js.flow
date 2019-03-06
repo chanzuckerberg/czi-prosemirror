@@ -8,6 +8,7 @@ import {findParentNodeOfType} from 'prosemirror-utils';
 
 import {HEADING, LIST_ITEM, PARAGRAPH} from './NodeNames';
 import isListNode from './isListNode';
+import nodeAt from './nodeAt';
 import transformAndPreserveTextSelection from './transformAndPreserveTextSelection';
 
 import type {SelectionMemo} from './transformAndPreserveTextSelection';
@@ -206,18 +207,23 @@ function wrapItemsWithListInternal(
   const listNodeAttrs = {indent: 0, start: 1};
   const $fromPos = tr.doc.resolve(fromPos);
   const $toPos = tr.doc.resolve(toPos);
-  if (
-    $fromPos.nodeBefore &&
+
+  const hasSameListNodeBefore = $fromPos.nodeBefore &&
     $fromPos.nodeBefore.type === listNodeType &&
-    $fromPos.nodeBefore.attrs.indent === 0
-  ) {
-    tr = tr.delete(fromPos, toPos);
-    tr = tr.insert(fromPos - 1, Fragment.from(listItemNodes));
-  } else if (
+    $fromPos.nodeBefore.attrs.indent === 0;
+
+  const hasSameListNodeAfter =
     $toPos.nodeAfter &&
     $toPos.nodeAfter.type === listNodeType &&
-    $toPos.nodeAfter.attrs.indent === 0
-  ) {
+    $toPos.nodeAfter.attrs.indent === 0;
+
+  if (hasSameListNodeBefore) {
+    tr = tr.delete(fromPos, toPos);
+    tr = tr.insert(fromPos - 1, Fragment.from(listItemNodes));
+    if (hasSameListNodeAfter)  {
+      tr = tr.delete(toPos + 1, toPos + 3);
+    }
+  } else if (hasSameListNodeAfter) {
     tr = tr.delete(fromPos, toPos);
     tr = tr.insert(fromPos + 1, Fragment.from(listItemNodes));
   } else {

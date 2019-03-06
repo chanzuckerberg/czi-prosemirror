@@ -509,7 +509,6 @@ var ImageNodeView = function (_CustomNodeView) {
       var el = document.createElement('span');
       el.className = 'czi-image-view';
       this._updateDOM(el);
-      console.log('created');
       return el;
     }
 
