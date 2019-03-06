@@ -1,11 +1,14 @@
 // @flow
 
-import './czi-form.css';
-import './czi-math-editor.css';
+import React from 'react';
+
 import CustomButton from './CustomButton';
 import MathQuillEditorLoadable from './mathquill-editor/MathQuillEditorLoadable';
-import React from 'react';
+import preventEventDefault from './preventEventDefault';
 import uuid from './uuid';
+
+import './czi-form.css';
+import './czi-math-editor.css';
 
 class MathEditor extends React.PureComponent<any, any, any> {
 
@@ -26,7 +29,7 @@ class MathEditor extends React.PureComponent<any, any, any> {
     const {initialValue, value} = this.state;
     return (
       <div className="czi-math-editor">
-        <form className="czi-form">
+        <form className="czi-form" onSubmit={preventEventDefault}>
           <fieldset>
             <legend>Insert Math</legend>
             <MathQuillEditorLoadable

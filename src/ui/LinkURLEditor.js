@@ -5,6 +5,7 @@ import React from 'react';
 import sanitizeURL from '../sanitizeURL';
 import CustomButton from './CustomButton';
 import {ENTER} from './KeyCodes';
+import preventEventDefault from './preventEventDefault';
 
 import './czi-form.css';
 import './czi-image-url-editor.css';
@@ -41,7 +42,7 @@ class LinkURLEditor extends React.PureComponent<any, any, any> {
 
     return (
       <div className="czi-image-url-editor">
-        <form className="czi-form">
+        <form className="czi-form" onSubmit={preventEventDefault}>
           <fieldset>
             <legend>Add a Link</legend>
             <input

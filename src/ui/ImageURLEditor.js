@@ -1,10 +1,13 @@
 // @flow
 
+import React from 'react';
+
+import CustomButton from './CustomButton';
+import preventEventDefault from './preventEventDefault';
+import resolveImage from './resolveImage';
+
 import './czi-form.css';
 import './czi-image-url-editor.css';
-import CustomButton from './CustomButton';
-import React from 'react';
-import resolveImage from './resolveImage';
 
 import type {ImageLike} from '../Types';
 
@@ -38,7 +41,7 @@ class ImageURLEditor extends React.PureComponent<any, any, any> {
 
     return (
       <div className="czi-image-url-editor">
-        <form className="czi-form">
+        <form className="czi-form" onSubmit={preventEventDefault}>
           <fieldset>
             <legend>Insert Image</legend>
             <div className="czi-image-url-editor-src-input-row">
