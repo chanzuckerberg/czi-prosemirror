@@ -54,6 +54,9 @@ class DemoAppHTMLTemplate extends React.PureComponent<any, any, any> {
   // }
 
   render(): React.Element<any> {
+    if (1) {
+      return <div>dhkjsdhaksjdhksajdkashjdkasjhkd</div>;
+    }
     return (
       <div style={{display: 'none'}}>
         <h1>Maine coon. Tomcat cornish rex siamese for cheetah savannah</h1>
