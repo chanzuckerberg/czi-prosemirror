@@ -21,15 +21,22 @@ const MAP_HEADING_LEVEL_TO_FONT_PT_SIZE = {
 };
 
 export default function findActiveFontSize(state: EditorState): string {
-  const {schema, doc, selection, storedMarks} = state;
+  const {schema, doc, selection, tr} = state;
   const markType = schema.marks[MARK_FONT_SIZE];
   const heading = schema.nodes[HEADING];
   const defaultSize = String(FONT_PT_SIZE_DEFAULT);
   if (!markType) {
     return defaultSize;
   }
+
+
   const {from, to, empty} = selection;
-  if (empty && storedMarks && storedMarks.length) {
+  if (empty) {
+    const storedMarks =
+      tr.storedMarks ||
+      state.storedMarks ||
+      selection.$cursor.marks() ||
+      [];
     const sm = storedMarks.find(m => m.type === markType);
     return sm ? String(sm.attrs.pt || defaultSize) : defaultSize;
   }

@@ -76,13 +76,13 @@ class FontSizeCommand extends UICommand {
     dispatch: ?(tr: Transform) => void,
     view: ?EditorView,
   ): boolean => {
-    const {schema, selection, storedMarks} = state;
+    const {schema, selection} = state;
     const tr = setFontSize(
       state.tr.setSelection(selection),
       schema,
       this._pt,
     );
-    if (tr.docChanged || tr.storedMarks !== storedMarks) {
+    if (tr.docChanged || tr.storedMarksSet) {
       // If selection is empty, the color is added to `storedMarks`, which
       // works like `toggleMark`
       // (see https://prosemirror.net/docs/ref/#commands.toggleMark).
