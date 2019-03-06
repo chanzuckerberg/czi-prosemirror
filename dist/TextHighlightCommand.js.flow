@@ -18,7 +18,7 @@ class TextHighlightCommand extends UICommand {
   _popUp = null;
 
   isEnabled = (state: EditorState): boolean => {
-    const {selection, schema} = state;
+    const {selection, schema, tr} = state;
     if (!(
       selection instanceof TextSelection ||
       selection instanceof AllSelection
@@ -31,8 +31,17 @@ class TextHighlightCommand extends UICommand {
     if (!markType) {
       return false;
     }
+
     const {from, to} = selection;
-    return from < to;
+    if (to === (from + 1)) {
+      const node = tr.doc.nodeAt(from);
+      if (node.isAtom && !node.isText && node.isLeaf) {
+        // An atomic node (e.g. Image) is selected.
+        return false;
+      }
+    }
+
+    return true;
   };
 
   waitForUserInput = (
@@ -72,20 +81,23 @@ class TextHighlightCommand extends UICommand {
     state: EditorState,
     dispatch: ?(tr: Transform) => void,
     view: ?EditorView,
-    hex: ?string,
+    color: ?string,
   ): boolean => {
-    if (dispatch && hex !== undefined) {
-      const {schema} = state;
+    if (dispatch && color !== undefined) {
+      const {schema, storedMarks} = state;
       let {tr} = state;
       const markType = schema.marks[MARK_TEXT_HIGHLIGHT];
-      const attrs = hex ? {highlightColor: hex} : null;
+      const attrs = color ? {highlightColor: color} : null;
       tr = applyMark(
         tr.setSelection(state.selection),
         schema,
         markType,
         attrs,
       );
-      if (tr.docChanged) {
+      if (tr.docChanged || tr.storedMarks !== storedMarks) {
+        // If selection is empty, the color is added to `storedMarks`, which
+        // works like `toggleMark`
+        // (see https://prosemirror.net/docs/ref/#commands.toggleMark).
         dispatch && dispatch(tr);
         return true;
       }

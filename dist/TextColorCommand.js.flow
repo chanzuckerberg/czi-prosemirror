@@ -18,7 +18,7 @@ class TextColorCommand extends UICommand {
   _popUp = null;
 
   isEnabled = (state: EditorState): boolean => {
-    const {schema, selection} = state;
+    const {schema, selection, tr} = state;
     if (!(
       selection instanceof TextSelection ||
       selection instanceof AllSelection
@@ -32,7 +32,15 @@ class TextColorCommand extends UICommand {
       return false;
     }
     const {from, to} = state.selection;
-    return from < to;
+
+    if (to === (from + 1)) {
+      const node = tr.doc.nodeAt(from);
+      if (node.isAtom && !node.isText && node.isLeaf) {
+        // An atomic node (e.g. Image) is selected.
+        return false;
+      }
+    }
+    return true;
   };
 
   waitForUserInput = (
@@ -75,7 +83,7 @@ class TextColorCommand extends UICommand {
     hex: ?string,
   ): boolean => {
     if (dispatch && hex !== undefined) {
-      const {schema} = state;
+      const {schema, storedMarks} = state;
       let {tr} = state;
       const markType = schema.marks[MARK_TEXT_COLOR];
       const attrs = hex ? {color: hex} : null;
@@ -85,7 +93,10 @@ class TextColorCommand extends UICommand {
         markType,
         attrs,
       );
-      if (tr.docChanged) {
+      if (tr.docChanged || tr.storedMarks !== storedMarks) {
+        // If selection is empty, the color is added to `storedMarks`, which
+        // works like `toggleMark`
+        // (see https://prosemirror.net/docs/ref/#commands.toggleMark).
         dispatch && dispatch(tr);
         return true;
       }

@@ -74,7 +74,8 @@ var TextHighlightCommand = function (_UICommand) {
 
     return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = TextHighlightCommand.__proto__ || (0, _getPrototypeOf2.default)(TextHighlightCommand)).call.apply(_ref, [this].concat(args))), _this), _this._popUp = null, _this.isEnabled = function (state) {
       var selection = state.selection,
-          schema = state.schema;
+          schema = state.schema,
+          tr = state.tr;
 
       if (!(selection instanceof _prosemirrorState.TextSelection || selection instanceof _prosemirrorState.AllSelection)) {
         // Could be a NodeSelection or CellSelection.
@@ -85,10 +86,19 @@ var TextHighlightCommand = function (_UICommand) {
       if (!markType) {
         return false;
       }
+
       var from = selection.from,
           to = selection.to;
 
-      return from < to;
+      if (to === from + 1) {
+        var node = tr.doc.nodeAt(from);
+        if (node.isAtom && !node.isText && node.isLeaf) {
+          // An atomic node (e.g. Image) is selected.
+          return false;
+        }
+      }
+
+      return true;
     }, _this.waitForUserInput = function (state, dispatch, view, event) {
       if (_this._popUp) {
         return _promise2.default.resolve(undefined);
@@ -120,15 +130,19 @@ var TextHighlightCommand = function (_UICommand) {
           }
         });
       });
-    }, _this.executeWithUserInput = function (state, dispatch, view, hex) {
-      if (dispatch && hex !== undefined) {
-        var schema = state.schema;
+    }, _this.executeWithUserInput = function (state, dispatch, view, color) {
+      if (dispatch && color !== undefined) {
+        var schema = state.schema,
+            storedMarks = state.storedMarks;
         var _tr = state.tr;
 
         var markType = schema.marks[_MarkNames.MARK_TEXT_HIGHLIGHT];
-        var attrs = hex ? { highlightColor: hex } : null;
+        var attrs = color ? { highlightColor: color } : null;
         _tr = (0, _applyMark2.default)(_tr.setSelection(state.selection), schema, markType, attrs);
-        if (_tr.docChanged) {
+        if (_tr.docChanged || _tr.storedMarks !== storedMarks) {
+          // If selection is empty, the color is added to `storedMarks`, which
+          // works like `toggleMark`
+          // (see https://prosemirror.net/docs/ref/#commands.toggleMark).
           dispatch && dispatch(_tr);
           return true;
         }
