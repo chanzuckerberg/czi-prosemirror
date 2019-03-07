@@ -21,12 +21,12 @@ function isEditorStateEmpty(editorState) {
     doc.nodesBetween(0, doc.nodeSize - 2, function (node, ii) {
       if (isEmpty) {
         var nodeType = node.type;
-        if (nodeType.isAtom) {
-          // e.g. Image, Video...etc.
-          isEmpty = false;
-        } else if (nodeType.isText) {
+        if (nodeType.isText) {
           var _text = doc.textContent;
           isEmpty = !_text || _text === ' ' || _text === ZERO_WIDTH_SPACE_CHAR;
+        } else if (nodeType.isAtom) {
+          // e.g. Image, Video...etc.
+          isEmpty = false;
         }
       }
       return isEmpty;
