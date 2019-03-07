@@ -156,8 +156,7 @@ var ContentPlaceholderView = function () {
     key: '_show',
     value: function _show() {
       var el = this._el;
-      if (el && this._visible !== true) {
-        this._visible = true;
+      if (el && el.style.display !== 'block') {
         el.style.display = 'block';
         this._view && this.update(this._view);
       }
@@ -165,10 +164,8 @@ var ContentPlaceholderView = function () {
   }, {
     key: '_hide',
     value: function _hide() {
-
       var el = this._el;
-      if (el && this._visible !== false) {
-        this._visible = false;
+      if (el && el.style.display !== 'none') {
         el.style.display = 'none';
         var view = this._view;
         view && view.dom.classList.remove(CLASS_NAME_HAS_PLACEHOLDER);
@@ -184,7 +181,6 @@ var _initialiseProps = function _initialiseProps() {
   this._el = null;
   this._focused = null;
   this._view = null;
-  this._visible = null;
 
   this._onFocusChange = function (e) {
     var activeElement = document.activeElement;

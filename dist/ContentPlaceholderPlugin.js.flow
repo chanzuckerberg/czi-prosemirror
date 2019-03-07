@@ -15,7 +15,6 @@ class ContentPlaceholderView {
   _el = null;
   _focused = null;
   _view = null;
-  _visible = null;
 
   constructor(editorView: EditorView) {
     const el: any = document.createElement('div');
@@ -144,19 +143,15 @@ class ContentPlaceholderView {
 
   _show(): void {
     const el = this._el;
-    if (el && this._visible !== true) {
-      this._visible = true;
+    if (el && el.style.display !== 'block') {
       el.style.display = 'block';
       this._view && this.update(this._view);
     }
   }
 
   _hide(): void {
-
-
     const el = this._el;
-    if (el && this._visible !== false) {
-      this._visible = false;
+    if (el && el.style.display !== 'none') {
       el.style.display = 'none';
       const view = this._view;
       view && view.dom.classList.remove(CLASS_NAME_HAS_PLACEHOLDER);
