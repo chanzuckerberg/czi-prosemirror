@@ -45,15 +45,19 @@ const STYLE_FLOAT_LEFT = {
 // };
 
 class DemoAppHTMLTemplate extends React.PureComponent<any, any, any> {
-  // render(): React.Element<any> {
-  //   return (
-  //     <blockquote style={{textAlign: 'center'}}>
-  //       Singapura bombay for norwegian forest tom tabby.
-  //     </blockquote>
-  //   );
-  // }
-
   render(): React.Element<any> {
+    return (
+      <div>
+        <p>Maine coon. Tomcat cornish rex siamese for cheetah savannah</p>
+        <p>Maine coon. Tomcat cornish rex siamese for cheetah savannah</p>
+        <ol>
+          <li>Singapura bombay for norwegian forest tom tabby.</li>
+        </ol>
+      </div>
+    );
+  }
+
+  renderx(): React.Element<any> {
     return (
       <div style={{display: 'none'}}>
         <h1>Maine coon. Tomcat cornish rex siamese for cheetah savannah</h1>
