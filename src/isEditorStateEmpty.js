@@ -15,12 +15,12 @@ export default function isEditorStateEmpty(editorState: EditorState): boolean {
     doc.nodesBetween(0, doc.nodeSize - 2, (node, ii) => {
       if (isEmpty) {
         const nodeType = node.type;
-        if (nodeType.isAtom) {
-          // e.g. Image, Video...etc.
-          isEmpty = false;
-        } else if (nodeType.isText) {
+        if (nodeType.isText) {
           const text = doc.textContent;
           isEmpty = !text || text === ' ' || text === ZERO_WIDTH_SPACE_CHAR;
+        } else if (nodeType.isAtom) {
+          // e.g. Image, Video...etc.
+          isEmpty = false;
         }
       }
       return isEmpty;
