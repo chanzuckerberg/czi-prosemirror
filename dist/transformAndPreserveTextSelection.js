@@ -19,18 +19,26 @@ var _applyMark = require('./applyMark');
 
 var _applyMark2 = _interopRequireDefault(_applyMark);
 
+var _uuid = require('./ui/uuid');
+
+var _uuid2 = _interopRequireDefault(_uuid);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// Perform the transform without losing the perceived text selection.
-// The way it works is that this will annotate teh current selection with
-// temporary marks and restores the selection with those marks after performing
-// the transform.
+// Text used to create temporary selection.
+// This assumes that no user could enter such string manually.
 if (typeof exports !== 'undefined') Object.defineProperty(exports, 'babelPluginFlowReactPropTypes_proptype_SelectionMemo', {
   value: require('prop-types').shape({
     schema: require('prop-types').any.isRequired,
     tr: require('prop-types').any.isRequired
   })
 });
+var PLACEHOLDER_TEXT = '[\u200B\u2800PLACEHOLDER_TEXT_' + (0, _uuid2.default)() + '\u2800\u200B]';
+
+// Perform the transform without losing the perceived text selection.
+// The way it works is that this will annotate teh current selection with
+// temporary marks and restores the selection with those marks after performing
+// the transform.
 function transformAndPreserveTextSelection(tr, schema, fn) {
   var _tr = tr,
       selection = _tr.selection,
@@ -53,6 +61,8 @@ function transformAndPreserveTextSelection(tr, schema, fn) {
 
   var fromOffset = 0;
   var toOffset = 0;
+  var placeholderTextNode = void 0;
+
   if (from === to) {
     if (from === 0) {
       return tr;
@@ -63,7 +73,13 @@ function transformAndPreserveTextSelection(tr, schema, fn) {
     var prevNode = tr.doc.nodeAt(from - 1);
     var nextNode = tr.doc.nodeAt(from + 1);
 
-    if (!currentNode && prevNode && prevNode.type.name === _NodeNames.TEXT) {
+    if (!currentNode && prevNode && prevNode.type.name === _NodeNames.PARAGRAPH && !prevNode.firstChild) {
+      // The selection is at a paragraph node which has no content.
+      // Create a temporary text and move selection into that text.
+      placeholderTextNode = schema.text(PLACEHOLDER_TEXT);
+      tr = tr.insert(from, _prosemirrorModel.Fragment.from(placeholderTextNode));
+      toOffset = 1;
+    } else if (!currentNode && prevNode && prevNode.type.name === _NodeNames.TEXT) {
       // The selection is at the end of the text node. Select the last
       // character instead.
       fromOffset = -1;
@@ -121,6 +137,18 @@ function transformAndPreserveTextSelection(tr, schema, fn) {
   selectionRange.to = Math.max(0, selectionRange.from, selectionRange.to);
 
   tr = tr.removeMark(markRange.from, markRange.to, markType);
+
+  if (placeholderTextNode) {
+    tr.doc.descendants(function (node, pos) {
+      if (node.type.name === _NodeNames.TEXT && node.text === PLACEHOLDER_TEXT) {
+        tr = tr.delete(pos, pos + PLACEHOLDER_TEXT.length);
+        placeholderTextNode = null;
+        return false;
+      }
+      return true;
+    });
+  }
+
   tr = tr.setSelection(_prosemirrorState.TextSelection.create(tr.doc, selectionRange.from, selectionRange.to));
 
   return tr;

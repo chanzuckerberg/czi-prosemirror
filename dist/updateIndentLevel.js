@@ -91,10 +91,14 @@ function updateIndentLevel(tr, schema, delta) {
   //   return tr2;
   // });
 
-  listNodePoses.sort(_compareNumber2.default).reverse().forEach(function (pos) {
-    tr = (0, _transformAndPreserveTextSelection2.default)(tr, schema, function (memo) {
-      return setListNodeIndent(memo.tr, memo.schema, pos, delta);
+  tr = (0, _transformAndPreserveTextSelection2.default)(tr, schema, function (memo) {
+    var schema = memo.schema;
+
+    var tr2 = memo.tr;
+    listNodePoses.sort(_compareNumber2.default).reverse().forEach(function (pos) {
+      tr2 = setListNodeIndent(tr2, schema, pos, delta);
     });
+    return tr2;
   });
 
   return tr;

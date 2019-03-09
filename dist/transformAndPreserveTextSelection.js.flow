@@ -1,15 +1,20 @@
-import {Schema} from 'prosemirror-model';
+import {Fragment, Schema} from 'prosemirror-model';
 import {TextSelection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
 
 import {MARK_TEXT_SELECTION} from './MarkNames';
-import {TEXT} from './NodeNames';
+import {PARAGRAPH, TEXT} from './NodeNames';
 import applyMark from './applyMark';
+import uuid from './ui/uuid';
 
 export type SelectionMemo = {
   schema: Schema,
   tr: Transform,
 };
+
+// Text used to create temporary selection.
+// This assumes that no user could enter such string manually.
+const PLACEHOLDER_TEXT = `[\u200b\u2800PLACEHOLDER_TEXT_${uuid()}\u2800\u200b]`;
 
 // Perform the transform without losing the perceived text selection.
 // The way it works is that this will annotate teh current selection with
@@ -36,6 +41,8 @@ export default function transformAndPreserveTextSelection(
   // after changing the whole list.
   let fromOffset = 0;
   let toOffset = 0;
+  let placeholderTextNode;
+
   if (from === to) {
     if (from === 0) {
       return tr;
@@ -46,7 +53,18 @@ export default function transformAndPreserveTextSelection(
     const prevNode = tr.doc.nodeAt(from - 1);
     const nextNode = tr.doc.nodeAt(from + 1);
 
-    if (!currentNode && prevNode && prevNode.type.name === TEXT) {
+    if (
+      !currentNode &&
+      prevNode &&
+      prevNode.type.name === PARAGRAPH &&
+      !prevNode.firstChild
+    ) {
+      // The selection is at a paragraph node which has no content.
+      // Create a temporary text and move selection into that text.
+      placeholderTextNode = schema.text(PLACEHOLDER_TEXT);
+      tr = tr.insert(from, Fragment.from(placeholderTextNode));
+      toOffset = 1;
+    } else if (!currentNode && prevNode && prevNode.type.name === TEXT) {
       // The selection is at the end of the text node. Select the last
       // character instead.
       fromOffset = -1;
@@ -106,6 +124,18 @@ export default function transformAndPreserveTextSelection(
   selectionRange.to = Math.max(0, selectionRange.from, selectionRange.to);
 
   tr = tr.removeMark(markRange.from, markRange.to, markType);
+
+  if (placeholderTextNode) {
+    tr.doc.descendants((node, pos) => {
+      if (node.type.name === TEXT && node.text === PLACEHOLDER_TEXT) {
+        tr = tr.delete(pos, pos + PLACEHOLDER_TEXT.length);
+        placeholderTextNode = null;
+        return false;
+      }
+      return true;
+    });
+  }
+
   tr = tr.setSelection(TextSelection.create(
     tr.doc,
     selectionRange.from,

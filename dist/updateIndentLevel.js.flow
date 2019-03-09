@@ -70,15 +70,18 @@ export default function updateIndentLevel(
   //   return tr2;
   // });
 
-  listNodePoses.sort(compareNumber).reverse().forEach(pos => {
-    tr = transformAndPreserveTextSelection(tr, schema, (memo) => {
-      return setListNodeIndent(
-        memo.tr,
-        memo.schema,
+  tr = transformAndPreserveTextSelection(tr, schema, (memo) => {
+    const {schema} = memo;
+    let tr2 = memo.tr;
+    listNodePoses.sort(compareNumber).reverse().forEach(pos => {
+      tr2 = setListNodeIndent(
+        tr2,
+        schema,
         pos,
         delta,
       );
     });
+    return tr2;
   });
 
   return tr;
