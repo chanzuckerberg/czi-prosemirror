@@ -25,6 +25,11 @@ export default function transformAndPreserveTextSelection(
   schema: Schema,
   fn: (memo: SelectionMemo) => Transform,
 ): Transform {
+  if (tr.getMeta('dryrun')) {
+    // There's no need to preserve the selection in dryrun mode.
+    return fn({tr, schema});
+  }
+
   const {selection, doc} = tr;
   const markType = schema.marks[MARK_TEXT_SELECTION];
   if (!markType || !selection || !doc) {

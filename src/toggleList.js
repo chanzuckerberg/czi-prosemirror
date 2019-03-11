@@ -8,7 +8,6 @@ import {findParentNodeOfType} from 'prosemirror-utils';
 
 import {HEADING, LIST_ITEM, PARAGRAPH} from './NodeNames';
 import isListNode from './isListNode';
-import nodeAt from './nodeAt';
 import transformAndPreserveTextSelection from './transformAndPreserveTextSelection';
 
 import type {SelectionMemo} from './transformAndPreserveTextSelection';
