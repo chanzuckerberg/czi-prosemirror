@@ -21,6 +21,12 @@ const IMAGE_FILE_TYLES = new Set([
   'image/jpg',
 ]);
 
+const TITLE = 'Uploading...';
+
+const INNER_HTML = (new Array(4)).join(
+  '<div class="czi-image-upload-placeholder-child"></div>'
+);
+
 function isImageUploadPlaceholderPlugin(plugin: Plugin): boolean {
   return plugin instanceof ImageUploadPlaceholderPlugin;
 }
@@ -93,6 +99,9 @@ export function uploadImageFiles(
       if (pos && !view.readOnly && !view.disabled) {
         const imageNode = imageType.create(imageInfo);
         trNext = trNext.replaceWith(pos, pos, imageNode);
+      } else {
+        // Upload was cancelled.
+        imageFiles.length = 0;
       }
       if (imageFiles.length) {
         uploadNext();
@@ -109,7 +118,6 @@ export function uploadImageFiles(
   let {tr} = state;
 
   // Replace the selection with a placeholder
-
   const dropPos = view.posAtCoords({
     left: event.clientX,
     top: event.clientY,
@@ -156,7 +164,9 @@ class ImageUploadPlaceholderPlugin extends Plugin {
           const action = tr.getMeta(this);
           if (action && action.add) {
             const el = document.createElement('div');
+            el.title = TITLE;
             el.className = 'czi-image-upload-placeholder';
+            el.innerHTML = INNER_HTML;
 
             const deco = Decoration.widget(
               action.add.pos,
