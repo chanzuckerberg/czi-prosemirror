@@ -120,8 +120,7 @@ function uploadImageFiles(view, files, coords) {
   };
 
   var uploadNext = defer(function () {
-    var ff = (0, _nullthrows2.default)(imageFiles.shift());
-    uploadImage(ff).then(function (imageInfo) {
+    var done = function done(imageInfo) {
       var pos = findImageUploadPlaceholder(placeholderPlugin, view.state, id);
       var trNext = view.state.tr;
       if (pos && !view.readOnly && !view.disabled) {
@@ -138,7 +137,9 @@ function uploadImageFiles(view, files, coords) {
         trNext = trNext.setMeta(placeholderPlugin, { remove: { id: id } });
       }
       view.dispatch(trNext);
-    });
+    };
+    var ff = (0, _nullthrows2.default)(imageFiles.shift());
+    uploadImage(ff).then(done).catch(done.bind(null, { src: null }));
   });
 
   uploadNext();

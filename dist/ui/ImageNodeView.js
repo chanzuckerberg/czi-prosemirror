@@ -350,7 +350,7 @@ var ImageViewBody = function (_React$PureComponent) {
       var active = !loading && focused && !readOnly && originalSize.complete;
       var src = originalSize.complete ? originalSize.src : EMPTY_SRC;
       var aspectRatio = loading ? 1 : originalSize.width / originalSize.height;
-      var error = !loading && originalSize.src && !originalSize.complete;
+      var error = !loading && !originalSize.complete;
 
       var width = attrs.width,
           height = attrs.height;

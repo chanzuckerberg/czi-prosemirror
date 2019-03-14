@@ -74,8 +74,10 @@ function processPromise(src, resolve, reject) {
   }
 
   var srcStr = src || '';
-
-  if (cache[srcStr]) {
+  if (!srcStr) {
+    resolve(result);
+    return;
+  } else if (cache[srcStr]) {
     var cachedResult = (0, _assign2.default)({}, cache[srcStr]);
     resolve(cachedResult);
     return;

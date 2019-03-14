@@ -71,13 +71,13 @@
 }
 
 .czi-image-view-body .czi-icon.error {
-  color: #cdcdcd;
+  color:red;
   left: 50%;
   position: absolute;
   top: 50%;
   z-index: 4;
-  margin: -15px 0 0 -15px;
-  font-size: 30px;
+  margin: -11px 0 0 -11px;
+  font-size: 22px;
 }
 
 .czi-image-view-body.selected::after {

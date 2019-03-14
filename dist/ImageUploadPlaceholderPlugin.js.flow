@@ -88,8 +88,7 @@ export function uploadImageFiles(
   };
 
   const uploadNext = defer(() => {
-    const ff = nullthrows(imageFiles.shift());
-    uploadImage(ff).then((imageInfo: ImageLike) => {
+    const done = (imageInfo: {src: ?string}) => {
       const pos = findImageUploadPlaceholder(
         placeholderPlugin,
         view.state,
@@ -110,7 +109,9 @@ export function uploadImageFiles(
         trNext = trNext.setMeta(placeholderPlugin, {remove: {id}});
       }
       view.dispatch(trNext);
-    });
+    };
+    const ff = nullthrows(imageFiles.shift());
+    uploadImage(ff).then(done).catch(done.bind(null, {src: null}));
   });
 
   uploadNext();
