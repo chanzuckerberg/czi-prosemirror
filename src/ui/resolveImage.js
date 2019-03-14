@@ -47,8 +47,10 @@ function processPromise(src: ?string, resolve: Function, reject: Function): void
   }
 
   const srcStr = src || '';
-
-  if (cache[srcStr]) {
+  if (!srcStr) {
+    resolve(result);
+    return;
+  } else if (cache[srcStr]) {
     const cachedResult = Object.assign({}, cache[srcStr]);
     resolve(cachedResult);
     return;

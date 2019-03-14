@@ -1,11 +1,13 @@
 // @flow
 
-import './czi-image-resize-box.css';
-import React from 'react';
-import clamp from './clamp';
 import cx from 'classnames';
 import nullthrows from 'nullthrows';
+import React from 'react';
+
+import clamp from './clamp';
 import uuid from './uuid';
+
+import './czi-image-resize-box.css';
 
 type Props = {
   height: number,

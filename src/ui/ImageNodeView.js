@@ -130,7 +130,7 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
     const active = !loading && focused && !readOnly && originalSize.complete;
     const src =  originalSize.complete ? originalSize.src : EMPTY_SRC;
     const aspectRatio = loading ? 1 : originalSize.width / originalSize.height;
-    const error = !loading && originalSize.src && !originalSize.complete;
+    const error = !loading && !originalSize.complete;
 
     let {width, height} = attrs;
 
