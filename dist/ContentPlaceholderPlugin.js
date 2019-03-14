@@ -165,7 +165,6 @@ var ContentPlaceholderView = function () {
   }, {
     key: '_hide',
     value: function _hide() {
-
       var el = this._el;
       if (el && this._visible !== false) {
         this._visible = false;

@@ -152,8 +152,6 @@ class ContentPlaceholderView {
   }
 
   _hide(): void {
-
-
     const el = this._el;
     if (el && this._visible !== false) {
       this._visible = false;

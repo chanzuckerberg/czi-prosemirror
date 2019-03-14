@@ -38,6 +38,10 @@ var _EditorSchema = require('./EditorSchema');
 
 var _EditorSchema2 = _interopRequireDefault(_EditorSchema);
 
+var _ImageUploadPlaceholderPlugin = require('./ImageUploadPlaceholderPlugin');
+
+var _ImageUploadPlaceholderPlugin2 = _interopRequireDefault(_ImageUploadPlaceholderPlugin);
+
 var _LinkTooltipPlugin = require('./LinkTooltipPlugin');
 
 var _LinkTooltipPlugin2 = _interopRequireDefault(_LinkTooltipPlugin);
@@ -68,7 +72,7 @@ var columnResizing = ProsemirrorTables.columnResizing,
 
 function buildPlugins(schema) {
 
-  var plugins = [new _ContentPlaceholderPlugin2.default(), new _CursorPlaceholderPlugin2.default(), new _EditorPageLayoutPlugin2.default(), new _LinkTooltipPlugin2.default(), new _SelectionPlaceholderPlugin2.default(), new _TableCellTooltipPlugin2.default(), (0, _buildInputRules2.default)(schema), (0, _prosemirrorDropcursor.dropCursor)(), (0, _prosemirrorGapcursor.gapCursor)(), (0, _prosemirrorHistory.history)(), (0, _prosemirrorKeymap.keymap)((0, _createEditorKeyMap2.default)()), (0, _prosemirrorKeymap.keymap)(_prosemirrorCommands.baseKeymap),
+  var plugins = [new _ContentPlaceholderPlugin2.default(), new _CursorPlaceholderPlugin2.default(), new _EditorPageLayoutPlugin2.default(), new _ImageUploadPlaceholderPlugin2.default(), new _LinkTooltipPlugin2.default(), new _SelectionPlaceholderPlugin2.default(), new _TableCellTooltipPlugin2.default(), (0, _buildInputRules2.default)(schema), (0, _prosemirrorDropcursor.dropCursor)(), (0, _prosemirrorGapcursor.gapCursor)(), (0, _prosemirrorHistory.history)(), (0, _prosemirrorKeymap.keymap)((0, _createEditorKeyMap2.default)()), (0, _prosemirrorKeymap.keymap)(_prosemirrorCommands.baseKeymap),
 
   // Tables
   // https://github.com/ProseMirror/prosemirror-tables/blob/master/demo.js

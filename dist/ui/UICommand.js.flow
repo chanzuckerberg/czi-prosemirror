@@ -1,8 +1,8 @@
 // @flow
 
 import {EditorState, Selection} from 'prosemirror-state';
-import {EditorView} from 'prosemirror-view';
 import {Transform} from 'prosemirror-transform';
+import {EditorView} from 'prosemirror-view';
 
 export type IsActiveCall = (
   state: EditorState,
@@ -16,6 +16,28 @@ const EventType = {
   CLICK: 'mouseup',
   MOUSEENTER: 'mouseenter',
 };
+
+function dryRunEditorStateProxyGetter(
+  state: EditorState,
+  propKey: string,
+): any {
+  const val = state[propKey];
+  if (propKey === 'tr' && (val instanceof Transform)) {
+    return val.setMeta('dryrun', true);
+  }
+  return val;
+}
+
+
+function dryRunEditorStateProxySetter(
+  state: EditorState,
+  propKey: string,
+  propValue: any,
+): boolean {
+  state[propKey] = propValue;
+  // Indicate success
+  return true;
+}
 
 class UICommand {
 
@@ -34,7 +56,22 @@ class UICommand {
   };
 
   isEnabled = (state: EditorState, view: ?EditorView): boolean => {
-    return this.execute(state, null, view);
+    return this.dryRun(state, view);
+  };
+
+  dryRun = (state: EditorState, view: ?EditorView): boolean => {
+    const {Proxy} = window;
+
+    const dryRunState = Proxy ?
+      new Proxy(
+        state, {
+          get: dryRunEditorStateProxyGetter,
+          set: dryRunEditorStateProxySetter,
+        },
+      ) :
+      state;
+
+    return this.execute(dryRunState, null, view);
   };
 
   execute = (

@@ -12,6 +12,7 @@ import ContentPlaceholderPlugin from './ContentPlaceholderPlugin';
 import CursorPlaceholderPlugin from './CursorPlaceholderPlugin';
 import EditorPageLayoutPlugin from './EditorPageLayoutPlugin';
 import EditorSchema from './EditorSchema';
+import ImageUploadPlaceholderPlugin  from './ImageUploadPlaceholderPlugin';
 import LinkTooltipPlugin from './LinkTooltipPlugin';
 import SelectionPlaceholderPlugin from './SelectionPlaceholderPlugin';
 import TableCellTooltipPlugin from './TableCellTooltipPlugin';
@@ -29,6 +30,7 @@ function buildPlugins(schema: Schema): Array<Plugin> {
     new ContentPlaceholderPlugin(),
     new CursorPlaceholderPlugin(),
     new EditorPageLayoutPlugin(),
+    new ImageUploadPlaceholderPlugin(),
     new LinkTooltipPlugin(),
     new SelectionPlaceholderPlugin(),
     new TableCellTooltipPlugin(),

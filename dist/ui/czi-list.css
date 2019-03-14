@@ -15,9 +15,12 @@
 }
 
 .ProseMirror li {
+  display: block;
+  list-style-type: none;
   margin: 0;
   padding: 0;
   position: relative;
+  zoom: 1;
 }
 
 .ProseMirror ol {
@@ -30,6 +33,8 @@
 }
 
 .ProseMirror li > p {
+  zoom: 1;
+  display: block;
   margin: 0;
   margin-block-end: 0;
   margin-block-start: 0;
@@ -101,13 +106,11 @@
 /* bullet indentation */
 .ProseMirror li {
   /* This assumes the space needed for 3 digits numbers */
-  --czi-list-style-indent: 24pt;
-  --czi-list-style-indent-reverse: -24pt;
-  padding: 0 0 0 var(--czi-list-style-indent);
+  padding: 0 0 0 24pt;
 }
 
 .ProseMirror li > p::before {
   left: -5px;
-  margin-left: var(--czi-list-style-indent-reverse);
-  width: var(--czi-list-style-indent);
+  margin-left: -24pt;
+  width: 24pt;
 }

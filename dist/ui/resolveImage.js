@@ -18,13 +18,13 @@ var _promise2 = _interopRequireDefault(_promise);
 
 exports.default = resolveImage;
 
-var _isOffline = require('./isOffline');
-
-var _isOffline2 = _interopRequireDefault(_isOffline);
-
 var _url = require('url');
 
 var _url2 = _interopRequireDefault(_url);
+
+var _isOffline = require('./isOffline');
+
+var _isOffline2 = _interopRequireDefault(_isOffline);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -85,7 +85,7 @@ function processPromise(src, resolve, reject) {
   var protocol = parsedURL.protocol,
       port = parsedURL.port;
 
-  if (!/(http:|https:)/.test(protocol || window.location.protocol) || port) {
+  if (!/(http:|https:|data:)/.test(protocol || window.location.protocol) || port) {
     resolve(result);
     return;
   }

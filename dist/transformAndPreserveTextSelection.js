@@ -40,6 +40,11 @@ var PLACEHOLDER_TEXT = '[\u200B\u2800PLACEHOLDER_TEXT_' + (0, _uuid2.default)() 
 // temporary marks and restores the selection with those marks after performing
 // the transform.
 function transformAndPreserveTextSelection(tr, schema, fn) {
+  if (tr.getMeta('dryrun')) {
+    // There's no need to preserve the selection in dryrun mode.
+    return fn({ tr: tr, schema: schema });
+  }
+
   var _tr = tr,
       selection = _tr.selection,
       doc = _tr.doc;
