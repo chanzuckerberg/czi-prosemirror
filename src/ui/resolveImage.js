@@ -1,7 +1,8 @@
 // @flow
 
-import isOffline from './isOffline';
 import url from 'url';
+
+import isOffline from './isOffline';
 
 export type ImageResult = {
   complete: boolean,
@@ -55,7 +56,10 @@ function processPromise(src: ?string, resolve: Function, reject: Function): void
 
   const parsedURL = url.parse(srcStr);
   const {protocol, port} = parsedURL;
-  if (!/(http:|https:)/.test(protocol || window.location.protocol) || port) {
+  if (
+    !/(http:|https:|data:)/.test(protocol || window.location.protocol) ||
+    port
+  ) {
     resolve(result);
     return;
   }

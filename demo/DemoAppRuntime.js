@@ -4,11 +4,6 @@
 
 import type {ImageLike} from '../src/Types';
 
-function randInt(): number {
-  const values = [100, 200, 300];
-  return values[Math.floor(Math.random() *values.length)];
-}
-
 class DemoAppRuntime {
 
   // Image Proxy
@@ -18,8 +13,11 @@ class DemoAppRuntime {
 
   getProxyImageSrc(src: string): string {
     // This simulate a fake proxy.
+    if (src.indexOf('data:') === 0) {
+      return src;
+    }
     const suffix = 'proxied=1';
-    return src.indexOf('?') === -1 ? `${src}?${suffix}` : `${src}&${suffix}`
+    return src.indexOf('?') === -1 ? `${src}?${suffix}` : `${src}&${suffix}`;
   }
 
   // Image Upload
@@ -27,20 +25,23 @@ class DemoAppRuntime {
     return true;
   }
 
-  uploadImage(blob: File): Promise<ImageLike> {
-    // This simulate a fake upload.
-    const ww = randInt();
-    const hh = randInt();
-    const img: ImageLike = {
-      id: '',
-      width: ww,
-      height: hh,
-      src: `https://placekitten.com/${ww}/${hh}`,
-    };
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve(img);
-      }, 1000);
+  uploadImage(file: File): Promise<ImageLike> {
+    return new Promise((resolve, reject) => {
+      const {FileReader} = window;
+      if (FileReader) {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          // base64 encoded url.
+          const src = event.target.result;
+          resolve({src, height: 0, width: 0, id: ''});
+        };
+        reader.onerror = () => {
+          reject(new Error('FileReader failed'));
+        };
+        reader.readAsDataURL(file);
+      } else {
+        reject(new Error('FileReader is not available'));
+      }
     });
   }
 }
