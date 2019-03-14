@@ -4,6 +4,11 @@
 
 import type {ImageLike} from '../src/Types';
 
+function randInt(): number {
+  const values = [100, 200, 300];
+  return values[Math.floor(Math.random() *values.length)];
+}
+
 class DemoAppRuntime {
 
   // Image Proxy
@@ -22,18 +27,20 @@ class DemoAppRuntime {
     return true;
   }
 
-  uploadImage(blob: Object): Promise<ImageLike> {
+  uploadImage(blob: File): Promise<ImageLike> {
     // This simulate a fake upload.
+    const ww = randInt();
+    const hh = randInt();
     const img: ImageLike = {
       id: '',
-      width: 100,
-      height: 100,
-      src: 'https://placekitten.com/100/100',
+      width: ww,
+      height: hh,
+      src: `https://placekitten.com/${ww}/${hh}`,
     };
     return new Promise(resolve => {
       setTimeout(() => {
         resolve(img);
-      }, 3000);
+      }, 1000);
     });
   }
 }

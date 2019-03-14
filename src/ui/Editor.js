@@ -20,8 +20,9 @@ import BookmarkNodeView from './BookmarkNodeView';
 import CustomEditorView from './CustomEditorView';
 import CustomNodeView from './CustomNodeView';
 import ImageNodeView from './ImageNodeView';
-import {BACKSPACE, DELETE, DOWN_ARROW, LEFT_ARROW, RIGHT_ARROW, UP_ARROW} from './KeyCodes';
 import MathNodeView from './MathNodeView';
+import handleEditorDrop from './handleEditorDrop';
+import handleEditorKeyDown from './handleEditorKeyDown';
 import uuid from './uuid';
 
 import './czi-editor.css';
@@ -74,27 +75,10 @@ Transaction.prototype.scrollIntoView = scrollIntoViewPatched;
 // Sets the implementation so that `FontTypeMarkSpec` can load custom fonts.
 WebFontLoader.setImplementation(webfontloader);
 
-function transformPastedHTML(html: string): string {
-  return normalizeHTML(html);
-}
-
-
-const AtomicNodeKeyCodes = new Set([
-  BACKSPACE, DELETE, DOWN_ARROW, LEFT_ARROW, RIGHT_ARROW, UP_ARROW,
-]);
-function handleKeyDown(view: EditorView, event: KeyboardEvent): boolean {
-  const {selection, tr} = view.state;
-  const {from, to} = selection;
-  if (from === (to - 1)) {
-    const node = tr.doc.nodeAt(from);
-    if (node.isAtom && !node.isText && node.isLeaf) {
-      // An atomic node (e.g. Image) is selected.
-      // Only whitelisted keyCode should be allowed.
-      return !AtomicNodeKeyCodes.has(event.keyCode);
-    }
-  }
-  return false;
-}
+const handleDOMEvents = {
+  drop: handleEditorDrop,
+  keydown: handleEditorKeyDown,
+};
 
 function bindNodeView(NodeView: CustomNodeView): Function {
   return (node, view, getPos, decorations) => {
@@ -158,8 +142,8 @@ class Editor extends React.PureComponent<any, any, any> {
         editable: this._isEditable,
         nodeViews: boundNodeViews,
         state: editorState || EDITOR_EMPTY_STATE,
-        transformPastedHTML,
-        handleKeyDown,
+        transformPastedHTML: normalizeHTML,
+        handleDOMEvents,
       });
 
       view.runtime = runtime;
