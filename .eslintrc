@@ -6,7 +6,7 @@
     "codeFrame": true,
     "ecmaFeatures": {
       "jsx": true
-    },
+    }
   },
   "plugins": ["react"],
   "rules": {
@@ -25,12 +25,13 @@
     "prefer-const": "error",
     "quotes": [2, "single", { "avoidEscape": true }],
     "semi": [2, "always"],
-    "strict": 0,
+    "strict": 0
   },
   "globals": {
     "$ReadOnlyArray": false,
     "Blob": false,
     "Class": false,
+    "ClipboardEvent": false,
     "Component": false,
     "DataTransferItem": false,
     "Document": true,

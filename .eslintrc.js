@@ -31,6 +31,7 @@ module.exports = {
     "$ReadOnlyArray": false,
     "Blob": false,
     "Class": false,
+    "ClipboardEvent": false,
     "Component": false,
     "DataTransferItem": false,
     "Document": true,

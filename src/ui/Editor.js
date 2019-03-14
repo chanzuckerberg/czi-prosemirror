@@ -23,6 +23,7 @@ import ImageNodeView from './ImageNodeView';
 import MathNodeView from './MathNodeView';
 import handleEditorDrop from './handleEditorDrop';
 import handleEditorKeyDown from './handleEditorKeyDown';
+import handleEditorPaste from './handleEditorPaste';
 import uuid from './uuid';
 
 import './czi-editor.css';
@@ -78,6 +79,7 @@ WebFontLoader.setImplementation(webfontloader);
 const handleDOMEvents = {
   drop: handleEditorDrop,
   keydown: handleEditorKeyDown,
+  paste: handleEditorPaste,
 };
 
 function bindNodeView(NodeView: CustomNodeView): Function {

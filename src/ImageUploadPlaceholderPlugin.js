@@ -54,7 +54,7 @@ function defer(fn: Function): Function {
 export function uploadImageFiles(
   view: EditorView,
   files: Array<File>,
-  event: DragEvent,
+  coords: ?{x: number, y: number},
 ): boolean {
   const {runtime, state, readOnly, disabled} = view;
   const {schema, plugins} = state;
@@ -118,33 +118,41 @@ export function uploadImageFiles(
   let {tr} = state;
 
   // Replace the selection with a placeholder
-  const dropPos = view.posAtCoords({
-    left: event.clientX,
-    top: event.clientY,
-  });
+  let from = 0;
 
-  if (!dropPos) {
-    return false;
+   // Adjust the cursor to the dropped position.
+  if (coords) {
+    const dropPos = view.posAtCoords({
+      left: coords.x,
+      top: coords.y,
+    });
+
+    if (!dropPos) {
+      return false;
+    }
+
+    from = dropPos.pos;
+    tr = tr.setSelection(TextSelection.create(
+      tr.doc,
+      from,
+      from,
+    ));
+  } else {
+    from = tr.selection.to;
+    tr = tr.setSelection(TextSelection.create(
+      tr.doc,
+      from,
+      from,
+    ));
   }
-
-  const from = dropPos.pos;
-
   const meta = {
-   add: {
-     id,
-     pos: from,
-   },
+    add: {
+      id,
+      pos: from,
+    },
   };
 
-  // Adjust the cursor to the dropped position.
-  tr = tr.setSelection(TextSelection.create(
-    tr.doc,
-    from,
-    from,
-  ));
-
   tr = tr.setMeta(placeholderPlugin, meta);
-
   view.dispatch(tr);
   return true;
 }

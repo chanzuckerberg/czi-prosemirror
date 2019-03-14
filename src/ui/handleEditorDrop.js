@@ -19,7 +19,8 @@ export default function handleEditorDrop(
   }
 
   const filesList = Array.from(files);
-  if (uploadImageFiles(view, filesList, event)) {
+  const coords = {x: event.clientX, y: event.clientY};
+  if (uploadImageFiles(view, filesList, coords)) {
     event.preventDefault();
     return true;
   }
