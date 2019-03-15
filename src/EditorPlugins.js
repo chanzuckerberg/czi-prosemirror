@@ -15,7 +15,7 @@ import EditorSchema from './EditorSchema';
 import ImageUploadPlaceholderPlugin  from './ImageUploadPlaceholderPlugin';
 import LinkTooltipPlugin from './LinkTooltipPlugin';
 import SelectionPlaceholderPlugin from './SelectionPlaceholderPlugin';
-import TableCellTooltipPlugin from './TableCellTooltipPlugin';
+import TableCellMenuPlugin from './TableCellMenuPlugin';
 import buildInputRules from './buildInputRules';
 import createEditorKeyMap from './createEditorKeyMap';
 
@@ -33,7 +33,7 @@ function buildPlugins(schema: Schema): Array<Plugin> {
     new ImageUploadPlaceholderPlugin(),
     new LinkTooltipPlugin(),
     new SelectionPlaceholderPlugin(),
-    new TableCellTooltipPlugin(),
+    new TableCellMenuPlugin(),
 
     buildInputRules(schema),
     dropCursor(),

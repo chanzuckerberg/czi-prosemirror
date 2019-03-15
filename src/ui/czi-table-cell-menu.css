@@ -1,4 +1,4 @@
-.czi-table-cell-tooltip.use-icon {
+.czi-table-cell-menu.use-icon {
   box-shadow: 0px 0px 0px 0.3px rgba(0,0,0,0.35);
   font-size: 12px;
   font-weight: normal;
@@ -9,6 +9,6 @@
   width: 20px;
 }
 
-.czi-table-cell-tooltip .czi-icon {
+.czi-table-cell-menu .czi-icon {
   font-size: 12px;
 }
