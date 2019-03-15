@@ -1,17 +1,12 @@
 // @flow
 
-import {InputRule, ellipsis, emDash, inputRules, smartQuotes, textblockTypeInputRule, wrappingInputRule} from 'prosemirror-inputrules';
+import { InputRule, ellipsis, emDash, inputRules, smartQuotes, textblockTypeInputRule, wrappingInputRule } from 'prosemirror-inputrules';
 import {NodeType, Schema} from 'prosemirror-model';
+
+import blockQuoteInputRule from './blockQuoteInputRule';
 
 // This file is forked from
 // // https://github.com/ProseMirror/prosemirror-example-setup/blob/master/src/inputrules.js
-
-// : (NodeType) → InputRule
-// Given a blockquote node type, returns an input rule that turns `"> "`
-// at the start of a textblock into a blockquote.
-function blockQuoteRule(nodeType: NodeType): InputRule {
-  return wrappingInputRule(/^\s*>\s$/, nodeType);
-}
 
 // : (NodeType) → InputRule
 // Given a list node type, returns an input rule that turns a number
@@ -58,7 +53,7 @@ export default function buildInputRules(schema: Schema) {
   const rules = smartQuotes.concat(ellipsis, emDash);
   let type;
   if (type = schema.nodes.blockquote) {
-    rules.push(blockQuoteRule(type));
+    rules.push(blockQuoteInputRule());
   }
   if (type = schema.nodes.ordered_list) {
     rules.push(orderedListRule(type));

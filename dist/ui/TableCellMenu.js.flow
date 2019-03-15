@@ -7,7 +7,7 @@ import CommandMenuButton  from './CommandMenuButton';
 import {TABLE_COMMANDS_GROUP} from './EditorToolbarConfig';
 import Icon from './Icon';
 
-import './czi-table-cell-tooltip.css';
+import './czi-table-cell-menu.css';
 
 type Props = {
   editorState: EditorState,
@@ -15,7 +15,7 @@ type Props = {
 };
 
 
-class TableCellTooltip extends React.PureComponent<any, any, any> {
+class TableCellMenu extends React.PureComponent<any, any, any> {
   _menu = null;
 
   props: Props;
@@ -24,7 +24,7 @@ class TableCellTooltip extends React.PureComponent<any, any, any> {
     const {editorState, editorView} = this.props;
     return (
       <CommandMenuButton
-        className="czi-table-cell-tooltip"
+        className="czi-table-cell-menu"
         commandGroups={TABLE_COMMANDS_GROUP}
         dispatch={editorView.dispatch}
         editorState={editorState}
@@ -36,4 +36,4 @@ class TableCellTooltip extends React.PureComponent<any, any, any> {
   }
 }
 
-export default TableCellTooltip;
+export default TableCellMenu;

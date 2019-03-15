@@ -9,15 +9,14 @@ var _prosemirrorInputrules = require('prosemirror-inputrules');
 
 var _prosemirrorModel = require('prosemirror-model');
 
+var _blockQuoteInputRule = require('./blockQuoteInputRule');
+
+var _blockQuoteInputRule2 = _interopRequireDefault(_blockQuoteInputRule);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 // This file is forked from
 // // https://github.com/ProseMirror/prosemirror-example-setup/blob/master/src/inputrules.js
-
-// : (NodeType) → InputRule
-// Given a blockquote node type, returns an input rule that turns `"> "`
-// at the start of a textblock into a blockquote.
-function blockQuoteRule(nodeType) {
-  return (0, _prosemirrorInputrules.wrappingInputRule)(/^\s*>\s$/, nodeType);
-}
 
 // : (NodeType) → InputRule
 // Given a list node type, returns an input rule that turns a number
@@ -34,6 +33,8 @@ function orderedListRule(nodeType) {
 // Given a list node type, returns an input rule that turns a bullet
 // (dash, plush, or asterisk) at the start of a textblock into a
 // bullet list.
+
+
 function bulletListRule(nodeType) {
   return (0, _prosemirrorInputrules.wrappingInputRule)(/^\s*([-+*])\s$/, nodeType);
 }
@@ -63,7 +64,7 @@ function buildInputRules(schema) {
   var rules = _prosemirrorInputrules.smartQuotes.concat(_prosemirrorInputrules.ellipsis, _prosemirrorInputrules.emDash);
   var type = void 0;
   if (type = schema.nodes.blockquote) {
-    rules.push(blockQuoteRule(type));
+    rules.push((0, _blockQuoteInputRule2.default)());
   }
   if (type = schema.nodes.ordered_list) {
     rules.push(orderedListRule(type));

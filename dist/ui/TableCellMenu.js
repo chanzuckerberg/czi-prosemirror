@@ -42,28 +42,28 @@ var _Icon = require('./Icon');
 
 var _Icon2 = _interopRequireDefault(_Icon);
 
-require('./czi-table-cell-tooltip.css');
+require('./czi-table-cell-menu.css');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var TableCellTooltip = function (_React$PureComponent) {
-  (0, _inherits3.default)(TableCellTooltip, _React$PureComponent);
+var TableCellMenu = function (_React$PureComponent) {
+  (0, _inherits3.default)(TableCellMenu, _React$PureComponent);
 
-  function TableCellTooltip() {
+  function TableCellMenu() {
     var _ref;
 
     var _temp, _this, _ret;
 
-    (0, _classCallCheck3.default)(this, TableCellTooltip);
+    (0, _classCallCheck3.default)(this, TableCellMenu);
 
     for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = TableCellTooltip.__proto__ || (0, _getPrototypeOf2.default)(TableCellTooltip)).call.apply(_ref, [this].concat(args))), _this), _this._menu = null, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
+    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = TableCellMenu.__proto__ || (0, _getPrototypeOf2.default)(TableCellMenu)).call.apply(_ref, [this].concat(args))), _this), _this._menu = null, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
   }
 
-  (0, _createClass3.default)(TableCellTooltip, [{
+  (0, _createClass3.default)(TableCellMenu, [{
     key: 'render',
     value: function render() {
       var _props = this.props,
@@ -71,7 +71,7 @@ var TableCellTooltip = function (_React$PureComponent) {
           editorView = _props.editorView;
 
       return _react2.default.createElement(_CommandMenuButton2.default, {
-        className: 'czi-table-cell-tooltip',
+        className: 'czi-table-cell-menu',
         commandGroups: _EditorToolbarConfig.TABLE_COMMANDS_GROUP,
         dispatch: editorView.dispatch,
         editorState: editorState,
@@ -81,7 +81,7 @@ var TableCellTooltip = function (_React$PureComponent) {
       });
     }
   }]);
-  return TableCellTooltip;
+  return TableCellMenu;
 }(_react2.default.PureComponent);
 
-exports.default = TableCellTooltip;
+exports.default = TableCellMenu;

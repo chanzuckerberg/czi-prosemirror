@@ -7,34 +7,17 @@ import React from 'react';
 
 import findActionableCell from './findActionableCell';
 import {atAnchorTopRight} from './ui/PopUpPosition';
-import TableCellTooltip from './ui/TableCellTooltip';
+import TableCellMenu from './ui/TableCellMenu';
+import bindScrollHandler from './ui/bindScrollHandler';
 import createPopUp from './ui/createPopUp';
-import {fromHTMlElement} from './ui/rects';
+import isElementFullyVisible from './ui/isElementFullyVisible';
 
 import './ui/czi-pop-up.css';
-
-function isElementFullyVisible(el: HTMLElement): boolean {
-  const {x, y, w, h} = fromHTMlElement(el);
-  // Only checks the top-left point.
-  const nwEl = (w && h) ? document.elementFromPoint(x + 1, y + 1) : null;
-  if (!nwEl) {
-    return false;
-  }
-
-  if (nwEl === el) {
-    return true;
-  }
-
-  if (el.contains(nwEl)) {
-    return true;
-  }
-
-  return false;
-}
 
 class TableCellTooltipView {
   _cellElement: null;
   _popUp = null;
+  _scrollHandle = null;
 
   constructor(editorView: EditorView) {
     this.update(editorView, null);
@@ -79,12 +62,13 @@ class TableCellTooltipView {
       popUp && popUp.close();
       this._cellElement = cellEl;
       this._popUp =
-        createPopUp(TableCellTooltip, viewPops, {
+        createPopUp(TableCellMenu, viewPops, {
           anchor: cellEl,
           autoDismiss: false,
           onClose: this._onClose,
           position: atAnchorTopRight,
         });
+      this._onOpen();
     }
   }
 
@@ -93,8 +77,29 @@ class TableCellTooltipView {
     this._popUp = null;
   };
 
+  _onOpen = (): void => {
+    const cellEl = this._cellElement;
+    if (!cellEl) {
+      return;
+    }
+    this._scrollHandle = bindScrollHandler(cellEl, this._onScroll);
+  };
+
   _onClose = (): void => {
     this._popUp = null;
+    this._scrollHandle && this._scrollHandle.dispose();
+    this._scrollHandle = null;
+  };
+
+  _onScroll = (): void => {
+    const popUp = this._popUp;
+    const cellEl = this._cellElement;
+    if (!popUp || !cellEl) {
+      return;
+    }
+    if (!isElementFullyVisible(cellEl)) {
+      popUp.close();
+    }
   };
 }
 
@@ -105,10 +110,10 @@ const SPEC = {
   }
 };
 
-class TableCellTooltipPlugin extends Plugin {
+class TableCellMenuPlugin extends Plugin {
   constructor() {
     super(SPEC);
   }
 }
 
-export default TableCellTooltipPlugin;
+export default TableCellMenuPlugin;
