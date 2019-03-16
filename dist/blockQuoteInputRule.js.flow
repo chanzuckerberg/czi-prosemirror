@@ -23,8 +23,11 @@ function handleBlockQuoteInputRule(
   if (!nodeType) {
     return tr;
   }
-  tr = state.tr.delete(start, end);
+
   tr = toggleBlockquote(tr, schema);
+  if (tr.docChanged) {
+    tr = tr.delete(start, end);
+  }
   return tr;
 }
 
