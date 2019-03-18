@@ -59,10 +59,14 @@ var ContentPlaceholderView = function () {
 
     el.className = 'czi-editor-content-placeholder';
     editorView.dom.parentNode.appendChild(el);
-    document.addEventListener('focusin', this._onFocusChange, true);
-    document.addEventListener('focusout', this._onFocusChange, false);
+    document.addEventListener('focusin', this._checkFocus, true);
+    document.addEventListener('focusout', this._checkFocus, false);
 
     this.update(editorView);
+
+    // We don't know whether view is focused at this moment yet. Manually
+    // calls `this._checkFocus` which will set `_focused` accordingly.
+    this._checkFocus();
   }
 
   (0, _createClass3.default)(ContentPlaceholderView, [{
@@ -87,6 +91,9 @@ var ContentPlaceholderView = function () {
         return;
       }
 
+      this._visible = true;
+      view.dom.classList.add(CLASS_NAME_HAS_PLACEHOLDER);
+
       var parentElRect = parentEl.getBoundingClientRect();
       var bodyRect = bodyEl.getBoundingClientRect();
       var bodyStyle = window.getComputedStyle(bodyEl);
@@ -99,7 +106,6 @@ var ContentPlaceholderView = function () {
       el.style.padding = bodyStyle.padding;
       el.style.display = 'block';
       el.style.width = bodyEl.offsetWidth + 'px';
-      view.dom.classList.add(CLASS_NAME_HAS_PLACEHOLDER);
 
       _reactDom2.default.render(_react2.default.createElement(
         'div',
@@ -113,21 +119,21 @@ var ContentPlaceholderView = function () {
       this._hide();
 
       var el = this._el;
-      if (el && el.parentNode) {
-        el.parentNode.removeChild(el);
+      if (el) {
+        el.parentNode && el.parentNode.removeChild(el);
         _reactDom2.default.unmountComponentAtNode(el);
       }
-      document.removeEventListener('focusin', this._onFocusChange, true);
-      document.removeEventListener('focusout', this._onFocusChange, false);
+      document.removeEventListener('focusin', this._checkFocus, true);
+      document.removeEventListener('focusout', this._checkFocus, false);
       this._view = null;
       this._el = null;
       this._focused = false;
+      this._visible = false;
     }
   }, {
     key: '_onFocus',
     value: function _onFocus() {
-      var el = this._el;
-      if (this._focused !== true && el) {
+      if (this._focused !== true) {
         this._focused = true;
         this._hide();
       }
@@ -135,11 +141,10 @@ var ContentPlaceholderView = function () {
   }, {
     key: '_onBlur',
     value: function _onBlur() {
-      var el = this._el;
       var view = this._view;
-      if (this._focused !== false && el && view) {
+      if (this._focused !== false) {
         this._focused = false;
-        if ((0, _isEditorStateEmpty2.default)(view.state)) {
+        if (view && (0, _isEditorStateEmpty2.default)(view.state)) {
           this._show();
         } else {
           this._hide();
@@ -155,22 +160,32 @@ var ContentPlaceholderView = function () {
   }, {
     key: '_show',
     value: function _show() {
-      var el = this._el;
-      if (el && this._visible !== true) {
+      if (this._visible !== true) {
+        var el = this._el;
+        var view = this._view;
         this._visible = true;
-        el.style.display = 'block';
-        this._view && this.update(this._view);
+        if (el) {
+          el.style.display = 'block';
+        }
+        if (view) {
+          this.update(view);
+          view.dom.classList.add(CLASS_NAME_HAS_PLACEHOLDER);
+        }
       }
     }
   }, {
     key: '_hide',
     value: function _hide() {
-      var el = this._el;
-      if (el && this._visible !== false) {
-        this._visible = false;
-        el.style.display = 'none';
+      if (this._visible !== false) {
+        var el = this._el;
         var view = this._view;
-        view && view.dom.classList.remove(CLASS_NAME_HAS_PLACEHOLDER);
+        this._visible = false;
+        if (el) {
+          el.style.display = 'none';
+        }
+        if (view) {
+          view.dom.classList.remove(CLASS_NAME_HAS_PLACEHOLDER);
+        }
       }
     }
   }]);
@@ -185,15 +200,16 @@ var _initialiseProps = function _initialiseProps() {
   this._view = null;
   this._visible = null;
 
-  this._onFocusChange = function (e) {
-    var activeElement = document.activeElement;
-    var bodyEl = _this2._getBodyElement();
+  this._checkFocus = function () {
     var el = _this2._el;
-    var doc = document;
     var view = _this2._view;
     if (!view || !el) {
       return;
     }
+    var doc = document;
+    var activeElement = doc.activeElement;
+    var bodyEl = _this2._getBodyElement();
+
     if (!activeElement || !bodyEl || doc.hasFocus && !doc.hasFocus()) {
       _this2._onBlur();
     } else {
