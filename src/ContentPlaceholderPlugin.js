@@ -25,10 +25,14 @@ class ContentPlaceholderView {
 
     el.className = 'czi-editor-content-placeholder';
     editorView.dom.parentNode.appendChild(el);
-    document.addEventListener('focusin', this._onFocusChange, true);
-    document.addEventListener('focusout', this._onFocusChange, false);
+    document.addEventListener('focusin', this._checkFocus, true);
+    document.addEventListener('focusout', this._checkFocus, false);
 
     this.update(editorView);
+
+    // We don't know whether view is focused at this moment yet. Manually
+    // calls `this._checkFocus` which will set `_focused` accordingly.
+    this._checkFocus();
   }
 
   update(view: EditorView): void {
@@ -51,6 +55,9 @@ class ContentPlaceholderView {
       return;
     }
 
+    this._visible = true;
+    view.dom.classList.add(CLASS_NAME_HAS_PLACEHOLDER);
+
     const parentElRect = parentEl.getBoundingClientRect();
     const bodyRect = bodyEl.getBoundingClientRect();
     const bodyStyle = window.getComputedStyle(bodyEl);
@@ -63,7 +70,6 @@ class ContentPlaceholderView {
     el.style.padding = bodyStyle.padding;
     el.style.display = 'block';
     el.style.width = bodyEl.offsetWidth + 'px';
-    view.dom.classList.add(CLASS_NAME_HAS_PLACEHOLDER);
 
     ReactDOM.render(
       <div>{placeholder}</div>,
@@ -75,27 +81,28 @@ class ContentPlaceholderView {
     this._hide();
 
     const el = this._el;
-    if (el && el.parentNode) {
-      el.parentNode.removeChild(el);
+    if (el) {
+      el.parentNode && el.parentNode.removeChild(el);
       ReactDOM.unmountComponentAtNode(el);
     }
-    document.removeEventListener('focusin', this._onFocusChange, true);
-    document.removeEventListener('focusout', this._onFocusChange, false);
+    document.removeEventListener('focusin', this._checkFocus, true);
+    document.removeEventListener('focusout', this._checkFocus, false);
     this._view = null;
     this._el = null;
     this._focused = false;
+    this._visible = false;
   }
 
-
-  _onFocusChange = (e: Event): void => {
-    const activeElement = document.activeElement;
-    const bodyEl = this._getBodyElement();
+  _checkFocus = (): void => {
     const el = this._el;
-    const doc = document;
     const view = this._view;
     if (!view || !el) {
       return;
     }
+    const doc = document;
+    const activeElement = doc.activeElement;
+    const bodyEl = this._getBodyElement();
+
     if (!activeElement || !bodyEl || (doc.hasFocus && !doc.hasFocus())) {
       this._onBlur();
     } else {
@@ -112,19 +119,17 @@ class ContentPlaceholderView {
   };
 
   _onFocus(): void {
-    const el = this._el;
-    if (this._focused !== true && el) {
+    if (this._focused !== true) {
       this._focused = true;
       this._hide();
     }
   }
 
   _onBlur(): void {
-    const el = this._el;
     const view = this._view;
-    if (this._focused !== false && el && view ) {
+    if (this._focused !== false) {
       this._focused = false;
-      if (isEditorStateEmpty(view.state)) {
+      if (view && isEditorStateEmpty(view.state)) {
         this._show();
       } else {
         this._hide();
@@ -143,21 +148,31 @@ class ContentPlaceholderView {
   }
 
   _show(): void {
-    const el = this._el;
-    if (el && this._visible !== true) {
+    if (this._visible !== true) {
+      const el = this._el;
+      const view = this._view;
       this._visible = true;
-      el.style.display = 'block';
-      this._view && this.update(this._view);
+      if (el) {
+        el.style.display = 'block';
+      }
+      if (view) {
+        this.update(view);
+        view.dom.classList.add(CLASS_NAME_HAS_PLACEHOLDER);
+      }
     }
   }
 
   _hide(): void {
-    const el = this._el;
-    if (el && this._visible !== false) {
-      this._visible = false;
-      el.style.display = 'none';
+    if (this._visible !== false) {
+      const el = this._el;
       const view = this._view;
-      view && view.dom.classList.remove(CLASS_NAME_HAS_PLACEHOLDER);
+      this._visible = false;
+      if (el) {
+        el.style.display = 'none';
+      }
+      if (view) {
+        view.dom.classList.remove(CLASS_NAME_HAS_PLACEHOLDER);
+      }
     }
   }
 }
