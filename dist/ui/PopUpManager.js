@@ -68,7 +68,7 @@ var PopUpManager = function () {
 
     (0, _classCallCheck3.default)(this, PopUpManager);
     this._bridges = new _map2.default();
-    this._transforms = new _map2.default();
+    this._positions = new _map2.default();
     this._mx = 0;
     this._my = 0;
     this._rafID = 0;
@@ -84,8 +84,8 @@ var PopUpManager = function () {
     };
 
     this._onMouseChange = function (e) {
-      _this._mx = e.clientX;
-      _this._my = e.clientY;
+      _this._mx = Math.round(e.clientX);
+      _this._my = Math.round(e.clientY);
       _this._rafID && cancelAnimationFrame(_this._rafID);
       _this._rafID = requestAnimationFrame(_this._syncPosition);
     };
@@ -216,19 +216,24 @@ var PopUpManager = function () {
               x = _position2.x,
               y = _position2.y;
 
-          var transform = 'translate(' + x + 'px, ' + y + 'px)';
+          var positionKey = x + '-' + y;
 
-          if (_body2 && _bodyRect && _this._transforms.get(_bridge) !== transform) {
+          if (_body2 && _bodyRect && _this._positions.get(_bridge) !== positionKey) {
             var ax = _anchorRect ? (0, _clamp2.default)(0, _anchorRect.x - x + _anchorRect.w / 2, _bodyRect.w - _anchorRect.w / 2) : 0;
-            _this._transforms.set(_bridge, transform);
-            _body2.style.transform = transform;
-            _body2.style.setProperty('--czi-pop-up-anchor-offset-left', ax + 'px');
+            _this._positions.set(_bridge, positionKey);
+            var bodyStyle = _body2.style;
+            bodyStyle.position = 'absolute';
+            bodyStyle.left = x + 'px';
+            bodyStyle.top = y + 'px';
+            bodyStyle.setProperty('--czi-pop-up-anchor-offset-left', ax + 'px');
             _bodyRect.x = x;
             _bodyRect.y = y;
           }
 
           if ((0, _rects.isIntersected)(pointer, _bodyRect || DUMMY_RECT, 0) || (0, _rects.isIntersected)(pointer, _anchorRect || DUMMY_RECT, 0)) {
-            _anchor2 && hoveredAnchors.add(_anchor2);
+            if (_anchor2) {
+              hoveredAnchors.add(_anchor2);
+            }
           }
         }
       } catch (err) {
@@ -360,7 +365,7 @@ var PopUpManager = function () {
     key: 'register',
     value: function register(bridge) {
       this._bridges.set(bridge, Date.now());
-      this._transforms.set(bridge, null);
+      this._positions.set(bridge, null);
       if (this._bridges.size === 1) {
         this._observe();
       }
@@ -370,7 +375,7 @@ var PopUpManager = function () {
     key: 'unregister',
     value: function unregister(bridge) {
       this._bridges.delete(bridge);
-      this._transforms.delete(bridge);
+      this._positions.delete(bridge);
       if (this._bridges.size === 0) {
         this._unobserve();
       }
