@@ -27,14 +27,15 @@ const DUMMY_RECT = {x: -10000, y: -10000, w: 0, h: 0};
 class PopUpManager {
 
   _bridges = new Map();
-  _transforms = new Map();
+  _positions = new Map();
+
   _mx = 0;
   _my = 0;
   _rafID = 0;
 
   register(bridge: PopUpBridge): void {
     this._bridges.set(bridge, Date.now());
-    this._transforms.set(bridge, null);
+    this._positions.set(bridge, null);
     if (this._bridges.size === 1) {
       this._observe();
     }
@@ -43,7 +44,7 @@ class PopUpManager {
 
   unregister(bridge: PopUpBridge): void {
     this._bridges.delete(bridge);
-    this._transforms.delete(bridge);
+    this._positions.delete(bridge);
     if (this._bridges.size === 0) {
       this._unobserve();
     }
@@ -78,8 +79,8 @@ class PopUpManager {
   };
 
   _onMouseChange = (e: MouseEvent): void => {
-    this._mx = e.clientX;
-    this._my = e.clientY;
+    this._mx = Math.round(e.clientX);
+    this._my = Math.round( e.clientY);
     this._rafID && cancelAnimationFrame(this._rafID);
     this._rafID = requestAnimationFrame(this._syncPosition);
   };
@@ -141,9 +142,9 @@ class PopUpManager {
       }
 
       const {x, y} = position(anchorRect, bodyRect);
-      const transform = `translate(${x}px, ${y}px)`;
+      const positionKey = `${x}-${y}`;
 
-      if (body && bodyRect && this._transforms.get(bridge) !== transform) {
+      if (body && bodyRect && this._positions.get(bridge) !== positionKey) {
         const ax = anchorRect ?
           clamp(
             0,
@@ -151,9 +152,12 @@ class PopUpManager {
             bodyRect.w - (anchorRect.w / 2),
           ) :
           0;
-        this._transforms.set(bridge, transform);
-        body.style.transform = transform;
-        body.style.setProperty('--czi-pop-up-anchor-offset-left', `${ax}px`);
+        this._positions.set(bridge,  positionKey);
+        const bodyStyle = body.style;
+        bodyStyle.position = 'absolute';
+        bodyStyle.left = `${x}px`;
+        bodyStyle.top = `${y}px`;
+        bodyStyle.setProperty('--czi-pop-up-anchor-offset-left', `${ax}px`);
         bodyRect.x = x;
         bodyRect.y = y;
       }
@@ -170,7 +174,9 @@ class PopUpManager {
           0,
         )
       ) {
-        anchor && hoveredAnchors.add(anchor);
+        if (anchor) {
+          hoveredAnchors.add(anchor);
+        }
       }
     }
 

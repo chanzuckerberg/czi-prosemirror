@@ -48,54 +48,7 @@ class DemoAppHTMLTemplate extends React.PureComponent<any, any, any> {
   render(): React.Element<any> {
     return (
       <div style={{display: 'none'}}>
-        <h1>At vero eos et accusamus et iusto odio dignissimos duc</h1>
-        <ol>
-          <li><span style={STYLE_COLOR}>rum quidem rerum facilis est et expedita distinctio. Nam libero tempore </span></li>
-          <li><span style={STYLE_BACKGROUND_COLOR}> minus id quod maxime placeat facere possim</span></li>
-          <li><b>nis voluptas assumenda</b></li>
-          <li><u>uuntur magni dolores <i>lynx</i> auuntur magni doloresalinese</u></li>
-        </ol>
-        <h1>nt occaecati cupiditate non provident, similique sunt in culpa</h1>
-        <p>nt occaecati cupiditate non provident, similique sunt in culpa</p>
-        <p>
-          nt occaecati cupiditate non provident, similique sunt in culpa
-          <math data-latex="x+y=2" />
-          nt occaecati cupiditate non provident, similique sunt in culpa
-        </p>
-        <p style={{lineHeight: '200%'}}>
-          <img
-            src="https://placekitten.com/200/300"
-            style={STYLE_FLOAT_LEFT}
-          />
-          nt occaecati cupiditate non provident, similique sunt in culpa
-          <a href="https://github.com/chanzuckerberg/czi-prosemirror">
-          nt occaecati cupiditate non provident, similique sunt in culpa
-          </a>
-          nt occaecati cupiditate non provident, similique sunt in culpa
-          <span style={STYLE_FONT_FAMILY}>
-          nt occaecati cupiditate non provident, similique sunt in culpa
-          </span>
-          nt occaecati cupiditate non provident, similique sunt in culpa
-          <span style={STYLE_COLOR}>nt occaecati cupiditate</span>
-        </p>
-        <ol>
-          <li><span style={STYLE_COLOR}>uia consequuntur magni dolores eos qui rati</span></li>
-          <li><span style={STYLE_BACKGROUND_COLOR}>uia consequuntur magni dolores eos qui rati</span></li>
-          <li><b>uia consequuntur magni dolores eos qui rati</b></li>
-          <li><u>uia conseq eos qui rati <i>uuntur magni dolores</i>uuntur magni dolores</u></li>
-        </ol>
-        <p>
-          l impedit quo minus id quod maxime placeat facere pos
-          <span style={STYLE_BACKGROUND_COLOR}>l impedit quo minus id quod maxime placeat facere pos</span>
-          l impedit quo minus id quod maxime placeat facere pos
-          <a href="https://github.com/chanzuckerberg/czi-prosemirror">
-            l impedit quo minus id quod maxime placeat facere pos
-          </a>
-        </p>
-        <blockquote style={{textAlign: 'center'}}>
-          Singapura bombay for norwegian forest tom tabby.
-        </blockquote>
-        <table>
+      <table>
           <colgroup>
             <col />
             <col style={{width: '300px'}} />
@@ -143,6 +96,54 @@ class DemoAppHTMLTemplate extends React.PureComponent<any, any, any> {
             </tr>
           </tbody>
         </table>
+        <h1>At vero eos et accusamus et iusto odio dignissimos duc</h1>
+        <ol>
+          <li><span style={STYLE_COLOR}>rum quidem rerum facilis est et expedita distinctio. Nam libero tempore </span></li>
+          <li><span style={STYLE_BACKGROUND_COLOR}> minus id quod maxime placeat facere possim</span></li>
+          <li><b>nis voluptas assumenda</b></li>
+          <li><u>uuntur magni dolores <i>lynx</i> auuntur magni doloresalinese</u></li>
+        </ol>
+        <h1>nt occaecati cupiditate non provident, similique sunt in culpa</h1>
+        <p>nt occaecati cupiditate non provident, similique sunt in culpa</p>
+        <p>
+          nt occaecati cupiditate non provident, similique sunt in culpa
+          <math data-latex="x+y=2" />
+          nt occaecati cupiditate non provident, similique sunt in culpa
+        </p>
+        <p style={{lineHeight: '200%'}}>
+          <img
+            src="https://placekitten.com/200/300"
+            style={STYLE_FLOAT_LEFT}
+          />
+          nt occaecati cupiditate non provident, similique sunt in culpa
+          <a href="https://github.com/chanzuckerberg/czi-prosemirror">
+          nt occaecati cupiditate non provident, similique sunt in culpa
+          </a>
+          nt occaecati cupiditate non provident, similique sunt in culpa
+          <span style={STYLE_FONT_FAMILY}>
+          nt occaecati cupiditate non provident, similique sunt in culpa
+          </span>
+          nt occaecati cupiditate non provident, similique sunt in culpa
+          <span style={STYLE_COLOR}>nt occaecati cupiditate</span>
+        </p>
+        <ol>
+          <li><span style={STYLE_COLOR}>uia consequuntur magni dolores eos qui rati</span></li>
+          <li><span style={STYLE_BACKGROUND_COLOR}>uia consequuntur magni dolores eos qui rati</span></li>
+          <li><b>uia consequuntur magni dolores eos qui rati</b></li>
+          <li><u>uia conseq eos qui rati <i>uuntur magni dolores</i>uuntur magni dolores</u></li>
+        </ol>
+        <p>
+          l impedit quo minus id quod maxime placeat facere pos
+          <span style={STYLE_BACKGROUND_COLOR}>l impedit quo minus id quod maxime placeat facere pos</span>
+          l impedit quo minus id quod maxime placeat facere pos
+          <a href="https://github.com/chanzuckerberg/czi-prosemirror">
+            l impedit quo minus id quod maxime placeat facere pos
+          </a>
+        </p>
+        <blockquote style={{textAlign: 'center'}}>
+          Singapura bombay for norwegian forest tom tabby.
+        </blockquote>
+
       </div>
     );
   }
