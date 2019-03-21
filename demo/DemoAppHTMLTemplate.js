@@ -48,7 +48,7 @@ class DemoAppHTMLTemplate extends React.PureComponent<any, any, any> {
   render(): React.Element<any> {
     return (
       <div style={{display: 'none'}}>
-      <table>
+        <table>
           <colgroup>
             <col />
             <col style={{width: '300px'}} />
