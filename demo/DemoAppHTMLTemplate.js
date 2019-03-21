@@ -48,13 +48,6 @@ class DemoAppHTMLTemplate extends React.PureComponent<any, any, any> {
   render(): React.Element<any> {
     return (
       <div style={{display: 'none'}}>
-      </div>
-    );
-  }
-
-  xrender(): React.Element<any> {
-    return (
-      <div style={{display: 'none'}}>
         <h1>At vero eos et accusamus et iusto odio dignissimos duc</h1>
         <ol>
           <li><span style={STYLE_COLOR}>rum quidem rerum facilis est et expedita distinctio. Nam libero tempore </span></li>
