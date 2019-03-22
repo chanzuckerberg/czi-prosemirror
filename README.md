@@ -12,7 +12,7 @@
 
 ## Getting Started
 
-### Getting dependencies
+### Getting repository
 
 ```
 git clone https://github.com/chanzuckerberg/czi-prosemirror.git
@@ -74,3 +74,24 @@ class Example extends React.PureComponent {
 
 export default Example;
 ```
+
+## Use it for your own project
+
+
+This project still under active development. There will be NPM package published later.
+For now, you can use the commit hash to include the package to `package.json`.
+
+For example:
+
+```
+{
+  "dependencies": {
+    "czi-prosemirror": "chanzuckerberg/czi-prosemirror#8313aa0970b607c17019f7a5cc8df58c46e78916",
+  }
+}
+```
+
+You may find the lates commit hash at https://github.com/chanzuckerberg/czi-prosemirror/commits/master
+
+
+
