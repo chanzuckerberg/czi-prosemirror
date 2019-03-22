@@ -79,7 +79,7 @@ export default Example;
 
 
 This project still under active development. There will be NPM package published later.
-For now, you can use the commit hash to include the package to `package.json`.
+For now, you can use the commit hash to include the package to your own `package.json`.
 
 For example:
 
