@@ -12,6 +12,10 @@ var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
+var _createClass2 = require('babel-runtime/helpers/createClass');
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
 var _prosemirrorState = require('prosemirror-state');
 
 var _prosemirrorTransform = require('prosemirror-transform');
@@ -39,57 +43,67 @@ function dryRunEditorStateProxySetter(state, propKey, propValue) {
   return true;
 }
 
-var UICommand = function UICommand() {
-  var _this = this;
+var UICommand = function () {
+  function UICommand() {
+    var _this = this;
 
-  (0, _classCallCheck3.default)(this, UICommand);
+    (0, _classCallCheck3.default)(this, UICommand);
 
-  this.shouldRespondToUIEvent = function (e) {
-    return e.type === UICommand.EventType.CLICK;
-  };
+    this.shouldRespondToUIEvent = function (e) {
+      return e.type === UICommand.EventType.CLICK;
+    };
 
-  this.renderLabel = function (state) {
-    return null;
-  };
+    this.renderLabel = function (state) {
+      return null;
+    };
 
-  this.isActive = function (state) {
-    return false;
-  };
+    this.isActive = function (state) {
+      return false;
+    };
 
-  this.isEnabled = function (state, view) {
-    return _this.dryRun(state, view);
-  };
+    this.isEnabled = function (state, view) {
+      return _this.dryRun(state, view);
+    };
 
-  this.dryRun = function (state, view) {
-    var _window = window,
-        Proxy = _window.Proxy;
+    this.dryRun = function (state, view) {
+      var _window = window,
+          Proxy = _window.Proxy;
 
 
-    var dryRunState = Proxy ? new Proxy(state, {
-      get: dryRunEditorStateProxyGetter,
-      set: dryRunEditorStateProxySetter
-    }) : state;
+      var dryRunState = Proxy ? new Proxy(state, {
+        get: dryRunEditorStateProxyGetter,
+        set: dryRunEditorStateProxySetter
+      }) : state;
 
-    return _this.execute(dryRunState, null, view);
-  };
+      return _this.execute(dryRunState, null, view);
+    };
 
-  this.execute = function (state, dispatch, view, event) {
-    _this.waitForUserInput(state, dispatch, view, event).then(function (inputs) {
-      _this.executeWithUserInput(state, dispatch, view, inputs);
-    }).catch(function (error) {
-      console.error(error);
-    });
-    return false;
-  };
+    this.execute = function (state, dispatch, view, event) {
+      _this.waitForUserInput(state, dispatch, view, event).then(function (inputs) {
+        _this.executeWithUserInput(state, dispatch, view, inputs);
+      }).catch(function (error) {
+        console.error(error);
+      });
+      return false;
+    };
 
-  this.waitForUserInput = function (state, dispatch, view, event) {
-    return _promise2.default.resolve(undefined);
-  };
+    this.waitForUserInput = function (state, dispatch, view, event) {
+      return _promise2.default.resolve(undefined);
+    };
 
-  this.executeWithUserInput = function (state, dispatch, view, inputs) {
-    return false;
-  };
-};
+    this.executeWithUserInput = function (state, dispatch, view, inputs) {
+      return false;
+    };
+  }
+
+  (0, _createClass3.default)(UICommand, [{
+    key: 'cancel',
+    value: function cancel() {
+      // subclass should overwrite this.
+    }
+  }]);
+  return UICommand;
+}();
 
 UICommand.EventType = EventType;
 exports.default = UICommand;

@@ -38,7 +38,7 @@
   left: var(--czi-pop-up-anchor-offset-left);
   margin-left: -6px;
   position: absolute;
-  top: -4px;
+  top: 16px;
   transform: rotate(45deg);
   width: 8px;
   z-index: -1;

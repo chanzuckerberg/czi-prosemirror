@@ -16,6 +16,10 @@ var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
+var _createClass2 = require('babel-runtime/helpers/createClass');
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
 var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
@@ -104,6 +108,12 @@ var TableBorderColorCommand = function (_UICommand) {
     }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
   }
 
+  (0, _createClass3.default)(TableBorderColorCommand, [{
+    key: 'cancel',
+    value: function cancel() {
+      this._popUp && this._popUp.close(undefined);
+    }
+  }]);
   return TableBorderColorCommand;
 }(_UICommand3.default);
 

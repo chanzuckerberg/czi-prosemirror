@@ -28,6 +28,16 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
+var _prosemirrorState = require('prosemirror-state');
+
+var _prosemirrorTransform = require('prosemirror-transform');
+
+var _prosemirrorView = require('prosemirror-view');
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
 var _CustomMenu = require('./CustomMenu');
 
 var _CustomMenu2 = _interopRequireDefault(_CustomMenu);
@@ -36,19 +46,9 @@ var _CustomMenuItem = require('./CustomMenuItem');
 
 var _CustomMenuItem2 = _interopRequireDefault(_CustomMenuItem);
 
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
 var _UICommand = require('./UICommand');
 
 var _UICommand2 = _interopRequireDefault(_UICommand);
-
-var _prosemirrorState = require('prosemirror-state');
-
-var _prosemirrorView = require('prosemirror-view');
-
-var _prosemirrorTransform = require('prosemirror-transform');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -66,8 +66,10 @@ var CommandMenu = function (_React$PureComponent) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = CommandMenu.__proto__ || (0, _getPrototypeOf2.default)(CommandMenu)).call.apply(_ref, [this].concat(args))), _this), _this._onUIEnter = function (command, event) {
+    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = CommandMenu.__proto__ || (0, _getPrototypeOf2.default)(CommandMenu)).call.apply(_ref, [this].concat(args))), _this), _this._activeCommand = null, _this._onUIEnter = function (command, event) {
       if (command.shouldRespondToUIEvent(event)) {
+        _this._activeCommand && _this._activeCommand.cancel();
+        _this._activeCommand = command;
         _this._execute(command, event);
       }
     }, _this._execute = function (command, e) {
