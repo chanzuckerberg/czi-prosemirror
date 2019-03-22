@@ -1,14 +1,17 @@
 // @flow
 
+import {EditorState} from 'prosemirror-state';
+import {Transform} from 'prosemirror-transform';
+import {EditorView} from 'prosemirror-view';
+import React from 'react';
+
 import CustomMenu from './CustomMenu';
 import CustomMenuItem from './CustomMenuItem';
-import React from 'react';
 import UICommand from './UICommand';
-import {EditorState} from 'prosemirror-state';
-import {EditorView} from 'prosemirror-view';
-import {Transform} from 'prosemirror-transform';
 
 class CommandMenu extends React.PureComponent<any, any, any> {
+
+  _activeCommand: ?UICommand = null;
 
   props: {
     commandGroups: Array<{[string]: UICommand}>,
@@ -59,6 +62,8 @@ class CommandMenu extends React.PureComponent<any, any, any> {
 
   _onUIEnter = (command: UICommand, event: SyntheticEvent): void => {
     if (command.shouldRespondToUIEvent(event)) {
+      this._activeCommand && this._activeCommand.cancel();
+      this._activeCommand = command;
       this._execute(command, event);
     }
   };

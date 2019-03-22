@@ -66,6 +66,10 @@ class TableBorderColorCommand extends UICommand {
     }
     return false;
   };
+
+  cancel(): void {
+    this._popUp && this._popUp.close(undefined);
+  }
 }
 
 export default TableBorderColorCommand;

@@ -110,6 +110,10 @@ class UICommand {
   ): boolean => {
     return false;
   };
+
+  cancel(): void {
+    // subclass should overwrite this.
+  }
 }
 
 export default UICommand;
