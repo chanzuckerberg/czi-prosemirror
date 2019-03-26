@@ -33,31 +33,32 @@ var _patchTableElements = require('./patchTableElements');
 
 var _patchTableElements2 = _interopRequireDefault(_patchTableElements);
 
+var _toSafeHTMLDocument = require('./toSafeHTMLDocument');
+
+var _toSafeHTMLDocument2 = _interopRequireDefault(_toSafeHTMLDocument);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var HTML_BODY_PATTERN = /<body[\s>]/i;
+var LONG_UNDERLINE_PATTERN = /_+/g;
+
+function replaceNOBR(matched) {
+  // This is a workround to convert "_______" into none-wrapped text
+  // that apppears like a horizontal line.
+  if (matched && matched.length >= 20) {
+    // needs extra space after it so user can escape the <nobr />.
+    matched = '<nobr>' + String(matched) + '</nobr> ';
+  }
+  return matched;
+}
 
 function normalizeHTML(html) {
   var body = null;
 
-  var sourceIsPage = /<body[\s>]/i.test(html);
-
-  // Provides a dom node that will not execute scripts
-  // https://developer.mozilla.org/en-US/docs/Web/API/DOMImplementation.createHTMLDocument
-  // https://developer.mozilla.org/en-US/Add-ons/Code_snippets/HTML_to_DOM
-  if (typeof document !== 'undefined' && document.implementation && document.implementation.createHTMLDocument) {
-    html = html.replace(/_+/g, function (matched) {
-      // This is a workround to convert "_______" into none-wrapped text
-      // that apppears like a horizontal line.
-      if (matched && matched.length >= 20) {
-        // needs extra space after it so user can escape the <nobr />.
-        matched = '<nobr>' + String(matched) + '</nobr> ';
-      }
-      return matched;
-    });
-
-    var doc = document.implementation.createHTMLDocument('');
-    doc.open();
-    doc.write(html);
-    doc.close();
+  var sourceIsPage = HTML_BODY_PATTERN.test(html);
+  html = html.replace(LONG_UNDERLINE_PATTERN, replaceNOBR);
+  var doc = (0, _toSafeHTMLDocument2.default)(html);
+  if (doc) {
     // styles.
     (0, _patchStyleElements2.default)(doc);
     (0, _patchElementInlineStyles2.default)(doc);
