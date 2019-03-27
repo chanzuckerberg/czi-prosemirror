@@ -138,7 +138,8 @@ if (typeof exports !== 'undefined') Object.defineProperty(exports, 'babelPluginF
     nodeViews: require('prop-types').shape({}),
     placeholder: require('prop-types').oneOfType([require('prop-types').string, require('prop-types').any]),
     readOnly: require('prop-types').bool,
-    runtime: babelPluginFlowReactPropTypes_proptype_EditorRuntime
+    runtime: babelPluginFlowReactPropTypes_proptype_EditorRuntime,
+    transformPastedHTML: require('prop-types').func
   })
 });
 
@@ -238,7 +239,8 @@ var Editor = function (_React$PureComponent) {
           placeholder = _props.placeholder,
           disabled = _props.disabled,
           dispatchTransaction = _props.dispatchTransaction,
-          nodeViews = _props.nodeViews;
+          nodeViews = _props.nodeViews,
+          transformPastedHTML = _props.transformPastedHTML;
 
 
       var editorNode = document.getElementById(this._id);
@@ -264,7 +266,7 @@ var Editor = function (_React$PureComponent) {
           editable: this._isEditable,
           nodeViews: boundNodeViews,
           state: editorState || EDITOR_EMPTY_STATE,
-          transformPastedHTML: _normalizeHTML2.default,
+          transformPastedHTML: transformPastedHTML,
           handleDOMEvents: handleDOMEvents
         });
 
@@ -347,4 +349,7 @@ var Editor = function (_React$PureComponent) {
 }(_react2.default.PureComponent);
 
 Editor.EDITOR_EMPTY_STATE = EDITOR_EMPTY_STATE;
+Editor.defautProps = {
+  transformPastedHTML: _normalizeHTML2.default
+};
 exports.default = Editor;
