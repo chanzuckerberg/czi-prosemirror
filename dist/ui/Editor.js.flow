@@ -44,6 +44,7 @@ export type EditorProps = {
   placeholder?: ?(string | React.Element<any>),
   readOnly?: ?boolean,
   runtime?: ?EditorRuntime,
+  transformPastedHTML?: (html: string) => string,
 };
 
 const AUTO_FOCUS_DELAY = 350;
@@ -111,11 +112,16 @@ class Editor extends React.PureComponent<any, any, any> {
     isPrinting: false,
   };
 
+  static defautProps = {
+    transformPastedHTML: normalizeHTML,
+  };
+
   componentDidMount(): void {
     const {
       onReady, editorState, readOnly,
       runtime, placeholder, disabled,
       dispatchTransaction, nodeViews,
+      transformPastedHTML,
     } = this.props;
 
     const editorNode = document.getElementById(this._id);
@@ -144,7 +150,7 @@ class Editor extends React.PureComponent<any, any, any> {
         editable: this._isEditable,
         nodeViews: boundNodeViews,
         state: editorState || EDITOR_EMPTY_STATE,
-        transformPastedHTML: normalizeHTML,
+        transformPastedHTML,
         handleDOMEvents,
       });
 
