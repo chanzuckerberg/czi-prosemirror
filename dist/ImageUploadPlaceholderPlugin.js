@@ -50,8 +50,6 @@ require('./ui/czi-image-upload-placeholder.css');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var babelPluginFlowReactPropTypes_proptype_ImageLike = require('./Types').babelPluginFlowReactPropTypes_proptype_ImageLike || require('prop-types').any;
-
 var IMAGE_FILE_TYLES = new _set2.default(['image/jpeg', 'image/gif', 'image/png', 'image/jpg']);
 
 var TITLE = 'Uploading...';

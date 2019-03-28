@@ -12,8 +12,6 @@ import uuid from './ui/uuid';
 
 import './ui/czi-image-upload-placeholder.css';
 
-import type {ImageLike} from './Types';
-
 const IMAGE_FILE_TYLES = new Set([
   'image/jpeg',
   'image/gif',
