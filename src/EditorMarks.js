@@ -45,11 +45,14 @@ const nodes = {
 };
 
 const marks = {
+  // Link mark should be rendered first.
+  // https://discuss.prosemirror.net/t/prevent-marks-from-breaking-up-links/401/5
+  [MARK_LINK]: LinkMarkSpec,
+  [MARK_NO_BREAK]: TextNoWrapMarkSpec,
   [MARK_CODE]: CodeMarkSpec,
   [MARK_EM]: EMMarkSpec,
   [MARK_FONT_SIZE]: FontSizeMarkSpec,
   [MARK_FONT_TYPE]: FontTypeMarkSpec,
-  [MARK_LINK]: LinkMarkSpec,
   [MARK_SPACER]: SpacerMarkSpec,
   [MARK_STRIKE]: StrikeMarkSpec,
   [MARK_STRONG]: StrongMarkSpec,
@@ -58,7 +61,6 @@ const marks = {
   [MARK_TEXT_HIGHLIGHT]: TextHighlightMarkSpec,
   [MARK_TEXT_SELECTION]: TextSelectionMarkSpec,
   [MARK_UNDERLINE]: TextUnderlineMarkSpec,
-  [MARK_NO_BREAK]: TextNoWrapMarkSpec,
 };
 
 const schema = new Schema({nodes, marks});
