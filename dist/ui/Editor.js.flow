@@ -114,7 +114,7 @@ class Editor extends React.PureComponent<any, any, any> {
 
   static defautProps = {
     transformPastedHTML: normalizeHTML,
-  }
+  };
 
   componentDidMount(): void {
     const {
