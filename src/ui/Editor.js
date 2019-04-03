@@ -38,6 +38,7 @@ export type EditorProps = {
   embedded?: ?boolean,
   onBlur?: ?() => void,
   onChange?: ?(state: EditorState) => void,
+  onClick?: ?() => void,
   onReady?: ?(view: EditorView) => void,
   // Mapping for custom node views.
   nodeViews?: ?{[nodeName: string]: CustomNodeView},
@@ -213,7 +214,7 @@ class Editor extends React.PureComponent<any, any, any> {
   }
 
   render(): React.Element<any> {
-    const {embedded, readOnly} = this.props;
+    const {embedded, onClick, readOnly} = this.props;
     const className = cx('prosemirror-editor-wrapper', {embedded, readOnly});
     return (
       <div
@@ -221,6 +222,7 @@ class Editor extends React.PureComponent<any, any, any> {
         data-czi-prosemirror-editor-id={this._id}
         id={this._id}
         onBlur={this._onBlur}
+        onClick={onClick}
       />
     );
   }

@@ -134,6 +134,7 @@ if (typeof exports !== 'undefined') Object.defineProperty(exports, 'babelPluginF
     embedded: require('prop-types').bool,
     onBlur: require('prop-types').func,
     onChange: require('prop-types').func,
+    onClick: require('prop-types').func,
     onReady: require('prop-types').func,
     nodeViews: require('prop-types').shape({}),
     placeholder: require('prop-types').oneOfType([require('prop-types').string, require('prop-types').any]),
@@ -334,6 +335,7 @@ var Editor = function (_React$PureComponent) {
     value: function render() {
       var _props3 = this.props,
           embedded = _props3.embedded,
+          onClick = _props3.onClick,
           readOnly = _props3.readOnly;
 
       var className = (0, _classnames2.default)('prosemirror-editor-wrapper', { embedded: embedded, readOnly: readOnly });
@@ -341,7 +343,8 @@ var Editor = function (_React$PureComponent) {
         className: className,
         'data-czi-prosemirror-editor-id': this._id,
         id: this._id,
-        onBlur: this._onBlur
+        onBlur: this._onBlur,
+        onClick: onClick
       });
     }
   }]);
