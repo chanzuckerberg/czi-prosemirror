@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.FONT_PT_SIZES = undefined;
 
 var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
 
@@ -48,7 +49,7 @@ var _findActiveFontSize2 = _interopRequireDefault(_findActiveFontSize);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var FONT_PT_SIZES = [8, 9, 10, 11, 12, 14, 18, 24, 30, 36, 48, 60, 72, 90];
+var FONT_PT_SIZES = exports.FONT_PT_SIZES = [8, 9, 10, 11, 12, 14, 18, 24, 30, 36, 48, 60, 72, 90];
 
 var FONT_PT_SIZE_COMMANDS = FONT_PT_SIZES.reduce(function (memo, size) {
   memo[' ' + size + ' '] = new _FontSizeCommand2.default(size);

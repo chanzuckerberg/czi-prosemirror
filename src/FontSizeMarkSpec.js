@@ -2,7 +2,7 @@
 
 import {Node} from 'prosemirror-model';
 
-import convertToCSSPTValue from './convertToCSSPTValue';
+import {toClosestFontPtSize} from './convertToCSSPTValue';
 
 import type {MarkSpec} from './Types';
 
@@ -31,7 +31,7 @@ function getAttrs(fontSize: string): Object {
     return attrs;
   }
 
-  const ptValue = convertToCSSPTValue(fontSize);
+  const ptValue = toClosestFontPtSize(fontSize);
   if (!ptValue) {
     return attrs;
   }
