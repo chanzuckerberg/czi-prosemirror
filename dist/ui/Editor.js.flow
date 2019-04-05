@@ -112,7 +112,7 @@ class Editor extends React.PureComponent<any, any, any> {
     isPrinting: false,
   };
 
-  static defautProps = {
+  static defaultProps = {
     transformPastedHTML: normalizeHTML,
   };
 
