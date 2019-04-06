@@ -59,7 +59,7 @@ function getRootElement(
   forceCreation: boolean,
   popUpParams: ?PopUpParams,
 ): ?HTMLElement {
-  const root: any = document.body || document.documentElement;
+  const root: any = (popUpParams && popUpParams.container) || document.body || document.documentElement;
   let element = document.getElementById(id);
   if (!element && forceCreation) {
     element = document.createElement('div');

@@ -481,6 +481,7 @@ var ImageViewBody = function (_React$PureComponent) {
         this._inlineEditor = (0, _createPopUp2.default)(_ImageInlineEditor2.default, editorProps, {
           anchor: el,
           autoDismiss: false,
+          container: el.closest('.czi-editor-frame-body'),
           position: _PopUpPosition.atAnchorBottomCenter,
           onClose: function onClose() {
             _this3._inlineEditor = null;

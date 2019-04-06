@@ -85,7 +85,7 @@ function hideModalMask() {
 }
 
 function getRootElement(id, forceCreation, popUpParams) {
-  var root = document.body || document.documentElement;
+  var root = popUpParams && popUpParams.container || document.body || document.documentElement;
   var element = document.getElementById(id);
   if (!element && forceCreation) {
     element = document.createElement('div');
