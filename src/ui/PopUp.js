@@ -16,6 +16,7 @@ export type ViewProps = Object;
 export type PopUpParams = {
   anchor?: any,
   autoDismiss?: ?boolean,
+  container?: ?Element,
   modal?: ?boolean,
   onClose?: ?(val: any) => void,
   position?: ?PositionHandler,
