@@ -15,6 +15,8 @@ export type EditorFramesetProps  = {
   width: ?(string | number),
 };
 
+export const FRAMESET_BODY_CLASSNAME = 'czi-editor-frame-body';
+
 function toCSS(val: ?(number|string)): string {
   if (typeof val === 'number') {
     return val + 'px';
@@ -67,7 +69,7 @@ class EditorFrameset extends React.PureComponent<any, any, any> {
             {header}
             {toolbarHeader}
           </div>
-          <div className="czi-editor-frame-body">
+          <div className={FRAMESET_BODY_CLASSNAME}>
             {toolbarBody}
             <div className="czi-editor-frame-body-scroll">
               {body}

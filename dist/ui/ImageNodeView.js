@@ -72,8 +72,6 @@ var _ImageResizeBox = require('./ImageResizeBox');
 
 var _ImageResizeBox2 = _interopRequireDefault(_ImageResizeBox);
 
-var _PopUpPosition = require('./PopUpPosition');
-
 var _ResizeObserver = require('./ResizeObserver');
 
 var _ResizeObserver2 = _interopRequireDefault(_ResizeObserver);
@@ -89,6 +87,10 @@ var _resolveImage2 = _interopRequireDefault(_resolveImage);
 var _uuid = require('./uuid');
 
 var _uuid2 = _interopRequireDefault(_uuid);
+
+var _EditorFrameset = require('./EditorFrameset');
+
+var _PopUpPosition = require('./PopUpPosition');
 
 require('./czi-image-view.css');
 
@@ -481,7 +483,7 @@ var ImageViewBody = function (_React$PureComponent) {
         this._inlineEditor = (0, _createPopUp2.default)(_ImageInlineEditor2.default, editorProps, {
           anchor: el,
           autoDismiss: false,
-          container: el.closest('.czi-editor-frame-body'),
+          container: el.closest('.' + _EditorFrameset.FRAMESET_BODY_CLASSNAME),
           position: _PopUpPosition.atAnchorBottomCenter,
           onClose: function onClose() {
             _this3._inlineEditor = null;

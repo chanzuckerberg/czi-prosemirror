@@ -64,6 +64,8 @@ var _uuid2 = _interopRequireDefault(_uuid);
 
 var _prosemirrorView = require('prosemirror-view');
 
+var _EditorFrameset = require('./EditorFrameset');
+
 var _prosemirrorModel = require('prosemirror-model');
 
 var _PopUpPosition = require('./PopUpPosition');
@@ -190,7 +192,7 @@ var MathViewBody = function (_React$PureComponent) {
         this._inlineEditor = (0, _createPopUp2.default)(_MathInlineEditor2.default, editorProps, {
           anchor: el,
           autoDismiss: false,
-          container: el.closest('.czi-editor-frame-body'),
+          container: el.closest('.' + _EditorFrameset.FRAMESET_BODY_CLASSNAME),
           position: _PopUpPosition.atAnchorBottomCenter,
           onClose: function onClose() {
             _this2._inlineEditor = null;
