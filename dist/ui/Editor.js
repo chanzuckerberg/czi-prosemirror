@@ -349,7 +349,7 @@ var Editor = function (_React$PureComponent) {
 }(_react2.default.PureComponent);
 
 Editor.EDITOR_EMPTY_STATE = EDITOR_EMPTY_STATE;
-Editor.defautProps = {
+Editor.defaultProps = {
   transformPastedHTML: _normalizeHTML2.default
 };
 exports.default = Editor;
