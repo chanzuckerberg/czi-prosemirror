@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.FRAMESET_BODY_CLASSNAME = undefined;
 
 var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
 
@@ -48,7 +49,7 @@ if (typeof exports !== 'undefined') Object.defineProperty(exports, 'babelPluginF
     width: require('prop-types').oneOfType([require('prop-types').string, require('prop-types').number])
   })
 });
-
+var FRAMESET_BODY_CLASSNAME = exports.FRAMESET_BODY_CLASSNAME = 'czi-editor-frame-body';
 
 function toCSS(val) {
   if (typeof val === 'number') {
@@ -112,7 +113,7 @@ var EditorFrameset = function (_React$PureComponent) {
           ),
           _react2.default.createElement(
             'div',
-            { className: 'czi-editor-frame-body' },
+            { className: FRAMESET_BODY_CLASSNAME },
             toolbarBody,
             _react2.default.createElement(
               'div',

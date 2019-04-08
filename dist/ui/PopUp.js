@@ -52,6 +52,7 @@ if (typeof exports !== 'undefined') Object.defineProperty(exports, 'babelPluginF
   value: require('prop-types').shape({
     anchor: require('prop-types').any,
     autoDismiss: require('prop-types').bool,
+    container: require('prop-types').any,
     modal: require('prop-types').bool,
     onClose: require('prop-types').func,
     position: require('prop-types').func
@@ -64,6 +65,7 @@ if (typeof exports !== 'undefined') Object.defineProperty(exports, 'babelPluginF
     popUpParams: require('prop-types').shape({
       anchor: require('prop-types').any,
       autoDismiss: require('prop-types').bool,
+      container: require('prop-types').any,
       modal: require('prop-types').bool,
       onClose: require('prop-types').func,
       position: require('prop-types').func

@@ -9,13 +9,14 @@ import ReactDOM from 'react-dom';
 import CustomNodeView from './CustomNodeView';
 import Icon from './Icon';
 import ImageInlineEditor from './ImageInlineEditor';
-import {MIN_SIZE} from './ImageResizeBox';
 import ImageResizeBox from './ImageResizeBox';
-import {atAnchorBottomCenter} from './PopUpPosition';
 import ResizeObserver from './ResizeObserver';
 import createPopUp from './createPopUp';
 import resolveImage from './resolveImage';
 import uuid from './uuid';
+import {FRAMESET_BODY_CLASSNAME} from './EditorFrameset';
+import {MIN_SIZE} from './ImageResizeBox';
+import {atAnchorBottomCenter} from './PopUpPosition';
 
 import './czi-image-view.css';
 
@@ -259,6 +260,7 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
       this._inlineEditor = createPopUp(ImageInlineEditor, editorProps, {
         anchor: el,
         autoDismiss: false,
+        container: el.closest(`.${FRAMESET_BODY_CLASSNAME}`),
         position: atAnchorBottomCenter,
         onClose: () => {
           this._inlineEditor = null;

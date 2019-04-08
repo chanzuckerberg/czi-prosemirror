@@ -59,7 +59,7 @@ function getRootElement(
   forceCreation: boolean,
   popUpParams: ?PopUpParams,
 ): ?HTMLElement {
-  const root: any = document.body || document.documentElement;
+  const root: any = (popUpParams && popUpParams.container) || document.body || document.documentElement;
   let element = document.getElementById(id);
   if (!element && forceCreation) {
     element = document.createElement('div');
@@ -79,7 +79,9 @@ function getRootElement(
 
   const style: any = element.style;
   const modalZIndexOffset = (popUpParams && popUpParams.modal) ? 1 : 0;
-  style.zIndex = (Z_INDEX_BASE + popUpsCount * 3 + modalZIndexOffset);
+  if (!(popUpParams && popUpParams.container)) {
+    style.zIndex = (Z_INDEX_BASE + popUpsCount * 3 + modalZIndexOffset);
+  }
 
   // Populates the default ARIA attributes here.
   // http://accessibility.athena-ict.com/aria/examples/dialog.shtml
