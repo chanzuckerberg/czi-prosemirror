@@ -8,10 +8,6 @@ var _prosemirrorModel = require('prosemirror-model');
 
 var _convertToCSSPTValue = require('./convertToCSSPTValue');
 
-var _convertToCSSPTValue2 = _interopRequireDefault(_convertToCSSPTValue);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 var babelPluginFlowReactPropTypes_proptype_MarkSpec = require('./Types').babelPluginFlowReactPropTypes_proptype_MarkSpec || require('prop-types').any;
 
 var FontSizeMarkSpec = {
@@ -38,7 +34,7 @@ function getAttrs(fontSize) {
     return attrs;
   }
 
-  var ptValue = (0, _convertToCSSPTValue2.default)(fontSize);
+  var ptValue = (0, _convertToCSSPTValue.toClosestFontPtSize)(fontSize);
   if (!ptValue) {
     return attrs;
   }
