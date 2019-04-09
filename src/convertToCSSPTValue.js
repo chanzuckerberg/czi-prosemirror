@@ -30,18 +30,7 @@ export function toClosestFontPtSize(styleValue: string): number {
     return originalPTValue;
   }
 
-  const largerValueIndex = FONT_PT_SIZES.findIndex(element => element > originalPTValue);
-  if (largerValueIndex < 0) {
-    return FONT_PT_SIZES[FONT_PT_SIZES.length - 1];
-  } else if (largerValueIndex === 0) {
-    return FONT_PT_SIZES[0];
-  } else {
-    const largerValue = FONT_PT_SIZES[largerValueIndex];
-    const smallerValue = FONT_PT_SIZES[largerValueIndex - 1];
-    if (largerValue - originalPTValue < originalPTValue - smallerValue) {
-      return largerValue;
-    } else {
-      return smallerValue;
-    }
-  }
+  return FONT_PT_SIZES.reduce((prev, curr) => {
+    return Math.abs(curr - originalPTValue) < Math.abs(prev - originalPTValue) ? curr : prev;
+  }, Number.NEGATIVE_INFINITY);
 }

@@ -37,20 +37,7 @@ function toClosestFontPtSize(styleValue) {
     return originalPTValue;
   }
 
-  var largerValueIndex = _FontSizeCommandMenuButton.FONT_PT_SIZES.findIndex(function (element) {
-    return element > originalPTValue;
-  });
-  if (largerValueIndex < 0) {
-    return _FontSizeCommandMenuButton.FONT_PT_SIZES[_FontSizeCommandMenuButton.FONT_PT_SIZES.length - 1];
-  } else if (largerValueIndex === 0) {
-    return _FontSizeCommandMenuButton.FONT_PT_SIZES[0];
-  } else {
-    var largerValue = _FontSizeCommandMenuButton.FONT_PT_SIZES[largerValueIndex];
-    var smallerValue = _FontSizeCommandMenuButton.FONT_PT_SIZES[largerValueIndex - 1];
-    if (largerValue - originalPTValue < originalPTValue - smallerValue) {
-      return largerValue;
-    } else {
-      return smallerValue;
-    }
-  }
+  return _FontSizeCommandMenuButton.FONT_PT_SIZES.reduce(function (prev, curr) {
+    return Math.abs(curr - originalPTValue) < Math.abs(prev - originalPTValue) ? curr : prev;
+  }, Number.NEGATIVE_INFINITY);
 }
