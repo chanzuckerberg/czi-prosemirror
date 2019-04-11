@@ -27,9 +27,8 @@ function renderAttributes(editorState: EditorState): Object {
       style += `padding-right: ${padding}pt;`;
     }
     attrs.style = style;
-  } else {
-    attrs[ATTRIBUTE_LAYOUT] = layout || LAYOUT.US_LETTER_PORTRAIT;
   }
+  attrs[ATTRIBUTE_LAYOUT] = layout || LAYOUT.US_LETTER_PORTRAIT;
   return attrs;
 }
 

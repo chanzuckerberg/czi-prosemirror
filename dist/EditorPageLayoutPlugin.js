@@ -54,9 +54,8 @@ function renderAttributes(editorState) {
       style += 'padding-right: ' + padding + 'pt;';
     }
     attrs.style = style;
-  } else {
-    attrs[_DocNodeSpec.ATTRIBUTE_LAYOUT] = layout || _DocNodeSpec.LAYOUT.US_LETTER_PORTRAIT;
   }
+  attrs[_DocNodeSpec.ATTRIBUTE_LAYOUT] = layout || _DocNodeSpec.LAYOUT.US_LETTER_PORTRAIT;
   return attrs;
 }
 
