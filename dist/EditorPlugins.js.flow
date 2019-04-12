@@ -15,17 +15,11 @@ import EditorSchema from './EditorSchema';
 import ImageUploadPlaceholderPlugin  from './ImageUploadPlaceholderPlugin';
 import LinkTooltipPlugin from './LinkTooltipPlugin';
 import SelectionPlaceholderPlugin from './SelectionPlaceholderPlugin';
-import TableCellMenuPlugin from './TableCellMenuPlugin';
+import TablePlugins from './TablePlugins';
 import buildInputRules from './buildInputRules';
 import createEditorKeyMap from './createEditorKeyMap';
 
-const {
-  columnResizing,
-  tableEditing,
-} = ProsemirrorTables;
-
 function buildPlugins(schema: Schema): Array<Plugin> {
-
   const plugins = [
     new ContentPlaceholderPlugin(),
     new CursorPlaceholderPlugin(),
@@ -33,7 +27,6 @@ function buildPlugins(schema: Schema): Array<Plugin> {
     new ImageUploadPlaceholderPlugin(),
     new LinkTooltipPlugin(),
     new SelectionPlaceholderPlugin(),
-    new TableCellMenuPlugin(),
 
     buildInputRules(schema),
     dropCursor(),
@@ -42,12 +35,7 @@ function buildPlugins(schema: Schema): Array<Plugin> {
 
     keymap(createEditorKeyMap()),
     keymap(baseKeymap),
-
-    // Tables
-    // https://github.com/ProseMirror/prosemirror-tables/blob/master/demo.js
-    columnResizing(),
-    tableEditing(),
-  ];
+  ].concat(TablePlugins);
 
   return plugins;
 }

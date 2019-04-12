@@ -35,7 +35,7 @@ function findActiveFontType(state) {
 
 
   if (empty) {
-    var storedMarks = tr.storedMarks || state.storedMarks || selection.$cursor.marks() || [];
+    var storedMarks = tr.storedMarks || state.storedMarks || selection.$cursor && selection.$cursor.marks && selection.$cursor.marks() || [];
     var sm = storedMarks.find(function (m) {
       return m.type === markType;
     });

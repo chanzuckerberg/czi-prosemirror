@@ -50,9 +50,9 @@ var _SelectionPlaceholderPlugin = require('./SelectionPlaceholderPlugin');
 
 var _SelectionPlaceholderPlugin2 = _interopRequireDefault(_SelectionPlaceholderPlugin);
 
-var _TableCellMenuPlugin = require('./TableCellMenuPlugin');
+var _TablePlugins = require('./TablePlugins');
 
-var _TableCellMenuPlugin2 = _interopRequireDefault(_TableCellMenuPlugin);
+var _TablePlugins2 = _interopRequireDefault(_TablePlugins);
 
 var _buildInputRules = require('./buildInputRules');
 
@@ -66,17 +66,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-var columnResizing = ProsemirrorTables.columnResizing,
-    tableEditing = ProsemirrorTables.tableEditing;
-
-
 function buildPlugins(schema) {
-
-  var plugins = [new _ContentPlaceholderPlugin2.default(), new _CursorPlaceholderPlugin2.default(), new _EditorPageLayoutPlugin2.default(), new _ImageUploadPlaceholderPlugin2.default(), new _LinkTooltipPlugin2.default(), new _SelectionPlaceholderPlugin2.default(), new _TableCellMenuPlugin2.default(), (0, _buildInputRules2.default)(schema), (0, _prosemirrorDropcursor.dropCursor)(), (0, _prosemirrorGapcursor.gapCursor)(), (0, _prosemirrorHistory.history)(), (0, _prosemirrorKeymap.keymap)((0, _createEditorKeyMap2.default)()), (0, _prosemirrorKeymap.keymap)(_prosemirrorCommands.baseKeymap),
-
-  // Tables
-  // https://github.com/ProseMirror/prosemirror-tables/blob/master/demo.js
-  columnResizing(), tableEditing()];
+  var plugins = [new _ContentPlaceholderPlugin2.default(), new _CursorPlaceholderPlugin2.default(), new _EditorPageLayoutPlugin2.default(), new _ImageUploadPlaceholderPlugin2.default(), new _LinkTooltipPlugin2.default(), new _SelectionPlaceholderPlugin2.default(), (0, _buildInputRules2.default)(schema), (0, _prosemirrorDropcursor.dropCursor)(), (0, _prosemirrorGapcursor.gapCursor)(), (0, _prosemirrorHistory.history)(), (0, _prosemirrorKeymap.keymap)((0, _createEditorKeyMap2.default)()), (0, _prosemirrorKeymap.keymap)(_prosemirrorCommands.baseKeymap)].concat(_TablePlugins2.default);
 
   return plugins;
 }

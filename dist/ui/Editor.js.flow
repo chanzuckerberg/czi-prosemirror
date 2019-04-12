@@ -11,7 +11,7 @@ import webfontloader from 'webfontloader';
 import 'prosemirror-gapcursor/style/gapcursor.css';
 import 'prosemirror-view/style/prosemirror.css';
 
-import {registerEditorView, releaseEditorView} from '../CZIProseMirror';
+import {registerEditorView, registeryKeys, releaseEditorView} from '../CZIProseMirror';
 import {BOOKMARK, IMAGE, MATH} from '../NodeNames';
 import WebFontLoader from '../WebFontLoader';
 import createEmptyEditorState from '../createEmptyEditorState';
@@ -45,6 +45,13 @@ export type EditorProps = {
   readOnly?: ?boolean,
   runtime?: ?EditorRuntime,
   transformPastedHTML?: (html: string) => string,
+};
+
+// Export utilities for debugging.
+window.CZIProseMirror = {
+  importJSON,
+  exportJSON,
+  registeryKeys,
 };
 
 const AUTO_FOCUS_DELAY = 350;

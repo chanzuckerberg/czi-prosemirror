@@ -125,6 +125,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var babelPluginFlowReactPropTypes_proptype_EditorRuntime = require('../Types').babelPluginFlowReactPropTypes_proptype_EditorRuntime || require('prop-types').any;
 
+// Export utilities for debugging.
 if (typeof exports !== 'undefined') Object.defineProperty(exports, 'babelPluginFlowReactPropTypes_proptype_EditorProps', {
   value: require('prop-types').shape({
     autoFocus: require('prop-types').bool,
@@ -142,7 +143,11 @@ if (typeof exports !== 'undefined') Object.defineProperty(exports, 'babelPluginF
     transformPastedHTML: require('prop-types').func
   })
 });
-
+window.CZIProseMirror = {
+  importJSON: importJSON,
+  exportJSON: exportJSON,
+  registeryKeys: _CZIProseMirror.registeryKeys
+};
 
 var AUTO_FOCUS_DELAY = 350;
 
