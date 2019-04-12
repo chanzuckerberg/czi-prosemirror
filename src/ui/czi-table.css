@@ -63,7 +63,6 @@
   z-index: 2;
 }
 
-
 @media only print {
   .ProseMirror table {
     width: 100% !important;
