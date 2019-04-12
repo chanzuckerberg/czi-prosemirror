@@ -67,6 +67,12 @@
     z-index: 1;
   }
 
+  .ProseMirror:not([data-layout]) {
+    min-height: 279mm;
+    padding-bottom: 15.5mm;
+    padding-top: 15.5mm;
+  }
+
   .ProseMirror[data-layout="us_letter_portrait"] {
     min-height: 279mm;
     padding: 15.5mm;
