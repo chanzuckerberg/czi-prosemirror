@@ -104,7 +104,9 @@
 @media only print {
   .ProseMirror[data-layout],
   .ProseMirror .czi-editor-body {
+    margin: 15.5mm !important;
     min-height: 0;
+    padding: auto !important;
     width: auto !important;
   }
 }
