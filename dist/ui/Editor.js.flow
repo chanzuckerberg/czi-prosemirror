@@ -11,7 +11,7 @@ import webfontloader from 'webfontloader';
 import 'prosemirror-gapcursor/style/gapcursor.css';
 import 'prosemirror-view/style/prosemirror.css';
 
-import {registerEditorView, registeryKeys, releaseEditorView} from '../CZIProseMirror';
+import {exportJSON, registerEditorView, registeryKeys, releaseEditorView} from '../CZIProseMirror';
 import {BOOKMARK, IMAGE, MATH} from '../NodeNames';
 import WebFontLoader from '../WebFontLoader';
 import createEmptyEditorState from '../createEmptyEditorState';
@@ -49,7 +49,6 @@ export type EditorProps = {
 
 // Export utilities for debugging.
 window.CZIProseMirror = {
-  importJSON,
   exportJSON,
   registeryKeys,
 };

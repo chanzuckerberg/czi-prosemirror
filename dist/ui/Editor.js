@@ -144,8 +144,7 @@ if (typeof exports !== 'undefined') Object.defineProperty(exports, 'babelPluginF
   })
 });
 window.CZIProseMirror = {
-  importJSON: importJSON,
-  exportJSON: exportJSON,
+  exportJSON: _CZIProseMirror.exportJSON,
   registeryKeys: _CZIProseMirror.registeryKeys
 };
 
