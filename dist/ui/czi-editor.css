@@ -99,6 +99,11 @@
   width: unset;
 }
 
+@media only print {
+  .ProseMirror[data-layout] {
+    min-height: 0;
+  }
+}
 
 /* Content Styles *************************************************************/
 
