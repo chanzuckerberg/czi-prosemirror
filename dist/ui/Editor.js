@@ -190,6 +190,8 @@ function getSchema(editorState) {
   return editorState ? editorState.schema : EDITOR_EMPTY_STATE.schema;
 }
 
+var printStyleSheet = null;
+
 var Editor = function (_React$PureComponent) {
   (0, _inherits3.default)(Editor, _React$PureComponent);
 
@@ -227,8 +229,21 @@ var Editor = function (_React$PureComponent) {
       return !isPrinting && !!_this._editorView && !readOnly && !disabled;
     }, _this._onPrintStart = function () {
       _this.setState({ isPrinting: true });
+      if (!printStyleSheet) {
+        var cssText = '@page {margin-left: 0; margin-right: 0;}';
+        printStyleSheet = document.createElement('style');
+        printStyleSheet.append(document.createTextNode(cssText));
+        document.head && document.head.append(printStyleSheet);
+      }
     }, _this._onPrintEnd = function () {
       _this.setState({ isPrinting: false });
+      if (printStyleSheet) {
+        var _printStyleSheet = printStyleSheet,
+            parentElement = _printStyleSheet.parentElement;
+
+        parentElement && parentElement.removeChild(printStyleSheet);
+        printStyleSheet = null;
+      }
     }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
   }
 

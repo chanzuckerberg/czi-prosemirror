@@ -104,6 +104,8 @@ function getSchema(editorState: ?EditorState): Schema {
   return editorState ? editorState.schema : EDITOR_EMPTY_STATE.schema;
 }
 
+let printStyleSheet = null;
+
 class Editor extends React.PureComponent<any, any, any> {
 
   static EDITOR_EMPTY_STATE = EDITOR_EMPTY_STATE;
@@ -254,11 +256,21 @@ class Editor extends React.PureComponent<any, any, any> {
 
   _onPrintStart = (): void => {
     this.setState({isPrinting: true});
-
+    if (!printStyleSheet) {
+      const cssText = '@page {margin-left: 0; margin-right: 0;}';
+      printStyleSheet = document.createElement('style');
+      printStyleSheet.append(document.createTextNode(cssText));
+      document.head && document.head.append(printStyleSheet);
+    }
   };
 
   _onPrintEnd = (): void => {
     this.setState({isPrinting: false});
+    if (printStyleSheet) {
+      const {parentElement} = printStyleSheet;
+      parentElement && parentElement.removeChild(printStyleSheet);
+      printStyleSheet = null;
+    }
   };
 }
 
