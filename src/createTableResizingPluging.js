@@ -4,7 +4,7 @@ import {Plugin} from 'prosemirror-state';
 import {columnResizing} from 'prosemirror-tables';
 import {EditorView} from 'prosemirror-view';
 
-const TABLE_HANDLE_WIDTH = 5;
+const TABLE_HANDLE_WIDTH = 10;
 const TABLE_CELL_MINWIDTH = 25;
 const TABLE_VIEW = undefined;
 const TABLE_LAST_COLUMN_RESIZABLE = false;
@@ -56,6 +56,7 @@ export default function createTableResizingPluging(): Plugin {
   );
 
   const captureMouse = (event: any): void => {
+    console.log([event.clientX, maxClientX]);
     if (event.clientX > maxClientX) {
       // Current mouse event will make table too wide. Stop it and
       // fires a simulated event instead.
@@ -74,14 +75,13 @@ export default function createTableResizingPluging(): Plugin {
   Object.assign(plugin.props.handleDOMEvents, {
     mousedown(view: EditorView, event: MouseEvent): boolean {
       const targetTable = lookUpTable(event);
-      if (!targetTable) {
-        return false;
-      }
-      maxClientX = calculateMaxClientX(event, targetTable);
+      maxClientX = targetTable ?
+        calculateMaxClientX(event, targetTable) :
+        Number.MAX_VALUE;
       window.addEventListener('mousemove', captureMouse, true);
       window.addEventListener('mouseup', captureMouse, true);
       mousedown(view, event);
-      return true;
+      return false;
     },
   });
 
