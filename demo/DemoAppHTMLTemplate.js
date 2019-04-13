@@ -48,6 +48,13 @@ class DemoAppHTMLTemplate extends React.PureComponent<any, any, any> {
   render(): React.Element<any> {
     return (
       <div style={{display: 'none'}}>
+        <h1>At vero eos et accusamus et iusto odio dignissimos duc</h1>
+        <ol>
+          <li><span style={STYLE_COLOR}>rum quidem rerum facilis est et expedita distinctio. Nam libero tempore </span></li>
+          <li><span style={STYLE_BACKGROUND_COLOR}> minus id quod maxime placeat facere possim</span></li>
+          <li><b>nis voluptas assumenda</b></li>
+          <li><u>uuntur magni dolores <i>lynx</i> auuntur magni doloresalinese</u></li>
+        </ol>
         <table>
           <colgroup>
             <col />
@@ -96,13 +103,6 @@ class DemoAppHTMLTemplate extends React.PureComponent<any, any, any> {
             </tr>
           </tbody>
         </table>
-        <h1>At vero eos et accusamus et iusto odio dignissimos duc</h1>
-        <ol>
-          <li><span style={STYLE_COLOR}>rum quidem rerum facilis est et expedita distinctio. Nam libero tempore </span></li>
-          <li><span style={STYLE_BACKGROUND_COLOR}> minus id quod maxime placeat facere possim</span></li>
-          <li><b>nis voluptas assumenda</b></li>
-          <li><u>uuntur magni dolores <i>lynx</i> auuntur magni doloresalinese</u></li>
-        </ol>
         <h1>nt occaecati cupiditate non provident, similique sunt in culpa</h1>
         <p>nt occaecati cupiditate non provident, similique sunt in culpa</p>
         <p>
