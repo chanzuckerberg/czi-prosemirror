@@ -61,11 +61,11 @@
   box-sizing: border-box;
   margin: 0 auto 0 auto;
   outline: none;
-  padding: 2.7cm;
   position: relative;
   z-index: 1;
 }
 
+.ProseMirror,
 .ProseMirror[data-layout="us_letter_portrait"] {
   min-height: 279mm;
   padding: 15.5mm;
