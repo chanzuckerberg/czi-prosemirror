@@ -9,12 +9,12 @@ const TABLE_CELL_MINWIDTH = 25;
 const TABLE_VIEW = undefined;
 const TABLE_LAST_COLUMN_RESIZABLE = false;
 
-function lookUpTable(event: Event): ?Element {
+function lookUpTableWrapper(event: Event): ?HTMLElement {
   const target: any = event.target;
   if (!target || !target.closest) {
     return null;
   }
-  return target.closest('table');
+  return target.closest('.tableWrapper');
 }
 
 function dispatchMouseEvent(type: string, clientX: number): void {
@@ -31,7 +31,7 @@ function dispatchMouseEvent(type: string, clientX: number): void {
 
 function calculateMaxClientX(
   event: MouseEvent,
-  targetTable: Element,
+  targetTable: HTMLElement,
 ): number {
   const {clientX} = event;
   const {left, width} = targetTable.getBoundingClientRect();
@@ -74,7 +74,7 @@ export default function createTableResizingPluging(): Plugin {
   // the table become too wide.
   Object.assign(plugin.props.handleDOMEvents, {
     mousedown(view: EditorView, event: MouseEvent): boolean {
-      const targetTable = lookUpTable(event);
+      const targetTable = lookUpTableWrapper(event);
       maxClientX = targetTable ?
         calculateMaxClientX(event, targetTable) :
         Number.MAX_VALUE;
