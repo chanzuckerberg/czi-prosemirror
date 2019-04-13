@@ -45,6 +45,16 @@ const STYLE_FLOAT_LEFT = {
 // };
 
 class DemoAppHTMLTemplate extends React.PureComponent<any, any, any> {
+  xrender(): React.Element<any> {
+    return (
+      <div>
+        <p>1111</p>
+        <p>2222</p>
+        <p>3333</p>
+        <p>4444</p>
+      </div>
+    );
+  }
   render(): React.Element<any> {
     return (
       <div style={{display: 'none'}}>

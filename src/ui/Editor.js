@@ -72,6 +72,7 @@ const EDITOR_EMPTY_STATE = Object.freeze(createEmptyEditorState());
 // developer to explicitly use `scrollIntoView(true)` to enforce page scroll.
 const scrollIntoView = Transaction.prototype.scrollIntoView;
 const scrollIntoViewPatched = function(forced: boolean): Transaction {
+  console.log('>>', forced);
   if (forced === true && scrollIntoView) {
     return scrollIntoView.call(this);
   } else {
