@@ -12,3 +12,9 @@
 .czi-inline-editor .czi-custom-button {
   border: none;
 }
+
+@media only print {
+  .czi-inline-editor {
+    display: none;
+  }
+}

@@ -41,6 +41,7 @@
     "File": false,
     "FileReader": false,
     "HTMLElement": false,
+    "HTMLTableElement": false,
     "Image": false,
     "KeyboardEvent": false,
     "Map": false,

@@ -37,6 +37,7 @@ module.exports = {
     "Document": true,
     "DragEvent": true,
     "Element": false,
+    "HTMLTableElement": false,
     "Event": false,
     "File": false,
     "FileReader": false,

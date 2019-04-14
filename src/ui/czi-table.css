@@ -24,6 +24,7 @@
 
 .ProseMirror td,
 .ProseMirror th {
+  background-color: #fff;
   border: 1px solid var(--czi-table-border-color);
   border-width: 1px 0 0 1px;
   box-sizing: border-box;
