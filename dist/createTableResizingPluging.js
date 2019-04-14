@@ -18,18 +18,18 @@ var _prosemirrorView = require('prosemirror-view');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var TABLE_HANDLE_WIDTH = 5;
+var TABLE_HANDLE_WIDTH = 10;
 
 var TABLE_CELL_MINWIDTH = 25;
 var TABLE_VIEW = undefined;
 var TABLE_LAST_COLUMN_RESIZABLE = false;
 
-function lookUpTable(event) {
+function lookUpTableWrapper(event) {
   var target = event.target;
   if (!target || !target.closest) {
     return null;
   }
-  return target.closest('table');
+  return target.closest('.tableWrapper');
 }
 
 function dispatchMouseEvent(type, clientX) {
@@ -65,6 +65,7 @@ function createTableResizingPluging() {
   var plugin = (0, _prosemirrorTables.columnResizing)(TABLE_HANDLE_WIDTH, TABLE_CELL_MINWIDTH, TABLE_VIEW, TABLE_LAST_COLUMN_RESIZABLE);
 
   var captureMouse = function captureMouse(event) {
+    console.log([event.clientX, maxClientX]);
     if (event.clientX > maxClientX) {
       // Current mouse event will make table too wide. Stop it and
       // fires a simulated event instead.
@@ -83,15 +84,12 @@ function createTableResizingPluging() {
 
   (0, _assign2.default)(plugin.props.handleDOMEvents, {
     mousedown: function mousedown(view, event) {
-      var targetTable = lookUpTable(event);
-      if (!targetTable) {
-        return false;
-      }
-      maxClientX = calculateMaxClientX(event, targetTable);
+      var targetTable = lookUpTableWrapper(event);
+      maxClientX = targetTable ? calculateMaxClientX(event, targetTable) : Number.MAX_VALUE;
       window.addEventListener('mousemove', captureMouse, true);
       window.addEventListener('mouseup', captureMouse, true);
       _mousedown(view, event);
-      return true;
+      return false;
     }
   });
 
