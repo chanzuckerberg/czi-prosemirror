@@ -8,7 +8,7 @@ var _assign = require('babel-runtime/core-js/object/assign');
 
 var _assign2 = _interopRequireDefault(_assign);
 
-exports.default = createTableResizingPluging;
+exports.default = createTableResizingPlugin;
 
 var _prosemirrorState = require('prosemirror-state');
 
@@ -58,14 +58,13 @@ function calculateMaxClientX(event, targetTable) {
   return Math.round(clientX + Math.max(0, cx));
 }
 
-function createTableResizingPluging() {
+function createTableResizingPlugin() {
   var maxClientX = 0;
 
   // https://github.com/ProseMirror/prosemirror-tables/blob/master/src/columnresizing.js
   var plugin = (0, _prosemirrorTables.columnResizing)(TABLE_HANDLE_WIDTH, TABLE_CELL_MINWIDTH, TABLE_VIEW, TABLE_LAST_COLUMN_RESIZABLE);
 
   var captureMouse = function captureMouse(event) {
-    console.log([event.clientX, maxClientX]);
     if (event.clientX > maxClientX) {
       // Current mouse event will make table too wide. Stop it and
       // fires a simulated event instead.

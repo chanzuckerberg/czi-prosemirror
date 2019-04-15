@@ -44,7 +44,7 @@ function calculateMaxClientX(
   return Math.round(clientX + Math.max(0, cx));
 }
 
-export default function createTableResizingPluging(): Plugin {
+export default function createTableResizingPlugin(): Plugin {
   let maxClientX = 0;
 
   // https://github.com/ProseMirror/prosemirror-tables/blob/master/src/columnresizing.js
@@ -56,7 +56,6 @@ export default function createTableResizingPluging(): Plugin {
   );
 
   const captureMouse = (event: any): void => {
-    console.log([event.clientX, maxClientX]);
     if (event.clientX > maxClientX) {
       // Current mouse event will make table too wide. Stop it and
       // fires a simulated event instead.
