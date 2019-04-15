@@ -107,6 +107,12 @@
   /* outline: var(--czi-border-red);*/
 }
 
+@media only print {
+  .czi-image-view-body.active {
+    box-shadow: none;
+  }
+}
+
 @keyframes czi_animation_blink {
   0% {opacity: 1;}
   50%{opacity: 0.5;}

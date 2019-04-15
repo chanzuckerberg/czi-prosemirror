@@ -159,3 +159,8 @@
   top: -10px;
 }
 
+@media only print {
+  .czi-image-resize-box {
+    display: none;
+  }
+}

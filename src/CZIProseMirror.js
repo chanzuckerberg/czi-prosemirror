@@ -2,6 +2,8 @@
 
 import {EditorView} from 'prosemirror-view';
 
+import convertFromJSON from './convertFromJSON';
+import convertToJSON from './convertToJSON';
 import CustomEditorView from './ui/CustomEditorView';
 import UICommand from './ui/UICommand';
 
@@ -13,6 +15,38 @@ const viewsRegistery = new Map();
 //
 //   import * as CZIProseMirror from 'czi-prosemirror/dist/CZIProseMirror';
 //   window.CZIProseMirror = CZIProseMirror;
+
+export function registeryKeys(): Array<string> {
+  return Array.from(viewsRegistery.keys());
+}
+
+// This is not working. Will fix it.
+// export function importJSON(json: Object, id: ?string): void {
+//   if (!id && viewsRegistery.size) {
+//     id = registeryKeys()[0];
+//     console.log(`use default editor id "${id}"`);
+//   }
+//   const view = viewsRegistery.get(String(id));
+//   if (!view) {
+//     throw new Error('view ${id} does not exist');
+//   }
+//   const {schema, plugins} = view.state;
+//   const editorState = convertFromJSON(json, schema, plugins);
+//   view.dispatch(editorState.tr);
+//   view.updateState(editorState);
+// }
+
+export function exportJSON(id: ?string): Object {
+  if (!id && viewsRegistery.size) {
+    id = registeryKeys()[0];
+    console.log(`use default editor id "${id}"`);
+  }
+  const view = viewsRegistery.get(String(id));
+  if (!view) {
+    throw new Error('view ${id} does not exist');
+  }
+  return convertToJSON(view.state);
+}
 
 export function registerEditorView(id: string, view: EditorView): void {
   if (viewsRegistery.has(id)) {
@@ -33,7 +67,6 @@ export function releaseEditorView(id: string): void {
   }
   viewsRegistery.delete(id);
 }
-
 
 export function findEditorView(id: string): ?EditorView {
   return viewsRegistery.get(id) || null;

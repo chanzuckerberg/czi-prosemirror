@@ -12,6 +12,8 @@ var _map = require('babel-runtime/core-js/map');
 
 var _map2 = _interopRequireDefault(_map);
 
+exports.registeryKeys = registeryKeys;
+exports.exportJSON = exportJSON;
 exports.registerEditorView = registerEditorView;
 exports.releaseEditorView = releaseEditorView;
 exports.findEditorView = findEditorView;
@@ -19,6 +21,14 @@ exports.executeCommand = executeCommand;
 exports.registerCommand = registerCommand;
 
 var _prosemirrorView = require('prosemirror-view');
+
+var _convertFromJSON = require('./convertFromJSON');
+
+var _convertFromJSON2 = _interopRequireDefault(_convertFromJSON);
+
+var _convertToJSON = require('./convertToJSON');
+
+var _convertToJSON2 = _interopRequireDefault(_convertToJSON);
 
 var _CustomEditorView = require('./ui/CustomEditorView');
 
@@ -39,6 +49,38 @@ var viewsRegistery = new _map2.default();
 //
 //   import * as CZIProseMirror from 'czi-prosemirror/dist/CZIProseMirror';
 //   window.CZIProseMirror = CZIProseMirror;
+
+function registeryKeys() {
+  return (0, _from2.default)(viewsRegistery.keys());
+}
+
+// This is not working. Will fix it.
+// export function importJSON(json: Object, id: ?string): void {
+//   if (!id && viewsRegistery.size) {
+//     id = registeryKeys()[0];
+//     console.log(`use default editor id "${id}"`);
+//   }
+//   const view = viewsRegistery.get(String(id));
+//   if (!view) {
+//     throw new Error('view ${id} does not exist');
+//   }
+//   const {schema, plugins} = view.state;
+//   const editorState = convertFromJSON(json, schema, plugins);
+//   view.dispatch(editorState.tr);
+//   view.updateState(editorState);
+// }
+
+function exportJSON(id) {
+  if (!id && viewsRegistery.size) {
+    id = registeryKeys()[0];
+    console.log('use default editor id "' + id + '"');
+  }
+  var view = viewsRegistery.get(String(id));
+  if (!view) {
+    throw new Error('view ${id} does not exist');
+  }
+  return (0, _convertToJSON2.default)(view.state);
+}
 
 function registerEditorView(id, view) {
   if (viewsRegistery.has(id)) {
