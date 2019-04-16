@@ -211,6 +211,7 @@ class Editor extends React.PureComponent<any, any, any> {
   }
 
   componentWillUnmount(): void {
+    this._autoFocusTimer && clearTimeout(this._autoFocusTimer);
     this._editorView && this._editorView.destroy();
     this._editorView = null;
     releaseEditorView(this._id);

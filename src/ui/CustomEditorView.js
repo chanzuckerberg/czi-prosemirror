@@ -21,6 +21,11 @@ class CustomEditorView extends EditorView {
     this.disabled = true;
     this.placeholder = null;
   }
+
+  destroy() {
+    super.destroy();
+    this._props = {};
+  }
 }
 
 export default CustomEditorView;

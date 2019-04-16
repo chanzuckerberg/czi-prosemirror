@@ -327,6 +327,7 @@ var Editor = function (_React$PureComponent) {
   }, {
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
+      this._autoFocusTimer && clearTimeout(this._autoFocusTimer);
       this._editorView && this._editorView.destroy();
       this._editorView = null;
       (0, _CZIProseMirror.releaseEditorView)(this._id);

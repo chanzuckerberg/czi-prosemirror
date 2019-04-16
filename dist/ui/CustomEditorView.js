@@ -12,9 +12,17 @@ var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
+var _createClass2 = require('babel-runtime/helpers/createClass');
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
 var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _get2 = require('babel-runtime/helpers/get');
+
+var _get3 = _interopRequireDefault(_get2);
 
 var _inherits2 = require('babel-runtime/helpers/inherits');
 
@@ -48,6 +56,13 @@ var CustomEditorView = function (_EditorView) {
     return _this;
   }
 
+  (0, _createClass3.default)(CustomEditorView, [{
+    key: 'destroy',
+    value: function destroy() {
+      (0, _get3.default)(CustomEditorView.prototype.__proto__ || (0, _getPrototypeOf2.default)(CustomEditorView.prototype), 'destroy', this).call(this);
+      this._props = {};
+    }
+  }]);
   return CustomEditorView;
 }(_prosemirrorView.EditorView);
 
