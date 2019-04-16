@@ -10,12 +10,12 @@ var _TableCellMenuPlugin = require('./TableCellMenuPlugin');
 
 var _TableCellMenuPlugin2 = _interopRequireDefault(_TableCellMenuPlugin);
 
-var _createTableResizingPluging = require('./createTableResizingPluging');
+var _createTableResizingPlugin = require('./createTableResizingPlugin');
 
-var _createTableResizingPluging2 = _interopRequireDefault(_createTableResizingPluging);
+var _createTableResizingPlugin2 = _interopRequireDefault(_createTableResizingPlugin);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // Tables
 // https://github.com/ProseMirror/prosemirror-tables/blob/master/demo.js
-exports.default = [new _TableCellMenuPlugin2.default(), (0, _createTableResizingPluging2.default)(), (0, _prosemirrorTables.tableEditing)()];
+exports.default = [new _TableCellMenuPlugin2.default(), (0, _createTableResizingPlugin2.default)(), (0, _prosemirrorTables.tableEditing)()];
