@@ -65,7 +65,7 @@
   z-index: 1;
 }
 
-.ProseMirror,
+.ProseMirror.czi-prosemirror-editor,
 .ProseMirror[data-layout="us_letter_portrait"] {
   min-height: 279mm;
   padding: 15.5mm;
