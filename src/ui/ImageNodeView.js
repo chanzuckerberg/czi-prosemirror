@@ -7,16 +7,16 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import CustomNodeView from './CustomNodeView';
+import {FRAMESET_BODY_CLASSNAME} from './EditorFrameset';
 import Icon from './Icon';
 import ImageInlineEditor from './ImageInlineEditor';
 import ImageResizeBox from './ImageResizeBox';
+import {MIN_SIZE} from './ImageResizeBox';
+import {atAnchorBottomCenter} from './PopUpPosition';
 import ResizeObserver from './ResizeObserver';
 import createPopUp from './createPopUp';
 import resolveImage from './resolveImage';
 import uuid from './uuid';
-import {FRAMESET_BODY_CLASSNAME} from './EditorFrameset';
-import {MIN_SIZE} from './ImageResizeBox';
-import {atAnchorBottomCenter} from './PopUpPosition';
 
 import './czi-image-view.css';
 
