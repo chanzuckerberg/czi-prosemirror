@@ -8,12 +8,9 @@ import {EditorView} from 'prosemirror-view';
 
 import {MARK_SPACER} from './MarkNames';
 import {HEADING, LIST_ITEM, PARAGRAPH} from './NodeNames';
-import {SPACER_SIZE_TAB} from './SpacerMarkSpec';
+import {HAIR_SPACE_CHAR, SPACER_SIZE_TAB} from './SpacerMarkSpec';
 import applyMark from './applyMark';
 import UICommand from './ui/UICommand';
-
-// See http://jkorpela.fi/chars/spaces.html
-const HAIR_SPACE_CHAR = '\u200A';
 
 function insertTabSpace(tr: Transform, schema: Schema): Transform {
   const {selection} = tr;

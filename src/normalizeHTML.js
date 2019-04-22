@@ -1,5 +1,6 @@
 // @flow
 
+import {DOM_ATTRIBUTE_SIZE, HAIR_SPACE_CHAR, SPACER_SIZE_TAB} from './SpacerMarkSpec';
 import patchAnchorElements from './patchAnchorElements';
 import patchBreakElements from './patchBreakElements';
 import patchElementInlineStyles from './patchElementInlineStyles';
@@ -11,6 +12,14 @@ import toSafeHTMLDocument from './toSafeHTMLDocument';
 
 const HTML_BODY_PATTERN = /<body[\s>]/i;
 const LONG_UNDERLINE_PATTERN = /_+/g;
+
+// This is a workround to convert "&nbsp;&nbsp;......&nbsp;" into wider tab
+// tab spacers. For every 6 "&nbsp;", they will be converted into tab spacers.
+const LONG_TAB_SPACE_PATTERN = /(\&nbsp;){6}/g;
+
+const TAB_SPACER_HTML = (new Array(6)).join(
+  `<span ${DOM_ATTRIBUTE_SIZE}="${SPACER_SIZE_TAB}">${HAIR_SPACE_CHAR}</span>`
+);
 
 function replaceNOBR(matched: string): string {
   // This is a workround to convert "_______" into none-wrapped text
@@ -27,6 +36,9 @@ export default function normalizeHTML(html: string): string {
 
   const sourceIsPage = HTML_BODY_PATTERN.test(html);
   html = html.replace(LONG_UNDERLINE_PATTERN, replaceNOBR);
+
+  // Convert every two consecutive "&nbsp;" into a spacer tab.
+  html = html.replace(LONG_TAB_SPACE_PATTERN, TAB_SPACER_HTML);
   const doc = toSafeHTMLDocument(html);
   if (doc) {
     // styles.
