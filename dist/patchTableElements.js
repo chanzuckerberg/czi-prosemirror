@@ -14,6 +14,8 @@ var _nullthrows = require('nullthrows');
 
 var _nullthrows2 = _interopRequireDefault(_nullthrows);
 
+var _DocNodeSpec = require('./DocNodeSpec');
+
 var _convertToCSSPTValue = require('./convertToCSSPTValue');
 
 var _convertToCSSPTValue2 = _interopRequireDefault(_convertToCSSPTValue);
@@ -24,15 +26,14 @@ var _toCSSColor2 = _interopRequireDefault(_toCSSColor);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// This value is arbitrary. It assumes the page use the default size
-// with default padding.
-var DEFAULT_TABLE_WIDTH = 666; // 624;
-
 // This value is originally defined at prosemirror-table.
 var ATTRIBUTE_CELL_WIDTH = 'data-colwidth';
 
 function patchTableElements(doc) {
-  (0, _from2.default)(doc.querySelectorAll('td')).forEach(patchTableCell);
+  var layout = doc.body ? (0, _DocNodeSpec.getAttrs)(doc.body).layout : null;
+  (0, _from2.default)(doc.querySelectorAll('td')).forEach(function (tdEl) {
+    patchTableCell(tdEl, layout);
+  });
   (0, _from2.default)(doc.querySelectorAll('tr[style^=height]')).forEach(patchTableRow);
 }
 
@@ -42,7 +43,7 @@ var LINE_HEIGHT_PT_VALUE = 15.81149997;
 
 // Workaround to patch HTML from Google Doc that Table Cells will apply
 // its background colr to all its inner <span />.
-function patchTableCell(tdElement) {
+function patchTableCell(tdElement, layout) {
   var style = tdElement.style;
 
   if (!style) {
@@ -73,6 +74,19 @@ function patchTableCell(tdElement) {
     if (!ptValue) {
       return;
     }
+
+    // This value is arbitrary. It assumes the page use the default size
+    // with default padding.
+    var defaultTableWidth = 0;
+
+    if (layout === _DocNodeSpec.LAYOUT.US_LETTER_LANDSCAPE) {
+      defaultTableWidth = 960;
+    } else if (layout === _DocNodeSpec.LAYOUT.US_LETTER_PORTRAIT) {
+      defaultTableWidth = 700;
+    } else {
+      defaultTableWidth = 700;
+    }
+
     var pxValue = ptValue * _convertToCSSPTValue.PT_TO_PX_RATIO;
     // Attribute "data-colwidth" is defined at 'prosemirror-tables';
     var rowEl = (0, _nullthrows2.default)(tdElement.parentElement);
@@ -85,10 +99,11 @@ function patchTableCell(tdElement) {
         sum += ww;
         return sum;
       }, 0);
-      if (isNaN(tableWidth) || tableWidth <= DEFAULT_TABLE_WIDTH) {
+      if (isNaN(tableWidth) || tableWidth <= defaultTableWidth) {
         return;
       }
-      var scale = DEFAULT_TABLE_WIDTH / tableWidth;
+
+      var scale = defaultTableWidth / tableWidth;
       cells.forEach(function (cell) {
         var ww = parseInt(cell.getAttribute(ATTRIBUTE_CELL_WIDTH), 10);
         cell.setAttribute(ATTRIBUTE_CELL_WIDTH, String(Math.floor(ww * scale)));

@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.SPACER_SIZE_TAB = exports.DOM_ATTRIBUTE_SIZE = undefined;
+exports.HAIR_SPACE_CHAR = exports.SPACER_SIZE_TAB_LARGE = exports.SPACER_SIZE_TAB = exports.DOM_ATTRIBUTE_SIZE = undefined;
 
 var _defineProperty2 = require('babel-runtime/helpers/defineProperty');
 
@@ -17,6 +17,10 @@ var babelPluginFlowReactPropTypes_proptype_MarkSpec = require('./Types').babelPl
 
 var DOM_ATTRIBUTE_SIZE = exports.DOM_ATTRIBUTE_SIZE = 'data-spacer-size';
 var SPACER_SIZE_TAB = exports.SPACER_SIZE_TAB = 'tab';
+var SPACER_SIZE_TAB_LARGE = exports.SPACER_SIZE_TAB_LARGE = 'tab-large';
+
+// See http://jkorpela.fi/chars/spaces.html
+var HAIR_SPACE_CHAR = exports.HAIR_SPACE_CHAR = '\u200A';
 
 var SpacerMarkSpec = {
   attrs: {

@@ -36,11 +36,13 @@ var _reactDom = require('react-dom');
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
+var _SelectionObserver = require('./SelectionObserver');
+
+var _SelectionObserver2 = _interopRequireDefault(_SelectionObserver);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // Standard className for selected node.
-// @xflow
-
 if (typeof exports !== 'undefined') Object.defineProperty(exports, 'babelPluginFlowReactPropTypes_proptype_NodeViewProps', {
   value: require('prop-types').shape({
     editorView: require('prop-types').any.isRequired,
@@ -49,7 +51,8 @@ if (typeof exports !== 'undefined') Object.defineProperty(exports, 'babelPluginF
     selected: require('prop-types').bool.isRequired,
     focused: require('prop-types').bool.isRequired
   })
-});
+}); // @xflow
+
 var SELECTED_NODE_CLASS_NAME = 'ProseMirror-selectednode';
 
 var mountedViews = new _set2.default();
@@ -132,17 +135,17 @@ function onMutation(mutations, observer) {
 
 // Workaround to get in-selection views selected.
 // See https://discuss.prosemirror.net/t/copy-selection-issue-with-the-image-node/1673/2;
-function onSelectionChange() {
+function onSelection(entries, observer) {
   if (!window.getSelection) {
     console.warn('window.getSelection() is not supported');
-    document.removeEventListener('selectionchange', onSelectionChange);
+    observer.disconnect();
     return;
   }
 
   var selection = window.getSelection();
   if (!selection.containsNode) {
     console.warn('selection.containsNode() is not supported');
-    document.removeEventListener('selectionchange', onSelectionChange);
+    observer.disconnect();
     return;
   }
 
@@ -175,10 +178,14 @@ function onSelectionChange() {
       }
     }
   }
+
+  if (mountedViews.size === 0) {
+    observer.disconnect();
+  }
 }
 
+var selectionObserver = new _SelectionObserver2.default(onSelection);
 var mutationObserver = new MutationObserver(onMutation);
-document.addEventListener('selectionchange', onSelectionChange);
 
 // This implements the `NodeView` interface and renders a Node with a react
 // Component.
@@ -204,9 +211,11 @@ var CustomNodeView = function () {
     // The editor will use this as the node's DOM representation
     var dom = this.createDOMElement();
     this.dom = dom;
+    dom.onClick = this._onClick;
 
     if (pendingViews.size === 1) {
       mutationObserver.observe(document, { childList: true, subtree: true });
+      selectionObserver.observe(document);
     }
   }
 
@@ -277,12 +286,16 @@ var CustomNodeView = function () {
           editorView = _props.editorView,
           getPos = _props.getPos;
 
+
       if (editorView.state && editorView.state.selection) {
         var from = editorView.state.selection.from;
 
         var pos = getPos();
         this.props.selected = this._selected;
-        this.props.focused = pos === from;
+        this.props.focused = editorView.focused && pos === from;
+      } else {
+        this.props.selected = false;
+        this.props.focused = false;
       }
 
       _reactDom2.default.render(this.renderReactComponent(), this.dom);

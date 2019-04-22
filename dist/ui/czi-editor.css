@@ -168,6 +168,15 @@
   letter-spacing: 50px;
 }
 
+.ProseMirror span[data-spacer-size="tab-large"] {
+  /* Google doc uses 50px as exact size for tab space. */
+  /* The `letter-spacing` used here is actually the width of the spacer */
+  /* Note that the actual rendered width will be 50px + width of the space */
+  /* character. */
+  letter-spacing: 280px;
+}
+
+
 .ProseMirror hr[data-page-break] {
   height: 0;
   margin: 0;

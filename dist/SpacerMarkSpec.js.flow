@@ -6,6 +6,10 @@ import type {MarkSpec} from './Types';
 
 export const DOM_ATTRIBUTE_SIZE = 'data-spacer-size';
 export const SPACER_SIZE_TAB = 'tab';
+export const SPACER_SIZE_TAB_LARGE = 'tab-large';
+
+// See http://jkorpela.fi/chars/spaces.html
+export const HAIR_SPACE_CHAR = '\u200A';
 
 const SpacerMarkSpec: MarkSpec = {
   attrs: {

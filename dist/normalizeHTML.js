@@ -5,6 +5,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = normalizeHTML;
 
+var _SpacerMarkSpec = require('./SpacerMarkSpec');
+
 var _patchAnchorElements = require('./patchAnchorElements');
 
 var _patchAnchorElements2 = _interopRequireDefault(_patchAnchorElements);
@@ -40,7 +42,14 @@ var _toSafeHTMLDocument2 = _interopRequireDefault(_toSafeHTMLDocument);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var HTML_BODY_PATTERN = /<body[\s>]/i;
+
 var LONG_UNDERLINE_PATTERN = /_+/g;
+
+// This is a workround to convert "&nbsp;&nbsp;......&nbsp;" into wider tab
+// tab spacers. For every 6 "&nbsp;", they will be converted into tab spacers.
+var LONG_TAB_SPACE_PATTERN = /(\&nbsp;){6}/g;
+
+var TAB_SPACER_HTML = new Array(6).join('<span ' + _SpacerMarkSpec.DOM_ATTRIBUTE_SIZE + '="' + _SpacerMarkSpec.SPACER_SIZE_TAB + '">' + _SpacerMarkSpec.HAIR_SPACE_CHAR + '</span>');
 
 function replaceNOBR(matched) {
   // This is a workround to convert "_______" into none-wrapped text
@@ -57,6 +66,9 @@ function normalizeHTML(html) {
 
   var sourceIsPage = HTML_BODY_PATTERN.test(html);
   html = html.replace(LONG_UNDERLINE_PATTERN, replaceNOBR);
+
+  // Convert every two consecutive "&nbsp;" into a spacer tab.
+  html = html.replace(LONG_TAB_SPACE_PATTERN, TAB_SPACER_HTML);
   var doc = (0, _toSafeHTMLDocument2.default)(html);
   if (doc) {
     // styles.

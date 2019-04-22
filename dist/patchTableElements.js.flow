@@ -2,19 +2,19 @@
 
 import nullthrows from 'nullthrows';
 
+import {LAYOUT, getAttrs} from './DocNodeSpec';
 import {PT_TO_PX_RATIO} from './convertToCSSPTValue';
 import convertToCSSPTValue from './convertToCSSPTValue';
 import toCSSColor from './ui/toCSSColor';
-
-// This value is arbitrary. It assumes the page use the default size
-// with default padding.
-const DEFAULT_TABLE_WIDTH = 666; // 624;
 
 // This value is originally defined at prosemirror-table.
 const ATTRIBUTE_CELL_WIDTH = 'data-colwidth';
 
 export default function patchTableElements(doc: Document): void {
-  Array.from(doc.querySelectorAll('td')).forEach(patchTableCell);
+ const layout = doc.body ? getAttrs(doc.body).layout : null;
+  Array.from(doc.querySelectorAll('td')).forEach(tdEl => {
+    patchTableCell(tdEl, layout);
+  });
   Array.from(doc.querySelectorAll('tr[style^=height]')).forEach(patchTableRow);
 }
 
@@ -24,7 +24,7 @@ const LINE_HEIGHT_PT_VALUE = 15.81149997;
 
 // Workaround to patch HTML from Google Doc that Table Cells will apply
 // its background colr to all its inner <span />.
-function patchTableCell(tdElement: HTMLElement): void {
+function patchTableCell(tdElement: HTMLElement, layout: ?string): void {
   const {style} = tdElement;
   if (!style) {
     return;
@@ -52,6 +52,19 @@ function patchTableCell(tdElement: HTMLElement): void {
     if (!ptValue) {
       return;
     }
+
+    // This value is arbitrary. It assumes the page use the default size
+    // with default padding.
+    let defaultTableWidth = 0;
+
+    if (layout === LAYOUT.US_LETTER_LANDSCAPE) {
+      defaultTableWidth = 960;
+    } else if (layout === LAYOUT.US_LETTER_PORTRAIT) {
+      defaultTableWidth = 700;
+    } else {
+      defaultTableWidth = 700;
+    }
+
     const pxValue = ptValue * PT_TO_PX_RATIO;
     // Attribute "data-colwidth" is defined at 'prosemirror-tables';
     const rowEl = nullthrows(tdElement.parentElement);
@@ -64,10 +77,12 @@ function patchTableCell(tdElement: HTMLElement): void {
         sum += ww;
         return sum;
       }, 0);
-      if (isNaN(tableWidth) || tableWidth <= DEFAULT_TABLE_WIDTH) {
+      if (isNaN(tableWidth) || tableWidth <= defaultTableWidth) {
         return;
       }
-      const scale = DEFAULT_TABLE_WIDTH / tableWidth;
+
+
+      const scale = defaultTableWidth / tableWidth;
       cells.forEach(cell => {
         const ww = parseInt(cell.getAttribute(ATTRIBUTE_CELL_WIDTH), 10);
         cell.setAttribute(ATTRIBUTE_CELL_WIDTH, String(Math.floor(ww * scale)));

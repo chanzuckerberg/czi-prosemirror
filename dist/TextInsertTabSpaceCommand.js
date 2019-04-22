@@ -46,9 +46,6 @@ var _UICommand3 = _interopRequireDefault(_UICommand2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// See http://jkorpela.fi/chars/spaces.html
-var HAIR_SPACE_CHAR = '\u200A';
-
 function insertTabSpace(tr, schema) {
   var _tr = tr,
       selection = _tr.selection;
@@ -81,7 +78,7 @@ function insertTabSpace(tr, schema) {
     return tr;
   }
 
-  var textNode = schema.text(HAIR_SPACE_CHAR);
+  var textNode = schema.text(_SpacerMarkSpec.HAIR_SPACE_CHAR);
   tr = tr.insert(to, _prosemirrorModel.Fragment.from(textNode));
   var attrs = {
     size: _SpacerMarkSpec.SPACER_SIZE_TAB

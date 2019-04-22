@@ -60,6 +60,8 @@ var _CustomNodeView2 = require('./CustomNodeView');
 
 var _CustomNodeView3 = _interopRequireDefault(_CustomNodeView2);
 
+var _EditorFrameset = require('./EditorFrameset');
+
 var _Icon = require('./Icon');
 
 var _Icon2 = _interopRequireDefault(_Icon);
@@ -71,6 +73,8 @@ var _ImageInlineEditor2 = _interopRequireDefault(_ImageInlineEditor);
 var _ImageResizeBox = require('./ImageResizeBox');
 
 var _ImageResizeBox2 = _interopRequireDefault(_ImageResizeBox);
+
+var _PopUpPosition = require('./PopUpPosition');
 
 var _ResizeObserver = require('./ResizeObserver');
 
@@ -87,10 +91,6 @@ var _resolveImage2 = _interopRequireDefault(_resolveImage);
 var _uuid = require('./uuid');
 
 var _uuid2 = _interopRequireDefault(_uuid);
-
-var _EditorFrameset = require('./EditorFrameset');
-
-var _PopUpPosition = require('./PopUpPosition');
 
 require('./czi-image-view.css');
 
