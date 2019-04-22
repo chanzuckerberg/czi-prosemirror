@@ -16,7 +16,7 @@ class MathQuillEditorShimmer extends React.PureComponent {
 }
 
 const MathQuillEditorLoadable = Loadable({
-  loader: () => import( './MathQuillEditor'),
+  loader: () => import(/* webpackChunkName: "czi_prosemirror_mathquill_editor" */ './MathQuillEditor'),
   loading: () => <MathQuillEditorShimmer />,
 });
 
