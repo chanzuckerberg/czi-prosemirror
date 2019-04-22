@@ -29,16 +29,15 @@ export function getAttrs(el: HTMLElement): Object {
     if (inWidth >= 11 && inWidth <= 11.5) {
       // Round up to letter size.
       attrs.layout = LAYOUT.US_LETTER_LANDSCAPE;
-    } else if (inWidth >= 8 && inWidth <= 8.6) {
+    } else if (inWidth >= 7 && inWidth <= 9) {
       // Round up to letter size.
       attrs.layout = LAYOUT.US_LETTER_PORTRAIT;
     } else {
       attrs.width = ptWidth;
+      if (pp) {
+        attrs.padding = pp;
+      }
     }
-  }
-
-  if (pp) {
-    attrs.padding = pp;
   }
 
   return attrs;

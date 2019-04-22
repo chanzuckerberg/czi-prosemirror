@@ -60,9 +60,9 @@ function patchTableCell(tdElement: HTMLElement, layout: ?string): void {
     if (layout === LAYOUT.US_LETTER_LANDSCAPE) {
       defaultTableWidth = 960;
     } else if (layout === LAYOUT.US_LETTER_PORTRAIT) {
-      defaultTableWidth = 666;
+      defaultTableWidth = 700;
     } else {
-      defaultTableWidth = 666;
+      defaultTableWidth = 700;
     }
 
     const pxValue = ptValue * PT_TO_PX_RATIO;
