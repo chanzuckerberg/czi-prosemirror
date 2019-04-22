@@ -22,7 +22,19 @@ export function getAttrs(el: HTMLElement): Object {
   const ww = convertToCSSPTValue(width) || convertToCSSPTValue(maxWidth);
   const pp = convertToCSSPTValue(padding);
   if (ww) {
-    attrs.width = ww + (pp * 2);
+    // 1pt = 1/72in
+    // letter size: 8.5in x 11inch
+    const ptWidth = ww + (pp * 2);
+    const inWidth = ptWidth / 72;
+    if (inWidth >= 11 && inWidth <= 11.5) {
+      // Round up to letter size.
+      attrs.layout = LAYOUT.US_LETTER_LANDSCAPE;
+    } else if (inWidth >= 8 && inWidth <= 8.6) {
+      // Round up to letter size.
+      attrs.layout = LAYOUT.US_LETTER_PORTRAIT;
+    } else {
+      attrs.width = ptWidth;
+    }
   }
 
   if (pp) {
@@ -40,5 +52,4 @@ const DocNodeSpec = {
   },
   content: 'block+',
 };
-
 export default DocNodeSpec;
