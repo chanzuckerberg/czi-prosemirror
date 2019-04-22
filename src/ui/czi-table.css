@@ -10,7 +10,7 @@
   border-collapse: initial;
   border-spacing: 0;
   border: 1px solid var(--czi-table-border-color);
-  border-width: 0 1px 1px 0;
+  border-width: 0 thin thin 0;
   table-layout: fixed;
   width: 100%;
   margin: 0;
@@ -26,7 +26,7 @@
 .ProseMirror th {
   background-color: #fff;
   border: 1px solid var(--czi-table-border-color);
-  border-width: 1px 0 0 1px;
+  border-width: thin 0 0 thin;
   box-sizing: border-box;
   min-width: 1em;
   padding: 8px;
