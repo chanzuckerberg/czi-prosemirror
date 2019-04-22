@@ -66,10 +66,6 @@
   content: counter(czi-counter, lower-alpha) ".";
 }
 
-.ProseMirror ol[data-list-style-type="upper-roman"] li > p::before {
-  content: counter(czi-counter, upper-alpha) ".";
-}
-
 .ProseMirror li > p::before {
   display: inline-block;
   font-size: 1em;
