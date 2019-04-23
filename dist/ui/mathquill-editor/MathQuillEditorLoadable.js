@@ -60,7 +60,7 @@ var MathQuillEditorShimmer = function (_React$PureComponent) {
 
 var MathQuillEditorLoadable = (0, _reactLoadable2.default)({
   loader: function loader() {
-    return import('./MathQuillEditor');
+    return import( /* webpackChunkName: "czi_prosemirror_mathquill_editor" */'./MathQuillEditor');
   },
   loading: function loading() {
     return _react2.default.createElement(MathQuillEditorShimmer, null);
