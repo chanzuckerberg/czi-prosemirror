@@ -31,8 +31,21 @@ var options = {
         exclude: /node_modules/,
         loader: 'babel-loader',
         options: {
-          presets: ['env', 'react', ['es2015', {'modules': false}]],
-          plugins: ['transform-class-properties'],
+          
+          presets: [['env', {modules: false}], 'react', 'flow'],
+          plugins: [
+            'transform-export-extensions',
+            'transform-class-properties',
+            ['transform-runtime', {
+              helpers: true,
+              polyfill: true,
+              regenerator: true,
+            }],
+            'flow-react-proptypes',
+            'transform-object-rest-spread',
+            'transform-flow-strip-types',
+            'syntax-dynamic-import'
+          ],
         },
       },
 
