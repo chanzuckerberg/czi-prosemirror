@@ -5,7 +5,11 @@
   "description": "rich text editor built with React and ProseMirror",
   "main": "dist/index.js",
   "scripts": {
-    "build_bin": "node utils/build_bin.js",
+    "dist:css": "cp src/ui/*.css dist/ui && cp src/ui/mathquill-editor/*.css dist/ui/mathquill-editor",
+    "dist:babel": "babel src --out-dir dist",
+    "dist:flow": "flow-copy-source -v -i '**/__tests__/**' src dist",
+    "dist:build": "npm run dist:css && npm run dist:babel && npm run dist:flow",
+    "app:build": "node utils/build_bin.js",
     "flow": "flow",
     "start": "node utils/webserver.js"
   },
