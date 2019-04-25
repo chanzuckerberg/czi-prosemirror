@@ -9,6 +9,7 @@
     }
   },
   "plugins": ["react"],
+  "extends": ["plugin:prettier/recommended"],
   "rules": {
     "react/jsx-sort-props": "error",
     "react/jsx-uses-react": "error",
@@ -16,14 +17,11 @@
     "consistent-return": "error",
     "no-debugger": "error",
     "no-invalid-regexp": "error",
-    "no-mixed-spaces-and-tabs": "error",
-    "no-trailing-spaces": "error",
     "no-undef": "error",
     "no-unused-expression": [true, "allow-fast-null-checks"],
     "no-unused-vars": ["error", { "vars": "all", "args": "none", "ignoreRestSiblings": false }],
     "no-var": "error",
     "prefer-const": "error",
-    "quotes": [2, "single", { "avoidEscape": true }],
     "semi": [2, "always"],
     "strict": 0
   },

@@ -11,7 +11,7 @@
     "dist:build": "npm run dist:css && npm run dist:babel && npm run dist:flow",
     "app:build": "node utils/build_bin.js",
     "flow": "flow",
-    "lint": "eslint src playground demo",
+    "lint": "eslint \"**/*.js\"",
     "start": "node utils/webserver.js"
   },
   "devDependencies": {
@@ -46,11 +46,13 @@
     "es6-symbol": "3.1.1",
     "eslint": "5.9.0",
     "eslint-config-airbnb": "17.1.0",
+    "eslint-config-prettier": "^4.2.0",
     "eslint-loader": "2.1.1",
     "eslint-plugin-babel": "5.3.0",
     "eslint-plugin-flowtype": "3.2.0",
     "eslint-plugin-import": "2.14.0",
     "eslint-plugin-jsx-a11y": "6.1.2",
+    "eslint-plugin-prettier": "^3.0.1",
     "eslint-plugin-react": "7.11.1",
     "exports-loader": "0.6.3",
     "file-loader": "0.11.2",
@@ -61,10 +63,13 @@
     "html-loader": "0.4.5",
     "html-webpack-inline-source-plugin": "0.0.10",
     "html-webpack-plugin": "2.24.1",
+    "husky": "^2.1.0",
     "import-sort-cli": "5.2.0",
     "import-sort-parser-babylon": "5.2.0",
     "import-sort-style-module-grouping": "0.1.0",
+    "lint-staged": "^8.1.5",
     "nano-fs": "1.2.4",
+    "prettier": "^1.17.0",
     "prop-types": "15.6.2",
     "prop-types-extra": "1.1.0",
     "prosemirror-dev-tools": "2.1.1",
@@ -112,5 +117,20 @@
       "parser": "babylon",
       "style": "module-grouping"
     }
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix",
+      "git add"
+    ],
+    "*.json": [
+      "prettier --write",
+      "git add"
+    ]
   }
 }
