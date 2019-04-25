@@ -1,17 +1,17 @@
 {
-  "presets": ["es2015", "react", "stage-1", "flow"],
+  "presets": ["env", "react"],
   "plugins": [
     "transform-export-extensions",
-    "flow-react-proptypes",
-    "transform-react-remove-prop-types",
-    "transform-flow-strip-types",
-    "transform-object-rest-spread",
-    "transform-es2015-parameters",
+    "transform-class-properties",
     ["transform-runtime", {
-      "helpers": false,
-      "polyfill": false,
+      "helpers": true,
+      "polyfill": true,
       "regenerator": true,
-      "moduleName": "babel-runtime"
-    }]
+    }],
+    "flow-react-proptypes",
+    "transform-object-rest-spread",
+    "transform-flow-strip-types",
+    "syntax-dynamic-import"
+
   ]
 }

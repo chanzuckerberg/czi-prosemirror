@@ -3,7 +3,7 @@
 
 ---
 
-# CZI-ProseMirror
+# CZI-ProseMirror &middot; [![Build Status](https://travis-ci.com/chanzuckerberg/czi-prosemirror.svg?branch=master)](https://travis-ci.com/chanzuckerberg/czi-prosemirror)
 
 + Drop-In WYSIWYG editor based on ProseMirror & React
 + Live DEMO: http://cdn.summitlearning.org/assets/czi_prosemirror_0_0_1_1_20190412230633_index.html
