@@ -2,7 +2,6 @@
 
 import {EditorView} from 'prosemirror-view';
 
-import convertFromJSON from './convertFromJSON';
 import convertToJSON from './convertToJSON';
 import CustomEditorView from './ui/CustomEditorView';
 import UICommand from './ui/UICommand';
@@ -19,22 +18,6 @@ const viewsRegistery = new Map();
 export function registeryKeys(): Array<string> {
   return Array.from(viewsRegistery.keys());
 }
-
-// This is not working. Will fix it.
-// export function importJSON(json: Object, id: ?string): void {
-//   if (!id && viewsRegistery.size) {
-//     id = registeryKeys()[0];
-//     console.log(`use default editor id "${id}"`);
-//   }
-//   const view = viewsRegistery.get(String(id));
-//   if (!view) {
-//     throw new Error('view ${id} does not exist');
-//   }
-//   const {schema, plugins} = view.state;
-//   const editorState = convertFromJSON(json, schema, plugins);
-//   view.dispatch(editorState.tr);
-//   view.updateState(editorState);
-// }
 
 export function exportJSON(id: ?string): Object {
   if (!id && viewsRegistery.size) {
