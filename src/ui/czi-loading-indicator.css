@@ -24,6 +24,7 @@
   left: 6px;
   animation: lds-ellipsis2 0.6s infinite;
 }
+
 .czi-loading-indicator-frag-3 {
   left: 26px;
   animation: lds-ellipsis2 0.6s infinite;
@@ -38,22 +39,27 @@
   0% {
     transform: scale(0);
   }
+
   100% {
     transform: scale(1);
   }
 }
+
 @keyframes lds-ellipsis3 {
   0% {
     transform: scale(1);
   }
+
   100% {
     transform: scale(0);
   }
 }
+
 @keyframes lds-ellipsis2 {
   0% {
     transform: translate(0, 0);
   }
+
   100% {
     transform: translate(19px, 0);
   }

@@ -17,7 +17,9 @@
 .czi-editor-toolbar-flex {
   display: flex;
   flex-direction: column;
+
   /* Why 200px is hard-coded? */
+
   /* See https://css-tricks.com/using-css-transitions-auto-dimensions/ */
   height: 200px;
   left: 0;
@@ -29,8 +31,10 @@
 
 .czi-editor-toolbar .czi-editor-toolbar-body {
   /* Only reveal the first row of buttons by default */
+
   /* 0.162 =~ 36px */
   flex: 0.162;
+
   /* See https://css-tricks.com/using-css-transitions-auto-dimensions/ */
   transition: flex 0.3s ease-out;
   overflow: hidden;
@@ -50,7 +54,7 @@
 
 .czi-editor-toolbar-body-content {
   background: #fff;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.26);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.26);
   box-sizing: border-box;
   min-width: 450px;
   overflow: hidden;

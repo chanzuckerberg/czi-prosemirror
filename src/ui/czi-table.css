@@ -38,7 +38,9 @@
 
 .ProseMirror .column-resize-handle {
   position: absolute;
-  right: -2px; top: 0; bottom: 0;
+  right: -2px;
+  top: 0;
+  bottom: 0;
   width: 4px;
   z-index: 20;
   background-color: #adf;
@@ -51,10 +53,13 @@
 }
 
 /* Give selected cells a blue overlay */
-.ProseMirror .selectedCell:after {
+.ProseMirror .selectedCell::after {
   background: var(--czi-selection-highlight-color);
   content: "";
-  left: 0; right: 0; top: 0; bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
   pointer-events: none;
   position: absolute;
   z-index: 2;
