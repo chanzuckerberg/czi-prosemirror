@@ -1,9 +1,10 @@
-var webpack = require("webpack"),
-    config = require("../webpack.config");
+/*eslint-env node*/
+
+const webpack = require('webpack'),
+  config = require('../webpack.config');
 
 delete config.chromeExtensionBoilerplate;
 
-webpack(
-  config,
-  function (err) { if (err) throw err; }
-);
+webpack(config, function(err) {
+  if (err) throw err;
+});
