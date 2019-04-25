@@ -11,4 +11,4 @@ jobs:
     - stage: "Type Checking" 
       script: npx flow check
     - stage: "Build Dist"
-      script: npm run dist:build
+      script: npm run build:dist
