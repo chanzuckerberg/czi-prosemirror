@@ -6,7 +6,6 @@ import {history} from 'prosemirror-history';
 import {keymap} from 'prosemirror-keymap';
 import {Schema} from 'prosemirror-model';
 import {Plugin} from 'prosemirror-state';
-import * as ProsemirrorTables from 'prosemirror-tables';
 
 import ContentPlaceholderPlugin from './ContentPlaceholderPlugin';
 import CursorPlaceholderPlugin from './CursorPlaceholderPlugin';
