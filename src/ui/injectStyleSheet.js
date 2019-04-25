@@ -5,7 +5,7 @@ import url from 'url';
 const addedElements = new Map();
 
 function createElement(tag: string, attrs: Object): Element {
-  const el:any = document.createElement(tag);
+  const el: any = document.createElement(tag);
   Object.keys(attrs).forEach(key => {
     if (key === 'className') {
       el[key] = attrs[key];
@@ -32,10 +32,10 @@ export default function injectStyleSheet(urlStr: string): void {
     return;
   }
   const el = createElement('link', {
-      crossorigin: 'anonymous',
-      href,
-      rel: 'stylesheet',
-    });
+    crossorigin: 'anonymous',
+    href,
+    rel: 'stylesheet',
+  });
   addedElements.set(href, el);
   const root = document.head || document.documentElement || document.body;
   root && root.appendChild(el);

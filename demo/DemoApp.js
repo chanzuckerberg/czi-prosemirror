@@ -24,7 +24,6 @@ const defaultEditorState = (function() {
   return convertFromDOMElement(templateNode);
 })();
 
-
 class DemoApp extends React.PureComponent<any, any, any> {
   _runtime = new DemoAppRuntime();
 
@@ -37,7 +36,7 @@ class DemoApp extends React.PureComponent<any, any, any> {
 
   render(): React.Element<any> {
     const {editorState} = this.state;
-    const readOnly =  /read/ig.test(window.location.search);
+    const readOnly = /read/gi.test(window.location.search);
     return (
       <RichTextEditor
         autoFocus={true}

@@ -22,12 +22,8 @@ class MathQuillEditorSymbolsPanel extends React.PureComponent<any, any, any> {
     const buttons = symbols.map(this._renderButton);
     return (
       <div className="czi-mathquill-editor-symbols-panel">
-        <div className="czi-mathquill-editor-symbols-panel-title">
-          {title}
-        </div>
-        <div className="czi-mathquill-editor-symbols-panel-body">
-          {buttons}
-        </div>
+        <div className="czi-mathquill-editor-symbols-panel-title">{title}</div>
+        <div className="czi-mathquill-editor-symbols-panel-body">{buttons}</div>
       </div>
     );
   }

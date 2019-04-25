@@ -12,7 +12,7 @@ export default function insertTable(
   tr: Transform,
   schema: Schema,
   rows: number,
-  cols: number,
+  cols: number
 ): Transform {
   if (!tr.selection || !tr.doc) {
     return tr;
@@ -44,13 +44,9 @@ export default function insertTable(
     rowNodes.push(rowNode);
   }
   const tableNode = table.create({}, Fragment.from(rowNodes));
-  tr = tr.insert(from,  Fragment.from(tableNode));
+  tr = tr.insert(from, Fragment.from(tableNode));
 
-  const selection = TextSelection.create(
-    tr.doc,
-    from + 5,
-    from + 5,
-  );
+  const selection = TextSelection.create(tr.doc, from + 5, from + 5);
 
   tr = tr.setSelection(selection);
   return tr;

@@ -11,7 +11,6 @@ import toggleHeading from './toggleHeading';
 import UICommand from './ui/UICommand';
 
 class HeadingCommand extends UICommand {
-
   _level: number;
 
   constructor(level: number) {
@@ -32,13 +31,13 @@ class HeadingCommand extends UICommand {
   execute = (
     state: EditorState,
     dispatch: ?(tr: Transform) => void,
-    view: ?EditorView,
+    view: ?EditorView
   ): boolean => {
     const {schema, selection} = state;
     const tr = toggleHeading(
       state.tr.setSelection(selection),
       schema,
-      this._level,
+      this._level
     );
     if (tr.docChanged) {
       dispatch && dispatch(tr);

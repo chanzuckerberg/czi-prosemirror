@@ -28,7 +28,6 @@ export type ImageInlineEditorValue = {
 };
 
 class ImageInlineEditor extends React.PureComponent<any, any, any> {
-
   props: {
     onSelect: (val: ImageInlineEditorValue) => void,
     value: ?ImageInlineEditorValue,
@@ -50,11 +49,7 @@ class ImageInlineEditor extends React.PureComponent<any, any, any> {
       );
     });
 
-    return (
-      <div className="czi-inline-editor custom-">
-        {buttons}
-      </div>
-    );
+    return <div className="czi-inline-editor custom-">{buttons}</div>;
   }
 
   _onClick = (align: ?string): void => {

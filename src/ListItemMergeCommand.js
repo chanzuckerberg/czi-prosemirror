@@ -12,10 +12,7 @@ import {HEADING, LIST_ITEM, PARAGRAPH} from './NodeNames';
 import nodeAt from './nodeAt';
 import UICommand from './ui/UICommand';
 
-function mergeListItemUp(
-  tr: Transform,
-  schema: Schema,
-): Transform {
+function mergeListItemUp(tr: Transform, schema: Schema): Transform {
   // This merge a list item to is previous list item of the selection is at the
   // beginning of the list item.
   const {selection} = tr;
@@ -36,7 +33,7 @@ function mergeListItemUp(
     return tr;
   }
   const {pos, node} = result;
-  if (from !== (pos + 2)) {
+  if (from !== pos + 2) {
     // Selection is not at the begining of the list item.
     return tr;
   }
@@ -59,19 +56,11 @@ function mergeListItemUp(
   tr = tr.insert(pos - 2, Fragment.from(textNode));
   // Move the content to its previous list item.
   tr = tr.insert(pos - 1, Fragment.from(paragraphNode.content));
-  tr = tr.setSelection(TextSelection.create(
-    tr.doc,
-    pos - 1,
-    pos - 1,
-  ));
+  tr = tr.setSelection(TextSelection.create(tr.doc, pos - 1, pos - 1));
   return tr;
 }
 
-
-function mergeListItemDown(
-  tr: Transform,
-  schema: Schema,
-): Transform {
+function mergeListItemDown(tr: Transform, schema: Schema): Transform {
   // This merge a list item to is next list item of the selection is at the
   // beginning of the list item.
   const {selection} = tr;
@@ -92,7 +81,7 @@ function mergeListItemDown(
     return tr;
   }
   const {pos, node} = result;
-  if (from !== (pos + node.content.size)) {
+  if (from !== pos + node.content.size) {
     // Selection is not at the begining of the list item.
     return tr;
   }
@@ -106,7 +95,7 @@ function mergeListItemDown(
   const nextFrom = pos + node.nodeSize;
   let nextNode = nodeAt(tr.doc, nextFrom);
   let deleteFrom = nextFrom;
-  if ((listResult.start + listResult.node.content.size) === nextFrom) {
+  if (listResult.start + listResult.node.content.size === nextFrom) {
     // It's at the end of the last list item. It shall bring the content of the
     // block after the list.
     nextNode = nodeAt(tr.doc, nextFrom + 1);
@@ -121,7 +110,7 @@ function mergeListItemDown(
 
   switch (nextNode.type) {
     case listItem:
-       // List item should only have one child (paragraph).
+      // List item should only have one child (paragraph).
       const paragraphNode = nullthrows(nextNode.firstChild);
       nextContent = Fragment.from(paragraphNode.content);
       break;
@@ -144,16 +133,13 @@ function mergeListItemDown(
   tr = tr.insert(nextFrom - 2, nextContent);
   // Move the content to the list item.
   tr = tr.insert(nextFrom - 2, Fragment.from(textNode));
-  tr = tr.setSelection(TextSelection.create(
-    tr.doc,
-    nextFrom - 2,
-    nextFrom - 2,
-  ));
+  tr = tr.setSelection(
+    TextSelection.create(tr.doc, nextFrom - 2, nextFrom - 2)
+  );
   return tr;
 }
 
 class ListItemMergeCommand extends UICommand {
-
   _direction = '';
 
   constructor(direction: string) {
@@ -168,21 +154,15 @@ class ListItemMergeCommand extends UICommand {
   execute = (
     state: EditorState,
     dispatch: ?(tr: Transform) => void,
-    view: ?EditorView,
+    view: ?EditorView
   ): boolean => {
     const {selection, schema} = state;
     let {tr} = state;
     const direction = this._direction;
     if (direction === 'down') {
-      tr = mergeListItemDown(
-        tr.setSelection(selection),
-        schema,
-      );
+      tr = mergeListItemDown(tr.setSelection(selection), schema);
     } else if (direction === 'up') {
-      tr = mergeListItemUp(
-        tr.setSelection(selection),
-        schema,
-      );
+      tr = mergeListItemUp(tr.setSelection(selection), schema);
     }
 
     if (tr.docChanged) {
@@ -193,6 +173,5 @@ class ListItemMergeCommand extends UICommand {
     }
   };
 }
-
 
 export default ListItemMergeCommand;

@@ -14,7 +14,7 @@ import UICommand from './ui/UICommand';
 // into list item.
 function insertNewLine(tr: Transform, schema: Schema): Transform {
   const {selection} = tr;
-  if(!selection) {
+  if (!selection) {
     return tr;
   }
   const {from, empty} = selection;
@@ -30,27 +30,19 @@ function insertNewLine(tr: Transform, schema: Schema): Transform {
   if (!result) {
     return tr;
   }
-  tr = tr.insert(from,  Fragment.from(br.create()));
-  tr = tr.setSelection(TextSelection.create(
-    tr.doc,
-    from + 1,
-    from + 1,
-  ));
+  tr = tr.insert(from, Fragment.from(br.create()));
+  tr = tr.setSelection(TextSelection.create(tr.doc, from + 1, from + 1));
   return tr;
 }
 
 class ListItemInsertNewLineCommand extends UICommand {
-
   execute = (
     state: EditorState,
     dispatch: ?(tr: Transform) => void,
-    view: ?EditorView,
+    view: ?EditorView
   ): boolean => {
     const {schema, selection} = state;
-    const tr = insertNewLine(
-      state.tr.setSelection(selection),
-      schema,
-    );
+    const tr = insertNewLine(state.tr.setSelection(selection), schema);
     if (tr.docChanged) {
       dispatch && dispatch(tr);
       return true;

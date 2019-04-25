@@ -4,13 +4,9 @@ import {EditorState, Selection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
 import {EditorView} from 'prosemirror-view';
 
-export type IsActiveCall = (
-  state: EditorState,
-) => boolean;
+export type IsActiveCall = (state: EditorState) => boolean;
 
-export type FindNodeTypeInSelectionCall = (
-  selection: Selection,
-) => Object;
+export type FindNodeTypeInSelectionCall = (selection: Selection) => Object;
 
 const EventType = {
   CLICK: 'mouseup',
@@ -19,20 +15,19 @@ const EventType = {
 
 function dryRunEditorStateProxyGetter(
   state: EditorState,
-  propKey: string,
+  propKey: string
 ): any {
   const val = state[propKey];
-  if (propKey === 'tr' && (val instanceof Transform)) {
+  if (propKey === 'tr' && val instanceof Transform) {
     return val.setMeta('dryrun', true);
   }
   return val;
 }
 
-
 function dryRunEditorStateProxySetter(
   state: EditorState,
   propKey: string,
-  propValue: any,
+  propValue: any
 ): boolean {
   state[propKey] = propValue;
   // Indicate success
@@ -40,10 +35,9 @@ function dryRunEditorStateProxySetter(
 }
 
 class UICommand {
-
   static EventType = EventType;
 
-  shouldRespondToUIEvent = (e: (SyntheticEvent | MouseEvent)): boolean => {
+  shouldRespondToUIEvent = (e: SyntheticEvent | MouseEvent): boolean => {
     return e.type === UICommand.EventType.CLICK;
   };
 
@@ -62,14 +56,12 @@ class UICommand {
   dryRun = (state: EditorState, view: ?EditorView): boolean => {
     const {Proxy} = window;
 
-    const dryRunState = Proxy ?
-      new Proxy(
-        state, {
+    const dryRunState = Proxy
+      ? new Proxy(state, {
           get: dryRunEditorStateProxyGetter,
           set: dryRunEditorStateProxySetter,
-        },
-      ) :
-      state;
+        })
+      : state;
 
     return this.execute(dryRunState, null, view);
   };
@@ -78,18 +70,15 @@ class UICommand {
     state: EditorState,
     dispatch: ?(tr: Transform) => void,
     view: ?EditorView,
-    event: ?SyntheticEvent,
+    event: ?SyntheticEvent
   ): boolean => {
-    this.waitForUserInput(state, dispatch, view, event).then(inputs => {
-      this.executeWithUserInput(
-        state,
-        dispatch,
-        view,
-        inputs,
-      );
-    }).catch(error => {
-      console.error(error);
-    });
+    this.waitForUserInput(state, dispatch, view, event)
+      .then(inputs => {
+        this.executeWithUserInput(state, dispatch, view, inputs);
+      })
+      .catch(error => {
+        console.error(error);
+      });
     return false;
   };
 
@@ -97,7 +86,7 @@ class UICommand {
     state: EditorState,
     dispatch: ?(tr: Transform) => void,
     view: ?EditorView,
-    event: ?SyntheticEvent,
+    event: ?SyntheticEvent
   ): Promise<any> => {
     return Promise.resolve(undefined);
   };
@@ -106,7 +95,7 @@ class UICommand {
     state: EditorState,
     dispatch: ?(tr: Transform) => void,
     view: ?EditorView,
-    inputs: any,
+    inputs: any
   ): boolean => {
     return false;
   };

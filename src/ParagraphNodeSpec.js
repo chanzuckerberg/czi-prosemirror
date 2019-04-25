@@ -19,15 +19,9 @@ export const LINE_SPACING_VALUES = [
   '200%',
 ];
 
-export const EMPTY_CSS_VALUE = new Set([
-  '',
-  '0%',
-  '0pt',
-  '0px',
-]);
+export const EMPTY_CSS_VALUE = new Set(['', '0%', '0pt', '0px']);
 
 const ALIGN_PATTERN = /(left|right|center|justify)/;
-
 
 // https://github.com/ProseMirror/prosemirror-schema-basic/blob/master/src/schema-basic.js
 // :: NodeSpec A plain paragraph textblock. Represented in the DOM
@@ -70,9 +64,7 @@ function getAttrs(dom: HTMLElement): Object {
 
   indent = indent || MIN_INDENT_LEVEL;
 
-  const lineSpacing = lineHeight ?
-    lineHeight :
-    null;
+  const lineSpacing = lineHeight ? lineHeight : null;
 
   const id = dom.getAttribute('id') || '';
   return {align, indent, lineSpacing, paddingTop, paddingBottom, id};
@@ -80,7 +72,12 @@ function getAttrs(dom: HTMLElement): Object {
 
 function toDOM(node: Node): Array<any> {
   const {
-    align, indent, lineSpacing, paddingTop, paddingBottom, id,
+    align,
+    indent,
+    lineSpacing,
+    paddingTop,
+    paddingBottom,
+    id,
   } = node.attrs;
   const attrs = {};
 
@@ -114,7 +111,6 @@ function toDOM(node: Node): Array<any> {
   return ['p', attrs, 0];
 }
 
-
 export const toParagraphDOM = toDOM;
 export const getParagraphNodeAttrs = getAttrs;
 
@@ -123,7 +119,7 @@ export function convertMarginLeftToIndentValue(marginLeft: string): number {
   return clamp(
     MIN_INDENT_LEVEL,
     Math.floor(ptValue / INDENT_MARGIN_PT_SIZE),
-    MAX_INDENT_LEVEL,
+    MAX_INDENT_LEVEL
   );
 }
 

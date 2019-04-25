@@ -7,18 +7,17 @@ import {Transform} from 'prosemirror-transform';
 import {EditorView} from 'prosemirror-view';
 import React from 'react';
 
-import {hideCursorPlaceholder, showCursorPlaceholder} from './CursorPlaceholderPlugin';
+import {
+  hideCursorPlaceholder,
+  showCursorPlaceholder,
+} from './CursorPlaceholderPlugin';
 import {IMAGE} from './NodeNames';
 import UICommand from './ui/UICommand';
 import createPopUp from './ui/createPopUp';
 
 import type {ImageLike} from './Types';
 
-function insertImage(
-  tr: Transform,
-  schema: Schema,
-  src: ?string,
-): Transform {
+function insertImage(tr: Transform, schema: Schema, src: ?string): Transform {
   const {selection} = tr;
   if (!selection) {
     return tr;
@@ -46,7 +45,6 @@ function insertImage(
 }
 
 class ImageSourceCommand extends UICommand {
-
   _popUp = null;
 
   getEditor(): Class<React.Component<any, any, any>> {
@@ -61,7 +59,7 @@ class ImageSourceCommand extends UICommand {
     state: EditorState,
     dispatch: ?(tr: Transform) => void,
     view: ?EditorView,
-    event: ?SyntheticEvent,
+    event: ?SyntheticEvent
   ): Promise<any> => {
     if (this._popUp) {
       return Promise.resolve(undefined);
@@ -75,12 +73,12 @@ class ImageSourceCommand extends UICommand {
       const props = {runtime: view ? view.runtime : null};
       this._popUp = createPopUp(this.getEditor(), props, {
         modal: true,
-        onClose: (val) => {
+        onClose: val => {
           if (this._popUp) {
             this._popUp = null;
             resolve(val);
           }
-        }
+        },
       });
     });
   };
@@ -89,7 +87,7 @@ class ImageSourceCommand extends UICommand {
     state: EditorState,
     dispatch: ?(tr: Transform) => void,
     view: ?EditorView,
-    inputs: ?ImageLike,
+    inputs: ?ImageLike
   ): boolean => {
     if (dispatch) {
       const {selection, schema} = state;
@@ -116,6 +114,5 @@ class ImageSourceCommand extends UICommand {
     return false;
   };
 }
-
 
 export default ImageSourceCommand;

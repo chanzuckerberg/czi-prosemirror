@@ -11,7 +11,7 @@ class HistoryRedoCommand extends UICommand {
   execute = (
     state: EditorState,
     dispatch: ?(tr: Transform) => void,
-    view: ?EditorView,
+    view: ?EditorView
   ): boolean => {
     return redo(state, dispatch);
   };

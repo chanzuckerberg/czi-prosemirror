@@ -9,7 +9,22 @@ import FontSizeCommand from '../FontSizeCommand';
 import CommandMenuButton from './CommandMenuButton';
 import findActiveFontSize from './findActiveFontSize';
 
-export const FONT_PT_SIZES = [8, 9, 10, 11, 12, 14, 18, 24, 30, 36, 48, 60, 72, 90];
+export const FONT_PT_SIZES = [
+  8,
+  9,
+  10,
+  11,
+  12,
+  14,
+  18,
+  24,
+  30,
+  36,
+  48,
+  60,
+  72,
+  90,
+];
 
 const FONT_PT_SIZE_COMMANDS = FONT_PT_SIZES.reduce((memo, size) => {
   memo[` ${size} `] = new FontSizeCommand(size);
@@ -17,12 +32,11 @@ const FONT_PT_SIZE_COMMANDS = FONT_PT_SIZES.reduce((memo, size) => {
 }, {});
 
 const COMMAND_GROUPS = [
-  {'Default': new FontSizeCommand(0)},
+  {Default: new FontSizeCommand(0)},
   FONT_PT_SIZE_COMMANDS,
 ];
 
 class FontSizeCommandMenuButton extends React.PureComponent<any, any, any> {
-
   props: {
     dispatch: (tr: Transform) => void,
     editorState: EditorState,

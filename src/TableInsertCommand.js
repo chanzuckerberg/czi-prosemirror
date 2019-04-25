@@ -15,10 +15,9 @@ import createPopUp from './ui/createPopUp';
 import type {TableGridSizeEditorValue} from './ui/TableGridSizeEditor';
 
 class TableInsertCommand extends UICommand {
-
   _popUp = null;
 
-  shouldRespondToUIEvent = (e: (SyntheticEvent | MouseEvent)): boolean => {
+  shouldRespondToUIEvent = (e: SyntheticEvent | MouseEvent): boolean => {
     return e.type === UICommand.EventType.MOUSEENTER;
   };
 
@@ -35,7 +34,7 @@ class TableInsertCommand extends UICommand {
     state: EditorState,
     dispatch: ?(tr: Transform) => void,
     view: ?EditorView,
-    event: ?SyntheticEvent,
+    event: ?SyntheticEvent
   ): Promise<any> => {
     if (this._popUp) {
       return Promise.resolve(undefined);
@@ -50,12 +49,12 @@ class TableInsertCommand extends UICommand {
       this._popUp = createPopUp(TableGridSizeEditor, null, {
         anchor,
         position: atAnchorRight,
-        onClose: (val) => {
+        onClose: val => {
           if (this._popUp) {
             this._popUp = null;
             resolve(val);
           }
-        }
+        },
       });
     });
   };
@@ -64,7 +63,7 @@ class TableInsertCommand extends UICommand {
     state: EditorState,
     dispatch: ?(tr: Transform) => void,
     view: ?EditorView,
-    inputs: ?TableGridSizeEditorValue,
+    inputs: ?TableGridSizeEditorValue
   ): boolean => {
     if (dispatch) {
       const {selection, schema} = state;

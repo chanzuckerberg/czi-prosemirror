@@ -7,7 +7,9 @@ const HardBreakNodeSpec = {
   group: 'inline',
   selectable: false,
   parseDOM: [{tag: 'br'}],
-  toDOM() { return BR_DOM; }
+  toDOM() {
+    return BR_DOM;
+  },
 };
 
 export default HardBreakNodeSpec;

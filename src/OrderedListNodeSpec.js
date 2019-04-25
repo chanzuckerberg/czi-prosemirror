@@ -17,26 +17,29 @@ const OrderedListNodeSpec: NodeSpec = {
   },
   group: 'block',
   content: LIST_ITEM + '+',
-  parseDOM: [{
-    tag: 'ol',
-    getAttrs(dom: HTMLElement) {
-      const listStyleType = dom.getAttribute(ATTRIBUTE_LIST_STYLE_TYPE) || null;
+  parseDOM: [
+    {
+      tag: 'ol',
+      getAttrs(dom: HTMLElement) {
+        const listStyleType =
+          dom.getAttribute(ATTRIBUTE_LIST_STYLE_TYPE) || null;
 
-      const start = dom.hasAttribute('start') ?
-        parseInt(dom.getAttribute('start'), 10) :
-        1;
+        const start = dom.hasAttribute('start')
+          ? parseInt(dom.getAttribute('start'), 10)
+          : 1;
 
-      const indent = dom.hasAttribute(ATTRIBUTE_INDENT) ?
-        parseInt(dom.getAttribute(ATTRIBUTE_INDENT), 10) :
-        MIN_INDENT_LEVEL;
+        const indent = dom.hasAttribute(ATTRIBUTE_INDENT)
+          ? parseInt(dom.getAttribute(ATTRIBUTE_INDENT), 10)
+          : MIN_INDENT_LEVEL;
 
-      return {
-        indent,
-        listStyleType,
-        start,
-      };
+        return {
+          indent,
+          listStyleType,
+          start,
+        };
+      },
     },
-  }],
+  ],
   toDOM(node: Node) {
     const {start, indent, listStyleType} = node.attrs;
     const attrs: Object = {};

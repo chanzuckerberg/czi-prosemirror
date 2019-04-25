@@ -11,14 +11,14 @@ import toCSSColor from './ui/toCSSColor';
 const ATTRIBUTE_CELL_WIDTH = 'data-colwidth';
 
 export default function patchTableElements(doc: Document): void {
- const layout = doc.body ? getAttrs(doc.body).layout : null;
+  const layout = doc.body ? getAttrs(doc.body).layout : null;
   Array.from(doc.querySelectorAll('td')).forEach(tdEl => {
     patchTableCell(tdEl, layout);
   });
   Array.from(doc.querySelectorAll('tr[style^=height]')).forEach(patchTableRow);
 }
 
- // The height of each line: ~= 21px
+// The height of each line: ~= 21px
 const LINE_HEIGHT_PX_VALUE = 21;
 const LINE_HEIGHT_PT_VALUE = 15.81149997;
 
@@ -81,7 +81,6 @@ function patchTableCell(tdElement: HTMLElement, layout: ?string): void {
         return;
       }
 
-
       const scale = defaultTableWidth / tableWidth;
       cells.forEach(cell => {
         const ww = parseInt(cell.getAttribute(ATTRIBUTE_CELL_WIDTH), 10);
@@ -90,7 +89,6 @@ function patchTableCell(tdElement: HTMLElement, layout: ?string): void {
     }
   }
 }
-
 
 // Workaround to support "height" in table row by inject empty <p /> to
 // create space for the height.
@@ -112,9 +110,12 @@ function patchTableRow(trElement: HTMLElement): void {
     return;
   }
 
-  const cellPxHeight = Array.from(firstCell.children).reduce((sum, childNode) => {
-    return sum + getEstimatedPxHeight(childNode);
-  }, 0);
+  const cellPxHeight = Array.from(firstCell.children).reduce(
+    (sum, childNode) => {
+      return sum + getEstimatedPxHeight(childNode);
+    },
+    0
+  );
 
   const cellPtHeight = convertToCSSPTValue(String(cellPxHeight) + 'px');
   if (cellPtHeight >= ptValue) {
@@ -134,16 +135,12 @@ function patchTableRow(trElement: HTMLElement): void {
   firstCell.appendChild(frag);
 }
 
-
 function getEstimatedPxHeight(el: HTMLElement): number {
   const imgs = el.querySelectorAll('img');
   if (imgs.length) {
-    return Array.from(imgs).reduce(
-      (sum, nn) => {
-        return sum + getEstimatedPxHeight(nn);
-      },
-      0,
-    );
+    return Array.from(imgs).reduce((sum, nn) => {
+      return sum + getEstimatedPxHeight(nn);
+    }, 0);
   }
   if (el.height) {
     return parseFloat(el.height) || LINE_HEIGHT_PX_VALUE;

@@ -9,7 +9,6 @@ import findNodesWithSameMark from './findNodesWithSameMark';
 import UICommand from './ui/UICommand';
 
 class MarkToggleCommand extends UICommand {
-
   _markName: string;
 
   constructor(markName: string) {
@@ -30,7 +29,7 @@ class MarkToggleCommand extends UICommand {
   execute = (
     state: EditorState,
     dispatch: ?(tr: Transform) => void,
-    view: ?EditorView,
+    view: ?EditorView
   ): boolean => {
     const {schema, selection, tr} = state;
     const markType = schema.marks[this._markName];
@@ -43,7 +42,7 @@ class MarkToggleCommand extends UICommand {
     }
 
     const {from, to} = selection;
-    if (tr && (to === from + 1)) {
+    if (tr && to === from + 1) {
       const node = tr.doc.nodeAt(from);
       if (node.isAtom && !node.isText && node.isLeaf) {
         // An atomic node (e.g. Image) is selected.

@@ -25,12 +25,9 @@ const SPEC = {
       if (action.add) {
         const widget = document.createElement('czi-cursor-placeholder');
         widget.className = 'czi-cursor-placeholder';
-        const deco = Decoration.widget(
-          action.add.pos,
-          widget, {
-            id: PLACE_HOLDER_ID,
-          },
-        );
+        const deco = Decoration.widget(action.add.pos, widget, {
+          id: PLACE_HOLDER_ID,
+        });
         set = set.add(tr.doc, [deco]);
       } else if (action.remove) {
         const found = set.find(null, null, specFinder);
@@ -41,7 +38,7 @@ const SPEC = {
     },
   },
   props: {
-    decorations: (state) => {
+    decorations: state => {
       const plugin = singletonInstance;
       return plugin ? plugin.getState(state) : null;
     },
@@ -55,7 +52,7 @@ class CursorPlaceholderPlugin extends Plugin {
       return singletonInstance;
     }
     singletonInstance = this;
-  };
+  }
 }
 
 function specFinder(spec: Object): boolean {
@@ -87,7 +84,7 @@ export function showCursorPlaceholder(state: EditorState): Transform {
     }
     tr = tr.setMeta(plugin, {
       add: {
-        pos: tr.selection.from
+        pos: tr.selection.from,
       },
     });
   }

@@ -8,13 +8,13 @@ const TextUnderlineMarkSpec: MarkSpec = {
     {tag: 'u'},
     {
       style: 'text-decoration-line',
-      getAttrs: (value) => {
+      getAttrs: value => {
         return value === 'underline' && null;
       },
     },
     {
       style: 'text-decoration',
-      getAttrs: (value) => {
+      getAttrs: value => {
         return value === 'underline' && null;
       },
     },

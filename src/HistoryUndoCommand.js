@@ -8,11 +8,10 @@ import {EditorView} from 'prosemirror-view';
 import UICommand from './ui/UICommand';
 
 class HistoryUndoCommand extends UICommand {
-
   execute = (
     state: EditorState,
     dispatch: ?(tr: Transform) => void,
-    view: ?EditorView,
+    view: ?EditorView
   ): boolean => {
     return undo(state, dispatch);
   };

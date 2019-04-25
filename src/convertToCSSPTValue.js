@@ -31,6 +31,8 @@ export function toClosestFontPtSize(styleValue: string): number {
   }
 
   return FONT_PT_SIZES.reduce((prev, curr) => {
-    return Math.abs(curr - originalPTValue) < Math.abs(prev - originalPTValue) ? curr : prev;
+    return Math.abs(curr - originalPTValue) < Math.abs(prev - originalPTValue)
+      ? curr
+      : prev;
   }, Number.NEGATIVE_INFINITY);
 }

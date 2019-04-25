@@ -40,5 +40,4 @@ function getAttrs(fontSize: string): Object {
   };
 }
 
-
 export default FontSizeMarkSpec;

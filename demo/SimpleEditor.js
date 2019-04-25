@@ -36,27 +36,14 @@ import './simple-editor.css';
 
 // Schema Nodes that <SimpleEditor /> can use.
 // See https://prosemirror.net/examples/schema/
-const {
-  DOC,
-  HARD_BREAK,
-  PARAGRAPH,
-  TEXT,
-} = NodeNames;
+const {DOC, HARD_BREAK, PARAGRAPH, TEXT} = NodeNames;
 
 // Schema Marks that <SimpleEditor /> can use.
 // See https://prosemirror.net/examples/schema/
-const {
-  MARK_LINK,
-  MARK_STRONG,
-} = MarkNames;
+const {MARK_LINK, MARK_STRONG} = MarkNames;
 
 // Commands that <SimpleEditor /> can use.
-const {
-  HISTORY_REDO,
-  HISTORY_UNDO,
-  LINK_SET_URL,
-  STRONG,
-} = EditorCommands;
+const {HISTORY_REDO, HISTORY_UNDO, LINK_SET_URL, STRONG} = EditorCommands;
 
 // Create the nodes mapping for schema. Please see `EditorNodes` for all the
 // nodes available.
@@ -101,12 +88,11 @@ const PLUGINS = [
 // This defines a simple editor that only supports plain-text, web link and bold
 // style. You may use this as an example to customize editor with custom schema.
 class SimpleEditor extends React.PureComponent<any, any, any> {
-
-  static convertFromJSON = (json: string | Object):EditorState => {
+  static convertFromJSON = (json: string | Object): EditorState => {
     return convertFromJSON(json, SCHEMA, PLUGINS);
   };
 
-  static convertFromHTML = (html: string):EditorState => {
+  static convertFromHTML = (html: string): EditorState => {
     return convertFromHTML(html, SCHEMA, PLUGINS);
   };
 
@@ -121,7 +107,7 @@ class SimpleEditor extends React.PureComponent<any, any, any> {
   render(): React.Element<any> {
     const {editorView} = this.state;
     const {editorState} = this.props;
-    const toolbar =
+    const toolbar = (
       <div className="simple-editor-toolbar">
         <CommandButton
           command={HISTORY_UNDO}
@@ -155,13 +141,15 @@ class SimpleEditor extends React.PureComponent<any, any, any> {
           icon={Icon.get('format_bold')}
           title="link"
         />
-      </div>;
-    const body =
+      </div>
+    );
+    const body = (
       <Editor
         dispatchTransaction={this._dispatchTransaction}
         editorState={editorState}
         onReady={this._onReady}
-      />;
+      />
+    );
     return (
       <EditorFrameset
         body={body}
@@ -176,7 +164,7 @@ class SimpleEditor extends React.PureComponent<any, any, any> {
   _dispatchTransaction = (tr: Transform): void => {
     const {onChange, editorState} = this.props;
     if (onChange) {
-      const prevState =  editorState || SimpleEditor.createEmptyEditorState();
+      const prevState = editorState || SimpleEditor.createEmptyEditorState();
       const nextState = prevState.apply(tr);
       onChange(nextState);
     }
