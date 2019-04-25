@@ -5,3 +5,4 @@ script:
   - npm run dist:build
   - npm run lint
   - npx flow check
+  - npx prettier --check
