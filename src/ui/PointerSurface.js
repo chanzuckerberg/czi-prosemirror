@@ -5,7 +5,7 @@ import React from 'react';
 
 import preventEventDefault from './preventEventDefault';
 
-export type PointerSurfaceProps  = {
+export type PointerSurfaceProps = {
   active?: ?boolean,
   children?: any,
   className?: ?string,
@@ -19,7 +19,6 @@ export type PointerSurfaceProps  = {
 };
 
 class PointerSurface extends React.PureComponent<any, any, any> {
-
   props: PointerSurfaceProps;
 
   _clicked = false;
@@ -31,14 +30,20 @@ class PointerSurface extends React.PureComponent<any, any, any> {
 
   render(): React.Element<any> {
     const {
-      className, disabled, active, id, style, title, children,
+      className,
+      disabled,
+      active,
+      id,
+      style,
+      title,
+      children,
     } = this.props;
     const {pressed} = this.state;
 
     const buttonClassName = cx(className, {
-      'active': active,
-      'disabled': disabled,
-      'pressed': pressed,
+      active: active,
+      disabled: disabled,
+      pressed: pressed,
     });
 
     return (
@@ -56,7 +61,8 @@ class PointerSurface extends React.PureComponent<any, any, any> {
         role="button"
         style={style}
         tabIndex={disabled ? null : 0}
-        title={title}>
+        title={title}
+      >
         {children}
       </span>
     );
@@ -77,7 +83,7 @@ class PointerSurface extends React.PureComponent<any, any, any> {
     onMouseEnter && onMouseEnter(value, e);
   };
 
-  _onMouseLeave  = (e: SyntheticEvent): void => {
+  _onMouseLeave = (e: SyntheticEvent): void => {
     this._pressedTarget = null;
     const mouseUpEvent: any = e;
     this._onMouseUpCapture(mouseUpEvent);
@@ -124,13 +130,12 @@ class PointerSurface extends React.PureComponent<any, any, any> {
     const target = e.target;
     this._clicked =
       this._pressedTarget instanceof HTMLElement &&
-      target instanceof HTMLElement && (
-        target === this._pressedTarget ||
+      target instanceof HTMLElement &&
+      (target === this._pressedTarget ||
         target.contains(this._pressedTarget) ||
-        this._pressedTarget.contains(target)
-      );
+        this._pressedTarget.contains(target));
     this.setState({pressed: false});
-  }
+  };
 }
 
 export default PointerSurface;

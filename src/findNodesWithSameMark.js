@@ -20,7 +20,7 @@ export default function findNodesWithSameMark(
   doc: Node,
   from: number,
   to: number,
-  markType: MarkType,
+  markType: MarkType
 ): ?Result {
   let ii = from;
   const finder = mark => mark.type === markType;

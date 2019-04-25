@@ -50,7 +50,7 @@ export type EditorRuntime = {
   getProxyImageSrc?: (src: string) => string,
 
   // Image Upload
-  canUploadImage?: () => boolean;
+  canUploadImage?: () => boolean,
   uploadImage?: (obj: Blob) => Promise<ImageLike>,
 
   // Comments
@@ -59,7 +59,7 @@ export type EditorRuntime = {
   renderComment?: (props: RenderCommentProps) => ?React.Element<any>,
 
   // External HTML
-  canLoadHTML?: () => boolean;
+  canLoadHTML?: () => boolean,
   loadHTML?: () => Promise<?string>,
 };
 

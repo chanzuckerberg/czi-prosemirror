@@ -13,7 +13,7 @@ import UICommand from './ui/UICommand';
 export function setTextLineSpacing(
   tr: Transform,
   schema: Schema,
-  lineSpacing: ?string,
+  lineSpacing: ?string
 ): Transform {
   const {selection, doc} = tr;
   if (!selection || !doc) {
@@ -55,7 +55,7 @@ export function setTextLineSpacing(
           nodeType,
         });
       }
-      return (nodeType === listItem) ? true : false;
+      return nodeType === listItem ? true : false;
     }
     return true;
   });
@@ -78,12 +78,7 @@ export function setTextLineSpacing(
         lineSpacing: null,
       };
     }
-    tr = tr.setNodeMarkup(
-      pos,
-      nodeType,
-      attrs,
-      node.marks,
-    );
+    tr = tr.setNodeMarkup(pos, nodeType, attrs, node.marks);
   });
 
   return tr;
@@ -92,7 +87,7 @@ export function setTextLineSpacing(
 function createGroup(): Array<{[string]: TextLineSpacingCommand}> {
   const group = {};
   group['Single'] = new TextLineSpacingCommand(null);
-  LINE_SPACING_VALUES.forEach((lineSpacing) => {
+  LINE_SPACING_VALUES.forEach(lineSpacing => {
     const label = lineSpacing === '200%' ? 'Double' : ` ${lineSpacing} `;
     group[label] = new TextLineSpacingCommand(lineSpacing);
   });
@@ -100,7 +95,6 @@ function createGroup(): Array<{[string]: TextLineSpacingCommand}> {
 }
 
 class TextLineSpacingCommand extends UICommand {
-
   _lineSpacing: ?string;
 
   static createGroup = createGroup;
@@ -139,13 +133,13 @@ class TextLineSpacingCommand extends UICommand {
   execute = (
     state: EditorState,
     dispatch: ?(tr: Transform) => void,
-    view: ?EditorView,
+    view: ?EditorView
   ): boolean => {
     const {schema, selection} = state;
     const tr = setTextLineSpacing(
       state.tr.setSelection(selection),
       schema,
-      this._lineSpacing,
+      this._lineSpacing
     );
     if (tr.docChanged) {
       dispatch && dispatch(tr);

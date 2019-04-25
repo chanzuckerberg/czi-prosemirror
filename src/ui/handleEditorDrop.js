@@ -7,7 +7,7 @@ import {uploadImageFiles} from '../ImageUploadPlaceholderPlugin';
 // https://prosemirror.net/examples/upload/
 export default function handleEditorDrop(
   view: EditorView,
-  event: DragEvent,
+  event: DragEvent
 ): boolean {
   const {dataTransfer} = event;
   if (!dataTransfer) {

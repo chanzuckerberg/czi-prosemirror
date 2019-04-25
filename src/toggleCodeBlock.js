@@ -12,7 +12,7 @@ import isListNode from './isListNode';
 
 export default function toggleCodeBlock(
   tr: Transform,
-  schema: Schema,
+  schema: Schema
 ): Transform {
   const {nodes} = schema;
   const {selection, doc} = tr;
@@ -35,12 +35,12 @@ export default function toggleCodeBlock(
     }
     const {type, isBlock} = node;
     if (isBlock) {
-      allowed = allowed && (
-        type === paragraph ||
-        type === codeBlock ||
-        type === heading ||
-        type === blockquote
-      );
+      allowed =
+        allowed &&
+        (type === paragraph ||
+          type === codeBlock ||
+          type === heading ||
+          type === blockquote);
       allowed && poses.push(pos);
     }
 
@@ -48,14 +48,18 @@ export default function toggleCodeBlock(
   });
 
   // Update from the bottom to avoid disruptive changes in pos.
-  allowed && poses.sort(compareNumber).reverse().forEach(pos => {
-    tr = setCodeBlockNodeEnabled(
-      tr,
-      schema,
-      pos,
-      startWithCodeBlock ? false : true,
-    );
-  });
+  allowed &&
+    poses
+      .sort(compareNumber)
+      .reverse()
+      .forEach(pos => {
+        tr = setCodeBlockNodeEnabled(
+          tr,
+          schema,
+          pos,
+          startWithCodeBlock ? false : true
+        );
+      });
   return tr;
 }
 
@@ -63,7 +67,7 @@ function setCodeBlockNodeEnabled(
   tr: Transform,
   schema: Schema,
   pos: number,
-  enabled: boolean,
+  enabled: boolean
 ): Transform {
   const {doc} = tr;
   if (!doc) {
@@ -83,28 +87,16 @@ function setCodeBlockNodeEnabled(
   const paragraph = nodes[PARAGRAPH];
 
   if (codeBlock && !enabled && node.type === codeBlock) {
-    tr = tr.setNodeMarkup(
-      pos,
-      paragraph,
-      node.attrs,
-      node.marks,
-    );
+    tr = tr.setNodeMarkup(pos, paragraph, node.attrs, node.marks);
   } else if (enabled && node.type !== codeBlock) {
     const {selection} = tr;
-    tr = tr.setSelection(TextSelection.create(
-      tr.doc,
-      pos,
-      pos + node.nodeSize,
-    ));
+    tr = tr.setSelection(
+      TextSelection.create(tr.doc, pos, pos + node.nodeSize)
+    );
     tr = clearMarks(tr, schema);
     tr = tr.removeMark(pos, pos + node.nodeSize, schema.marks[MARK_LINK]);
     tr = tr.setSelection(selection);
-    tr = tr.setNodeMarkup(
-      pos,
-      codeBlock,
-      node.attrs,
-      node.marks,
-    );
+    tr = tr.setNodeMarkup(pos, codeBlock, node.attrs, node.marks);
   }
   return tr;
 }

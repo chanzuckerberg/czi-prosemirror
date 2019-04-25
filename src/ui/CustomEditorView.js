@@ -11,10 +11,7 @@ class CustomEditorView extends EditorView {
   placeholder: ?(string | React.Element<any>);
   readOnly: boolean;
   runtime: ?EditorRuntime;
-  constructor(
-    place: HTMLElement,
-    props: DirectEditorProps,
-  ) {
+  constructor(place: HTMLElement, props: DirectEditorProps) {
     super(place, props);
     this.runtime = null;
     this.readOnly = true;

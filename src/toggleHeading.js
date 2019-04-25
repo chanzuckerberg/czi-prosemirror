@@ -12,7 +12,7 @@ import {unwrapNodesFromList} from './toggleList';
 export default function toggleHeading(
   tr: Transform,
   schema: Schema,
-  level: number,
+  level: number
 ): Transform {
   const {nodes} = schema;
   const {selection, doc} = tr;
@@ -23,8 +23,12 @@ export default function toggleHeading(
   const paragraph = nodes[PARAGRAPH];
 
   if (
-    !selection || !doc || !heading || !paragraph ||
-    !listItem || !blockquote
+    !selection ||
+    !doc ||
+    !heading ||
+    !paragraph ||
+    !listItem ||
+    !blockquote
   ) {
     return tr;
   }
@@ -38,8 +42,7 @@ export default function toggleHeading(
 
     if (startWithHeadingBlock === null) {
       startWithHeadingBlock =
-        nodeType === heading &&
-        node.attrs.level === level;
+        nodeType === heading && node.attrs.level === level;
     }
 
     if (parentNodeType !== listItem) {
@@ -48,14 +51,17 @@ export default function toggleHeading(
     return !isListNode(node);
   });
   // Update from the bottom to avoid disruptive changes in pos.
-  poses.sort(compareNumber).reverse().forEach(pos => {
-    tr = setHeadingNode(
-      tr,
-      schema,
-      pos,
-      startWithHeadingBlock ? null : level,
-    );
-  });
+  poses
+    .sort(compareNumber)
+    .reverse()
+    .forEach(pos => {
+      tr = setHeadingNode(
+        tr,
+        schema,
+        pos,
+        startWithHeadingBlock ? null : level
+      );
+    });
   return tr;
 }
 
@@ -63,7 +69,7 @@ function setHeadingNode(
   tr: Transform,
   schema: Schema,
   pos: number,
-  level: ?number,
+  level: ?number
 ): Transform {
   const {nodes} = schema;
   const heading = nodes[HEADING];
@@ -83,7 +89,7 @@ function setHeadingNode(
   } else if (isListNode(node)) {
     // Toggle list
     if (heading && level !== null) {
-      tr = unwrapNodesFromList(tr, schema, pos, (paragraphNode) => {
+      tr = unwrapNodesFromList(tr, schema, pos, paragraphNode => {
         const {content, marks, attrs} = paragraphNode;
         const headingAttrs = {...attrs, level};
         return heading.create(headingAttrs, content, marks);
@@ -92,27 +98,12 @@ function setHeadingNode(
   } else if (nodeType === heading) {
     // Toggle heading
     if (level === null) {
-      tr = tr.setNodeMarkup(
-        pos,
-        paragraph,
-        node.attrs,
-        node.marks,
-      );
+      tr = tr.setNodeMarkup(pos, paragraph, node.attrs, node.marks);
     } else {
-      tr = tr.setNodeMarkup(
-        pos,
-        heading,
-        {...node.attrs, level},
-        node.marks,
-      );
+      tr = tr.setNodeMarkup(pos, heading, {...node.attrs, level}, node.marks);
     }
-  } else if (level && nodeType === paragraph || nodeType === blockquote) {
-    tr = tr.setNodeMarkup(
-      pos,
-      heading,
-      {...node.attrs, level},
-      node.marks,
-    );
+  } else if ((level && nodeType === paragraph) || nodeType === blockquote) {
+    tr = tr.setNodeMarkup(pos, heading, {...node.attrs, level}, node.marks);
   }
   return tr;
 }

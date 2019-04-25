@@ -10,7 +10,6 @@ import preventEventDefault from './preventEventDefault';
 import type {PointerSurfaceProps} from './PointerSurface';
 
 class CustomRadioButton extends React.PureComponent<any, any, any> {
-
   props: PointerSurfaceProps & {
     checked?: ?boolean,
     inline?: ?boolean,
@@ -23,14 +22,20 @@ class CustomRadioButton extends React.PureComponent<any, any, any> {
 
   render(): React.Element<any> {
     const {
-      title, className, checked, label, inline, name, onSelect,
+      title,
+      className,
+      checked,
+      label,
+      inline,
+      name,
+      onSelect,
       disabled,
       ...pointerProps
     } = this.props;
 
     const klass = cx(className, 'czi-custom-radio-button', {
-      'checked': checked,
-      'inline': inline,
+      checked: checked,
+      inline: inline,
     });
 
     return (
@@ -39,7 +44,8 @@ class CustomRadioButton extends React.PureComponent<any, any, any> {
         className={klass}
         disabled={disabled}
         onClick={onSelect}
-        title={title || label}>
+        title={title || label}
+      >
         <input
           checked={checked}
           className="czi-custom-radio-button-input"
@@ -50,9 +56,7 @@ class CustomRadioButton extends React.PureComponent<any, any, any> {
           type="radio"
         />
         <span className="czi-custom-radio-button-icon" />
-        <span className="czi-custom-radio-button-label">
-          {label}
-        </span>
+        <span className="czi-custom-radio-button-label">{label}</span>
       </PointerSurface>
     );
   }

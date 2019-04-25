@@ -9,7 +9,6 @@ import splitListItem from './splitListItem';
 import UICommand from './ui/UICommand';
 
 class ListSplitCommand extends UICommand {
-
   constructor(schema: Schema) {
     super();
   }
@@ -17,7 +16,7 @@ class ListSplitCommand extends UICommand {
   execute = (
     state: EditorState,
     dispatch: ?(tr: Transform) => void,
-    view: ?EditorView,
+    view: ?EditorView
   ): boolean => {
     const {selection, schema} = state;
     const tr = splitListItem(state.tr.setSelection(selection), schema);
@@ -29,6 +28,5 @@ class ListSplitCommand extends UICommand {
     }
   };
 }
-
 
 export default ListSplitCommand;

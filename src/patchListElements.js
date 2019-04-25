@@ -1,7 +1,14 @@
 // @flow
 
-import {ATTRIBUTE_LIST_STYLE_COLOR, ATTRIBUTE_LIST_STYLE_TYPE} from './ListItemNodeSpec';
-import {ATTRIBUTE_INDENT, EMPTY_CSS_VALUE, convertMarginLeftToIndentValue} from './ParagraphNodeSpec';
+import {
+  ATTRIBUTE_LIST_STYLE_COLOR,
+  ATTRIBUTE_LIST_STYLE_TYPE,
+} from './ListItemNodeSpec';
+import {
+  ATTRIBUTE_INDENT,
+  EMPTY_CSS_VALUE,
+  convertMarginLeftToIndentValue,
+} from './ParagraphNodeSpec';
 import {ATTRIBUTE_CSS_BEFORE_CONTENT} from './patchStyleElements';
 import toCSSColor from './ui/toCSSColor';
 
@@ -18,7 +25,6 @@ const CHAR_ZERO_SPACE = '\u200B';
 const INLINE_NODE_NAME_PATTERN = /^(#text)|(A|SPAN|B|STRONG)$/;
 
 function patchListElementsElement(listElement: HTMLElement): void {
-
   // If the children of `listElement` all have teh same marginLeft, assume
   // it to be indented.
   let marginLeft = undefined;
@@ -69,10 +75,11 @@ function patchListElementsElement(listElement: HTMLElement): void {
       // that text color will be used for list style type, too.
       const el: any = firstElementChild;
       const color = el.style ? el.style.color : null;
-      color && listItemElement.setAttribute(
-        ATTRIBUTE_LIST_STYLE_COLOR,
-        toCSSColor(color),
-      );
+      color &&
+        listItemElement.setAttribute(
+          ATTRIBUTE_LIST_STYLE_COLOR,
+          toCSSColor(color)
+        );
     }
   });
 
@@ -150,8 +157,8 @@ function patchPaddingStyle(listItemElement: HTMLElement): void {
   let contentIsInline = true;
 
   Array.from(childNodes).forEach(cn => {
-    contentIsInline = contentIsInline &&
-      INLINE_NODE_NAME_PATTERN.test(cn.nodeName);
+    contentIsInline =
+      contentIsInline && INLINE_NODE_NAME_PATTERN.test(cn.nodeName);
     frag.appendChild(cn);
   });
 

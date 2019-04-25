@@ -11,7 +11,7 @@ import UICommand from './ui/UICommand';
 export function setTextAlign(
   tr: Transform,
   schema: Schema,
-  alignment: ?string,
+  alignment: ?string
 ): Transform {
   const {selection, doc} = tr;
   if (!selection || !doc) {
@@ -28,12 +28,7 @@ export function setTextAlign(
   const tasks = [];
   alignment = alignment || null;
 
-  const allowedNodeTypes = new Set([
-    blockquote,
-    heading,
-    listItem,
-    paragraph,
-  ]);
+  const allowedNodeTypes = new Set([blockquote, heading, listItem, paragraph]);
 
   doc.nodesBetween(from, to, (node, pos, parentNode) => {
     const nodeType = node.type;
@@ -66,19 +61,13 @@ export function setTextAlign(
         align: null,
       };
     }
-    tr = tr.setNodeMarkup(
-      pos,
-      nodeType,
-      attrs,
-      node.marks,
-    );
+    tr = tr.setNodeMarkup(pos, nodeType, attrs, node.marks);
   });
 
   return tr;
 }
 
 class TextAlignCommand extends UICommand {
-
   _alignment: string;
 
   constructor(alignment: string) {
@@ -92,10 +81,7 @@ class TextAlignCommand extends UICommand {
     let keepLooking = true;
     let active = false;
     doc.nodesBetween(from, to, (node, pos) => {
-      if (
-        keepLooking &&
-        node.attrs.align === this._alignment
-      ) {
+      if (keepLooking && node.attrs.align === this._alignment) {
         keepLooking = false;
         active = true;
       }
@@ -107,21 +93,20 @@ class TextAlignCommand extends UICommand {
   isEnabled = (state: EditorState): boolean => {
     const {selection} = state;
     return (
-      selection instanceof TextSelection ||
-      selection instanceof AllSelection
+      selection instanceof TextSelection || selection instanceof AllSelection
     );
   };
 
   execute = (
     state: EditorState,
     dispatch: ?(tr: Transform) => void,
-    view: ?EditorView,
+    view: ?EditorView
   ): boolean => {
     const {schema, selection} = state;
     const tr = setTextAlign(
       state.tr.setSelection(selection),
       schema,
-      this._alignment,
+      this._alignment
     );
     if (tr.docChanged) {
       dispatch && dispatch(tr);

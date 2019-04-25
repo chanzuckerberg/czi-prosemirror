@@ -30,8 +30,8 @@ export default function joinUp(tr: Transform): Transform {
     tr = tr.setSelection(
       NodeSelection.create(
         tr.doc,
-        point - tr.doc.resolve(point).nodeBefore.nodeSize,
-      ),
+        point - tr.doc.resolve(point).nodeBefore.nodeSize
+      )
     );
   }
 

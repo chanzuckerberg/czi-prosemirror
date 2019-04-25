@@ -35,7 +35,7 @@ function getInitialState(): Object {
     }
   } catch (ex) {
     // pass
-  };
+  }
   return {
     editorState,
     html,
@@ -46,16 +46,14 @@ function getInitialState(): Object {
 
 class ConvertAppArea extends React.Component<any, any, any> {
   render(): React.Element<any> {
-    const {className, children,title} = this.props;
+    const {className, children, title} = this.props;
     const cn = cx(className, 'convert-app-area');
     return (
       <div className={cn}>
         <div className="convert-app-area-head">
           <span className="convert-app-area-title">{title}</span>
         </div>
-        <div className="convert-app-area-body">
-          {children}
-        </div>
+        <div className="convert-app-area-body">{children}</div>
       </div>
     );
   }
@@ -73,7 +71,8 @@ class ConvertApp extends React.PureComponent<any, any, any> {
         <div className="grid-container">
           <ConvertAppArea
             className="header"
-            title="CZI-Promise-Mirror Content Conversion Tool">
+            title="CZI-Promise-Mirror Content Conversion Tool"
+          >
             <div className="czi-custom-buttons">
               <CustomButton
                 label={`HTML ${RIGHT_ARROW_CHAR} ProseMirror`}
@@ -92,7 +91,7 @@ class ConvertApp extends React.PureComponent<any, any, any> {
                 onClick={this._toProseMirrorJSON}
               />
             </div>
-             <div className="czi-custom-buttons">
+            <div className="czi-custom-buttons">
               <CustomButton
                 label={RIGHT_ARROW_CHAR + (readOnly ? ' Edit' : ' Read-only')}
                 onClick={this._toggleReadOnly}
@@ -102,16 +101,15 @@ class ConvertApp extends React.PureComponent<any, any, any> {
           </ConvertAppArea>
           <ConvertAppArea
             className="prosemirror-json"
-            title="ProseMirror JSON View">
+            title="ProseMirror JSON View"
+          >
             <textarea
               onChange={this._onProseMirrorJSONChange}
               spellCheck={false}
               value={prosemirrorJSON}
             />
           </ConvertAppArea>
-          <ConvertAppArea
-            className="html"
-            title="HTML View">
+          <ConvertAppArea className="html" title="HTML View">
             <textarea
               onChange={this._onHTMLChange}
               onDrop={this._onHTMLDrop}
@@ -119,9 +117,7 @@ class ConvertApp extends React.PureComponent<any, any, any> {
               value={html}
             />
           </ConvertAppArea>
-          <ConvertAppArea
-            className="prosemirror"
-            title="ProseMirror View">
+          <ConvertAppArea className="prosemirror" title="ProseMirror View">
             <RichTextEditor
               autoFocus={true}
               disabled={false}
@@ -170,15 +166,15 @@ class ConvertApp extends React.PureComponent<any, any, any> {
 
     const el: any = e.currentTarget;
     const file = e.dataTransfer.files[0];
-    if (!file || !(/\.html$/).test(file.name)) {
+    if (!file || !/\.html$/.test(file.name)) {
       return;
     }
     let reader = new FileReader();
 
-    reader.onload = (onload) => {
+    reader.onload = onload => {
       el.readOnly = false;
-      const html = el.value =
-        `<!--\n${String(file.name)}\n-->\n` + onload.target.result;
+      const html = (el.value =
+        `<!--\n${String(file.name)}\n-->\n` + onload.target.result);
       this._dropping = false;
       reader = null;
       const editorState = convertFromHTML(html);
@@ -186,7 +182,7 @@ class ConvertApp extends React.PureComponent<any, any, any> {
       this.setState({html, editorState}, this._save);
     };
 
-    reader.onerror = (onerror) => {
+    reader.onerror = onerror => {
       const html = onerror.message || 'unable to read file';
       this._dropping = false;
       reader = null;
@@ -211,14 +207,14 @@ class ConvertApp extends React.PureComponent<any, any, any> {
       const {html, prosemirrorJSON} = this.state;
       window.localStorage.setItem(
         LOCAL_STORAGE_KEY,
-        JSON.stringify({html,prosemirrorJSON}),
+        JSON.stringify({html, prosemirrorJSON})
       );
     } catch (ex) {
       // skip
     }
-  }
+  };
 
-  _toProseMirrorJSON = ():void => {
+  _toProseMirrorJSON = (): void => {
     const {editorState} = this.state;
     const prosemirrorJSON = JSON.stringify(convertToJSON(editorState), null, 2);
     this.setState({prosemirrorJSON}, this._save);

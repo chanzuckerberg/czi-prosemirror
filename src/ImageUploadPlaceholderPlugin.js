@@ -21,7 +21,7 @@ const IMAGE_FILE_TYLES = new Set([
 
 const TITLE = 'Uploading...';
 
-const INNER_HTML = (new Array(4)).join(
+const INNER_HTML = new Array(4).join(
   '<div class="czi-image-upload-placeholder-child"></div>'
 );
 
@@ -36,7 +36,7 @@ function isImageFileType(file: File): boolean {
 function findImageUploadPlaceholder(
   placeholderPlugin: ImageUploadPlaceholderPlugin,
   state: EditorState,
-  id: Object,
+  id: Object
 ): ?Decoration {
   const decos = placeholderPlugin.getState(state);
   const found = decos.find(null, null, spec => spec.id === id);
@@ -52,7 +52,7 @@ function defer(fn: Function): Function {
 export function uploadImageFiles(
   view: EditorView,
   files: Array<File>,
-  coords: ?{x: number, y: number},
+  coords: ?{x: number, y: number}
 ): boolean {
   const {runtime, state, readOnly, disabled} = view;
   const {schema, plugins} = state;
@@ -87,11 +87,7 @@ export function uploadImageFiles(
 
   const uploadNext = defer(() => {
     const done = (imageInfo: {src: ?string}) => {
-      const pos = findImageUploadPlaceholder(
-        placeholderPlugin,
-        view.state,
-        id,
-      );
+      const pos = findImageUploadPlaceholder(placeholderPlugin, view.state, id);
       let trNext = view.state.tr;
       if (pos && !view.readOnly && !view.disabled) {
         const imageNode = imageType.create(imageInfo);
@@ -109,7 +105,9 @@ export function uploadImageFiles(
       view.dispatch(trNext);
     };
     const ff = nullthrows(imageFiles.shift());
-    uploadImage(ff).then(done).catch(done.bind(null, {src: null}));
+    uploadImage(ff)
+      .then(done)
+      .catch(done.bind(null, {src: null}));
   });
 
   uploadNext();
@@ -119,7 +117,7 @@ export function uploadImageFiles(
   // Replace the selection with a placeholder
   let from = 0;
 
-   // Adjust the cursor to the dropped position.
+  // Adjust the cursor to the dropped position.
   if (coords) {
     const dropPos = view.posAtCoords({
       left: coords.x,
@@ -131,18 +129,10 @@ export function uploadImageFiles(
     }
 
     from = dropPos.pos;
-    tr = tr.setSelection(TextSelection.create(
-      tr.doc,
-      from,
-      from,
-    ));
+    tr = tr.setSelection(TextSelection.create(tr.doc, from, from));
   } else {
     from = tr.selection.to;
-    tr = tr.setSelection(TextSelection.create(
-      tr.doc,
-      from,
-      from,
-    ));
+    tr = tr.setSelection(TextSelection.create(tr.doc, from, from));
   }
   const meta = {
     add: {
@@ -175,19 +165,17 @@ class ImageUploadPlaceholderPlugin extends Plugin {
             el.className = 'czi-image-upload-placeholder';
             el.innerHTML = INNER_HTML;
 
-            const deco = Decoration.widget(
-              action.add.pos,
-              el,
-              {id: action.add.id},
-            );
+            const deco = Decoration.widget(action.add.pos, el, {
+              id: action.add.id,
+            });
 
             set = set.add(tr.doc, [deco]);
           } else if (action && action.remove) {
-            const finder = (spec) => spec.id == action.remove.id;
+            const finder = spec => spec.id == action.remove.id;
             set = set.remove(set.find(null, null, finder));
           }
           return set;
-        }
+        },
       },
       props: {
         decorations(state: EditorState): DecorationSet {

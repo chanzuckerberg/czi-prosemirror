@@ -9,7 +9,7 @@ import {LIST_ITEM} from './NodeNames';
 // of a list item by also splitting that list item.
 export default function splitListItem(
   tr: Transform,
-  schema: Schema,
+  schema: Schema
 ): Transform {
   const nodeType = schema.nodes[LIST_ITEM];
   if (!nodeType) {
@@ -24,7 +24,7 @@ export default function splitListItem(
   const {$from, $to, node} = selection;
   if ((node && node.isBlock) || $from.depth < 2 || !$from.sameParent($to)) {
     return tr;
-  };
+  }
 
   const grandParent = $from.node(-1);
   if (grandParent.type !== nodeType) {
@@ -36,7 +36,8 @@ export default function splitListItem(
     // list item should be split. Otherwise, bail out and let next
     // command handle lifting.
     if (
-      $from.depth == 2 || $from.node(-3).type !== nodeType ||
+      $from.depth == 2 ||
+      $from.node(-3).type !== nodeType ||
       $from.index(-2) != $from.node(-2).childCount - 1
     ) {
       return tr;
@@ -55,7 +56,7 @@ export default function splitListItem(
     tr = tr.replace(
       $from.before(keepItem ? null : -1),
       $from.after(-3),
-      new Slice(wrap, keepItem ? 3 : 2, 2),
+      new Slice(wrap, keepItem ? 3 : 2, 2)
     );
 
     const pos = $from.pos + (keepItem ? 3 : 2);
@@ -63,9 +64,10 @@ export default function splitListItem(
     return tr;
   }
 
-  const nextType = $to.pos == $from.end() ?
-    grandParent.contentMatchAt($from.indexAfter(-1)).defaultType :
-    null;
+  const nextType =
+    $to.pos == $from.end()
+      ? grandParent.contentMatchAt($from.indexAfter(-1)).defaultType
+      : null;
 
   tr = tr.delete($from.pos, $to.pos);
   const types = nextType && [null, {type: nextType}];

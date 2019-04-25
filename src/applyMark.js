@@ -10,7 +10,7 @@ function markApplies(doc, ranges, type) {
     doc.nodesBetween($from.pos, $to.pos, node => {
       if (can) {
         return false;
-      };
+      }
       can = node.inlineContent && node.type.allowsMarkType(type);
       return true;
     });
@@ -26,7 +26,7 @@ export default function applyMark(
   tr: Transform,
   schema: Schema,
   markType: Mark,
-  attrs?: ?Object,
+  attrs?: ?Object
 ): Transform {
   if (!tr.selection || !tr.doc || !markType) {
     return tr;

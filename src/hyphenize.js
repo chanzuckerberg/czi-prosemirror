@@ -6,7 +6,6 @@ function hadnleMatch(matched: string): string {
 
 const cached = {};
 
-
 // converts `fooBar` to `foo-bar`.
 export default function hyphenize(str: string): string {
   if (cached.hasOwnProperty(str)) {

@@ -35,7 +35,6 @@ export type PopUpHandle = {
 };
 
 class PopUp extends React.PureComponent {
-
   props: PopUpProps;
 
   _bridge = null;
@@ -46,10 +45,7 @@ class PopUp extends React.PureComponent {
     const {View, viewProps, close} = this.props;
     return (
       <div data-pop-up-id={this._id} id={this._id}>
-        <View
-          {...(viewProps || dummy)}
-          close={close}
-        />
+        <View {...viewProps || dummy} close={close} />
       </div>
     );
   }

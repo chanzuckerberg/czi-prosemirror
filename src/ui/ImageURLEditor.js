@@ -12,7 +12,6 @@ import './czi-image-url-editor.css';
 import type {ImageLike} from '../Types';
 
 class ImageURLEditor extends React.PureComponent<any, any, any> {
-
   _img = null;
   _unmounted = false;
 
@@ -32,12 +31,12 @@ class ImageURLEditor extends React.PureComponent<any, any, any> {
 
   render(): React.Element<any> {
     const {src, validValue} = this.state;
-    const preview = validValue ?
+    const preview = validValue ? (
       <div
         className="czi-image-url-editor-input-preview"
         style={{backgroundImage: `url(${String(validValue.src)}`}}
-      /> :
-      null;
+      />
+    ) : null;
 
     return (
       <div className="czi-image-url-editor">
@@ -49,7 +48,8 @@ class ImageURLEditor extends React.PureComponent<any, any, any> {
                 autoFocus={true}
                 className="czi-image-url-editor-src-input"
                 onChange={this._onSrcChange}
-                placeholder="Paste URL of Image..." type="text"
+                placeholder="Paste URL of Image..."
+                type="text"
                 value={src || ''}
               />
               {preview}
@@ -59,10 +59,7 @@ class ImageURLEditor extends React.PureComponent<any, any, any> {
             </em>
           </fieldset>
           <div className="czi-form-buttons">
-            <CustomButton
-              label="Cancel"
-              onClick={this._cancel}
-            />
+            <CustomButton label="Cancel" onClick={this._cancel} />
             <CustomButton
               active={!!validValue}
               disabled={!validValue}
@@ -77,18 +74,19 @@ class ImageURLEditor extends React.PureComponent<any, any, any> {
 
   _onSrcChange = (e: SyntheticInputEvent) => {
     const src = e.target.value;
-    this.setState({
-      src,
-      validValue: null,
-    }, this._didSrcChange);
+    this.setState(
+      {
+        src,
+        validValue: null,
+      },
+      this._didSrcChange
+    );
   };
 
   _didSrcChange = (): void => {
     resolveImage(this.state.src).then(result => {
       if (this.state.src === result.src && !this._unmounted) {
-        const validValue = result.complete ?
-          result :
-          null;
+        const validValue = result.complete ? result : null;
         this.setState({validValue});
       }
     });

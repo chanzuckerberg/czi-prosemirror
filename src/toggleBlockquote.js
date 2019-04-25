@@ -11,7 +11,7 @@ import {unwrapNodesFromList} from './toggleList';
 
 export default function toggleBlockquote(
   tr: Transform,
-  schema: Schema,
+  schema: Schema
 ): Transform {
   const {nodes} = schema;
   const {selection, doc} = tr;
@@ -41,20 +41,19 @@ export default function toggleBlockquote(
     return !isListNode(node);
   });
   // Update from the bottom to avoid disruptive changes in pos.
-  poses.sort(compareNumber).reverse().forEach(pos => {
-    tr = setBlockquoteNode(
-      tr,
-      schema,
-      pos,
-    );
-  });
+  poses
+    .sort(compareNumber)
+    .reverse()
+    .forEach(pos => {
+      tr = setBlockquoteNode(tr, schema, pos);
+    });
   return tr;
 }
 
 function setBlockquoteNode(
   tr: Transform,
   schema: Schema,
-  pos: number,
+  pos: number
 ): Transform {
   const {nodes} = schema;
   const heading = nodes[HEADING];
@@ -77,26 +76,16 @@ function setBlockquoteNode(
   } else if (isListNode(node)) {
     // Toggle list
     if (blockquote) {
-      tr = unwrapNodesFromList(tr, schema, pos, (paragraphNode) => {
+      tr = unwrapNodesFromList(tr, schema, pos, paragraphNode => {
         const {content, marks, attrs} = paragraphNode;
         return blockquote.create(attrs, content, marks);
       });
     }
   } else if (nodeType === blockquote) {
     // Toggle heading
-    tr = tr.setNodeMarkup(
-      pos,
-      paragraph,
-      node.attrs,
-      node.marks,
-    );
+    tr = tr.setNodeMarkup(pos, paragraph, node.attrs, node.marks);
   } else if (nodeType === paragraph || nodeType === heading) {
-    tr = tr.setNodeMarkup(
-      pos,
-      blockquote,
-      node.attrs,
-      node.marks,
-    );
+    tr = tr.setNodeMarkup(pos, blockquote, node.attrs, node.marks);
   }
   return tr;
 }

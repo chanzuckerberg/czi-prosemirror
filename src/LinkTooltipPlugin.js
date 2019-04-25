@@ -5,7 +5,10 @@ import {TextSelection} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
 
 import {MARK_LINK} from './MarkNames';
-import {hideSelectionPlaceholder, showSelectionPlaceholder} from './SelectionPlaceholderPlugin';
+import {
+  hideSelectionPlaceholder,
+  showSelectionPlaceholder,
+} from './SelectionPlaceholderPlugin';
 import applyMark from './applyMark';
 import findNodesWithSameMark from './findNodesWithSameMark';
 import lookUpElement from './lookUpElement';
@@ -20,7 +23,7 @@ import './ui/czi-pop-up.css';
 const SPEC = {
   view(editorView: EditorView) {
     return new LinkTooltipView(editorView);
-  }
+  },
 };
 
 class LinkTooltipPlugin extends Plugin {
@@ -78,7 +81,7 @@ class LinkTooltipView {
       onRemove: this._onRemove,
     };
 
-    if (popup && anchorEl  === this._anchorEl) {
+    if (popup && anchorEl === this._anchorEl) {
       popup.update(viewPops);
     } else {
       popup && popup.close();
@@ -97,10 +100,10 @@ class LinkTooltipView {
     this._editor && this._editor.close();
   }
 
-  _onCancel  = (view: EditorView): void => {
+  _onCancel = (view: EditorView): void => {
     this.destroy();
     view.focus();
-  }
+  };
 
   _onClose = (): void => {
     this._anchorEl = null;
@@ -117,12 +120,7 @@ class LinkTooltipView {
     const {schema, doc, selection} = state;
     const {from, to} = selection;
     const markType = schema.marks[MARK_LINK];
-    const result = findNodesWithSameMark(
-      doc,
-      from,
-      to,
-      markType,
-    );
+    const result = findNodesWithSameMark(doc, from, to, markType);
     if (!result) {
       return;
     }
@@ -130,7 +128,7 @@ class LinkTooltipView {
     const linkSelection = TextSelection.create(
       tr.doc,
       result.from.pos,
-      result.to.pos + 1,
+      result.to.pos + 1
     );
 
     tr = tr.setSelection(linkSelection);
@@ -138,13 +136,17 @@ class LinkTooltipView {
     view.dispatch(tr);
 
     const href = result ? result.mark.attrs.href : null;
-    this._editor = createPopUp(LinkURLEditor,  {href}, {
-      onClose: (value) => {
-        this._editor = null;
-        this._onEditEnd(view, selection, value);
-      },
-    });
-  }
+    this._editor = createPopUp(
+      LinkURLEditor,
+      {href},
+      {
+        onClose: value => {
+          this._editor = null;
+          this._onEditEnd(view, selection, value);
+        },
+      }
+    );
+  };
 
   _onRemove = (view: EditorView): void => {
     this._onEditEnd(view, view.state.selection, null);
@@ -153,7 +155,7 @@ class LinkTooltipView {
   _onEditEnd = (
     view: EditorView,
     initialSelection: TextSelection,
-    href: ?string,
+    href: ?string
   ): void => {
     const {state, dispatch} = view;
     let tr = hideSelectionPlaceholder(state);
@@ -166,22 +168,17 @@ class LinkTooltipView {
           tr.doc,
           initialSelection.from,
           initialSelection.to,
-          markType,
+          markType
         );
         if (result) {
           const linkSelection = TextSelection.create(
             tr.doc,
             result.from.pos,
-            result.to.pos + 1,
+            result.to.pos + 1
           );
           tr = tr.setSelection(linkSelection);
           const attrs = href ? {href} : null;
-          tr = applyMark(
-            tr,
-            schema,
-            markType,
-            attrs,
-          );
+          tr = applyMark(tr, schema, markType, attrs);
         }
       }
     }

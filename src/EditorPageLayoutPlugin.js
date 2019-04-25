@@ -13,7 +13,7 @@ const SPEC = {
 function renderAttributes(editorState: EditorState): Object {
   const {doc} = editorState;
   const attrs: Object = {
-    'class': 'czi-prosemirror-editor',
+    class: 'czi-prosemirror-editor',
   };
 
   const {width, padding, layout} = doc.attrs;
@@ -22,12 +22,12 @@ function renderAttributes(editorState: EditorState): Object {
   let computedLayout;
   if (width) {
     const inWidth = width / 72;
-    if (!computedLayout  && inWidth >= 11 && inWidth <= 11.5) {
+    if (!computedLayout && inWidth >= 11 && inWidth <= 11.5) {
       // Round up to letter size.
-      computedLayout  = LAYOUT.US_LETTER_LANDSCAPE;
+      computedLayout = LAYOUT.US_LETTER_LANDSCAPE;
     } else if (!computedLayout && inWidth >= 8 && inWidth <= 8.6) {
       // Round up to letter size.
-      computedLayout  = LAYOUT.US_LETTER_PORTRAIT;
+      computedLayout = LAYOUT.US_LETTER_PORTRAIT;
     } else {
       // Use custom width (e.g. imported from google doc).
       style += `width: ${width}pt;`;

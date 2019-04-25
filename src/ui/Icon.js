@@ -23,7 +23,6 @@ const CSS_FONT = 'Material Icons';
   }
 })();
 
-
 class SuperscriptIcon extends React.PureComponent<any, any, any> {
   render(): React.Element<any> {
     return (
@@ -36,9 +35,8 @@ class SuperscriptIcon extends React.PureComponent<any, any, any> {
 }
 
 class Icon extends React.PureComponent<any, any, any> {
-
   // Get the static Icon.
-  static get(type: string, title: ?string):  React.Element<any> {
+  static get(type: string, title: ?string): React.Element<any> {
     const key = `${type || ''}-${title || ''}`;
     const icon = cached[key] || <Icon title={title} type={type} />;
     cached[key] = icon;
@@ -64,11 +62,7 @@ class Icon extends React.PureComponent<any, any, any> {
       className = cx('czi-icon', {[type]: true});
       children = type;
     }
-    return (
-      <span className={className}>
-        {children}
-      </span>
-    );
+    return <span className={className}>{children}</span>;
   }
 }
 

@@ -15,11 +15,11 @@ import {atAnchorBottomCenter} from './PopUpPosition';
 
 import type {NodeViewProps} from './CustomNodeView';
 
-const EMPTY_SRC = 'data:image/gif;base64,' +
+const EMPTY_SRC =
+  'data:image/gif;base64,' +
   'R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
 
 class MathViewBody extends React.PureComponent<any, any, any> {
-
   props: NodeViewProps;
 
   _inlineEditor = null;
@@ -55,7 +55,8 @@ class MathViewBody extends React.PureComponent<any, any, any> {
         data-active={active ? 'true' : null}
         data-latex={latex || ''}
         id={this._id}
-        title={latex}>
+        title={latex}
+      >
         <img
           alt={latex}
           className="czi-math-view-body-img"
@@ -83,7 +84,7 @@ class MathViewBody extends React.PureComponent<any, any, any> {
     };
     if (this._inlineEditor) {
       this._inlineEditor.update(editorProps);
-    }  else {
+    } else {
       this._inlineEditor = createPopUp(MathInlineEditor, editorProps, {
         anchor: el,
         autoDismiss: false,
@@ -121,7 +122,6 @@ class MathViewBody extends React.PureComponent<any, any, any> {
 }
 
 class MathNodeView extends CustomNodeView {
-
   // @override
   createDOMElement(): HTMLElement {
     const el = document.createElement('span');

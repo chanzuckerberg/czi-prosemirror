@@ -4,7 +4,10 @@ import {Node} from 'prosemirror-model';
 import {Decoration} from 'prosemirror-view';
 import React from 'react';
 
-import {ATTRIBUTE_BOOKMARK_ID, ATTRIBUTE_BOOKMARK_VISIBLE} from './../BookmarkNodeSpec';
+import {
+  ATTRIBUTE_BOOKMARK_ID,
+  ATTRIBUTE_BOOKMARK_VISIBLE,
+} from './../BookmarkNodeSpec';
 import CustomNodeView from './CustomNodeView';
 import Icon from './Icon';
 
@@ -13,12 +16,11 @@ import './czi-bookmark-view.css';
 import type {NodeViewProps} from './CustomNodeView';
 
 class BookmarkViewBody extends React.PureComponent<any, any, any> {
-
   props: NodeViewProps;
 
   render(): React.Element<any> {
     const {id, visible} = this.props.node.attrs;
-    const icon = (id && visible) ? Icon.get('bookmark') : null;
+    const icon = id && visible ? Icon.get('bookmark') : null;
     return <span onClick={this._onClick}>{icon}</span>;
   }
 
@@ -33,7 +35,6 @@ class BookmarkViewBody extends React.PureComponent<any, any, any> {
 }
 
 class BookmarkNodeView extends CustomNodeView {
-
   // @override
   createDOMElement(): HTMLElement {
     const el = document.createElement('a');

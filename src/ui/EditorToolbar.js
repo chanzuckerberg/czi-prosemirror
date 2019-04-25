@@ -19,7 +19,6 @@ import isReactClass from './isReactClass';
 import './czi-editor-toolbar.css';
 
 class EditorToolbar extends React.PureComponent<any, any, any> {
-
   _body = null;
 
   props: {
@@ -39,7 +38,7 @@ class EditorToolbar extends React.PureComponent<any, any, any> {
   render(): React.Element<any> {
     const {wrapped, expanded} = this.state;
     const className = cx('czi-editor-toolbar', {expanded, wrapped});
-    const wrappedButton = wrapped ?
+    const wrappedButton = wrapped ? (
       <CustomButton
         active={expanded}
         className="czi-editor-toolbar-expand-button"
@@ -48,13 +47,16 @@ class EditorToolbar extends React.PureComponent<any, any, any> {
         onClick={this._toggleExpansion}
         title="More"
         value={expanded}
-      /> :
-      null;
+      />
+    ) : null;
     return (
       <div className={className}>
         <div className="czi-editor-toolbar-flex">
           <div className="czi-editor-toolbar-body">
-            <div className="czi-editor-toolbar-body-content" ref={this._onBodyRef}>
+            <div
+              className="czi-editor-toolbar-body-content"
+              ref={this._onBodyRef}
+            >
               <i className="czi-editor-toolbar-wrapped-anchor" />
               {COMMAND_GROUPS.map(this._renderButtonsGroup)}
               <div className="czi-editor-toolbar-background">
@@ -75,29 +77,31 @@ class EditorToolbar extends React.PureComponent<any, any, any> {
   }
 
   _renderButtonsGroup = (group: Object, index: number): React.Element<any> => {
-    const buttons = Object.keys(group).map(label => {
-      const obj = group[label];
+    const buttons = Object.keys(group)
+      .map(label => {
+        const obj = group[label];
 
-      if (isReactClass(obj)) {
-        // JSX requies the component to be named with upper camel case.
-        const ThatComponent = obj;
-        const {editorState, editorView, dispatchTransaction} = this.props;
-        return (
-          <ThatComponent
-            dispatch={dispatchTransaction}
-            editorState={editorState}
-            editorView={editorView}
-            key={label}
-          />
-        );
-      } else if (obj instanceof UICommand) {
-        return this._renderButton(label, obj);
-      } else if (Array.isArray(obj)) {
-        return this._renderMenuButton(label, obj );
-      } else {
-        return null;
-      }
-    }).filter(Boolean);
+        if (isReactClass(obj)) {
+          // JSX requies the component to be named with upper camel case.
+          const ThatComponent = obj;
+          const {editorState, editorView, dispatchTransaction} = this.props;
+          return (
+            <ThatComponent
+              dispatch={dispatchTransaction}
+              editorState={editorState}
+              editorView={editorView}
+              key={label}
+            />
+          );
+        } else if (obj instanceof UICommand) {
+          return this._renderButton(label, obj);
+        } else if (Array.isArray(obj)) {
+          return this._renderMenuButton(label, obj);
+        } else {
+          return null;
+        }
+      })
+      .filter(Boolean);
     return (
       <div className="czi-custom-buttons" key={'g' + String(index)}>
         {buttons}
@@ -107,7 +111,7 @@ class EditorToolbar extends React.PureComponent<any, any, any> {
 
   _renderMenuButton = (
     label: string,
-    commandGroups: Array<{[string]: UICommand}>,
+    commandGroups: Array<{[string]: UICommand}>
   ): React.Element<any> => {
     const {editorState, editorView, disabled, dispatchTransaction} = this.props;
     const {icon, title} = parseLabel(label);

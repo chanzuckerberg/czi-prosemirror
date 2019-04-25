@@ -14,17 +14,16 @@ import clamp from './ui/clamp';
 export default function updateIndentLevel(
   tr: Transform,
   schema: Schema,
-  delta: number,
+  delta: number
 ): Transform {
   const {doc, selection} = tr;
   if (!doc || !selection) {
     return tr;
   }
 
-  if (!(
-    selection instanceof TextSelection ||
-    selection instanceof AllSelection
-  )) {
+  if (
+    !(selection instanceof TextSelection || selection instanceof AllSelection)
+  ) {
     return tr;
   }
 
@@ -46,7 +45,7 @@ export default function updateIndentLevel(
       tr = setNodeIndentMarkup(tr, schema, pos, delta);
       return false;
     } else if (isListNode(node)) {
-        // List is tricky, we'll handle it later.
+      // List is tricky, we'll handle it later.
       listNodePoses.push(pos);
       return false;
     }
@@ -70,17 +69,15 @@ export default function updateIndentLevel(
   //   return tr2;
   // });
 
-  tr = transformAndPreserveTextSelection(tr, schema, (memo) => {
+  tr = transformAndPreserveTextSelection(tr, schema, memo => {
     const {schema} = memo;
     let tr2 = memo.tr;
-    listNodePoses.sort(compareNumber).reverse().forEach(pos => {
-      tr2 = setListNodeIndent(
-        tr2,
-        schema,
-        pos,
-        delta,
-      );
-    });
+    listNodePoses
+      .sort(compareNumber)
+      .reverse()
+      .forEach(pos => {
+        tr2 = setListNodeIndent(tr2, schema, pos, delta);
+      });
     return tr2;
   });
 
@@ -91,7 +88,7 @@ function setListNodeIndent(
   tr: Transform,
   schema: Schema,
   pos: number,
-  delta: number,
+  delta: number
 ): Transform {
   const listItem = schema.nodes[LIST_ITEM];
   if (!listItem) {
@@ -111,7 +108,7 @@ function setListNodeIndent(
   const indentNew = clamp(
     MIN_INDENT_LEVEL,
     listNode.attrs.indent + delta,
-    MAX_INDENT_LEVEL,
+    MAX_INDENT_LEVEL
   );
   if (indentNew === listNode.attrs.indent) {
     return tr;
@@ -119,7 +116,7 @@ function setListNodeIndent(
 
   const {from, to} = selection;
 
-  if (from <= pos && to >= (pos + listNode.nodeSize)) {
+  if (from <= pos && to >= pos + listNode.nodeSize) {
     return setNodeIndentMarkup(tr, schema, pos, delta);
   }
 
@@ -139,9 +136,9 @@ function setListNodeIndent(
       const listItemNode = listItem.create(
         itemNode.attrs,
         itemNode.content,
-        itemNode.marks,
+        itemNode.marks
       );
-      if ((itemPos + itemNode.nodeSize) <= from) {
+      if (itemPos + itemNode.nodeSize <= from) {
         itemsBefore.push(listItemNode);
       } else if (itemPos > to) {
         itemsAfter.push(listItemNode);
@@ -158,7 +155,7 @@ function setListNodeIndent(
   if (itemsAfter.length) {
     const listNodeNew = listNodeType.create(
       listNode.attrs,
-      Fragment.from(itemsAfter),
+      Fragment.from(itemsAfter)
     );
     tr = tr.insert(pos, Fragment.from(listNodeNew));
     tr = mergeSiblingLists(tr, pos);
@@ -171,7 +168,7 @@ function setListNodeIndent(
     };
     const listNodeNew = listNodeType.create(
       listNodeAttrs,
-      Fragment.from(itemsSelected),
+      Fragment.from(itemsSelected)
     );
     tr = tr.insert(pos, Fragment.from(listNodeNew));
     tr = mergeSiblingLists(tr, pos);
@@ -180,7 +177,7 @@ function setListNodeIndent(
   if (itemsBefore.length) {
     const listNodeNew = listNodeType.create(
       listNode.attrs,
-      Fragment.from(itemsBefore),
+      Fragment.from(itemsBefore)
     );
     tr = tr.insert(pos, Fragment.from(listNodeNew));
     tr = mergeSiblingLists(tr, pos);
@@ -188,10 +185,7 @@ function setListNodeIndent(
   return tr;
 }
 
-function mergeSiblingLists(
-  tr: Transform,
-  listNodePos: number,
-): Transform {
+function mergeSiblingLists(tr: Transform, listNodePos: number): Transform {
   let listNode = tr.doc.nodeAt(listNodePos);
   if (!listNode) {
     return tr;
@@ -234,7 +228,7 @@ function setNodeIndentMarkup(
   tr: Transform,
   schema: Schema,
   pos: number,
-  delta: number,
+  delta: number
 ): Transform {
   if (!tr.doc) {
     return tr;
@@ -246,7 +240,7 @@ function setNodeIndentMarkup(
   const indent = clamp(
     MIN_INDENT_LEVEL,
     (node.attrs.indent || 0) + delta,
-    MAX_INDENT_LEVEL,
+    MAX_INDENT_LEVEL
   );
   if (indent === node.attrs.indent) {
     return tr;
@@ -255,10 +249,5 @@ function setNodeIndentMarkup(
     ...node.attrs,
     indent,
   };
-  return tr.setNodeMarkup(
-    pos,
-    node.type,
-    nodeAttrs,
-    node.marks,
-  );
+  return tr.setNodeMarkup(pos, node.type, nodeAttrs, node.marks);
 }

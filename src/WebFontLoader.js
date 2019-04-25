@@ -15,7 +15,7 @@ class WebFontLoader {
       console.warn('Method WebFontLoader.load does not have an implementation');
     }
   }
-};
+}
 
 const loader = new WebFontLoader();
 

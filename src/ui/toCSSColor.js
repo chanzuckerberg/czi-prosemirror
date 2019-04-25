@@ -6,8 +6,8 @@ const RGBA_PATTERN = /^rgba/i;
 const RGBA_TRANSPARENT = 'rgba(0,0,0,0)';
 
 const ColorMaping = {
-  'transparent': RGBA_TRANSPARENT,
-  'inherit': '',
+  transparent: RGBA_TRANSPARENT,
+  inherit: '',
 };
 
 export function isTransparent(source: any): boolean {
@@ -39,7 +39,9 @@ export function toCSSColor(source: any): string {
 
   let hex = '';
   try {
-    hex = Color(source).hex().toLowerCase();
+    hex = Color(source)
+      .hex()
+      .toLowerCase();
     ColorMaping[source] = hex;
   } catch (ex) {
     console.warn('unable to convert to hex', source);

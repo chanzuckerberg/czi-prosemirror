@@ -8,7 +8,6 @@ import ImageSourceCommand from './ImageSourceCommand';
 import ImageUploadEditor from './ui/ImageUploadEditor';
 
 class ImageUploadCommand extends ImageSourceCommand {
-
   isEnabled = (state: EditorState, view: ?EditorView): boolean => {
     if (!view) {
       return false;

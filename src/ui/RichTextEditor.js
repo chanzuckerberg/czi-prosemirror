@@ -14,9 +14,10 @@ import uuid from './uuid';
 import type {EditorFramesetProps} from './EditorFrameset';
 import type {EditorProps} from './Editor';
 
-type Props = EditorFramesetProps & EditorProps & {
-  children?: ?React.Children,
-};
+type Props = EditorFramesetProps &
+  EditorProps & {
+    children?: ?React.Children,
+  };
 
 type State = {
   editorView: ?EditorView,
@@ -26,7 +27,6 @@ const EMPTY_EDITOR_STATE = createEmptyEditorState();
 const EMPTY_EDITOR_RUNTIME = {};
 
 class RichTextEditor extends React.PureComponent<any, any, any> {
-
   props: Props;
 
   state: State;
@@ -59,26 +59,25 @@ class RichTextEditor extends React.PureComponent<any, any, any> {
       width,
     } = this.props;
 
-    let {
-      editorState,
-      runtime,
-    } = this.props;
+    let {editorState, runtime} = this.props;
 
     editorState = editorState || EMPTY_EDITOR_STATE;
     runtime = runtime || EMPTY_EDITOR_RUNTIME;
 
     const {editorView} = this.state;
 
-    const toolbar = (!!readOnly === true) ? null :
-      <EditorToolbar
-        disabled={disabled}
-        dispatchTransaction={this._dispatchTransaction}
-        editorState={editorState || Editor.EDITOR_EMPTY_STATE}
-        editorView={editorView}
-        readOnly={readOnly}
-      />;
+    const toolbar =
+      !!readOnly === true ? null : (
+        <EditorToolbar
+          disabled={disabled}
+          dispatchTransaction={this._dispatchTransaction}
+          editorState={editorState || Editor.EDITOR_EMPTY_STATE}
+          editorView={editorView}
+          readOnly={readOnly}
+        />
+      );
 
-    const body =
+    const body = (
       <Frag>
         <Editor
           autoFocus={autoFocus}
@@ -95,7 +94,8 @@ class RichTextEditor extends React.PureComponent<any, any, any> {
           runtime={runtime}
         />
         {children}
-      </Frag>;
+      </Frag>
+    );
 
     return (
       <EditorFrameset
