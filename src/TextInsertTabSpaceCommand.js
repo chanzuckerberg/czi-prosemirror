@@ -49,35 +49,21 @@ function insertTabSpace(tr: Transform, schema: Schema): Transform {
     size: SPACER_SIZE_TAB,
   };
 
-  tr = tr.setSelection(TextSelection.create(
-    tr.doc,
-    to,
-    to + 1,
-  ));
+  tr = tr.setSelection(TextSelection.create(tr.doc, to, to + 1));
 
-  tr = applyMark(
-    tr,
-    schema,
-    markType,
-    attrs,
-  );
+  tr = applyMark(tr, schema, markType, attrs);
 
-  tr = tr.setSelection(TextSelection.create(
-    tr.doc,
-    to + 1,
-    to + 1,
-  ));
+  tr = tr.setSelection(TextSelection.create(tr.doc, to + 1, to + 1));
 
   return tr;
 }
-
 
 class TextInsertTabSpaceCommand extends UICommand {
   execute = (
     state: EditorState,
     dispatch: ?(tr: Transform) => void,
     view: ?EditorView,
-    event: ?SyntheticEvent,
+    event: ?SyntheticEvent
   ): boolean => {
     const {schema, tr} = state;
     const trNext = insertTabSpace(tr, schema);

@@ -23,7 +23,7 @@ const PLACEHOLDER_TEXT = `[\u200b\u2800PLACEHOLDER_TEXT_${uuid()}\u2800\u200b]`;
 export default function transformAndPreserveTextSelection(
   tr: Transform,
   schema: Schema,
-  fn: (memo: SelectionMemo) => Transform,
+  fn: (memo: SelectionMemo) => Transform
 ): Transform {
   if (tr.getMeta('dryrun')) {
     // There's no need to preserve the selection in dryrun mode.
@@ -82,20 +82,18 @@ export default function transformAndPreserveTextSelection(
       // Could not find the same type of node, assume the next node is safe to use.
       toOffset = 1;
     } else if (prevNode) {
-       // Could not find the same type of node, assume the next node is safe to use.
+      // Could not find the same type of node, assume the next node is safe to use.
       fromOffset = -1;
     } else {
       // Selection can't be safely preserved.
       return tr;
     }
-    tr = tr.setSelection(TextSelection.create(
-      doc,
-      from + fromOffset,
-      to + toOffset,
-    ));
+    tr = tr.setSelection(
+      TextSelection.create(doc, from + fromOffset, to + toOffset)
+    );
   }
 
-   // This is an unique ID (by reference).
+  // This is an unique ID (by reference).
   const id = {};
   const findMark = mark => mark.attrs.id === id;
 
@@ -141,12 +139,9 @@ export default function transformAndPreserveTextSelection(
     });
   }
 
-  tr = tr.setSelection(TextSelection.create(
-    tr.doc,
-    selectionRange.from,
-    selectionRange.to,
-  ));
-
+  tr = tr.setSelection(
+    TextSelection.create(tr.doc, selectionRange.from, selectionRange.to)
+  );
 
   return tr;
 }

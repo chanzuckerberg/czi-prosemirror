@@ -16,7 +16,7 @@ function setDocLayout(
   tr: Transform,
   schema: Schema,
   width: ?number,
-  layout: ?string,
+  layout: ?string
 ): Transform {
   const {doc} = tr;
   if (!doc) {
@@ -29,7 +29,6 @@ function setDocLayout(
 }
 
 class DocLayoutCommand extends UICommand {
-
   _popUp = null;
 
   isEnabled = (state: EditorState): boolean => {
@@ -44,9 +43,8 @@ class DocLayoutCommand extends UICommand {
     state: EditorState,
     dispatch: ?(tr: Transform) => void,
     view: ?EditorView,
-    event: ?SyntheticEvent,
+    event: ?SyntheticEvent
   ): Promise<any> => {
-
     if (this._popUp) {
       return Promise.resolve(undefined);
     }
@@ -59,12 +57,12 @@ class DocLayoutCommand extends UICommand {
       };
       this._popUp = createPopUp(DocLayoutEditor, props, {
         modal: true,
-        onClose: (val) => {
+        onClose: val => {
           if (this._popUp) {
             this._popUp = null;
             resolve(val);
           }
-        }
+        },
       });
     });
   };
@@ -73,7 +71,7 @@ class DocLayoutCommand extends UICommand {
     state: EditorState,
     dispatch: ?(tr: Transform) => void,
     view: ?EditorView,
-    inputs: ?DocLayoutEditorValue,
+    inputs: ?DocLayoutEditorValue
   ): boolean => {
     if (dispatch) {
       const {selection, schema} = state;
@@ -92,6 +90,5 @@ class DocLayoutCommand extends UICommand {
     return false;
   };
 }
-
 
 export default DocLayoutCommand;

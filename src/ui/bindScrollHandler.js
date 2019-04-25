@@ -6,13 +6,12 @@ type ScrollHandle = {
 
 export default function bindScrollHandler(
   target: Element,
-  callback: Function,
+  callback: Function
 ): ScrollHandle {
   const defaultView = target.ownerDocument.defaultView;
   const els = [];
 
   let rid = 0;
-
 
   let onScroll = () => {
     // Debounce the scroll handler.
@@ -26,7 +25,7 @@ export default function bindScrollHandler(
   // elements.
   while (el) {
     const overflow = defaultView.getComputedStyle(el).overflow;
-    if (onScroll && overflow === 'auto' || overflow === 'scroll') {
+    if ((onScroll && overflow === 'auto') || overflow === 'scroll') {
       el.addEventListener('scroll', onScroll, false);
       els.push(el);
     }

@@ -11,7 +11,6 @@ type SetDocAttrStepJSONValue = {
 
 // https://discuss.prosemirror.net/t/changing-doc-attrs/784/17
 class SetDocAttrStep extends Step {
-
   key: string;
   stepType: string;
   value: any;

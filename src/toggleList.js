@@ -15,7 +15,7 @@ import type {SelectionMemo} from './transformAndPreserveTextSelection';
 export default function toggleList(
   tr: Transform,
   schema: Schema,
-  listNodeType: NodeType,
+  listNodeType: NodeType
 ): Transform {
   const {selection, doc} = tr;
   if (!selection || !doc) {
@@ -24,11 +24,7 @@ export default function toggleList(
 
   const {from} = selection;
 
-  const fromSelection = TextSelection.create(
-    doc,
-    from,
-    from,
-  );
+  const fromSelection = TextSelection.create(doc, from, from);
   const paragraph = schema.nodes[PARAGRAPH];
   const heading = schema.nodes[HEADING];
   const result = findParentNodeOfType(listNodeType)(fromSelection);
@@ -47,30 +43,26 @@ export function unwrapNodesFromList(
   tr: Transform,
   schema: Schema,
   listNodePos: number,
-  unwrapParagraphNode?: ?(Node) => Node,
+  unwrapParagraphNode?: ?(Node) => Node
 ): Transform {
-  return transformAndPreserveTextSelection(tr, schema, (memo) => {
-    return unwrapNodesFromListInternal(
-      memo,
-      listNodePos,
-      unwrapParagraphNode
-    );
+  return transformAndPreserveTextSelection(tr, schema, memo => {
+    return unwrapNodesFromListInternal(memo, listNodePos, unwrapParagraphNode);
   });
 }
 
 function wrapNodesWithList(
   tr: Transform,
   schema: Schema,
-  listNodeType: NodeType,
+  listNodeType: NodeType
 ): Transform {
-  return transformAndPreserveTextSelection(tr, schema, (memo) => {
+  return transformAndPreserveTextSelection(tr, schema, memo => {
     return wrapNodesWithListInternal(memo, listNodeType);
   });
 }
 
 function wrapNodesWithListInternal(
   memo: SelectionMemo,
-  listNodeType: NodeType,
+  listNodeType: NodeType
 ): Transform {
   const {schema} = memo;
   let {tr} = memo;
@@ -97,7 +89,7 @@ function wrapNodesWithListInternal(
       return false;
     }
 
-    if (/table/.test(nodeName)){
+    if (/table/.test(nodeName)) {
       items && lists.push(items);
       items = null;
       return true;
@@ -128,12 +120,7 @@ function wrapNodesWithListInternal(
   lists.reverse();
 
   lists.forEach(items => {
-    tr = wrapItemsWithListInternal(
-      tr,
-      schema,
-      listNodeType,
-      items,
-    );
+    tr = wrapItemsWithListInternal(tr, schema, listNodeType, items);
   });
 
   return tr;
@@ -143,7 +130,7 @@ function wrapItemsWithListInternal(
   tr: Transform,
   schema: Schema,
   listNodeType: NodeType,
-  items: Array<{node: Node, pos: number}>,
+  items: Array<{node: Node, pos: number}>
 ): Transform {
   const initialTr = tr;
   const paragraph = schema.nodes[PARAGRAPH];
@@ -197,17 +184,24 @@ function wrapItemsWithListInternal(
   items.forEach(item => {
     const {node} = item;
     // Restore the annotated nodes with the copy of the original ones.
-    const paragraphNode = paragraph.create(node.attrs, node.content, node.marks);
-    const listItemNode = listItem.create(node.attrs, Fragment.from(paragraphNode));
+    const paragraphNode = paragraph.create(
+      node.attrs,
+      node.content,
+      node.marks
+    );
+    const listItemNode = listItem.create(
+      node.attrs,
+      Fragment.from(paragraphNode)
+    );
     listItemNodes.push(listItemNode);
   });
-
 
   const listNodeAttrs = {indent: 0, start: 1};
   const $fromPos = tr.doc.resolve(fromPos);
   const $toPos = tr.doc.resolve(toPos);
 
-  const hasSameListNodeBefore = $fromPos.nodeBefore &&
+  const hasSameListNodeBefore =
+    $fromPos.nodeBefore &&
     $fromPos.nodeBefore.type === listNodeType &&
     $fromPos.nodeBefore.attrs.indent === 0;
 
@@ -219,7 +213,7 @@ function wrapItemsWithListInternal(
   if (hasSameListNodeBefore) {
     tr = tr.delete(fromPos, toPos);
     tr = tr.insert(fromPos - 1, Fragment.from(listItemNodes));
-    if (hasSameListNodeAfter)  {
+    if (hasSameListNodeAfter) {
       tr = tr.delete(toPos + 1, toPos + 3);
     }
   } else if (hasSameListNodeAfter) {
@@ -228,10 +222,10 @@ function wrapItemsWithListInternal(
   } else {
     const listNode = listNodeType.create(
       listNodeAttrs,
-      Fragment.from(listItemNodes),
+      Fragment.from(listItemNodes)
     );
     tr = tr.delete(fromPos, toPos);
-    tr = tr.insert(fromPos,  Fragment.from(listNode));
+    tr = tr.insert(fromPos, Fragment.from(listNode));
   }
 
   return tr;
@@ -240,7 +234,7 @@ function wrapItemsWithListInternal(
 function unwrapNodesFromListInternal(
   memo: SelectionMemo,
   listNodePos: number,
-  unwrapParagraphNode?: ?(Node) => Node,
+  unwrapParagraphNode?: ?(Node) => Node
 ): Transform {
   const {schema} = memo;
   let {tr} = memo;
@@ -251,9 +245,9 @@ function unwrapNodesFromListInternal(
 
   const {nodes} = schema;
   const paragraph = nodes[PARAGRAPH];
-  const listItem= nodes[LIST_ITEM];
+  const listItem = nodes[LIST_ITEM];
 
-  if (!listItem|| !paragraph) {
+  if (!listItem || !paragraph) {
     return tr;
   }
 
@@ -272,31 +266,30 @@ function unwrapNodesFromListInternal(
   const contentBlocksSelected = [];
   const contentBlocksAfter = [];
 
-  tr.doc.nodesBetween(listNodePos, listNodePos + listNode.nodeSize, (
-    node,
-    pos,
-    parentNode,
-    index,
-  ) => {
-    if (node.type !== paragraph) {
-      return true;
-    }
-    const block = {
-      node,
-      pos,
-      parentNode,
-      index,
-    };
+  tr.doc.nodesBetween(
+    listNodePos,
+    listNodePos + listNode.nodeSize,
+    (node, pos, parentNode, index) => {
+      if (node.type !== paragraph) {
+        return true;
+      }
+      const block = {
+        node,
+        pos,
+        parentNode,
+        index,
+      };
 
-    if ((pos + node.nodeSize) <= from) {
-      contentBlocksBefore.push(block);
-    } else if (pos > to) {
-      contentBlocksAfter.push(block);
-    } else {
-      contentBlocksSelected.push(block);
+      if (pos + node.nodeSize <= from) {
+        contentBlocksBefore.push(block);
+      } else if (pos > to) {
+        contentBlocksAfter.push(block);
+      } else {
+        contentBlocksSelected.push(block);
+      }
+      return false;
     }
-    return false;
-  });
+  );
 
   if (!contentBlocksSelected.length) {
     return tr;
@@ -311,10 +304,9 @@ function unwrapNodesFromListInternal(
     const nodes = contentBlocksAfter.map(block => {
       return listItem.create({}, Fragment.from(block.node));
     });
-    const frag = Fragment.from(listNodeType.create(
-      attrs,
-      Fragment.from(nodes),
-    ));
+    const frag = Fragment.from(
+      listNodeType.create(attrs, Fragment.from(nodes))
+    );
     tr = tr.insert(listNodePos, frag);
   }
 
@@ -334,10 +326,9 @@ function unwrapNodesFromListInternal(
     const nodes = contentBlocksBefore.map(block => {
       return listItem.create({}, Fragment.from(block.node));
     });
-    const frag = Fragment.from(listNodeType.create(
-      attrs,
-      Fragment.from(nodes),
-    ));
+    const frag = Fragment.from(
+      listNodeType.create(attrs, Fragment.from(nodes))
+    );
     tr = tr.insert(listNodePos, frag);
   }
   return tr;

@@ -10,7 +10,6 @@ import CustomButton from './CustomButton';
 import './czi-link-tooltip.css';
 
 class LinkTooltip extends React.PureComponent<any, any, any> {
-
   props: {
     editorView: EditorView,
     href: string,
@@ -39,11 +38,7 @@ class LinkTooltip extends React.PureComponent<any, any, any> {
               title={href}
               value={href}
             />
-            <CustomButton
-              label="Change"
-              onClick={onEdit}
-              value={editorView}
-            />
+            <CustomButton label="Change" onClick={onEdit} value={editorView} />
             <CustomButton
               label="Remove"
               onClick={onRemove}

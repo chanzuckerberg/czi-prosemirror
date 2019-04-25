@@ -10,7 +10,7 @@ import normalizeHTML from './normalizeHTML';
 export default function convertFromHTML(
   html: string,
   schema: ?Schema,
-  plugins: ?Array<Plugin>,
+  plugins: ?Array<Plugin>
 ): EditorState {
   const root = document.createElement('html');
   const newHTML = normalizeHTML(html);

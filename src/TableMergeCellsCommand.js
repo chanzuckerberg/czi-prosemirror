@@ -29,7 +29,7 @@ function isBlankParagraphNode(node: ?Node): boolean {
 
 function purgeConsecutiveBlankParagraphNodes(
   tr: Transform,
-  schema: Schema,
+  schema: Schema
 ): Transform {
   const paragraph = schema.nodes[PARAGRAPH];
   const cell = schema.nodes[TABLE_CELL];
@@ -63,24 +63,28 @@ function purgeConsecutiveBlankParagraphNodes(
 }
 
 class TableMergeCellsCommand extends UICommand {
-   execute = (
+  execute = (
     state: EditorState,
     dispatch: ?(tr: Transform) => void,
-    view: ?EditorView,
+    view: ?EditorView
   ): boolean => {
     const {tr, schema, selection} = state;
     let endTr = tr;
     if (selection instanceof CellSelection) {
-      mergeCells(state, (nextTr) => {
-        endTr = nextTr;
-      }, view);
+      mergeCells(
+        state,
+        nextTr => {
+          endTr = nextTr;
+        },
+        view
+      );
       // Also merge onsecutive blank paragraphs into one.
       endTr = purgeConsecutiveBlankParagraphNodes(endTr, schema);
     }
-    const changed = endTr.docChanged || (endTr !== tr);
+    const changed = endTr.docChanged || endTr !== tr;
     changed && dispatch && dispatch(endTr);
     return changed;
-  }
+  };
 }
 
 export default TableMergeCellsCommand;

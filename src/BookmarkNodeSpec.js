@@ -24,12 +24,14 @@ const BookmarkNodeSpec: NodeSpec = {
   draggable: true,
   parseDOM: [{tag: `a[${ATTRIBUTE_BOOKMARK_ID}]`, getAttrs}],
   toDOM(node) {
-    const {id, visible} =  node.attrs;
-    const attrs = id ? {
-      [ATTRIBUTE_BOOKMARK_ID]: id,
-      [ATTRIBUTE_BOOKMARK_VISIBLE]: visible,
-      id,
-    } : {};
+    const {id, visible} = node.attrs;
+    const attrs = id
+      ? {
+          [ATTRIBUTE_BOOKMARK_ID]: id,
+          [ATTRIBUTE_BOOKMARK_VISIBLE]: visible,
+          id,
+        }
+      : {};
     return ['a', attrs];
   },
 };

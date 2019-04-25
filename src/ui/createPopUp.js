@@ -40,9 +40,10 @@ function showModalMask(): void {
   const style: any = element.style;
 
   const selector = '.czi-pop-up-element[data-pop-up-modal]';
-  const zIndex = Array.
-    from(document.querySelectorAll(selector)).
-    reduce((zz, el) => Math.max(zz, Number(el.style.zIndex)), 0);
+  const zIndex = Array.from(document.querySelectorAll(selector)).reduce(
+    (zz, el) => Math.max(zz, Number(el.style.zIndex)),
+    0
+  );
 
   style.zIndex = zIndex - 1;
 }
@@ -57,9 +58,12 @@ function hideModalMask(): void {
 function getRootElement(
   id: string,
   forceCreation: boolean,
-  popUpParams: ?PopUpParams,
+  popUpParams: ?PopUpParams
 ): ?HTMLElement {
-  const root: any = (popUpParams && popUpParams.container) || document.body || document.documentElement;
+  const root: any =
+    (popUpParams && popUpParams.container) ||
+    document.body ||
+    document.documentElement;
   let element = document.getElementById(id);
   if (!element && forceCreation) {
     element = document.createElement('div');
@@ -76,11 +80,10 @@ function getRootElement(
   element.className = 'czi-pop-up-element czi-vars';
   element.id = id;
 
-
   const style: any = element.style;
-  const modalZIndexOffset = (popUpParams && popUpParams.modal) ? 1 : 0;
+  const modalZIndexOffset = popUpParams && popUpParams.modal ? 1 : 0;
   if (!(popUpParams && popUpParams.container)) {
-    style.zIndex = (Z_INDEX_BASE + popUpsCount * 3 + modalZIndexOffset);
+    style.zIndex = Z_INDEX_BASE + popUpsCount * 3 + modalZIndexOffset;
   }
 
   // Populates the default ARIA attributes here.
@@ -98,7 +101,7 @@ function renderPopUp(
   close: Function,
   View: Function,
   viewProps: ViewProps,
-  popUpParams: PopUpParams,
+  popUpParams: PopUpParams
 ): void {
   const rootNode = getRootElement(rootId, true, popUpParams);
   if (rootNode) {
@@ -129,13 +132,13 @@ function unrenderPopUp(rootId: string): void {
 
   if (modalsCount === 0) {
     hideModalMask();
-  };
+  }
 }
 
 export default function createPopUp(
   View: Function,
   viewProps?: ?ViewProps,
-  popUpParams?: ?PopUpParams,
+  popUpParams?: ?PopUpParams
 ): PopUpHandle {
   const rootId = uuid();
 
@@ -153,7 +156,7 @@ export default function createPopUp(
     modalsCount++;
   }
 
-  const closePopUp = (value) => {
+  const closePopUp = value => {
     if (!handle) {
       return;
     }
@@ -175,7 +178,7 @@ export default function createPopUp(
 
   handle = {
     close: closePopUp,
-    update: (nextViewProps) => {
+    update: nextViewProps => {
       currentViewProps = nextViewProps;
       render(currentViewProps || emptyObj, popUpParams || emptyObj);
     },

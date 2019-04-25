@@ -11,7 +11,7 @@ import ContentPlaceholderPlugin from './ContentPlaceholderPlugin';
 import CursorPlaceholderPlugin from './CursorPlaceholderPlugin';
 import EditorPageLayoutPlugin from './EditorPageLayoutPlugin';
 import EditorSchema from './EditorSchema';
-import ImageUploadPlaceholderPlugin  from './ImageUploadPlaceholderPlugin';
+import ImageUploadPlaceholderPlugin from './ImageUploadPlaceholderPlugin';
 import LinkTooltipPlugin from './LinkTooltipPlugin';
 import SelectionPlaceholderPlugin from './SelectionPlaceholderPlugin';
 import TablePlugins from './TablePlugins';

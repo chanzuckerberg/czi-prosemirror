@@ -13,7 +13,6 @@ import './czi-image-url-editor.css';
 const BAD_CHARACTER_PATTER = /\s/;
 
 class LinkURLEditor extends React.PureComponent<any, any, any> {
-
   props: {
     href: ?string,
     close: (href: ?string) => void,
@@ -27,9 +26,7 @@ class LinkURLEditor extends React.PureComponent<any, any, any> {
     const {href} = this.props;
     const {url} = this.state;
 
-    const error = url ?
-      BAD_CHARACTER_PATTER.test(url) :
-      false;
+    const error = url ? BAD_CHARACTER_PATTER.test(url) : false;
 
     let label = 'Apply';
     let disabled = !!error;
@@ -56,10 +53,7 @@ class LinkURLEditor extends React.PureComponent<any, any, any> {
             />
           </fieldset>
           <div className="czi-form-buttons">
-            <CustomButton
-              label="Cancel"
-              onClick={this._cancel}
-            />
+            <CustomButton label="Cancel" onClick={this._cancel} />
             <CustomButton
               active={true}
               disabled={disabled}

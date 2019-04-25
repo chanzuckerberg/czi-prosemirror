@@ -9,7 +9,7 @@ import UICommand from './ui/UICommand';
 type ExecuteCall = (
   state: EditorState,
   dispatch?: ?(tr: Transform) => void,
-  view?: ?EditorView,
+  view?: ?EditorView
 ) => boolean;
 
 export default function createCommand(execute: ExecuteCall): UICommand {
@@ -21,15 +21,19 @@ export default function createCommand(execute: ExecuteCall): UICommand {
     execute = (
       state: EditorState,
       dispatch: ?(tr: Transform) => void,
-      view: ?EditorView,
+      view: ?EditorView
     ): boolean => {
       const tr = state.tr;
       let endTr = tr;
-      execute(state, (nextTr) => {
-        endTr = nextTr;
-        dispatch && dispatch(endTr);
-      }, view);
-      return endTr.docChanged || (tr !== endTr);
+      execute(
+        state,
+        nextTr => {
+          endTr = nextTr;
+          dispatch && dispatch(endTr);
+        },
+        view
+      );
+      return endTr.docChanged || tr !== endTr;
     };
   }
   return new CustomCommand();

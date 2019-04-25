@@ -7,11 +7,7 @@ import './playground.css';
 
 class Playground extends React.Component<any, any, any> {
   render() {
-    return (
-      <div className="playground">
-        Hello!!
-      </div>
-    );
+    return <div className="playground">Hello!!</div>;
   }
 }
 

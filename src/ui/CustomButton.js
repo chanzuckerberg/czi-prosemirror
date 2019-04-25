@@ -9,7 +9,6 @@ import cx from 'classnames';
 import type {PointerSurfaceProps} from './PointerSurface';
 
 class CustomButton extends React.PureComponent<any, any, any> {
-
   props: PointerSurfaceProps & {
     icon?: string | React.Element<any> | null,
     label?: string | React.Element<any> | null,
@@ -22,11 +21,9 @@ class CustomButton extends React.PureComponent<any, any, any> {
     });
     return (
       <TooltipSurface tooltip={title}>
-        <PointerSurface
-          {...pointerProps}
-          className={klass}>
-            {icon}
-            {label}
+        <PointerSurface {...pointerProps} className={klass}>
+          {icon}
+          {label}
         </PointerSurface>
       </TooltipSurface>
     );

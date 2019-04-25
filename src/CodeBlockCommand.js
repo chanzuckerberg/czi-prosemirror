@@ -11,27 +11,20 @@ import toggleCodeBlock from './toggleCodeBlock';
 import UICommand from './ui/UICommand';
 
 class CodeBlockCommand extends UICommand {
-
   isActive = (state: EditorState): boolean => {
     const result = this._findCodeBlock(state);
-    return !!(
-      result &&
-      result.node
-    );
+    return !!(result && result.node);
   };
 
   execute = (
     state: EditorState,
     dispatch: ?(tr: Transform) => void,
-    view: ?EditorView,
+    view: ?EditorView
   ): boolean => {
     const {selection, schema} = state;
     let {tr} = state;
     tr = tr.setSelection(selection);
-    tr = toggleCodeBlock(
-      tr,
-      schema,
-    );
+    tr = toggleCodeBlock(tr, schema);
     if (tr.docChanged) {
       dispatch && dispatch(tr);
       return true;

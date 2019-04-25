@@ -8,10 +8,7 @@ import {EditorView} from 'prosemirror-view';
 import {HORIZONTAL_RULE} from './NodeNames';
 import UICommand from './ui/UICommand';
 
-function insertHorizontalRule(
-  tr: Transform,
-  schema: Schema,
-): Transform {
+function insertHorizontalRule(tr: Transform, schema: Schema): Transform {
   const {selection} = tr;
   if (!selection) {
     return tr;
@@ -33,24 +30,20 @@ function insertHorizontalRule(
 }
 
 class HorizontalRuleCommand extends UICommand {
-
   execute = (
     state: EditorState,
     dispatch: ?(tr: Transform) => void,
-    view: ?EditorView,
+    view: ?EditorView
   ): boolean => {
     const {selection, schema} = state;
-    const tr = insertHorizontalRule(
-      state.tr.setSelection(selection),
-      schema,
-    );
+    const tr = insertHorizontalRule(state.tr.setSelection(selection), schema);
     if (tr.docChanged) {
       dispatch && dispatch(tr);
       return true;
     } else {
       return false;
     }
-  }
+  };
 }
 
 export default HorizontalRuleCommand;

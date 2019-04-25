@@ -24,7 +24,8 @@ import type {EditorRuntime} from '../Types';
 import type {NodeViewProps} from './CustomNodeView';
 import type {ResizeObserverEntry} from './ResizeObserver';
 
-const EMPTY_SRC = 'data:image/gif;base64,' +
+const EMPTY_SRC =
+  'data:image/gif;base64,' +
   'R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
 
 /* This value must be synced with the margin defined at .czi-image-view */
@@ -59,7 +60,7 @@ function getMaxResizeWidth(el: any): number {
     if (style.boxSizing === 'border-box') {
       const pl = parseInt(style.paddingLeft, 10);
       const pr = parseInt(style.paddingRight, 10);
-      width -= (pl + pr);
+      width -= pl + pr;
     }
     return Math.max(width, MIN_SIZE);
   }
@@ -79,7 +80,6 @@ function resolveURL(runtime: ?EditorRuntime, src: ?string): ?string {
 }
 
 class ImageViewBody extends React.PureComponent<any, any, any> {
-
   props: NodeViewProps;
 
   _body = null;
@@ -129,7 +129,7 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
     // It's only active when the image's fully loaded.
     const loading = originalSize === DEFAULT_ORIGINAL_SIZE;
     const active = !loading && focused && !readOnly && originalSize.complete;
-    const src =  originalSize.complete ? originalSize.src : EMPTY_SRC;
+    const src = originalSize.complete ? originalSize.src : EMPTY_SRC;
     const aspectRatio = loading ? 1 : originalSize.width / originalSize.height;
     const error = !loading && !originalSize.complete;
 
@@ -146,19 +146,16 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
       width = height * aspectRatio;
     } else if (!width && !height) {
       width = originalSize.width;
-      height =  originalSize.height;
+      height = originalSize.height;
     }
 
     let scale = 1;
-    if (
-      (width > maxSize.width) &&
-      (!crop || crop.width > maxSize.width)
-    ) {
+    if (width > maxSize.width && (!crop || crop.width > maxSize.width)) {
       // Scale image to fit its containing space.
       // If the image is not cropped.
       width = maxSize.width;
       height = width / aspectRatio;
-      scale =  maxSize.width / width;
+      scale = maxSize.width / width;
     }
 
     const className = cx('czi-image-view-body', {
@@ -169,14 +166,15 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
       selected,
     });
 
-    const resizeBox = (active && !crop && !rotate) ?
-      <ImageResizeBox
-        height={height}
-        onResizeEnd={this._onResizeEnd}
-        src={src}
-        width={width}
-      /> :
-      null;
+    const resizeBox =
+      active && !crop && !rotate ? (
+        <ImageResizeBox
+          height={height}
+          onResizeEnd={this._onResizeEnd}
+          src={src}
+          width={width}
+        />
+      ) : null;
 
     const imageStyle: Object = {
       display: 'inline-block',
@@ -203,15 +201,14 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
       imageStyle.top = cropped.top + 'px';
     }
 
-
     if (rotate) {
       clipStyle.transform = `rotate(${rotate}rad)`;
     }
 
     const errorView = error ? Icon.get('error') : null;
-    const errorTitle = error ?
-      `Unable to load image from ${attrs.src || ''}` :
-      undefined;
+    const errorTitle = error
+      ? `Unable to load image from ${attrs.src || ''}`
+      : undefined;
 
     return (
       <span
@@ -221,9 +218,9 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
         id={this._id}
         onKeyDown={this._onKeyDown}
         ref={this._onBodyRef}
-        title={errorTitle}>
-        <span
-          className="czi-image-view-body-img-clip" style={clipStyle}>
+        title={errorTitle}
+      >
+        <span className="czi-image-view-body-img-clip" style={clipStyle}>
           <span style={imageStyle}>
             <img
               alt=""
@@ -256,7 +253,7 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
     };
     if (this._inlineEditor) {
       this._inlineEditor.update(editorProps);
-    }  else {
+    } else {
       this._inlineEditor = createPopUp(ImageInlineEditor, editorProps, {
         anchor: el,
         autoDismiss: false,
@@ -277,10 +274,7 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
 
     this.setState({originalSize: DEFAULT_ORIGINAL_SIZE});
     const src = this.props.node.attrs.src;
-    const url = resolveURL(
-      this.props.editorView.runtime,
-      src,
-    );
+    const url = resolveURL(this.props.editorView.runtime, src);
     const originalSize = await resolveImage(url);
     if (!this._mounted) {
       // unmounted;
@@ -359,9 +353,9 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
   };
 
   _onBodyResize = (info: ResizeObserverEntry): void => {
-    const width = this._body ?
-      getMaxResizeWidth(ReactDOM.findDOMNode(this._body)) :
-      MAX_SIZE;
+    const width = this._body
+      ? getMaxResizeWidth(ReactDOM.findDOMNode(this._body))
+      : MAX_SIZE;
 
     this.setState({
       maxSize: {
@@ -374,7 +368,6 @@ class ImageViewBody extends React.PureComponent<any, any, any> {
 }
 
 class ImageNodeView extends CustomNodeView {
-
   // @override
   createDOMElement(): HTMLElement {
     const el = document.createElement('span');

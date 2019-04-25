@@ -58,17 +58,12 @@ export function findEditorView(id: string): ?EditorView {
 export function executeCommand(name: string, viewID: ?string): boolean {
   const command = commandsRegistery.get(name);
   if (command) {
-    const view = viewID ?
-      viewsRegistery.get(viewID) :
-      Array.from(viewsRegistery.values())[0];
+    const view = viewID
+      ? viewsRegistery.get(viewID)
+      : Array.from(viewsRegistery.values())[0];
     if (view) {
       try {
-        return command.execute(
-          view.state,
-          view.dispatch,
-          view,
-          null,
-        );
+        return command.execute(view.state, view.dispatch, view, null);
       } catch (ex) {
         console.warn(ex);
         return false;

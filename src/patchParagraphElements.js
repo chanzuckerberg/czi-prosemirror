@@ -1,6 +1,9 @@
 // @flow
 
-import {ATTRIBUTE_INDENT, convertMarginLeftToIndentValue} from './ParagraphNodeSpec';
+import {
+  ATTRIBUTE_INDENT,
+  convertMarginLeftToIndentValue,
+} from './ParagraphNodeSpec';
 
 export default function patchParagraphElements(doc: Document): void {
   Array.from(doc.querySelectorAll('p')).forEach(patchParagraphElement);

@@ -5,7 +5,6 @@
 import type {ImageLike} from '../src/Types';
 
 class DemoAppRuntime {
-
   // Image Proxy
   canProxyImageSrc(): boolean {
     return true;
@@ -30,7 +29,7 @@ class DemoAppRuntime {
       const {FileReader} = window;
       if (FileReader) {
         const reader = new FileReader();
-        reader.onload = (event) => {
+        reader.onload = event => {
           // base64 encoded url.
           const src = event.target.result;
           resolve({src, height: 0, width: 0, id: ''});
@@ -45,6 +44,5 @@ class DemoAppRuntime {
     });
   }
 }
-
 
 export default DemoAppRuntime;

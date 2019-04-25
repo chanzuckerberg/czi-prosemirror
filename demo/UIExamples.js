@@ -34,29 +34,22 @@ class SimpleEditorExample extends React.PureComponent<any, any, any> {
 
   _onChange = (editorState: EditorState): void => {
     this.setState({editorState});
-  }
+  };
 }
 
-
 class MathEditorExample extends React.PureComponent<any, any, any> {
-
   _popup = null;
 
   state = {
-    'latex': ' \\displaystyle\\sum_{ 1  }^{ 2  } \\left(3 \\right)   ',
+    latex: ' \\displaystyle\\sum_{ 1  }^{ 2  } \\left(3 \\right)   ',
   };
 
   render() {
     const html = renderLaTeXAsHTML(this.state.latex);
     return (
       <div>
-        <CustomButton
-          label="MathEditorExample"
-          onClick={this._onClick}
-        />
-        <pre>
-          {JSON.stringify(this.state)}
-        </pre>
+        <CustomButton label="MathEditorExample" onClick={this._onClick} />
+        <pre>{JSON.stringify(this.state)}</pre>
         <span dangerouslySetInnerHTML={{__html: html}} />
       </div>
     );
@@ -64,12 +57,16 @@ class MathEditorExample extends React.PureComponent<any, any, any> {
 
   _onClick = (): void => {
     if (!this._popup) {
-      this._popup = createPopUp(MathEditor, {initialValue: this.state.latex}, {
-        onClose: (latex) => {
-          latex && this.setState({latex});
-          this._popup = null;
-        },
-      });
+      this._popup = createPopUp(
+        MathEditor,
+        {initialValue: this.state.latex},
+        {
+          onClose: latex => {
+            latex && this.setState({latex});
+            this._popup = null;
+          },
+        }
+      );
     }
   };
 }
@@ -78,7 +75,7 @@ class CustomRadioButtonExample extends React.PureComponent<any, any, any> {
     value: '',
   };
   render() {
-    const options = ['aaa', 'bbb'].map(value =>
+    const options = ['aaa', 'bbb'].map(value => (
       <CustomRadioButton
         checked={value === this.state.value}
         key={value}
@@ -86,7 +83,7 @@ class CustomRadioButtonExample extends React.PureComponent<any, any, any> {
         onSelect={this._onSelect}
         value={value}
       />
-    );
+    ));
     return (
       <div>
         {options}
@@ -102,7 +99,6 @@ class CustomRadioButtonExample extends React.PureComponent<any, any, any> {
 }
 
 class TableGridSizeEditorExample extends React.PureComponent<any, any, any> {
-
   _popup = null;
   _id = uuid();
 
@@ -116,9 +112,7 @@ class TableGridSizeEditorExample extends React.PureComponent<any, any, any> {
           label="TableGridSizeEditor"
           onClick={this._onClick}
         />
-        <pre>
-          {JSON.stringify(this.state)}
-        </pre>
+        <pre>{JSON.stringify(this.state)}</pre>
       </div>
     );
   }
@@ -127,7 +121,7 @@ class TableGridSizeEditorExample extends React.PureComponent<any, any, any> {
     if (!this._popup) {
       this._popup = createPopUp(TableGridSizeEditor, null, {
         anchor: document.getElementById(this._id),
-        onClose: (value) => {
+        onClose: value => {
           value && this.setState(value);
           this._popup = null;
         },
@@ -137,7 +131,6 @@ class TableGridSizeEditorExample extends React.PureComponent<any, any, any> {
 }
 
 class ColorEditorExample extends React.PureComponent<any, any, any> {
-
   _popup = null;
   _id = uuid();
 
@@ -154,9 +147,7 @@ class ColorEditorExample extends React.PureComponent<any, any, any> {
           onClick={this._onClick}
           style={style}
         />
-        <pre>
-          {JSON.stringify(this.state)}
-        </pre>
+        <pre>{JSON.stringify(this.state)}</pre>
       </div>
     );
   }
@@ -165,7 +156,7 @@ class ColorEditorExample extends React.PureComponent<any, any, any> {
     if (!this._popup) {
       this._popup = createPopUp(ColorEditor, this.state, {
         anchor: document.getElementById(this._id),
-        onClose: (hex) => {
+        onClose: hex => {
           hex && this.setState({hex});
           this._popup = null;
         },
@@ -175,7 +166,6 @@ class ColorEditorExample extends React.PureComponent<any, any, any> {
 }
 
 class ImageURLEditorExample extends React.PureComponent<any, any, any> {
-
   _popup = null;
   _id = uuid();
 
@@ -193,9 +183,7 @@ class ImageURLEditorExample extends React.PureComponent<any, any, any> {
           label="ImageURLEditor"
           onClick={this._onClick}
         />
-        <pre>
-          {JSON.stringify(this.state)}
-        </pre>
+        <pre>{JSON.stringify(this.state)}</pre>
       </div>
     );
   }
@@ -205,7 +193,7 @@ class ImageURLEditorExample extends React.PureComponent<any, any, any> {
       this._popup = createPopUp(ImageURLEditor, this.state, {
         autoDismiss: false,
         anchor: document.getElementById(this._id),
-        onClose: (value) => {
+        onClose: value => {
           value && this.setState(value);
           this._popup = null;
         },
@@ -217,19 +205,19 @@ class ImageURLEditorExample extends React.PureComponent<any, any, any> {
 class Examples extends React.PureComponent<any, any, any> {
   render() {
     return (
-     <div>
-       <SimpleEditorExample />
-       <hr />
-       <MathEditorExample />
-       <hr />
-       <TableGridSizeEditorExample />
-       <hr />
-       <ColorEditorExample />
-       <hr />
-       <ImageURLEditorExample />
-       <hr />
-       <CustomRadioButtonExample />
-     </div>
+      <div>
+        <SimpleEditorExample />
+        <hr />
+        <MathEditorExample />
+        <hr />
+        <TableGridSizeEditorExample />
+        <hr />
+        <ColorEditorExample />
+        <hr />
+        <ImageURLEditorExample />
+        <hr />
+        <CustomRadioButtonExample />
+      </div>
     );
   }
 }

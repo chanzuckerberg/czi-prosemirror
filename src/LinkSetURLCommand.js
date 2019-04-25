@@ -6,7 +6,10 @@ import {Transform} from 'prosemirror-transform';
 import {EditorView} from 'prosemirror-view';
 
 import {MARK_LINK} from './MarkNames';
-import {hideSelectionPlaceholder, showSelectionPlaceholder} from './SelectionPlaceholderPlugin';
+import {
+  hideSelectionPlaceholder,
+  showSelectionPlaceholder,
+} from './SelectionPlaceholderPlugin';
 import applyMark from './applyMark';
 import findNodesWithSameMark from './findNodesWithSameMark';
 import LinkURLEditor from './ui/LinkURLEditor';
@@ -14,7 +17,6 @@ import UICommand from './ui/UICommand';
 import createPopUp from './ui/createPopUp';
 
 class LinkSetURLCommand extends UICommand {
-
   _popUp = null;
 
   isEnabled = (state: EditorState): boolean => {
@@ -35,7 +37,7 @@ class LinkSetURLCommand extends UICommand {
     state: EditorState,
     dispatch: ?(tr: Transform) => void,
     view: ?EditorView,
-    event: ?SyntheticEvent,
+    event: ?SyntheticEvent
   ): Promise<any> => {
     if (this._popUp) {
       return Promise.resolve(undefined);
@@ -54,15 +56,19 @@ class LinkSetURLCommand extends UICommand {
     const result = findNodesWithSameMark(doc, from, to, markType);
     const href = result ? result.mark.attrs.href : null;
     return new Promise(resolve => {
-      this._popUp = createPopUp(LinkURLEditor, {href}, {
-        modal: true,
-        onClose: (val) => {
-          if (this._popUp) {
-            this._popUp = null;
-            resolve(val);
-          }
+      this._popUp = createPopUp(
+        LinkURLEditor,
+        {href},
+        {
+          modal: true,
+          onClose: val => {
+            if (this._popUp) {
+              this._popUp = null;
+              resolve(val);
+            }
+          },
         }
-      });
+      );
     });
   };
 
@@ -70,7 +76,7 @@ class LinkSetURLCommand extends UICommand {
     state: EditorState,
     dispatch: ?(tr: Transform) => void,
     view: ?EditorView,
-    href: ?string,
+    href: ?string
   ): boolean => {
     if (dispatch) {
       const {selection, schema} = state;
@@ -84,7 +90,7 @@ class LinkSetURLCommand extends UICommand {
           tr.setSelection(state.selection),
           schema,
           markType,
-          attrs,
+          attrs
         );
       }
       dispatch(tr);

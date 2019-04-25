@@ -6,11 +6,7 @@ import './czi-frag.css';
 
 class Frag extends React.PureComponent<any, any, any> {
   render(): React.Element<any> {
-    return (
-      <div className="czi-frag">
-        {this.props.children}
-      </div>
-    );
+    return <div className="czi-frag">{this.props.children}</div>;
   }
 }
 

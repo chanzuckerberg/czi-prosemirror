@@ -9,9 +9,7 @@ class CustomMenu extends React.Component<any, any, any> {
   render(): React.Element<any> {
     const {children} = this.props;
     return (
-      <div className="czi-custom-menu czi-custom-scrollbar">
-        {children}
-      </div>
+      <div className="czi-custom-menu czi-custom-scrollbar">{children}</div>
     );
   }
 }

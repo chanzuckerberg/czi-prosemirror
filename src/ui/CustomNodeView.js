@@ -90,7 +90,6 @@ const mutationObserver = new MutationObserver(onMutation);
 // https://prosemirror.net/docs/ref/#view.NodeView
 // https://github.com/ProseMirror/prosemirror-view/blob/master/src/viewdesc.js#L429
 class CustomNodeView {
-
   dom: HTMLElement;
 
   props: NodeViewProps;
@@ -101,9 +100,8 @@ class CustomNodeView {
     node: Node,
     editorView: EditorView,
     getPos: () => number,
-    decorations: Array<Decoration>,
+    decorations: Array<Decoration>
   ) {
-
     this.props = {
       decorations,
       editorView,
@@ -179,7 +177,7 @@ class CustomNodeView {
       const {from} = editorView.state.selection;
       const pos = getPos();
       this.props.selected = this._selected;
-      this.props.focused = (editorView.focused && pos === from);
+      this.props.focused = editorView.focused && pos === from;
     } else {
       this.props.selected = false;
       this.props.focused = false;

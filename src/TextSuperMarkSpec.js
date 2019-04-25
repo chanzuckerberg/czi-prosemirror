@@ -7,7 +7,7 @@ const TextSuperMarkSpec: MarkSpec = {
     {tag: 'sup'},
     {
       style: 'vertical-align',
-      getAttrs: (value) => {
+      getAttrs: value => {
         return value === 'super' && null;
       },
     },

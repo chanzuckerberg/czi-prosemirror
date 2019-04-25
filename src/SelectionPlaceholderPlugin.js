@@ -34,7 +34,7 @@ const SPEC = {
           },
           {
             id: PLACE_HOLDER_ID,
-          },
+          }
         );
         set = set.add(tr.doc, [deco]);
       } else if (action.remove) {
@@ -46,7 +46,7 @@ const SPEC = {
     },
   },
   props: {
-    decorations: (state) => {
+    decorations: state => {
       const plugin = singletonInstance;
       return plugin ? plugin.getState(state) : null;
     },
@@ -54,14 +54,13 @@ const SPEC = {
 };
 
 class SelectionPlaceholderPlugin extends Plugin {
-
   constructor() {
     super(SPEC);
     if (singletonInstance) {
       return singletonInstance;
     }
     singletonInstance = this;
-  };
+  }
 }
 
 function specFinder(spec: Object): boolean {
@@ -84,7 +83,7 @@ function findSelectionPlaceholder(state: EditorState): ?Decoration {
 
 export function showSelectionPlaceholder(
   state: EditorState,
-  tr: ?Transform,
+  tr: ?Transform
 ): Transform {
   tr = tr || state.tr;
   const plugin = singletonInstance;
@@ -108,7 +107,7 @@ export function showSelectionPlaceholder(
 
 export function hideSelectionPlaceholder(
   state: EditorState,
-  tr: ?Transform,
+  tr: ?Transform
 ): Transform {
   tr = tr || state.tr;
   const plugin = singletonInstance;
