@@ -68,25 +68,25 @@
 .ProseMirror.czi-prosemirror-editor,
 .ProseMirror[data-layout="us_letter_portrait"] {
   min-height: 279mm;
-  padding: 15.5mm;
+  padding: var(--czi-doc-padding-default);
   width: var(--czi-doc-width-us-letter-portrait);
 }
 
 .ProseMirror[data-layout="us_letter_landscape"] {
   min-height: 216mm;
-  padding: 15.5mm;
+  padding: var(--czi-doc-padding-default);
   width: var(--czi-doc-width-us-letter-landscape);
 }
 
 .ProseMirror[data-layout="desktop_screen_4_3"] {
   min-height: 90vh;
-  padding: 15.5mm;
+  padding: var(--czi-doc-padding-default);
   width: var(--czi-doc-width-us-desktop-screen-4-3);
 }
 
 .ProseMirror[data-layout="desktop_screen_16_9"] {
   min-height: 80vh;
-  padding: 15.5mm;
+  padding: var(--czi-doc-padding-default);
   width: var(--czi-doc-width-us-desktop-screen-16-9);
 }
 

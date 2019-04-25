@@ -18,10 +18,6 @@
   page-break-inside: avoid;
 }
 
-.ProseMirror tr {
-  page-break-inside: avoid;
-}
-
 .ProseMirror td,
 .ProseMirror th {
   background-color: #fff;
