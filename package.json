@@ -11,6 +11,7 @@
     "dist:build": "npm run dist:css && npm run dist:babel && npm run dist:flow",
     "app:build": "node utils/build_bin.js",
     "flow": "flow",
+    "lint": "eslint src playground demo",
     "start": "node utils/webserver.js"
   },
   "devDependencies": {

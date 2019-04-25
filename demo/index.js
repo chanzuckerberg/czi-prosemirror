@@ -1,6 +1,5 @@
 // @flow
 
-import nullthrows from 'nullthrows';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
