@@ -5,7 +5,7 @@
 @import './czi-vars.css';
 
 .czi-text-selection {
-   /* var(--czi-selection-highlight-color-dark); */
+  /* var(--czi-selection-highlight-color-dark); */
   background: red;
 }
 
@@ -18,6 +18,17 @@
   -webkit-font-smoothing: antialiased;
   position: relative;
   user-zoom: fixed;
+  border-radius: 1px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  box-sizing: border-box;
+  margin: 0 auto 0 auto;
+  outline: none;
+  z-index: 1;
+  background: var(--czi-content-body-background-color);
+  color: var(--czi-content-font-color);
+  font-family: var(--czi-content-font-family);
+  font-size: var(--czi-content-font-size);
+  line-height: var(--czi-content-line-height);
 }
 
 .ProseMirror nobr {
@@ -27,10 +38,6 @@
 
 .ProseMirror .tableWrapper {
   overflow-x: visible;
-}
-
-.ProseMirror.czi-has-placeholder {
-  min-height: 100px;
 }
 
 .ProseMirror.czi-has-placeholder {
@@ -53,16 +60,6 @@
   right: 0;
   top: 0;
   z-index: 999;
-}
-
-.ProseMirror {
-  border-radius: 1px;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-  box-sizing: border-box;
-  margin: 0 auto 0 auto;
-  outline: none;
-  position: relative;
-  z-index: 1;
 }
 
 .ProseMirror.czi-prosemirror-editor,
@@ -105,19 +102,10 @@
     box-shadow: unset;
     max-width: 100vw;
     min-height: unset;
-    min-height: unset;
   }
 }
 
 /* Content Styles *************************************************************/
-
-.ProseMirror {
-  background: var(--czi-content-body-background-color);
-  color: var(--czi-content-font-color);
-  font-family: var(--czi-content-font-family);
-  font-size: var(--czi-content-font-size);
-  line-height: var(--czi-content-line-height);
-}
 
 .ProseMirror p {
   line-height: var(--czi-content-line-height);
@@ -162,20 +150,25 @@
 
 .ProseMirror span[data-spacer-size="tab"] {
   /* Google doc uses 50px as exact size for tab space. */
+
   /* The `letter-spacing` used here is actually the width of the spacer */
+
   /* Note that the actual rendered width will be 50px + width of the space */
+
   /* character. */
   letter-spacing: 50px;
 }
 
 .ProseMirror span[data-spacer-size="tab-large"] {
   /* Google doc uses 50px as exact size for tab space. */
+
   /* The `letter-spacing` used here is actually the width of the spacer */
+
   /* Note that the actual rendered width will be 50px + width of the space */
+
   /* character. */
   letter-spacing: 280px;
 }
-
 
 .ProseMirror hr[data-page-break] {
   height: 0;

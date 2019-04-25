@@ -1,5 +1,5 @@
 .czi-icon {
-  font-family: 'Material Icons';
+  font-family: 'Material Icons', sans-serif;
   font-weight: normal;
   font-style: normal;
   font-size: 20px;  /* Preferred icon size */
@@ -13,6 +13,7 @@
 
   /* Support for all WebKit browsers. */
   -webkit-font-smoothing: subpixel-antialiased;
+
   /* Support for Safari and Chrome. */
   text-rendering: optimizeLegibility;
 
@@ -51,7 +52,7 @@
 
 .czi-icon.superscript {
   display: inline-block;
-  font-family: Arial;
+  font-family: Arial, sans-serif;
   font-size: 12px;
   height: 16px;
   text-align: center;

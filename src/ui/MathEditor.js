@@ -8,7 +8,6 @@ import preventEventDefault from './preventEventDefault';
 import uuid from './uuid';
 
 import './czi-form.css';
-import './czi-math-editor.css';
 
 class MathEditor extends React.PureComponent<any, any, any> {
   props: {

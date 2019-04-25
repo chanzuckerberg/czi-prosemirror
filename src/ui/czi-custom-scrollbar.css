@@ -5,8 +5,7 @@
 
 /* Track */
 .czi-custom-scrollbar::-webkit-scrollbar-track {
-  background: #ffffff;
-
+  background: #fff;
 }
 
 /* Handle */
