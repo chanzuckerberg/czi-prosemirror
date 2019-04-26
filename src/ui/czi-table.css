@@ -47,6 +47,11 @@
   pointer-events: none;
 }
 
+.ProseMirror .column-resize-handle.for-margin-left {
+  left: 0;
+  right: 0;
+}
+
 .ProseMirror.resize-cursor {
   cursor: ew-resize;
   cursor: col-resize;
