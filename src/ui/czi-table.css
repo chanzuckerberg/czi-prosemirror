@@ -37,6 +37,7 @@
 }
 
 .ProseMirror .column-resize-handle {
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.4);
   position: absolute;
   right: -2px;
   top: 0;
@@ -45,6 +46,11 @@
   z-index: 20;
   background-color: #adf;
   pointer-events: none;
+}
+
+.ProseMirror th:last-child .column-resize-handle,
+.ProseMirror td:last-child .column-resize-handle {
+  right: 0;
 }
 
 .ProseMirror .column-resize-handle.for-margin-left {
