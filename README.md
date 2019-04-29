@@ -31,7 +31,7 @@ npm install
 
 ```
 # At the working directory `czi-prosemirror`
-npm run start
+npm start
 ```
 Test http://localhost:3001/ from your browser
 
@@ -39,7 +39,7 @@ Test http://localhost:3001/ from your browser
 
 ```
 # At the working directory `czi-prosemirror`
-python ./build_dist.py
+npm run build:dist
 ```
 
 ## Development with React
@@ -79,19 +79,15 @@ export default Example;
 
 
 This project still under active development. There will be NPM package published later.
-For now, you can use the commit hash to include the package to your own `package.json`.
+For now, you can install using the commit hash to include the package to your own `package.json`.
 
 For example:
 
 ```
-{
-  "dependencies": {
-    "czi-prosemirror": "chanzuckerberg/czi-prosemirror#8313aa0970b607c17019f7a5cc8df58c46e78916",
-  }
-}
+npm install --save "chanzuckerberg/czi-prosemirror#8313aa0970b607c17019f7a5cc8df58c46e78916"
 ```
 
-You may find the lates commit hash at https://github.com/chanzuckerberg/czi-prosemirror/commits/master
+You may find the latest commit hash at https://github.com/chanzuckerberg/czi-prosemirror/commits/master
 
 
 
