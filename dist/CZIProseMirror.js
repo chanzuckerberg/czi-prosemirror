@@ -22,10 +22,6 @@ exports.registerCommand = registerCommand;
 
 var _prosemirrorView = require('prosemirror-view');
 
-var _convertFromJSON = require('./convertFromJSON');
-
-var _convertFromJSON2 = _interopRequireDefault(_convertFromJSON);
-
 var _convertToJSON = require('./convertToJSON');
 
 var _convertToJSON2 = _interopRequireDefault(_convertToJSON);
@@ -41,7 +37,6 @@ var _UICommand2 = _interopRequireDefault(_UICommand);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var commandsRegistery = new _map2.default();
-
 var viewsRegistery = new _map2.default();
 
 // This file exports methods to help developer to debug editor from web
@@ -53,22 +48,6 @@ var viewsRegistery = new _map2.default();
 function registeryKeys() {
   return (0, _from2.default)(viewsRegistery.keys());
 }
-
-// This is not working. Will fix it.
-// export function importJSON(json: Object, id: ?string): void {
-//   if (!id && viewsRegistery.size) {
-//     id = registeryKeys()[0];
-//     console.log(`use default editor id "${id}"`);
-//   }
-//   const view = viewsRegistery.get(String(id));
-//   if (!view) {
-//     throw new Error('view ${id} does not exist');
-//   }
-//   const {schema, plugins} = view.state;
-//   const editorState = convertFromJSON(json, schema, plugins);
-//   view.dispatch(editorState.tr);
-//   view.updateState(editorState);
-// }
 
 function exportJSON(id) {
   if (!id && viewsRegistery.size) {

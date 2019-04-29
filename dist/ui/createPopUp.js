@@ -146,7 +146,7 @@ function unrenderPopUp(rootId) {
 
   if (modalsCount === 0) {
     hideModalMask();
-  };
+  }
 }
 
 function createPopUp(View, viewProps, popUpParams) {

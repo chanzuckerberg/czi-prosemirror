@@ -88,7 +88,7 @@ var EditorFrameset = function (_React$PureComponent) {
       var mainClassName = (0, _classnames2.default)(className, {
         'czi-editor-frameset': true,
         'with-fixed-layout': useFixedLayout,
-        'embedded': embedded
+        embedded: embedded
       });
 
       var mainStyle = {

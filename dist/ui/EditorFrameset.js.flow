@@ -4,8 +4,8 @@ import React from 'react';
 
 import './czi-editor-frameset.css';
 
-export type EditorFramesetProps  = {
-  body:  ?React.Element<any>,
+export type EditorFramesetProps = {
+  body: ?React.Element<any>,
   className: ?string,
   embedded: ?boolean,
   header: ?React.Element<any>,
@@ -17,7 +17,7 @@ export type EditorFramesetProps  = {
 
 export const FRAMESET_BODY_CLASSNAME = 'czi-editor-frame-body';
 
-function toCSS(val: ?(number|string)): string {
+function toCSS(val: ?(number | string)): string {
   if (typeof val === 'number') {
     return val + 'px';
   }
@@ -28,11 +28,9 @@ function toCSS(val: ?(number|string)): string {
 }
 
 class EditorFrameset extends React.PureComponent<any, any, any> {
-
   props: EditorFramesetProps;
 
   render(): React.Element<any> {
-
     const {
       body,
       className,
@@ -49,7 +47,7 @@ class EditorFrameset extends React.PureComponent<any, any, any> {
     const mainClassName = cx(className, {
       'czi-editor-frameset': true,
       'with-fixed-layout': useFixedLayout,
-      'embedded': embedded,
+      embedded: embedded,
     });
 
     const mainStyle = {
@@ -57,9 +55,8 @@ class EditorFrameset extends React.PureComponent<any, any, any> {
       height: toCSS(height === undefined && useFixedLayout ? 'auto' : height),
     };
 
-    const toolbarHeader = (toolbarPlacement === 'header' || !toolbarPlacement)
-      ? toolbar
-      : null;
+    const toolbarHeader =
+      toolbarPlacement === 'header' || !toolbarPlacement ? toolbar : null;
     const toolbarBody = toolbarPlacement === 'body' && toolbar;
 
     return (
@@ -71,9 +68,7 @@ class EditorFrameset extends React.PureComponent<any, any, any> {
           </div>
           <div className={FRAMESET_BODY_CLASSNAME}>
             {toolbarBody}
-            <div className="czi-editor-frame-body-scroll">
-              {body}
-            </div>
+            <div className="czi-editor-frame-body-scroll">{body}</div>
           </div>
           <div className="czi-editor-frame-footer" />
         </div>

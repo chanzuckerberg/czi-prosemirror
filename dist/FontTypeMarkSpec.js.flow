@@ -8,18 +8,18 @@ import type {MarkSpec} from './Types';
 
 export const FONT_TYPE_NAMES = [
   // SERIF
- 'Arial',
- 'Arial Black',
- 'Georgia',
- 'Tahoma',
- 'Times New Roman',
- 'Times',
- 'Verdana',
- // MONOSPACE
- 'Courier New',
- 'Lucida Console',
- 'Monaco',
- 'monospace',
+  'Arial',
+  'Arial Black',
+  'Georgia',
+  'Tahoma',
+  'Times New Roman',
+  'Times',
+  'Verdana',
+  // MONOSPACE
+  'Courier New',
+  'Lucida Console',
+  'Monaco',
+  'monospace',
 ];
 
 const RESOLVED_FONT_NAMES = new Set(FONT_TYPE_NAMES);
@@ -33,7 +33,7 @@ const FontTypeMarkSpec: MarkSpec = {
   parseDOM: [
     {
       style: 'font-family',
-      getAttrs: (name) => {
+      getAttrs: name => {
         return {
           name: name ? name.replace(/[\"\']/g, '') : '',
         };

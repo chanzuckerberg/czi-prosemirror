@@ -39,7 +39,6 @@ var CHAR_ZERO_SPACE = '\u200B';
 var INLINE_NODE_NAME_PATTERN = /^(#text)|(A|SPAN|B|STRONG)$/;
 
 function patchListElementsElement(listElement) {
-
   // If the children of `listElement` all have teh same marginLeft, assume
   // it to be indented.
   var marginLeft = undefined;

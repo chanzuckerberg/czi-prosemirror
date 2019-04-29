@@ -23,7 +23,7 @@ function findActionableCellFromSelection(selection: CellSelection): ?Result {
   selection.forEachCell((cell, cellPos) => {
     const cellRect = tableMap.findCell(cellPos - start);
     if (
-      (!topRightRect) ||
+      !topRightRect ||
       (cellRect.top >= topRightRect.top && cellRect.left > topRightRect.left)
     ) {
       topRightRect = cellRect;
@@ -32,10 +32,12 @@ function findActionableCellFromSelection(selection: CellSelection): ?Result {
     }
   });
 
-  return posFound === null ? null : {
-    node: nodeFound,
-    pos: posFound,
-  };
+  return posFound === null
+    ? null
+    : {
+        node: nodeFound,
+        pos: posFound,
+      };
 }
 
 export default function findActionableCell(state: EditorState): ?Result {
@@ -70,4 +72,3 @@ export default function findActionableCell(state: EditorState): ?Result {
 
   return null;
 }
-

@@ -2,7 +2,14 @@
 
 import {EditorView} from 'prosemirror-view';
 
-import {BACKSPACE, DELETE, DOWN_ARROW, LEFT_ARROW, RIGHT_ARROW, UP_ARROW} from './KeyCodes';
+import {
+  BACKSPACE,
+  DELETE,
+  DOWN_ARROW,
+  LEFT_ARROW,
+  RIGHT_ARROW,
+  UP_ARROW,
+} from './KeyCodes';
 
 const AtomicNodeKeyCodes = new Set([
   BACKSPACE,
@@ -13,10 +20,13 @@ const AtomicNodeKeyCodes = new Set([
   UP_ARROW,
 ]);
 
-export default function handleEditorKeyDown(view: EditorView, event: KeyboardEvent): boolean {
+export default function handleEditorKeyDown(
+  view: EditorView,
+  event: KeyboardEvent
+): boolean {
   const {selection, tr} = view.state;
   const {from, to} = selection;
-  if (from === (to - 1)) {
+  if (from === to - 1) {
     const node = tr.doc.nodeAt(from);
     if (node.isAtom && !node.isText && node.isLeaf) {
       // An atomic node (e.g. Image) is selected.

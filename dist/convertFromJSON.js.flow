@@ -11,7 +11,7 @@ import createEmptyEditorState from './createEmptyEditorState';
 export default function convertFromJSON(
   json: Object | string,
   schema: ?Schema,
-  plugins: ?Array<Plugin>,
+  plugins: ?Array<Plugin>
 ): EditorState {
   const effectiveSchema = schema || EditorSchema;
   const effectivePlugins = plugins || EditorPlugins;

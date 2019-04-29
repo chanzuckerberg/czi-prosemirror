@@ -11,7 +11,7 @@ import UICommand from './ui/UICommand';
 type UserKeyCommand = (
   state: EditorState,
   dispatch: ?(tr: Transform) => void,
-  view: ?EditorView,
+  view: ?EditorView
 ) => boolean;
 
 type UserKeyMap = {
@@ -53,7 +53,7 @@ function bindCommands(...commands: Array<UICommand>): UserKeyCommand {
   return function(
     state: EditorState,
     dispatch: ?(tr: Transform) => void,
-    view: ?EditorView,
+    view: ?EditorView
   ): boolean {
     return commands.some(cmd => {
       if (cmd.isEnabled(state, view)) {
@@ -74,12 +74,12 @@ export default function createEditorKeyMap(): UserKeyMap {
     [KEY_TAB.common]: bindCommands(
       TABLE_MOVE_TO_NEXT_CELL,
       TEXT_INSERT_TAB_SPACE,
-      INDENT_MORE,
+      INDENT_MORE
     ),
     [KEY_TAB_SHIFT.common]: bindCommands(
       TABLE_MOVE_TO_PREV_CELL,
       TEXT_INSERT_TAB_SPACE,
-      INDENT_LESS,
+      INDENT_LESS
     ),
     [KEY_TOGGLE_BOLD.common]: STRONG.execute,
     [KEY_TOGGLE_ITALIC.common]: EM.execute,

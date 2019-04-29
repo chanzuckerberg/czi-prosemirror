@@ -1,6 +1,14 @@
 // @flow
 
-import { InputRule, ellipsis, emDash, inputRules, smartQuotes, textblockTypeInputRule, wrappingInputRule } from 'prosemirror-inputrules';
+import {
+  InputRule,
+  ellipsis,
+  emDash,
+  inputRules,
+  smartQuotes,
+  textblockTypeInputRule,
+  wrappingInputRule,
+} from 'prosemirror-inputrules';
 import {NodeType, Schema} from 'prosemirror-model';
 
 import blockQuoteInputRule from './blockQuoteInputRule';
@@ -13,9 +21,10 @@ import blockQuoteInputRule from './blockQuoteInputRule';
 // followed by a dot at the start of a textblock into an ordered list.
 function orderedListRule(nodeType: NodeType): InputRule {
   return wrappingInputRule(
-    /^(\d+)\.\s$/, nodeType,
+    /^(\d+)\.\s$/,
+    nodeType,
     match => ({order: +match[1]}),
-    (match, node) => node.childCount + node.attrs.order == +match[1],
+    (match, node) => node.childCount + node.attrs.order == +match[1]
   );
 }
 
@@ -42,7 +51,8 @@ function codeBlockRule(nodeType: NodeType): InputRule {
 function headingRule(nodeType: NodeType, maxLevel: number): InputRule {
   return textblockTypeInputRule(
     new RegExp('^(#{1,' + maxLevel + '})\\s$'),
-    nodeType, match => ({level: match[1].length}),
+    nodeType,
+    match => ({level: match[1].length})
   );
 }
 
@@ -52,19 +62,19 @@ function headingRule(nodeType: NodeType, maxLevel: number): InputRule {
 export default function buildInputRules(schema: Schema) {
   const rules = smartQuotes.concat(ellipsis, emDash);
   let type;
-  if (type = schema.nodes.blockquote) {
+  if ((type = schema.nodes.blockquote)) {
     rules.push(blockQuoteInputRule());
   }
-  if (type = schema.nodes.ordered_list) {
+  if ((type = schema.nodes.ordered_list)) {
     rules.push(orderedListRule(type));
   }
-  if (type = schema.nodes.bullet_list) {
+  if ((type = schema.nodes.bullet_list)) {
     rules.push(bulletListRule(type));
   }
-  if (type = schema.nodes.code_block) {
+  if ((type = schema.nodes.code_block)) {
     rules.push(codeBlockRule(type));
   }
-  if (type = schema.nodes.heading) {
+  if ((type = schema.nodes.heading)) {
     rules.push(headingRule(type, 6));
   }
   return inputRules({rules});

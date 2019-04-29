@@ -106,7 +106,6 @@ var BookmarkNodeView = function (_CustomNodeView) {
   (0, _createClass3.default)(BookmarkNodeView, [{
     key: 'createDOMElement',
 
-
     // @override
     value: function createDOMElement() {
       var el = document.createElement('a');

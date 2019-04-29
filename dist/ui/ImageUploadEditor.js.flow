@@ -14,7 +14,6 @@ import './czi-image-upload-editor.css';
 import type {EditorRuntime, ImageLike} from '../Types';
 
 class ImageUploadEditor extends React.PureComponent<any, any, any> {
-
   _img = null;
   _unmounted = false;
 
@@ -63,10 +62,7 @@ class ImageUploadEditor extends React.PureComponent<any, any, any> {
             </div>
           </fieldset>
           <div className="czi-form-buttons">
-            <CustomButton
-              label="Cancel"
-              onClick={this._cancel}
-            />
+            <CustomButton label="Cancel" onClick={this._cancel} />
           </div>
         </form>
       </div>

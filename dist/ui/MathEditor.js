@@ -46,8 +46,6 @@ var _uuid2 = _interopRequireDefault(_uuid);
 
 require('./czi-form.css');
 
-require('./czi-math-editor.css');
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var MathEditor = function (_React$PureComponent) {
@@ -97,18 +95,12 @@ var MathEditor = function (_React$PureComponent) {
               null,
               'Insert Math'
             ),
-            _react2.default.createElement(_MathQuillEditorLoadable2.default, {
-              onChange: this._onChange,
-              value: value
-            })
+            _react2.default.createElement(_MathQuillEditorLoadable2.default, { onChange: this._onChange, value: value })
           ),
           _react2.default.createElement(
             'div',
             { className: 'czi-form-buttons' },
-            _react2.default.createElement(_CustomButton2.default, {
-              label: 'Cancel',
-              onClick: this._cancel
-            }),
+            _react2.default.createElement(_CustomButton2.default, { label: 'Cancel', onClick: this._cancel }),
             _react2.default.createElement(_CustomButton2.default, {
               active: true,
               disabled: !this.state.value,

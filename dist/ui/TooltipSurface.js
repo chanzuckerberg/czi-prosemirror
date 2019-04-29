@@ -121,7 +121,8 @@ var TooltipSurface = function (_React$PureComponent2) {
           onMouseDown: tooltip && this._onMouseLeave,
           onMouseEnter: tooltip && this._onMouseEnter,
           onMouseLeave: tooltip && this._onMouseLeave,
-          role: 'tooltip' },
+          role: 'tooltip'
+        },
         children
       );
     }

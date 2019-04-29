@@ -31,12 +31,7 @@ class GridCell extends React.PureComponent<any, any, any> {
     const className = cx('czi-table-grid-size-editor-cell', {
       selected,
     });
-    return (
-      <div
-        className={className}
-        style={style}
-      />
-    );
+    return <div className={className} style={style} />;
   }
 }
 
@@ -111,7 +106,8 @@ class TableGridSizeEditor extends React.PureComponent<any, any, any> {
           className="czi-table-grid-size-editor-body"
           onMouseDown={this._onMouseDown}
           onMouseEnter={this._onMouseEnter}
-          style={bodyStyle}>
+          style={bodyStyle}
+        >
           {cells}
         </div>
         <div className="czi-table-grid-size-editor-footer">

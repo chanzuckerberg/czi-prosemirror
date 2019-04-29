@@ -196,7 +196,6 @@ var CustomNodeView = function () {
   function CustomNodeView(node, editorView, getPos, decorations) {
     (0, _classCallCheck3.default)(this, CustomNodeView);
 
-
     this.props = {
       decorations: decorations,
       editorView: editorView,

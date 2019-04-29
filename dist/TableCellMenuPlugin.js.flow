@@ -61,13 +61,12 @@ class TableCellTooltipView {
       // Creates a new popup.
       popUp && popUp.close();
       this._cellElement = cellEl;
-      this._popUp =
-        createPopUp(TableCellMenu, viewPops, {
-          anchor: cellEl,
-          autoDismiss: false,
-          onClose: this._onClose,
-          position: atAnchorTopRight,
-        });
+      this._popUp = createPopUp(TableCellMenu, viewPops, {
+        anchor: cellEl,
+        autoDismiss: false,
+        onClose: this._onClose,
+        position: atAnchorTopRight,
+      });
       this._onOpen();
     }
   }
@@ -107,7 +106,7 @@ class TableCellTooltipView {
 const SPEC = {
   view(editorView: EditorView) {
     return new TableCellTooltipView(editorView);
-  }
+  },
 };
 
 class TableCellMenuPlugin extends Plugin {

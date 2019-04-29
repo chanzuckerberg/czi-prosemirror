@@ -80,8 +80,7 @@ var CustomButton = function (_React$PureComponent) {
         { tooltip: title },
         _react2.default.createElement(
           _PointerSurface2.default,
-          (0, _extends3.default)({}, pointerProps, {
-            className: klass }),
+          (0, _extends3.default)({}, pointerProps, { className: klass }),
           icon,
           label
         )

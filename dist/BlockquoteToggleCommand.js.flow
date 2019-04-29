@@ -10,7 +10,6 @@ import toggleBlockquote from './toggleBlockquote';
 import UICommand from './ui/UICommand';
 
 class BlockquoteToggleCommand extends UICommand {
-
   isActive = (state: EditorState): boolean => {
     const blockquote = state.schema.nodes[BLOCKQUOTE];
     return !!(blockquote && findParentNodeOfType(blockquote)(state.selection));
@@ -19,13 +18,10 @@ class BlockquoteToggleCommand extends UICommand {
   execute = (
     state: EditorState,
     dispatch: ?(tr: Transform) => void,
-    view: ?EditorView,
+    view: ?EditorView
   ): boolean => {
     const {schema, selection} = state;
-    const tr = toggleBlockquote(
-      state.tr.setSelection(selection),
-      schema,
-    );
+    const tr = toggleBlockquote(state.tr.setSelection(selection), schema);
     if (tr.docChanged) {
       dispatch && dispatch(tr);
       return true;

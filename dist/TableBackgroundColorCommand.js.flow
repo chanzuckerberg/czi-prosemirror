@@ -16,7 +16,7 @@ const setCellBackgroundBlack = setCellAttr('background', '#000000');
 class TableBackgroundColorCommand extends UICommand {
   _popUp = null;
 
-  shouldRespondToUIEvent = (e: (SyntheticEvent | MouseEvent)): boolean => {
+  shouldRespondToUIEvent = (e: SyntheticEvent | MouseEvent): boolean => {
     return e.type === UICommand.EventType.MOUSEENTER;
   };
 
@@ -28,7 +28,7 @@ class TableBackgroundColorCommand extends UICommand {
     state: EditorState,
     dispatch: ?(tr: Transform) => void,
     view: ?EditorView,
-    event: ?SyntheticEvent,
+    event: ?SyntheticEvent
   ): Promise<any> => {
     if (this._popUp) {
       return Promise.resolve(undefined);
@@ -43,12 +43,12 @@ class TableBackgroundColorCommand extends UICommand {
       this._popUp = createPopUp(ColorEditor, null, {
         anchor,
         position: atAnchorRight,
-        onClose: (val) => {
+        onClose: val => {
           if (this._popUp) {
             this._popUp = null;
             resolve(val);
           }
-        }
+        },
       });
     });
   };
@@ -57,7 +57,7 @@ class TableBackgroundColorCommand extends UICommand {
     state: EditorState,
     dispatch: ?(tr: Transform) => void,
     view: ?EditorView,
-    hex: ?string,
+    hex: ?string
   ): boolean => {
     if (dispatch && hex !== undefined) {
       const cmd = setCellAttr('background', hex);

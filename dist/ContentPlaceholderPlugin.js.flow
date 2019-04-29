@@ -71,10 +71,7 @@ class ContentPlaceholderView {
     el.style.display = 'block';
     el.style.width = bodyEl.offsetWidth + 'px';
 
-    ReactDOM.render(
-      <div>{placeholder}</div>,
-      el,
-    );
+    ReactDOM.render(<div>{placeholder}</div>, el);
   }
 
   destroy() {
@@ -140,10 +137,7 @@ class ContentPlaceholderView {
   _getBodyElement(): ?HTMLElement {
     const view = this._view;
     return (
-      view &&
-      view.docView &&
-      view.docView.dom &&
-      view.docView.dom.firstChild
+      view && view.docView && view.docView.dom && view.docView.dom.firstChild
     );
   }
 
@@ -182,9 +176,9 @@ class ContentPlaceholderPlugin extends Plugin {
     super({
       view(editorView: EditorView) {
         return new ContentPlaceholderView(editorView);
-      }
+      },
     });
-  };
+  }
 }
 
 export default ContentPlaceholderPlugin;

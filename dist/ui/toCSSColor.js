@@ -17,8 +17,8 @@ var RGBA_PATTERN = /^rgba/i;
 var RGBA_TRANSPARENT = 'rgba(0,0,0,0)';
 
 var ColorMaping = {
-  'transparent': RGBA_TRANSPARENT,
-  'inherit': ''
+  transparent: RGBA_TRANSPARENT,
+  inherit: ''
 };
 
 function isTransparent(source) {

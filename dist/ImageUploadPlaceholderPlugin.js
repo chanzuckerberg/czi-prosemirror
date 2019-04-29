@@ -200,7 +200,9 @@ var ImageUploadPlaceholderPlugin = function (_Plugin) {
             el.className = 'czi-image-upload-placeholder';
             el.innerHTML = INNER_HTML;
 
-            var deco = _prosemirrorView.Decoration.widget(action.add.pos, el, { id: action.add.id });
+            var deco = _prosemirrorView.Decoration.widget(action.add.pos, el, {
+              id: action.add.id
+            });
 
             set = set.add(tr.doc, [deco]);
           } else if (action && action.remove) {

@@ -9,7 +9,6 @@ import CustomButton from './CustomButton';
 import UICommand from './UICommand';
 
 class CommandButton extends React.PureComponent<any, any, any> {
-
   props: {
     className?: ?string,
     command: UICommand,
@@ -24,7 +23,13 @@ class CommandButton extends React.PureComponent<any, any, any> {
 
   render(): React.Element<any> {
     const {
-      label, className, command, editorState, editorView, icon, title
+      label,
+      className,
+      command,
+      editorState,
+      editorView,
+      icon,
+      title,
     } = this.props;
     let disabled = this.props.disabled;
     if (!!disabled === false) {

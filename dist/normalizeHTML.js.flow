@@ -1,6 +1,10 @@
 // @flow
 
-import {DOM_ATTRIBUTE_SIZE, HAIR_SPACE_CHAR, SPACER_SIZE_TAB} from './SpacerMarkSpec';
+import {
+  DOM_ATTRIBUTE_SIZE,
+  HAIR_SPACE_CHAR,
+  SPACER_SIZE_TAB,
+} from './SpacerMarkSpec';
 import patchAnchorElements from './patchAnchorElements';
 import patchBreakElements from './patchBreakElements';
 import patchElementInlineStyles from './patchElementInlineStyles';
@@ -17,7 +21,7 @@ const LONG_UNDERLINE_PATTERN = /_+/g;
 // tab spacers. For every 6 "&nbsp;", they will be converted into tab spacers.
 const LONG_TAB_SPACE_PATTERN = /(\&nbsp;){6}/g;
 
-const TAB_SPACER_HTML = (new Array(6)).join(
+const TAB_SPACER_HTML = new Array(6).join(
   `<span ${DOM_ATTRIBUTE_SIZE}="${SPACER_SIZE_TAB}">${HAIR_SPACE_CHAR}</span>`
 );
 

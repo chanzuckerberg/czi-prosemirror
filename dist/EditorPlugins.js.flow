@@ -6,13 +6,12 @@ import {history} from 'prosemirror-history';
 import {keymap} from 'prosemirror-keymap';
 import {Schema} from 'prosemirror-model';
 import {Plugin} from 'prosemirror-state';
-import * as ProsemirrorTables from 'prosemirror-tables';
 
 import ContentPlaceholderPlugin from './ContentPlaceholderPlugin';
 import CursorPlaceholderPlugin from './CursorPlaceholderPlugin';
 import EditorPageLayoutPlugin from './EditorPageLayoutPlugin';
 import EditorSchema from './EditorSchema';
-import ImageUploadPlaceholderPlugin  from './ImageUploadPlaceholderPlugin';
+import ImageUploadPlaceholderPlugin from './ImageUploadPlaceholderPlugin';
 import LinkTooltipPlugin from './LinkTooltipPlugin';
 import SelectionPlaceholderPlugin from './SelectionPlaceholderPlugin';
 import TablePlugins from './TablePlugins';

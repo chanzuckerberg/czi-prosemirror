@@ -74,14 +74,14 @@ function setSize(el, width, height) {
 }
 
 var ResizeDirection = {
-  'top': setHeight,
-  'top_right': setSize,
-  'right': setWidth,
-  'bottom_right': setSize,
-  'bottom': setHeight,
-  'bottom_left': setSize,
-  'left': setWidth,
-  'top_left': setSize
+  top: setHeight,
+  top_right: setSize,
+  right: setWidth,
+  bottom_right: setSize,
+  bottom: setHeight,
+  bottom_left: setSize,
+  left: setWidth,
+  top_left: setSize
 };
 
 var ImageResizeBoxControl = function (_React$PureComponent) {
@@ -167,10 +167,7 @@ var ImageResizeBoxControl = function (_React$PureComponent) {
         'czi-image-resize-box-control': true
       }, direction, true));
 
-      return _react2.default.createElement('span', {
-        className: className,
-        onMouseDown: this._onMouseDown
-      });
+      return _react2.default.createElement('span', { className: className, onMouseDown: this._onMouseDown });
     }
   }, {
     key: '_start',
@@ -277,10 +274,7 @@ var ImageResizeBox = function (_React$PureComponent2) {
         'span',
         { className: 'czi-image-resize-box', id: boxID, style: style },
         controls,
-        _react2.default.createElement('img', {
-          className: 'czi-image-resize-box-image',
-          src: src
-        })
+        _react2.default.createElement('img', { className: 'czi-image-resize-box-image', src: src })
       );
     }
   }]);

@@ -157,7 +157,8 @@ var MathViewBody = function (_React$PureComponent) {
           'data-active': active ? 'true' : null,
           'data-latex': latex || '',
           id: this._id,
-          title: latex },
+          title: latex
+        },
         _react2.default.createElement('img', {
           alt: latex,
           className: 'czi-math-view-body-img',
@@ -214,7 +215,6 @@ var MathNodeView = function (_CustomNodeView) {
 
   (0, _createClass3.default)(MathNodeView, [{
     key: 'createDOMElement',
-
 
     // @override
     value: function createDOMElement() {

@@ -8,17 +8,16 @@ import {EditorView} from 'prosemirror-view';
 // eslint-disable-next-line no-unused-vars
 import React from 'react';
 
-import {hideCursorPlaceholder, showCursorPlaceholder} from './CursorPlaceholderPlugin';
+import {
+  hideCursorPlaceholder,
+  showCursorPlaceholder,
+} from './CursorPlaceholderPlugin';
 import {MATH} from './NodeNames';
 import MathEditor from './ui/MathEditor';
 import UICommand from './ui/UICommand';
 import createPopUp from './ui/createPopUp';
 
-function insertMath(
-  tr: Transform,
-  schema: Schema,
-  latex: ?string,
-): Transform {
+function insertMath(tr: Transform, schema: Schema, latex: ?string): Transform {
   const {selection} = tr;
   if (!selection) {
     return tr;
@@ -44,7 +43,6 @@ function insertMath(
 }
 
 class MathEditCommand extends UICommand {
-
   _popUp = null;
 
   isEnabled = (state: EditorState, view: ?EditorView): boolean => {
@@ -60,7 +58,7 @@ class MathEditCommand extends UICommand {
     state: EditorState,
     dispatch: ?(tr: Transform) => void,
     view: ?EditorView,
-    event: ?SyntheticEvent,
+    event: ?SyntheticEvent
   ): Promise<any> => {
     if (this._popUp) {
       return Promise.resolve(undefined);
@@ -77,12 +75,12 @@ class MathEditCommand extends UICommand {
       };
       this._popUp = createPopUp(MathEditor, props, {
         modal: true,
-        onClose: (val) => {
+        onClose: val => {
           if (this._popUp) {
             this._popUp = null;
             resolve(val);
           }
-        }
+        },
       });
     });
   };
@@ -91,7 +89,7 @@ class MathEditCommand extends UICommand {
     state: EditorState,
     dispatch: ?(tr: Transform) => void,
     view: ?EditorView,
-    latex: ?string,
+    latex: ?string
   ): boolean => {
     if (dispatch) {
       const {selection, schema} = state;

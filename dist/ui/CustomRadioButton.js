@@ -91,8 +91,8 @@ var CustomRadioButton = function (_React$PureComponent) {
 
 
       var klass = (0, _classnames2.default)(className, 'czi-custom-radio-button', {
-        'checked': checked,
-        'inline': inline
+        checked: checked,
+        inline: inline
       });
 
       return _react2.default.createElement(
@@ -101,7 +101,8 @@ var CustomRadioButton = function (_React$PureComponent) {
           className: klass,
           disabled: disabled,
           onClick: onSelect,
-          title: title || label }),
+          title: title || label
+        }),
         _react2.default.createElement('input', {
           checked: checked,
           className: 'czi-custom-radio-button-input',

@@ -68,9 +68,7 @@ var CustomMenuItem = function (_React$PureComponent2) {
   (0, _createClass3.default)(CustomMenuItem, [{
     key: 'render',
     value: function render() {
-      return _react2.default.createElement(_CustomButton2.default, (0, _extends3.default)({}, this.props, {
-        className: 'czi-custom-menu-item'
-      }));
+      return _react2.default.createElement(_CustomButton2.default, (0, _extends3.default)({}, this.props, { className: 'czi-custom-menu-item' }));
     }
   }]);
   return CustomMenuItem;

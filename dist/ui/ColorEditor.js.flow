@@ -24,7 +24,7 @@ function generateGreyColors(count: number): Array<Color> {
 function generateRainbowColors(
   count: number,
   saturation: number,
-  lightness: number,
+  lightness: number
 ): Array<Color> {
   const colors = [];
   const interval = 360 / count;

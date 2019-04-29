@@ -31,7 +31,11 @@ function processQueue() {
   }
 }
 
-function processPromise(src: ?string, resolve: Function, reject: Function): void {
+function processPromise(
+  src: ?string,
+  resolve: Function,
+  reject: Function
+): void {
   const result: ImageResult = {
     complete: false,
     height: 0,

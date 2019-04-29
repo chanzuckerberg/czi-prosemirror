@@ -437,11 +437,11 @@ var ImageViewBody = function (_React$PureComponent) {
           id: this._id,
           onKeyDown: this._onKeyDown,
           ref: this._onBodyRef,
-          title: errorTitle },
+          title: errorTitle
+        },
         _react2.default.createElement(
           'span',
-          {
-            className: 'czi-image-view-body-img-clip', style: clipStyle },
+          { className: 'czi-image-view-body-img-clip', style: clipStyle },
           _react2.default.createElement(
             'span',
             { style: imageStyle },
@@ -505,7 +505,6 @@ var ImageNodeView = function (_CustomNodeView) {
 
   (0, _createClass3.default)(ImageNodeView, [{
     key: 'createDOMElement',
-
 
     // @override
     value: function createDOMElement() {

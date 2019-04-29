@@ -22,7 +22,7 @@ class IndentCommand extends UICommand {
   execute = (
     state: EditorState,
     dispatch: ?(tr: Transform) => void,
-    view: ?EditorView,
+    view: ?EditorView
   ): boolean => {
     const {selection, schema} = state;
     let {tr} = state;

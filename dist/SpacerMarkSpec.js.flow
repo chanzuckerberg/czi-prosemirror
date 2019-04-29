@@ -25,7 +25,7 @@ const SpacerMarkSpec: MarkSpec = {
   parseDOM: [
     {
       tag: `span[${DOM_ATTRIBUTE_SIZE}]`,
-      getAttrs: (el) => {
+      getAttrs: el => {
         return {
           size: el.getAttribute(DOM_ATTRIBUTE_SIZE) || SPACER_SIZE_TAB,
         };

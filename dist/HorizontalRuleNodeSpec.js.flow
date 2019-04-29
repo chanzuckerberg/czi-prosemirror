@@ -19,7 +19,6 @@ function getAttrs(dom: HTMLElement) {
 }
 
 const HorizontalRuleNode = {
-
   attrs: {
     pageBreak: {default: null},
   },

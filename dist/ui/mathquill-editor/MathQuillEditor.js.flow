@@ -17,9 +17,9 @@ import jquery from 'jquery';
 import type {MathQuillEditorSymbol} from './MathQuillEditorSymbols';
 
 const MQ = MathQuill.getInterface(2);
-const CSS_CDN_URL = '//cdnjs.cloudflare.com/ajax/libs/mathquill/0.10.1/mathquill.css';
+const CSS_CDN_URL =
+  '//cdnjs.cloudflare.com/ajax/libs/mathquill/0.10.1/mathquill.css';
 const CSS_FONT = 'Symbola';
-
 
 (async function() {
   const fontSupported = await canUseCSSFont(CSS_FONT);
@@ -31,7 +31,6 @@ const CSS_FONT = 'Symbola';
 })();
 
 class MathQuillElement extends React.Component<any, any, any> {
-
   shouldComponentUpdate(): boolean {
     return false;
   }
@@ -52,7 +51,7 @@ class MathQuillEditor extends React.PureComponent<any, any, any> {
     onChange?: ?(latex: string) => void,
   };
 
-   // MathJax apparently fire 4 edit events on startup.
+  // MathJax apparently fire 4 edit events on startup.
   _element = null;
   _ignoreEditEvents = 4;
   _mathField = null;
@@ -73,13 +72,9 @@ class MathQuillEditor extends React.PureComponent<any, any, any> {
     return (
       <div className={className}>
         <div className="czi-mathquill-editor-main">
-          <MathQuillElement
-            ref={this._onElementRef}
-          />
+          <MathQuillElement ref={this._onElementRef} />
         </div>
-        <div className="czi-mathquill-editor-side">
-          {panels}
-        </div>
+        <div className="czi-mathquill-editor-side">{panels}</div>
       </div>
     );
   }
@@ -116,7 +111,7 @@ class MathQuillEditor extends React.PureComponent<any, any, any> {
 
   _renderPanel = (
     symbols: {title: string, symbols: Array<MathQuillEditorSymbol>},
-    ii: number,
+    ii: number
   ): React.Element<any> => {
     return (
       <MathQuillEditorSymbolsPanel

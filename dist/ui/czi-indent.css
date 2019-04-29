@@ -30,30 +30,37 @@
 
 /* list item indents */
 
-.ProseMirror ol[data-indent="1"], ul[data-indent="1"] {
+.ProseMirror ol[data-indent="1"],
+ul[data-indent="1"] {
   margin-left: 12pt;
 }
 
-.ProseMirror ol[data-indent="2"], ul[data-indent="2"] {
+.ProseMirror ol[data-indent="2"],
+ul[data-indent="2"] {
   margin-left: 24pt;
 }
 
-.ProseMirror ol[data-indent="3"], ul[data-indent="3"] {
+.ProseMirror ol[data-indent="3"],
+ul[data-indent="3"] {
   margin-left: 36pt;
 }
 
-.ProseMirror ol[data-indent="4"], ul[data-indent="4"] {
+.ProseMirror ol[data-indent="4"],
+ul[data-indent="4"] {
   margin-left: 48pt;
 }
 
-.ProseMirror ol[data-indent="5"], ul[data-indent="5"] {
+.ProseMirror ol[data-indent="5"],
+ul[data-indent="5"] {
   margin-left: 60pt;
 }
 
-.ProseMirror ol[data-indent="6"], ul[data-indent="6"] {
+.ProseMirror ol[data-indent="6"],
+ul[data-indent="6"] {
   margin-left: 72pt;
 }
 
-.ProseMirror ol[data-indent="7"], ul[data-indent="7"] {
+.ProseMirror ol[data-indent="7"],
+ul[data-indent="7"] {
   margin-left: 84pt;
 }

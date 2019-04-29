@@ -27,7 +27,6 @@ type State = {
 };
 
 class DocLayoutEditor extends React.PureComponent<any, any, any> {
-
   _unmounted = false;
 
   props: Props;
@@ -35,7 +34,7 @@ class DocLayoutEditor extends React.PureComponent<any, any, any> {
 
   constructor(props: Object, context: Object) {
     super(props, context);
-    const {width, layout} = (this.props.initialValue || {});
+    const {width, layout} = this.props.initialValue || {};
     this.state = {
       width,
       layout,
@@ -45,15 +44,15 @@ class DocLayoutEditor extends React.PureComponent<any, any, any> {
 
   render(): React.Element<any> {
     const {width, selectedValue} = this.state;
-    const customOption = width ?
+    const customOption = width ? (
       <CustomRadioButton
         checked={selectedValue === width}
         key="c"
         label={`Custom width: ${width}pt`}
         onSelect={this._onSelect}
         value={width}
-      /> :
-      null;
+      />
+    ) : null;
 
     return (
       <div className="czi-body-layout-editor">
@@ -88,15 +87,8 @@ class DocLayoutEditor extends React.PureComponent<any, any, any> {
           </fieldset>
           <hr />
           <div className="czi-form-buttons">
-            <CustomButton
-              label="Cancel"
-              onClick={this._cancel}
-            />
-            <CustomButton
-              active={true}
-              label="Apply"
-              onClick={this._apply}
-            />
+            <CustomButton label="Cancel" onClick={this._cancel} />
+            <CustomButton active={true} label="Apply" onClick={this._apply} />
           </div>
         </form>
       </div>

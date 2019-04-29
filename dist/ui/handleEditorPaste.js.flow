@@ -7,12 +7,12 @@ import {uploadImageFiles} from '../ImageUploadPlaceholderPlugin';
 // workaround to support ClipboardEvent as a valid type.
 // https://github.com/facebook/flow/issues/1856
 declare class ClipboardEvent extends Event {
-  clipboardData: DataTransfer,
+  clipboardData: DataTransfer;
 }
 
 export default function handleEditorPaste(
   view: EditorView,
-  event: ClipboardEvent,
+  event: ClipboardEvent
 ): boolean {
   const {clipboardData} = event;
   if (!clipboardData) {

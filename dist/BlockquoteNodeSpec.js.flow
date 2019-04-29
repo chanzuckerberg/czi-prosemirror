@@ -13,9 +13,7 @@ import type {NodeSpec} from './Types';
 const BlockquoteNodeSpec: NodeSpec = {
   ...ParagraphNodeSpec,
   defining: true,
-  parseDOM: [
-    {tag: 'blockquote', getAttrs},
-  ],
+  parseDOM: [{tag: 'blockquote', getAttrs}],
   toDOM,
 };
 

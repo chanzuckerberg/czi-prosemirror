@@ -32,7 +32,7 @@ function splitListItem(tr, schema) {
 
   if (node && node.isBlock || $from.depth < 2 || !$from.sameParent($to)) {
     return tr;
-  };
+  }
 
   var grandParent = $from.node(-1);
   if (grandParent.type !== nodeType) {

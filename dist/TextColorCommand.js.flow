@@ -14,15 +14,13 @@ import UICommand from './ui/UICommand';
 import createPopUp from './ui/createPopUp';
 
 class TextColorCommand extends UICommand {
-
   _popUp = null;
 
   isEnabled = (state: EditorState): boolean => {
     const {schema, selection, tr} = state;
-    if (!(
-      selection instanceof TextSelection ||
-      selection instanceof AllSelection
-    )) {
+    if (
+      !(selection instanceof TextSelection || selection instanceof AllSelection)
+    ) {
       // Could be a NodeSelection or CellSelection.
       return false;
     }
@@ -33,7 +31,7 @@ class TextColorCommand extends UICommand {
     }
     const {from, to} = state.selection;
 
-    if (to === (from + 1)) {
+    if (to === from + 1) {
       const node = tr.doc.nodeAt(from);
       if (node.isAtom && !node.isText && node.isLeaf) {
         // An atomic node (e.g. Image) is selected.
@@ -47,7 +45,7 @@ class TextColorCommand extends UICommand {
     state: EditorState,
     dispatch: ?(tr: Transform) => void,
     view: ?EditorView,
-    event: ?SyntheticEvent,
+    event: ?SyntheticEvent
   ): Promise<any> => {
     if (this._popUp) {
       return Promise.resolve(undefined);
@@ -64,15 +62,19 @@ class TextColorCommand extends UICommand {
     const result = findNodesWithSameMark(doc, from, to, markType);
     const hex = result ? result.mark.attrs.color : null;
     return new Promise(resolve => {
-      this._popUp = createPopUp(ColorEditor, {hex}, {
-        anchor,
-        onClose: (val) => {
-          if (this._popUp) {
-            this._popUp = null;
-            resolve(val);
-          }
+      this._popUp = createPopUp(
+        ColorEditor,
+        {hex},
+        {
+          anchor,
+          onClose: val => {
+            if (this._popUp) {
+              this._popUp = null;
+              resolve(val);
+            }
+          },
         }
-      });
+      );
     });
   };
 
@@ -80,7 +82,7 @@ class TextColorCommand extends UICommand {
     state: EditorState,
     dispatch: ?(tr: Transform) => void,
     view: ?EditorView,
-    color: ?string,
+    color: ?string
   ): boolean => {
     if (dispatch && color !== undefined) {
       const {schema} = state;
@@ -91,7 +93,7 @@ class TextColorCommand extends UICommand {
         state.tr.setSelection(state.selection),
         schema,
         markType,
-        attrs,
+        attrs
       );
       if (tr.docChanged || tr.storedMarksSet) {
         // If selection is empty, the color is added to `storedMarks`, which

@@ -11,7 +11,12 @@ import webfontloader from 'webfontloader';
 import 'prosemirror-gapcursor/style/gapcursor.css';
 import 'prosemirror-view/style/prosemirror.css';
 
-import {exportJSON, registerEditorView, registeryKeys, releaseEditorView} from '../CZIProseMirror';
+import {
+  exportJSON,
+  registerEditorView,
+  registeryKeys,
+  releaseEditorView,
+} from '../CZIProseMirror';
 import {BOOKMARK, IMAGE, MATH} from '../NodeNames';
 import WebFontLoader from '../WebFontLoader';
 import createEmptyEditorState from '../createEmptyEditorState';
@@ -91,12 +96,7 @@ const handleDOMEvents = {
 
 function bindNodeView(NodeView: CustomNodeView): Function {
   return (node, view, getPos, decorations) => {
-    return new NodeView(
-      node,
-      view,
-      getPos,
-      decorations,
-    );
+    return new NodeView(node, view, getPos, decorations);
   };
 }
 
@@ -105,7 +105,6 @@ function getSchema(editorState: ?EditorState): Schema {
 }
 
 class Editor extends React.PureComponent<any, any, any> {
-
   static EDITOR_EMPTY_STATE = EDITOR_EMPTY_STATE;
 
   _autoFocusTimer = 0;
@@ -124,9 +123,14 @@ class Editor extends React.PureComponent<any, any, any> {
 
   componentDidMount(): void {
     const {
-      onReady, editorState, readOnly,
-      runtime, placeholder, disabled,
-      dispatchTransaction, nodeViews,
+      onReady,
+      editorState,
+      readOnly,
+      runtime,
+      placeholder,
+      disabled,
+      dispatchTransaction,
+      nodeViews,
       transformPastedHTML,
     } = this.props;
 
@@ -135,7 +139,7 @@ class Editor extends React.PureComponent<any, any, any> {
       const effectiveNodeViews = Object.assign(
         {},
         DEFAULT_NODE_VIEWS,
-        nodeViews,
+        nodeViews
       );
       const boundNodeViews = {};
       const schema = getSchema(editorState);
@@ -150,7 +154,7 @@ class Editor extends React.PureComponent<any, any, any> {
       });
 
       // Reference: http://prosemirror.net/examples/basic/
-      const view = this._editorView = new CustomEditorView(editorNode, {
+      const view = (this._editorView = new CustomEditorView(editorNode, {
         clipboardSerializer: DOMSerializer.fromSchema(schema),
         dispatchTransaction,
         editable: this._isEditable,
@@ -158,7 +162,7 @@ class Editor extends React.PureComponent<any, any, any> {
         state: editorState || EDITOR_EMPTY_STATE,
         transformPastedHTML,
         handleDOMEvents,
-      });
+      }));
 
       view.runtime = runtime;
       view.placeholder = placeholder;
@@ -172,9 +176,9 @@ class Editor extends React.PureComponent<any, any, any> {
       onReady && onReady(view);
 
       this._autoFocusTimer && clearTimeout(this._autoFocusTimer);
-      this._autoFocusTimer = this.props.autoFocus ?
-        setTimeout(this.focus, AUTO_FOCUS_DELAY) :
-        0;
+      this._autoFocusTimer = this.props.autoFocus
+        ? setTimeout(this.focus, AUTO_FOCUS_DELAY)
+        : 0;
     }
 
     window.addEventListener('beforeprint', this._onPrintStart, false);
@@ -183,7 +187,7 @@ class Editor extends React.PureComponent<any, any, any> {
 
   componentDidUpdate(prevProps: EditorProps): void {
     const view = this._editorView;
-    if (view)  {
+    if (view) {
       const prevSchema = getSchema(prevProps.editorState);
       const currSchema = getSchema(this.props.editorState);
       if (prevSchema !== currSchema) {
@@ -193,7 +197,11 @@ class Editor extends React.PureComponent<any, any, any> {
       }
 
       const {
-        runtime, editorState, placeholder, readOnly, disabled,
+        runtime,
+        editorState,
+        placeholder,
+        readOnly,
+        disabled,
       } = this.props;
       const {isPrinting} = this.state;
       const state = editorState || EDITOR_EMPTY_STATE;
@@ -204,9 +212,10 @@ class Editor extends React.PureComponent<any, any, any> {
       view.updateState(state);
 
       this._autoFocusTimer && clearTimeout(this._autoFocusTimer);
-      this._autoFocusTimer = (!prevProps.autoFocus && this.props.autoFocus) ?
-        setTimeout(this.focus, AUTO_FOCUS_DELAY) :
-        0;
+      this._autoFocusTimer =
+        !prevProps.autoFocus && this.props.autoFocus
+          ? setTimeout(this.focus, AUTO_FOCUS_DELAY)
+          : 0;
     }
   }
 
@@ -255,7 +264,6 @@ class Editor extends React.PureComponent<any, any, any> {
 
   _onPrintStart = (): void => {
     this.setState({isPrinting: true});
-
   };
 
   _onPrintEnd = (): void => {

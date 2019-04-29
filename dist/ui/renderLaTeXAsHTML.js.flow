@@ -7,7 +7,8 @@ import katex from 'katex';
 const latexEl: any = document.createElement('div');
 const cached: Object = {};
 
-const CSS_CDN_URL = '//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css';
+const CSS_CDN_URL =
+  '//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css';
 const CSS_FONT = 'KaTeX_Main';
 
 (async function() {
@@ -19,7 +20,6 @@ const CSS_FONT = 'KaTeX_Main';
 })();
 
 export default function renderLaTeXAsHTML(latex: ?string): string {
-
   if (cached.hasOwnProperty(latex)) {
     return cached[latex];
   }

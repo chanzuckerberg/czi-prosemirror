@@ -11,10 +11,9 @@ import toggleList from './toggleList';
 import UICommand from './ui/UICommand';
 
 class ListToggleCommand extends UICommand {
-
   _ordered: boolean;
 
-  constructor(ordered: boolean,) {
+  constructor(ordered: boolean) {
     super();
     this._ordered = ordered;
   }
@@ -30,7 +29,7 @@ class ListToggleCommand extends UICommand {
   execute = (
     state: EditorState,
     dispatch: ?(tr: Transform) => void,
-    view: ?EditorView,
+    view: ?EditorView
   ): boolean => {
     const {selection, schema} = state;
     const nodeType = schema.nodes[this._ordered ? ORDERED_LIST : BULLET_LIST];
@@ -39,11 +38,7 @@ class ListToggleCommand extends UICommand {
       return tr;
     }
 
-    tr = toggleList(
-      tr.setSelection(selection),
-      schema,
-      nodeType,
-    );
+    tr = toggleList(tr.setSelection(selection), schema, nodeType);
     if (tr.docChanged) {
       dispatch && dispatch(tr);
       return true;
@@ -55,12 +50,9 @@ class ListToggleCommand extends UICommand {
   _findList(state: EditorState, type: string): ?Object {
     const {nodes} = state.schema;
     const list = nodes[type];
-    const findList = list ?
-      findParentNodeOfType(list) :
-      noop;
+    const findList = list ? findParentNodeOfType(list) : noop;
     return findList(state.selection);
   }
 }
-
 
 export default ListToggleCommand;

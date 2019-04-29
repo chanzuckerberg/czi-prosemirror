@@ -16,9 +16,12 @@ var StrongMarkSpec = {
   // tags with a font-weight normal.
   { tag: 'b', getAttrs: function getAttrs(node) {
       return node.style.fontWeight != 'normal' && null;
-    } }, { style: 'font-weight', getAttrs: function getAttrs(value) {
+    } }, {
+    style: 'font-weight',
+    getAttrs: function getAttrs(value) {
       return CSS_BOLD_PATTERN.test(value) && null;
-    } }],
+    }
+  }],
   toDOM: function toDOM() {
     return STRONG_DOM;
   }

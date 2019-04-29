@@ -15,7 +15,7 @@ function handleBlockQuoteInputRule(
   state: EditorState,
   match: any,
   start: any,
-  end: any,
+  end: any
 ): Transform {
   const {schema} = state;
   let {tr} = state;
@@ -32,5 +32,5 @@ function handleBlockQuoteInputRule(
 }
 
 export default function blockQuoteInputRule(): InputRule {
-  return new InputRule(MACRO_PATTERN,  handleBlockQuoteInputRule);
+  return new InputRule(MACRO_PATTERN, handleBlockQuoteInputRule);
 }

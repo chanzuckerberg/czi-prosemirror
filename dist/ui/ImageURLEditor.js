@@ -128,7 +128,8 @@ var ImageURLEditor = function (_React$PureComponent) {
                 autoFocus: true,
                 className: 'czi-image-url-editor-src-input',
                 onChange: this._onSrcChange,
-                placeholder: 'Paste URL of Image...', type: 'text',
+                placeholder: 'Paste URL of Image...',
+                type: 'text',
                 value: src || ''
               }),
               preview
@@ -142,10 +143,7 @@ var ImageURLEditor = function (_React$PureComponent) {
           _react2.default.createElement(
             'div',
             { className: 'czi-form-buttons' },
-            _react2.default.createElement(_CustomButton2.default, {
-              label: 'Cancel',
-              onClick: this._cancel
-            }),
+            _react2.default.createElement(_CustomButton2.default, { label: 'Cancel', onClick: this._cancel }),
             _react2.default.createElement(_CustomButton2.default, {
               active: !!validValue,
               disabled: !validValue,

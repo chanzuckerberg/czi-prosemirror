@@ -19,39 +19,28 @@ type Props = {
 export const MIN_SIZE = 20;
 export const MAX_SIZE = 10000;
 
-function setWidth(
-  el: HTMLElement,
-  width: number, height: number,
-): void {
+function setWidth(el: HTMLElement, width: number, height: number): void {
   el.style.width = width + 'px';
 }
 
-function setHeight(
-  el: HTMLElement,
-  width: number,
-  height: number,
-): void {
+function setHeight(el: HTMLElement, width: number, height: number): void {
   el.style.height = height + 'px';
 }
 
-function setSize(
-  el: HTMLElement,
-  width: number,
-  height: number,
-): void {
+function setSize(el: HTMLElement, width: number, height: number): void {
   el.style.width = Math.round(width) + 'px';
   el.style.height = Math.round(height) + 'px';
 }
 
 const ResizeDirection = {
-  'top': setHeight,
-  'top_right': setSize,
-  'right': setWidth,
-  'bottom_right': setSize,
-  'bottom': setHeight,
-  'bottom_left': setSize,
-  'left': setWidth,
-  'top_left': setSize,
+  top: setHeight,
+  top_right: setSize,
+  right: setWidth,
+  bottom_right: setSize,
+  bottom: setHeight,
+  bottom_left: setSize,
+  left: setWidth,
+  top_left: setSize,
 };
 
 class ImageResizeBoxControl extends React.PureComponent<any, any, any> {
@@ -87,12 +76,7 @@ class ImageResizeBoxControl extends React.PureComponent<any, any, any> {
       [direction]: true,
     });
 
-    return (
-      <span
-        className={className}
-        onMouseDown={this._onMouseDown}
-      />
-    );
+    return <span className={className} onMouseDown={this._onMouseDown} />;
   }
 
   _syncSize = (): void => {
@@ -164,39 +148,37 @@ class ImageResizeBoxControl extends React.PureComponent<any, any, any> {
     this._rafID = null;
   }
 
+  _onMouseDown = (e: SyntheticMouseEvent): void => {
+    e.preventDefault();
+    e.stopPropagation();
+    this._end();
+    this._start(e);
+  };
 
-    _onMouseDown = (e: SyntheticMouseEvent): void => {
-      e.preventDefault();
-      e.stopPropagation();
-      this._end();
-      this._start(e);
-    };
+  _onMouseMove = (e: MouseEvent): void => {
+    e.preventDefault();
+    e.stopPropagation();
+    this._x2 = e.clientX;
+    this._y2 = e.clientY;
+    this._rafID = requestAnimationFrame(this._syncSize);
+  };
 
-    _onMouseMove = (e: MouseEvent): void => {
-      e.preventDefault();
-      e.stopPropagation();
-      this._x2 = e.clientX;
-      this._y2 = e.clientY;
-      this._rafID = requestAnimationFrame(this._syncSize);
-    };
+  _onMouseUp = (e: MouseEvent): void => {
+    e.preventDefault();
+    e.stopPropagation();
+    this._x2 = e.clientX;
+    this._y2 = e.clientY;
 
-    _onMouseUp = (e: MouseEvent): void => {
-      e.preventDefault();
-      e.stopPropagation();
-      this._x2 = e.clientX;
-      this._y2 = e.clientY;
+    const {direction} = this.props;
+    const el = nullthrows(this._el);
+    el.classList.remove(direction);
 
-      const {direction} = this.props;
-      const el = nullthrows(this._el);
-      el.classList.remove(direction);
-
-      this._end();
-      this.props.onResizeEnd(this._ww, this._hh);
-    };
+    this._end();
+    this.props.onResizeEnd(this._ww, this._hh);
+  };
 }
 
 class ImageResizeBox extends React.PureComponent<any, any, any> {
-
   props: Props;
 
   _id = uuid();
@@ -228,10 +210,7 @@ class ImageResizeBox extends React.PureComponent<any, any, any> {
     return (
       <span className="czi-image-resize-box" id={boxID} style={style}>
         {controls}
-        <img
-          className="czi-image-resize-box-image"
-          src={src}
-        />
+        <img className="czi-image-resize-box-image" src={src} />
       </span>
     );
   }

@@ -7,14 +7,14 @@ import {Plugin} from 'prosemirror-state';
 import convertFromJSON from './convertFromJSON';
 
 const EMPTY_DOC_JSON = {
-  'type': 'doc',
-  'content': [
+  type: 'doc',
+  content: [
     {
-      'type': 'paragraph',
-      'content': [
+      type: 'paragraph',
+      content: [
         {
-          'type': 'text',
-          'text': ' ',
+          type: 'text',
+          text: ' ',
         },
       ],
     },
@@ -23,7 +23,7 @@ const EMPTY_DOC_JSON = {
 
 export default function createEmptyEditorStateschema(
   schema: ?Schema,
-  plugins: ?Array<Plugin>,
+  plugins: ?Array<Plugin>
 ): EditorState {
   // TODO: Check if schema support doc and paragraph nodes.
   return convertFromJSON(EMPTY_DOC_JSON, schema, plugins);

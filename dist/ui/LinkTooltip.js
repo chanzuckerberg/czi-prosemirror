@@ -136,11 +136,7 @@ var LinkTooltip = function (_React$PureComponent) {
               title: href,
               value: href
             }),
-            _react2.default.createElement(_CustomButton2.default, {
-              label: 'Change',
-              onClick: onEdit,
-              value: editorView
-            }),
+            _react2.default.createElement(_CustomButton2.default, { label: 'Change', onClick: onEdit, value: editorView }),
             _react2.default.createElement(_CustomButton2.default, {
               label: 'Remove',
               onClick: onRemove,

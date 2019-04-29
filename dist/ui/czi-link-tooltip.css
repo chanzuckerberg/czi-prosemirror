@@ -20,7 +20,7 @@
   color: var(--czi-link-color);
   display: inline-block;
   flex: 1;
-  margin:0 6px 0 0;
+  margin: 0 6px 0 0;
   max-width: 200px;
   overflow: hidden;
   padding: 6px 0;
@@ -51,7 +51,7 @@
 
 .czi-link-tooltip-body::after {
   background-color: #fff;
-  box-shadow: 2px 2px 2px rgba(0,0,0,0.26);
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.26);
   content: '';
   height: 20px;
   left: 35%;

@@ -2,7 +2,7 @@
 
 import type {NodeSpec} from './Types';
 
-const CSS_ROTATE_PATTERN =  /rotate\(([0-9\.]+)rad\)/i;
+const CSS_ROTATE_PATTERN = /rotate\(([0-9\.]+)rad\)/i;
 
 function getAttrs(dom: HTMLElement) {
   const {cssFloat, display, marginTop, marginLeft} = dom.style;
@@ -58,7 +58,7 @@ function getAttrs(dom: HTMLElement) {
     height: parseInt(height, 10) || null,
     rotate,
     src: dom.getAttribute('src') || null,
-    title: dom.getAttribute('title')|| null,
+    title: dom.getAttribute('title') || null,
     width: parseInt(width, 10) || null,
   };
 }

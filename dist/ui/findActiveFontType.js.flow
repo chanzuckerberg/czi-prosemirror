@@ -20,11 +20,9 @@ export default function findActiveFontType(state: EditorState): string {
     const storedMarks =
       tr.storedMarks ||
       state.storedMarks ||
-      (
-        selection.$cursor &&
+      (selection.$cursor &&
         selection.$cursor.marks &&
-        selection.$cursor.marks()
-      ) ||
+        selection.$cursor.marks()) ||
       [];
     const sm = storedMarks.find(m => m.type === markType);
     return (sm && sm.attrs.name) || FONT_TYPE_NAME_DEFAULT;
@@ -39,9 +37,9 @@ export default function findActiveFontType(state: EditorState): string {
   const domDoc: any = typeof document === 'undefined' ? null : document;
 
   if (domDoc && domDoc.fonts && domDoc.fonts.check) {
-    return domDoc.fonts.check('12px "' + fontName + '"') ?
-      fontName :
-      FONT_TYPE_NAME_DEFAULT;
+    return domDoc.fonts.check('12px "' + fontName + '"')
+      ? fontName
+      : FONT_TYPE_NAME_DEFAULT;
   }
 
   return fontName;

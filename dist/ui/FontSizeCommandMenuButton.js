@@ -56,7 +56,7 @@ var FONT_PT_SIZE_COMMANDS = FONT_PT_SIZES.reduce(function (memo, size) {
   return memo;
 }, {});
 
-var COMMAND_GROUPS = [{ 'Default': new _FontSizeCommand2.default(0) }, FONT_PT_SIZE_COMMANDS];
+var COMMAND_GROUPS = [{ Default: new _FontSizeCommand2.default(0) }, FONT_PT_SIZE_COMMANDS];
 
 var FontSizeCommandMenuButton = function (_React$PureComponent) {
   (0, _inherits3.default)(FontSizeCommandMenuButton, _React$PureComponent);

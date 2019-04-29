@@ -61,7 +61,6 @@ var CSS_FONT = 'KaTeX_Main';
 }))();
 
 function renderLaTeXAsHTML(latex) {
-
   if (cached.hasOwnProperty(latex)) {
     return cached[latex];
   }

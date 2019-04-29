@@ -14,15 +14,13 @@ import UICommand from './ui/UICommand';
 import createPopUp from './ui/createPopUp';
 
 class TextHighlightCommand extends UICommand {
-
   _popUp = null;
 
   isEnabled = (state: EditorState): boolean => {
     const {selection, schema, tr} = state;
-    if (!(
-      selection instanceof TextSelection ||
-      selection instanceof AllSelection
-    )) {
+    if (
+      !(selection instanceof TextSelection || selection instanceof AllSelection)
+    ) {
       // Could be a NodeSelection or CellSelection.
       return false;
     }
@@ -33,7 +31,7 @@ class TextHighlightCommand extends UICommand {
     }
 
     const {from, to} = selection;
-    if (to === (from + 1)) {
+    if (to === from + 1) {
       const node = tr.doc.nodeAt(from);
       if (node.isAtom && !node.isText && node.isLeaf) {
         // An atomic node (e.g. Image) is selected.
@@ -48,7 +46,7 @@ class TextHighlightCommand extends UICommand {
     state: EditorState,
     dispatch: ?(tr: Transform) => void,
     view: ?EditorView,
-    event: ?SyntheticEvent,
+    event: ?SyntheticEvent
   ): Promise<any> => {
     if (this._popUp) {
       return Promise.resolve(undefined);
@@ -65,15 +63,19 @@ class TextHighlightCommand extends UICommand {
     const hex = result ? result.mark.attrs.highlightColor : null;
     const anchor = event ? event.currentTarget : null;
     return new Promise(resolve => {
-      this._popUp = createPopUp(ColorEditor, {hex}, {
-        anchor,
-        onClose: (val) => {
-          if (this._popUp) {
-            this._popUp = null;
-            resolve(val);
-          }
+      this._popUp = createPopUp(
+        ColorEditor,
+        {hex},
+        {
+          anchor,
+          onClose: val => {
+            if (this._popUp) {
+              this._popUp = null;
+              resolve(val);
+            }
+          },
         }
-      });
+      );
     });
   };
 
@@ -81,19 +83,14 @@ class TextHighlightCommand extends UICommand {
     state: EditorState,
     dispatch: ?(tr: Transform) => void,
     view: ?EditorView,
-    color: ?string,
+    color: ?string
   ): boolean => {
     if (dispatch && color !== undefined) {
       const {schema} = state;
       let {tr} = state;
       const markType = schema.marks[MARK_TEXT_HIGHLIGHT];
       const attrs = color ? {highlightColor: color} : null;
-      tr = applyMark(
-        tr.setSelection(state.selection),
-        schema,
-        markType,
-        attrs,
-      );
+      tr = applyMark(tr.setSelection(state.selection), schema, markType, attrs);
       if (tr.docChanged || tr.storedMarksSet) {
         // If selection is empty, the color is added to `storedMarks`, which
         // works like `toggleMark`

@@ -13,6 +13,6 @@ jobs:
     - name: "Type Checking" 
       script: npx flow check
       stage: test
-    - name: "Build Dist"
+    - name: "Check Dist"
       script: scripts/ci_check_dist.sh
       stage: test
