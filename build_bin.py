@@ -58,7 +58,7 @@ def main():
   print '-' * 80
   os.system('killall -9 node')
   os.system('rm -fr bin')
-  os.system('NODE_ENV=production npm run build_bin')
+  os.system('NODE_ENV=production npm run app:build')
 
   # ls # BUG: os.system('cp web_app/web_runtime.bundle.js bin/web_runtime.js')
 
