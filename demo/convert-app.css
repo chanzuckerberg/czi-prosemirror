@@ -1,6 +1,6 @@
 .convert-app {
-  background-color: #EBEDEF;
-  font-family: arial;
+  background-color: #ebedef;
+  font-family: Arial, sans-serif;
   font-size: 12px;
   height: 100vh;
   left: 0;
@@ -41,14 +41,14 @@
   overflow: hidden;
 }
 
-.convert-app-area.prosemirror .convert-app-area-body  {
-  box-shadow: inset 0px 0px 5px 0px rgba(0,0,0,0.75);
+.convert-app-area.prosemirror .convert-app-area-body {
+  box-shadow: inset 0 0 5px 0 rgba(0, 0, 0, 0.75);
   margin-top: 10px;
 }
 
 .convert-app-area-body > textarea {
   border: none;
-  box-shadow: inset 0px 0px 5px 0px rgba(0,0,0,0.75);
+  box-shadow: inset 0 0 5px 0 rgba(0, 0, 0, 0.75);
   box-sizing: border-box;
   font-family: monospace, "Courier New", Courier;
   font-size: 13px;
@@ -62,28 +62,25 @@
 }
 
 .convert-app-area-body > textarea:read-only {
-  background-color: rgba(51,153,255,0.2);
+  background-color: rgba(51, 153, 255, 0.2);
   -webkit-animation-name: czi_loading_background;
   -webkit-animation-duration: 0.5s;
-  -webkit-animation-iteration-count:infinite;
-  -webkit-animation-timing-function:ease-in-out;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-timing-function: ease-in-out;
   -webkit-animation-direction: alternate;
 }
 
 @-webkit-keyframes czi_loading_background {
-  from {background-color: rgba(51,153,255,0.2);}
-  to {background-color: rgba(51,153,255,0.8);}
-}
-
-.grid-container {
-  width: 100%;
-  height: 100%;
+  from { background-color: rgba(51, 153, 255, 0.2); }
+  to { background-color: rgba(51, 153, 255, 0.8); }
 }
 
 /* https://www.layoutit.com/grid */
 
 .grid-container {
   display: grid;
+  width: 100%;
+  height: 100%;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-template-rows: 0.2fr 1fr 1fr;
   grid-template-areas: "header header header header" "prosemirror-json html prosemirror prosemirror" "prosemirror-json html prosemirror prosemirror";

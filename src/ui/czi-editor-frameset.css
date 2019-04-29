@@ -31,7 +31,7 @@
 }
 
 .czi-editor-frame-head {
-  box-shadow: 0 1px 1px rgba(0,0,0,0.21);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.21);
   position: relative;
   z-index: 2;
 }

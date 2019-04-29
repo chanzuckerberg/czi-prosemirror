@@ -2,8 +2,8 @@
 @import './czi-vars.css';
 
 .czi-custom-buttons {
-  margin: 0 16px;
   white-space: nowrap;
+  margin: 0 8px;
 }
 
 .czi-custom-button {
@@ -49,7 +49,8 @@
    */
   -webkit-text-stroke-color: #000;
   -webkit-text-stroke-width: 0.5px;
-  /*text-shadow: 0px 0px 1px #000;*/
+
+  /* text-shadow: 0px 0px 1px #000; */
   border-color: #666;
   color: #000;
 }
@@ -61,16 +62,11 @@
 .czi-custom-button.disabled,
 .czi-custom-button.disabled:hover {
   -webkit-text-stroke-width: 0;
-  background: #ffffff;
+  background: #fff;
   border-color: #ccc;
   color: #dedede;
   cursor: unset;
   pointer-events: none;
-}
-
-.czi-custom-buttons {
-  margin: 0 8px;
-  white-space: nowrap;
 }
 
 .czi-custom-buttons .czi-custom-button {

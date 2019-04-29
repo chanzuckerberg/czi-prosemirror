@@ -5,13 +5,14 @@
   "description": "rich text editor built with React and ProseMirror",
   "main": "dist/index.js",
   "scripts": {
-    "dist:css": "cp src/ui/*.css dist/ui && cp src/ui/mathquill-editor/*.css dist/ui/mathquill-editor",
-    "dist:babel": "babel src --out-dir dist",
-    "dist:flow": "flow-copy-source -v -i '**/__tests__/**' src dist",
-    "dist:build": "npm run dist:css && npm run dist:babel && npm run dist:flow",
-    "app:build": "node utils/build_bin.js",
+    "build:css": "cp src/ui/*.css dist/ui && cp src/ui/mathquill-editor/*.css dist/ui/mathquill-editor",
+    "build:babel": "babel src --out-dir dist",
+    "build:flow": "flow-copy-source -v -i '**/__tests__/**' src dist",
+    "build:dist": "npm run build:css && npm run build:babel && npm run build:flow",
+    "build:demos": "node utils/build_bin.js",
     "flow": "flow",
-    "lint": "eslint \"**/*.js\"",
+    "lint:css": "stylelint \"**/*.css\"",
+    "lint:js": "eslint \"**/*.js\"",
     "start": "node utils/webserver.js"
   },
   "devDependencies": {
@@ -75,6 +76,8 @@
     "prosemirror-dev-tools": "2.1.1",
     "react-loadable": "5.3.1",
     "regenerator": "0.12.3",
+    "stylelint": "^10.0.1",
+    "stylelint-config-standard": "^18.3.0",
     "uglifyjs-webpack-plugin": "1.2.5",
     "webpack": "3.5.4",
     "webpack-dev-server": "2.3.0",
@@ -124,12 +127,16 @@
     }
   },
   "lint-staged": {
+    "*.css": [
+      "stylelint --fix"
+    ],
     "*.js": [
-      "eslint --fix",
-      "git add"
+      "eslint --fix"
     ],
     "*.json": [
-      "prettier --write",
+      "prettier --write"
+    ],
+    "*.{css,js,json}": [
       "git add"
     ]
   }

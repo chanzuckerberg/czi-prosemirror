@@ -1,12 +1,15 @@
 language: node_js
 node_js:
   - node
+cache: npm
 jobs:
   include: 
     - stage: Lint
-      script: npm run lint
-      name: Linting JS Files
+      script: npm run lint:js
+      name: "Lint JS Files"
+    - script: npm run lint:css
+      name: "Lint CSS Files"
     - stage: "Type Checking" 
       script: npx flow check
     - stage: "Build Dist"
-      script: npm run dist:build
+      script: npm run build:dist
