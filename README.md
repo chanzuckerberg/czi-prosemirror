@@ -1,12 +1,11 @@
-
-***Notice: This project still under active development. API documentations will be available later.***
+**_Notice: This project still under active development. API documentations will be available later._**
 
 ---
 
 # CZI-ProseMirror &middot; [![Build Status](https://travis-ci.com/chanzuckerberg/czi-prosemirror.svg?branch=master)](https://travis-ci.com/chanzuckerberg/czi-prosemirror)
 
-+ Drop-In WYSIWYG editor based on ProseMirror & React
-+ Live DEMO: http://cdn.summitlearning.org/assets/czi_prosemirror_0_0_1_1_20190412230633_index.html
+- Drop-In WYSIWYG editor based on ProseMirror & React
+- Live DEMO: http://cdn.summitlearning.org/assets/czi_prosemirror_0_0_1_1_20190426231825_index.html
 
 ---
 
@@ -20,8 +19,8 @@ cd czi-prosemirror
 npm install
 ```
 
-
 ### Install dependencies
+
 ```
 cd czi-prosemirror
 npm install
@@ -33,6 +32,7 @@ npm install
 # At the working directory `czi-prosemirror`
 npm run start
 ```
+
 Test http://localhost:3001/ from your browser
 
 ### Build the distribution files
@@ -77,7 +77,6 @@ export default Example;
 
 ## Use it for your own project
 
-
 This project still under active development. There will be NPM package published later.
 For now, you can use the commit hash to include the package to your own `package.json`.
 
@@ -92,6 +91,3 @@ For example:
 ```
 
 You may find the lates commit hash at https://github.com/chanzuckerberg/czi-prosemirror/commits/master
-
-
-
