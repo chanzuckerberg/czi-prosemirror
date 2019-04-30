@@ -16,7 +16,6 @@ import uuid from './uuid';
 import './czi-math-view.css';
 
 import type {NodeViewProps} from './CustomNodeView';
-import type {PopUpHandle} from './createPopUp';
 
 const EMPTY_SRC =
   'data:image/gif;base64,' +
@@ -26,7 +25,7 @@ class MathViewBody extends React.PureComponent<any, any, any> {
   props: NodeViewProps;
 
   state = {
-    equationEditor: null,
+    isEditing: false,
   };
 
   _inlineEditor = null;
@@ -52,9 +51,9 @@ class MathViewBody extends React.PureComponent<any, any, any> {
     const {node, selected, focused} = this.props;
     const {attrs} = node;
     const {latex} = attrs;
-    const {equationEditor} = this.state;
+    const {isEditing} = this.state;
 
-    const active = (focused || !!equationEditor) && !readOnly;
+    const active = (focused || isEditing) && !readOnly;
     const className = cx('czi-math-view-body', {active, selected});
     const html = renderLaTeXAsHTML(latex);
     return (
@@ -107,12 +106,12 @@ class MathViewBody extends React.PureComponent<any, any, any> {
     }
   }
 
-  _onEditStart = (equationEditor: PopUpHandle): void => {
-    this.setState({equationEditor});
+  _onEditStart = (): void => {
+    this.setState({isEdiing: true});
   };
 
   _onEditEnd = (): void => {
-    this.setState({equationEditor: null});
+    this.setState({isEdiing: false});
   };
 
   _onChange = (value: ?{align: ?string, latex: string}): void => {

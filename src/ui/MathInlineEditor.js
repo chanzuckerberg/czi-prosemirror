@@ -9,8 +9,6 @@ import createPopUp from './createPopUp';
 
 import './czi-inline-editor.css';
 
-import type {PopUpHandle} from './createPopUp';
-
 const MathAlignValues = {
   NONE: {
     value: null,
@@ -30,7 +28,7 @@ export type MathInlineEditorValue = {
 class MathInlineEditor extends React.PureComponent<any, any, any> {
   props: {
     onEditEnd: () => void,
-    onEditStart: (h: PopUpHandle) => void,
+    onEditStart: () => void,
     onSelect: (val: MathInlineEditorValue) => void,
     value: ?MathInlineEditorValue,
     editorView: ?CustomEditorView,
@@ -99,7 +97,7 @@ class MathInlineEditor extends React.PureComponent<any, any, any> {
         }
       },
     });
-    this.props.onEditStart(this._popUp);
+    this.props.onEditStart();
   };
 }
 
