@@ -30,12 +30,11 @@ function patchGoogleEquationElement(el: HTMLElement): void {
   }
 
   // Replace `<img src="..." />` with `<math data-latex="..." />`.
-  // Note that this requires the schema to support `MathNodeSpec`, if not, the
-  // original image will be still rendered.
+  // Note that this requires the schema to support `MathNodeSpec`.
   const math = ownerDocument.createElement('math');
   math.setAttribute('data-latex', content);
   parentElement.insertBefore(math, el);
-  math.appendChild(el);
+  parentElement.removeChild(el);
 }
 
 function getGoogleEquationContent(src: ?string): ?string {
