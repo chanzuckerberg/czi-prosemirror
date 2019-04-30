@@ -1,19 +1,22 @@
 // @flow
 
-import './czi-math-view.css';
-import CustomNodeView from './CustomNodeView';
-import MathInlineEditor from './MathInlineEditor';
-import React from 'react';
-import createPopUp from './createPopUp';
 import cx from 'classnames';
+import {Node} from 'prosemirror-model';
+import {Decoration} from 'prosemirror-view';
+import React from 'react';
+
+import CustomNodeView from './CustomNodeView';
+import {FRAMESET_BODY_CLASSNAME} from './EditorFrameset';
+import MathInlineEditor from './MathInlineEditor';
+import {atAnchorBottomCenter} from './PopUpPosition';
+import createPopUp from './createPopUp';
 import renderLaTeXAsHTML from './renderLaTeXAsHTML';
 import uuid from './uuid';
-import {Decoration} from 'prosemirror-view';
-import {FRAMESET_BODY_CLASSNAME} from './EditorFrameset';
-import {Node} from 'prosemirror-model';
-import {atAnchorBottomCenter} from './PopUpPosition';
+
+import './czi-math-view.css';
 
 import type {NodeViewProps} from './CustomNodeView';
+import type {PopUpHandle} from './createPopUp';
 
 const EMPTY_SRC =
   'data:image/gif;base64,' +
@@ -21,6 +24,10 @@ const EMPTY_SRC =
 
 class MathViewBody extends React.PureComponent<any, any, any> {
   props: NodeViewProps;
+
+  state = {
+    equationEditor: null,
+  };
 
   _inlineEditor = null;
   _id = uuid();
@@ -45,8 +52,9 @@ class MathViewBody extends React.PureComponent<any, any, any> {
     const {node, selected, focused} = this.props;
     const {attrs} = node;
     const {latex} = attrs;
+    const {equationEditor} = this.state;
 
-    const active = focused && !readOnly;
+    const active = (focused || !!equationEditor) && !readOnly;
     const className = cx('czi-math-view-body', {active, selected});
     const html = renderLaTeXAsHTML(latex);
     return (
@@ -81,6 +89,8 @@ class MathViewBody extends React.PureComponent<any, any, any> {
     const editorProps = {
       value: node.attrs,
       onSelect: this._onChange,
+      onEditStart: this._onEditStart,
+      onEditEnd: this._onEditEnd,
     };
     if (this._inlineEditor) {
       this._inlineEditor.update(editorProps);
@@ -96,6 +106,14 @@ class MathViewBody extends React.PureComponent<any, any, any> {
       });
     }
   }
+
+  _onEditStart = (equationEditor: PopUpHandle): void => {
+    this.setState({equationEditor});
+  };
+
+  _onEditEnd = (): void => {
+    this.setState({equationEditor: null});
+  };
 
   _onChange = (value: ?{align: ?string, latex: string}): void => {
     if (!this._mounted) {

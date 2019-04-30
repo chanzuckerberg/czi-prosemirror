@@ -1,29 +1,25 @@
 // @flow
 
-import './czi-inline-editor.css';
+import React from 'react';
+
 import CustomButton from './CustomButton';
 import CustomEditorView from './CustomEditorView';
 import MathEditor from './MathEditor';
-import React from 'react';
 import createPopUp from './createPopUp';
+
+import './czi-inline-editor.css';
+
+import type {PopUpHandle} from './createPopUp';
 
 const MathAlignValues = {
   NONE: {
     value: null,
     text: 'Inline',
   },
-  // LEFT: {
-  //   value: 'left',
-  //   text: 'Float left',
-  // },
   CENTER: {
     value: 'center',
     text: 'Break text',
   },
-  // RIGHT: {
-  //   value: 'right',
-  //   text: 'Float right',
-  // },
 };
 
 export type MathInlineEditorValue = {
@@ -33,6 +29,8 @@ export type MathInlineEditorValue = {
 
 class MathInlineEditor extends React.PureComponent<any, any, any> {
   props: {
+    onEditEnd: () => void,
+    onEditStart: (h: PopUpHandle) => void,
     onSelect: (val: MathInlineEditorValue) => void,
     value: ?MathInlineEditorValue,
     editorView: ?CustomEditorView,
@@ -88,6 +86,7 @@ class MathInlineEditor extends React.PureComponent<any, any, any> {
       initialValue: (value && value.latex) || '',
     };
     this._popUp = createPopUp(MathEditor, props, {
+      autoDismiss: false,
       modal: true,
       onClose: latex => {
         if (this._popUp) {
@@ -96,9 +95,11 @@ class MathInlineEditor extends React.PureComponent<any, any, any> {
             const value = this.props.value || {};
             this.props.onSelect({...value, latex});
           }
+          this.props.onEditEnd();
         }
       },
     });
+    this.props.onEditStart(this._popUp);
   };
 }
 
