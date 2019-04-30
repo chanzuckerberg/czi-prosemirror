@@ -36,6 +36,7 @@
     "DragEvent": true,
     "Element": false,
     "Event": false,
+    "EventTarget": false,
     "File": false,
     "FileReader": false,
     "HTMLElement": false,
