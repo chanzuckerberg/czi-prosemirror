@@ -1,13 +1,11 @@
 // @flow
 
-import React from 'react';
-
+import './czi-inline-editor.css';
 import CustomButton from './CustomButton';
 import CustomEditorView from './CustomEditorView';
 import MathEditor from './MathEditor';
+import React from 'react';
 import createPopUp from './createPopUp';
-
-import './czi-inline-editor.css';
 
 const MathAlignValues = {
   NONE: {

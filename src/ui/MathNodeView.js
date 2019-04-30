@@ -1,19 +1,17 @@
 // @flow
 
-import cx from 'classnames';
-import {Node} from 'prosemirror-model';
-import {Decoration} from 'prosemirror-view';
-import React from 'react';
-
+import './czi-math-view.css';
 import CustomNodeView from './CustomNodeView';
-import {FRAMESET_BODY_CLASSNAME} from './EditorFrameset';
 import MathInlineEditor from './MathInlineEditor';
-import {atAnchorBottomCenter} from './PopUpPosition';
+import React from 'react';
 import createPopUp from './createPopUp';
+import cx from 'classnames';
 import renderLaTeXAsHTML from './renderLaTeXAsHTML';
 import uuid from './uuid';
-
-import './czi-math-view.css';
+import {Decoration} from 'prosemirror-view';
+import {FRAMESET_BODY_CLASSNAME} from './EditorFrameset';
+import {Node} from 'prosemirror-model';
+import {atAnchorBottomCenter} from './PopUpPosition';
 
 import type {NodeViewProps} from './CustomNodeView';
 
@@ -107,11 +105,11 @@ class MathViewBody extends React.PureComponent<any, any, any> {
   }
 
   _onEditStart = (): void => {
-    this.setState({isEdiing: true});
+    this.setState({isEditing: true});
   };
 
   _onEditEnd = (): void => {
-    this.setState({isEdiing: false});
+    this.setState({isEditing: false});
   };
 
   _onChange = (value: ?{align: ?string, latex: string}): void => {
