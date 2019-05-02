@@ -90,7 +90,13 @@ var MathViewBody = function (_React$PureComponent) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = MathViewBody.__proto__ || (0, _getPrototypeOf2.default)(MathViewBody)).call.apply(_ref, [this].concat(args))), _this), _this._inlineEditor = null, _this._id = (0, _uuid2.default)(), _this._mounted = false, _this._onChange = function (value) {
+    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = MathViewBody.__proto__ || (0, _getPrototypeOf2.default)(MathViewBody)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+      isEditing: false
+    }, _this._inlineEditor = null, _this._id = (0, _uuid2.default)(), _this._mounted = false, _this._onEditStart = function () {
+      _this.setState({ isEditing: true });
+    }, _this._onEditEnd = function () {
+      _this.setState({ isEditing: false });
+    }, _this._onChange = function (value) {
       if (!_this._mounted) {
         return;
       }
@@ -145,9 +151,10 @@ var MathViewBody = function (_React$PureComponent) {
           focused = _props.focused;
       var attrs = node.attrs;
       var latex = attrs.latex;
+      var isEditing = this.state.isEditing;
 
 
-      var active = focused && !readOnly;
+      var active = (focused || isEditing) && !readOnly;
       var className = (0, _classnames2.default)('czi-math-view-body', { active: active, selected: selected });
       var html = (0, _renderLaTeXAsHTML2.default)(latex);
       return _react2.default.createElement(
@@ -185,7 +192,9 @@ var MathViewBody = function (_React$PureComponent) {
 
       var editorProps = {
         value: node.attrs,
-        onSelect: this._onChange
+        onSelect: this._onChange,
+        onEditStart: this._onEditStart,
+        onEditEnd: this._onEditEnd
       };
       if (this._inlineEditor) {
         this._inlineEditor.update(editorProps);

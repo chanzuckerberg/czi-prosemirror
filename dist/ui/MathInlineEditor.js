@@ -61,18 +61,10 @@ var MathAlignValues = {
     value: null,
     text: 'Inline'
   },
-  // LEFT: {
-  //   value: 'left',
-  //   text: 'Float left',
-  // },
   CENTER: {
     value: 'center',
     text: 'Break text'
   }
-  // RIGHT: {
-  //   value: 'right',
-  //   text: 'Float right',
-  // },
 };
 
 if (typeof exports !== 'undefined') Object.defineProperty(exports, 'babelPluginFlowReactPropTypes_proptype_MathInlineEditorValue', {
@@ -112,6 +104,7 @@ var MathInlineEditor = function (_React$PureComponent) {
         initialValue: value && value.latex || ''
       };
       _this._popUp = (0, _createPopUp2.default)(_MathEditor2.default, props, {
+        autoDismiss: false,
         modal: true,
         onClose: function onClose(latex) {
           if (_this._popUp) {
@@ -120,9 +113,11 @@ var MathInlineEditor = function (_React$PureComponent) {
               var _value = _this.props.value || {};
               _this.props.onSelect((0, _extends3.default)({}, _value, { latex: latex }));
             }
+            _this.props.onEditEnd();
           }
         }
       });
+      _this.props.onEditStart();
     }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
   }
 

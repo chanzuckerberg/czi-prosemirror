@@ -4,6 +4,10 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _assign = require('babel-runtime/core-js/object/assign');
+
+var _assign2 = _interopRequireDefault(_assign);
+
 var _set = require('babel-runtime/core-js/set');
 
 var _set2 = _interopRequireDefault(_set);
@@ -57,5 +61,24 @@ var TableNodesSpecs = (0, _prosemirrorTables.tableNodes)({
     }
   }
 });
+
+// Override the default table node spec to support custom attributes.
+var TableNodeSpec = (0, _assign2.default)({}, TableNodesSpecs.table, {
+  attrs: {
+    marginLeft: { default: null }
+  },
+  parseDOM: [{
+    tag: 'table',
+    getAttrs: function getAttrs(dom) {
+      var marginLeft = dom.style.marginLeft;
+
+      if (marginLeft && /\d+px/.test(marginLeft)) {
+        return { marginLeft: marginLeft };
+      }
+      return undefined;
+    }
+  }]
+});
+(0, _assign2.default)(TableNodesSpecs, { table: TableNodeSpec });
 
 exports.default = TableNodesSpecs;
