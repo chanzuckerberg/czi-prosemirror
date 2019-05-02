@@ -21,14 +21,13 @@
 
 // License about this file:
 // This file is originally forked from
-// prosemirror-tables#0e74c6a1761651ccf3701eb8529fa9187ad5c91d
-// https://github.com/ProseMirror/prosemirror-tables/blob/master/src/columnresizing.js
+// https://github.com/ProseMirror/prosemirror-tables/blob/0e74c6a1761651ccf3701eb8529fa9187ad5c91d/src/columnresizing.js
 // and most of the original codes had been modified to support the bevaviors
 // that czi-prosemirror needs.
-// The pligin provides the following behaviors:
-// - Allow user to resize a column without chaning the total width of the table.
-// - Allow user to set the left margin of the table.
-// - Allow user to set the right margin of the table.
+// The plugin provides the following behaviors:
+// - Let user resize a column without changing the total width of the table.
+// - Let user set the left margin of the table.
+// - Let user set the right margin of the table.
 
 import {Node} from 'prosemirror-model';
 import {EditorState, Plugin, PluginKey} from 'prosemirror-state';
@@ -41,13 +40,13 @@ import {Decoration, DecorationSet, EditorView} from 'prosemirror-view';
 
 type DraggingInfo = {
   columnElements: Array<HTMLElement>,
-  columnIndex: number,
   startX: number,
   tableElement: HTMLElement,
   tableMarginLeft: number,
   tableMarginRight: number,
   tableWidth: number,
   tableWrapperWidth: number,
+  taregtColumnIndex: number,
 };
 
 type PointerEvent = {
@@ -204,7 +203,7 @@ function handleDragMove(view: EditorView, event: PointerEvent): void {
   const {
     startX,
     columnWidths,
-    columnIndex,
+    taregtColumnIndex,
     columnElements,
     tableElement,
     tableMarginLeft,
@@ -216,10 +215,10 @@ function handleDragMove(view: EditorView, event: PointerEvent): void {
 
   const dx = event.clientX - startX;
   const lastIndex = columnWidths.length - 1;
-  const widths = columnWidths.map((cw, ii) => {
+  const widths = columnWidths.map((cw, index) => {
     let ww;
     if (forMarginLeft) {
-      if (ii === 0) {
+      if (index === 0) {
         // Resize the first column.
         ww = Math.min(Math.max(CELL_MIN_WIDTH, cw - dx), cw + tableMarginLeft);
         // Resize table's left margin.
@@ -228,20 +227,20 @@ function handleDragMove(view: EditorView, event: PointerEvent): void {
         // The rest columns remain the same,
         ww = cw;
       }
-    } else if (ii === columnIndex && ii === lastIndex) {
+    } else if (index === taregtColumnIndex && index === lastIndex) {
       // Resize the last column.
       ww = Math.min(cw + tableMarginRight, Math.max(CELL_MIN_WIDTH, cw + dx));
-    } else if (ii === columnIndex) {
+    } else if (index === taregtColumnIndex) {
       // Resize the column.
       ww = Math.min(
         Math.max(CELL_MIN_WIDTH, cw + dx),
-        cw + (columnWidths[ii + 1] || 0) - CELL_MIN_WIDTH
+        cw + (columnWidths[index + 1] || 0) - CELL_MIN_WIDTH
       );
-    } else if (ii === columnIndex + 1) {
+    } else if (index === taregtColumnIndex + 1) {
       // Resize the column's previous column.
       ww = Math.min(
         Math.max(CELL_MIN_WIDTH, cw - dx),
-        cw + (columnWidths[ii - 1] || 0) - CELL_MIN_WIDTH
+        cw + (columnWidths[index - 1] || 0) - CELL_MIN_WIDTH
       );
     } else {
       // This column does not resize.
@@ -256,8 +255,8 @@ function handleDragMove(view: EditorView, event: PointerEvent): void {
   tableElementStyle.marginLeft = `${ml}px`;
   tableElementStyle.width = Math.round(totalWidth) + 'px';
   tableElementStyle.minWidth = '';
-  columnElements.forEach((colEl, ii) => {
-    colEl.style.width = Math.round(widths[ii]) + 'px';
+  columnElements.forEach((colEl, index) => {
+    colEl.style.width = Math.round(widths[index]) + 'px';
   });
 }
 
@@ -331,7 +330,7 @@ function calculateDraggingInfo(
   const offsetLeft = startX - tableRect.left;
 
   let tableWidth = 0;
-  let columnIndex = -1;
+  let taregtColumnIndex = -1;
 
   const tableMarginLeftStyle = tableEl.style.marginLeft;
   const tableMarginLeft =
@@ -345,42 +344,42 @@ function calculateDraggingInfo(
   // Calculate the inital width of the table.
   // Find out the target column to resize.
   const columnWidths = Array.from(colEls).map((colEl, ii) => {
-    const sw = colEl.style.width;
-    let ww = Math.max(
+    const cssWidth = colEl.style.width;
+    let colWidth = Math.max(
       CELL_MIN_WIDTH,
-      (sw && parseFloat(sw)) || defaultColumnWidth
+      (cssWidth && parseFloat(cssWidth)) || defaultColumnWidth
     );
 
-    if (tableWidth + ww > tableWrapperRect.width) {
+    if (tableWidth + colWidth > tableWrapperRect.width) {
       // column is too wide, make it fit.
-      ww -= tableWrapperRect.width - (tableWidth + ww);
+      colWidth -= tableWrapperRect.width - (tableWidth + colWidth);
     }
 
     // The edges of the column's right border.
-    const edgeLeft = tableWidth + ww - HANDLE_WIDTH / 2;
-    const edgeRight = tableWidth + ww + HANDLE_WIDTH / 2;
+    const edgeLeft = tableWidth + colWidth - HANDLE_WIDTH / 2;
+    const edgeRight = tableWidth + colWidth + HANDLE_WIDTH / 2;
     if (offsetLeft >= edgeLeft && offsetLeft <= edgeRight) {
       // This is the column to resize.
-      columnIndex = ii;
+      taregtColumnIndex = ii;
     }
-    tableWidth += ww;
-    return ww;
+    tableWidth += colWidth;
+    return colWidth;
   });
 
   if (forMarginLeft) {
     // Both the first column and the table's left margin should resize.
-    columnIndex = 0;
+    taregtColumnIndex = 0;
   }
 
-  if (columnIndex < 0) {
-    // Nothing to resize. This happens when the mouse isn't nearby any postion
+  if (taregtColumnIndex < 0) {
+    // Nothing to resize. This happens when the mouse isn't nearby any position
     // that is alllowed to resize a column.
     return null;
   }
 
   return {
     columnElements: colEls,
-    columnIndex,
+    taregtColumnIndex,
     columnWidths,
     startX,
     tableElement: tableEl,
@@ -484,10 +483,8 @@ function createTableView(node: Node, view: EditorView): TableView {
     if (!updateOriginal.call(tableView, node)) {
       return false;
     }
-    const forMarginLeft = (node.attrs && node.attrs.forMarginLeft) || 0;
-    tableView.table.style.forMarginLeft = forMarginLeft
-      ? `${forMarginLeft}px`
-      : '';
+    const marginLeft = (node.attrs && node.attrs.marginLeft) || 0;
+    tableView.table.style.marginLeft = marginLeft ? `${marginLeft}px` : '';
     return true;
   };
 
