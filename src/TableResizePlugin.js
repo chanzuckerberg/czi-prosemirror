@@ -29,14 +29,16 @@
 // - Let user set the left margin of the table.
 // - Let user set the right margin of the table.
 
-import {Node} from 'prosemirror-model';
+import {Decoration, DecorationSet, EditorView} from 'prosemirror-view';
 import {EditorState, Plugin, PluginKey} from 'prosemirror-state';
-import {tableNodeTypes} from 'prosemirror-tables/src/schema';
+import {Node} from 'prosemirror-model';
 import {TableMap} from 'prosemirror-tables/src/tablemap';
 import {TableView} from 'prosemirror-tables/src/tableview';
-import {cellAround, pointsAtCell, setAttr} from 'prosemirror-tables/src/util';
 import {Transform} from 'prosemirror-transform';
-import {Decoration, DecorationSet, EditorView} from 'prosemirror-view';
+import {cellAround, pointsAtCell, setAttr} from 'prosemirror-tables/src/util';
+import {findParentNodeOfTypeClosestToPos} from 'prosemirror-utils';
+import {tableNodeTypes} from 'prosemirror-tables/src/schema';
+import nullthrows from 'nullthrows';
 
 type DraggingInfo = {
   columnElements: Array<HTMLElement>,
@@ -267,7 +269,7 @@ function handleDragEnd(view: EditorView, event: PointerEvent): void {
   if (!draggingInfo) {
     return;
   }
-  const {columnElements} = draggingInfo;
+  const {columnElements, tableElement} = draggingInfo;
   const widths = Array.from(columnElements).map(colEl => {
     return parseFloat(colEl.style.width);
   });
@@ -304,6 +306,22 @@ function handleDragEnd(view: EditorView, event: PointerEvent): void {
       );
     }
   }
+
+  const marginLeft = parseFloat(tableElement.style.marginLeft) || null;
+  if (table.attrs.marginLeft !== marginLeft) {
+    const nodeType = table.type;
+    const attrs = {
+      ...table.attrs,
+      marginLeft,
+    };
+    const tableLookup = findParentNodeOfTypeClosestToPos(
+      $cell,
+      view.state.schema.nodes[nodeType.name]
+    );
+    const tablePos = nullthrows(tableLookup && tableLookup.pos);
+    tr = tr.setNodeMarkup(tablePos, nodeType, attrs);
+  }
+
   if (tr.docChanged) {
     // Let editor know the change.
     view.dispatch(tr);
