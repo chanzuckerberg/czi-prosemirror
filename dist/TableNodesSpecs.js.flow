@@ -43,4 +43,24 @@ const TableNodesSpecs = tableNodes({
   },
 });
 
+// Override the default table node spec to support custom attributes.
+const TableNodeSpec = Object.assign({}, TableNodesSpecs.table, {
+  attrs: {
+    marginLeft: {default: null},
+  },
+  parseDOM: [
+    {
+      tag: 'table',
+      getAttrs(dom: HTMLElement): ?Object {
+        const {marginLeft} = dom.style;
+        if (marginLeft && /\d+px/.test(marginLeft)) {
+          return {marginLeft};
+        }
+        return undefined;
+      },
+    },
+  ],
+});
+Object.assign(TableNodesSpecs, {table: TableNodeSpec});
+
 export default TableNodesSpecs;

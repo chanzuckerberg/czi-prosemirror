@@ -22,6 +22,10 @@ const EMPTY_SRC =
 class MathViewBody extends React.PureComponent<any, any, any> {
   props: NodeViewProps;
 
+  state = {
+    isEditing: false,
+  };
+
   _inlineEditor = null;
   _id = uuid();
   _mounted = false;
@@ -45,8 +49,9 @@ class MathViewBody extends React.PureComponent<any, any, any> {
     const {node, selected, focused} = this.props;
     const {attrs} = node;
     const {latex} = attrs;
+    const {isEditing} = this.state;
 
-    const active = focused && !readOnly;
+    const active = (focused || isEditing) && !readOnly;
     const className = cx('czi-math-view-body', {active, selected});
     const html = renderLaTeXAsHTML(latex);
     return (
@@ -81,6 +86,8 @@ class MathViewBody extends React.PureComponent<any, any, any> {
     const editorProps = {
       value: node.attrs,
       onSelect: this._onChange,
+      onEditStart: this._onEditStart,
+      onEditEnd: this._onEditEnd,
     };
     if (this._inlineEditor) {
       this._inlineEditor.update(editorProps);
@@ -96,6 +103,14 @@ class MathViewBody extends React.PureComponent<any, any, any> {
       });
     }
   }
+
+  _onEditStart = (): void => {
+    this.setState({isEditing: true});
+  };
+
+  _onEditEnd = (): void => {
+    this.setState({isEditing: false});
+  };
 
   _onChange = (value: ?{align: ?string, latex: string}): void => {
     if (!this._mounted) {
