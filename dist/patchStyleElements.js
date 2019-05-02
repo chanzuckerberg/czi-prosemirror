@@ -126,7 +126,7 @@ function buildElementToCSSTexts(doc, elementToCSSTexts, bag) {
     }
   });
   return elementToCSSTexts;
-};
+}
 
 function sortBySpecificity(one, two) {
   // This is just the naive implementation of sorting selectors by css

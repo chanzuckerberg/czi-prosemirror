@@ -154,7 +154,6 @@ var Icon = function (_React$PureComponent2) {
   }], [{
     key: 'get',
 
-
     // Get the static Icon.
     value: function get(type, title) {
       var key = (type || '') + '-' + (title || '');

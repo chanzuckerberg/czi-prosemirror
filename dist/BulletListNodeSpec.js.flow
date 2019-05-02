@@ -16,21 +16,24 @@ const BulletListNodeSpec: NodeSpec = {
   },
   group: 'block',
   content: LIST_ITEM + '+',
-  parseDOM: [{
-    tag: 'ul',
-    getAttrs(dom: HTMLElement) {
-      const listStyleType = dom.getAttribute(ATTRIBUTE_LIST_STYLE_TYPE) || null;
+  parseDOM: [
+    {
+      tag: 'ul',
+      getAttrs(dom: HTMLElement) {
+        const listStyleType =
+          dom.getAttribute(ATTRIBUTE_LIST_STYLE_TYPE) || null;
 
-      const indent = dom.hasAttribute(ATTRIBUTE_INDENT) ?
-        parseInt(dom.getAttribute(ATTRIBUTE_INDENT), 10) :
-        MIN_INDENT_LEVEL;
+        const indent = dom.hasAttribute(ATTRIBUTE_INDENT)
+          ? parseInt(dom.getAttribute(ATTRIBUTE_INDENT), 10)
+          : MIN_INDENT_LEVEL;
 
-      return {
-        indent,
-        listStyleType,
-      };
+        return {
+          indent,
+          listStyleType,
+        };
+      },
     },
-  }],
+  ],
   toDOM(node: Node) {
     const {indent, listStyleType} = node.attrs;
     const attrs = {};

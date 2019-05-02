@@ -12,7 +12,7 @@ type SelectionEntry = {
 
 type Callback = (
   entries: Array<SelectionEntry>,
-  observer: SelectionObserver,
+  observer: SelectionObserver
 ) => void;
 
 const EMPTY_SELECTION_VALUE = Object.freeze({from: 0, to: 0});
@@ -117,15 +117,18 @@ export default class SelectionObserver {
       if (selection === $selection) {
         return obj;
       }
-      if (selection.from === $selection.from && selection.to === $selection.to) {
+      if (
+        selection.from === $selection.from &&
+        selection.to === $selection.to
+      ) {
         return obj;
       }
-      changed  = true;
+      changed = true;
       return {
         target,
         selection: $selection,
       };
     });
-     changed && callback && callback(this.takeRecords(), this);
+    changed && callback && callback(this.takeRecords(), this);
   };
 }

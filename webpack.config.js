@@ -7,7 +7,7 @@ const webpack = require('webpack'),
   HtmlWebpackPlugin = require('html-webpack-plugin'),
   UglifyJsPlugin = require('uglifyjs-webpack-plugin'),
   WriteFilePlugin = require('write-file-webpack-plugin'),
-  env = require('./utils/env'),
+  env = require('./scripts/env'),
   path = require('path');
 
 const isDev = env.NODE_ENV === 'development' || 0;

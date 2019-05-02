@@ -31,16 +31,14 @@ function dispatchMouseEvent(type: string, clientX: number): void {
 
 function calculateMaxClientX(
   event: MouseEvent,
-  targetTable: HTMLElement,
+  targetTable: HTMLElement
 ): number {
   const {clientX} = event;
   const {left, width} = targetTable.getBoundingClientRect();
   const offsetX = clientX - left;
   const colgroup = targetTable.querySelector('colgroup');
-  const colsCount = colgroup ?
-    colgroup.querySelectorAll('col').length :
-    0;
-  const cx = width - offsetX - (colsCount * TABLE_CELL_MINWIDTH);
+  const colsCount = colgroup ? colgroup.querySelectorAll('col').length : 0;
+  const cx = width - offsetX - colsCount * TABLE_CELL_MINWIDTH;
   return Math.round(clientX + Math.max(0, cx));
 }
 
@@ -52,7 +50,7 @@ export default function createTableResizingPlugin(): Plugin {
     TABLE_HANDLE_WIDTH,
     TABLE_CELL_MINWIDTH,
     TABLE_VIEW,
-    TABLE_LAST_COLUMN_RESIZABLE,
+    TABLE_LAST_COLUMN_RESIZABLE
   );
 
   const captureMouse = (event: any): void => {
@@ -74,9 +72,9 @@ export default function createTableResizingPlugin(): Plugin {
   Object.assign(plugin.props.handleDOMEvents, {
     mousedown(view: EditorView, event: MouseEvent): boolean {
       const targetTable = lookUpTableWrapper(event);
-      maxClientX = targetTable ?
-        calculateMaxClientX(event, targetTable) :
-        Number.MAX_VALUE;
+      maxClientX = targetTable
+        ? calculateMaxClientX(event, targetTable)
+        : Number.MAX_VALUE;
       window.addEventListener('mousemove', captureMouse, true);
       window.addEventListener('mouseup', captureMouse, true);
       mousedown(view, event);

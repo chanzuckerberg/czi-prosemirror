@@ -31,11 +31,7 @@ const TextHighlightMarkSpec: MarkSpec = {
     if (highlightColor) {
       style += `background-color: ${highlightColor};`;
     }
-    return [
-      'span',
-      {style},
-      0,
-    ];
+    return ['span', {style}, 0];
   },
 };
 

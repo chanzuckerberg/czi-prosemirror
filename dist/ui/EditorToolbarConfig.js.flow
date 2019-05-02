@@ -116,7 +116,6 @@ export const TABLE_COMMANDS_GROUP = [
   },
 ];
 
-
 export const COMMAND_GROUPS = [
   {
     '[undo] Undo': HISTORY_UNDO,
@@ -128,12 +127,14 @@ export const COMMAND_GROUPS = [
   {
     '[H1] Header 1': H1,
     '[H2] Heading 2': H2,
-    '[keyboard_arrow_down] Headings...': [{
-      'Header 3': H3,
-      'Header 4': H4,
-      'Header 5': H5,
-      'Header 6': H6,
-    }],
+    '[keyboard_arrow_down] Headings...': [
+      {
+        'Header 3': H3,
+        'Header 4': H4,
+        'Header 5': H5,
+        'Header 6': H6,
+      },
+    ],
   },
   {
     '[font_download] Font Type': FontTypeCommandMenuButton,

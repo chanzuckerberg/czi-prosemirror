@@ -3,7 +3,7 @@
 const cached = {};
 
 export default function canUseCSSFont(fontName: string): Promise<boolean> {
-  const doc:any = document;
+  const doc: any = document;
 
   if (cached.hasOwnProperty(fontName)) {
     return Promise.resolve(cached[fontName]);

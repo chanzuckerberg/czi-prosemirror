@@ -230,7 +230,10 @@ var EditorToolbar = function (_React$PureComponent) {
             { className: 'czi-editor-toolbar-body' },
             _react2.default.createElement(
               'div',
-              { className: 'czi-editor-toolbar-body-content', ref: this._onBodyRef },
+              {
+                className: 'czi-editor-toolbar-body-content',
+                ref: this._onBodyRef
+              },
               _react2.default.createElement('i', { className: 'czi-editor-toolbar-wrapped-anchor' }),
               _EditorToolbarConfig.COMMAND_GROUPS.map(this._renderButtonsGroup),
               _react2.default.createElement(

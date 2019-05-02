@@ -154,15 +154,8 @@ var DocLayoutEditor = function (_React$PureComponent) {
           _react2.default.createElement(
             'div',
             { className: 'czi-form-buttons' },
-            _react2.default.createElement(_CustomButton2.default, {
-              label: 'Cancel',
-              onClick: this._cancel
-            }),
-            _react2.default.createElement(_CustomButton2.default, {
-              active: true,
-              label: 'Apply',
-              onClick: this._apply
-            })
+            _react2.default.createElement(_CustomButton2.default, { label: 'Cancel', onClick: this._cancel }),
+            _react2.default.createElement(_CustomButton2.default, { active: true, label: 'Apply', onClick: this._apply })
           )
         )
       );

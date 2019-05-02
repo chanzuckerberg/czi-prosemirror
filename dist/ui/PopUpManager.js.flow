@@ -25,7 +25,6 @@ const CLICK_INTERVAL = 350;
 const DUMMY_RECT = {x: -10000, y: -10000, w: 0, h: 0};
 
 class PopUpManager {
-
   _bridges = new Map();
   _positions = new Map();
 
@@ -80,7 +79,7 @@ class PopUpManager {
 
   _onMouseChange = (e: MouseEvent): void => {
     this._mx = Math.round(e.clientX);
-    this._my = Math.round( e.clientY);
+    this._my = Math.round(e.clientY);
     this._rafID && cancelAnimationFrame(this._rafID);
     this._rafID = requestAnimationFrame(this._syncPosition);
   };
@@ -89,7 +88,7 @@ class PopUpManager {
     const now = Date.now();
     let detailsWithModalToDismiss;
     for (const [bridge, registeredAt] of this._bridges) {
-      if ((now - registeredAt) > CLICK_INTERVAL) {
+      if (now - registeredAt > CLICK_INTERVAL) {
         const details = bridge.getDetails();
         if (details.modal && details.autoDismiss) {
           detailsWithModalToDismiss = details;
@@ -112,10 +111,10 @@ class PopUpManager {
 
     const bridgeToDetails = new Map();
     for (const [
-        bridge,
-        // eslint-disable-next-line no-unused-vars
-        registeredAt
-      ] of this._bridges) {
+      bridge,
+      // eslint-disable-next-line no-unused-vars
+      registeredAt,
+    ] of this._bridges) {
       const details = bridge.getDetails();
       bridgeToDetails.set(bridge, details);
       const {anchor, body} = details;
@@ -130,13 +129,7 @@ class PopUpManager {
     const pointer = fromXY(this._mx, this._my, 2);
     const hoveredAnchors = new Set();
     for (const [bridge, details] of bridgeToDetails) {
-      const {
-        anchor,
-        bodyRect,
-        anchorRect,
-        position,
-        body,
-      } = details;
+      const {anchor, bodyRect, anchorRect, position, body} = details;
       if (!bodyRect && !anchorRect) {
         continue;
       }
@@ -145,14 +138,14 @@ class PopUpManager {
       const positionKey = `${x}-${y}`;
 
       if (body && bodyRect && this._positions.get(bridge) !== positionKey) {
-        const ax = anchorRect ?
-          clamp(
-            0,
-            anchorRect.x - x + (anchorRect.w / 2),
-            bodyRect.w - (anchorRect.w / 2),
-          ) :
-          0;
-        this._positions.set(bridge,  positionKey);
+        const ax = anchorRect
+          ? clamp(
+              0,
+              anchorRect.x - x + anchorRect.w / 2,
+              bodyRect.w - anchorRect.w / 2
+            )
+          : 0;
+        this._positions.set(bridge, positionKey);
         const bodyStyle = body.style;
         bodyStyle.position = 'absolute';
         bodyStyle.left = `${x}px`;
@@ -163,16 +156,8 @@ class PopUpManager {
       }
 
       if (
-        isIntersected(
-          pointer,
-          bodyRect || DUMMY_RECT,
-          0,
-        ) ||
-        isIntersected(
-          pointer,
-          anchorRect || DUMMY_RECT,
-          0,
-        )
+        isIntersected(pointer, bodyRect || DUMMY_RECT, 0) ||
+        isIntersected(pointer, anchorRect || DUMMY_RECT, 0)
       ) {
         if (anchor) {
           hoveredAnchors.add(anchor);

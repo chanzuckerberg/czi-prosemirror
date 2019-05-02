@@ -36,7 +36,7 @@ function renderAttributes(editorState) {
   var doc = editorState.doc;
 
   var attrs = {
-    'class': 'czi-prosemirror-editor'
+    class: 'czi-prosemirror-editor'
   };
 
   var _doc$attrs = doc.attrs,

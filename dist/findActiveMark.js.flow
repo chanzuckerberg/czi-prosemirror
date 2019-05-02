@@ -6,7 +6,7 @@ export default function findActiveMark(
   doc: Node,
   from: number,
   to: number,
-  markType: MarkType,
+  markType: MarkType
 ): ?Mark {
   let ii = from;
   if (doc.nodeSize <= 2) {

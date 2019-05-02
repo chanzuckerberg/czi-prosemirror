@@ -10,7 +10,6 @@ import CustomMenuItem from './CustomMenuItem';
 import UICommand from './UICommand';
 
 class CommandMenu extends React.PureComponent<any, any, any> {
-
   _activeCommand: ?UICommand = null;
 
   props: {
@@ -48,16 +47,10 @@ class CommandMenu extends React.PureComponent<any, any, any> {
         );
       });
       if (ii !== jj) {
-        children.push(
-          <CustomMenuItem.Separator key={`${String(ii)}-hr`}/>
-        );
+        children.push(<CustomMenuItem.Separator key={`${String(ii)}-hr`} />);
       }
     });
-    return (
-      <CustomMenu>
-        {children}
-      </CustomMenu>
-    );
+    return <CustomMenu>{children}</CustomMenu>;
   }
 
   _onUIEnter = (command: UICommand, event: SyntheticEvent): void => {
@@ -75,6 +68,5 @@ class CommandMenu extends React.PureComponent<any, any, any> {
     }
   };
 }
-
 
 export default CommandMenu;

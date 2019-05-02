@@ -1,6 +1,6 @@
 // @flow
 
-export {EditorState as EditorState} from 'prosemirror-state';
+export {EditorState} from 'prosemirror-state';
 export {default as RichTextEditor} from './ui/RichTextEditor';
 export {default as convertFromHTML} from './convertFromHTML';
 export {default as convertFromJSON} from './convertFromJSON';

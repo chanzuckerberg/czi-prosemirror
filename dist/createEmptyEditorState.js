@@ -16,12 +16,12 @@ var _convertFromJSON2 = _interopRequireDefault(_convertFromJSON);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var EMPTY_DOC_JSON = {
-  'type': 'doc',
-  'content': [{
-    'type': 'paragraph',
-    'content': [{
-      'type': 'text',
-      'text': ' '
+  type: 'doc',
+  content: [{
+    type: 'paragraph',
+    content: [{
+      type: 'text',
+      text: ' '
     }]
   }]
 };

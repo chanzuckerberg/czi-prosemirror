@@ -27,7 +27,9 @@ function convertFromDOMElement(el, schema, plugins) {
   var bodyEl = el.querySelector('body');
 
   // https://prosemirror.net/docs/ref/#model.ParseOptions.preserveWhitespace
-  var doc = _prosemirrorModel.DOMParser.fromSchema(effectiveSchema).parse(el, { preserveWhitespace: true });
+  var doc = _prosemirrorModel.DOMParser.fromSchema(effectiveSchema).parse(el, {
+    preserveWhitespace: true
+  });
 
   if (bodyEl) {
     // Unfortunately the root node `doc` does not supoort `parseDOM`, thus

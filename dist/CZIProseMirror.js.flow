@@ -2,7 +2,6 @@
 
 import {EditorView} from 'prosemirror-view';
 
-import convertFromJSON from './convertFromJSON';
 import convertToJSON from './convertToJSON';
 import CustomEditorView from './ui/CustomEditorView';
 import UICommand from './ui/UICommand';
@@ -19,22 +18,6 @@ const viewsRegistery = new Map();
 export function registeryKeys(): Array<string> {
   return Array.from(viewsRegistery.keys());
 }
-
-// This is not working. Will fix it.
-// export function importJSON(json: Object, id: ?string): void {
-//   if (!id && viewsRegistery.size) {
-//     id = registeryKeys()[0];
-//     console.log(`use default editor id "${id}"`);
-//   }
-//   const view = viewsRegistery.get(String(id));
-//   if (!view) {
-//     throw new Error('view ${id} does not exist');
-//   }
-//   const {schema, plugins} = view.state;
-//   const editorState = convertFromJSON(json, schema, plugins);
-//   view.dispatch(editorState.tr);
-//   view.updateState(editorState);
-// }
 
 export function exportJSON(id: ?string): Object {
   if (!id && viewsRegistery.size) {
@@ -75,17 +58,12 @@ export function findEditorView(id: string): ?EditorView {
 export function executeCommand(name: string, viewID: ?string): boolean {
   const command = commandsRegistery.get(name);
   if (command) {
-    const view = viewID ?
-      viewsRegistery.get(viewID) :
-      Array.from(viewsRegistery.values())[0];
+    const view = viewID
+      ? viewsRegistery.get(viewID)
+      : Array.from(viewsRegistery.values())[0];
     if (view) {
       try {
-        return command.execute(
-          view.state,
-          view.dispatch,
-          view,
-          null,
-        );
+        return command.execute(view.state, view.dispatch, view, null);
       } catch (ex) {
         console.warn(ex);
         return false;

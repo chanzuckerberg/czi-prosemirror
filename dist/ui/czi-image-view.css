@@ -60,7 +60,7 @@
 
 .czi-image-view-body.error::before {
   background-color: #fff;
-  outline : solid 1px #cdcdcd;
+  outline: solid 1px #cdcdcd;
   bottom: 0;
   content: '';
   left: 0;
@@ -71,7 +71,7 @@
 }
 
 .czi-image-view-body .czi-icon.error {
-  color:red;
+  color: red;
   left: 50%;
   position: absolute;
   top: 50%;
@@ -84,7 +84,6 @@
   /* simulated selection highlight */
   background-color: var(--czi-selection-highlight-color-dark);
   bottom: 0;
-  content: '';
   content: '';
   left: 0;
   position: absolute;
@@ -104,7 +103,7 @@
 }
 
 .czi-image-view-body.error {
-  /* outline: var(--czi-border-red);*/
+  /* outline: var(--czi-border-red); */
 }
 
 @media only print {
@@ -114,8 +113,7 @@
 }
 
 @keyframes czi_animation_blink {
-  0% {opacity: 1;}
-  50%{opacity: 0.5;}
-  100%{opacity: 1;}
+  0% { opacity: 1; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1; }
 }
-

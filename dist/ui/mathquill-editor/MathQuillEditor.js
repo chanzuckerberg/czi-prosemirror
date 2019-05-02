@@ -207,9 +207,7 @@ var MathQuillEditor = function (_React$PureComponent) {
         _react2.default.createElement(
           'div',
           { className: 'czi-mathquill-editor-main' },
-          _react2.default.createElement(MathQuillElement, {
-            ref: this._onElementRef
-          })
+          _react2.default.createElement(MathQuillElement, { ref: this._onElementRef })
         ),
         _react2.default.createElement(
           'div',

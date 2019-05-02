@@ -15,7 +15,7 @@ const TextColorMarkSpec: MarkSpec = {
   parseDOM: [
     {
       style: 'color',
-      getAttrs: (color) => {
+      getAttrs: color => {
         return {
           color: toCSSColor(color),
         };
@@ -28,11 +28,7 @@ const TextColorMarkSpec: MarkSpec = {
     if (color) {
       style += `color: ${color};`;
     }
-    return [
-      'span',
-      {style},
-      0,
-    ];
+    return ['span', {style}, 0];
   },
 };
 

@@ -26,7 +26,7 @@ function markApplies(doc, ranges, type) {
     doc.nodesBetween($from.pos, $to.pos, function (node) {
       if (can) {
         return false;
-      };
+      }
       can = node.inlineContent && node.type.allowsMarkType(type);
       return true;
     });

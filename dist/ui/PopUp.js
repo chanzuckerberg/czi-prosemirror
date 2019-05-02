@@ -126,9 +126,7 @@ var PopUp = function (_React$PureComponent) {
       return _react2.default.createElement(
         'div',
         { 'data-pop-up-id': this._id, id: this._id },
-        _react2.default.createElement(View, (0, _extends3.default)({}, viewProps || dummy, {
-          close: close
-        }))
+        _react2.default.createElement(View, (0, _extends3.default)({}, viewProps || dummy, { close: close }))
       );
     }
   }, {

@@ -39,8 +39,6 @@ var WebFontLoader = function () {
   return WebFontLoader;
 }();
 
-;
-
 var loader = new WebFontLoader();
 
 exports.default = loader;

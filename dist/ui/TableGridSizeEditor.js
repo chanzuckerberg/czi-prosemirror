@@ -87,10 +87,7 @@ var GridCell = function (_React$PureComponent) {
       var className = (0, _classnames2.default)('czi-table-grid-size-editor-cell', {
         selected: selected
       });
-      return _react2.default.createElement('div', {
-        className: className,
-        style: style
-      });
+      return _react2.default.createElement('div', { className: className, style: style });
     }
   }]);
   return GridCell;
@@ -230,7 +227,8 @@ var TableGridSizeEditor = function (_React$PureComponent2) {
             className: 'czi-table-grid-size-editor-body',
             onMouseDown: this._onMouseDown,
             onMouseEnter: this._onMouseEnter,
-            style: bodyStyle },
+            style: bodyStyle
+          },
           cells
         ),
         _react2.default.createElement(

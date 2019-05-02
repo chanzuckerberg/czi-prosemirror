@@ -138,9 +138,9 @@ var PointerSurface = function (_React$PureComponent) {
 
 
       var buttonClassName = (0, _classnames2.default)(className, {
-        'active': active,
-        'disabled': disabled,
-        'pressed': pressed
+        active: active,
+        disabled: disabled,
+        pressed: pressed
       });
 
       return _react2.default.createElement(
@@ -159,7 +159,8 @@ var PointerSurface = function (_React$PureComponent) {
           role: 'button',
           style: style,
           tabIndex: disabled ? null : 0,
-          title: title },
+          title: title
+        },
         children
       );
     }

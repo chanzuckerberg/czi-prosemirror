@@ -84,7 +84,6 @@ var DocLayoutCommand = function (_UICommand) {
     }, _this.isActive = function (state) {
       return !!_this._popUp;
     }, _this.waitForUserInput = function (state, dispatch, view, event) {
-
       if (_this._popUp) {
         return _promise2.default.resolve(undefined);
       }

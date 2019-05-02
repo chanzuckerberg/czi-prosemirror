@@ -7,7 +7,6 @@ import {EditorView} from 'prosemirror-view';
 import UICommand from './ui/UICommand';
 
 class PrintCommand extends UICommand {
-
   isActive = (state: EditorState): boolean => {
     return false;
   };
@@ -19,7 +18,7 @@ class PrintCommand extends UICommand {
   execute = (
     state: EditorState,
     dispatch: ?(tr: Transform) => void,
-    view: ?EditorView,
+    view: ?EditorView
   ): boolean => {
     if (dispatch && window.print) {
       window.print();

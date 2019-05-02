@@ -4,12 +4,15 @@ node_js:
 cache: npm
 jobs:
   include: 
-    - stage: Lint
+    - name: "Lint JS Files"
       script: npm run lint:js
-      name: "Lint JS Files"
-    - script: npm run lint:css
-      name: "Lint CSS Files"
-    - stage: "Type Checking" 
+      stage: test
+    - name: "Lint CSS Files"
+      script: npm run lint:css
+      stage: test
+    - name: "Type Checking" 
       script: npx flow check
-    - stage: "Build Dist"
-      script: npm run build:dist
+      stage: test
+    - name: "Check Dist"
+      script: scripts/ci_check_dist.sh
+      stage: test

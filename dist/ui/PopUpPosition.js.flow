@@ -14,10 +14,10 @@ export function atAnchorBottomLeft(anchorRect: ?Rect, bodyRect: ?Rect): Rect {
 
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
-    if ((rect.x + bodyRect.w) > viewportWidth) {
-      rect.x = anchorRect.x - bodyRect.w +  anchorRect.w;
+    if (rect.x + bodyRect.w > viewportWidth) {
+      rect.x = anchorRect.x - bodyRect.w + anchorRect.w;
     }
-    if ((rect.y + bodyRect.h) > viewportHeight) {
+    if (rect.y + bodyRect.h > viewportHeight) {
       rect.y = Math.max(anchorRect.y - bodyRect.h, 2);
     }
   }
@@ -32,10 +32,7 @@ export function atAnchorBottomLeft(anchorRect: ?Rect, bodyRect: ?Rect): Rect {
 export function atAnchorBottomCenter(anchorRect: ?Rect, bodyRect: ?Rect): Rect {
   const rect = {x: 0, y: 0, w: 0, h: 0};
   if (anchorRect && bodyRect) {
-    rect.x = Math.max(
-      anchorRect.x - (bodyRect.w - anchorRect.w) / 2,
-      10,
-    );
+    rect.x = Math.max(anchorRect.x - (bodyRect.w - anchorRect.w) / 2, 10);
     rect.y = anchorRect.y + anchorRect.h;
   }
 
@@ -52,7 +49,7 @@ export function atAnchorRight(anchorRect: ?Rect, bodyRect: ?Rect): Rect {
     rect.x = anchorRect.x + anchorRect.w + 1;
     rect.y = anchorRect.y;
     const viewportWidth = window.innerWidth;
-     if ((rect.x + bodyRect.w) > viewportWidth) {
+    if (rect.x + bodyRect.w > viewportWidth) {
       rect.x = Math.max(2, anchorRect.x - bodyRect.w);
     }
   }

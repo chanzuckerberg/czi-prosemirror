@@ -38,8 +38,9 @@ export default function clearMarks(tr: Transform, schema: Schema): Transform {
     return tr;
   }
 
-  const markTypesToRemove =
-    new Set(FORMAT_MARK_NAMES.map(n => schema.marks[n]).filter(Boolean));
+  const markTypesToRemove = new Set(
+    FORMAT_MARK_NAMES.map(n => schema.marks[n]).filter(Boolean)
+  );
 
   if (!markTypesToRemove.size) {
     return tr;
