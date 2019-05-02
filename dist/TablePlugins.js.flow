@@ -3,12 +3,12 @@
 import {tableEditing} from 'prosemirror-tables';
 
 import TableCellMenuPlugin from './TableCellMenuPlugin';
-import createTableResizingPlugin from './createTableResizingPlugin';
+import TableResizePlugin from './TableResizePlugin';
 
 // Tables
 // https://github.com/ProseMirror/prosemirror-tables/blob/master/demo.js
 export default [
   new TableCellMenuPlugin(),
-  createTableResizingPlugin(),
+  new TableResizePlugin(),
   tableEditing(),
 ];

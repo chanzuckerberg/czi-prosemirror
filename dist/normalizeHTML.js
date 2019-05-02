@@ -23,6 +23,10 @@ var _patchListElements = require('./patchListElements');
 
 var _patchListElements2 = _interopRequireDefault(_patchListElements);
 
+var _patchMathElements = require('./patchMathElements');
+
+var _patchMathElements2 = _interopRequireDefault(_patchMathElements);
+
 var _patchParagraphElements = require('./patchParagraphElements');
 
 var _patchParagraphElements2 = _interopRequireDefault(_patchParagraphElements);
@@ -42,7 +46,6 @@ var _toSafeHTMLDocument2 = _interopRequireDefault(_toSafeHTMLDocument);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var HTML_BODY_PATTERN = /<body[\s>]/i;
-
 var LONG_UNDERLINE_PATTERN = /_+/g;
 
 // This is a workround to convert "&nbsp;&nbsp;......&nbsp;" into wider tab
@@ -80,6 +83,7 @@ function normalizeHTML(html) {
     (0, _patchListElements2.default)(doc);
     (0, _patchParagraphElements2.default)(doc);
     (0, _patchTableElements2.default)(doc);
+    (0, _patchMathElements2.default)(doc);
     body = doc.getElementsByTagName('body')[0];
 
     if (body && sourceIsPage) {

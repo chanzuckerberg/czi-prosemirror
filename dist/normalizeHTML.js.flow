@@ -9,6 +9,7 @@ import patchAnchorElements from './patchAnchorElements';
 import patchBreakElements from './patchBreakElements';
 import patchElementInlineStyles from './patchElementInlineStyles';
 import patchListElements from './patchListElements';
+import patchMathElements from './patchMathElements';
 import patchParagraphElements from './patchParagraphElements';
 import patchStyleElements from './patchStyleElements';
 import patchTableElements from './patchTableElements';
@@ -54,6 +55,7 @@ export default function normalizeHTML(html: string): string {
     patchListElements(doc);
     patchParagraphElements(doc);
     patchTableElements(doc);
+    patchMathElements(doc);
     body = doc.getElementsByTagName('body')[0];
 
     if (body && sourceIsPage) {
