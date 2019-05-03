@@ -282,6 +282,12 @@ var SIN = exports.SIN = {
   description: 'Sin',
   cmd: 'write'
 };
+var SMALLE = exports.SMALLE = {
+  label: '\u212F',
+  latex: '\u212F',
+  description: 'Script Small E',
+  cmd: 'write'
+};
 var SQR = exports.SQR = {
   label: 'x^{2}',
   latex: '^{2}',
@@ -396,7 +402,7 @@ var STRUCTURE = exports.STRUCTURE = {
 
 var SYMBOLS = exports.SYMBOLS = {
   title: 'Symbols',
-  symbols: [ANGLE, PI, IMAGINARY, DEGREES, THETA, PHI, TRIANGLE, INFINITY, DOLLAR, CENT, VDASH, PERP, ARROWLL, ARROWRL, ARROWLLR]
+  symbols: [SMALLE, ANGLE, PI, IMAGINARY, DEGREES, THETA, PHI, TRIANGLE, INFINITY, DOLLAR, CENT, VDASH, PERP, ARROWLL, ARROWRL, ARROWLLR]
 };
 
 var TRIG = exports.TRIG = {

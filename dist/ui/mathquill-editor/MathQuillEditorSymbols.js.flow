@@ -286,6 +286,12 @@ export const SIN = {
   description: 'Sin',
   cmd: 'write',
 };
+export const SMALLE = {
+  label: '\u212F',
+  latex: '\u212F',
+  description: 'Script Small E',
+  cmd: 'write',
+};
 export const SQR = {
   label: 'x^{2}',
   latex: '^{2}',
@@ -442,6 +448,7 @@ export const STRUCTURE = {
 export const SYMBOLS = {
   title: 'Symbols',
   symbols: [
+    SMALLE,
     ANGLE,
     PI,
     IMAGINARY,
