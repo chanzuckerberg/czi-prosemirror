@@ -28,9 +28,9 @@ const MathNodeSpec: NodeSpec = {
   ],
   toDOM(node) {
     // Normally, the DOM structure of the math node is rendered by
-    // `MathNodeView`. This method is only called when user select the
-    // math node and copy it, which triggers the "serialize to HTML" flow, and
-    // this method will be called.
+    // `MathNodeView`. This method is only called when user selects a
+    // math node and copies it, which triggers the "serialize to HTML" flow that
+    // calles this method.
     const {align, latex} = node.attrs;
     const domAttrs = {};
     if (align) {
