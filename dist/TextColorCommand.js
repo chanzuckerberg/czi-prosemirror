@@ -24,26 +24,6 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _nullthrows = require('nullthrows');
-
-var _nullthrows2 = _interopRequireDefault(_nullthrows);
-
-var _prosemirrorState = require('prosemirror-state');
-
-var _prosemirrorTransform = require('prosemirror-transform');
-
-var _prosemirrorView = require('prosemirror-view');
-
-var _MarkNames = require('./MarkNames');
-
-var _applyMark = require('./applyMark');
-
-var _applyMark2 = _interopRequireDefault(_applyMark);
-
-var _findNodesWithSameMark = require('./findNodesWithSameMark');
-
-var _findNodesWithSameMark2 = _interopRequireDefault(_findNodesWithSameMark);
-
 var _ColorEditor = require('./ui/ColorEditor');
 
 var _ColorEditor2 = _interopRequireDefault(_ColorEditor);
@@ -52,9 +32,33 @@ var _UICommand2 = require('./ui/UICommand');
 
 var _UICommand3 = _interopRequireDefault(_UICommand2);
 
+var _applyMark = require('./applyMark');
+
+var _applyMark2 = _interopRequireDefault(_applyMark);
+
 var _createPopUp = require('./ui/createPopUp');
 
 var _createPopUp2 = _interopRequireDefault(_createPopUp);
+
+var _findNodesWithSameMark = require('./findNodesWithSameMark');
+
+var _findNodesWithSameMark2 = _interopRequireDefault(_findNodesWithSameMark);
+
+var _isTextStyleMarkCommandEnabled = require('./isTextStyleMarkCommandEnabled');
+
+var _isTextStyleMarkCommandEnabled2 = _interopRequireDefault(_isTextStyleMarkCommandEnabled);
+
+var _nullthrows = require('nullthrows');
+
+var _nullthrows2 = _interopRequireDefault(_nullthrows);
+
+var _prosemirrorState = require('prosemirror-state');
+
+var _prosemirrorView = require('prosemirror-view');
+
+var _MarkNames = require('./MarkNames');
+
+var _prosemirrorTransform = require('prosemirror-transform');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -73,32 +77,7 @@ var TextColorCommand = function (_UICommand) {
     }
 
     return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = TextColorCommand.__proto__ || (0, _getPrototypeOf2.default)(TextColorCommand)).call.apply(_ref, [this].concat(args))), _this), _this._popUp = null, _this.isEnabled = function (state) {
-      var schema = state.schema,
-          selection = state.selection,
-          tr = state.tr;
-
-      if (!(selection instanceof _prosemirrorState.TextSelection || selection instanceof _prosemirrorState.AllSelection)) {
-        // Could be a NodeSelection or CellSelection.
-        return false;
-      }
-
-      var markType = schema.marks[_MarkNames.MARK_TEXT_COLOR];
-      if (!markType) {
-        return false;
-      }
-      var _state$selection = state.selection,
-          from = _state$selection.from,
-          to = _state$selection.to;
-
-
-      if (to === from + 1) {
-        var node = tr.doc.nodeAt(from);
-        if (node.isAtom && !node.isText && node.isLeaf) {
-          // An atomic node (e.g. Image) is selected.
-          return false;
-        }
-      }
-      return true;
+      return (0, _isTextStyleMarkCommandEnabled2.default)(state, _MarkNames.MARK_TEXT_COLOR);
     }, _this.waitForUserInput = function (state, dispatch, view, event) {
       if (_this._popUp) {
         return _promise2.default.resolve(undefined);
