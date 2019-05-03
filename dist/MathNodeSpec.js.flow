@@ -27,7 +27,19 @@ const MathNodeSpec: NodeSpec = {
     {tag: 'span[data-latex]', getAttrs},
   ],
   toDOM(node) {
-    return ['span', node.attrs];
+    // Normally, the DOM structure of the math node is rendered by
+    // `MathNodeView`. This method is only called when user select the
+    // math node and copy it, which triggers the "serialize to HTML" flow, and
+    // this method will be called.
+    const {align, latex} = node.attrs;
+    const domAttrs = {};
+    if (align) {
+      domAttrs.align = align;
+    }
+    if (latex) {
+      domAttrs['data-latex'] = latex;
+    }
+    return ['span', domAttrs];
   },
 };
 
