@@ -31,14 +31,18 @@
 
 import {Node} from 'prosemirror-model';
 import {EditorState, Plugin, PluginKey} from 'prosemirror-state';
-import {tableNodeTypes} from 'prosemirror-tables/src/schema';
-import {TableMap} from 'prosemirror-tables/src/tablemap';
-import {TableView} from 'prosemirror-tables/src/tableview';
 import {Transform} from 'prosemirror-transform';
 import {Decoration, DecorationSet, EditorView} from 'prosemirror-view';
 import {findParentNodeOfTypeClosestToPos} from 'prosemirror-utils';
-import {cellAround, pointsAtCell, setAttr} from 'prosemirror-tables/src/util';
 import nullthrows from 'nullthrows';
+import {
+  cellAround,
+  pointsAtCell,
+  setAttr,
+  tableNodeTypes,
+  TableMap,
+  TableView,
+} from 'prosemirror-tables';
 
 type DraggingInfo = {
   columnElements: Array<HTMLElement>,
@@ -60,6 +64,18 @@ type PointerEvent = {
 const PLUGIN_KEY = new PluginKey('tableColumnResizing');
 const CELL_MIN_WIDTH = 25;
 const HANDLE_WIDTH = 20;
+
+// A custom table view that renders the margin-left style.
+class CustomTableView extends TableView {
+  update(node: Node): boolean {
+    const updated = super.update(node);
+    if (updated) {
+      const marginLeft = (node.attrs && node.attrs.marginLeft) || 0;
+      this.table.style.marginLeft = marginLeft ? `${marginLeft}px` : '';
+    }
+    return updated;
+  }
+}
 
 // The immutable plugin state that stores the information for resizing.
 class ResizeState {
@@ -495,23 +511,7 @@ function handleDecorations(
 
 // Creates a custom table view that renders the margin-left style.
 function createTableView(node: Node, view: EditorView): TableView {
-  const tableView = new TableView(node, CELL_MIN_WIDTH, view);
-  const updateOriginal = tableView.update;
-  const updatePatched = function(node: Node): boolean {
-    if (!updateOriginal.call(tableView, node)) {
-      return false;
-    }
-    const marginLeft = (node.attrs && node.attrs.marginLeft) || 0;
-    tableView.table.style.marginLeft = marginLeft ? `${marginLeft}px` : '';
-    return true;
-  };
-
-  Object.assign(tableView, {
-    update: updatePatched,
-  });
-
-  updatePatched(node);
-  return tableView;
+  return new CustomTableView(node, CELL_MIN_WIDTH, view);
 }
 
 function batchMouseHandler(

@@ -4,22 +4,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
-
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = require('babel-runtime/helpers/inherits');
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _assign = require('babel-runtime/core-js/object/assign');
-
-var _assign2 = _interopRequireDefault(_assign);
-
 var _extends2 = require('babel-runtime/helpers/extends');
 
 var _extends3 = _interopRequireDefault(_extends2);
@@ -27,6 +11,10 @@ var _extends3 = _interopRequireDefault(_extends2);
 var _from = require('babel-runtime/core-js/array/from');
 
 var _from2 = _interopRequireDefault(_from);
+
+var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
 
 var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
 
@@ -36,15 +24,21 @@ var _createClass2 = require('babel-runtime/helpers/createClass');
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
+var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _get2 = require('babel-runtime/helpers/get');
+
+var _get3 = _interopRequireDefault(_get2);
+
+var _inherits2 = require('babel-runtime/helpers/inherits');
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
 var _prosemirrorModel = require('prosemirror-model');
 
 var _prosemirrorState = require('prosemirror-state');
-
-var _schema = require('prosemirror-tables/src/schema');
-
-var _tablemap = require('prosemirror-tables/src/tablemap');
-
-var _tableview = require('prosemirror-tables/src/tableview');
 
 var _prosemirrorTransform = require('prosemirror-transform');
 
@@ -52,13 +46,15 @@ var _prosemirrorView = require('prosemirror-view');
 
 var _prosemirrorUtils = require('prosemirror-utils');
 
-var _util = require('prosemirror-tables/src/util');
-
 var _nullthrows = require('nullthrows');
 
 var _nullthrows2 = _interopRequireDefault(_nullthrows);
 
+var _prosemirrorTables = require('prosemirror-tables');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var PLUGIN_KEY = new _prosemirrorState.PluginKey('tableColumnResizing');
 
 // Copyright (C) 2015-2016 by Marijn Haverbeke <marijnh@gmail.com> and others
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -89,11 +85,35 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 // - Let user set the left margin of the table.
 // - Let user set the right margin of the table.
 
-var PLUGIN_KEY = new _prosemirrorState.PluginKey('tableColumnResizing');
 var CELL_MIN_WIDTH = 25;
 var HANDLE_WIDTH = 20;
 
+// A custom table view that renders the margin-left style.
+
+var CustomTableView = function (_TableView) {
+  (0, _inherits3.default)(CustomTableView, _TableView);
+
+  function CustomTableView() {
+    (0, _classCallCheck3.default)(this, CustomTableView);
+    return (0, _possibleConstructorReturn3.default)(this, (CustomTableView.__proto__ || (0, _getPrototypeOf2.default)(CustomTableView)).apply(this, arguments));
+  }
+
+  (0, _createClass3.default)(CustomTableView, [{
+    key: 'update',
+    value: function update(node) {
+      var updated = (0, _get3.default)(CustomTableView.prototype.__proto__ || (0, _getPrototypeOf2.default)(CustomTableView.prototype), 'update', this).call(this, node);
+      if (updated) {
+        var marginLeft = node.attrs && node.attrs.marginLeft || 0;
+        this.table.style.marginLeft = marginLeft ? marginLeft + 'px' : '';
+      }
+      return updated;
+    }
+  }]);
+  return CustomTableView;
+}(_prosemirrorTables.TableView);
+
 // The immutable plugin state that stores the information for resizing.
+
 
 var ResizeState = function () {
   function ResizeState(cellPos, forMarginLeft, draggingInfo) {
@@ -119,7 +139,7 @@ var ResizeState = function () {
 
       if (state.cellPos && state.cellPos > -1 && tr.docChanged) {
         var cellPos = tr.mapping.map(state.cellPos, -1);
-        if (!(0, _util.pointsAtCell)(tr.doc.resolve(cellPos))) {
+        if (!(0, _prosemirrorTables.pointsAtCell)(tr.doc.resolve(cellPos))) {
           cellPos = null;
         }
         state = new ResizeState(cellPos, cellPos ? state.forMarginLeft : false, state.draggingInfo);
@@ -301,7 +321,7 @@ function handleDragEnd(view, event) {
   var $cell = view.state.doc.resolve(cellPos);
   var start = $cell.start(-1);
   var table = $cell.node(-1);
-  var map = _tablemap.TableMap.get(table);
+  var map = _prosemirrorTables.TableMap.get(table);
   var tr = view.state.tr;
   for (var row = 0; row < map.height; row++) {
     for (var col = 0; col < widths.length; col++) {
@@ -324,7 +344,7 @@ function handleDragEnd(view, event) {
 
       var colwidth = attrs.colwidth ? attrs.colwidth.slice() : zeroes(attrs.colspan);
       colwidth[index] = width;
-      tr = tr.setNodeMarkup(start + pos, null, (0, _util.setAttr)(attrs, 'colwidth', colwidth));
+      tr = tr.setNodeMarkup(start + pos, null, (0, _prosemirrorTables.setAttr)(attrs, 'colwidth', colwidth));
     }
   }
 
@@ -431,14 +451,14 @@ function edgeCell(view, event, side) {
   var _view$posAtCoords = view.posAtCoords({ left: event.clientX, top: event.clientY }),
       pos = _view$posAtCoords.pos;
 
-  var $cell = (0, _util.cellAround)(view.state.doc.resolve(pos));
+  var $cell = (0, _prosemirrorTables.cellAround)(view.state.doc.resolve(pos));
   if (!$cell) {
     return -1;
   }
   if (side == 'right') {
     return $cell.pos;
   }
-  var map = _tablemap.TableMap.get($cell.node(-1));
+  var map = _prosemirrorTables.TableMap.get($cell.node(-1));
   var start = $cell.start(-1);
   var index = map.map.indexOf($cell.pos - start);
   return index % map.width == 0 ? -1 : start + map.map[index - 1];
@@ -467,7 +487,7 @@ function handleDecorations(state, resizeState) {
   var $cell = state.doc.resolve(resizeState.cellPos);
   var table = $cell.node(-1);
 
-  var map = _tablemap.TableMap.get(table);
+  var map = _prosemirrorTables.TableMap.get(table);
   var start = $cell.start(-1);
   var col = map.colCount($cell.pos - start) + $cell.nodeAfter.attrs.colspan;
   for (var row = 0; row < map.height; row++) {
@@ -492,23 +512,7 @@ function handleDecorations(state, resizeState) {
 
 // Creates a custom table view that renders the margin-left style.
 function createTableView(node, view) {
-  var tableView = new _tableview.TableView(node, CELL_MIN_WIDTH, view);
-  var updateOriginal = tableView.update;
-  var updatePatched = function updatePatched(node) {
-    if (!updateOriginal.call(tableView, node)) {
-      return false;
-    }
-    var marginLeft = node.attrs && node.attrs.marginLeft || 0;
-    tableView.table.style.marginLeft = marginLeft ? marginLeft + 'px' : '';
-    return true;
-  };
-
-  (0, _assign2.default)(tableView, {
-    update: updatePatched
-  });
-
-  updatePatched(node);
-  return tableView;
+  return new CustomTableView(node, CELL_MIN_WIDTH, view);
 }
 
 function batchMouseHandler(handler) {
@@ -546,7 +550,7 @@ var TableResizePlugin = function (_Plugin) {
       key: PLUGIN_KEY,
       state: {
         init: function init(_, state) {
-          this.spec.props.nodeViews[(0, _schema.tableNodeTypes)(state.schema).table.name] = createTableView;
+          this.spec.props.nodeViews[(0, _prosemirrorTables.tableNodeTypes)(state.schema).table.name] = createTableView;
           return new ResizeState(-1, null);
         },
         apply: function apply(tr, prev) {
