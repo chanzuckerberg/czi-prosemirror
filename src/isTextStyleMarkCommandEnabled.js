@@ -6,7 +6,7 @@ import {MATH} from './NodeNames';
 import {AllSelection, TextSelection} from 'prosemirror-state';
 import {MARK_FONT_SIZE, MARK_TEXT_COLOR} from './MarkNames';
 
-const ValidMathTextMarkNames = new Set([MARK_FONT_SIZE, MARK_TEXT_COLOR]);
+const VALID_MATH_MARK_NAMES = new Set([MARK_FONT_SIZE, MARK_TEXT_COLOR]);
 
 // Whether the command for apply specific text style mark is enabled.
 export default function isTextStyleMarkCommandEnabled(
@@ -21,7 +21,7 @@ export default function isTextStyleMarkCommandEnabled(
   const mathNodeType = schema.nodes[MATH];
   if (
     mathNodeType &&
-    ValidMathTextMarkNames.has(markName) &&
+    VALID_MATH_MARK_NAMES.has(markName) &&
     isNodeSelectionForNodeType(selection, mathNodeType)
   ) {
     // A math node is selected.
