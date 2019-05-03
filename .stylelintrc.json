@@ -1,6 +1,7 @@
 {
   "extends": "stylelint-config-standard",
   "rules": {
+    "max-line-length": null,
     "selector-type-no-unknown": [true, {
       "ignoreTypes": ["nobr"]
     }]
