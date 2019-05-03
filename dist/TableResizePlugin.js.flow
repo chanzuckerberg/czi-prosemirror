@@ -67,13 +67,20 @@ const HANDLE_WIDTH = 20;
 
 // A custom table view that renders the margin-left style.
 class CustomTableView extends TableView {
+  constructor(node: Node, colMinWidth: number, view: EditorView) {
+    super(node, colMinWidth, view);
+    this._updateMargin(node);
+  }
   update(node: Node): boolean {
     const updated = super.update(node);
     if (updated) {
-      const marginLeft = (node.attrs && node.attrs.marginLeft) || 0;
-      this.table.style.marginLeft = marginLeft ? `${marginLeft}px` : '';
+      this._updateMargin(node);
     }
     return updated;
+  }
+  _updateMargin(node: Node): void {
+    const marginLeft = (node.attrs && node.attrs.marginLeft) || 0;
+    this.table.style.marginLeft = marginLeft ? `${marginLeft}px` : '';
   }
 }
 

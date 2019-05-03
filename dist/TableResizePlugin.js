@@ -93,9 +93,13 @@ var HANDLE_WIDTH = 20;
 var CustomTableView = function (_TableView) {
   (0, _inherits3.default)(CustomTableView, _TableView);
 
-  function CustomTableView() {
+  function CustomTableView(node, colMinWidth, view) {
     (0, _classCallCheck3.default)(this, CustomTableView);
-    return (0, _possibleConstructorReturn3.default)(this, (CustomTableView.__proto__ || (0, _getPrototypeOf2.default)(CustomTableView)).apply(this, arguments));
+
+    var _this = (0, _possibleConstructorReturn3.default)(this, (CustomTableView.__proto__ || (0, _getPrototypeOf2.default)(CustomTableView)).call(this, node, colMinWidth, view));
+
+    _this._updateMargin(node);
+    return _this;
   }
 
   (0, _createClass3.default)(CustomTableView, [{
@@ -103,10 +107,15 @@ var CustomTableView = function (_TableView) {
     value: function update(node) {
       var updated = (0, _get3.default)(CustomTableView.prototype.__proto__ || (0, _getPrototypeOf2.default)(CustomTableView.prototype), 'update', this).call(this, node);
       if (updated) {
-        var marginLeft = node.attrs && node.attrs.marginLeft || 0;
-        this.table.style.marginLeft = marginLeft ? marginLeft + 'px' : '';
+        this._updateMargin(node);
       }
       return updated;
+    }
+  }, {
+    key: '_updateMargin',
+    value: function _updateMargin(node) {
+      var marginLeft = node.attrs && node.attrs.marginLeft || 0;
+      this.table.style.marginLeft = marginLeft ? marginLeft + 'px' : '';
     }
   }]);
   return CustomTableView;
