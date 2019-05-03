@@ -115,18 +115,34 @@
  *
  */
 
-/* prettier-ignore long-line */
+/* prettier-ignore */
+.ProseMirror ul + ul[data-indent='1'] li > p::before,
+/* prettier-ignore */
+.ProseMirror ul + ul[data-indent='4'] li > p::before,
+/* prettier-ignore */
+.ProseMirror ul + ul[data-indent='7'] li > p::before {
+  content: '\25cb'; /* circle */
+}
+
+/* prettier-ignore */
+.ProseMirror ul + ul[data-indent='2'] li > p::before,
+/* prettier-ignore */
+.ProseMirror ul + ul[data-indent='5'] li > p::before {
+  content: '\25a0'; /* square */
+}
+
+/* prettier-ignore */
 .ProseMirror ol[data-list-style-type='decimal'] + ol[data-list-style-type='decimal'][data-indent='1'] li > p::before,
-/* prettier-ignore long-line*/
+/* prettier-ignore */
 .ProseMirror ol[data-list-style-type='decimal'] + ol[data-list-style-type='decimal'][data-indent='4'] li > p::before,
-/* prettier-ignore long-line*/
+/* prettier-ignore */
 .ProseMirror ol[data-list-style-type='decimal'] + ol[data-list-style-type='decimal'][data-indent='7'] li > p::before {
   content: counter(czi-counter, lower-alpha) '.';
 }
 
-/* prettier-ignore long-line */
+/* prettier-ignore */
 .ProseMirror ol[data-list-style-type='decimal'] + ol[data-list-style-type='decimal'][data-indent='2'] li > p::before,
-/* prettier-ignore long-line*/
+/* prettier-ignore */
 .ProseMirror ol[data-list-style-type='decimal'] + ol[data-list-style-type='decimal'][data-indent='5'] li > p::before {
   content: counter(czi-counter, lower-roman) '.';
 }

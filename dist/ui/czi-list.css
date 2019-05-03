@@ -130,3 +130,14 @@
 .ProseMirror ol[data-list-style-type='decimal'] + ol[data-list-style-type='decimal'][data-indent='5'] li > p::before {
   content: counter(czi-counter, lower-roman) '.';
 }
+
+.ProseMirror ul + ul[data-indent='1'] li > p::before,
+.ProseMirror ul + ul[data-indent='4'] li > p::before,
+.ProseMirror ul + ul[data-indent='7'] li > p::before {
+  content: '\25cb'; /* circle */
+}
+
+.ProseMirror ul + ul[data-indent='2'] li > p::before,
+.ProseMirror ul + ul[data-indent='5'] li > p::before {
+  content: '\25a0'; /* square */
+}
