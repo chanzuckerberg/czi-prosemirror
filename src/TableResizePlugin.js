@@ -31,14 +31,18 @@
 
 import {Node} from 'prosemirror-model';
 import {EditorState, Plugin, PluginKey} from 'prosemirror-state';
-import {tableNodeTypes} from 'prosemirror-tables/src/schema';
-import {TableMap} from 'prosemirror-tables/src/tablemap';
-import {TableView} from 'prosemirror-tables/src/tableview';
 import {Transform} from 'prosemirror-transform';
 import {Decoration, DecorationSet, EditorView} from 'prosemirror-view';
 import {findParentNodeOfTypeClosestToPos} from 'prosemirror-utils';
-import {cellAround, pointsAtCell, setAttr} from 'prosemirror-tables/src/util';
 import nullthrows from 'nullthrows';
+import {
+  cellAround,
+  pointsAtCell,
+  setAttr,
+  tableNodeTypes,
+  TableMap,
+  TableView,
+} from 'prosemirror-tables';
 
 type DraggingInfo = {
   columnElements: Array<HTMLElement>,

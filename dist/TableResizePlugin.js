@@ -20,10 +20,6 @@ var _assign = require('babel-runtime/core-js/object/assign');
 
 var _assign2 = _interopRequireDefault(_assign);
 
-var _extends2 = require('babel-runtime/helpers/extends');
-
-var _extends3 = _interopRequireDefault(_extends2);
-
 var _from = require('babel-runtime/core-js/array/from');
 
 var _from2 = _interopRequireDefault(_from);
@@ -46,17 +42,11 @@ var _tablemap = require('prosemirror-tables/src/tablemap');
 
 var _tableview = require('prosemirror-tables/src/tableview');
 
+var _util = require('prosemirror-tables/src/util');
+
 var _prosemirrorTransform = require('prosemirror-transform');
 
 var _prosemirrorView = require('prosemirror-view');
-
-var _prosemirrorUtils = require('prosemirror-utils');
-
-var _util = require('prosemirror-tables/src/util');
-
-var _nullthrows = require('nullthrows');
-
-var _nullthrows2 = _interopRequireDefault(_nullthrows);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -291,8 +281,7 @@ function handleDragEnd(view, event) {
   if (!draggingInfo) {
     return;
   }
-  var columnElements = draggingInfo.columnElements,
-      tableElement = draggingInfo.tableElement;
+  var columnElements = draggingInfo.columnElements;
 
   var widths = (0, _from2.default)(columnElements).map(function (colEl) {
     return parseFloat(colEl.style.width);
@@ -327,18 +316,6 @@ function handleDragEnd(view, event) {
       tr = tr.setNodeMarkup(start + pos, null, (0, _util.setAttr)(attrs, 'colwidth', colwidth));
     }
   }
-
-  var marginLeft = parseFloat(tableElement.style.marginLeft) || null;
-  if (table.attrs.marginLeft !== marginLeft) {
-    var nodeType = table.type;
-    var _attrs = (0, _extends3.default)({}, table.attrs, {
-      marginLeft: marginLeft
-    });
-    var tableLookup = (0, _prosemirrorUtils.findParentNodeOfTypeClosestToPos)($cell, view.state.schema.nodes[nodeType.name]);
-    var tablePos = (0, _nullthrows2.default)(tableLookup && tableLookup.pos);
-    tr = tr.setNodeMarkup(tablePos, nodeType, _attrs);
-  }
-
   if (tr.docChanged) {
     // Let editor know the change.
     view.dispatch(tr);
