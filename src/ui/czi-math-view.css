@@ -3,6 +3,7 @@
   margin: 0;
   position: relative;
   text-align: center;
+  white-space: nowrap;
 }
 
 .czi-math-view.ProseMirror-selectednode {
@@ -54,7 +55,8 @@
 
 .czi-math-view.align-center {
   clear: both;
-  display: block;
+  display: inline-block;
   float: none;
   margin: 20px 0;
+  width: 100%;
 }

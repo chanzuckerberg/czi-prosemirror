@@ -1,44 +1,22 @@
 // @flow
 
-import nullthrows from 'nullthrows';
-import {AllSelection, TextSelection} from 'prosemirror-state';
-import {EditorState} from 'prosemirror-state';
-import {Transform} from 'prosemirror-transform';
-import {EditorView} from 'prosemirror-view';
-
-import {MARK_TEXT_COLOR} from './MarkNames';
-import applyMark from './applyMark';
-import findNodesWithSameMark from './findNodesWithSameMark';
 import ColorEditor from './ui/ColorEditor';
 import UICommand from './ui/UICommand';
+import applyMark from './applyMark';
 import createPopUp from './ui/createPopUp';
+import findNodesWithSameMark from './findNodesWithSameMark';
+import isTextStyleMarkCommandEnabled from './isTextStyleMarkCommandEnabled';
+import nullthrows from 'nullthrows';
+import {EditorState} from 'prosemirror-state';
+import {EditorView} from 'prosemirror-view';
+import {MARK_TEXT_COLOR} from './MarkNames';
+import {Transform} from 'prosemirror-transform';
 
 class TextColorCommand extends UICommand {
   _popUp = null;
 
   isEnabled = (state: EditorState): boolean => {
-    const {schema, selection, tr} = state;
-    if (
-      !(selection instanceof TextSelection || selection instanceof AllSelection)
-    ) {
-      // Could be a NodeSelection or CellSelection.
-      return false;
-    }
-
-    const markType = schema.marks[MARK_TEXT_COLOR];
-    if (!markType) {
-      return false;
-    }
-    const {from, to} = state.selection;
-
-    if (to === from + 1) {
-      const node = tr.doc.nodeAt(from);
-      if (node.isAtom && !node.isText && node.isLeaf) {
-        // An atomic node (e.g. Image) is selected.
-        return false;
-      }
-    }
-    return true;
+    return isTextStyleMarkCommandEnabled(state, MARK_TEXT_COLOR);
   };
 
   waitForUserInput = (
