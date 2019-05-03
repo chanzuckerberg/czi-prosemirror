@@ -73,7 +73,7 @@ var TableNodeSpec = (0, _assign2.default)({}, TableNodesSpecs.table, {
       var marginLeft = dom.style.marginLeft;
 
       if (marginLeft && /\d+px/.test(marginLeft)) {
-        return { marginLeft: marginLeft };
+        return { marginLeft: parseFloat(marginLeft) };
       }
       return undefined;
     }
