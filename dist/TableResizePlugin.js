@@ -20,6 +20,10 @@ var _assign = require('babel-runtime/core-js/object/assign');
 
 var _assign2 = _interopRequireDefault(_assign);
 
+var _extends2 = require('babel-runtime/helpers/extends');
+
+var _extends3 = _interopRequireDefault(_extends2);
+
 var _from = require('babel-runtime/core-js/array/from');
 
 var _from2 = _interopRequireDefault(_from);
@@ -36,19 +40,21 @@ var _prosemirrorModel = require('prosemirror-model');
 
 var _prosemirrorState = require('prosemirror-state');
 
-var _schema = require('prosemirror-tables/src/schema');
-
-var _tablemap = require('prosemirror-tables/src/tablemap');
-
-var _tableview = require('prosemirror-tables/src/tableview');
-
-var _util = require('prosemirror-tables/src/util');
-
 var _prosemirrorTransform = require('prosemirror-transform');
 
 var _prosemirrorView = require('prosemirror-view');
 
+var _prosemirrorUtils = require('prosemirror-utils');
+
+var _nullthrows = require('nullthrows');
+
+var _nullthrows2 = _interopRequireDefault(_nullthrows);
+
+var _prosemirrorTables = require('prosemirror-tables');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var PLUGIN_KEY = new _prosemirrorState.PluginKey('tableColumnResizing');
 
 // Copyright (C) 2015-2016 by Marijn Haverbeke <marijnh@gmail.com> and others
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -79,7 +85,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 // - Let user set the left margin of the table.
 // - Let user set the right margin of the table.
 
-var PLUGIN_KEY = new _prosemirrorState.PluginKey('tableColumnResizing');
 var CELL_MIN_WIDTH = 25;
 var HANDLE_WIDTH = 20;
 
@@ -109,7 +114,7 @@ var ResizeState = function () {
 
       if (state.cellPos && state.cellPos > -1 && tr.docChanged) {
         var cellPos = tr.mapping.map(state.cellPos, -1);
-        if (!(0, _util.pointsAtCell)(tr.doc.resolve(cellPos))) {
+        if (!(0, _prosemirrorTables.pointsAtCell)(tr.doc.resolve(cellPos))) {
           cellPos = null;
         }
         state = new ResizeState(cellPos, cellPos ? state.forMarginLeft : false, state.draggingInfo);
@@ -281,7 +286,8 @@ function handleDragEnd(view, event) {
   if (!draggingInfo) {
     return;
   }
-  var columnElements = draggingInfo.columnElements;
+  var columnElements = draggingInfo.columnElements,
+      tableElement = draggingInfo.tableElement;
 
   var widths = (0, _from2.default)(columnElements).map(function (colEl) {
     return parseFloat(colEl.style.width);
@@ -290,7 +296,7 @@ function handleDragEnd(view, event) {
   var $cell = view.state.doc.resolve(cellPos);
   var start = $cell.start(-1);
   var table = $cell.node(-1);
-  var map = _tablemap.TableMap.get(table);
+  var map = _prosemirrorTables.TableMap.get(table);
   var tr = view.state.tr;
   for (var row = 0; row < map.height; row++) {
     for (var col = 0; col < widths.length; col++) {
@@ -313,9 +319,21 @@ function handleDragEnd(view, event) {
 
       var colwidth = attrs.colwidth ? attrs.colwidth.slice() : zeroes(attrs.colspan);
       colwidth[index] = width;
-      tr = tr.setNodeMarkup(start + pos, null, (0, _util.setAttr)(attrs, 'colwidth', colwidth));
+      tr = tr.setNodeMarkup(start + pos, null, (0, _prosemirrorTables.setAttr)(attrs, 'colwidth', colwidth));
     }
   }
+
+  var marginLeft = parseFloat(tableElement.style.marginLeft) || null;
+  if (table.attrs.marginLeft !== marginLeft) {
+    var nodeType = table.type;
+    var _attrs = (0, _extends3.default)({}, table.attrs, {
+      marginLeft: marginLeft
+    });
+    var tableLookup = (0, _prosemirrorUtils.findParentNodeOfTypeClosestToPos)($cell, view.state.schema.nodes[nodeType.name]);
+    var tablePos = (0, _nullthrows2.default)(tableLookup && tableLookup.pos);
+    tr = tr.setNodeMarkup(tablePos, nodeType, _attrs);
+  }
+
   if (tr.docChanged) {
     // Let editor know the change.
     view.dispatch(tr);
@@ -408,14 +426,14 @@ function edgeCell(view, event, side) {
   var _view$posAtCoords = view.posAtCoords({ left: event.clientX, top: event.clientY }),
       pos = _view$posAtCoords.pos;
 
-  var $cell = (0, _util.cellAround)(view.state.doc.resolve(pos));
+  var $cell = (0, _prosemirrorTables.cellAround)(view.state.doc.resolve(pos));
   if (!$cell) {
     return -1;
   }
   if (side == 'right') {
     return $cell.pos;
   }
-  var map = _tablemap.TableMap.get($cell.node(-1));
+  var map = _prosemirrorTables.TableMap.get($cell.node(-1));
   var start = $cell.start(-1);
   var index = map.map.indexOf($cell.pos - start);
   return index % map.width == 0 ? -1 : start + map.map[index - 1];
@@ -444,7 +462,7 @@ function handleDecorations(state, resizeState) {
   var $cell = state.doc.resolve(resizeState.cellPos);
   var table = $cell.node(-1);
 
-  var map = _tablemap.TableMap.get(table);
+  var map = _prosemirrorTables.TableMap.get(table);
   var start = $cell.start(-1);
   var col = map.colCount($cell.pos - start) + $cell.nodeAfter.attrs.colspan;
   for (var row = 0; row < map.height; row++) {
@@ -469,7 +487,7 @@ function handleDecorations(state, resizeState) {
 
 // Creates a custom table view that renders the margin-left style.
 function createTableView(node, view) {
-  var tableView = new _tableview.TableView(node, CELL_MIN_WIDTH, view);
+  var tableView = new _prosemirrorTables.TableView(node, CELL_MIN_WIDTH, view);
   var updateOriginal = tableView.update;
   var updatePatched = function updatePatched(node) {
     if (!updateOriginal.call(tableView, node)) {
@@ -523,7 +541,7 @@ var TableResizePlugin = function (_Plugin) {
       key: PLUGIN_KEY,
       state: {
         init: function init(_, state) {
-          this.spec.props.nodeViews[(0, _schema.tableNodeTypes)(state.schema).table.name] = createTableView;
+          this.spec.props.nodeViews[(0, _prosemirrorTables.tableNodeTypes)(state.schema).table.name] = createTableView;
           return new ResizeState(-1, null);
         },
         apply: function apply(tr, prev) {
