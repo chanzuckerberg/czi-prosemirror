@@ -55,10 +55,6 @@ class MathEditorExample extends React.PureComponent<any, any, any> {
     );
   }
 
-  componentDidMount() {
-    setTimeout(this._onClick, 100);
-  }
-
   _onClick = (): void => {
     if (!this._popup) {
       this._popup = createPopUp(
