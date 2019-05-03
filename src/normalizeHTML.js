@@ -37,6 +37,7 @@ function replaceNOBR(matched: string): string {
 }
 
 export default function normalizeHTML(html: string): string {
+  console.log(html);
   let body: ?HTMLElement = null;
 
   const sourceIsPage = HTML_BODY_PATTERN.test(html);
