@@ -65,7 +65,6 @@ function replaceNOBR(matched) {
 }
 
 function normalizeHTML(html) {
-  console.log(html);
   var body = null;
 
   var sourceIsPage = HTML_BODY_PATTERN.test(html);
