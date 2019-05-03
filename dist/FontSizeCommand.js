@@ -20,35 +20,33 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _prosemirrorModel = require('prosemirror-model');
+var _UICommand2 = require('./ui/UICommand');
 
-var _prosemirrorState = require('prosemirror-state');
-
-var _prosemirrorTransform = require('prosemirror-transform');
-
-var _prosemirrorView = require('prosemirror-view');
-
-var _MarkNames = require('./MarkNames');
+var _UICommand3 = _interopRequireDefault(_UICommand2);
 
 var _applyMark = require('./applyMark');
 
 var _applyMark2 = _interopRequireDefault(_applyMark);
 
-var _UICommand2 = require('./ui/UICommand');
+var _isTextStyleMarkCommandEnabled = require('./isTextStyleMarkCommandEnabled');
 
-var _UICommand3 = _interopRequireDefault(_UICommand2);
+var _isTextStyleMarkCommandEnabled2 = _interopRequireDefault(_isTextStyleMarkCommandEnabled);
+
+var _prosemirrorState = require('prosemirror-state');
+
+var _prosemirrorView = require('prosemirror-view');
+
+var _MarkNames = require('./MarkNames');
+
+var _prosemirrorModel = require('prosemirror-model');
+
+var _prosemirrorTransform = require('prosemirror-transform');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function setFontSize(tr, schema, pt) {
   var markType = schema.marks[_MarkNames.MARK_FONT_SIZE];
   if (!markType) {
-    return tr;
-  }
-  var _tr = tr,
-      selection = _tr.selection;
-
-  if (!(selection instanceof _prosemirrorState.TextSelection || selection instanceof _prosemirrorState.AllSelection)) {
     return tr;
   }
   var attrs = pt ? { pt: pt } : null;
@@ -68,30 +66,7 @@ var FontSizeCommand = function (_UICommand) {
     _this._pt = 0;
 
     _this.isEnabled = function (state) {
-      var schema = state.schema,
-          selection = state.selection,
-          tr = state.tr;
-
-      if (!(selection instanceof _prosemirrorState.TextSelection || selection instanceof _prosemirrorState.AllSelection)) {
-        return false;
-      }
-      var markType = schema.marks[_MarkNames.MARK_FONT_SIZE];
-      if (!markType) {
-        return false;
-      }
-
-      var from = selection.from,
-          to = selection.to;
-
-
-      if (to === from + 1) {
-        var node = tr.doc.nodeAt(from);
-        if (node.isAtom && !node.isText && node.isLeaf) {
-          // An atomic node (e.g. Image) is selected.
-          return false;
-        }
-      }
-      return true;
+      return (0, _isTextStyleMarkCommandEnabled2.default)(state, _MarkNames.MARK_FONT_SIZE);
     };
 
     _this.execute = function (state, dispatch, view) {
