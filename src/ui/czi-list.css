@@ -114,7 +114,8 @@
  *   2. text
  *
  */
-/* prettier-ignore long-line*/
+
+/* prettier-ignore long-line */
 .ProseMirror ol[data-list-style-type='decimal'] + ol[data-list-style-type='decimal'][data-indent='1'] li > p::before,
 /* prettier-ignore long-line*/
 .ProseMirror ol[data-list-style-type='decimal'] + ol[data-list-style-type='decimal'][data-indent='4'] li > p::before,
@@ -123,7 +124,7 @@
   content: counter(czi-counter, lower-alpha) '.';
 }
 
-/* prettier-ignore long-line*/
+/* prettier-ignore long-line */
 .ProseMirror ol[data-list-style-type='decimal'] + ol[data-list-style-type='decimal'][data-indent='2'] li > p::before,
 /* prettier-ignore long-line*/
 .ProseMirror ol[data-list-style-type='decimal'] + ol[data-list-style-type='decimal'][data-indent='5'] li > p::before {
