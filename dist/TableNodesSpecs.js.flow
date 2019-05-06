@@ -1,8 +1,8 @@
 // @flow
 
-import {tableNodes} from 'prosemirror-tables';
-
 import toCSSColor from './ui/toCSSColor';
+import {Node} from 'prosemirror-model';
+import {tableNodes} from 'prosemirror-tables';
 
 const NO_VISIBLE_BORDER_WIDTH = new Set(['0pt', '0px']);
 
@@ -54,12 +54,24 @@ const TableNodeSpec = Object.assign({}, TableNodesSpecs.table, {
       getAttrs(dom: HTMLElement): ?Object {
         const {marginLeft} = dom.style;
         if (marginLeft && /\d+px/.test(marginLeft)) {
-          return {marginLeft};
+          return {marginLeft: parseFloat(marginLeft)};
         }
         return undefined;
       },
     },
   ],
+  toDOM(node: Node): Array<any> {
+    // Normally, the DOM structure of the table node is rendered by
+    // `TableNodeView`. This method is only called when user selects a
+    // table node and copies it, which triggers the "serialize to HTML" flow
+    //  that calles this method.
+    const {marginLeft} = node.attrs;
+    const domAttrs = {};
+    if (marginLeft) {
+      domAttrs.style = `margin-left: ${marginLeft}px`;
+    }
+    return ['table', domAttrs, 0];
+  },
 });
 Object.assign(TableNodesSpecs, {table: TableNodeSpec});
 
