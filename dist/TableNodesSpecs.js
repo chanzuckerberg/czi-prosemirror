@@ -74,7 +74,6 @@ var TableNodeSpec = (0, _assign2.default)({}, TableNodesSpecs.table, {
   parseDOM: [{
     tag: 'table',
     getAttrs: function getAttrs(dom) {
-      console.log(dom);
       var marginLeft = dom.style.marginLeft;
 
       if (marginLeft && /\d+px/.test(marginLeft)) {
