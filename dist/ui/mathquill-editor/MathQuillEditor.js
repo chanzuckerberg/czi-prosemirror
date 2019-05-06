@@ -197,7 +197,7 @@ var MathQuillEditor = function (_React$PureComponent) {
     value: function render() {
       var value = this.props.value;
 
-      var panels = [MathQuillEditorSymbols.OPERATORS, MathQuillEditorSymbols.STRUCTURE, MathQuillEditorSymbols.SYMBOLS, MathQuillEditorSymbols.TRIG, MathQuillEditorSymbols.VARIABLES].map(this._renderPanel);
+      var panels = [MathQuillEditorSymbols.OPERATORS, MathQuillEditorSymbols.STRUCTURE, MathQuillEditorSymbols.SYMBOLS, MathQuillEditorSymbols.TRIG].map(this._renderPanel);
 
       var empty = !value;
       var className = (0, _classnames2.default)('czi-mathquill-editor', { empty: empty });

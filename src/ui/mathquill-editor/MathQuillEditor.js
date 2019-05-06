@@ -64,7 +64,6 @@ class MathQuillEditor extends React.PureComponent<any, any, any> {
       MathQuillEditorSymbols.STRUCTURE,
       MathQuillEditorSymbols.SYMBOLS,
       MathQuillEditorSymbols.TRIG,
-      MathQuillEditorSymbols.VARIABLES,
     ].map(this._renderPanel);
 
     const empty = !value;
