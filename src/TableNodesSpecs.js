@@ -52,7 +52,6 @@ const TableNodeSpec = Object.assign({}, TableNodesSpecs.table, {
     {
       tag: 'table',
       getAttrs(dom: HTMLElement): ?Object {
-        console.log(dom);
         const {marginLeft} = dom.style;
         if (marginLeft && /\d+px/.test(marginLeft)) {
           return {marginLeft: parseFloat(marginLeft)};
