@@ -82,7 +82,11 @@ function wrapNodesWithListInternal(
     const nodeName = nodeType.name;
     if (isListNode(node)) {
       if (node.type !== listNodeType) {
-        tr = tr.setNodeMarkup(pos, listNodeType, node.attrs, node.marks);
+        const listNodeAttrs = {
+          ...node.attrs,
+          listNodeType: null,
+        };
+        tr = tr.setNodeMarkup(pos, listNodeType, listNodeAttrs, node.marks);
       }
       items && lists.push(items);
       items = null;

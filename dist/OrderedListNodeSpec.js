@@ -18,7 +18,7 @@ var OrderedListNodeSpec = {
   attrs: {
     id: { default: 1 },
     indent: { default: _ParagraphNodeSpec.MIN_INDENT_LEVEL },
-    listStyleType: { default: null },
+    listStyleType: { default: 'decimal' },
     start: { default: 1 }
   },
   group: 'block',
@@ -26,7 +26,7 @@ var OrderedListNodeSpec = {
   parseDOM: [{
     tag: 'ol',
     getAttrs: function getAttrs(dom) {
-      var listStyleType = dom.getAttribute(_ListItemNodeSpec.ATTRIBUTE_LIST_STYLE_TYPE) || null;
+      var listStyleType = dom.getAttribute(_ListItemNodeSpec.ATTRIBUTE_LIST_STYLE_TYPE) || 'decimal';
 
       var start = dom.hasAttribute('start') ? parseInt(dom.getAttribute('start'), 10) : 1;
 

@@ -100,7 +100,10 @@ function wrapNodesWithListInternal(memo, listNodeType) {
     var nodeName = nodeType.name;
     if ((0, _isListNode2.default)(node)) {
       if (node.type !== listNodeType) {
-        tr = tr.setNodeMarkup(pos, listNodeType, node.attrs, node.marks);
+        var listNodeAttrs = (0, _extends3.default)({}, node.attrs, {
+          listNodeType: null
+        });
+        tr = tr.setNodeMarkup(pos, listNodeType, listNodeAttrs, node.marks);
       }
       items && lists.push(items);
       items = null;

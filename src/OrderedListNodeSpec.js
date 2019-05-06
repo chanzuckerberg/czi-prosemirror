@@ -12,7 +12,7 @@ const OrderedListNodeSpec: NodeSpec = {
   attrs: {
     id: {default: 1},
     indent: {default: MIN_INDENT_LEVEL},
-    listStyleType: {default: null},
+    listStyleType: {default: 'decimal'},
     start: {default: 1},
   },
   group: 'block',
@@ -22,7 +22,7 @@ const OrderedListNodeSpec: NodeSpec = {
       tag: 'ol',
       getAttrs(dom: HTMLElement) {
         const listStyleType =
-          dom.getAttribute(ATTRIBUTE_LIST_STYLE_TYPE) || null;
+          dom.getAttribute(ATTRIBUTE_LIST_STYLE_TYPE) || 'decimal';
 
         const start = dom.hasAttribute('start')
           ? parseInt(dom.getAttribute('start'), 10)
