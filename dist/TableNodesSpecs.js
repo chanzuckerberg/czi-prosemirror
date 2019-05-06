@@ -12,17 +12,21 @@ var _set = require('babel-runtime/core-js/set');
 
 var _set2 = _interopRequireDefault(_set);
 
-var _prosemirrorTables = require('prosemirror-tables');
-
 var _toCSSColor = require('./ui/toCSSColor');
 
 var _toCSSColor2 = _interopRequireDefault(_toCSSColor);
+
+var _prosemirrorModel = require('prosemirror-model');
+
+var _prosemirrorTables = require('prosemirror-tables');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var NO_VISIBLE_BORDER_WIDTH = new _set2.default(['0pt', '0px']);
 
 // https://github.com/ProseMirror/prosemirror-tables/blob/master/demo.js
+
+
 var TableNodesSpecs = (0, _prosemirrorTables.tableNodes)({
   tableGroup: 'block',
   cellContent: 'block+',
@@ -73,11 +77,24 @@ var TableNodeSpec = (0, _assign2.default)({}, TableNodesSpecs.table, {
       var marginLeft = dom.style.marginLeft;
 
       if (marginLeft && /\d+px/.test(marginLeft)) {
-        return { marginLeft: marginLeft };
+        return { marginLeft: parseFloat(marginLeft) };
       }
       return undefined;
     }
-  }]
+  }],
+  toDOM: function toDOM(node) {
+    // Normally, the DOM structure of the table node is rendered by
+    // `TableNodeView`. This method is only called when user selects a
+    // table node and copies it, which triggers the "serialize to HTML" flow
+    //  that calles this method.
+    var marginLeft = node.attrs.marginLeft;
+
+    var domAttrs = {};
+    if (marginLeft) {
+      domAttrs.style = 'margin-left: ' + marginLeft + 'px';
+    }
+    return ['table', domAttrs, 0];
+  }
 });
 (0, _assign2.default)(TableNodesSpecs, { table: TableNodeSpec });
 
