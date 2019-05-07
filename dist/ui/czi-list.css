@@ -36,11 +36,15 @@
 }
 
 .ProseMirror li > p {
-  zoom: 1;
-  display: block;
+  /**
+   * Use `flow-root` to enforce Block formatting context so that the sibling
+   * element after the counter won't overlap.
+   */
+  display: flow-root;
   margin: 0;
   margin-block-end: 0;
   margin-block-start: 0;
+  padding-left: var(--czi-list-item-counter-width);
 }
 
 /* https://css-tricks.com/numbering-in-style/ */
@@ -54,8 +58,8 @@
   text-align: right;
   top: 0;
   left: -5px;
-  margin-left: -24pt;
-  width: 24pt;
+  margin-left: var(--czi-list-item-counter-margin);
+  width: var(--czi-list-item-counter-width);
 }
 
 .ProseMirror ul li > p::before {
