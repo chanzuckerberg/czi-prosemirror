@@ -10,8 +10,6 @@
     }],
     "flow-react-proptypes",
     "transform-object-rest-spread",
-    "transform-flow-strip-types",
-    "syntax-dynamic-import"
-
+    "transform-flow-strip-types"
   ]
 }
