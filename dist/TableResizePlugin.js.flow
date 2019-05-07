@@ -29,6 +29,7 @@
 // - Let user set the left margin of the table.
 // - Let user set the right margin of the table.
 
+import TableNodeView from './ui/TableNodeView';
 import {Node} from 'prosemirror-model';
 import {EditorState, Plugin, PluginKey} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
@@ -64,18 +65,6 @@ type PointerEvent = {
 const PLUGIN_KEY = new PluginKey('tableColumnResizing');
 const CELL_MIN_WIDTH = 25;
 const HANDLE_WIDTH = 20;
-
-// A custom table view that renders the margin-left style.
-class CustomTableView extends TableView {
-  update(node: Node): boolean {
-    const updated = super.update(node);
-    if (updated) {
-      const marginLeft = (node.attrs && node.attrs.marginLeft) || 0;
-      this.table.style.marginLeft = marginLeft ? `${marginLeft}px` : '';
-    }
-    return updated;
-  }
-}
 
 // The immutable plugin state that stores the information for resizing.
 class ResizeState {
@@ -511,7 +500,7 @@ function handleDecorations(
 
 // Creates a custom table view that renders the margin-left style.
 function createTableView(node: Node, view: EditorView): TableView {
-  return new CustomTableView(node, CELL_MIN_WIDTH, view);
+  return new TableNodeView(node, CELL_MIN_WIDTH, view);
 }
 
 function batchMouseHandler(

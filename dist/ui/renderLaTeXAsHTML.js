@@ -32,7 +32,10 @@ var latexEl = document.createElement('div');
 
 var cached = {};
 
-var CSS_CDN_URL = '//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css';
+// Use KatexVersion "0.10.1" to fix format issue.
+// See https://github.com/sailinglab/pgm-spring-2019/pull/30
+var CSS_CDN_URL = '//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.1/katex.min.css';
+
 var CSS_FONT = 'KaTeX_Main';
 
 (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
