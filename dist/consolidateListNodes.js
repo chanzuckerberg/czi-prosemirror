@@ -56,22 +56,21 @@ function traverseDocAndFindJointInfo(doc) {
 
   // Perform the breadth-first traversal
   doc.nodesBetween(from, to, function (node, pos) {
-    var recursive = true;
     if (jointInfo) {
       // We've found the list to merge. Stop traversing deeper.
-      recursive = false;
+      return false;
     } else if ((0, _isListNode2.default)(node)) {
       jointInfo = resolveJointInfo(node, pos, prevNode);
+      prevNode = node;
       // Stop the traversing recursively inside the this list node because
       // its content only contains inline nodes.
-      recursive = false;
+      return false;
     } else {
+      prevNode = node;
       // This is not a list node, will keep traversing deeper until we've found
       // a list node or reach the leaf node.
-      recursive = true;
+      return true;
     }
-    prevNode = node;
-    return recursive;
   });
 
   return jointInfo;
