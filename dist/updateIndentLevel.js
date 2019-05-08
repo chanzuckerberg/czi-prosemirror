@@ -10,15 +10,9 @@ var _extends3 = _interopRequireDefault(_extends2);
 
 exports.default = updateIndentLevel;
 
-var _prosemirrorModel = require('prosemirror-model');
+var _clamp = require('./ui/clamp');
 
-var _prosemirrorState = require('prosemirror-state');
-
-var _prosemirrorTransform = require('prosemirror-transform');
-
-var _NodeNames = require('./NodeNames');
-
-var _ParagraphNodeSpec = require('./ParagraphNodeSpec');
+var _clamp2 = _interopRequireDefault(_clamp);
 
 var _compareNumber = require('./compareNumber');
 
@@ -28,13 +22,23 @@ var _isListNode = require('./isListNode');
 
 var _isListNode2 = _interopRequireDefault(_isListNode);
 
+var _nodeAt = require('./nodeAt');
+
+var _nodeAt2 = _interopRequireDefault(_nodeAt);
+
 var _transformAndPreserveTextSelection = require('./transformAndPreserveTextSelection');
 
 var _transformAndPreserveTextSelection2 = _interopRequireDefault(_transformAndPreserveTextSelection);
 
-var _clamp = require('./ui/clamp');
+var _prosemirrorState = require('prosemirror-state');
 
-var _clamp2 = _interopRequireDefault(_clamp);
+var _NodeNames = require('./NodeNames');
+
+var _prosemirrorModel = require('prosemirror-model');
+
+var _ParagraphNodeSpec = require('./ParagraphNodeSpec');
+
+var _prosemirrorTransform = require('prosemirror-transform');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -77,19 +81,6 @@ function updateIndentLevel(tr, schema, delta) {
   if (!listNodePoses.length) {
     return tr;
   }
-
-  // tr = transformAndPreserveTextSelection(tr, schema, (memo) => {
-  //   let tr2 = memo.tr;
-  //   listNodePoses.sort(compareNumber).reverse().forEach(pos => {
-  //     tr2 = setListNodeIndent(
-  //       tr2,
-  //       memo.schema,
-  //       pos,
-  //       delta,
-  //     );
-  //   });
-  //   return tr2;
-  // });
 
   tr = (0, _transformAndPreserveTextSelection2.default)(tr, schema, function (memo) {
     var schema = memo.schema;
@@ -167,7 +158,6 @@ function setListNodeIndent(tr, schema, pos, delta) {
   if (itemsAfter.length) {
     var listNodeNew = listNodeType.create(listNode.attrs, _prosemirrorModel.Fragment.from(itemsAfter));
     tr = tr.insert(pos, _prosemirrorModel.Fragment.from(listNodeNew));
-    tr = mergeSiblingLists(tr, pos);
   }
 
   if (itemsSelected.length) {
@@ -176,46 +166,14 @@ function setListNodeIndent(tr, schema, pos, delta) {
     });
     var _listNodeNew = listNodeType.create(listNodeAttrs, _prosemirrorModel.Fragment.from(itemsSelected));
     tr = tr.insert(pos, _prosemirrorModel.Fragment.from(_listNodeNew));
-    tr = mergeSiblingLists(tr, pos);
   }
 
   if (itemsBefore.length) {
     var _listNodeNew2 = listNodeType.create(listNode.attrs, _prosemirrorModel.Fragment.from(itemsBefore));
     tr = tr.insert(pos, _prosemirrorModel.Fragment.from(_listNodeNew2));
-    tr = mergeSiblingLists(tr, pos);
-  }
-  return tr;
-}
-
-function mergeSiblingLists(tr, listNodePos) {
-  var listNode = tr.doc.nodeAt(listNodePos);
-  if (!listNode) {
-    return tr;
-  }
-  var listNodeType = listNode.type;
-  var indent = listNode.attrs.indent;
-  var fromPos = listNodePos;
-  var toPos = listNodePos + listNode.nodeSize;
-  var $fromPos = tr.doc.resolve(fromPos);
-  var $toPos = tr.doc.resolve(toPos);
-  if ($fromPos.nodeBefore && $fromPos.nodeBefore.type === listNodeType && $fromPos.nodeBefore.attrs.indent === indent) {
-    var beforeFromPos = fromPos - $fromPos.nodeBefore.nodeSize;
-    tr = tr.delete(fromPos, toPos);
-    tr = tr.insert(fromPos - 1, listNode.content);
-
-    listNode = tr.doc.nodeAt(beforeFromPos);
-    fromPos = beforeFromPos;
-    toPos = beforeFromPos + listNode.nodeSize;
-    $fromPos = tr.doc.resolve(fromPos);
-    $toPos = tr.doc.resolve(toPos);
   }
 
-  if ($toPos.nodeAfter && $toPos.nodeAfter.type === listNodeType && $toPos.nodeAfter.attrs.indent === indent) {
-    tr = tr.delete(fromPos, toPos);
-    tr = tr.insert(fromPos + 1, listNode.content);
-  }
-
-  return tr;
+  return mergeListNodes(tr, schema, listNodeType, indentNew);
 }
 
 function setNodeIndentMarkup(tr, schema, pos, delta) {
@@ -234,4 +192,79 @@ function setNodeIndentMarkup(tr, schema, pos, delta) {
     indent: indent
   });
   return tr.setNodeMarkup(pos, node.type, nodeAttrs, node.marks);
+}
+
+// Merge sibling list nodes that have the same list type and indent level.
+function mergeListNodes(tr, schema, listNodeType, indent) {
+  if (tr.getMeta('dryrun')) {
+    // This transform is potentially expensive to perform, so skip it if
+    // we're only doing it as "dryrun" to see whether user could update the
+    // lists.
+    return tr;
+  }
+
+  var working = true;
+
+  var _loop = function _loop() {
+    var from = 1;
+    var to = tr.doc.nodeSize - 2;
+    if (to <= from) {
+      return 'break';
+    }
+    var mergeInfo = void 0;
+    tr.doc.nodesBetween(from, to, function (node, pos) {
+      if (mergeInfo) {
+        // We've found the list to merge. Stop traversing deeper.
+        return false;
+      }
+      if (!(0, _isListNode2.default)(node)) {
+        // This is not a list node, keep traversing deeper until we've found
+        // one.
+        return true;
+      }
+
+      if (node.type !== listNodeType && node.attrs.indent !== indent) {
+        // This list node does matched the spec. Stop the traversing deeper.
+        return false;
+      }
+
+      var nextSiblingNodePos = pos + node.nodeSize;
+      var nextSiblingNode = (0, _nodeAt2.default)(tr.doc, nextSiblingNodePos);
+      if (nextSiblingNode && areListNodesMergeable(node, nextSiblingNode)) {
+        // The current list node and its next sibling list node can be merged.
+        mergeInfo = {
+          fromNode: node,
+          toNode: nextSiblingNode,
+          deleteFrom: nextSiblingNodePos,
+          deleteTo: nextSiblingNodePos + nextSiblingNode.nodeSize,
+          insertAt: nextSiblingNodePos - 1,
+          content: nextSiblingNode.content
+        };
+      }
+
+      // Stop the traversing deeper inside the current list node which
+      // can only contains inline nodes inside.
+      return false;
+    });
+
+    if (mergeInfo) {
+      // Merge list nodes.
+      tr = tr.delete(mergeInfo.deleteFrom, mergeInfo.deleteTo);
+      tr = tr.insert(mergeInfo.insertAt, mergeInfo.content);
+      working = true;
+    } else {
+      working = false;
+    }
+  };
+
+  while (working) {
+    var _ret = _loop();
+
+    if (_ret === 'break') break;
+  }
+  return tr;
+}
+
+function areListNodesMergeable(one, two) {
+  return !!(one.type === two.type && one.attrs.indent === two.attrs.indent && (0, _isListNode2.default)(one) && (0, _isListNode2.default)(two));
 }
