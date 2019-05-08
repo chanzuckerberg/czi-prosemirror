@@ -60,15 +60,15 @@ function traverseDocAndFindJointInfo(doc) {
     if (jointInfo) {
       // We've found the list to merge. Stop traversing deeper.
       recursive = false;
-    } else if (!(0, _isListNode2.default)(node)) {
-      // This is not a list node, will keep traversing deeper until we've found
-      // a list node or reach the leaf node.
-      recursive = true;
-    } else {
+    } else if ((0, _isListNode2.default)(node)) {
       jointInfo = resolveJointInfo(node, pos, prevNode);
       // Stop the traversing recursively inside the this list node because
       // its content only contains inline nodes.
       recursive = false;
+    } else {
+      // This is not a list node, will keep traversing deeper until we've found
+      // a list node or reach the leaf node.
+      recursive = true;
     }
     prevNode = node;
     return recursive;
