@@ -9,6 +9,10 @@ import CustomButton from './CustomButton';
 
 import './czi-link-tooltip.css';
 
+function isBookmarHref(href: string): boolean {
+  return !!href && href.indexOf('#') === 0 && href.length >= 2;
+}
+
 class LinkTooltip extends React.PureComponent<any, any, any> {
   props: {
     editorView: EditorView,
@@ -26,19 +30,22 @@ class LinkTooltip extends React.PureComponent<any, any, any> {
 
   render(): ?React.Element<any> {
     const {href, editorView, onEdit, onRemove} = this.props;
+    const useBookMark = isBookmarHref(href);
+    const editButton = useBookMark ? null : (
+      <CustomButton label="Change" onClick={onEdit} value={editorView} />
+    );
     return (
       <div className="czi-link-tooltip">
         <div className="czi-link-tooltip-body">
           <div className="czi-link-tooltip-row">
             <CustomButton
-              className="czi-link-tooltip-href"
-              label={href}
+              label={useBookMark ? 'Jump To Bookmark' : 'Open Link'}
               onClick={this._openLink}
               target="new"
-              title={href}
+              title={useBookMark ? null : href}
               value={href}
             />
-            <CustomButton label="Change" onClick={onEdit} value={editorView} />
+            {editButton}
             <CustomButton
               label="Remove"
               onClick={onRemove}
@@ -51,7 +58,7 @@ class LinkTooltip extends React.PureComponent<any, any, any> {
   }
 
   _openLink = (href: string): void => {
-    if (href && href.indexOf('#') === 0) {
+    if (isBookmarHref(href)) {
       const id = href.substr(1);
       const el = document.getElementById(id);
       if (el) {

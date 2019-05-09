@@ -15,25 +15,11 @@
   margin: 0 3px;
 }
 
-.czi-link-tooltip-href {
-  border: none;
-  color: var(--czi-link-color);
-  display: inline-block;
-  flex: 1;
-  margin: 0 6px 0 0;
-  max-width: 200px;
-  overflow: hidden;
-  padding: 6px 0;
-  position: relative;
-  text-overflow: ellipsis;
-  vertical-align: middle;
-  white-space: nowrap;
-  z-index: 2;
-}
-
 .czi-link-tooltip-row {
   direction: row;
   display: flex;
+  position: relative;
+  z-index: 2;
 }
 
 .czi-link-tooltip-body {
