@@ -63,25 +63,25 @@
 }
 
 .ProseMirror.czi-prosemirror-editor,
-.ProseMirror[data-layout="us_letter_portrait"] {
+.ProseMirror[data-layout='us_letter_portrait'] {
   min-height: 279mm;
   padding: var(--czi-doc-padding-default);
   width: var(--czi-doc-width-us-letter-portrait);
 }
 
-.ProseMirror[data-layout="us_letter_landscape"] {
+.ProseMirror[data-layout='us_letter_landscape'] {
   min-height: 216mm;
   padding: var(--czi-doc-padding-default);
   width: var(--czi-doc-width-us-letter-landscape);
 }
 
-.ProseMirror[data-layout="desktop_screen_4_3"] {
+.ProseMirror[data-layout='desktop_screen_4_3'] {
   min-height: 90vh;
   padding: var(--czi-doc-padding-default);
   width: var(--czi-doc-width-us-desktop-screen-4-3);
 }
 
-.ProseMirror[data-layout="desktop_screen_16_9"] {
+.ProseMirror[data-layout='desktop_screen_16_9'] {
   min-height: 80vh;
   padding: var(--czi-doc-padding-default);
   width: var(--czi-doc-width-us-desktop-screen-16-9);
@@ -148,7 +148,7 @@
   letter-spacing: 12px;
 }
 
-.ProseMirror span[data-spacer-size="tab"] {
+.ProseMirror span[data-spacer-size='tab'] {
   /* Google doc uses 50px as exact size for tab space. */
 
   /* The `letter-spacing` used here is actually the width of the spacer */
@@ -159,7 +159,7 @@
   letter-spacing: 50px;
 }
 
-.ProseMirror span[data-spacer-size="tab-large"] {
+.ProseMirror span[data-spacer-size='tab-large'] {
   /* Google doc uses 50px as exact size for tab space. */
 
   /* The `letter-spacing` used here is actually the width of the spacer */
