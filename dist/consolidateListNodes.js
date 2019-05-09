@@ -26,9 +26,11 @@ function consolidateListNodes(tr) {
     return tr;
   }
 
+  var prevJointInfo = void 0;
+
   // Keep the loop running until there's no more list nodes that can be joined.
   while (true) {
-    var jointInfo = traverseDocAndFindJointInfo(tr.doc);
+    var jointInfo = traverseDocAndFindJointInfo(tr.doc, prevJointInfo);
     if (jointInfo) {
       var _deleteFrom = jointInfo.deleteFrom,
           _deleteTo = jointInfo.deleteTo,
@@ -37,6 +39,7 @@ function consolidateListNodes(tr) {
 
       tr = tr.delete(_deleteFrom, _deleteTo);
       tr = tr.insert(_insertAt, _content);
+      prevJointInfo = jointInfo;
     } else {
       break;
     }
@@ -44,23 +47,34 @@ function consolidateListNodes(tr) {
   return tr;
 }
 
-function traverseDocAndFindJointInfo(doc) {
-  var from = 1;
+function traverseDocAndFindJointInfo(doc, prevJointInfo) {
+  var minFrom = 1;
+
+  var from = prevJointInfo ? Math.max(minFrom, prevJointInfo.firstListNodePos) : minFrom;
+
   var to = doc.nodeSize - 2;
+
   if (to <= from) {
     return null;
   }
 
   var prevNode = null;
   var jointInfo = null;
+  var firstListNodePos = 0;
 
-  // Perform the breadth-first traversal
+  // Perform the breadth-first traversal.
   doc.nodesBetween(from, to, function (node, pos) {
+    var nodeIsAList = (0, _isListNode2.default)(node);
+
+    if (nodeIsAList) {
+      firstListNodePos = firstListNodePos === 0 ? pos : firstListNodePos;
+    }
+
     if (jointInfo) {
       // We've found the list to merge. Stop traversing deeper.
       return false;
-    } else if ((0, _isListNode2.default)(node)) {
-      jointInfo = resolveJointInfo(node, pos, prevNode);
+    } else if (nodeIsAList) {
+      jointInfo = resolveJointInfo(node, pos, prevNode, from);
       prevNode = node;
       // Stop the traversing recursively inside the this list node because
       // its content only contains inline nodes.
@@ -73,12 +87,17 @@ function traverseDocAndFindJointInfo(doc) {
     }
   });
 
+  if (jointInfo) {
+    // Reduce the range of the next traversal so it could run faster.
+    jointInfo.firstListNodePos = firstListNodePos;
+  }
+
   return jointInfo;
 }
 
 // If two siblings nodes that can be joined as single list, returns
 // the information of how to join them.
-function resolveJointInfo(node, pos, prevNode) {
+function resolveJointInfo(node, pos, prevNode, nextTraverseFrom) {
   if (!prevNode || !canJoinListNodes(node, prevNode)) {
     return null;
   }
@@ -87,7 +106,8 @@ function resolveJointInfo(node, pos, prevNode) {
     deleteFrom: pos,
     deleteTo: pos + node.nodeSize,
     insertAt: pos - 1,
-    content: node.content
+    content: node.content,
+    nextTraverseFrom: nextTraverseFrom
   };
 }
 

@@ -9,6 +9,7 @@ type JointInfo = {
   content: Fragment,
   deleteFrom: number,
   deleteTo: number,
+  firstListNodePos: number,
   insertAt: number,
 };
 
@@ -23,13 +24,16 @@ export default function consolidateListNodes(tr: Transform): Transform {
     return tr;
   }
 
+  let prevJointInfo;
+
   // Keep the loop running until there's no more list nodes that can be joined.
   while (true) {
-    const jointInfo = traverseDocAndFindJointInfo(tr.doc);
+    const jointInfo = traverseDocAndFindJointInfo(tr.doc, prevJointInfo);
     if (jointInfo) {
       const {deleteFrom, deleteTo, insertAt, content} = jointInfo;
       tr = tr.delete(deleteFrom, deleteTo);
       tr = tr.insert(insertAt, content);
+      prevJointInfo = jointInfo;
     } else {
       break;
     }
@@ -37,23 +41,39 @@ export default function consolidateListNodes(tr: Transform): Transform {
   return tr;
 }
 
-function traverseDocAndFindJointInfo(doc: Node): ?JointInfo {
-  const from = 1;
+function traverseDocAndFindJointInfo(
+  doc: Node,
+  prevJointInfo: ?JointInfo
+): ?JointInfo {
+  const minFrom = 1;
+
+  const from = prevJointInfo
+    ? Math.max(minFrom, prevJointInfo.firstListNodePos)
+    : minFrom;
+
   const to = doc.nodeSize - 2;
+
   if (to <= from) {
     return null;
   }
 
   let prevNode = null;
   let jointInfo = null;
+  let firstListNodePos = 0;
 
-  // Perform the breadth-first traversal
+  // Perform the breadth-first traversal.
   doc.nodesBetween(from, to, (node, pos) => {
+    const nodeIsAList = isListNode(node);
+
+    if (nodeIsAList) {
+      firstListNodePos = firstListNodePos === 0 ? pos : firstListNodePos;
+    }
+
     if (jointInfo) {
       // We've found the list to merge. Stop traversing deeper.
       return false;
-    } else if (isListNode(node)) {
-      jointInfo = resolveJointInfo(node, pos, prevNode);
+    } else if (nodeIsAList) {
+      jointInfo = resolveJointInfo(node, pos, prevNode, from);
       prevNode = node;
       // Stop the traversing recursively inside the this list node because
       // its content only contains inline nodes.
@@ -66,6 +86,11 @@ function traverseDocAndFindJointInfo(doc: Node): ?JointInfo {
     }
   });
 
+  if (jointInfo) {
+    // Reduce the range of the next traversal so it could run faster.
+    jointInfo.firstListNodePos = firstListNodePos;
+  }
+
   return jointInfo;
 }
 
@@ -74,7 +99,8 @@ function traverseDocAndFindJointInfo(doc: Node): ?JointInfo {
 function resolveJointInfo(
   node: Node,
   pos: number,
-  prevNode: ?Node
+  prevNode: ?Node,
+  nextTraverseFrom: number
 ): ?JointInfo {
   if (!prevNode || !canJoinListNodes(node, prevNode)) {
     return null;
@@ -85,6 +111,7 @@ function resolveJointInfo(
     deleteTo: pos + node.nodeSize,
     insertAt: pos - 1,
     content: node.content,
+    nextTraverseFrom,
   };
 }
 
