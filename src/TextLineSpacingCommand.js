@@ -1,14 +1,13 @@
 // @flow
 
-import {Schema} from 'prosemirror-model';
-import {EditorState} from 'prosemirror-state';
-import {AllSelection, TextSelection} from 'prosemirror-state';
-import {Transform} from 'prosemirror-transform';
-import {EditorView} from 'prosemirror-view';
-
-import {BLOCKQUOTE, HEADING, LIST_ITEM, PARAGRAPH} from './NodeNames';
-import {LINE_SPACING_VALUES} from './ParagraphNodeSpec';
 import UICommand from './ui/UICommand';
+import {AllSelection, TextSelection} from 'prosemirror-state';
+import {BLOCKQUOTE, HEADING, LIST_ITEM, PARAGRAPH} from './NodeNames';
+import {EditorState} from 'prosemirror-state';
+import {EditorView} from 'prosemirror-view';
+import {Schema} from 'prosemirror-model';
+import {Transform} from 'prosemirror-transform';
+import {DOUBLE_LINE_SPACING, SINGLE_LINE_SPACING} from './ui/toCSSLineSpacing';
 
 export function setTextLineSpacing(
   tr: Transform,
@@ -85,12 +84,11 @@ export function setTextLineSpacing(
 }
 
 function createGroup(): Array<{[string]: TextLineSpacingCommand}> {
-  const group = {};
-  group['Single'] = new TextLineSpacingCommand(null);
-  LINE_SPACING_VALUES.forEach(lineSpacing => {
-    const label = lineSpacing === '200%' ? 'Double' : ` ${lineSpacing} `;
-    group[label] = new TextLineSpacingCommand(lineSpacing);
-  });
+  const group = {
+    Single: new TextLineSpacingCommand(SINGLE_LINE_SPACING),
+    ' 150% ': new TextLineSpacingCommand('150%'),
+    Double: new TextLineSpacingCommand(DOUBLE_LINE_SPACING),
+  };
   return [group];
 }
 

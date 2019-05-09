@@ -26,21 +26,21 @@ var _extends3 = _interopRequireDefault(_extends2);
 
 exports.setTextLineSpacing = setTextLineSpacing;
 
-var _prosemirrorModel = require('prosemirror-model');
-
-var _prosemirrorState = require('prosemirror-state');
-
-var _prosemirrorTransform = require('prosemirror-transform');
-
-var _prosemirrorView = require('prosemirror-view');
-
-var _NodeNames = require('./NodeNames');
-
-var _ParagraphNodeSpec = require('./ParagraphNodeSpec');
-
 var _UICommand2 = require('./ui/UICommand');
 
 var _UICommand3 = _interopRequireDefault(_UICommand2);
+
+var _prosemirrorState = require('prosemirror-state');
+
+var _NodeNames = require('./NodeNames');
+
+var _prosemirrorView = require('prosemirror-view');
+
+var _prosemirrorModel = require('prosemirror-model');
+
+var _prosemirrorTransform = require('prosemirror-transform');
+
+var _toCSSLineSpacing = require('./ui/toCSSLineSpacing');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -113,12 +113,11 @@ function setTextLineSpacing(tr, schema, lineSpacing) {
 }
 
 function createGroup() {
-  var group = {};
-  group['Single'] = new TextLineSpacingCommand(null);
-  _ParagraphNodeSpec.LINE_SPACING_VALUES.forEach(function (lineSpacing) {
-    var label = lineSpacing === '200%' ? 'Double' : ' ' + lineSpacing + ' ';
-    group[label] = new TextLineSpacingCommand(lineSpacing);
-  });
+  var group = {
+    Single: new TextLineSpacingCommand(_toCSSLineSpacing.SINGLE_LINE_SPACING),
+    ' 150% ': new TextLineSpacingCommand('150%'),
+    Double: new TextLineSpacingCommand(_toCSSLineSpacing.DOUBLE_LINE_SPACING)
+  };
   return [group];
 }
 
