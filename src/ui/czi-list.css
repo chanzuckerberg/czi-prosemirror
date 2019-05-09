@@ -7,7 +7,13 @@
 
 .ProseMirror ol,
 .ProseMirror ul {
+  /*
+   * Use `column-span: all` and `display: flow-root` to force formatting context
+   * https://developer.mozilla.org/en-US/docs/Web/Guide/CSS/Block_formatting_context
+   */
+  column-span: all;
   counter-reset: none;
+  display: flow-root;
   list-style-type: none;
   margin-block-end: 0;
   margin-block-start: 0;
@@ -36,11 +42,10 @@
 }
 
 .ProseMirror li > p {
-  zoom: 1;
-  display: block;
   margin: 0;
   margin-block-end: 0;
   margin-block-start: 0;
+  padding-left: 24pt;
 }
 
 /* https://css-tricks.com/numbering-in-style/ */
