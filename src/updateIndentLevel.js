@@ -1,15 +1,15 @@
 // @flow
 
-import {Fragment, Schema} from 'prosemirror-model';
-import {AllSelection, TextSelection} from 'prosemirror-state';
-import {Transform} from 'prosemirror-transform';
-
-import {BLOCKQUOTE, HEADING, LIST_ITEM, PARAGRAPH} from './NodeNames';
-import {MAX_INDENT_LEVEL, MIN_INDENT_LEVEL} from './ParagraphNodeSpec';
+import clamp from './ui/clamp';
 import compareNumber from './compareNumber';
+import consolidateListNodes from './consolidateListNodes';
 import isListNode from './isListNode';
 import transformAndPreserveTextSelection from './transformAndPreserveTextSelection';
-import clamp from './ui/clamp';
+import {AllSelection, TextSelection} from 'prosemirror-state';
+import {BLOCKQUOTE, HEADING, LIST_ITEM, PARAGRAPH} from './NodeNames';
+import {Fragment, Schema} from 'prosemirror-model';
+import {MAX_INDENT_LEVEL, MIN_INDENT_LEVEL} from './ParagraphNodeSpec';
+import {Transform} from 'prosemirror-transform';
 
 export default function updateIndentLevel(
   tr: Transform,
@@ -56,19 +56,6 @@ export default function updateIndentLevel(
     return tr;
   }
 
-  // tr = transformAndPreserveTextSelection(tr, schema, (memo) => {
-  //   let tr2 = memo.tr;
-  //   listNodePoses.sort(compareNumber).reverse().forEach(pos => {
-  //     tr2 = setListNodeIndent(
-  //       tr2,
-  //       memo.schema,
-  //       pos,
-  //       delta,
-  //     );
-  //   });
-  //   return tr2;
-  // });
-
   tr = transformAndPreserveTextSelection(tr, schema, memo => {
     const {schema} = memo;
     let tr2 = memo.tr;
@@ -78,6 +65,7 @@ export default function updateIndentLevel(
       .forEach(pos => {
         tr2 = setListNodeIndent(tr2, schema, pos, delta);
       });
+    tr2 = consolidateListNodes(tr2);
     return tr2;
   });
 
@@ -158,7 +146,6 @@ function setListNodeIndent(
       Fragment.from(itemsAfter)
     );
     tr = tr.insert(pos, Fragment.from(listNodeNew));
-    tr = mergeSiblingLists(tr, pos);
   }
 
   if (itemsSelected.length) {
@@ -171,7 +158,6 @@ function setListNodeIndent(
       Fragment.from(itemsSelected)
     );
     tr = tr.insert(pos, Fragment.from(listNodeNew));
-    tr = mergeSiblingLists(tr, pos);
   }
 
   if (itemsBefore.length) {
@@ -180,45 +166,6 @@ function setListNodeIndent(
       Fragment.from(itemsBefore)
     );
     tr = tr.insert(pos, Fragment.from(listNodeNew));
-    tr = mergeSiblingLists(tr, pos);
-  }
-  return tr;
-}
-
-function mergeSiblingLists(tr: Transform, listNodePos: number): Transform {
-  let listNode = tr.doc.nodeAt(listNodePos);
-  if (!listNode) {
-    return tr;
-  }
-  const listNodeType = listNode.type;
-  const indent = listNode.attrs.indent;
-  let fromPos = listNodePos;
-  let toPos = listNodePos + listNode.nodeSize;
-  let $fromPos = tr.doc.resolve(fromPos);
-  let $toPos = tr.doc.resolve(toPos);
-  if (
-    $fromPos.nodeBefore &&
-    $fromPos.nodeBefore.type === listNodeType &&
-    $fromPos.nodeBefore.attrs.indent === indent
-  ) {
-    const beforeFromPos = fromPos - $fromPos.nodeBefore.nodeSize;
-    tr = tr.delete(fromPos, toPos);
-    tr = tr.insert(fromPos - 1, listNode.content);
-
-    listNode = tr.doc.nodeAt(beforeFromPos);
-    fromPos = beforeFromPos;
-    toPos = beforeFromPos + listNode.nodeSize;
-    $fromPos = tr.doc.resolve(fromPos);
-    $toPos = tr.doc.resolve(toPos);
-  }
-
-  if (
-    $toPos.nodeAfter &&
-    $toPos.nodeAfter.type === listNodeType &&
-    $toPos.nodeAfter.attrs.indent === indent
-  ) {
-    tr = tr.delete(fromPos, toPos);
-    tr = tr.insert(fromPos + 1, listNode.content);
   }
 
   return tr;
