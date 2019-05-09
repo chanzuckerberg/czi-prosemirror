@@ -63,17 +63,12 @@ function traverseDocAndFindJointInfo(
 
   // Perform the breadth-first traversal.
   doc.nodesBetween(from, to, (node, pos) => {
-    const nodeIsAList = isListNode(node);
-
-    if (nodeIsAList) {
-      firstListNodePos = firstListNodePos === 0 ? pos : firstListNodePos;
-    }
-
     if (jointInfo) {
       // We've found the list to merge. Stop traversing deeper.
       return false;
-    } else if (nodeIsAList) {
-      jointInfo = resolveJointInfo(node, pos, prevNode, from);
+    } else if (isListNode(node)) {
+      firstListNodePos = firstListNodePos === 0 ? pos : firstListNodePos;
+      jointInfo = resolveJointInfo(node, pos, prevNode, firstListNodePos);
       prevNode = node;
       // Stop the traversing recursively inside the this list node because
       // its content only contains inline nodes.
@@ -100,7 +95,7 @@ function resolveJointInfo(
   node: Node,
   pos: number,
   prevNode: ?Node,
-  nextTraverseFrom: number
+  firstListNodePos: number
 ): ?JointInfo {
   if (!prevNode || !canJoinListNodes(node, prevNode)) {
     return null;
@@ -111,7 +106,7 @@ function resolveJointInfo(
     deleteTo: pos + node.nodeSize,
     insertAt: pos - 1,
     content: node.content,
-    nextTraverseFrom,
+    firstListNodePos,
   };
 }
 
