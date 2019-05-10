@@ -10,19 +10,17 @@ var _extends3 = _interopRequireDefault(_extends2);
 
 exports.default = updateIndentLevel;
 
-var _prosemirrorModel = require('prosemirror-model');
+var _clamp = require('./ui/clamp');
 
-var _prosemirrorState = require('prosemirror-state');
-
-var _prosemirrorTransform = require('prosemirror-transform');
-
-var _NodeNames = require('./NodeNames');
-
-var _ParagraphNodeSpec = require('./ParagraphNodeSpec');
+var _clamp2 = _interopRequireDefault(_clamp);
 
 var _compareNumber = require('./compareNumber');
 
 var _compareNumber2 = _interopRequireDefault(_compareNumber);
+
+var _consolidateListNodes = require('./consolidateListNodes');
+
+var _consolidateListNodes2 = _interopRequireDefault(_consolidateListNodes);
 
 var _isListNode = require('./isListNode');
 
@@ -32,9 +30,15 @@ var _transformAndPreserveTextSelection = require('./transformAndPreserveTextSele
 
 var _transformAndPreserveTextSelection2 = _interopRequireDefault(_transformAndPreserveTextSelection);
 
-var _clamp = require('./ui/clamp');
+var _prosemirrorState = require('prosemirror-state');
 
-var _clamp2 = _interopRequireDefault(_clamp);
+var _NodeNames = require('./NodeNames');
+
+var _prosemirrorModel = require('prosemirror-model');
+
+var _ParagraphNodeSpec = require('./ParagraphNodeSpec');
+
+var _prosemirrorTransform = require('prosemirror-transform');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -78,19 +82,6 @@ function updateIndentLevel(tr, schema, delta) {
     return tr;
   }
 
-  // tr = transformAndPreserveTextSelection(tr, schema, (memo) => {
-  //   let tr2 = memo.tr;
-  //   listNodePoses.sort(compareNumber).reverse().forEach(pos => {
-  //     tr2 = setListNodeIndent(
-  //       tr2,
-  //       memo.schema,
-  //       pos,
-  //       delta,
-  //     );
-  //   });
-  //   return tr2;
-  // });
-
   tr = (0, _transformAndPreserveTextSelection2.default)(tr, schema, function (memo) {
     var schema = memo.schema;
 
@@ -98,6 +89,7 @@ function updateIndentLevel(tr, schema, delta) {
     listNodePoses.sort(_compareNumber2.default).reverse().forEach(function (pos) {
       tr2 = setListNodeIndent(tr2, schema, pos, delta);
     });
+    tr2 = (0, _consolidateListNodes2.default)(tr2);
     return tr2;
   });
 
@@ -167,7 +159,6 @@ function setListNodeIndent(tr, schema, pos, delta) {
   if (itemsAfter.length) {
     var listNodeNew = listNodeType.create(listNode.attrs, _prosemirrorModel.Fragment.from(itemsAfter));
     tr = tr.insert(pos, _prosemirrorModel.Fragment.from(listNodeNew));
-    tr = mergeSiblingLists(tr, pos);
   }
 
   if (itemsSelected.length) {
@@ -176,43 +167,11 @@ function setListNodeIndent(tr, schema, pos, delta) {
     });
     var _listNodeNew = listNodeType.create(listNodeAttrs, _prosemirrorModel.Fragment.from(itemsSelected));
     tr = tr.insert(pos, _prosemirrorModel.Fragment.from(_listNodeNew));
-    tr = mergeSiblingLists(tr, pos);
   }
 
   if (itemsBefore.length) {
     var _listNodeNew2 = listNodeType.create(listNode.attrs, _prosemirrorModel.Fragment.from(itemsBefore));
     tr = tr.insert(pos, _prosemirrorModel.Fragment.from(_listNodeNew2));
-    tr = mergeSiblingLists(tr, pos);
-  }
-  return tr;
-}
-
-function mergeSiblingLists(tr, listNodePos) {
-  var listNode = tr.doc.nodeAt(listNodePos);
-  if (!listNode) {
-    return tr;
-  }
-  var listNodeType = listNode.type;
-  var indent = listNode.attrs.indent;
-  var fromPos = listNodePos;
-  var toPos = listNodePos + listNode.nodeSize;
-  var $fromPos = tr.doc.resolve(fromPos);
-  var $toPos = tr.doc.resolve(toPos);
-  if ($fromPos.nodeBefore && $fromPos.nodeBefore.type === listNodeType && $fromPos.nodeBefore.attrs.indent === indent) {
-    var beforeFromPos = fromPos - $fromPos.nodeBefore.nodeSize;
-    tr = tr.delete(fromPos, toPos);
-    tr = tr.insert(fromPos - 1, listNode.content);
-
-    listNode = tr.doc.nodeAt(beforeFromPos);
-    fromPos = beforeFromPos;
-    toPos = beforeFromPos + listNode.nodeSize;
-    $fromPos = tr.doc.resolve(fromPos);
-    $toPos = tr.doc.resolve(toPos);
-  }
-
-  if ($toPos.nodeAfter && $toPos.nodeAfter.type === listNodeType && $toPos.nodeAfter.attrs.indent === indent) {
-    tr = tr.delete(fromPos, toPos);
-    tr = tr.insert(fromPos + 1, listNode.content);
   }
 
   return tr;
