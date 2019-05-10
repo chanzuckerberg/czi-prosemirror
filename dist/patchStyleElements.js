@@ -23,9 +23,14 @@ var _toCSSColor = require('./ui/toCSSColor');
 
 var _toCSSColor2 = _interopRequireDefault(_toCSSColor);
 
+var _toCSSLineSpacing = require('./ui/toCSSLineSpacing');
+
+var _toCSSLineSpacing2 = _interopRequireDefault(_toCSSLineSpacing);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var LIST_ITEM_PSEUDO_ELEMENT_BEFORE = /li:+before/;
+
 var NODE_NAME_SELECTOR = /^[a-zA-Z]+\d*$/;
 var PSEUDO_ELEMENT_ANY = /:+[a-z]+/;
 
@@ -74,19 +79,24 @@ function patchStyleElements(doc) {
       }
       var cssText = '';
       rule.styleMap.forEach(function (cssStyleValue, key) {
+        var cssStyleValueStr = String(cssStyleValue);
         // e.g. rules['color'] = 'red'.
         if (key === 'color') {
-          var color = (0, _toCSSColor2.default)(String(cssStyleValue));
+          var color = (0, _toCSSColor2.default)(cssStyleValueStr);
           if (!color) {
             return;
           }
         } else if (key === 'background-color') {
-          var _color = (0, _toCSSColor2.default)(String(cssStyleValue));
+          var _color = (0, _toCSSColor2.default)(cssStyleValueStr);
           if (!_color) {
             return;
           }
+        } else if (key === 'line-height') {
+          cssStyleValueStr = (0, _toCSSLineSpacing2.default)(cssStyleValueStr);
         }
-        cssText += key + ': ' + cssStyleValue + ';';
+        if (cssStyleValueStr) {
+          cssText += key + ': ' + cssStyleValueStr + ';';
+        }
       });
       if (selectorText.indexOf(',') > -1) {
         selectorText.split(/\s*,\s*/).forEach(function (st) {

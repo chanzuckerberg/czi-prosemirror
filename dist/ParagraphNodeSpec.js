@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getParagraphNodeAttrs = exports.toParagraphDOM = exports.EMPTY_CSS_VALUE = exports.LINE_SPACING_VALUES = exports.ATTRIBUTE_INDENT = exports.MAX_INDENT_LEVEL = exports.MIN_INDENT_LEVEL = exports.INDENT_MARGIN_PT_SIZE = undefined;
+exports.getParagraphNodeAttrs = exports.toParagraphDOM = exports.EMPTY_CSS_VALUE = exports.ATTRIBUTE_INDENT = exports.MAX_INDENT_LEVEL = exports.MIN_INDENT_LEVEL = exports.INDENT_MARGIN_PT_SIZE = undefined;
 
 var _set = require('babel-runtime/core-js/set');
 
@@ -11,15 +11,19 @@ var _set2 = _interopRequireDefault(_set);
 
 exports.convertMarginLeftToIndentValue = convertMarginLeftToIndentValue;
 
-var _prosemirrorModel = require('prosemirror-model');
+var _clamp = require('./ui/clamp');
+
+var _clamp2 = _interopRequireDefault(_clamp);
 
 var _convertToCSSPTValue = require('./convertToCSSPTValue');
 
 var _convertToCSSPTValue2 = _interopRequireDefault(_convertToCSSPTValue);
 
-var _clamp = require('./ui/clamp');
+var _toCSSLineSpacing = require('./ui/toCSSLineSpacing');
 
-var _clamp2 = _interopRequireDefault(_clamp);
+var _toCSSLineSpacing2 = _interopRequireDefault(_toCSSLineSpacing);
+
+var _prosemirrorModel = require('prosemirror-model');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -30,8 +34,6 @@ var INDENT_MARGIN_PT_SIZE = exports.INDENT_MARGIN_PT_SIZE = 36;
 var MIN_INDENT_LEVEL = exports.MIN_INDENT_LEVEL = 0;
 var MAX_INDENT_LEVEL = exports.MAX_INDENT_LEVEL = 7;
 var ATTRIBUTE_INDENT = exports.ATTRIBUTE_INDENT = 'data-indent';
-var LINE_SPACING_VALUES = exports.LINE_SPACING_VALUES = ['100%', '115%', '150%', // Default value.
-'200%'];
 
 var EMPTY_CSS_VALUE = exports.EMPTY_CSS_VALUE = new _set2.default(['', '0%', '0pt', '0px']);
 
@@ -78,7 +80,7 @@ function getAttrs(dom) {
 
   indent = indent || MIN_INDENT_LEVEL;
 
-  var lineSpacing = lineHeight ? lineHeight : null;
+  var lineSpacing = lineHeight ? (0, _toCSSLineSpacing2.default)(lineHeight) : null;
 
   var id = dom.getAttribute('id') || '';
   return { align: align, indent: indent, lineSpacing: lineSpacing, paddingTop: paddingTop, paddingBottom: paddingBottom, id: id };
@@ -101,7 +103,7 @@ function toDOM(node) {
   }
 
   if (lineSpacing) {
-    style += 'line-height: ' + lineSpacing + ';';
+    style += 'line-height: ' + (0, _toCSSLineSpacing2.default)(lineSpacing) + ';';
   }
 
   if (paddingTop && !EMPTY_CSS_VALUE.has(paddingTop)) {
