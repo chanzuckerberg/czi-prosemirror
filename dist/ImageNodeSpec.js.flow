@@ -3,6 +3,7 @@
 import type {NodeSpec} from './Types';
 
 const CSS_ROTATE_PATTERN = /rotate\(([0-9\.]+)rad\)/i;
+const EMPTY_CSS_VALUE = new Set(['0%', '0pt', '0px']);
 
 function getAttrs(dom: HTMLElement) {
   const {cssFloat, display, marginTop, marginLeft} = dom.style;
@@ -33,7 +34,9 @@ function getAttrs(dom: HTMLElement) {
       ps.width &&
       ps.height &&
       marginLeft &&
-      marginTop
+      !EMPTY_CSS_VALUE.has(marginLeft) &&
+      marginTop &&
+      !EMPTY_CSS_VALUE.has(marginTop)
     ) {
       crop = {
         width: parseInt(ps.width, 10) || 0,

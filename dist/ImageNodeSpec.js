@@ -4,9 +4,16 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _set = require('babel-runtime/core-js/set');
+
+var _set2 = _interopRequireDefault(_set);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 var babelPluginFlowReactPropTypes_proptype_NodeSpec = require('./Types').babelPluginFlowReactPropTypes_proptype_NodeSpec || require('prop-types').any;
 
 var CSS_ROTATE_PATTERN = /rotate\(([0-9\.]+)rad\)/i;
+var EMPTY_CSS_VALUE = new _set2.default(['0%', '0pt', '0px']);
 
 function getAttrs(dom) {
   var _dom$style = dom.style,
@@ -39,7 +46,7 @@ function getAttrs(dom) {
   if (parentElement instanceof HTMLElement) {
     // Special case for Google doc's image.
     var ps = parentElement.style;
-    if (ps.display === 'inline-block' && ps.overflow === 'hidden' && ps.width && ps.height && marginLeft && marginTop) {
+    if (ps.display === 'inline-block' && ps.overflow === 'hidden' && ps.width && ps.height && marginLeft && !EMPTY_CSS_VALUE.has(marginLeft) && marginTop && !EMPTY_CSS_VALUE.has(marginTop)) {
       crop = {
         width: parseInt(ps.width, 10) || 0,
         height: parseInt(ps.height, 10) || 0,
