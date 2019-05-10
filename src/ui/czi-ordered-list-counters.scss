@@ -1,0 +1,7 @@
+// prettier-ignore
+
+@for $i from 1 to 500 {
+  .ProseMirror ol[start="#{$i}"] {
+    counter-reset: czi-counter #{$i};
+  }
+}
