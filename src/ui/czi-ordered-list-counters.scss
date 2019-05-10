@@ -1,7 +1,12 @@
 // prettier-ignore
 
+// This generate many rules for resetiing the counter list with specific
+// start number. Ideally we could just use one line of CSS like
+// `.ProseMirror ol[start] { counter-reset: czi-counter attr(start); }
+// but unfortunately no browser ever support it so we could only use SASS to
+// do it.
 @for $i from 1 to 500 {
-  .ProseMirror ol[start="#{$i}"] {
+  .ProseMirror ol[start='#{$i}'] {
     counter-reset: czi-counter #{$i};
   }
 }
