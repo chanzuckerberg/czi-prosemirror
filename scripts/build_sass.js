@@ -28,7 +28,7 @@ function buildCSS(inputPath) {
           '/**',
           ' * ================================================================',
           ' * DO NOT UPDATE THIS FILE MANUALLY.',
-          ' * This file is programmatically generated from',
+          ' * This file was programmatically generated from',
           ' *   ' + inputPath,
           ' * to update this file, run `npm run build:sass`',
           ' * @generated ' + md5(css),
