@@ -1,8 +1,8 @@
 // @flow
 
 import stable from 'stable';
-
 import toCSSColor from './ui/toCSSColor';
+import toCSSLineSpacing from './ui/toCSSLineSpacing';
 
 const LIST_ITEM_PSEUDO_ELEMENT_BEFORE = /li:+before/;
 const NODE_NAME_SELECTOR = /^[a-zA-Z]+\d*$/;
@@ -60,19 +60,24 @@ export default function patchStyleElements(doc: Document): void {
       }
       let cssText = '';
       rule.styleMap.forEach((cssStyleValue, key) => {
+        let cssStyleValueStr = String(cssStyleValue);
         // e.g. rules['color'] = 'red'.
         if (key === 'color') {
-          const color = toCSSColor(String(cssStyleValue));
+          const color = toCSSColor(cssStyleValueStr);
           if (!color) {
             return;
           }
         } else if (key === 'background-color') {
-          const color = toCSSColor(String(cssStyleValue));
+          const color = toCSSColor(cssStyleValueStr);
           if (!color) {
             return;
           }
+        } else if (key === 'line-height') {
+          cssStyleValueStr = toCSSLineSpacing(cssStyleValueStr);
         }
-        cssText += `${key}: ${cssStyleValue};`;
+        if (cssStyleValueStr) {
+          cssText += `${key}: ${cssStyleValueStr};`;
+        }
       });
       if (selectorText.indexOf(',') > -1) {
         selectorText.split(/\s*,\s*/).forEach(st => {
