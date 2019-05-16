@@ -125,6 +125,7 @@ var LinkTooltip = function (_React$PureComponent) {
 
       var useBookMark = isBookmarHref(href);
       var editButton = useBookMark ? null : _react2.default.createElement(_CustomButton2.default, { label: 'Change', onClick: onEdit, value: editorView });
+
       return _react2.default.createElement(
         'div',
         { className: 'czi-link-tooltip' },
@@ -135,7 +136,8 @@ var LinkTooltip = function (_React$PureComponent) {
             'div',
             { className: 'czi-link-tooltip-row' },
             _react2.default.createElement(_CustomButton2.default, {
-              label: useBookMark ? 'Jump To Bookmark' : 'Open Link',
+              className: useBookMark ? null : 'czi-link-tooltip-href',
+              label: useBookMark ? 'Jump To Bookmark' : href,
               onClick: this._openLink,
               target: 'new',
               title: useBookMark ? null : href,

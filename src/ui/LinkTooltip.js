@@ -34,12 +34,14 @@ class LinkTooltip extends React.PureComponent<any, any, any> {
     const editButton = useBookMark ? null : (
       <CustomButton label="Change" onClick={onEdit} value={editorView} />
     );
+
     return (
       <div className="czi-link-tooltip">
         <div className="czi-link-tooltip-body">
           <div className="czi-link-tooltip-row">
             <CustomButton
-              label={useBookMark ? 'Jump To Bookmark' : 'Open Link'}
+              className={useBookMark ? null : 'czi-link-tooltip-href'}
+              label={useBookMark ? 'Jump To Bookmark' : href}
               onClick={this._openLink}
               target="new"
               title={useBookMark ? null : href}
