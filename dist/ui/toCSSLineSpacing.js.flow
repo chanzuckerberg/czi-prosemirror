@@ -1,17 +1,19 @@
 // @flow
 
-export const SINGLE_LINE_SPACING = '125%';
-export const DOUBLE_LINE_SPACING = '200%';
+// Line spacing names and their values.
+export const LINE_SPACING_100 = '125%';
+export const LINE_SPACING_115 = '138%';
+export const LINE_SPACING_150 = '165%';
+export const LINE_SPACING_200 = '232%';
 
-// In Google Doc, "single line height" is exported as style
-// "line-height: 1.15" which is too narrow to read.
-// This defines the deprecate line spacing values that should me migrated.
-const DEPRECATED_SINGLE_LINE_SPACING_VALUES = new Set(['115%', '100%']);
+export const SINGLE_LINE_SPACING = LINE_SPACING_100;
+export const DOUBLE_LINE_SPACING = LINE_SPACING_200;
 
 const NUMBER_VALUE_PATTERN = /^\d+(.\d+)?$/;
 
 // Normalize the css line-height vlaue to percentage-based value if applicable.
-// e.g. This converts "1.5" to "150%".
+// Also, it calibrates the incorrect line spacing value exported from Google
+// Doc.
 export default function toCSSLineSpacing(source: any): string {
   if (!source) {
     return '';
@@ -25,8 +27,26 @@ export default function toCSSLineSpacing(source: any): string {
     strValue = String(Math.round(numValue * 100)) + '%';
   }
 
-  if (DEPRECATED_SINGLE_LINE_SPACING_VALUES.has(strValue)) {
-    return SINGLE_LINE_SPACING;
+  // Google Doc exports line spacing with wrong values. For instance:
+  // - Single => 100%
+  // - 1.15 => 115%
+  // - Double => 200%
+  // But the actual CSS value measured in Google Doc is like this:
+  // - Single => 125%
+  // - 1.15 => 138%
+  // - Double => 232%
+  // The following `if` block will calibrate the value if applicable.
+
+  if (strValue === '115%') {
+    return LINE_SPACING_115;
+  }
+
+  if (strValue === '150%') {
+    return LINE_SPACING_150;
+  }
+
+  if (strValue === '200%') {
+    return LINE_SPACING_200;
   }
 
   // e.g. line-height: 15px;
