@@ -23,8 +23,7 @@ const OrderedListNodeSpec: NodeSpec = {
     {
       tag: 'ol',
       getAttrs(dom: HTMLElement) {
-        const listStyleType =
-          dom.getAttribute(ATTRIBUTE_LIST_STYLE_TYPE) || null;
+        const listStyleType = dom.getAttribute(ATTRIBUTE_LIST_STYLE_TYPE);
 
         const start = dom.hasAttribute('start')
           ? parseInt(dom.getAttribute('start'), 10)
@@ -56,12 +55,10 @@ const OrderedListNodeSpec: NodeSpec = {
       attrs.start = start;
     }
 
-    let cssListStyleType = listStyleType;
+    let htmlListStyleType = listStyleType;
 
-    if (!cssListStyleType) {
-      // If list style isn't explicitly specified, compute the list style type
-      // based on the indent level.
-      cssListStyleType =
+    if (!htmlListStyleType || htmlListStyleType === 'decimal') {
+      htmlListStyleType =
         AUTO_LIST_STYLE_TYPES[indent % AUTO_LIST_STYLE_TYPES.length];
     }
 
@@ -70,9 +67,9 @@ const OrderedListNodeSpec: NodeSpec = {
     attrs.style =
       `--czi-counter-name: ${cssCounterName};` +
       `--czi-counter-reset: ${start - 1};` +
-      `--czi-list-style-type: ${cssListStyleType}`;
+      `--czi-list-style-type: ${htmlListStyleType}`;
 
-    attrs.type = cssListStyleType;
+    attrs.type = htmlListStyleType;
 
     return ['ol', attrs, 0];
   },

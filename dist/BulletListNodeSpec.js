@@ -45,19 +45,17 @@ var BulletListNodeSpec = {
 
     var attrs = {};
 
+    if (indent) {
+      attrs[_ParagraphNodeSpec.ATTRIBUTE_INDENT] = indent;
+    }
+
     if (listStyleType) {
       attrs[_ListItemNodeSpec.ATTRIBUTE_LIST_STYLE_TYPE] = listStyleType;
     }
 
-    if (indent !== _ParagraphNodeSpec.MIN_INDENT_LEVEL) {
-      attrs[_ParagraphNodeSpec.ATTRIBUTE_INDENT] = indent;
-    }
-
     var htmlListStyleType = listStyleType;
 
-    if (!htmlListStyleType) {
-      // If list style isn't explicitly specified, compute the list style type
-      // based on the indent level.
+    if (!htmlListStyleType || htmlListStyleType === 'disc') {
       htmlListStyleType = AUTO_LIST_STYLE_TYPES[indent % AUTO_LIST_STYLE_TYPES.length];
     }
 

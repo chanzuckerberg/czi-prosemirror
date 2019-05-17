@@ -66,6 +66,7 @@ function replaceNOBR(matched) {
 
 function normalizeHTML(html) {
   var body = null;
+
   var sourceIsPage = HTML_BODY_PATTERN.test(html);
   html = html.replace(LONG_UNDERLINE_PATTERN, replaceNOBR);
 

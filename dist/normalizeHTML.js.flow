@@ -38,6 +38,7 @@ function replaceNOBR(matched: string): string {
 
 export default function normalizeHTML(html: string): string {
   let body: ?HTMLElement = null;
+
   const sourceIsPage = HTML_BODY_PATTERN.test(html);
   html = html.replace(LONG_UNDERLINE_PATTERN, replaceNOBR);
 

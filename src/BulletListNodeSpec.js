@@ -39,21 +39,19 @@ const BulletListNodeSpec: NodeSpec = {
 
   toDOM(node: Node) {
     const {indent, listStyleType} = node.attrs;
-    const attrs: Object = {};
+    const attrs = {};
+
+    if (indent) {
+      attrs[ATTRIBUTE_INDENT] = indent;
+    }
 
     if (listStyleType) {
       attrs[ATTRIBUTE_LIST_STYLE_TYPE] = listStyleType;
     }
 
-    if (indent !== MIN_INDENT_LEVEL) {
-      attrs[ATTRIBUTE_INDENT] = indent;
-    }
-
     let htmlListStyleType = listStyleType;
 
-    if (!htmlListStyleType) {
-      // If list style isn't explicitly specified, compute the list style type
-      // based on the indent level.
+    if (!htmlListStyleType || htmlListStyleType === 'disc') {
       htmlListStyleType =
         AUTO_LIST_STYLE_TYPES[indent % AUTO_LIST_STYLE_TYPES.length];
     }

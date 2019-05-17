@@ -34,7 +34,7 @@ var OrderedListNodeSpec = {
   parseDOM: [{
     tag: 'ol',
     getAttrs: function getAttrs(dom) {
-      var listStyleType = dom.getAttribute(_ListItemNodeSpec.ATTRIBUTE_LIST_STYLE_TYPE) || null;
+      var listStyleType = dom.getAttribute(_ListItemNodeSpec.ATTRIBUTE_LIST_STYLE_TYPE);
 
       var start = dom.hasAttribute('start') ? parseInt(dom.getAttribute('start'), 10) : 1;
 
@@ -63,19 +63,17 @@ var OrderedListNodeSpec = {
       attrs.start = start;
     }
 
-    var cssListStyleType = listStyleType;
+    var htmlListStyleType = listStyleType;
 
-    if (!cssListStyleType) {
-      // If list style isn't explicitly specified, compute the list style type
-      // based on the indent level.
-      cssListStyleType = AUTO_LIST_STYLE_TYPES[indent % AUTO_LIST_STYLE_TYPES.length];
+    if (!htmlListStyleType || htmlListStyleType === 'decimal') {
+      htmlListStyleType = AUTO_LIST_STYLE_TYPES[indent % AUTO_LIST_STYLE_TYPES.length];
     }
 
     var cssCounterName = 'czi-counter-' + indent;
 
-    attrs.style = '--czi-counter-name: ' + cssCounterName + ';' + ('--czi-counter-reset: ' + (start - 1) + ';') + ('--czi-list-style-type: ' + cssListStyleType);
+    attrs.style = '--czi-counter-name: ' + cssCounterName + ';' + ('--czi-counter-reset: ' + (start - 1) + ';') + ('--czi-list-style-type: ' + htmlListStyleType);
 
-    attrs.type = cssListStyleType;
+    attrs.type = htmlListStyleType;
 
     return ['ol', attrs, 0];
   }
