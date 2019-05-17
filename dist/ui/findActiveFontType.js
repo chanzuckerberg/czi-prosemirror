@@ -48,11 +48,5 @@ function findActiveFontType(state) {
     return FONT_TYPE_NAME_DEFAULT;
   }
 
-  var domDoc = typeof document === 'undefined' ? null : document;
-
-  if (domDoc && domDoc.fonts && domDoc.fonts.check) {
-    return domDoc.fonts.check('12px "' + fontName + '"') ? fontName : FONT_TYPE_NAME_DEFAULT;
-  }
-
   return fontName;
 }
