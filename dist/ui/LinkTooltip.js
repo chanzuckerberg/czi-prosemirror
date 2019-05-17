@@ -54,7 +54,7 @@ require('./czi-link-tooltip.css');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function isBookmarHref(href) {
+function isBookMarkHref(href) {
   return !!href && href.indexOf('#') === 0 && href.length >= 2;
 }
 
@@ -76,7 +76,7 @@ var LinkTooltip = function (_React$PureComponent) {
     return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = LinkTooltip.__proto__ || (0, _getPrototypeOf2.default)(LinkTooltip)).call.apply(_ref, [this].concat(args))), _this), _this._unmounted = false, _this.state = {
       hidden: false
     }, _this._openLink = function (href) {
-      if (isBookmarHref(href)) {
+      if (isBookMarkHref(href)) {
         var id = href.substr(1);
         var el = document.getElementById(id);
         if (el) {
@@ -123,8 +123,8 @@ var LinkTooltip = function (_React$PureComponent) {
           onEdit = _props.onEdit,
           onRemove = _props.onRemove;
 
-      var useBookMark = isBookmarHref(href);
-      var editButton = useBookMark ? null : _react2.default.createElement(_CustomButton2.default, { label: 'Change', onClick: onEdit, value: editorView });
+      var useBookMark = isBookMarkHref(href);
+      var editButton = !!useBookMark && _react2.default.createElement(_CustomButton2.default, { label: 'Change', onClick: onEdit, value: editorView });
 
       return _react2.default.createElement(
         'div',

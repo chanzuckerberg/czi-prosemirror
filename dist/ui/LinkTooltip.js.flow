@@ -9,7 +9,7 @@ import CustomButton from './CustomButton';
 
 import './czi-link-tooltip.css';
 
-function isBookmarHref(href: string): boolean {
+function isBookMarkHref(href: string): boolean {
   return !!href && href.indexOf('#') === 0 && href.length >= 2;
 }
 
@@ -30,8 +30,8 @@ class LinkTooltip extends React.PureComponent<any, any, any> {
 
   render(): ?React.Element<any> {
     const {href, editorView, onEdit, onRemove} = this.props;
-    const useBookMark = isBookmarHref(href);
-    const editButton = useBookMark ? null : (
+    const useBookMark = isBookMarkHref(href);
+    const editButton = !!useBookMark && (
       <CustomButton label="Change" onClick={onEdit} value={editorView} />
     );
 
@@ -60,7 +60,7 @@ class LinkTooltip extends React.PureComponent<any, any, any> {
   }
 
   _openLink = (href: string): void => {
-    if (isBookmarHref(href)) {
+    if (isBookMarkHref(href)) {
       const id = href.substr(1);
       const el = document.getElementById(id);
       if (el) {
