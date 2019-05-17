@@ -45,7 +45,44 @@ const STYLE_FLOAT_LEFT = {
 // };
 
 class DemoAppHTMLTemplate extends React.PureComponent<any, any, any> {
-  render(): React.Element<any> {
+  render() {
+    const ols = new Array(7).fill(0).map((_, ii) => {
+      return (
+        <ol data-indent={ii} key={`ol_${ii}`} start={100 + ii}>
+          <li>
+            quick fox jumps over the lazy dog quick fox jumps over the lazy dog
+            quick fox jumps over the lazy dog quick fox jumps over the lazy dog
+            quick fox jumps over the lazy dog
+          </li>
+          <li>
+            quick fox jumps over the lazy dog quick fox jumps over the lazy dog
+          </li>
+        </ol>
+      );
+    });
+    const uls = new Array(7).fill(0).map((_, ii) => {
+      return (
+        <ul data-indent={ii} key={`ol_${ii}`}>
+          <li>
+            assasad ssasadx ssasadx ssasadx ssasadx ssasadx ssasadx ssasadx
+            ssasadx ssasadx ssasadx ssasadx ssasadx ssasadx ssasadx ssasadx
+            ssasadx ssasadx ssasadx ssasadx ssasadx ssasadx ssasadx ssasadx
+            ssasadx ssasadx ssasadx ssasadx ssasadx
+          </li>
+          <li>assasad</li>
+          <li>assasad</li>
+          <li>assasad</li>
+        </ul>
+      );
+    });
+    return (
+      <div>
+        {ols}
+        {uls}
+      </div>
+    );
+  }
+  renderx(): React.Element<any> {
     return (
       <div style={{display: 'none'}}>
         <h1>At vero eos et accusamus et iusto odio dignissimos duc</h1>

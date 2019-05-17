@@ -1,0 +1,21 @@
+/* For MS-Edge 16+, Chrome, Safari, Firefox */
+.ProseMirror ul {
+  counter-reset: czi-bullet-counter 0;
+}
+
+.ProseMirror ul li::before {
+  /* Default bullet style */
+  content: counter(czi-bullet-counter, disc) ' ';
+  font-size: 2em;
+  line-height: 55%;
+}
+
+.ProseMirror ul[type='square'] li::before {
+  content: counter(czi-bullet-counter, square) ' ';
+  font-size: 1.2em;
+  line-height: 0.9em;
+}
+
+.ProseMirror ul[type='circle'] li::before {
+  content: counter(czi-bullet-counter, circle) ' ';
+}

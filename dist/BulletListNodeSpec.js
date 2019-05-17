@@ -14,6 +14,8 @@ var _ParagraphNodeSpec = require('./ParagraphNodeSpec');
 
 var babelPluginFlowReactPropTypes_proptype_NodeSpec = require('./Types').babelPluginFlowReactPropTypes_proptype_NodeSpec || require('prop-types').any;
 
+var AUTO_LIST_STYLE_TYPES = ['disc', 'square', 'circle'];
+
 var BulletListNodeSpec = {
   attrs: {
     id: { default: null },
@@ -35,18 +37,31 @@ var BulletListNodeSpec = {
       };
     }
   }],
+
   toDOM: function toDOM(node) {
     var _node$attrs = node.attrs,
         indent = _node$attrs.indent,
         listStyleType = _node$attrs.listStyleType;
 
     var attrs = {};
-    if (indent) {
-      attrs[_ParagraphNodeSpec.ATTRIBUTE_INDENT] = indent;
-    }
+
     if (listStyleType) {
       attrs[_ListItemNodeSpec.ATTRIBUTE_LIST_STYLE_TYPE] = listStyleType;
     }
+
+    if (indent !== _ParagraphNodeSpec.MIN_INDENT_LEVEL) {
+      attrs[_ParagraphNodeSpec.ATTRIBUTE_INDENT] = indent;
+    }
+
+    var htmlListStyleType = listStyleType;
+
+    if (!htmlListStyleType) {
+      // If list style isn't explicitly specified, compute the list style type
+      // based on the indent level.
+      htmlListStyleType = AUTO_LIST_STYLE_TYPES[indent % AUTO_LIST_STYLE_TYPES.length];
+    }
+
+    attrs.type = htmlListStyleType;
     return ['ul', attrs, 0];
   }
 };
