@@ -34,6 +34,8 @@
 .czi-link-tooltip-row {
   direction: row;
   display: flex;
+  position: relative;
+  z-index: 2;
 }
 
 .czi-link-tooltip-body {
