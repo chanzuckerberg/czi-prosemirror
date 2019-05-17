@@ -4,18 +4,18 @@
 }
 
 .ProseMirror ul li::before {
-  /* Default bullet style */
-  content: counter(czi-bullet-counter, disc) ' ';
-  font-size: 2em;
+  /* Default bullet style to "disc" */
+  content: '\2022\2009';
+  font-size: 1.85em;
   line-height: 55%;
 }
 
 .ProseMirror ul[type='square'] li::before {
-  content: counter(czi-bullet-counter, square) ' ';
-  font-size: 1.2em;
-  line-height: 0.9em;
+  content: '\25aa\2009';
 }
 
 .ProseMirror ul[type='circle'] li::before {
-  content: counter(czi-bullet-counter, circle) ' ';
+  content: '\25cb\2009';
+  font-size: 1.15em;
+  line-height: 120%;
 }
