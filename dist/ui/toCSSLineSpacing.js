@@ -43,6 +43,10 @@ function toCSSLineSpacing(source) {
   // - Double => 232%
   // The following `if` block will calibrate the value if applicable.
 
+  if (strValue === '100%') {
+    return LINE_SPACING_100;
+  }
+
   if (strValue === '115%') {
     return LINE_SPACING_115;
   }
