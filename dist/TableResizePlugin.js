@@ -16,13 +16,13 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _extends2 = require('babel-runtime/helpers/extends');
-
-var _extends3 = _interopRequireDefault(_extends2);
-
 var _from = require('babel-runtime/core-js/array/from');
 
 var _from2 = _interopRequireDefault(_from);
+
+var _extends2 = require('babel-runtime/helpers/extends');
+
+var _extends3 = _interopRequireDefault(_extends2);
 
 var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
 
@@ -185,8 +185,10 @@ function handleMouseDown(view, event) {
   if (resizeState.cellPos === -1 || resizeState.draggingInfo) {
     return false;
   }
+
+  var draginfo = calculateDraggingInfo(view, event, resizeState);
   view.dispatch(view.state.tr.setMeta(PLUGIN_KEY, {
-    setDraggingInfo: calculateDraggingInfo(view, event, resizeState)
+    setDraggingInfo: draginfo
   }));
 
   // Move events should be batched to avoid over-handling the mouse
@@ -288,7 +290,7 @@ function handleDragEnd(view, event) {
   var columnElements = draggingInfo.columnElements,
       tableElement = draggingInfo.tableElement;
 
-  var widths = (0, _from2.default)(columnElements).map(function (colEl) {
+  var widths = columnElements.map(function (colEl) {
     return parseFloat(colEl.style.width);
   });
 
@@ -349,7 +351,8 @@ function calculateDraggingInfo(view, event, resizeState) {
   var dom = view.domAtPos(cellPos);
   var tableEl = dom.node.closest('table');
   var tableWrapper = tableEl.closest('.tableWrapper');
-  var colEls = tableEl.querySelectorAll('colgroup > col');
+  var colGroupEl = tableEl.querySelector('colgroup');
+  var colEls = colGroupEl ? (0, _from2.default)(colGroupEl.querySelectorAll('col')) : [];
   var tableWrapperRect = tableWrapper.getBoundingClientRect();
   var tableRect = tableEl.getBoundingClientRect();
   var defaultColumnWidth = tableWrapperRect.width / colEls.length;

@@ -169,9 +169,11 @@ function handleMouseDown(view: EditorView, event: MouseEvent): boolean {
   if (resizeState.cellPos === -1 || resizeState.draggingInfo) {
     return false;
   }
+
+  const draginfo = calculateDraggingInfo(view, event, resizeState);
   view.dispatch(
     view.state.tr.setMeta(PLUGIN_KEY, {
-      setDraggingInfo: calculateDraggingInfo(view, event, resizeState),
+      setDraggingInfo: draginfo,
     })
   );
 
@@ -275,7 +277,7 @@ function handleDragEnd(view: EditorView, event: PointerEvent): void {
     return;
   }
   const {columnElements, tableElement} = draggingInfo;
-  const widths = Array.from(columnElements).map(colEl => {
+  const widths = columnElements.map(colEl => {
     return parseFloat(colEl.style.width);
   });
 
@@ -345,7 +347,10 @@ function calculateDraggingInfo(
   const dom = view.domAtPos(cellPos);
   const tableEl = dom.node.closest('table');
   const tableWrapper = tableEl.closest('.tableWrapper');
-  const colEls = tableEl.querySelectorAll('colgroup > col');
+  const colGroupEl = tableEl.querySelector('colgroup');
+  const colEls = colGroupEl
+    ? Array.from(colGroupEl.querySelectorAll('col'))
+    : [];
   const tableWrapperRect = tableWrapper.getBoundingClientRect();
   const tableRect = tableEl.getBoundingClientRect();
   const defaultColumnWidth = tableWrapperRect.width / colEls.length;
