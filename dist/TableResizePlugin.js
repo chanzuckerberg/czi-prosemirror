@@ -186,9 +186,8 @@ function handleMouseDown(view, event) {
     return false;
   }
 
-  var draginfo = calculateDraggingInfo(view, event, resizeState);
   view.dispatch(view.state.tr.setMeta(PLUGIN_KEY, {
-    setDraggingInfo: draginfo
+    setDraggingInfo: calculateDraggingInfo(view, event, resizeState)
   }));
 
   // Move events should be batched to avoid over-handling the mouse

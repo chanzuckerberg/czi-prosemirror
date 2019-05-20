@@ -170,10 +170,9 @@ function handleMouseDown(view: EditorView, event: MouseEvent): boolean {
     return false;
   }
 
-  const draginfo = calculateDraggingInfo(view, event, resizeState);
   view.dispatch(
     view.state.tr.setMeta(PLUGIN_KEY, {
-      setDraggingInfo: draginfo,
+      setDraggingInfo: calculateDraggingInfo(view, event, resizeState),
     })
   );
 
