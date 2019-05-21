@@ -7,7 +7,12 @@ import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
 import {Schema} from 'prosemirror-model';
 import {Transform} from 'prosemirror-transform';
-import {DOUBLE_LINE_SPACING, SINGLE_LINE_SPACING} from './ui/toCSSLineSpacing';
+import {
+  DOUBLE_LINE_SPACING,
+  SINGLE_LINE_SPACING,
+  LINE_SPACING_115,
+  LINE_SPACING_150,
+} from './ui/toCSSLineSpacing';
 
 export function setTextLineSpacing(
   tr: Transform,
@@ -86,7 +91,8 @@ export function setTextLineSpacing(
 function createGroup(): Array<{[string]: TextLineSpacingCommand}> {
   const group = {
     Single: new TextLineSpacingCommand(SINGLE_LINE_SPACING),
-    ' 150% ': new TextLineSpacingCommand('150%'),
+    '1.15': new TextLineSpacingCommand(LINE_SPACING_115),
+    '1.5': new TextLineSpacingCommand(LINE_SPACING_150),
     Double: new TextLineSpacingCommand(DOUBLE_LINE_SPACING),
   };
   return [group];
