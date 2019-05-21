@@ -115,7 +115,8 @@ function setTextLineSpacing(tr, schema, lineSpacing) {
 function createGroup() {
   var group = {
     Single: new TextLineSpacingCommand(_toCSSLineSpacing.SINGLE_LINE_SPACING),
-    ' 150% ': new TextLineSpacingCommand('150%'),
+    '1.15': new TextLineSpacingCommand(_toCSSLineSpacing.LINE_SPACING_115),
+    '1.5': new TextLineSpacingCommand(_toCSSLineSpacing.LINE_SPACING_150),
     Double: new TextLineSpacingCommand(_toCSSLineSpacing.DOUBLE_LINE_SPACING)
   };
   return [group];
