@@ -87,6 +87,10 @@ export const KEY_INSERT_NEW_LINE_IN_LIST_ITEM = makeKeyMapWithCommon(
   'Insert new line in list item',
   'Shift-Enter'
 );
+export const KEY_INSERT_PAGE_BREAK = makeKeyMapWithCommon(
+  'Insert page break',
+  'Mod-Enter'
+);
 export const KEY_REDO = makeKeyMapWithCommon('Redo', 'Mod-Shift-z');
 export const KEY_SET_NORMAL_TEXT = makeKeyMap(
   'Normal text',

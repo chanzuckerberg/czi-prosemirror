@@ -15,6 +15,7 @@ import ListItemNodeSpec from './ListItemNodeSpec';
 import MathNodeSpec from './MathNodeSpec';
 import * as NodeNames from './NodeNames';
 import OrderedListNodeSpec from './OrderedListNodeSpec';
+import PageBreakNodeSpec from './PageBreakNodeSpec';
 import ParagraphNodeSpec from './ParagraphNodeSpec';
 import TableNodesSpecs from './TableNodesSpecs';
 import TextNodeSpec from './TextNodeSpec';
@@ -32,6 +33,7 @@ const {
   LIST_ITEM,
   MATH,
   ORDERED_LIST,
+  PAGE_BREAK,
   PARAGRAPH,
   TEXT,
 } = NodeNames;
@@ -45,6 +47,7 @@ const nodes = {
   [PARAGRAPH]: ParagraphNodeSpec,
   [BLOCKQUOTE]: BlockquoteNodeSpec,
   [HORIZONTAL_RULE]: HorizontalRuleNodeSpec,
+  [PAGE_BREAK]: PageBreakNodeSpec,
   [HEADING]: HeadingNodeSpec,
   [CODE_BLOCK]: CodeBlockNodeSpec,
   [TEXT]: TextNodeSpec,

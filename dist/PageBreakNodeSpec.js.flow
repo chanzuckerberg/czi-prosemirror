@@ -1,0 +1,34 @@
+// @flow
+
+import {Node} from 'prosemirror-model';
+
+const DOM_ATTRIBUTE_PAGE_BREAK = 'data-page-break';
+
+function getAttrs(dom: HTMLElement) {
+  const attrs = {};
+  console.log('PARSEDOM to PageBreak', attrs, dom);
+  if (dom.getAttribute(DOM_ATTRIBUTE_PAGE_BREAK)) {
+    // Google Doc exports page break as HTML:
+    // `<hr style="page-break-before:always;display:none; />`.
+    attrs.pageBreak = true;
+  }
+  return attrs;
+}
+
+const PageBreakNodeSpec = {
+  attrs: {
+    pageBreak: {default: null},
+  },
+  group: 'block',
+  parseDOM: [{tag: 'hr', getAttrs}],
+  toDOM(node: Node): Array<any> {
+    return [
+      'div',
+      {
+        DOM_ATTRIBUTE_PAGE_BREAK: true,
+      },
+    ];
+  },
+};
+
+export default PageBreakNodeSpec;

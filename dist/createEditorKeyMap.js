@@ -36,6 +36,7 @@ var KEY_BACK_DELETE = EditorKeyMap.KEY_BACK_DELETE,
     KEY_FORWARD_DELETE = EditorKeyMap.KEY_FORWARD_DELETE,
     KEY_INSERT_NEW_LINE_IN_BLOCKQUOTE = EditorKeyMap.KEY_INSERT_NEW_LINE_IN_BLOCKQUOTE,
     KEY_INSERT_NEW_LINE_IN_LIST_ITEM = EditorKeyMap.KEY_INSERT_NEW_LINE_IN_LIST_ITEM,
+    KEY_INSERT_PAGE_BREAK = EditorKeyMap.KEY_INSERT_PAGE_BREAK,
     KEY_REDO = EditorKeyMap.KEY_REDO,
     KEY_SPLIT_LIST_ITEM = EditorKeyMap.KEY_SPLIT_LIST_ITEM,
     KEY_TAB_SHIFT = EditorKeyMap.KEY_TAB_SHIFT,
@@ -53,6 +54,7 @@ var BLOCKQUOTE_INSERT_NEW_LINE = EditorCommands.BLOCKQUOTE_INSERT_NEW_LINE,
     LIST_ITEM_MERGE_DOWN = EditorCommands.LIST_ITEM_MERGE_DOWN,
     LIST_ITEM_MERGE_UP = EditorCommands.LIST_ITEM_MERGE_UP,
     LIST_SPLIT = EditorCommands.LIST_SPLIT,
+    PAGE_BREAK = EditorCommands.PAGE_BREAK,
     TABLE_MOVE_TO_NEXT_CELL = EditorCommands.TABLE_MOVE_TO_NEXT_CELL,
     TABLE_MOVE_TO_PREV_CELL = EditorCommands.TABLE_MOVE_TO_PREV_CELL,
     TEXT_INSERT_TAB_SPACE = EditorCommands.TEXT_INSERT_TAB_SPACE,
@@ -78,7 +80,7 @@ function bindCommands() {
 function createEditorKeyMap() {
   var _result;
 
-  var result = (_result = {}, (0, _defineProperty3.default)(_result, KEY_BACK_DELETE.common, LIST_ITEM_MERGE_UP.execute), (0, _defineProperty3.default)(_result, KEY_FORWARD_DELETE.common, LIST_ITEM_MERGE_DOWN.execute), (0, _defineProperty3.default)(_result, KEY_REDO.common, HISTORY_REDO.execute), (0, _defineProperty3.default)(_result, KEY_SPLIT_LIST_ITEM.common, LIST_SPLIT.execute), (0, _defineProperty3.default)(_result, KEY_TAB.common, bindCommands(TABLE_MOVE_TO_NEXT_CELL, TEXT_INSERT_TAB_SPACE, INDENT_MORE)), (0, _defineProperty3.default)(_result, KEY_TAB_SHIFT.common, bindCommands(TABLE_MOVE_TO_PREV_CELL, TEXT_INSERT_TAB_SPACE, INDENT_LESS)), (0, _defineProperty3.default)(_result, KEY_TOGGLE_BOLD.common, STRONG.execute), (0, _defineProperty3.default)(_result, KEY_TOGGLE_ITALIC.common, EM.execute), (0, _defineProperty3.default)(_result, KEY_UNDO.common, HISTORY_UNDO.execute), (0, _defineProperty3.default)(_result, KEY_INSERT_NEW_LINE_IN_BLOCKQUOTE.common, BLOCKQUOTE_INSERT_NEW_LINE.execute), (0, _defineProperty3.default)(_result, KEY_INSERT_NEW_LINE_IN_LIST_ITEM.common, LIST_ITEM_INSERT_NEW_LINE.execute), _result);
+  var result = (_result = {}, (0, _defineProperty3.default)(_result, KEY_BACK_DELETE.common, LIST_ITEM_MERGE_UP.execute), (0, _defineProperty3.default)(_result, KEY_FORWARD_DELETE.common, LIST_ITEM_MERGE_DOWN.execute), (0, _defineProperty3.default)(_result, KEY_REDO.common, HISTORY_REDO.execute), (0, _defineProperty3.default)(_result, KEY_SPLIT_LIST_ITEM.common, LIST_SPLIT.execute), (0, _defineProperty3.default)(_result, KEY_TAB.common, bindCommands(TABLE_MOVE_TO_NEXT_CELL, TEXT_INSERT_TAB_SPACE, INDENT_MORE)), (0, _defineProperty3.default)(_result, KEY_TAB_SHIFT.common, bindCommands(TABLE_MOVE_TO_PREV_CELL, TEXT_INSERT_TAB_SPACE, INDENT_LESS)), (0, _defineProperty3.default)(_result, KEY_TOGGLE_BOLD.common, STRONG.execute), (0, _defineProperty3.default)(_result, KEY_TOGGLE_ITALIC.common, EM.execute), (0, _defineProperty3.default)(_result, KEY_UNDO.common, HISTORY_UNDO.execute), (0, _defineProperty3.default)(_result, KEY_INSERT_NEW_LINE_IN_BLOCKQUOTE.common, BLOCKQUOTE_INSERT_NEW_LINE.execute), (0, _defineProperty3.default)(_result, KEY_INSERT_NEW_LINE_IN_LIST_ITEM.common, LIST_ITEM_INSERT_NEW_LINE.execute), (0, _defineProperty3.default)(_result, KEY_INSERT_PAGE_BREAK.common, PAGE_BREAK.execute), _result);
 
   return result;
 }

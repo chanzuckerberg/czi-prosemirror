@@ -103,6 +103,10 @@ var _MathNodeView = require('./MathNodeView');
 
 var _MathNodeView2 = _interopRequireDefault(_MathNodeView);
 
+var _PageBreakView = require('./PageBreakView');
+
+var _PageBreakView2 = _interopRequireDefault(_PageBreakView);
+
 var _handleEditorDrop = require('./handleEditorDrop');
 
 var _handleEditorDrop2 = _interopRequireDefault(_handleEditorDrop);
@@ -151,7 +155,7 @@ window.CZIProseMirror = {
 var AUTO_FOCUS_DELAY = 350;
 
 // Default custom node views.
-var DEFAULT_NODE_VIEWS = exports.DEFAULT_NODE_VIEWS = (0, _freeze2.default)((_Object$freeze2 = {}, (0, _defineProperty3.default)(_Object$freeze2, _NodeNames.IMAGE, _ImageNodeView2.default), (0, _defineProperty3.default)(_Object$freeze2, _NodeNames.MATH, _MathNodeView2.default), (0, _defineProperty3.default)(_Object$freeze2, _NodeNames.BOOKMARK, _BookmarkNodeView2.default), _Object$freeze2));
+var DEFAULT_NODE_VIEWS = exports.DEFAULT_NODE_VIEWS = (0, _freeze2.default)((_Object$freeze2 = {}, (0, _defineProperty3.default)(_Object$freeze2, _NodeNames.IMAGE, _ImageNodeView2.default), (0, _defineProperty3.default)(_Object$freeze2, _NodeNames.MATH, _MathNodeView2.default), (0, _defineProperty3.default)(_Object$freeze2, _NodeNames.BOOKMARK, _BookmarkNodeView2.default), (0, _defineProperty3.default)(_Object$freeze2, _NodeNames.PAGE_BREAK, _PageBreakView2.default), _Object$freeze2));
 
 var EDITOR_EMPTY_STATE = (0, _freeze2.default)((0, _createEmptyEditorState2.default)());
 

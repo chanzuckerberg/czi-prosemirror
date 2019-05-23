@@ -19,6 +19,7 @@ var LINK = exports.LINK = 'link';
 var LIST_ITEM = exports.LIST_ITEM = 'list_item';
 var MATH = exports.MATH = 'math';
 var ORDERED_LIST = exports.ORDERED_LIST = 'ordered_list';
+var PAGE_BREAK = exports.PAGE_BREAK = 'page_break';
 var PARAGRAPH = exports.PARAGRAPH = 'paragraph';
 var TABLE = exports.TABLE = 'table';
 var TABLE_CELL = exports.TABLE_CELL = 'table_cell';

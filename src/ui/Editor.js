@@ -17,7 +17,7 @@ import {
   registeryKeys,
   releaseEditorView,
 } from '../CZIProseMirror';
-import {BOOKMARK, IMAGE, MATH} from '../NodeNames';
+import {BOOKMARK, IMAGE, MATH, PAGE_BREAK} from '../NodeNames';
 import WebFontLoader from '../WebFontLoader';
 import createEmptyEditorState from '../createEmptyEditorState';
 import normalizeHTML from '../normalizeHTML';
@@ -26,6 +26,7 @@ import CustomEditorView from './CustomEditorView';
 import CustomNodeView from './CustomNodeView';
 import ImageNodeView from './ImageNodeView';
 import MathNodeView from './MathNodeView';
+import PageBreakNodeView from './PageBreakView';
 import handleEditorDrop from './handleEditorDrop';
 import handleEditorKeyDown from './handleEditorKeyDown';
 import handleEditorPaste from './handleEditorPaste';
@@ -65,6 +66,7 @@ export const DEFAULT_NODE_VIEWS = Object.freeze({
   [IMAGE]: ImageNodeView,
   [MATH]: MathNodeView,
   [BOOKMARK]: BookmarkNodeView,
+  [PAGE_BREAK]: PageBreakNodeView,
 });
 
 const EDITOR_EMPTY_STATE = Object.freeze(createEmptyEditorState());

@@ -2,27 +2,23 @@
 
 import {Node} from 'prosemirror-model';
 
-const DOM_ATTRIBUTE_PAGE_BREAK = 'data-page-break';
+import {
+  DOM_ATTRIBUTE_PAGE_BREAK,
+} from './PageBreakNodeSpec';
 
 function getAttrs(dom: HTMLElement) {
-  const attrs = {};
   if (
     dom.getAttribute(DOM_ATTRIBUTE_PAGE_BREAK) ||
     dom.style.pageBreakBefore === 'always'
   ) {
     // Google Doc exports page break as HTML:
     // `<hr style="page-break-before:always;display:none; />`.
-    attrs.pageBreak = true;
+    // These <hr> elements are parsed by PageBreakNodeSpec.
+    return false;
   }
-
-  return attrs;
 }
 
 const HorizontalRuleNode = {
-  attrs: {
-    pageBreak: {default: null},
-  },
-
   group: 'block',
 
   parseDOM: [{tag: 'hr', getAttrs}],

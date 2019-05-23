@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.ALL_KEYS = exports.KEY_UNDO = exports.KEY_TOGGLE_UNDERLINE = exports.KEY_TOGGLE_STRIKETHROUGH = exports.KEY_TOGGLE_ORDERED_LIST = exports.KEY_TOGGLE_MONOSPACE = exports.KEY_TOGGLE_ITALIC = exports.KEY_TOGGLE_HEADING_6 = exports.KEY_TOGGLE_HEADING_5 = exports.KEY_TOGGLE_HEADING_4 = exports.KEY_TOGGLE_HEADING_3 = exports.KEY_TOGGLE_HEADING_2 = exports.KEY_TOGGLE_HEADING_1 = exports.KEY_TOGGLE_CODE_BLOCK = exports.KEY_TOGGLE_BULLET_LIST = exports.KEY_TOGGLE_BOLD = exports.KEY_TOGGLE_BLOCK_QUOTE = exports.KEY_TAB_SHIFT = exports.KEY_TAB = exports.KEY_SPLIT_LIST_ITEM = exports.KEY_SPLIT_CODEBLOCK = exports.KEY_SHIFT_BACKSPACE = exports.KEY_SET_NORMAL_TEXT = exports.KEY_REDO = exports.KEY_INSERT_NEW_LINE_IN_LIST_ITEM = exports.KEY_INSERT_NEW_LINE_IN_BLOCKQUOTE = exports.KEY_INSERT_NEW_LINE = exports.KEY_INSERT_HORIZONTAL_RULE = exports.KEY_FORWARD_DELETE = exports.KEY_BACK_DELETE = undefined;
+exports.ALL_KEYS = exports.KEY_UNDO = exports.KEY_TOGGLE_UNDERLINE = exports.KEY_TOGGLE_STRIKETHROUGH = exports.KEY_TOGGLE_ORDERED_LIST = exports.KEY_TOGGLE_MONOSPACE = exports.KEY_TOGGLE_ITALIC = exports.KEY_TOGGLE_HEADING_6 = exports.KEY_TOGGLE_HEADING_5 = exports.KEY_TOGGLE_HEADING_4 = exports.KEY_TOGGLE_HEADING_3 = exports.KEY_TOGGLE_HEADING_2 = exports.KEY_TOGGLE_HEADING_1 = exports.KEY_TOGGLE_CODE_BLOCK = exports.KEY_TOGGLE_BULLET_LIST = exports.KEY_TOGGLE_BOLD = exports.KEY_TOGGLE_BLOCK_QUOTE = exports.KEY_TAB_SHIFT = exports.KEY_TAB = exports.KEY_SPLIT_LIST_ITEM = exports.KEY_SPLIT_CODEBLOCK = exports.KEY_SHIFT_BACKSPACE = exports.KEY_SET_NORMAL_TEXT = exports.KEY_REDO = exports.KEY_INSERT_PAGE_BREAK = exports.KEY_INSERT_NEW_LINE_IN_LIST_ITEM = exports.KEY_INSERT_NEW_LINE_IN_BLOCKQUOTE = exports.KEY_INSERT_NEW_LINE = exports.KEY_INSERT_HORIZONTAL_RULE = exports.KEY_FORWARD_DELETE = exports.KEY_BACK_DELETE = undefined;
 exports.tooltip = tooltip;
 exports.findKeymapByDescription = findKeymapByDescription;
 exports.findShortcutByDescription = findShortcutByDescription;
@@ -80,6 +80,7 @@ var KEY_INSERT_HORIZONTAL_RULE = exports.KEY_INSERT_HORIZONTAL_RULE = makeKeyMap
 var KEY_INSERT_NEW_LINE = exports.KEY_INSERT_NEW_LINE = makeKeyMapWithCommon('Insert new line', 'Shift-Enter');
 var KEY_INSERT_NEW_LINE_IN_BLOCKQUOTE = exports.KEY_INSERT_NEW_LINE_IN_BLOCKQUOTE = makeKeyMapWithCommon('Insert new line in blockquote', 'Shift-Enter');
 var KEY_INSERT_NEW_LINE_IN_LIST_ITEM = exports.KEY_INSERT_NEW_LINE_IN_LIST_ITEM = makeKeyMapWithCommon('Insert new line in list item', 'Shift-Enter');
+var KEY_INSERT_PAGE_BREAK = exports.KEY_INSERT_PAGE_BREAK = makeKeyMapWithCommon('Insert page break', 'Mod-Enter');
 var KEY_REDO = exports.KEY_REDO = makeKeyMapWithCommon('Redo', 'Mod-Shift-z');
 var KEY_SET_NORMAL_TEXT = exports.KEY_SET_NORMAL_TEXT = makeKeyMap('Normal text', 'Ctrl-0', 'Cmd-Alt-0');
 var KEY_SHIFT_BACKSPACE = exports.KEY_SHIFT_BACKSPACE = makeKeyMapWithCommon('Shift Backspace', 'Shift-Backspace');

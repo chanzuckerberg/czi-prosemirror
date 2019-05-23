@@ -64,6 +64,10 @@ var _OrderedListNodeSpec = require('./OrderedListNodeSpec');
 
 var _OrderedListNodeSpec2 = _interopRequireDefault(_OrderedListNodeSpec);
 
+var _PageBreakNodeSpec = require('./PageBreakNodeSpec');
+
+var _PageBreakNodeSpec2 = _interopRequireDefault(_PageBreakNodeSpec);
+
 var _ParagraphNodeSpec = require('./ParagraphNodeSpec');
 
 var _ParagraphNodeSpec2 = _interopRequireDefault(_ParagraphNodeSpec);
@@ -92,6 +96,7 @@ var BLOCKQUOTE = NodeNames.BLOCKQUOTE,
     LIST_ITEM = NodeNames.LIST_ITEM,
     MATH = NodeNames.MATH,
     ORDERED_LIST = NodeNames.ORDERED_LIST,
+    PAGE_BREAK = NodeNames.PAGE_BREAK,
     PARAGRAPH = NodeNames.PARAGRAPH,
     TEXT = NodeNames.TEXT;
 
@@ -100,7 +105,7 @@ var BLOCKQUOTE = NodeNames.BLOCKQUOTE,
 // !! Be careful with the order of these nodes, which may effect the parsing
 // outcome.!!
 
-var nodes = (_nodes = {}, (0, _defineProperty3.default)(_nodes, DOC, _DocNodeSpec2.default), (0, _defineProperty3.default)(_nodes, PARAGRAPH, _ParagraphNodeSpec2.default), (0, _defineProperty3.default)(_nodes, BLOCKQUOTE, _BlockquoteNodeSpec2.default), (0, _defineProperty3.default)(_nodes, HORIZONTAL_RULE, _HorizontalRuleNodeSpec2.default), (0, _defineProperty3.default)(_nodes, HEADING, _HeadingNodeSpec2.default), (0, _defineProperty3.default)(_nodes, CODE_BLOCK, _CodeBlockNodeSpec2.default), (0, _defineProperty3.default)(_nodes, TEXT, _TextNodeSpec2.default), (0, _defineProperty3.default)(_nodes, IMAGE, _ImageNodeSpec2.default), (0, _defineProperty3.default)(_nodes, MATH, _MathNodeSpec2.default), (0, _defineProperty3.default)(_nodes, HARD_BREAK, _HardBreakNodeSpec2.default), (0, _defineProperty3.default)(_nodes, BULLET_LIST, _BulletListNodeSpec2.default), (0, _defineProperty3.default)(_nodes, ORDERED_LIST, _OrderedListNodeSpec2.default), (0, _defineProperty3.default)(_nodes, LIST_ITEM, _ListItemNodeSpec2.default), (0, _defineProperty3.default)(_nodes, BOOKMARK, _BookmarkNodeSpec2.default), _nodes);
+var nodes = (_nodes = {}, (0, _defineProperty3.default)(_nodes, DOC, _DocNodeSpec2.default), (0, _defineProperty3.default)(_nodes, PARAGRAPH, _ParagraphNodeSpec2.default), (0, _defineProperty3.default)(_nodes, BLOCKQUOTE, _BlockquoteNodeSpec2.default), (0, _defineProperty3.default)(_nodes, PAGE_BREAK, _PageBreakNodeSpec2.default), (0, _defineProperty3.default)(_nodes, HORIZONTAL_RULE, _HorizontalRuleNodeSpec2.default), (0, _defineProperty3.default)(_nodes, HEADING, _HeadingNodeSpec2.default), (0, _defineProperty3.default)(_nodes, CODE_BLOCK, _CodeBlockNodeSpec2.default), (0, _defineProperty3.default)(_nodes, TEXT, _TextNodeSpec2.default), (0, _defineProperty3.default)(_nodes, IMAGE, _ImageNodeSpec2.default), (0, _defineProperty3.default)(_nodes, MATH, _MathNodeSpec2.default), (0, _defineProperty3.default)(_nodes, HARD_BREAK, _HardBreakNodeSpec2.default), (0, _defineProperty3.default)(_nodes, BULLET_LIST, _BulletListNodeSpec2.default), (0, _defineProperty3.default)(_nodes, ORDERED_LIST, _OrderedListNodeSpec2.default), (0, _defineProperty3.default)(_nodes, LIST_ITEM, _ListItemNodeSpec2.default), (0, _defineProperty3.default)(_nodes, BOOKMARK, _BookmarkNodeSpec2.default), _nodes);
 
 var marks = {};
 var schema = new _prosemirrorModel.Schema({ nodes: nodes, marks: marks });

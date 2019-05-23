@@ -1,0 +1,22 @@
+.czi-pagebreak-view {
+  padding: 10px 0;
+  page-break-before: always;
+}
+
+.pagebreak-container .pagebreak-hr {
+  border-style: ridge;
+  margin-inline-start: 3em;
+  margin-inline-end: 3em;
+}
+
+.pagebreak-container .pagebreak-description {
+  font-size: 12px;
+  font-style: italic;
+  text-align: center;
+}
+
+@media print {
+  .czi-pagebreak-view .pagebreak-container {
+    display: none;
+  }
+}
