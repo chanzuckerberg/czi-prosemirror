@@ -1,16 +1,28 @@
+html {
+  counter-reset:
+    czi-counter-0 czi-counter-1 czi-counter-2 czi-counter-3
+    czi-counter-4 czi-counter-5 czi-counter-6 czi-counter-7;
+}
+
 /* For MS-Edge 16+, Chrome, Safari, Firefox */
 .ProseMirror ol {
   --czi-counter-name: czi-counter-0;
   --czi-list-style-type: decimal;
   --czi-counter-reset: 0;
+
+  counter-reset: none;
 }
 
 .ProseMirror ol > li {
   counter-increment: var(--czi-counter-name);
 }
 
-.ProseMirror ol > li:first-child {
+.ProseMirror ol:not([data-counter-reset='none']) {
   counter-reset: var(--czi-counter-name) var(--czi-counter-reset);
+}
+
+.ProseMirror ol[data-counter-reset='none'] {
+  counter-reset: none;
 }
 
 .ProseMirror ol > li::before {

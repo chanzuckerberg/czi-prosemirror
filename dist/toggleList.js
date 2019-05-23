@@ -11,6 +11,10 @@ var _extends3 = _interopRequireDefault(_extends2);
 exports.default = toggleList;
 exports.unwrapNodesFromList = unwrapNodesFromList;
 
+var _consolidateListNodes = require('./consolidateListNodes');
+
+var _consolidateListNodes2 = _interopRequireDefault(_consolidateListNodes);
+
 var _nullthrows = require('nullthrows');
 
 var _nullthrows2 = _interopRequireDefault(_nullthrows);
@@ -60,19 +64,18 @@ function toggleList(tr, schema, listNodeType) {
   } else if (heading && (0, _prosemirrorUtils.findParentNodeOfType)(heading)(fromSelection)) {
     tr = wrapNodesWithList(tr, schema, listNodeType);
   }
-
   return tr;
 }
 
 function unwrapNodesFromList(tr, schema, listNodePos, unwrapParagraphNode) {
   return (0, _transformAndPreserveTextSelection2.default)(tr, schema, function (memo) {
-    return unwrapNodesFromListInternal(memo, listNodePos, unwrapParagraphNode);
+    return (0, _consolidateListNodes2.default)(unwrapNodesFromListInternal(memo, listNodePos, unwrapParagraphNode));
   });
 }
 
 function wrapNodesWithList(tr, schema, listNodeType) {
   return (0, _transformAndPreserveTextSelection2.default)(tr, schema, function (memo) {
-    return wrapNodesWithListInternal(memo, listNodeType);
+    return (0, _consolidateListNodes2.default)(wrapNodesWithListInternal(memo, listNodeType));
   });
 }
 

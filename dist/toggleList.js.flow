@@ -1,5 +1,6 @@
 // @flow
 
+import consolidateListNodes from './consolidateListNodes';
 import nullthrows from 'nullthrows';
 import {Fragment, Node, NodeType, Schema} from 'prosemirror-model';
 import {TextSelection} from 'prosemirror-state';
@@ -35,7 +36,6 @@ export default function toggleList(
   } else if (heading && findParentNodeOfType(heading)(fromSelection)) {
     tr = wrapNodesWithList(tr, schema, listNodeType);
   }
-
   return tr;
 }
 
@@ -46,7 +46,9 @@ export function unwrapNodesFromList(
   unwrapParagraphNode?: ?(Node) => Node
 ): Transform {
   return transformAndPreserveTextSelection(tr, schema, memo => {
-    return unwrapNodesFromListInternal(memo, listNodePos, unwrapParagraphNode);
+    return consolidateListNodes(
+      unwrapNodesFromListInternal(memo, listNodePos, unwrapParagraphNode)
+    );
   });
 }
 
@@ -56,7 +58,7 @@ function wrapNodesWithList(
   listNodeType: NodeType
 ): Transform {
   return transformAndPreserveTextSelection(tr, schema, memo => {
-    return wrapNodesWithListInternal(memo, listNodeType);
+    return consolidateListNodes(wrapNodesWithListInternal(memo, listNodeType));
   });
 }
 

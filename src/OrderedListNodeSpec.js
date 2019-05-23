@@ -8,14 +8,16 @@ import {ATTRIBUTE_INDENT, MIN_INDENT_LEVEL} from './ParagraphNodeSpec';
 
 import type {NodeSpec} from './Types';
 
+const ATTRIBUTE_COUNTER_RESET = 'data-counter-reset';
 const AUTO_LIST_STYLE_TYPES = ['decimal', 'lower-alpha', 'lower-roman'];
 
 const OrderedListNodeSpec: NodeSpec = {
   attrs: {
-    id: {default: 1},
+    id: {default: null},
+    counterReset: {default: null},
     indent: {default: MIN_INDENT_LEVEL},
     listStyleType: {default: null},
-    start: {default: 1},
+    start: {default: null},
   },
   group: 'block',
   content: LIST_ITEM + '+',
@@ -24,16 +26,19 @@ const OrderedListNodeSpec: NodeSpec = {
       tag: 'ol',
       getAttrs(dom: HTMLElement) {
         const listStyleType = dom.getAttribute(ATTRIBUTE_LIST_STYLE_TYPE);
+        const counterReset =
+          dom.getAttribute(ATTRIBUTE_COUNTER_RESET) || undefined;
 
         const start = dom.hasAttribute('start')
           ? parseInt(dom.getAttribute('start'), 10)
-          : 1;
+          : null;
 
         const indent = dom.hasAttribute(ATTRIBUTE_INDENT)
           ? parseInt(dom.getAttribute(ATTRIBUTE_INDENT), 10)
           : MIN_INDENT_LEVEL;
 
         return {
+          counterReset,
           indent,
           listStyleType,
           start,
@@ -42,16 +47,19 @@ const OrderedListNodeSpec: NodeSpec = {
     },
   ],
   toDOM(node: Node) {
-    const {start, indent, listStyleType} = node.attrs;
+    const {start, indent, listStyleType, counterReset} = node.attrs;
     const attrs: Object = {
       [ATTRIBUTE_INDENT]: indent,
     };
+    if (counterReset === 'none') {
+      attrs[ATTRIBUTE_COUNTER_RESET] = counterReset;
+    }
 
     if (listStyleType) {
       attrs[ATTRIBUTE_LIST_STYLE_TYPE] = listStyleType;
     }
 
-    if (start !== MIN_INDENT_LEVEL) {
+    if (start !== 1 && start !== null) {
       attrs.start = start;
     }
 
@@ -66,8 +74,8 @@ const OrderedListNodeSpec: NodeSpec = {
 
     attrs.style =
       `--czi-counter-name: ${cssCounterName};` +
-      `--czi-counter-reset: ${start - 1};` +
-      `--czi-list-style-type: ${htmlListStyleType}`;
+      `--czi-list-style-type: ${htmlListStyleType}` +
+      `--czi-counter-reset: ${start - 1};`;
 
     attrs.type = htmlListStyleType;
 

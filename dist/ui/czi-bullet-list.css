@@ -1,8 +1,3 @@
-/* For MS-Edge 16+, Chrome, Safari, Firefox */
-.ProseMirror ul {
-  counter-reset: czi-bullet-counter 0;
-}
-
 .ProseMirror ul li::before {
   /* Default bullet style to "disc" */
   content: '\2022\2009';
