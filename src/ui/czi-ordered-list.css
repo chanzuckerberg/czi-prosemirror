@@ -1,6 +1,6 @@
 html {
-  counter-reset:
-    czi-counter-0 czi-counter-1 czi-counter-2 czi-counter-3
+  /* This sets up the initial counter values to `0`. */
+  counter-reset: czi-counter-0 czi-counter-1 czi-counter-2 czi-counter-3
     czi-counter-4 czi-counter-5 czi-counter-6 czi-counter-7;
 }
 
@@ -9,7 +9,6 @@ html {
   --czi-counter-name: czi-counter-0;
   --czi-list-style-type: decimal;
   --czi-counter-reset: 0;
-
   counter-reset: none;
 }
 

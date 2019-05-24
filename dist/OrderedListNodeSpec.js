@@ -29,7 +29,7 @@ var OrderedListNodeSpec = {
     counterReset: { default: null },
     indent: { default: _ParagraphNodeSpec.MIN_INDENT_LEVEL },
     listStyleType: { default: null },
-    start: { default: null }
+    start: { default: 1 }
   },
   group: 'block',
   content: _NodeNames.LIST_ITEM + '+',
@@ -39,7 +39,7 @@ var OrderedListNodeSpec = {
       var listStyleType = dom.getAttribute(_ListItemNodeSpec.ATTRIBUTE_LIST_STYLE_TYPE);
       var counterReset = dom.getAttribute(ATTRIBUTE_COUNTER_RESET) || undefined;
 
-      var start = dom.hasAttribute('start') ? parseInt(dom.getAttribute('start'), 10) : null;
+      var start = dom.hasAttribute('start') ? parseInt(dom.getAttribute('start'), 10) : 1;
 
       var indent = dom.hasAttribute(_ParagraphNodeSpec.ATTRIBUTE_INDENT) ? parseInt(dom.getAttribute(_ParagraphNodeSpec.ATTRIBUTE_INDENT), 10) : _ParagraphNodeSpec.MIN_INDENT_LEVEL;
 
@@ -67,7 +67,7 @@ var OrderedListNodeSpec = {
       attrs[_ListItemNodeSpec.ATTRIBUTE_LIST_STYLE_TYPE] = listStyleType;
     }
 
-    if (start !== 1 && start !== null) {
+    if (start !== 1) {
       attrs.start = start;
     }
 
@@ -79,7 +79,7 @@ var OrderedListNodeSpec = {
 
     var cssCounterName = 'czi-counter-' + indent;
 
-    attrs.style = '--czi-counter-name: ' + cssCounterName + ';' + ('--czi-list-style-type: ' + htmlListStyleType) + ('--czi-counter-reset: ' + (start - 1) + ';');
+    attrs.style = '--czi-counter-name: ' + cssCounterName + ';' + ('--czi-counter-reset: ' + (start - 1) + ';') + ('--czi-list-style-type: ' + htmlListStyleType);
 
     attrs.type = htmlListStyleType;
 

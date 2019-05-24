@@ -17,7 +17,7 @@ const OrderedListNodeSpec: NodeSpec = {
     counterReset: {default: null},
     indent: {default: MIN_INDENT_LEVEL},
     listStyleType: {default: null},
-    start: {default: null},
+    start: {default: 1},
   },
   group: 'block',
   content: LIST_ITEM + '+',
@@ -31,7 +31,7 @@ const OrderedListNodeSpec: NodeSpec = {
 
         const start = dom.hasAttribute('start')
           ? parseInt(dom.getAttribute('start'), 10)
-          : null;
+          : 1;
 
         const indent = dom.hasAttribute(ATTRIBUTE_INDENT)
           ? parseInt(dom.getAttribute(ATTRIBUTE_INDENT), 10)
@@ -59,7 +59,7 @@ const OrderedListNodeSpec: NodeSpec = {
       attrs[ATTRIBUTE_LIST_STYLE_TYPE] = listStyleType;
     }
 
-    if (start !== 1 && start !== null) {
+    if (start !== 1) {
       attrs.start = start;
     }
 
@@ -74,8 +74,8 @@ const OrderedListNodeSpec: NodeSpec = {
 
     attrs.style =
       `--czi-counter-name: ${cssCounterName};` +
-      `--czi-list-style-type: ${htmlListStyleType}` +
-      `--czi-counter-reset: ${start - 1};`;
+      `--czi-counter-reset: ${start - 1};` +
+      `--czi-list-style-type: ${htmlListStyleType}`;
 
     attrs.type = htmlListStyleType;
 

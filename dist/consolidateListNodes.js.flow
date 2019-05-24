@@ -14,13 +14,6 @@ type JointInfo = {
   insertAt: number,
 };
 
-type NodeInfo = {
-  node: Node,
-  pos: number,
-  parentNode: ?Node,
-  prev: ?NodeInfo,
-};
-
 // Consolidate list nodes.
 // All adjacent list nodes with the same list type and indent level will be
 // joined into one list node.
