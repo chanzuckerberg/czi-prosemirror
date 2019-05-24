@@ -20,8 +20,14 @@ const FontSizeMarkSpec: MarkSpec = {
   ],
   toDOM(node: Node) {
     const {pt} = node.attrs;
-    const style = pt ? `font-size: ${pt}pt` : '';
-    return ['span', {style}, 0];
+    const domAttrs = pt
+      ? {
+          style: `font-size: ${pt}pt;`,
+          class: 'czi-font-size-mark',
+        }
+      : null;
+
+    return ['span', domAttrs, 0];
   },
 };
 
