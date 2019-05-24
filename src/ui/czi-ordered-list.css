@@ -13,7 +13,6 @@ html {
   --czi-counter-name: czi-counter-0;
   --czi-list-style-type: decimal;
   --czi-counter-reset: 0;
-
   counter-reset: none;
 }
 
