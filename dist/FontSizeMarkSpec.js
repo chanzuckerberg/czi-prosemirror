@@ -23,8 +23,12 @@ var FontSizeMarkSpec = {
   toDOM: function toDOM(node) {
     var pt = node.attrs.pt;
 
-    var style = pt ? 'font-size: ' + pt + 'pt' : '';
-    return ['span', { style: style }, 0];
+    var domAttrs = pt ? {
+      style: 'font-size: ' + pt + 'pt;',
+      class: 'czi-font-size-mark'
+    } : null;
+
+    return ['span', domAttrs, 0];
   }
 };
 
