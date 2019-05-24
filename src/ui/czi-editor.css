@@ -176,3 +176,7 @@
   page-break-before: always;
   visibility: hidden;
 }
+
+.ProseMirror .czi-font-size-mark {
+  line-height: var(--czi-content-line-height);
+}
