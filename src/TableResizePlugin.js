@@ -66,6 +66,8 @@ const PLUGIN_KEY = new PluginKey('tableColumnResizing');
 const CELL_MIN_WIDTH = 25;
 const HANDLE_WIDTH = 20;
 
+let cancelDrag: ?Function = null;
+
 // The immutable plugin state that stores the information for resizing.
 class ResizeState {
   cellPos: ?number;
@@ -165,9 +167,52 @@ function handleMouseLeave(view: EditorView): void {
 
 // Function that handles the mousedown event from the table cell.
 function handleMouseDown(view: EditorView, event: MouseEvent): boolean {
+  // It's possible that the resize action that happened earlier was inturrupted
+  // while its dependent mouse events were stopped or prevented by others.
+  // We need to stop the previous resize action if it did not finish.
+  cancelDrag && cancelDrag(event);
+
   const resizeState = PLUGIN_KEY.getState(view.state);
   if (resizeState.cellPos === -1 || resizeState.draggingInfo) {
     return false;
+  }
+
+  let dragStarted = false;
+  let dragMoveHandler = null;
+
+  const finish = (event: MouseEvent) => {
+    window.removeEventListener('mouseup', finish, true);
+    window.removeEventListener('mousemove', move, true);
+    dragStarted && handleDragEnd(view, event);
+    cancelDrag = null;
+  };
+
+  const move = (event: MouseEvent) => {
+    if (event.which) {
+      if (!dragStarted) {
+        handleDragStart(view, event);
+        dragStarted = true;
+      }
+      // Move events should be batched to avoid over-handling the mouse
+      // event.
+      dragMoveHandler = dragMoveHandler || batchMouseHandler(handleDragMove);
+      dragMoveHandler(view, event);
+    } else {
+      finish(event);
+    }
+  };
+
+  cancelDrag = finish;
+  window.addEventListener('mouseup', finish, true);
+  window.addEventListener('mousemove', move, true);
+  event.preventDefault();
+  return true;
+}
+
+function handleDragStart(view: EditorView, event: MouseEvent): void {
+  const resizeState = PLUGIN_KEY.getState(view.state);
+  if (resizeState.cellPos === -1 || resizeState.draggingInfo) {
+    return;
   }
 
   view.dispatch(
@@ -175,29 +220,6 @@ function handleMouseDown(view: EditorView, event: MouseEvent): boolean {
       setDraggingInfo: calculateDraggingInfo(view, event, resizeState),
     })
   );
-
-  // Move events should be batched to avoid over-handling the mouse
-  // event.
-  const dragMove = batchMouseHandler(handleDragMove);
-
-  const finish = (event: MouseEvent) => {
-    window.removeEventListener('mouseup', finish, true);
-    window.removeEventListener('mousemove', move, true);
-    handleDragEnd(view, event);
-  };
-
-  const move = (event: MouseEvent) => {
-    if (event.which) {
-      dragMove(view, event);
-    } else {
-      finish(event);
-    }
-  };
-
-  window.addEventListener('mouseup', finish, true);
-  window.addEventListener('mousemove', move, true);
-  event.preventDefault();
-  return true;
 }
 
 // Function that handles the mouse event while resizing the table cell.
