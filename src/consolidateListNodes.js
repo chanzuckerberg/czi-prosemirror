@@ -82,7 +82,7 @@ function linkOrderedListCounters(tr: Transform): Transform {
   tr.doc.nodesBetween(from, to, (node, pos, parentNode) => {
     let willTraverseNodeChildren = true;
     if (isListNode(node)) {
-      // List Node can't be nested, no need to travere its children.
+      // List Node can't be nested, no need to traverse its children.
       willTraverseNodeChildren = false;
       const indent = node.attrs.indent || 0;
       const start = node.attrs.start || 1;
