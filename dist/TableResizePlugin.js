@@ -87,6 +87,8 @@ var PLUGIN_KEY = new _prosemirrorState.PluginKey('tableColumnResizing');
 var CELL_MIN_WIDTH = 25;
 var HANDLE_WIDTH = 20;
 
+var cancelDrag = null;
+
 // The immutable plugin state that stores the information for resizing.
 
 var ResizeState = function () {
@@ -181,37 +183,57 @@ function handleMouseLeave(view) {
 
 // Function that handles the mousedown event from the table cell.
 function handleMouseDown(view, event) {
+  // It's possible that the resize action that happened earlier was inturrupted
+  // while its dependent mouse events were stopped or prevented by others.
+  // We need to stop the previous resize action if it did not finish.
+  cancelDrag && cancelDrag(event);
+
   var resizeState = PLUGIN_KEY.getState(view.state);
   if (resizeState.cellPos === -1 || resizeState.draggingInfo) {
     return false;
   }
 
-  view.dispatch(view.state.tr.setMeta(PLUGIN_KEY, {
-    setDraggingInfo: calculateDraggingInfo(view, event, resizeState)
-  }));
-
-  // Move events should be batched to avoid over-handling the mouse
-  // event.
-  var dragMove = batchMouseHandler(handleDragMove);
+  var dragStarted = false;
+  var dragMoveHandler = null;
 
   var finish = function finish(event) {
     window.removeEventListener('mouseup', finish, true);
     window.removeEventListener('mousemove', move, true);
-    handleDragEnd(view, event);
+    dragStarted && handleDragEnd(view, event);
+    cancelDrag = null;
   };
 
   var move = function move(event) {
     if (event.which) {
-      dragMove(view, event);
+      if (!dragStarted) {
+        handleDragStart(view, event);
+        dragStarted = true;
+      }
+      // Move events should be batched to avoid over-handling the mouse
+      // event.
+      dragMoveHandler = dragMoveHandler || batchMouseHandler(handleDragMove);
+      dragMoveHandler(view, event);
     } else {
       finish(event);
     }
   };
 
+  cancelDrag = finish;
   window.addEventListener('mouseup', finish, true);
   window.addEventListener('mousemove', move, true);
   event.preventDefault();
   return true;
+}
+
+function handleDragStart(view, event) {
+  var resizeState = PLUGIN_KEY.getState(view.state);
+  if (resizeState.cellPos === -1 || resizeState.draggingInfo) {
+    return;
+  }
+
+  view.dispatch(view.state.tr.setMeta(PLUGIN_KEY, {
+    setDraggingInfo: calculateDraggingInfo(view, event, resizeState)
+  }));
 }
 
 // Function that handles the mouse event while resizing the table cell.
