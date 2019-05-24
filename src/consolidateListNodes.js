@@ -69,7 +69,7 @@ export default function consolidateListNodes(tr: Transform): Transform {
  *   3. EEE
  *   4. FFF
  *   --------
- * This means that the t1st and the 3rd lists are linked.
+ * This means that the 1st and the 3rd lists are linked.
  */
 function linkOrderedListCounters(tr: Transform): Transform {
   const from = 1;
@@ -151,7 +151,7 @@ function linkOrderedListCounters(tr: Transform): Transform {
       }
       listsBefore.unshift({parentNode, indent, node});
     } else {
-      // Not traversing withing any list node. No lists need to be updated.
+      // Not traversing within any list node. No lists need to be updated.
       listsBefore = null;
     }
     return willTraverseNodeChildren;
