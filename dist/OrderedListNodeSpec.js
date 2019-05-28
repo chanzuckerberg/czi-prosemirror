@@ -20,11 +20,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var babelPluginFlowReactPropTypes_proptype_NodeSpec = require('./Types').babelPluginFlowReactPropTypes_proptype_NodeSpec || require('prop-types').any;
 
+var ATTRIBUTE_COUNTER_RESET = 'data-counter-reset';
 var AUTO_LIST_STYLE_TYPES = ['decimal', 'lower-alpha', 'lower-roman'];
 
 var OrderedListNodeSpec = {
   attrs: {
-    id: { default: 1 },
+    id: { default: null },
+    counterReset: { default: null },
     indent: { default: _ParagraphNodeSpec.MIN_INDENT_LEVEL },
     listStyleType: { default: null },
     start: { default: 1 }
@@ -35,12 +37,14 @@ var OrderedListNodeSpec = {
     tag: 'ol',
     getAttrs: function getAttrs(dom) {
       var listStyleType = dom.getAttribute(_ListItemNodeSpec.ATTRIBUTE_LIST_STYLE_TYPE);
+      var counterReset = dom.getAttribute(ATTRIBUTE_COUNTER_RESET) || undefined;
 
       var start = dom.hasAttribute('start') ? parseInt(dom.getAttribute('start'), 10) : 1;
 
       var indent = dom.hasAttribute(_ParagraphNodeSpec.ATTRIBUTE_INDENT) ? parseInt(dom.getAttribute(_ParagraphNodeSpec.ATTRIBUTE_INDENT), 10) : _ParagraphNodeSpec.MIN_INDENT_LEVEL;
 
       return {
+        counterReset: counterReset,
         indent: indent,
         listStyleType: listStyleType,
         start: start
@@ -51,15 +55,19 @@ var OrderedListNodeSpec = {
     var _node$attrs = node.attrs,
         start = _node$attrs.start,
         indent = _node$attrs.indent,
-        listStyleType = _node$attrs.listStyleType;
+        listStyleType = _node$attrs.listStyleType,
+        counterReset = _node$attrs.counterReset;
 
     var attrs = (0, _defineProperty3.default)({}, _ParagraphNodeSpec.ATTRIBUTE_INDENT, indent);
+    if (counterReset === 'none') {
+      attrs[ATTRIBUTE_COUNTER_RESET] = counterReset;
+    }
 
     if (listStyleType) {
       attrs[_ListItemNodeSpec.ATTRIBUTE_LIST_STYLE_TYPE] = listStyleType;
     }
 
-    if (start !== _ParagraphNodeSpec.MIN_INDENT_LEVEL) {
+    if (start !== 1) {
       attrs.start = start;
     }
 

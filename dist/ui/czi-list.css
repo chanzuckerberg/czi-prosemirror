@@ -13,7 +13,6 @@
    * https://developer.mozilla.org/en-US/docs/Web/Guide/CSS/Block_formatting_context
    */
   column-span: all;
-  counter-reset: none;
   display: flow-root;
   list-style-type: none;
   margin: 0;
