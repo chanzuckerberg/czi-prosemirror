@@ -10,6 +10,10 @@ var _extends3 = _interopRequireDefault(_extends2);
 
 exports.default = splitListItem;
 
+var _uuid = require('../src/ui/uuid');
+
+var _uuid2 = _interopRequireDefault(_uuid);
+
 var _prosemirrorModel = require('prosemirror-model');
 
 var _prosemirrorState = require('prosemirror-state');
@@ -22,8 +26,48 @@ var _prosemirrorUtils = require('prosemirror-utils');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// Build a command that splits a non-empty textblock at the top level
-// of a list item by also splitting that list item.
+// Build a command that splits a list item by the current cursor's position.
+// Some examples:
+// - split before item's text:
+//   - before:
+//     1. <cursor>AA
+//     2. BB
+//     3. CC
+//   - after:
+//     1. <cursor>
+//     2. AA
+//     3. BB
+//     4. CC
+// - split between item's text:
+//   - before:
+//     1. AA
+//     2. B<cursor>B
+//     3. CC
+//   - after:
+//     1. AA
+//     2. B
+//     3. B
+//     4. CC
+// - split after item's text:
+//   - before:
+//     1. AA
+//     2. BB<cursor>
+//     3. CC
+//   - after:
+//     1. AA
+//     2. BB
+//     3. <cursor>
+//     4. CC
+// - split at item with empty content:
+//   - before:
+//     1. AA
+//     2. <cursor>
+//     3. CC
+//   - after:
+//     1. AA
+//     <cursor>
+//     2. BB
+//     3. CC
 function splitListItem(tr, schema) {
   var nodeType = schema.nodes[_NodeNames.LIST_ITEM];
   if (!nodeType) {
@@ -51,36 +95,8 @@ function splitListItem(tr, schema) {
   }
 
   if ($from.parent.content.size == 0) {
-    // In an empty block. If this is a nested list, the wrapping
-    // list item should be split. Otherwise, bail out and let next
-    // command handle lifting.
-    // if (
-    //   $from.depth == 2 ||
-    //   $from.node(-3).type !== nodeType ||
-    //   $from.index(-2) != $from.node(-2).childCount - 1
-    // ) {
-    //   return tr;
-    // }
-
-    // let wrap = Fragment.empty;
-    // const keepItem = $from.index(-1) > 0;
-    // // Build a fragment containing empty versions of the structure
-    // // from the outer list item to the parent node of the cursor
-    // for (let d = $from.depth - (keepItem ? 1 : 2); d >= $from.depth - 3; d--) {
-    //   wrap = Fragment.from($from.node(d).copy(wrap));
-    // }
-
-    // // Add a second list item with an empty default start node
-    // wrap = wrap.append(Fragment.from(nodeType.createAndFill()));
-    // tr = tr.replace(
-    //   $from.before(keepItem ? null : -1),
-    //   $from.after(-3),
-    //   new Slice(wrap, keepItem ? 3 : 2, 2)
-    // );
-
-    // const pos = $from.pos + (keepItem ? 3 : 2);
-    // tr = tr.setSelection(selection.constructor.near(tr.doc.resolve(pos)));
-    return insertParagraphAndSplitBlankListItem(tr, schema);
+    // In an empty list item.
+    return splitEmptyListItem(tr, schema);
   }
 
   var nextType = $to.pos == $from.end() ? grandParent.contentMatchAt($from.indexAfter(-1)).defaultType : null;
@@ -94,7 +110,17 @@ function splitListItem(tr, schema) {
   return tr.split($from.pos, 2, types);
 }
 
-function insertParagraphAndSplitBlankListItem(tr, schema) {
+// This splits an item with empty content:
+//   - before:
+//     1. AA
+//     2. <cursor>
+//     3. CC
+//   - after:
+//     1. AA
+//     <cursor>
+//     2. BB
+//     3. CC
+function splitEmptyListItem(tr, schema) {
   var listItemType = schema.nodes[_NodeNames.LIST_ITEM];
   var orderedListType = schema.nodes[_NodeNames.ORDERED_LIST];
   var bulletListType = schema.nodes[_NodeNames.BULLET_LIST];
@@ -105,27 +131,44 @@ function insertParagraphAndSplitBlankListItem(tr, schema) {
   }
   var listItemFound = (0, _prosemirrorUtils.findParentNodeOfType)(listItemType)(tr.selection);
   if (!listItemFound || listItemFound.node.textContent !== '') {
-    // Selection cursor is not inside an empty list item.
+    // Cursor is not inside an empty list item.
     return tr;
   }
 
   var listFound = orderedListType && (0, _prosemirrorUtils.findParentNodeOfType)(orderedListType)(tr.selection) || bulletListType && (0, _prosemirrorUtils.findParentNodeOfType)(bulletListType)(tr.selection);
 
   if (!listFound) {
-    // Selection isn't inside an list.
+    // Cursor isn't inside an list.
     return tr;
   }
 
   var $listItemPos = tr.doc.resolve(listItemFound.pos);
   var listItemIndex = $listItemPos.index($listItemPos.depth);
-  if (listFound.node.childCount < 3 || listItemIndex < 1 || listItemIndex >= listFound.node.childCount - 1) {
+  var listFoundNode = listFound.node;
+  if (listFoundNode.childCount < 3 || listItemIndex < 1 || listItemIndex >= listFoundNode.childCount - 1) {
     // - The list must have at least three list items
     // - The cursor must be after the first list item and before the last list
     //   item.
-    // If both conditions don't match, bails out.
+    // If both conditions don't match, bails out, which will remove the empty
+    // item.
     return tr;
   }
 
+  // Find the name of the current list to split. If the name isn't available,
+  // assigns a new name.
+  var name = listFoundNode.attrs.name;
+
+  if (!name) {
+    name = (0, _uuid2.default)();
+    tr = tr.setNodeMarkup(listFound.pos, listFoundNode.type, (0, _extends3.default)({}, listFoundNode.attrs, {
+      name: name
+    }), listFoundNode.marks);
+  }
+
+  // We'll split the list into two lists.
+  // the first liust contains the items before the cursor, and the second
+  // list contains the items after the cursor and the second list will "follow"
+  // the first list by sharing the same counter variable.
   var sliceFrom = listItemFound.pos + listItemFound.node.nodeSize;
   var sliceTo = listFound.pos + listFound.node.nodeSize - 1;
   var slicedItems = tr.doc.slice(sliceFrom, sliceTo, false);
@@ -137,6 +180,7 @@ function insertParagraphAndSplitBlankListItem(tr, schema) {
   var listAttrs = (0, _extends3.default)({}, sourceListNode.attrs);
   if (orderedListType === sourceListNode.type) {
     listAttrs.counterReset = 'none';
+    listAttrs.following = name;
   }
 
   var insertFrom = deleteFrom + 1;

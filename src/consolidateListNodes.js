@@ -14,9 +14,27 @@ type JointInfo = {
   insertAt: number,
 };
 
-// Consolidate list nodes.
-// All adjacent list nodes with the same list type and indent level will be
-// joined into one list node.
+// This function consolidates list nodes among the same "Lists Island".
+//
+// ## Definition of a "Lists Island"
+//   Separate list that are adjacent to each other are grouped as
+//   a "Lists Island".
+//   For example, the following HTML snippets contains two "Lists Island":
+//
+//     <h1>text</h1>
+//     <!-- Lists Island Starts -->
+//     <ul><li>text</li><li>text</li></ul>
+//     <ol><li>text</li><li>text</li></ul>
+//     <!-- Lists Island Ends -->
+//     <p>text</p>
+//     <!-- Lists Island Starts -->
+//     <ul><li>text</li><li>text</li></ul>
+//     <ol><li>text</li><li>text</li></ul>
+//     <!-- Lists Island Ends -->
+//     <p>text</p>
+//
+// List nodes with the same list type and indent level among the same Lists
+// Island will be joined into one list node.
 // Note that this transform may change the current user selection.
 export default function consolidateListNodes(tr: Transform): Transform {
   if (tr.getMeta('dryrun')) {
@@ -44,8 +62,8 @@ export default function consolidateListNodes(tr: Transform): Transform {
 }
 
 /**
- * This ensures that the adjacent ordered lists within the same indent level
- * share the same counter.
+ * This ensures that ordered lists with the same indent level among the same
+ * Lists Island share the same counter.
  *
  * For example, the following three lists:
  *   --------
@@ -78,6 +96,8 @@ function linkOrderedListCounters(tr: Transform): Transform {
     return tr;
   }
 
+  const namedLists = new Set();
+
   let listsBefore = null;
   tr.doc.nodesBetween(from, to, (node, pos, parentNode) => {
     let willTraverseNodeChildren = true;
@@ -86,6 +106,11 @@ function linkOrderedListCounters(tr: Transform): Transform {
       willTraverseNodeChildren = false;
       const indent = node.attrs.indent || 0;
       const start = node.attrs.start || 1;
+      const {name, following} = node.attrs;
+      if (name) {
+        namedLists.add(name);
+      }
+
       if (listsBefore) {
         if (start === 1 && isOrderedListNode(node)) {
           // Look backward until we could find another ordered list node to
@@ -140,13 +165,16 @@ function linkOrderedListCounters(tr: Transform): Transform {
           }
         }
       } else {
-        // Found the first list.
+        // Found the first list for a new Lists Island.
         // ------
         // 1. AAA <- Counter restarts here.
         // 2. BBB
         listsBefore = [];
         if (isOrderedListNode(node)) {
-          tr = setCounterLinked(tr, pos, false);
+          // The list may follow a previous list that is among another Lists
+          // Island. If so, do not reset the list counter.
+          const counterIsLinked = namedLists.has(following);
+          tr = setCounterLinked(tr, pos, counterIsLinked);
         }
       }
       listsBefore.unshift({parentNode, indent, node});

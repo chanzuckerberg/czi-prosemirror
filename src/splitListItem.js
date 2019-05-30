@@ -1,13 +1,54 @@
 // @flow
 
+import uuid from '../src/ui/uuid';
 import {Fragment, Schema} from 'prosemirror-model';
 import {TextSelection} from 'prosemirror-state';
 import {Transform, canSplit} from 'prosemirror-transform';
 import {LIST_ITEM, ORDERED_LIST, BULLET_LIST, PARAGRAPH} from './NodeNames';
 import {findParentNodeOfType} from 'prosemirror-utils';
 
-// Build a command that splits a non-empty textblock at the top level
-// of a list item by also splitting that list item.
+// Build a command that splits a list item by the current cursor's position.
+// Some examples:
+// - split before item's text:
+//   - before:
+//     1. <cursor>AA
+//     2. BB
+//     3. CC
+//   - after:
+//     1. <cursor>
+//     2. AA
+//     3. BB
+//     4. CC
+// - split between item's text:
+//   - before:
+//     1. AA
+//     2. B<cursor>B
+//     3. CC
+//   - after:
+//     1. AA
+//     2. B
+//     3. B
+//     4. CC
+// - split after item's text:
+//   - before:
+//     1. AA
+//     2. BB<cursor>
+//     3. CC
+//   - after:
+//     1. AA
+//     2. BB
+//     3. <cursor>
+//     4. CC
+// - split at item with empty content:
+//   - before:
+//     1. AA
+//     2. <cursor>
+//     3. CC
+//   - after:
+//     1. AA
+//     <cursor>
+//     2. BB
+//     3. CC
 export default function splitListItem(
   tr: Transform,
   schema: Schema
@@ -33,36 +74,8 @@ export default function splitListItem(
   }
 
   if ($from.parent.content.size == 0) {
-    // In an empty block. If this is a nested list, the wrapping
-    // list item should be split. Otherwise, bail out and let next
-    // command handle lifting.
-    // if (
-    //   $from.depth == 2 ||
-    //   $from.node(-3).type !== nodeType ||
-    //   $from.index(-2) != $from.node(-2).childCount - 1
-    // ) {
-    //   return tr;
-    // }
-
-    // let wrap = Fragment.empty;
-    // const keepItem = $from.index(-1) > 0;
-    // // Build a fragment containing empty versions of the structure
-    // // from the outer list item to the parent node of the cursor
-    // for (let d = $from.depth - (keepItem ? 1 : 2); d >= $from.depth - 3; d--) {
-    //   wrap = Fragment.from($from.node(d).copy(wrap));
-    // }
-
-    // // Add a second list item with an empty default start node
-    // wrap = wrap.append(Fragment.from(nodeType.createAndFill()));
-    // tr = tr.replace(
-    //   $from.before(keepItem ? null : -1),
-    //   $from.after(-3),
-    //   new Slice(wrap, keepItem ? 3 : 2, 2)
-    // );
-
-    // const pos = $from.pos + (keepItem ? 3 : 2);
-    // tr = tr.setSelection(selection.constructor.near(tr.doc.resolve(pos)));
-    return insertParagraphAndSplitBlankListItem(tr, schema);
+    // In an empty list item.
+    return splitEmptyListItem(tr, schema);
   }
 
   const nextType =
@@ -79,10 +92,17 @@ export default function splitListItem(
   return tr.split($from.pos, 2, types);
 }
 
-function insertParagraphAndSplitBlankListItem(
-  tr: Transform,
-  schema: Schema
-): Transform {
+// This splits an item with empty content:
+//   - before:
+//     1. AA
+//     2. <cursor>
+//     3. CC
+//   - after:
+//     1. AA
+//     <cursor>
+//     2. BB
+//     3. CC
+function splitEmptyListItem(tr: Transform, schema: Schema): Transform {
   const listItemType = schema.nodes[LIST_ITEM];
   const orderedListType = schema.nodes[ORDERED_LIST];
   const bulletListType = schema.nodes[BULLET_LIST];
@@ -93,7 +113,7 @@ function insertParagraphAndSplitBlankListItem(
   }
   const listItemFound = findParentNodeOfType(listItemType)(tr.selection);
   if (!listItemFound || listItemFound.node.textContent !== '') {
-    // Selection cursor is not inside an empty list item.
+    // Cursor is not inside an empty list item.
     return tr;
   }
 
@@ -102,24 +122,46 @@ function insertParagraphAndSplitBlankListItem(
     (bulletListType && findParentNodeOfType(bulletListType)(tr.selection));
 
   if (!listFound) {
-    // Selection isn't inside an list.
+    // Cursor isn't inside an list.
     return tr;
   }
 
   const $listItemPos = tr.doc.resolve(listItemFound.pos);
   const listItemIndex = $listItemPos.index($listItemPos.depth);
+  const listFoundNode = listFound.node;
   if (
-    listFound.node.childCount < 3 ||
+    listFoundNode.childCount < 3 ||
     listItemIndex < 1 ||
-    listItemIndex >= listFound.node.childCount - 1
+    listItemIndex >= listFoundNode.childCount - 1
   ) {
     // - The list must have at least three list items
     // - The cursor must be after the first list item and before the last list
     //   item.
-    // If both conditions don't match, bails out.
+    // If both conditions don't match, bails out, which will remove the empty
+    // item.
     return tr;
   }
 
+  // Find the name of the current list to split. If the name isn't available,
+  // assigns a new name.
+  let {name} = listFoundNode.attrs;
+  if (!name) {
+    name = uuid();
+    tr = tr.setNodeMarkup(
+      listFound.pos,
+      listFoundNode.type,
+      {
+        ...listFoundNode.attrs,
+        name,
+      },
+      listFoundNode.marks
+    );
+  }
+
+  // We'll split the list into two lists.
+  // the first liust contains the items before the cursor, and the second
+  // list contains the items after the cursor and the second list will "follow"
+  // the first list by sharing the same counter variable.
   const sliceFrom = listItemFound.pos + listItemFound.node.nodeSize;
   const sliceTo = listFound.pos + listFound.node.nodeSize - 1;
   const slicedItems = tr.doc.slice(sliceFrom, sliceTo, false);
@@ -131,6 +173,7 @@ function insertParagraphAndSplitBlankListItem(
   const listAttrs = {...sourceListNode.attrs};
   if (orderedListType === sourceListNode.type) {
     listAttrs.counterReset = 'none';
+    listAttrs.following = name;
   }
 
   const insertFrom = deleteFrom + 1;
