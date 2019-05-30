@@ -7,8 +7,9 @@ import {Transform, canSplit} from 'prosemirror-transform';
 import {LIST_ITEM, ORDERED_LIST, BULLET_LIST, PARAGRAPH} from './NodeNames';
 import {findParentNodeOfType} from 'prosemirror-utils';
 
-// Build a command that splits a list item by the current cursor's position.
+// Splits a list item by the current cursor's position.
 // Some examples:
+//
 // - split before item's text:
 //   - before:
 //     1. <cursor>AA
@@ -19,6 +20,7 @@ import {findParentNodeOfType} from 'prosemirror-utils';
 //     2. AA
 //     3. BB
 //     4. CC
+//
 // - split between item's text:
 //   - before:
 //     1. AA
@@ -29,6 +31,7 @@ import {findParentNodeOfType} from 'prosemirror-utils';
 //     2. B
 //     3. B
 //     4. CC
+//
 // - split after item's text:
 //   - before:
 //     1. AA
@@ -39,6 +42,7 @@ import {findParentNodeOfType} from 'prosemirror-utils';
 //     2. BB
 //     3. <cursor>
 //     4. CC
+//
 // - split at item with empty content:
 //   - before:
 //     1. AA
@@ -49,6 +53,7 @@ import {findParentNodeOfType} from 'prosemirror-utils';
 //     <cursor>
 //     2. BB
 //     3. CC
+//
 export default function splitListItem(
   tr: Transform,
   schema: Schema
@@ -92,7 +97,7 @@ export default function splitListItem(
   return tr.split($from.pos, 2, types);
 }
 
-// This splits an item with empty content:
+// Splits an item with empty content:
 //   - before:
 //     1. AA
 //     2. <cursor>

@@ -165,7 +165,7 @@ function linkOrderedListCounters(tr: Transform): Transform {
           }
         }
       } else {
-        // Found the first list for a new Lists Island.
+        // Found the first list among a new Lists Island.
         // ------
         // 1. AAA <- Counter restarts here.
         // 2. BBB
