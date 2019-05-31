@@ -1,9 +1,10 @@
 // @flow
 
+import {Node} from 'prosemirror-model';
+
 import type {NodeSpec} from './Types';
 
 export const ATTRIBUTE_LIST_STYLE_TYPE = 'data-list-style-type';
-export const ATTRIBUTE_LIST_STYLE_COLOR = 'data-list-style-color';
 
 const ALIGN_PATTERN = /(left|right|center|justify)/;
 
@@ -16,38 +17,32 @@ function getAttrs(dom: HTMLElement) {
   if (align) {
     attrs.align = align;
   }
-
-  const color = dom.getAttribute(ATTRIBUTE_LIST_STYLE_COLOR);
-  if (color) {
-    attrs.color = color;
-  }
-
   return attrs;
 }
 
-// https://bitbucket.org/atlassian/atlaskit/src/34facee3f461/packages/editor-core/src/schema/nodes/?at=master
 const ListItemNodeSpec: NodeSpec = {
   attrs: {
     align: {default: null},
-    color: {default: null},
-    id: {default: null},
-    style: {default: null},
   },
 
-  // NOTE that do not support nested lists `'paragraph block*'` because of
-  // the complexity of dealing with indentation.
+  // NOTE:
+  // This spec does not support nested lists (e.g. `'paragraph block*'`)
+  // as content because of the complexity of dealing with indentation
+  // (context: https://github.com/ProseMirror/prosemirror/issues/92).
   content: 'paragraph',
 
   parseDOM: [{tag: 'li', getAttrs}],
 
-  toDOM(node) {
+  // NOTE:
+  // This method only defines the minimum HTML attributes needed when the node
+  // is serialized to HTML string. Usually this is called when user copies
+  // the node to clipboard.
+  // The actual DOM rendering logic is defined at `src/ui/ListItemNodeView.js`.
+  toDOM(node: Node): Array<any> {
     const attrs = {};
-    const {align, color} = node.attrs;
+    const {align} = node.attrs;
     if (align) {
       attrs['data-align'] = align;
-    }
-    if (color) {
-      attrs.style = `--czi-list-style-color: ${color}`;
     }
     return ['li', attrs, 0];
   },
