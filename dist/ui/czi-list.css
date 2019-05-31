@@ -23,6 +23,7 @@
 .ProseMirror li {
   --czi-list-font-size: 0.95em;
   --czi-list-style-color: initial;
+
   display: flex;
   list-style-type: none;
   margin: 0;
