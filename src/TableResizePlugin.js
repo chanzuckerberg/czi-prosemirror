@@ -309,7 +309,6 @@ function handleDragEnd(view: EditorView, event: PointerEvent): void {
   let tr = view.state.tr;
   for (let row = 0; row < map.height; row++) {
     for (let col = 0; col < widths.length; col++) {
-      // const width = widths[col];
       const mapIndex = row * map.width + col;
       if (row && map.map[mapIndex] == map.map[mapIndex - map.width]) {
         // Rowspanning cell that has already been handled
@@ -321,8 +320,6 @@ function handleDragEnd(view: EditorView, event: PointerEvent): void {
       const colwidth = widths.slice(col, col + colspan);
 
       if (colspan > 1) {
-        // The current `colwidth` will be shared with the cells that are
-        // spanned by the current cell.
         col += colspan - 1;
       }
 
