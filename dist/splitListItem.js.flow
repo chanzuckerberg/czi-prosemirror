@@ -164,7 +164,7 @@ function splitEmptyListItem(tr: Transform, schema: Schema): Transform {
   }
 
   // We'll split the list into two lists.
-  // the first liust contains the items before the cursor, and the second
+  // the first list contains the items before the cursor, and the second
   // list contains the items after the cursor and the second list will "follow"
   // the first list by sharing the same counter variable.
   const sliceFrom = listItemFound.pos + listItemFound.node.nodeSize;
