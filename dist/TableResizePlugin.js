@@ -336,6 +336,8 @@ function handleDragEnd(view, event) {
       var colwidth = widths.slice(col, col + colspan);
 
       if (colspan > 1) {
+        // The current cell spans across multiple columns, this forwards to
+        // the next cell for the next iteration.
         col += colspan - 1;
       }
 
