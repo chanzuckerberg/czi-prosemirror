@@ -21,6 +21,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var babelPluginFlowReactPropTypes_proptype_NodeSpec = require('./Types').babelPluginFlowReactPropTypes_proptype_NodeSpec || require('prop-types').any;
 
 var ATTRIBUTE_COUNTER_RESET = 'data-counter-reset';
+var ATTRIBUTE_FOLLOWING = 'data-following';
 var AUTO_LIST_STYLE_TYPES = ['decimal', 'lower-alpha', 'lower-roman'];
 
 var OrderedListNodeSpec = {
@@ -28,7 +29,9 @@ var OrderedListNodeSpec = {
     id: { default: null },
     counterReset: { default: null },
     indent: { default: _ParagraphNodeSpec.MIN_INDENT_LEVEL },
+    following: { default: null },
     listStyleType: { default: null },
+    name: { default: null },
     start: { default: 1 }
   },
   group: 'block',
@@ -43,10 +46,16 @@ var OrderedListNodeSpec = {
 
       var indent = dom.hasAttribute(_ParagraphNodeSpec.ATTRIBUTE_INDENT) ? parseInt(dom.getAttribute(_ParagraphNodeSpec.ATTRIBUTE_INDENT), 10) : _ParagraphNodeSpec.MIN_INDENT_LEVEL;
 
+      var name = dom.getAttribute('name') || undefined;
+
+      var following = dom.getAttribute(ATTRIBUTE_FOLLOWING) || undefined;
+
       return {
         counterReset: counterReset,
+        following: following,
         indent: indent,
         listStyleType: listStyleType,
+        name: name,
         start: start
       };
     }
@@ -56,11 +65,18 @@ var OrderedListNodeSpec = {
         start = _node$attrs.start,
         indent = _node$attrs.indent,
         listStyleType = _node$attrs.listStyleType,
-        counterReset = _node$attrs.counterReset;
+        counterReset = _node$attrs.counterReset,
+        following = _node$attrs.following,
+        name = _node$attrs.name;
 
     var attrs = (0, _defineProperty3.default)({}, _ParagraphNodeSpec.ATTRIBUTE_INDENT, indent);
+
     if (counterReset === 'none') {
       attrs[ATTRIBUTE_COUNTER_RESET] = counterReset;
+    }
+
+    if (following) {
+      attrs[ATTRIBUTE_FOLLOWING] = following;
     }
 
     if (listStyleType) {
@@ -69,6 +85,10 @@ var OrderedListNodeSpec = {
 
     if (start !== 1) {
       attrs.start = start;
+    }
+
+    if (name) {
+      attrs.name = name;
     }
 
     var htmlListStyleType = listStyleType;
