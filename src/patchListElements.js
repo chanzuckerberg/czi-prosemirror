@@ -1,14 +1,24 @@
 // @flow
-
+import uuid from './ui/uuid';
 import {ATTRIBUTE_LIST_STYLE_TYPE} from './ListItemNodeSpec';
 import {
   ATTRIBUTE_INDENT,
   EMPTY_CSS_VALUE,
   convertMarginLeftToIndentValue,
 } from './ParagraphNodeSpec';
+import {
+  ATTRIBUTE_COUNTER_RESET,
+  ATTRIBUTE_FOLLOWING,
+} from './OrderedListNodeSpec';
 import {ATTRIBUTE_CSS_BEFORE_CONTENT} from './patchStyleElements';
 
 export default function patchListElements(doc: Document): void {
+  // In Google Doc, lists are exported as indented list elements which is the
+  // default DOM structure that `czi-prosemirror` supports. However, other doc
+  // providers (e.g Office 365) may export lists as nested list elements.
+  // Before proceeding further, it needs to convert the nested list elements
+  // into indented list elements.
+  liftNestedListElements(doc);
   Array.from(doc.querySelectorAll('ol, ul')).forEach(patchListElementsElement);
 }
 
@@ -40,10 +50,6 @@ function patchListElementsElement(listElement: HTMLElement): void {
     parentElement.insertBefore(tt, listElement);
   }
 
-  if (parentElement && parentElement.nodeName === 'LI') {
-    // TODO: Handle this later.
-    console.error('nested list is not supported', listElement);
-  }
   Array.from(children).forEach(listItemElement => {
     const {style} = listItemElement;
     patchPaddingStyle(listItemElement);
@@ -159,4 +165,112 @@ function patchPaddingStyle(listItemElement: HTMLElement): void {
     // Unable to patch the style.
     listItemElement.appendChild(frag);
   }
+}
+
+// This converts all nested list elemnets into indented list elements.
+// See `liftListElement()`.
+function liftNestedListElements(doc: Document): void {
+  const els = Array.from(doc.querySelectorAll('li > ol, li > ul'));
+  els.forEach(el => {
+    const indent = findIndentLevel(el);
+    if (indent > 0) {
+      el.setAttribute('data-indent', String(indent));
+    }
+  });
+
+  els.forEach(el => {
+    liftListElement(el);
+  });
+}
+
+// This converts nested list elemnets into indented elements.
+// == UI ==
+// 1. AA
+//   1. BB
+//   2. BB
+// 2. AA
+// == DOM (Before) ==
+// <ol> <!-- Parent List -->
+//   <li>
+//     AA
+//     <ol> <!-- Child (nested) List -->
+//       <li>BB</li>
+//       <li>BB</li>
+//     </ol>
+//   </li>
+//   <li>
+//     AA
+//   </li>
+// </ol>
+// == DOM (After) ==
+// <ol> <!-- 1st List -->
+//   <li>AA</li>
+// </ol>
+// <ol data-indent="1"> <!-- 2nd (indented) List -->
+//   <li>BB</li>
+//   <li>BB</li>
+// </ol>
+// <ol> <!-- 3rd (following) List -->
+//   <li>AA</li>
+// </ol>
+function liftListElement(listElement: Element): void {
+  const parentlistItem = listElement.parentElement;
+  const parentList = parentlistItem && parentlistItem.parentElement;
+  const parentListType = (parentList && parentList.nodeName) || '';
+
+  if (
+    !parentList ||
+    !parentlistItem ||
+    (parentListType !== 'OL' && parentListType !== 'UL') ||
+    parentlistItem.nodeName !== 'LI'
+  ) {
+    throw new Error('List Element is not nested');
+  }
+
+  const parentListItems = Array.from(parentList.children);
+  const index = parentListItems.findIndex(el => el === parentlistItem);
+  if (index < 0) {
+    throw new Error('Parent list item not found');
+  }
+
+  appendElementAfter(parentList, listElement);
+
+  const listItemsAfter = parentListItems.slice(index + 1);
+  if (!listItemsAfter.length) {
+    return;
+  }
+
+  const doc = listElement.ownerDocument;
+  const listAfter = doc.createElement(parentListType);
+  const name = parentList.getAttribute('name') || uuid();
+  parentList.setAttribute('name', name);
+  listAfter.setAttribute(ATTRIBUTE_FOLLOWING, name);
+  listAfter.setAttribute(ATTRIBUTE_COUNTER_RESET, 'none');
+  while (listItemsAfter.length) {
+    listAfter.appendChild(listItemsAfter.shift());
+  }
+  appendElementAfter(parentList, listAfter);
+}
+
+function appendElementAfter(el: Element, elAfter: Element): void {
+  const {parentElement} = el;
+  if (!parentElement) {
+    throw new Error('element is orphan');
+  }
+  parentElement.appendChild(elAfter);
+}
+
+function findIndentLevel(el: Element): number {
+  let indent = 0;
+  let currentEl = el.parentElement;
+  while (currentEl) {
+    const {nodeName} = currentEl;
+    if (nodeName === 'OL' || nodeName === 'UL') {
+      indent++;
+    } else if (nodeName !== 'LI') {
+      break;
+    }
+    currentEl = currentEl.parentElement;
+  }
+  return indent;
 }

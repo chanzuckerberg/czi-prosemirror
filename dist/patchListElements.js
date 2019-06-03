@@ -14,20 +14,31 @@ var _from2 = _interopRequireDefault(_from);
 
 exports.default = patchListElements;
 
+var _uuid = require('./ui/uuid');
+
+var _uuid2 = _interopRequireDefault(_uuid);
+
 var _ListItemNodeSpec = require('./ListItemNodeSpec');
 
 var _ParagraphNodeSpec = require('./ParagraphNodeSpec');
+
+var _OrderedListNodeSpec = require('./OrderedListNodeSpec');
 
 var _patchStyleElements = require('./patchStyleElements');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function patchListElements(doc) {
+  // In Google Doc, lists are exported as indented list elements which is the
+  // default DOM structure that `czi-prosemirror` supports. However, other doc
+  // providers (e.g Office 365) may export lists as nested list elements.
+  // Before proceeding further, it needs to convert the nested list elements
+  // into indented list elements.
+  liftNestedListElements(doc);
   (0, _from2.default)(doc.querySelectorAll('ol, ul')).forEach(patchListElementsElement);
 }
 
 // This assumes that every 36pt maps to one indent level.
-
 
 var CHAR_BULLET = '\u25CF';
 var CHAR_CIRCLE = '\u25CB';
@@ -54,10 +65,6 @@ function patchListElementsElement(listElement) {
     parentElement.insertBefore(tt, listElement);
   }
 
-  if (parentElement && parentElement.nodeName === 'LI') {
-    // TODO: Handle this later.
-    console.error('nested list is not supported', listElement);
-  }
   (0, _from2.default)(children).forEach(function (listItemElement) {
     var style = listItemElement.style;
 
@@ -173,4 +180,112 @@ function patchPaddingStyle(listItemElement) {
     // Unable to patch the style.
     listItemElement.appendChild(frag);
   }
+}
+
+// This converts all nested list elemnets into indented list elements.
+// See `liftListElement()`.
+function liftNestedListElements(doc) {
+  var els = (0, _from2.default)(doc.querySelectorAll('li > ol, li > ul'));
+  els.forEach(function (el) {
+    var indent = findIndentLevel(el);
+    if (indent > 0) {
+      el.setAttribute('data-indent', String(indent));
+    }
+  });
+
+  els.forEach(function (el) {
+    liftListElement(el);
+  });
+}
+
+// This converts nested list elemnets into indented elements.
+// == UI ==
+// 1. AA
+//   1. BB
+//   2. BB
+// 2. AA
+// == DOM (Before) ==
+// <ol> <!-- Parent List -->
+//   <li>
+//     AA
+//     <ol> <!-- Child (nested) List -->
+//       <li>BB</li>
+//       <li>BB</li>
+//     </ol>
+//   </li>
+//   <li>
+//     AA
+//   </li>
+// </ol>
+// == DOM (After) ==
+// <ol> <!-- 1st List -->
+//   <li>AA</li>
+// </ol>
+// <ol data-indent="1"> <!-- 2nd (indented) List -->
+//   <li>BB</li>
+//   <li>BB</li>
+// </ol>
+// <ol> <!-- 3rd (following) List -->
+//   <li>AA</li>
+// </ol>
+function liftListElement(listElement) {
+  var parentlistItem = listElement.parentElement;
+  var parentList = parentlistItem && parentlistItem.parentElement;
+  var parentListType = parentList && parentList.nodeName || '';
+
+  if (!parentList || !parentlistItem || parentListType !== 'OL' && parentListType !== 'UL' || parentlistItem.nodeName !== 'LI') {
+    throw new Error('List Element is not nested');
+  }
+
+  var parentListItems = (0, _from2.default)(parentList.children);
+  var index = parentListItems.findIndex(function (el) {
+    return el === parentlistItem;
+  });
+  if (index < 0) {
+    throw new Error('Parent list item not found');
+  }
+
+  appendElementAfter(parentList, listElement);
+
+  var listItemsAfter = parentListItems.slice(index + 1);
+  if (!listItemsAfter.length) {
+    return;
+  }
+
+  var doc = listElement.ownerDocument;
+  var listAfter = doc.createElement(parentListType);
+  var name = parentList.getAttribute('name') || (0, _uuid2.default)();
+  parentList.setAttribute('name', name);
+  listAfter.setAttribute(_OrderedListNodeSpec.ATTRIBUTE_FOLLOWING, name);
+  listAfter.setAttribute(_OrderedListNodeSpec.ATTRIBUTE_COUNTER_RESET, 'none');
+  while (listItemsAfter.length) {
+    listAfter.appendChild(listItemsAfter.shift());
+  }
+  appendElementAfter(parentList, listAfter);
+}
+
+function appendElementAfter(el, elAfter) {
+  var parentElement = el.parentElement;
+
+  if (!parentElement) {
+    throw new Error('element is orphan');
+  }
+  parentElement.appendChild(elAfter);
+}
+
+function findIndentLevel(el) {
+  var indent = 0;
+  var currentEl = el.parentElement;
+  while (currentEl) {
+    var _currentEl = currentEl,
+        nodeName = _currentEl.nodeName;
+
+    if (nodeName === 'OL' || nodeName === 'UL') {
+      indent++;
+    } else if (nodeName !== 'LI') {
+      break;
+    }
+    currentEl = currentEl.parentElement;
+  }
+  return indent;
 }

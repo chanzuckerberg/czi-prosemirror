@@ -8,8 +8,8 @@ import {ATTRIBUTE_INDENT, MIN_INDENT_LEVEL} from './ParagraphNodeSpec';
 
 import type {NodeSpec} from './Types';
 
-const ATTRIBUTE_COUNTER_RESET = 'data-counter-reset';
-const ATTRIBUTE_FOLLOWING = 'data-following';
+export const ATTRIBUTE_COUNTER_RESET = 'data-counter-reset';
+export const ATTRIBUTE_FOLLOWING = 'data-following';
 const AUTO_LIST_STYLE_TYPES = ['decimal', 'lower-alpha', 'lower-roman'];
 
 const OrderedListNodeSpec: NodeSpec = {
@@ -99,7 +99,7 @@ const OrderedListNodeSpec: NodeSpec = {
 
     attrs.style =
       `--czi-counter-name: ${cssCounterName};` +
-      `--czi-counter-reset: ${start - 1};` +
+      `--czi-counter-reset: ${following ? 'none' : start - 1};` +
       `--czi-list-style-type: ${htmlListStyleType}`;
 
     attrs.type = htmlListStyleType;
