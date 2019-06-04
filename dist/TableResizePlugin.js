@@ -322,7 +322,6 @@ function handleDragEnd(view, event) {
   var tr = view.state.tr;
   for (var row = 0; row < map.height; row++) {
     for (var col = 0; col < widths.length; col++) {
-      var width = widths[col];
       var mapIndex = row * map.width + col;
       if (row && map.map[mapIndex] == map.map[mapIndex - map.width]) {
         // Rowspanning cell that has already been handled
@@ -333,14 +332,19 @@ function handleDragEnd(view, event) {
       var _table$nodeAt = table.nodeAt(pos),
           attrs = _table$nodeAt.attrs;
 
-      var index = attrs.colspan == 1 ? 0 : col - map.colCount(pos);
+      var colspan = attrs.colspan || 1;
+      var colwidth = widths.slice(col, col + colspan);
 
-      if (attrs.colwidth && attrs.colwidth[index] === width) {
+      if (colspan > 1) {
+        // The current cell spans across multiple columns, this forwards to
+        // the next cell for the next iteration.
+        col += colspan - 1;
+      }
+
+      if (attrs.colwidth && compareNumbersList(attrs.colwidth, colwidth)) {
         continue;
       }
 
-      var colwidth = attrs.colwidth ? attrs.colwidth.slice() : zeroes(attrs.colspan);
-      colwidth[index] = width;
       tr = tr.setNodeMarkup(start + pos, null, (0, _prosemirrorTables.setAttr)(attrs, 'colwidth', colwidth));
     }
   }
@@ -470,12 +474,6 @@ function updateResizeHandle(view, cellPos, forMarginLeft) {
   }));
 }
 
-function zeroes(n) {
-  var result = new Array(n);
-  result.fill(0);
-  return result;
-}
-
 // Get the decorations that renders the resize handle bars.
 function handleDecorations(state, resizeState) {
   if (!resizeState.cellPos) {
@@ -535,6 +533,16 @@ function batchMouseHandler(handler) {
     view = ev;
     requestAnimationFrame(onMouseEvent);
   };
+}
+
+function compareNumbersList(one, two) {
+  if (one.length !== two.length) {
+    return false;
+  }
+
+  return !one.some(function (value, index) {
+    return two[index] !== value;
+  });
 }
 
 // Plugin that supports table columns resizing.
