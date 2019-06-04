@@ -9,6 +9,7 @@ import {ATTRIBUTE_INDENT, MIN_INDENT_LEVEL} from './ParagraphNodeSpec';
 import type {NodeSpec} from './Types';
 
 const ATTRIBUTE_COUNTER_RESET = 'data-counter-reset';
+const ATTRIBUTE_FOLLOWING = 'data-following';
 const AUTO_LIST_STYLE_TYPES = ['decimal', 'lower-alpha', 'lower-roman'];
 
 const OrderedListNodeSpec: NodeSpec = {
@@ -16,7 +17,9 @@ const OrderedListNodeSpec: NodeSpec = {
     id: {default: null},
     counterReset: {default: null},
     indent: {default: MIN_INDENT_LEVEL},
+    following: {default: null},
     listStyleType: {default: null},
+    name: {default: null},
     start: {default: 1},
   },
   group: 'block',
@@ -37,22 +40,40 @@ const OrderedListNodeSpec: NodeSpec = {
           ? parseInt(dom.getAttribute(ATTRIBUTE_INDENT), 10)
           : MIN_INDENT_LEVEL;
 
+        const name = dom.getAttribute('name') || undefined;
+
+        const following = dom.getAttribute(ATTRIBUTE_FOLLOWING) || undefined;
+
         return {
           counterReset,
+          following,
           indent,
           listStyleType,
+          name,
           start,
         };
       },
     },
   ],
   toDOM(node: Node) {
-    const {start, indent, listStyleType, counterReset} = node.attrs;
+    const {
+      start,
+      indent,
+      listStyleType,
+      counterReset,
+      following,
+      name,
+    } = node.attrs;
     const attrs: Object = {
       [ATTRIBUTE_INDENT]: indent,
     };
+
     if (counterReset === 'none') {
       attrs[ATTRIBUTE_COUNTER_RESET] = counterReset;
+    }
+
+    if (following) {
+      attrs[ATTRIBUTE_FOLLOWING] = following;
     }
 
     if (listStyleType) {
@@ -61,6 +82,10 @@ const OrderedListNodeSpec: NodeSpec = {
 
     if (start !== 1) {
       attrs.start = start;
+    }
+
+    if (name) {
+      attrs.name = name;
     }
 
     let htmlListStyleType = listStyleType;

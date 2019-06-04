@@ -1,16 +1,12 @@
 // @flow
 
-import {
-  ATTRIBUTE_LIST_STYLE_COLOR,
-  ATTRIBUTE_LIST_STYLE_TYPE,
-} from './ListItemNodeSpec';
+import {ATTRIBUTE_LIST_STYLE_TYPE} from './ListItemNodeSpec';
 import {
   ATTRIBUTE_INDENT,
   EMPTY_CSS_VALUE,
   convertMarginLeftToIndentValue,
 } from './ParagraphNodeSpec';
 import {ATTRIBUTE_CSS_BEFORE_CONTENT} from './patchStyleElements';
-import toCSSColor from './ui/toCSSColor';
 
 export default function patchListElements(doc: Document): void {
   Array.from(doc.querySelectorAll('ol, ul')).forEach(patchListElementsElement);
@@ -67,19 +63,6 @@ function patchListElementsElement(listElement: HTMLElement): void {
 
     if (ml !== marginLeft) {
       marginLeft = null;
-    }
-
-    const {firstElementChild, lastElementChild} = listItemElement;
-    if (firstElementChild && firstElementChild === lastElementChild) {
-      // If <li /> has only only one child with the same text color, assume
-      // that text color will be used for list style type, too.
-      const el: any = firstElementChild;
-      const color = el.style ? el.style.color : null;
-      color &&
-        listItemElement.setAttribute(
-          ATTRIBUTE_LIST_STYLE_COLOR,
-          toCSSColor(color)
-        );
     }
   });
 

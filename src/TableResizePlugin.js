@@ -309,7 +309,6 @@ function handleDragEnd(view: EditorView, event: PointerEvent): void {
   let tr = view.state.tr;
   for (let row = 0; row < map.height; row++) {
     for (let col = 0; col < widths.length; col++) {
-      const width = widths[col];
       const mapIndex = row * map.width + col;
       if (row && map.map[mapIndex] == map.map[mapIndex - map.width]) {
         // Rowspanning cell that has already been handled
@@ -317,16 +316,19 @@ function handleDragEnd(view: EditorView, event: PointerEvent): void {
       }
       const pos = map.map[mapIndex];
       const {attrs} = table.nodeAt(pos);
-      const index = attrs.colspan == 1 ? 0 : col - map.colCount(pos);
+      const colspan = attrs.colspan || 1;
+      const colwidth = widths.slice(col, col + colspan);
 
-      if (attrs.colwidth && attrs.colwidth[index] === width) {
+      if (colspan > 1) {
+        // The current cell spans across multiple columns, this forwards to
+        // the next cell for the next iteration.
+        col += colspan - 1;
+      }
+
+      if (attrs.colwidth && compareNumbersList(attrs.colwidth, colwidth)) {
         continue;
       }
 
-      const colwidth = attrs.colwidth
-        ? attrs.colwidth.slice()
-        : zeroes(attrs.colspan);
-      colwidth[index] = width;
       tr = tr.setNodeMarkup(
         start + pos,
         null,
@@ -480,12 +482,6 @@ function updateResizeHandle(
   );
 }
 
-function zeroes(n: number): Array<number> {
-  const result = new Array(n);
-  result.fill(0);
-  return result;
-}
-
 // Get the decorations that renders the resize handle bars.
 function handleDecorations(
   state: EditorState,
@@ -553,6 +549,14 @@ function batchMouseHandler(
     view = ev;
     requestAnimationFrame(onMouseEvent);
   };
+}
+
+function compareNumbersList(one: Array<number>, two: Array<number>): boolean {
+  if (one.length !== two.length) {
+    return false;
+  }
+
+  return !one.some((value, index) => two[index] !== value);
 }
 
 // Plugin that supports table columns resizing.

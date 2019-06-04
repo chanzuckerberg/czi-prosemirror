@@ -99,6 +99,10 @@ var _ImageNodeView = require('./ImageNodeView');
 
 var _ImageNodeView2 = _interopRequireDefault(_ImageNodeView);
 
+var _ListItemNodeView = require('./ListItemNodeView');
+
+var _ListItemNodeView2 = _interopRequireDefault(_ListItemNodeView);
+
 var _MathNodeView = require('./MathNodeView');
 
 var _MathNodeView2 = _interopRequireDefault(_MathNodeView);
@@ -151,7 +155,7 @@ window.CZIProseMirror = {
 var AUTO_FOCUS_DELAY = 350;
 
 // Default custom node views.
-var DEFAULT_NODE_VIEWS = exports.DEFAULT_NODE_VIEWS = (0, _freeze2.default)((_Object$freeze2 = {}, (0, _defineProperty3.default)(_Object$freeze2, _NodeNames.IMAGE, _ImageNodeView2.default), (0, _defineProperty3.default)(_Object$freeze2, _NodeNames.MATH, _MathNodeView2.default), (0, _defineProperty3.default)(_Object$freeze2, _NodeNames.BOOKMARK, _BookmarkNodeView2.default), _Object$freeze2));
+var DEFAULT_NODE_VIEWS = exports.DEFAULT_NODE_VIEWS = (0, _freeze2.default)((_Object$freeze2 = {}, (0, _defineProperty3.default)(_Object$freeze2, _NodeNames.IMAGE, _ImageNodeView2.default), (0, _defineProperty3.default)(_Object$freeze2, _NodeNames.MATH, _MathNodeView2.default), (0, _defineProperty3.default)(_Object$freeze2, _NodeNames.BOOKMARK, _BookmarkNodeView2.default), (0, _defineProperty3.default)(_Object$freeze2, _NodeNames.LIST_ITEM, _ListItemNodeView2.default), _Object$freeze2));
 
 var EDITOR_EMPTY_STATE = (0, _freeze2.default)((0, _createEmptyEditorState2.default)());
 

@@ -1,8 +1,6 @@
 .ProseMirror ul li::before {
   /* Default bullet style to "disc" */
   content: '\2022\2009';
-  font-size: 1.85em;
-  line-height: 55%;
 }
 
 .ProseMirror ul[type='square'] li::before {
@@ -11,6 +9,5 @@
 
 .ProseMirror ul[type='circle'] li::before {
   content: '\25cb\2009';
-  font-size: 1.15em;
-  line-height: 120%;
+  transform: scale(0.6);
 }
