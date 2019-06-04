@@ -20,10 +20,6 @@ var _ParagraphNodeSpec = require('./ParagraphNodeSpec');
 
 var _patchStyleElements = require('./patchStyleElements');
 
-var _toCSSColor = require('./ui/toCSSColor');
-
-var _toCSSColor2 = _interopRequireDefault(_toCSSColor);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function patchListElements(doc) {
@@ -31,6 +27,8 @@ function patchListElements(doc) {
 }
 
 // This assumes that every 36pt maps to one indent level.
+
+
 var CHAR_BULLET = '\u25CF';
 var CHAR_CIRCLE = '\u25CB';
 var CHAR_SQUARE = '\u25A0';
@@ -80,16 +78,6 @@ function patchListElementsElement(listElement) {
 
     if (ml !== marginLeft) {
       marginLeft = null;
-    }
-
-    var firstElementChild = listItemElement.firstElementChild,
-        lastElementChild = listItemElement.lastElementChild;
-
-    if (firstElementChild && firstElementChild === lastElementChild) {
-      // If <li /> has only only one child with the same text color, assume
-      var el = firstElementChild;
-      var color = el.style ? el.style.color : null;
-      color && listItemElement.setAttribute(_ListItemNodeSpec.ATTRIBUTE_LIST_STYLE_COLOR, (0, _toCSSColor2.default)(color));
     }
   });
 
