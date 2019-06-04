@@ -233,8 +233,12 @@ function liftListElement(listElement: Element): void {
     throw new Error('Parent list item not found');
   }
 
+  // Move the target list from its parent list to the position after its parent
+  // list.
   appendElementAfter(parentList, listElement);
 
+  // All list items that were after the target list should be moved into a
+  // new list that follows the parent list.
   const listItemsAfter = parentListItems.slice(index + 1);
   if (!listItemsAfter.length) {
     return;
