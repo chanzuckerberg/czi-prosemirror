@@ -13,9 +13,11 @@ import {
 import {ATTRIBUTE_CSS_BEFORE_CONTENT} from './patchStyleElements';
 
 export default function patchListElements(doc: Document): void {
-  // In Google Doc, lists are exported as indented list elements which is the
-  // default DOM structure that `czi-prosemirror` supports. However, other doc
-  // providers (e.g Office 365) may export lists as nested list elements.
+  // In Google Doc, lists are exported as indented
+  // (e.g. style="margin-left: 48pt") list elements which is the default DOM
+  // structure that `czi-prosemirror` supports. However, other doc providers
+  // (e.g Office 365) may export lists as nested list elements that can't
+  // be rendered properly.
   // Before proceeding further, it needs to convert the nested list elements
   // into indented list elements.
   liftNestedListElements(doc);
@@ -167,7 +169,7 @@ function patchPaddingStyle(listItemElement: HTMLElement): void {
   }
 }
 
-// This converts all nested list elemnets into indented list elements.
+// This converts all nested list elements into indented list elements.
 // See `liftListElement()`.
 function liftNestedListElements(doc: Document): void {
   const els = Array.from(doc.querySelectorAll('li > ol, li > ul'));
@@ -183,13 +185,13 @@ function liftNestedListElements(doc: Document): void {
   });
 }
 
-// This converts nested list elemnets into indented elements.
+// This converts nested list elements into indented elements.
 // == UI ==
 // 1. AA
 //   1. BB
 //   2. BB
 // 2. AA
-// == DOM (Before) ==
+// == DOM Structure (Before) ==
 // <ol> <!-- Parent List -->
 //   <li>
 //     AA
@@ -198,11 +200,9 @@ function liftNestedListElements(doc: Document): void {
 //       <li>BB</li>
 //     </ol>
 //   </li>
-//   <li>
-//     AA
-//   </li>
+//   <li> AA</li>
 // </ol>
-// == DOM (After) ==
+// == DOM Structure (After) ==
 // <ol> <!-- 1st List -->
 //   <li>AA</li>
 // </ol>
@@ -255,7 +255,7 @@ function liftListElement(listElement: Element): void {
 function appendElementAfter(el: Element, elAfter: Element): void {
   const {parentElement} = el;
   if (!parentElement) {
-    throw new Error('element is orphan');
+    throw new Error('element is orphaned');
   }
   parentElement.appendChild(elAfter);
 }
