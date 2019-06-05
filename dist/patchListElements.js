@@ -14,6 +14,14 @@ var _from2 = _interopRequireDefault(_from);
 
 exports.default = patchListElements;
 
+var _HTMLMutator = require('./HTMLMutator');
+
+var _HTMLMutator2 = _interopRequireDefault(_HTMLMutator);
+
+var _nullthrows = require('nullthrows');
+
+var _nullthrows2 = _interopRequireDefault(_nullthrows);
+
 var _uuid = require('./ui/uuid');
 
 var _uuid2 = _interopRequireDefault(_uuid);
@@ -41,6 +49,7 @@ function patchListElements(doc) {
 }
 
 // This assumes that every 36pt maps to one indent level.
+
 
 var CHAR_BULLET = '\u25CF';
 var CHAR_CIRCLE = '\u25CB';
@@ -185,22 +194,7 @@ function patchPaddingStyle(listItemElement) {
 }
 
 // This converts all nested list elements into indented list elements.
-// See `liftListElement()`.
-function liftNestedListElements(doc) {
-  var els = (0, _from2.default)(doc.querySelectorAll('li > ol, li > ul'));
-  els.forEach(function (el) {
-    var indent = findIndentLevel(el);
-    if (indent > 0) {
-      el.setAttribute('data-indent', String(indent));
-    }
-  });
-
-  els.forEach(function (el) {
-    liftListElement(el);
-  });
-}
-
-// This converts nested list elements into indented elements.
+// For instance,
 // == UI ==
 // 1. AA
 //   1. BB
@@ -218,63 +212,63 @@ function liftNestedListElements(doc) {
 //   <li> AA</li>
 // </ol>
 // == DOM Structure (After) ==
-// <ol> <!-- 1st List -->
+// <ol name="x">
 //   <li>AA</li>
 // </ol>
-// <ol data-indent="1"> <!-- 2nd (indented) List -->
+// <ol data-indent="1">
 //   <li>BB</li>
 //   <li>BB</li>
 // </ol>
-// <ol> <!-- 3rd (following) List -->
+// <ol data-following="x" data-counter-reset-"none">
 //   <li>AA</li>
 // </ol>
-function liftListElement(listElement) {
-  var parentlistItem = listElement.parentElement;
-  var parentList = parentlistItem && parentlistItem.parentElement;
-  var parentListType = parentList && parentList.nodeName || '';
+function liftNestedListElements(doc) {
+  var selector = 'li > ol, li > ul';
+  var els = (0, _from2.default)(doc.querySelectorAll(selector));
+  var htmlMutator = new _HTMLMutator2.default(doc);
 
-  if (!parentList || !parentlistItem || parentListType !== 'OL' && parentListType !== 'UL' || parentlistItem.nodeName !== 'LI') {
-    throw new Error('List Element is not nested');
-  }
+  els.forEach(function (list) {
+    var indent = findIndentLevel(list);
+    list.setAttribute('data-indent', String(indent));
 
-  var parentListItems = (0, _from2.default)(parentList.children);
-  var index = parentListItems.findIndex(function (el) {
-    return el === parentlistItem;
+    var parentListItem = (0, _nullthrows2.default)(list.parentElement);
+    var parentList = (0, _nullthrows2.default)(parentListItem.parentElement);
+    var parentListNodeName = parentList.nodeName.toLowerCase();
+    var isLast = parentList.lastElementChild === parentListItem;
+    var style = parentList.getAttribute('style') || '';
+
+    // The parent list will be split into two lists and the second list should
+    // follow the first list.
+    var followingName = parentList.getAttribute('name') || (0, _uuid2.default)();
+    parentList.setAttribute('name', followingName);
+
+    // Stub HTML snippets that will lift the list.
+
+    // Before:
+    // <ol>
+    //   <li>
+    //     AAA
+    //     <ol><li>BBB</li></ol>
+    //   </li>
+    //   <li>CCC</li>
+    // </ol>
+    // After:
+    // <ol><li>AAA</li></ol>
+    // <ol><li>BBB</li></ol>
+    // <ol><li>CCC</li></ol>
+
+    // Close the parent list before the list.
+    htmlMutator.insertHTMLBefore('</' + parentListNodeName + '>', list);
+    // Open a new list after list.
+    htmlMutator.insertHTMLAfter('<' + parentListNodeName + '\n          style="' + style + '"\n          class="' + parentList.className + '"\n          ' + _OrderedListNodeSpec.ATTRIBUTE_COUNTER_RESET + '="none"\n          ' + _OrderedListNodeSpec.ATTRIBUTE_FOLLOWING + '="' + followingName + '">', list);
+
+    if (isLast) {
+      // The new list after list is an empty list, comment it out.
+      htmlMutator.insertHTMLAfter('<!--', list).insertHTMLAfter('-->', parentList);
+    }
   });
-  if (index < 0) {
-    throw new Error('Parent list item not found');
-  }
 
-  // Move the target list from its parent list to the position after its parent
-  // list.
-  appendElementAfter(parentList, listElement);
-
-  // All list items that were after the target list should be moved into a
-  // new list that follows the parent list.
-  var listItemsAfter = parentListItems.slice(index + 1);
-  if (!listItemsAfter.length) {
-    return;
-  }
-
-  var doc = listElement.ownerDocument;
-  var listAfter = doc.createElement(parentListType);
-  var name = parentList.getAttribute('name') || (0, _uuid2.default)();
-  parentList.setAttribute('name', name);
-  listAfter.setAttribute(_OrderedListNodeSpec.ATTRIBUTE_FOLLOWING, name);
-  listAfter.setAttribute(_OrderedListNodeSpec.ATTRIBUTE_COUNTER_RESET, 'none');
-  while (listItemsAfter.length) {
-    listAfter.appendChild(listItemsAfter.shift());
-  }
-  appendElementAfter(parentList, listAfter);
-}
-
-function appendElementAfter(el, elAfter) {
-  var parentElement = el.parentElement;
-
-  if (!parentElement) {
-    throw new Error('element is orphaned');
-  }
-  parentElement.appendChild(elAfter);
+  htmlMutator.execute();
 }
 
 function findIndentLevel(el) {

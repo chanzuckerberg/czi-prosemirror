@@ -1,5 +1,9 @@
 // @flow
+
+import HTMLMutator from './HTMLMutator';
+import nullthrows from 'nullthrows';
 import uuid from './ui/uuid';
+
 import {ATTRIBUTE_LIST_STYLE_TYPE} from './ListItemNodeSpec';
 import {
   ATTRIBUTE_INDENT,
@@ -170,22 +174,7 @@ function patchPaddingStyle(listItemElement: HTMLElement): void {
 }
 
 // This converts all nested list elements into indented list elements.
-// See `liftListElement()`.
-function liftNestedListElements(doc: Document): void {
-  const els = Array.from(doc.querySelectorAll('li > ol, li > ul'));
-  els.forEach(el => {
-    const indent = findIndentLevel(el);
-    if (indent > 0) {
-      el.setAttribute('data-indent', String(indent));
-    }
-  });
-
-  els.forEach(el => {
-    liftListElement(el);
-  });
-}
-
-// This converts nested list elements into indented elements.
+// For instance,
 // == UI ==
 // 1. AA
 //   1. BB
@@ -203,65 +192,72 @@ function liftNestedListElements(doc: Document): void {
 //   <li> AA</li>
 // </ol>
 // == DOM Structure (After) ==
-// <ol> <!-- 1st List -->
+// <ol name="x">
 //   <li>AA</li>
 // </ol>
-// <ol data-indent="1"> <!-- 2nd (indented) List -->
+// <ol data-indent="1">
 //   <li>BB</li>
 //   <li>BB</li>
 // </ol>
-// <ol> <!-- 3rd (following) List -->
+// <ol data-following="x" data-counter-reset-"none">
 //   <li>AA</li>
 // </ol>
-function liftListElement(listElement: Element): void {
-  const parentlistItem = listElement.parentElement;
-  const parentList = parentlistItem && parentlistItem.parentElement;
-  const parentListType = (parentList && parentList.nodeName) || '';
+function liftNestedListElements(doc: Document): void {
+  const selector = 'li > ol, li > ul';
+  const els = Array.from(doc.querySelectorAll(selector));
+  const htmlMutator = new HTMLMutator(doc);
 
-  if (
-    !parentList ||
-    !parentlistItem ||
-    (parentListType !== 'OL' && parentListType !== 'UL') ||
-    parentlistItem.nodeName !== 'LI'
-  ) {
-    throw new Error('List Element is not nested');
-  }
+  els.forEach(list => {
+    const indent = findIndentLevel(list);
+    list.setAttribute('data-indent', String(indent));
 
-  const parentListItems = Array.from(parentList.children);
-  const index = parentListItems.findIndex(el => el === parentlistItem);
-  if (index < 0) {
-    throw new Error('Parent list item not found');
-  }
+    const parentListItem = nullthrows(list.parentElement);
+    const parentList = nullthrows(parentListItem.parentElement);
+    const parentListNodeName = parentList.nodeName.toLowerCase();
+    const isLast = parentList.lastElementChild === parentListItem;
+    const style = parentList.getAttribute('style') || '';
 
-  // Move the target list from its parent list to the position after its parent
-  // list.
-  appendElementAfter(parentList, listElement);
+    // The parent list will be split into two lists and the second list should
+    // follow the first list.
+    const followingName = parentList.getAttribute('name') || uuid();
+    parentList.setAttribute('name', followingName);
 
-  // All list items that were after the target list should be moved into a
-  // new list that follows the parent list.
-  const listItemsAfter = parentListItems.slice(index + 1);
-  if (!listItemsAfter.length) {
-    return;
-  }
+    // Stub HTML snippets that will lift the list.
 
-  const doc = listElement.ownerDocument;
-  const listAfter = doc.createElement(parentListType);
-  const name = parentList.getAttribute('name') || uuid();
-  parentList.setAttribute('name', name);
-  listAfter.setAttribute(ATTRIBUTE_FOLLOWING, name);
-  listAfter.setAttribute(ATTRIBUTE_COUNTER_RESET, 'none');
-  while (listItemsAfter.length) {
-    listAfter.appendChild(listItemsAfter.shift());
-  }
-  appendElementAfter(parentList, listAfter);
-}
+    // Before:
+    // <ol>
+    //   <li>
+    //     AAA
+    //     <ol><li>BBB</li></ol>
+    //   </li>
+    //   <li>CCC</li>
+    // </ol>
+    // After:
+    // <ol><li>AAA</li></ol>
+    // <ol><li>BBB</li></ol>
+    // <ol><li>CCC</li></ol>
 
-function appendElementAfter(el: Element, elAfter: Element): void {
-  const {parentElement} = el;
-  if (!parentElement) {
-    throw new Error('element is orphaned');
-  }
-  parentElement.appendChild(elAfter);
+    // Close the parent list before the list.
+    htmlMutator.insertHTMLBefore(`<\/${parentListNodeName}>`, list);
+    // Open a new list after list.
+    htmlMutator.insertHTMLAfter(
+      `<${parentListNodeName}
+          style="${style}"
+          class="${parentList.className}"
+          ${ATTRIBUTE_COUNTER_RESET}="none"
+          ${ATTRIBUTE_FOLLOWING}="${followingName}">`,
+      list
+    );
+
+    if (isLast) {
+      // The new list after list is an empty list, comment it out.
+      htmlMutator
+        .insertHTMLAfter('<!--', list)
+        .insertHTMLAfter('-->', parentList);
+    }
+  });
+
+  htmlMutator.execute();
 }
 
 function findIndentLevel(el: Element): number {
