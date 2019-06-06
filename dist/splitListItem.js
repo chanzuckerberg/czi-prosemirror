@@ -10,7 +10,7 @@ var _extends3 = _interopRequireDefault(_extends2);
 
 exports.default = splitListItem;
 
-var _uuid = require('../src/ui/uuid');
+var _uuid = require('./ui/uuid');
 
 var _uuid2 = _interopRequireDefault(_uuid);
 
