@@ -14,15 +14,37 @@ var _from2 = _interopRequireDefault(_from);
 
 exports.default = patchListElements;
 
+var _HTMLMutator = require('./HTMLMutator');
+
+var _HTMLMutator2 = _interopRequireDefault(_HTMLMutator);
+
+var _nullthrows = require('nullthrows');
+
+var _nullthrows2 = _interopRequireDefault(_nullthrows);
+
+var _uuid = require('./ui/uuid');
+
+var _uuid2 = _interopRequireDefault(_uuid);
+
 var _ListItemNodeSpec = require('./ListItemNodeSpec');
 
 var _ParagraphNodeSpec = require('./ParagraphNodeSpec');
+
+var _OrderedListNodeSpec = require('./OrderedListNodeSpec');
 
 var _patchStyleElements = require('./patchStyleElements');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function patchListElements(doc) {
+  // In Google Doc, lists are exported as indented
+  // (e.g. style="margin-left: 48pt") list elements which is the default DOM
+  // structure that `czi-prosemirror` supports. However, other doc providers
+  // (e.g Office 365) may export lists as nested list elements that can't
+  // be rendered properly.
+  // Before proceeding further, it needs to convert the nested list elements
+  // into indented list elements.
+  liftNestedListElements(doc);
   (0, _from2.default)(doc.querySelectorAll('ol, ul')).forEach(patchListElementsElement);
 }
 
@@ -54,10 +76,6 @@ function patchListElementsElement(listElement) {
     parentElement.insertBefore(tt, listElement);
   }
 
-  if (parentElement && parentElement.nodeName === 'LI') {
-    // TODO: Handle this later.
-    console.error('nested list is not supported', listElement);
-  }
   (0, _from2.default)(children).forEach(function (listItemElement) {
     var style = listItemElement.style;
 
@@ -173,4 +191,99 @@ function patchPaddingStyle(listItemElement) {
     // Unable to patch the style.
     listItemElement.appendChild(frag);
   }
+}
+
+// This converts all nested list elements into indented list elements.
+// For instance,
+// == UI ==
+// 1. AA
+//   1. BB
+//   2. BB
+// 2. AA
+// == DOM Structure (Before) ==
+// <ol> <!-- Parent List -->
+//   <li>
+//     AA
+//     <ol> <!-- Child (nested) List -->
+//       <li>BB</li>
+//       <li>BB</li>
+//     </ol>
+//   </li>
+//   <li> AA</li>
+// </ol>
+// == DOM Structure (After) ==
+// <ol name="x">
+//   <li>AA</li>
+// </ol>
+// <ol data-indent="1">
+//   <li>BB</li>
+//   <li>BB</li>
+// </ol>
+// <ol data-following="x" data-counter-reset-"none">
+//   <li>AA</li>
+// </ol>
+function liftNestedListElements(doc) {
+  var selector = 'li > ol, li > ul';
+  var els = (0, _from2.default)(doc.querySelectorAll(selector));
+  var htmlMutator = new _HTMLMutator2.default(doc);
+
+  els.forEach(function (list) {
+    var indent = findIndentLevel(list);
+    list.setAttribute('data-indent', String(indent));
+
+    var parentListItem = (0, _nullthrows2.default)(list.parentElement);
+    var parentList = (0, _nullthrows2.default)(parentListItem.parentElement);
+    var parentListNodeName = parentList.nodeName.toLowerCase();
+    var isLast = parentList.lastElementChild === parentListItem;
+    var style = parentList.getAttribute('style') || '';
+
+    // The parent list will be split into two lists and the second list should
+    // follow the first list.
+    var followingName = parentList.getAttribute('name') || (0, _uuid2.default)();
+    parentList.setAttribute('name', followingName);
+
+    // Stub HTML snippets that will lift the list.
+
+    // Before:
+    // <ol>
+    //   <li>
+    //     AAA
+    //     <ol><li>BBB</li></ol>
+    //   </li>
+    //   <li>CCC</li>
+    // </ol>
+    // After:
+    // <ol><li>AAA</li></ol>
+    // <ol><li>BBB</li></ol>
+    // <ol><li>CCC</li></ol>
+
+    // Close the parent list before the list.
+    htmlMutator.insertHTMLBefore('</' + parentListNodeName + '>', list);
+    // Open a new list after list.
+    htmlMutator.insertHTMLAfter('<' + parentListNodeName + '\n          style="' + style + '"\n          class="' + parentList.className + '"\n          ' + _OrderedListNodeSpec.ATTRIBUTE_COUNTER_RESET + '="none"\n          ' + _OrderedListNodeSpec.ATTRIBUTE_FOLLOWING + '="' + followingName + '">', list);
+
+    if (isLast) {
+      // The new list after list is an empty list, comment it out.
+      htmlMutator.insertHTMLAfter('<!--', list).insertHTMLAfter('-->', parentList);
+    }
+  });
+
+  htmlMutator.execute();
+}
+
+function findIndentLevel(el) {
+  var indent = 0;
+  var currentEl = el.parentElement;
+  while (currentEl) {
+    var _currentEl = currentEl,
+        nodeName = _currentEl.nodeName;
+
+    if (nodeName === 'OL' || nodeName === 'UL') {
+      indent++;
+    } else if (nodeName !== 'LI') {
+      break;
+    }
+    currentEl = currentEl.parentElement;
+  }
+  return indent;
 }

@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.ATTRIBUTE_FOLLOWING = exports.ATTRIBUTE_COUNTER_RESET = undefined;
 
 var _defineProperty2 = require('babel-runtime/helpers/defineProperty');
 
@@ -20,8 +21,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var babelPluginFlowReactPropTypes_proptype_NodeSpec = require('./Types').babelPluginFlowReactPropTypes_proptype_NodeSpec || require('prop-types').any;
 
-var ATTRIBUTE_COUNTER_RESET = 'data-counter-reset';
-var ATTRIBUTE_FOLLOWING = 'data-following';
+var ATTRIBUTE_COUNTER_RESET = exports.ATTRIBUTE_COUNTER_RESET = 'data-counter-reset';
+var ATTRIBUTE_FOLLOWING = exports.ATTRIBUTE_FOLLOWING = 'data-following';
 var AUTO_LIST_STYLE_TYPES = ['decimal', 'lower-alpha', 'lower-roman'];
 
 var OrderedListNodeSpec = {
@@ -99,7 +100,7 @@ var OrderedListNodeSpec = {
 
     var cssCounterName = 'czi-counter-' + indent;
 
-    attrs.style = '--czi-counter-name: ' + cssCounterName + ';' + ('--czi-counter-reset: ' + (start - 1) + ';') + ('--czi-list-style-type: ' + htmlListStyleType);
+    attrs.style = '--czi-counter-name: ' + cssCounterName + ';' + ('--czi-counter-reset: ' + (following ? 'none' : start - 1) + ';') + ('--czi-list-style-type: ' + htmlListStyleType);
 
     attrs.type = htmlListStyleType;
 
