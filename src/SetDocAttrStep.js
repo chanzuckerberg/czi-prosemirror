@@ -1,6 +1,6 @@
 // @flow
 
-import {Node} from 'prosemirror-model';
+import {Node, Schema} from 'prosemirror-model';
 import {Step, StepResult} from 'prosemirror-transform';
 
 type SetDocAttrStepJSONValue = {
@@ -48,7 +48,7 @@ class SetDocAttrStep extends Step {
     };
   }
 
-  static fromJSON(json: SetDocAttrStepJSONValue) {
+  static fromJSON(schema: Schema, json: SetDocAttrStepJSONValue) {
     return new SetDocAttrStep(json.key, json.value, json.stepType);
   }
 }
