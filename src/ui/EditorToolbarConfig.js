@@ -5,7 +5,7 @@ import React from 'react';
 
 import * as EditorCommands from '../EditorCommands';
 import FontSizeCommandMenuButton from './FontSizeCommandMenuButton';
-import FontTypeCommandMenuButton from './FontTypeCommandMenuButton';
+// import FontTypeCommandMenuButton from './FontTypeCommandMenuButton';
 import Icon from './Icon';
 
 const ICON_LABEL_PATTERN = /\[([A-Za-z_\d]+)\](.*)/;
@@ -31,28 +31,28 @@ export function parseLabel(input: string): Object {
 }
 
 const {
-  BLOCKQUOTE_TOGGLE,
+  // BLOCKQUOTE_TOGGLE,
   CLEAR_FORMAT,
-  CODE,
-  DOC_LAYOUT,
+  // CODE,
+  // DOC_LAYOUT,
   EM,
   H1,
   H2,
   H3,
-  H4,
-  H5,
-  H6,
+  // H4,
+  // H5,
+  // H6,
   HISTORY_REDO,
   HISTORY_UNDO,
   HR,
-  IMAGE_FROM_URL,
+  // IMAGE_FROM_URL,
   IMAGE_UPLOAD,
   INDENT_LESS,
   INDENT_MORE,
   LINK_SET_URL,
-  MATH_EDIT,
+  // MATH_EDIT,
   OL,
-  STRIKE,
+  // STRIKE,
   STRONG,
   SUPER,
   TABLE_ADD_COLUMN_AFTER,
@@ -76,8 +76,8 @@ const {
   TEXT_ALIGN_JUSTIFY,
   TEXT_ALIGN_LEFT,
   TEXT_ALIGN_RIGHT,
-  TEXT_COLOR,
-  TEXT_HIGHLIGHT,
+  // TEXT_COLOR,
+  // TEXT_HIGHLIGHT,
   TEXT_LINE_SPACINGS,
   UL,
   UNDERLINE,
@@ -118,75 +118,77 @@ export const TABLE_COMMANDS_GROUP = [
 
 export const COMMAND_GROUPS = [
   {
-    '[undo] Undo': HISTORY_UNDO,
-    '[redo] Redo': HISTORY_REDO,
+    '[undo] Desfazer': HISTORY_UNDO,
+    '[redo] Refazer': HISTORY_REDO,
   },
+  // {
+  //   '[grid_on] Table...': TABLE_COMMANDS_GROUP,
+  // },
   {
-    '[grid_on] Table...': TABLE_COMMANDS_GROUP,
-  },
-  {
-    '[H1] Header 1': H1,
-    '[H2] Heading 2': H2,
-    '[keyboard_arrow_down] Headings...': [
+    '[H] Títulos...': [
       {
-        'Header 3': H3,
-        'Header 4': H4,
-        'Header 5': H5,
-        'Header 6': H6,
+        'Título 1': H1,
+        'Título 2': H2,
+        'Título 3': H3,
+        // 'Header 4': H4,
+        // 'Header 5': H5,
+        // 'Header 6': H6,
       },
     ],
   },
+  // {
+  //   '[font_download] Font Type': FontTypeCommandMenuButton,
+  // },
   {
-    '[font_download] Font Type': FontTypeCommandMenuButton,
+    '[format_size] Tamanho da Fonte': FontSizeCommandMenuButton,
   },
   {
-    '[format_size] Text Size': FontSizeCommandMenuButton,
+    '[format_bold] Negrito': STRONG,
+    '[format_italic] Itálico': EM,
+    '[format_underline] Sublinhado': UNDERLINE,
+    // '[format_color_text] Text color': TEXT_COLOR,
+    // '[border_color] Highlight color': TEXT_HIGHLIGHT,
+    '[superscript] Sobrescrito': SUPER,
   },
   {
-    '[format_bold] Bold': STRONG,
-    '[format_italic] Italic': EM,
-    '[format_underline] Underline': UNDERLINE,
-    '[format_color_text] Text color': TEXT_COLOR,
-    '[border_color] Highlight color': TEXT_HIGHLIGHT,
-    '[superscript] Superscript': SUPER,
+    '[link] Link': LINK_SET_URL,
+    '[image] Figura': IMAGE_UPLOAD,
+    // '[image] Insert image': [
+    //   {
+    //     'Insert image by URL': IMAGE_FROM_URL,
+    //     'Upload image from computer': IMAGE_UPLOAD,
+    //   },
+    // ],
   },
   {
-    '[link] Apply link': LINK_SET_URL,
-    '[image] Insert image': [
-      {
-        'Insert image by URL': IMAGE_FROM_URL,
-        'Upload image from computer': IMAGE_UPLOAD,
-      },
-    ],
+    '[format_align_left] Esquerda': TEXT_ALIGN_LEFT,
+    '[format_align_center] Centro': TEXT_ALIGN_CENTER,
+    '[format_align_right] Direita': TEXT_ALIGN_RIGHT,
+    '[format_align_justify] Justificado': TEXT_ALIGN_JUSTIFY,
   },
   {
-    '[format_align_left] Left align': TEXT_ALIGN_LEFT,
-    '[format_align_center] Center Align': TEXT_ALIGN_CENTER,
-    '[format_align_right] Right Align': TEXT_ALIGN_RIGHT,
-    '[format_align_justify] Justify': TEXT_ALIGN_JUSTIFY,
+    '[format_line_spacing] Espaço entre linhas': TEXT_LINE_SPACINGS,
+    '[hr] Linha horizontal': HR,
   },
   {
-    '[format_line_spacing] Line spacing': TEXT_LINE_SPACINGS,
+    '[format_list_bulleted] Lista': UL,
+    '[format_list_numbered] Lista Ordenada': OL,
   },
   {
-    '[format_list_numbered] Ordered list': OL,
-    '[format_list_bulleted] Bulleted list': UL,
+    '[format_indent_increase] Identar mais': INDENT_MORE,
+    '[format_indent_decrease] Identar menos': INDENT_LESS,
   },
   {
-    '[format_indent_increase] Indent more': INDENT_MORE,
-    '[format_indent_decrease] Indent less': INDENT_LESS,
+    '[format_clear] Limpar formatação': CLEAR_FORMAT,
   },
-  {
-    '[format_clear] Clear formats': CLEAR_FORMAT,
-  },
-  {
-    '[hr] Horizontal line': HR,
-    '[functions] Math': MATH_EDIT,
-    '[code] Code': CODE,
-    '[format_strikethrough] Strike through': STRIKE,
-    '[format_quote] Block quote': BLOCKQUOTE_TOGGLE,
-  },
-  {
-    '[settings_overscan] Page layout': DOC_LAYOUT,
-  },
+  // {
+  //   '[hr] Horizontal line': HR,
+  //   '[functions] Math': MATH_EDIT,
+  //   '[code] Code': CODE,
+  //   '[format_strikethrough] Strike through': STRIKE,
+  //   '[format_quote] Block quote': BLOCKQUOTE_TOGGLE,
+  // },
+  // {
+  //   '[settings_overscan] Page layout': DOC_LAYOUT,
+  // },
 ];

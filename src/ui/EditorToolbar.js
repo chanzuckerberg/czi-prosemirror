@@ -28,6 +28,7 @@ class EditorToolbar extends React.PureComponent<any, any, any> {
     editorView: ?EditorView,
     onReady?: ?(view: EditorView) => void,
     readOnly?: ?boolean,
+    onSave?: ?() => void,
   };
 
   state = {
@@ -37,6 +38,7 @@ class EditorToolbar extends React.PureComponent<any, any, any> {
 
   render(): React.Element<any> {
     const {wrapped, expanded} = this.state;
+    const {onSave} = this.props;
     const className = cx('czi-editor-toolbar', {expanded, wrapped});
     const wrappedButton = wrapped ? (
       <CustomButton
@@ -58,6 +60,13 @@ class EditorToolbar extends React.PureComponent<any, any, any> {
               ref={this._onBodyRef}
             >
               <i className="czi-editor-toolbar-wrapped-anchor" />
+              <div className="czi-custom-buttons">
+                <CustomButton
+                  icon={Icon.get('save')}
+                  onClick={onSave}
+                  title="Salvar"
+                />
+              </div>
               {COMMAND_GROUPS.map(this._renderButtonsGroup)}
               <div className="czi-editor-toolbar-background">
                 <div className="czi-editor-toolbar-background-line" />

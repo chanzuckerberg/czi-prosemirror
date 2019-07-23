@@ -10,6 +10,7 @@ import EditorFrameset from './EditorFrameset';
 import EditorToolbar from './EditorToolbar';
 import Frag from './Frag';
 import uuid from './uuid';
+import CommandButton from './CommandButton';
 
 import type {EditorFramesetProps} from './EditorFrameset';
 import type {EditorProps} from './Editor';
@@ -17,6 +18,7 @@ import type {EditorProps} from './Editor';
 type Props = EditorFramesetProps &
   EditorProps & {
     children?: ?React.Children,
+    saveButton?: ?CommandButton,
   };
 
 type State = {
@@ -57,6 +59,7 @@ class RichTextEditor extends React.PureComponent<any, any, any> {
       placeholder,
       readOnly,
       width,
+      onSave,
     } = this.props;
 
     let {editorState, runtime} = this.props;
@@ -73,6 +76,7 @@ class RichTextEditor extends React.PureComponent<any, any, any> {
           dispatchTransaction={this._dispatchTransaction}
           editorState={editorState || Editor.EDITOR_EMPTY_STATE}
           editorView={editorView}
+          onSave={onSave}
           readOnly={readOnly}
         />
       );

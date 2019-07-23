@@ -8,10 +8,10 @@ import ColorEditor from '../src/ui/ColorEditor';
 import CustomButton from '../src/ui/CustomButton';
 import CustomRadioButton from '../src/ui/CustomRadioButton';
 import ImageURLEditor from '../src/ui/ImageURLEditor';
-import MathEditor from '../src/ui/MathEditor';
+// import MathEditor from '../src/ui/MathEditor';
 import TableGridSizeEditor from '../src/ui/TableGridSizeEditor';
 import createPopUp from '../src/ui/createPopUp';
-import renderLaTeXAsHTML from '../src/ui/renderLaTeXAsHTML';
+// import renderLaTeXAsHTML from '../src/ui/renderLaTeXAsHTML';
 import uuid from '../src/ui/uuid';
 import SimpleEditor from './SimpleEditor';
 
@@ -37,39 +37,39 @@ class SimpleEditorExample extends React.PureComponent<any, any, any> {
   };
 }
 
-class MathEditorExample extends React.PureComponent<any, any, any> {
-  _popup = null;
+// class MathEditorExample extends React.PureComponent<any, any, any> {
+//   _popup = null;
 
-  state = {
-    latex: ' \\displaystyle\\sum_{ 1  }^{ 2  } \\left(3 \\right)   ',
-  };
+//   state = {
+//     latex: ' \\displaystyle\\sum_{ 1  }^{ 2  } \\left(3 \\right)   ',
+//   };
 
-  render() {
-    const html = renderLaTeXAsHTML(this.state.latex);
-    return (
-      <div>
-        <CustomButton label="MathEditorExample" onClick={this._onClick} />
-        <pre>{JSON.stringify(this.state)}</pre>
-        <span dangerouslySetInnerHTML={{__html: html}} />
-      </div>
-    );
-  }
+//   render() {
+//     const html = renderLaTeXAsHTML(this.state.latex);
+//     return (
+//       <div>
+//         <CustomButton label="MathEditorExample" onClick={this._onClick} />
+//         <pre>{JSON.stringify(this.state)}</pre>
+//         <span dangerouslySetInnerHTML={{__html: html}} />
+//       </div>
+//     );
+//   }
 
-  _onClick = (): void => {
-    if (!this._popup) {
-      this._popup = createPopUp(
-        MathEditor,
-        {initialValue: this.state.latex},
-        {
-          onClose: latex => {
-            latex && this.setState({latex});
-            this._popup = null;
-          },
-        }
-      );
-    }
-  };
-}
+//   _onClick = (): void => {
+//     if (!this._popup) {
+//       this._popup = createPopUp(
+//         MathEditor,
+//         {initialValue: this.state.latex},
+//         {
+//           onClose: latex => {
+//             latex && this.setState({latex});
+//             this._popup = null;
+//           },
+//         }
+//       );
+//     }
+//   };
+// }
 class CustomRadioButtonExample extends React.PureComponent<any, any, any> {
   state = {
     value: '',
@@ -208,8 +208,8 @@ class Examples extends React.PureComponent<any, any, any> {
       <div>
         <SimpleEditorExample />
         <hr />
-        <MathEditorExample />
-        <hr />
+        {/* <MathEditorExample />
+        <hr /> */}
         <TableGridSizeEditorExample />
         <hr />
         <ColorEditorExample />

@@ -31,10 +31,7 @@ const FONT_PT_SIZE_COMMANDS = FONT_PT_SIZES.reduce((memo, size) => {
   return memo;
 }, {});
 
-const COMMAND_GROUPS = [
-  {Default: new FontSizeCommand(0)},
-  FONT_PT_SIZE_COMMANDS,
-];
+const COMMAND_GROUPS = [FONT_PT_SIZE_COMMANDS];
 
 class FontSizeCommandMenuButton extends React.PureComponent<any, any, any> {
   props: {

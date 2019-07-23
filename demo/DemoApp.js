@@ -12,8 +12,6 @@ import convertFromDOMElement from '../src/convertFromDOMElement';
 import RichTextEditor from '../src/ui/RichTextEditor';
 import DemoAppHTMLTemplate from './DemoAppHTMLTemplate';
 import DemoAppRuntime from './DemoAppRuntime';
-/* eslint-disable-next-line */
-import preloadLoadableModules from './preloadLoadableModules';
 
 import './demo-app.css';
 

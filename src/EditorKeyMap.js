@@ -69,6 +69,7 @@ export function makeKeyMapWithCommon(
   return makeKeyMap(description, windows, mac, common);
 }
 
+export const KEY_SAVE = makeKeyMapWithCommon('Save', 'Mod-s');
 export const KEY_BACK_DELETE = makeKeyMapWithCommon('', 'Backspace');
 export const KEY_FORWARD_DELETE = makeKeyMapWithCommon('', 'Delete');
 export const KEY_INSERT_HORIZONTAL_RULE = makeKeyMapWithCommon(
