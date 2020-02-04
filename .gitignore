@@ -4,3 +4,5 @@ node_modules
 *.pyc
 *.code-workspace
 .vscode/
+dist/
+demo/

@@ -1,12 +1,14 @@
 {
-  "name": "czi-prosemirror",
+  "name": "mpes-react-prosemirror",
   "version": "0.0.1",
   "subversion": "1",
   "description": "rich text editor built with React and ProseMirror",
   "main": "dist/index.js",
+  "private": false,
+  "license": "MIT",
   "scripts": {
     "build:clean": "rm -rf dist/",
-    "build:css": "cp src/ui/*.css dist/ui && cp src/ui/mathquill-editor/*.css dist/ui/mathquill-editor",
+    "build:css": "cp src/ui/*.css dist/ui",
     "build:babel": "babel src --out-dir dist --copy-files",
     "build:flow": "flow-copy-source -v -i '**/__tests__/**' src dist",
     "build:dist": "npm run build:clean && npm run build:babel && npm run build:flow && npm run build:css",
