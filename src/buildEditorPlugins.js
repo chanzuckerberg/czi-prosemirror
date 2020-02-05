@@ -13,7 +13,7 @@ import EditorPageLayoutPlugin from './EditorPageLayoutPlugin';
 import ImageUploadPlaceholderPlugin from './ImageUploadPlaceholderPlugin';
 import LinkTooltipPlugin from './LinkTooltipPlugin';
 import SelectionPlaceholderPlugin from './SelectionPlaceholderPlugin';
-// import TablePlugins from './TablePlugins';
+import TablePlugins from './TablePlugins';
 import buildInputRules from './buildInputRules';
 import createEditorKeyMap from './createEditorKeyMap';
 
@@ -34,8 +34,7 @@ export default function buildEditorPlugins(schema: Schema): Array<Plugin> {
 
     keymap(createEditorKeyMap()),
     keymap(baseKeymap),
-  ];
-  // .concat(TablePlugins);
+  ].concat(TablePlugins);
 
   return plugins;
 }

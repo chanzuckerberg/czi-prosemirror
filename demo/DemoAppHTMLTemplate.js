@@ -174,9 +174,6 @@ class DemoAppHTMLTemplate extends React.PureComponent<any, any, any> {
             l impedit quo minus id quod maxime placeat facere pos
           </a>
         </p>
-        <blockquote style={{textAlign: 'center'}}>
-          Singapura bombay for norwegian forest tom tabby.
-        </blockquote>
       </div>
     );
   }

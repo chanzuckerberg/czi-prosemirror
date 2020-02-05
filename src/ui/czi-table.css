@@ -6,23 +6,28 @@
   overflow-x: auto;
 }
 
+.prosemirror-mention-node {
+  background-color: red;
+}
+
+[data-mention-name] {
+  background-color: greenyellow;
+}
+
 .ProseMirror table {
-  border-collapse: initial;
+  border-collapse: collapse;
   border-spacing: 0;
-  border: 1px solid var(--czi-table-border-color);
-  border-width: 0 thin thin 0;
+  border: thin solid var(--czi-table-border-color);
   table-layout: fixed;
   width: 100%;
   margin: 0;
   overflow: hidden;
-  page-break-inside: avoid;
 }
 
 .ProseMirror td,
 .ProseMirror th {
   background-color: #fff;
-  border: 1px solid var(--czi-table-border-color);
-  border-width: thin 0 0 thin;
+  border: thin solid var(--czi-table-border-color);
   box-sizing: border-box;
   min-width: 1em;
   padding: 8px;

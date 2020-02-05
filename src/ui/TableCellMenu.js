@@ -29,7 +29,7 @@ class TableCellMenu extends React.PureComponent<any, any, any> {
         editorState={editorState}
         editorView={editorView}
         icon={Icon.get('edit')}
-        title="Edit"
+        title="Editar"
       />
     );
   }

@@ -7,19 +7,19 @@ import React from 'react';
 const ImageAlignValues = {
   NONE: {
     value: null,
-    text: 'Inline',
+    text: 'No texto',
   },
   LEFT: {
     value: 'left',
-    text: 'Float left',
+    text: 'Esquerda',
   },
   CENTER: {
     value: 'center',
-    text: 'Break text',
+    text: 'Centro',
   },
   RIGHT: {
     value: 'right',
-    text: 'Float right',
+    text: 'Direita',
   },
 };
 

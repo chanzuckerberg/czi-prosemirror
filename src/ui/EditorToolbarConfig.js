@@ -5,7 +5,7 @@ import React from 'react';
 
 import * as EditorCommands from '../EditorCommands';
 import FontSizeCommandMenuButton from './FontSizeCommandMenuButton';
-// import FontTypeCommandMenuButton from './FontTypeCommandMenuButton';
+import FontTypeCommandMenuButton from './FontTypeCommandMenuButton';
 import Icon from './Icon';
 
 const ICON_LABEL_PATTERN = /\[([A-Za-z_\d]+)\](.*)/;
@@ -52,32 +52,32 @@ const {
   LINK_SET_URL,
   // MATH_EDIT,
   OL,
-  // STRIKE,
+  STRIKE,
   STRONG,
   SUPER,
   TABLE_ADD_COLUMN_AFTER,
   TABLE_ADD_COLUMN_BEFORE,
   TABLE_ADD_ROW_AFTER,
   TABLE_ADD_ROW_BEFORE,
-  TABLE_BORDER_COLOR,
+  //TABLE_BORDER_COLOR,
   TABLE_BACKGROUND_COLOR,
   TABLE_DELETE_COLUMN,
   TABLE_DELETE_ROW,
   TABLE_DELETE_TABLE,
   TABLE_INSERT_TABLE,
   TABLE_MERGE_CELLS,
-  // TABLE_MOVE_TO_NEXT_CELL,
-  // TABLE_MOVE_TO_PREV_CELL,
+  //TABLE_MOVE_TO_NEXT_CELL,
+  //TABLE_MOVE_TO_PREV_CELL,
   TABLE_SPLIT_ROW,
-  TABLE_TOGGLE_HEADER_CELL,
-  TABLE_TOGGLE_HEADER_COLUMN,
-  TABLE_TOGGLE_HEADER_ROW,
+  //TABLE_TOGGLE_HEADER_CELL,
+  //TABLE_TOGGLE_HEADER_COLUMN,
+  //TABLE_TOGGLE_HEADER_ROW,
   TEXT_ALIGN_CENTER,
   TEXT_ALIGN_JUSTIFY,
   TEXT_ALIGN_LEFT,
   TEXT_ALIGN_RIGHT,
-  // TEXT_COLOR,
-  // TEXT_HIGHLIGHT,
+  TEXT_COLOR,
+  TEXT_HIGHLIGHT,
   TEXT_LINE_SPACINGS,
   UL,
   UNDERLINE,
@@ -85,34 +85,34 @@ const {
 
 export const TABLE_COMMANDS_GROUP = [
   {
-    'Insert Table...': TABLE_INSERT_TABLE,
+    'Inserir Tabela': TABLE_INSERT_TABLE,
   },
   {
-    'Fill Color...': TABLE_BACKGROUND_COLOR,
-    'Border Color....': TABLE_BORDER_COLOR,
+    'Cor de Fundo': TABLE_BACKGROUND_COLOR,
+    //'Border Color....': TABLE_BORDER_COLOR,
   },
   {
-    'Insert Column Before': TABLE_ADD_COLUMN_BEFORE,
-    'Insert Column After': TABLE_ADD_COLUMN_AFTER,
-    'Delete Column': TABLE_DELETE_COLUMN,
+    'Inserir Coluna Antes': TABLE_ADD_COLUMN_BEFORE,
+    'Inserir Coluna Depois': TABLE_ADD_COLUMN_AFTER,
+    'Apagar Coluna': TABLE_DELETE_COLUMN,
   },
   {
-    'Insert Row Before': TABLE_ADD_ROW_BEFORE,
-    'Insert Row After': TABLE_ADD_ROW_AFTER,
-    'Delete Row': TABLE_DELETE_ROW,
+    'Inserir Linha Antes': TABLE_ADD_ROW_BEFORE,
+    'Inserir Linha Depois': TABLE_ADD_ROW_AFTER,
+    'Apagar Linha': TABLE_DELETE_ROW,
   },
   {
-    'Merge Cells': TABLE_MERGE_CELLS,
-    'Split Row': TABLE_SPLIT_ROW,
+    'Mesclar Celulas': TABLE_MERGE_CELLS,
+    'Dividir Celulas': TABLE_SPLIT_ROW,
   },
   // Disable these commands cause user rarely use them.
+  //{
+  //  'Toggle Header Column': TABLE_TOGGLE_HEADER_COLUMN,
+  //  'Toggle Header Row': TABLE_TOGGLE_HEADER_ROW,
+  //  'Toggle Header Cells': TABLE_TOGGLE_HEADER_CELL,
+  //},
   {
-    'Toggle Header Column': TABLE_TOGGLE_HEADER_COLUMN,
-    'Toggle Header Row': TABLE_TOGGLE_HEADER_ROW,
-    'Toggle Header Cells': TABLE_TOGGLE_HEADER_CELL,
-  },
-  {
-    'Delete Table': TABLE_DELETE_TABLE,
+    'Apagar Tabela': TABLE_DELETE_TABLE,
   },
 ];
 
@@ -121,9 +121,9 @@ export const COMMAND_GROUPS = [
     '[undo] Desfazer': HISTORY_UNDO,
     '[redo] Refazer': HISTORY_REDO,
   },
-  // {
-  //   '[grid_on] Table...': TABLE_COMMANDS_GROUP,
-  // },
+  {
+    '[grid_on] Tabela...': TABLE_COMMANDS_GROUP,
+  },
   {
     '[H] Títulos...': [
       {
@@ -136,9 +136,9 @@ export const COMMAND_GROUPS = [
       },
     ],
   },
-  // {
-  //   '[font_download] Font Type': FontTypeCommandMenuButton,
-  // },
+  {
+    '[font_download] Fonte': FontTypeCommandMenuButton,
+  },
   {
     '[format_size] Tamanho da Fonte': FontSizeCommandMenuButton,
   },
@@ -146,9 +146,12 @@ export const COMMAND_GROUPS = [
     '[format_bold] Negrito': STRONG,
     '[format_italic] Itálico': EM,
     '[format_underline] Sublinhado': UNDERLINE,
-    // '[format_color_text] Text color': TEXT_COLOR,
-    // '[border_color] Highlight color': TEXT_HIGHLIGHT,
+    '[format_strikethrough] Tachado': STRIKE,
     '[superscript] Sobrescrito': SUPER,
+  },
+  {
+    '[format_color_text] Cor do texto': TEXT_COLOR,
+    '[border_color] Cor de fundo': TEXT_HIGHLIGHT,
   },
   {
     '[link] Link': LINK_SET_URL,

@@ -32,7 +32,7 @@ class LinkTooltip extends React.PureComponent<any, any, any> {
     const {href, editorView, onEdit, onRemove} = this.props;
     const useBookMark = isBookMarkHref(href);
     const editButton = !!useBookMark && (
-      <CustomButton label="Change" onClick={onEdit} value={editorView} />
+      <CustomButton label="Trocar" onClick={onEdit} value={editorView} />
     );
 
     return (
@@ -49,7 +49,7 @@ class LinkTooltip extends React.PureComponent<any, any, any> {
             />
             {editButton}
             <CustomButton
-              label="Remove"
+              label="Remover"
               onClick={onRemove}
               value={editorView}
             />

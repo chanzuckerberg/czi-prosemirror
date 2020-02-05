@@ -55,7 +55,7 @@ class ColorEditor extends React.PureComponent<any, any, any> {
           <CustomButton
             active={!selectedColor}
             className="czi-color-editor-color-transparent"
-            label="Transparent"
+            label="Transparente"
             onClick={this._onSelectColor}
             value="rgba(0,0,0,0)"
           />

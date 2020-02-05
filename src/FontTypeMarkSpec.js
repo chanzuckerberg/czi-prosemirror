@@ -9,17 +9,17 @@ import type {MarkSpec} from './Types';
 export const FONT_TYPE_NAMES = [
   // SERIF
   'Arial',
-  'Arial Black',
-  'Georgia',
-  'Tahoma',
-  'Times New Roman',
+  //'Arial Black',
+  //'Georgia',
+  //'Tahoma',
+  //'Times New Roman',
   'Times',
-  'Verdana',
+  //'Verdana',
   // MONOSPACE
   'Courier New',
-  'Lucida Console',
-  'Monaco',
-  'monospace',
+  //'Lucida Console',
+  //'Monaco',
+  //'monospace',
 ];
 
 const RESOLVED_FONT_NAMES = new Set(FONT_TYPE_NAMES);

@@ -37,13 +37,30 @@ import {Decoration, DecorationSet, EditorView} from 'prosemirror-view';
 import {findParentNodeOfTypeClosestToPos} from 'prosemirror-utils';
 import nullthrows from 'nullthrows';
 import {
-  cellAround,
-  pointsAtCell,
-  setAttr,
-  tableNodeTypes,
+  //cellAround,
+  //pointsAtCell,
+  //setAttr,
+  //tableNodeTypes,
   TableMap,
   TableView,
 } from 'prosemirror-tables';
+
+function setAttr(attrs, name, value) {
+  const result = {};
+  for (const prop in attrs) result[prop] = attrs[prop];
+  result[name] = value;
+  return result;
+}
+function pointsAtCell($pos) {
+  return $pos.parent.type.spec.tableRole == 'row' && $pos.nodeAfter;
+}
+
+function cellAround($pos) {
+  for (let d = $pos.depth - 1; d > 0; d--)
+    if ($pos.node(d).type.spec.tableRole == 'row')
+      return $pos.node(0).resolve($pos.before(d + 1));
+  return null;
+}
 
 type DraggingInfo = {
   columnElements: Array<HTMLElement>,
@@ -569,7 +586,8 @@ export default class TableResizePlugin extends Plugin {
       state: {
         init(_: any, state: EditorState): ResizeState {
           this.spec.props.nodeViews[
-            tableNodeTypes(state.schema).table.name
+            //tableNodeTypes(state.schema).table.name
+            state.schema.nodes.table.name
           ] = createTableView;
           return new ResizeState(-1, null);
         },

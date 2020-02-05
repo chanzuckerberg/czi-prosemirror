@@ -28,10 +28,10 @@ class LinkURLEditor extends React.PureComponent<any, any, any> {
 
     const error = url ? BAD_CHARACTER_PATTER.test(url) : false;
 
-    let label = 'Apply';
+    let label = 'Aplicar';
     let disabled = !!error;
     if (href) {
-      label = url ? 'Apply' : 'Remove';
+      label = url ? 'Aplicar' : 'Remover';
       disabled = error;
     } else {
       disabled = error || !url;
@@ -41,19 +41,19 @@ class LinkURLEditor extends React.PureComponent<any, any, any> {
       <div className="czi-image-url-editor">
         <form className="czi-form" onSubmit={preventEventDefault}>
           <fieldset>
-            <legend>Add a Link</legend>
+            <legend>Adicionar um Link</legend>
             <input
               autoFocus={true}
               onChange={this._onURLChange}
               onKeyDown={this._onKeyDown}
-              placeholder="Paste a URL"
+              placeholder="Colar a URL"
               spellCheck={false}
               type="text"
               value={url || ''}
             />
           </fieldset>
           <div className="czi-form-buttons">
-            <CustomButton label="Cancel" onClick={this._cancel} />
+            <CustomButton label="Cancelar" onClick={this._cancel} />
             <CustomButton
               active={true}
               disabled={disabled}
