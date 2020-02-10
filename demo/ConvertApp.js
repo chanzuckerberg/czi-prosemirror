@@ -1,7 +1,6 @@
 // @flow
 
 import cx from 'classnames';
-import applyDevTools from 'prosemirror-dev-tools';
 import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
 import React from 'react';
@@ -136,11 +135,7 @@ class ConvertApp extends React.PureComponent<any, any, any> {
     );
   }
 
-  _onReady = (editorView: EditorView): void => {
-    window.debugProseMirror = () => {
-      applyDevTools(editorView);
-    };
-  };
+  _onReady = (editorView: EditorView): void => {};
 
   _onEditorChange = (editorState: EditorState): void => {
     this.setState({editorState});

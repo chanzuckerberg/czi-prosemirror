@@ -41,11 +41,11 @@ class PopUp extends React.PureComponent {
   _id = uuid();
 
   render(): React.Element<any> {
-    const dummy = {};
     const {View, viewProps, close} = this.props;
+    const dummy = viewProps || {};
     return (
       <div data-pop-up-id={this._id} id={this._id}>
-        <View {...viewProps || dummy} close={close} />
+        <View {...dummy} close={close} />
       </div>
     );
   }

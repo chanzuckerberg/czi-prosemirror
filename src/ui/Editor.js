@@ -41,8 +41,6 @@ import './czi-editor.css';
 
 import type {EditorRuntime} from '../Types';
 
-//import applyDevTools from 'prosemirror-dev-tools';
-
 export type EditorProps = {
   autoFocus?: ?boolean,
   disabled?: ?boolean,
@@ -182,7 +180,6 @@ class Editor extends React.PureComponent<any, any, any> {
 
       // Expose the view to CZIProseMirror so developer could debug it.
       registerEditorView(this._id, view);
-      //applyDevTools(view);
 
       onReady && onReady(view);
 

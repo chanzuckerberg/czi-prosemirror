@@ -1,6 +1,5 @@
 // @flow
 
-import applyDevTools from 'prosemirror-dev-tools';
 import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
 import React from 'react';
@@ -56,9 +55,6 @@ class DemoApp extends React.PureComponent<any, any, any> {
   };
 
   _onReady = (editorView: EditorView): void => {
-    window.debugProseMirror = () => {
-      applyDevTools(editorView);
-    };
     CZIProseMirror.registerCommand('hr', HR);
     window.CZIProseMirror = CZIProseMirror;
   };

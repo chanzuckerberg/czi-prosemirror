@@ -25,10 +25,10 @@
 .*/node_modules/postcss-modules-scope/.*
 .*/node_modules/postcss-modules-values/.*
 .*/node_modules/postcss/.*
-.*/node_modules/prosemirror-dev-tools/.*
 .*/node_modules/react-emotion/.*
 .*/node_modules/unstated/.*
 .*/node_modules/stylelint/.*
+.*/node_modules/gensync/.*
 
 [libs]
 ./flow-typed/.*
