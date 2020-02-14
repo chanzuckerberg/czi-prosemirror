@@ -156,12 +156,12 @@ export const COMMAND_GROUPS = [
   {
     '[link] Link': LINK_SET_URL,
     '[image] Figura': IMAGE_UPLOAD,
-    // '[image] Insert image': [
-    //   {
-    //     'Insert image by URL': IMAGE_FROM_URL,
-    //     'Upload image from computer': IMAGE_UPLOAD,
-    //   },
-    // ],
+    '[image] Insert image': [
+      {
+        //'Insert image by URL': IMAGE_FROM_URL,
+        'Upload image from computer': IMAGE_UPLOAD,
+      },
+    ],
   },
   {
     '[format_align_left] Esquerda': TEXT_ALIGN_LEFT,

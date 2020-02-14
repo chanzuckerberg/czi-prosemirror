@@ -1,6 +1,6 @@
 {
   "name": "@mpes/react-prosemirror",
-  "version": "1.7.0",
+  "version": "1.7.1",
   "subversion": "2",
   "description": "rich text editor built with React and ProseMirror",
   "main": "dist/index.js",
