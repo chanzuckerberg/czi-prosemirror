@@ -1,8 +1,8 @@
 {
-  "name": "czi-prosemirror",
+  "name": "licit",
   "version": "0.0.1",
   "subversion": "1",
-  "description": "rich text editor built with React and ProseMirror",
+  "description": "Rich text editor built with React and ProseMirror",
   "main": "dist/index.js",
   "scripts": {
     "build:clean": "rm -rf dist/",
