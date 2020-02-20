@@ -3,7 +3,9 @@
 
 ---
 
-+ WYSIWYG editor based on ProseMirror & React forked from chanzuckerberg/czi-prosemirror 
++ WYSIWYG editor based on ProseMirror & React
++ Initially forked from CZI Prosemirror https://github.com/chanzuckerberg/czi-prosemirror
++ Core is Prosemirror editor: https://prosemirror.net/
 + Live DEMO: Comming soon
 
 ---
@@ -13,7 +15,7 @@
 ### Getting repository
 
 ```
-git clone https://github.com/mgilger/licit.git
+git clone https://github.com/MO-Movia/licit.git
 cd licit
 npm install
 ```
@@ -85,7 +87,7 @@ For example:
 TBD
 ```
 
-You may find the latest commit hash at https://github.com/mgilger/licit/commits/master
+You may find the latest commit hash at https://github.com/MO-Movia/licit/commits/master
 
 
 
