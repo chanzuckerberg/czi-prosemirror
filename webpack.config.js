@@ -1,44 +1,39 @@
-/*eslint-env node*/
+/*eslint-disable */
 
-const webpack = require('webpack'),
+var webpack = require('webpack'),
   CleanWebpackPlugin = require('clean-webpack-plugin'),
+  CopyWebpackPlugin = require('copy-webpack-plugin'),
   FlowWebpackPlugin = require('flow-webpack-plugin'),
   HtmlWebpackInlineSourcePlugin = require('html-webpack-inline-source-plugin'),
   HtmlWebpackPlugin = require('html-webpack-plugin'),
   UglifyJsPlugin = require('uglifyjs-webpack-plugin'),
-  WriteFilePlugin = require('write-file-webpack-plugin'),
-  env = require('./scripts/env'),
+  WriteFilePlugin = require('write-file-webpack-plugin');
+env = require('./utils/env'),
+  fileSystem = require('fs'),
   path = require('path');
 
-const isDev = env.NODE_ENV === 'development' || 0;
+var isDev = env.NODE_ENV === 'development' || 0;
+// isDev = false;
 
-const options = 
-{
-  entry: 
-  {
-    convert: path.join(__dirname, 'demo', 'ConvertApp.js'),
-    demo: path.join(__dirname, 'demo', 'index.js'),
-    playground: path.join(__dirname, 'playground', 'playground.js'),
-    ui: path.join(__dirname, 'demo', 'UIExamples.js'),
+var options = {
+  entry: {
+    convert: path.join(__dirname, 'demo', 'client', 'ConvertApp.js'),
+    demo: path.join(__dirname, 'demo', 'client', 'index.js'),
+    ui: path.join(__dirname, 'demo', 'client', 'UIExamples.js'),
   },
-  output: 
-  {
+  output: {
     path: path.join(__dirname, 'bin'),
-    filename: '[name].bundle.js',
+    filename: '[name].bundle.js'
   },
-  module: 
-  {
-    rules: 
-    [
+  module: {
+    rules: [
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         loader: 'babel-loader',
-        options: 
-        {
-          presets: [['env', {modules: false}], 'react', 'flow'],
-          plugins: 
-          [
+        options: {
+          presets: ['env', 'react', 'flow', ['es2015', { 'modules': false }]],
+          plugins: [
             'transform-export-extensions',
             'transform-class-properties',
             [
@@ -59,12 +54,15 @@ const options =
 
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
+        use: [
+          'style-loader',
+          'css-loader',
+        ],
       },
       {
         test: /\.html$/,
         loader: 'html-loader',
-        exclude: /node_modules/,
+        exclude: /node_modules/
       },
       {
         test: /mathquill\.js$/,
@@ -74,14 +72,12 @@ const options =
         // unless https://github.com/webpack/imports-loader/pull/21 is merged
         use: ['exports-loader?MathQuill'],
       },
-    ],
+    ]
   },
-  resolve: 
-  {
-    alias: {},
+  resolve: {
+    alias: {}
   },
-  plugins: 
-  [
+  plugins: [
     new webpack.ProvidePlugin({
       // jQuery (for Mathquill)
       'window.jQuery': 'jquery',
@@ -90,48 +86,41 @@ const options =
     // clean the web folder
     new CleanWebpackPlugin(['bin']),
     // expose and write the allowed env vars on the compiled bundle
-    new webpack.DefinePlugin
-    ({
-      'process.env.NODE_ENV': JSON.stringify(env.NODE_ENV),
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify(env.NODE_ENV)
     }),
-    new HtmlWebpackPlugin
-    ({
+    new HtmlWebpackPlugin({
       template: path.join(__dirname, 'demo', 'index.html'),
       filename: 'index.html',
       chunks: ['demo'],
-      inlineSource: isDev ? '$^' : '.(js|css)$',
+      inlineSource: isDev ? '$^' : '.(js|css)$'
     }),
-    new HtmlWebpackPlugin
-    ({
+    new HtmlWebpackPlugin({
       template: path.join(__dirname, 'demo', 'index.html'),
       filename: 'playground.html',
       chunks: ['playground'],
-      inlineSource: isDev ? '$^' : '.(js|css)$',
+      inlineSource: isDev ? '$^' : '.(js|css)$'
     }),
-    new HtmlWebpackPlugin
-    ({
+    new HtmlWebpackPlugin({
       template: path.join(__dirname, 'demo', 'index.html'),
       filename: 'ui.html',
       chunks: ['ui'],
-      inlineSource: isDev ? '$^' : '.(js|css)$',
+      inlineSource: isDev ? '$^' : '.(js|css)$'
     }),
-    new HtmlWebpackPlugin
-    ({
+    new HtmlWebpackPlugin({
       template: path.join(__dirname, 'demo', 'index.html'),
       filename: 'convert.html',
       chunks: ['convert'],
-      inlineSource: isDev ? '$^' : '.(js|css)$',
+      inlineSource: isDev ? '$^' : '.(js|css)$'
     }),
     new HtmlWebpackInlineSourcePlugin(),
-    new WriteFilePlugin(),
-  ],
+    new WriteFilePlugin()
+  ]
 };
 
-if (env.NODE_ENV === 'development') 
-{
+if (env.NODE_ENV === 'development') {
   options.devtool = 'cheap-module-eval-source-map';
-} else 
-{
+} else {
   options.plugins.push(new UglifyJsPlugin());
 }
 

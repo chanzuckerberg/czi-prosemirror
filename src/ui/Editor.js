@@ -1,10 +1,10 @@
 // @flow
 
 import cx from 'classnames';
-import {DOMSerializer, Schema} from 'prosemirror-model';
-import {EditorState, Transaction} from 'prosemirror-state';
-import {Transform} from 'prosemirror-transform';
-import {EditorView} from 'prosemirror-view';
+import { DOMSerializer, Schema } from 'prosemirror-model';
+import { EditorState, Transaction } from 'prosemirror-state';
+import { Transform } from 'prosemirror-transform';
+import { EditorView } from 'prosemirror-view';
 import React from 'react';
 import webfontloader from 'webfontloader';
 
@@ -17,7 +17,7 @@ import {
   registeryKeys,
   releaseEditorView,
 } from '../CZIProseMirror';
-import {BOOKMARK, IMAGE, LIST_ITEM, MATH} from '../NodeNames';
+import { BOOKMARK, IMAGE, LIST_ITEM, MATH } from '../NodeNames';
 import WebFontLoader from '../WebFontLoader';
 import createEmptyEditorState from '../createEmptyEditorState';
 import normalizeHTML from '../normalizeHTML';
@@ -34,7 +34,7 @@ import uuid from './uuid';
 
 import './czi-editor.css';
 
-import type {EditorRuntime} from '../Types';
+import type { EditorRuntime } from '../Types';
 
 export type EditorProps = {
   autoFocus?: ?boolean,
@@ -46,7 +46,7 @@ export type EditorProps = {
   onChange?: ?(state: EditorState) => void,
   onReady?: ?(view: EditorView) => void,
   // Mapping for custom node views.
-  nodeViews?: ?{[nodeName: string]: CustomNodeView},
+  nodeViews?: ?{ [nodeName: string]: CustomNodeView },
   placeholder?: ?(string | React.Element<any>),
   readOnly?: ?boolean,
   runtime?: ?EditorRuntime,
@@ -78,7 +78,7 @@ const EDITOR_EMPTY_STATE = Object.freeze(createEmptyEditorState());
 // scrolls. To make the behavior more manageable, this patched method asks
 // developer to explicitly use `scrollIntoView(true)` to enforce page scroll.
 const scrollIntoView = Transaction.prototype.scrollIntoView;
-const scrollIntoViewPatched = function(forced: boolean): Transaction {
+const scrollIntoViewPatched = function (forced: boolean): Transaction {
   if (forced === true && scrollIntoView) {
     return scrollIntoView.call(this);
   } else {
@@ -145,7 +145,7 @@ class Editor extends React.PureComponent<any, any, any> {
       );
       const boundNodeViews = {};
       const schema = getSchema(editorState);
-      const {nodes} = schema;
+      const { nodes } = schema;
 
       Object.keys(effectiveNodeViews).forEach(nodeName => {
         const nodeView = effectiveNodeViews[nodeName];
@@ -205,7 +205,7 @@ class Editor extends React.PureComponent<any, any, any> {
         readOnly,
         disabled,
       } = this.props;
-      const {isPrinting} = this.state;
+      const { isPrinting } = this.state;
       const state = editorState || EDITOR_EMPTY_STATE;
       view.runtime = runtime;
       view.placeholder = placeholder;
@@ -231,8 +231,8 @@ class Editor extends React.PureComponent<any, any, any> {
   }
 
   render(): React.Element<any> {
-    const {embedded, readOnly} = this.props;
-    const className = cx('prosemirror-editor-wrapper', {embedded, readOnly});
+    const { embedded, readOnly } = this.props;
+    const className = cx('prosemirror-editor-wrapper', { embedded, readOnly });
     return (
       <div
         className={className}
@@ -244,7 +244,7 @@ class Editor extends React.PureComponent<any, any, any> {
   }
 
   _onBlur = (): void => {
-    const {onBlur} = this.props;
+    const { onBlur } = this.props;
     const view = this._editorView;
     if (view && !view.disabled && !view.readOnly && onBlur) {
       onBlur();
@@ -257,19 +257,31 @@ class Editor extends React.PureComponent<any, any, any> {
       view.focus();
     }
   };
+  // [FS-AFQ][20-FEB-2020]
+  // Collaboration
+  _dispatchTransaction = (transaction: Transform): void => {
+    const { editorState, readOnly, onChange } = this.props;
+    if (readOnly === true || !onChange) {
+      return;
+    }
+    onChange({
+      transaction,
+      state: editorState || EDITOR_EMPTY_STATE,
+    });
+  };
 
   _isEditable = (): boolean => {
-    const {disabled, readOnly} = this.props;
-    const {isPrinting} = this.state;
+    const { disabled, readOnly } = this.props;
+    const { isPrinting } = this.state;
     return !isPrinting && !!this._editorView && !readOnly && !disabled;
   };
 
   _onPrintStart = (): void => {
-    this.setState({isPrinting: true});
+    this.setState({ isPrinting: true });
   };
 
   _onPrintEnd = (): void => {
-    this.setState({isPrinting: false});
+    this.setState({ isPrinting: false });
   };
 }
 
