@@ -117,9 +117,15 @@ class RichTextEditor extends React.PureComponent<any, any, any> {
     }
 
     if (onChange) {
-      const nextState = (editorState || Editor.EDITOR_EMPTY_STATE).apply(tr);
-      onChange(nextState);
+      // [FS-AFQ][20-FEB-2020]
+      // Collaboration
+      onChange({
+        state: editorState || Editor.EDITOR_EMPTY_STATE,
+        transaction: tr        
+      });
     }
+
+    
   };
 
   _onReady = (editorView: EditorView): void => {

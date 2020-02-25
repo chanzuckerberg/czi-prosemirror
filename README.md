@@ -27,6 +27,11 @@ cd licit
 npm install
 ```
 
+### Start the collaboration server
+```
+python run_collab_server.py
+```
+
 ### Start the web server
 
 ```

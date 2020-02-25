@@ -1,14 +1,14 @@
 // @flow
 
-import {Node} from 'prosemirror-model';
+import { Node } from 'prosemirror-model';
 
-import {toClosestFontPtSize} from './convertToCSSPTValue';
+import { toClosestFontPtSize } from './toClosestFontPtSize';
 
-import type {MarkSpec} from './Types';
+import type { MarkSpec } from './Types';
 
 const FontSizeMarkSpec: MarkSpec = {
   attrs: {
-    pt: {default: null},
+    pt: { default: null },
   },
   inline: true,
   group: 'inline',
@@ -19,12 +19,12 @@ const FontSizeMarkSpec: MarkSpec = {
     },
   ],
   toDOM(node: Node) {
-    const {pt} = node.attrs;
+    const { pt } = node.attrs;
     const domAttrs = pt
       ? {
-          style: `font-size: ${pt}pt;`,
-          class: 'czi-font-size-mark',
-        }
+        style: `font-size: ${pt}pt;`,
+        class: 'czi-font-size-mark',
+      }
       : null;
 
     return ['span', domAttrs, 0];

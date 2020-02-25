@@ -1,4 +1,4 @@
-{
+module.exports = {
   "parser": "babel-eslint",
   "parserOptions": {
     "sourceType": "module",
@@ -6,10 +6,9 @@
     "codeFrame": true,
     "ecmaFeatures": {
       "jsx": true
-    }
+    },
   },
   "plugins": ["react"],
-  "extends": ["plugin:prettier/recommended"],
   "rules": {
     "react/jsx-sort-props": "error",
     "react/jsx-uses-react": "error",
@@ -26,28 +25,19 @@
     "prefer-const": "error",
     "quotes": [2, "single", { "avoidEscape": true }],
     "semi": [2, "always"],
-    "strict": 0
+    "strict": 0,
   },
   "globals": {
     "__dirname": false,
     "$ReadOnlyArray": false,
     "Blob": false,
     "Class": false,
-    "ClipboardEvent": false,
     "Component": false,
-    "DataTransferItem": false,
     "Document": true,
-    "DragEvent": true,
     "Element": false,
     "Event": false,
-    "EventTarget": false,
-    "File": false,
-    "FileReader": false,
     "HTMLElement": false,
-    "HTMLLIElement": false,
-    "HTMLTableElement": false,
     "Image": false,
-    "KeyboardEvent": false,
     "Map": false,
     "MouseEvent": false,
     "MutationObserver": false,

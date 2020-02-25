@@ -64,7 +64,5 @@ const marks = {
 };
 
 const schema = new Schema({nodes, marks});
-
 const EditorMarks = schema.spec.marks;
-
 export default EditorMarks;

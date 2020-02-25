@@ -1,6 +1,7 @@
 .DS_Store
 bin
 node_modules
+servers
 *.pyc
 *.code-workspace
 .vscode/

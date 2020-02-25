@@ -29,6 +29,7 @@
 .*/node_modules/react-emotion/.*
 .*/node_modules/unstated/.*
 .*/node_modules/stylelint/.*
+.*/node_modules/gensync/.*
 
 [libs]
 ./flow-typed/.*
