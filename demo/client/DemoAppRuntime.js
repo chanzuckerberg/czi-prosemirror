@@ -3,12 +3,13 @@
 // This implements the interface of `EditorRuntime`.
 
 import type {ImageLike} from '../../src/Types';
+import { GET, POST } from '../../demo/client/http';
 
 class DemoAppRuntime {
 
   // Image Proxy
   canProxyImageSrc(): boolean {
-    return true;
+    return false;
   }
 
   getProxyImageSrc(src: string): string {
@@ -22,20 +23,30 @@ class DemoAppRuntime {
     return true;
   }
 
-  uploadImage(blob: Object): Promise<ImageLike> {
-    // This simulate a fake upload.
-    const img: ImageLike = {
-      id: '',
-      width: 100,
-      height: 100,
-      src: 'https://placekitten.com/100/100',
-    };
+  uploadImage(blob: Object): Promise<ImageLike> {    
+    // [FS-AFQ][03-MAR-2020][IRAD-884#2]
+    // Use uploaded image URL.
+    var img: ImageLike;
+    POST('/saveimage?fn='+blob.name, blob, 'application/octet-stream').then(data => {
+      img = JSON.parse(data);
+    }, err => {
+      img = {
+        id: '',
+        width: 0,
+        height: 0,
+        src: '',
+      }
+    });
+
     return new Promise(resolve => {
       setTimeout(() => {
         resolve(img);
       }, 3000);
     });
+    
   }
+
+
 }
 
 

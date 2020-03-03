@@ -94,5 +94,5 @@ TBD
 
 You may find the latest commit hash at https://github.com/MO-Movia/licit/commits/master
 
-
+In order to upload image work correctly, "images" folder is expected outside the root folder 'licit'.
 
