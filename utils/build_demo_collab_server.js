@@ -59,6 +59,8 @@ const config = {
   //  new HtmlWebpackInlineSourcePlugin(),
     new WriteFilePlugin(),
   ],
+  // to enable debug
+  devtool: "source-map"
 };
 
 webpack(
