@@ -6,7 +6,7 @@
 + WYSIWYG editor based on ProseMirror & React
 + Initially forked from [CZI Prosemirror](https://github.com/chanzuckerberg/czi-prosemirror)
 + Core is [Prosemirror editor](https://prosemirror.net/) created by [Marijn Haverbeke](https://marijnhaverbeke.nl/).
-+ Live [DEMO: ](http://www.greathints.com:3001/)
++ [Live DEMO Here](http://greathints.com:3001/)
 
 ---
 
