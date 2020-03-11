@@ -2,18 +2,24 @@
 # -*- coding: utf-8 -*-
 
 import os
+import platform
+import logging
+import socket 
 from subprocess import check_output
 
-# This command is not tested on mac only.
-command = 'ifconfig | grep "inet " | grep -v 127.0.0.1 | cut -d\  -f2'
-f = os.popen(command)
 
-ip = f.read().strip()
+# [FS-NK][03-MAR-2020]
+# IRAD-892 Correct licit windows build
+# gracefully handling commands WRT OS.
+hostname = socket.gethostname()    
+IPAddr = socket.gethostbyname(hostname)  
 port = '3001'
-cmd = 'PORT=' + port + ' IP=' + str(ip) + ' node utils/build_web_server.js'
+if platform.system()=="Windows": cmd = 'node utils/build_web_server.js ' + ' PORT=' + port + ' IP='+ IPAddr
+else: cmd = 'PORT=' + port + ' IP=' + IPAddr + ' node utils/build_web_server.js'
+
 print('=' * 80)
 print(cmd)
 print('=' * 80)
-print('run web server at http://' + ip + ':' + port)
+print('run web server at http://' + IPAddr + ':' + port)
 print('=' * 80)
 os.system(cmd)
