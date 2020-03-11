@@ -15,7 +15,6 @@
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 </div>
-
 <div align="center">
   <h3>
     <a href="https://github.com/MO-Movia/licit/wiki">Wiki
@@ -28,7 +27,6 @@
     </a>
   </h3>
 </div>
---- 
 
 ## Getting Started  
 
