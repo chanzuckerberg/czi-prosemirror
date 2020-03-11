@@ -1,7 +1,7 @@
 // @flow
 
-import {EditorState} from 'prosemirror-state';
-import {Transform} from 'prosemirror-transform';
+import { EditorState } from 'prosemirror-state';
+import { Transform } from 'prosemirror-transform';
 import ReactDOM from 'react-dom';
 
 import EditorConnection from './EditorConnection';
@@ -10,7 +10,7 @@ import Reporter from './Reporter';
 type IdStrict = number;
 
 type ReactSetStateCall = (
-  state: {editorState: EditorState},
+  state: { editorState: EditorState },
   callback: Function,
 ) => void;
 
@@ -31,29 +31,32 @@ class DemoCollabConnector {
       docID: IdStrict,
     },
   ) {
-    const {docID} = config;
+    const { docID } = config;
     this._editorState = editorState;
     this._setState = setState;
     this._docID = docID;
 
+    // [FS-NK][11-MAR-2020]
+    //  Modified the scripts to ensure not to always replace 3001 with 3002 to run both servers together,
+    // instead used running hostname and configured port. 
     const url = window.location.protocol + '\/\/' +
-      window.location.host.replace('3001', '3002') + '/docs/' +
+      window.location.hostname + ':3002/docs/' +
       docID;
 
     const herokuUrl =
-       window.location.protocol +
+      window.location.protocol +
       '//boiling-beach-99050.herokuapp.com/docs/' + docID;
 
     this._connection = new EditorConnection(
       setState,
       new Reporter(),
-       url,
+      url,
     );
 
     this._connection.view = {
       updateState: (s) => {
         console.log('update', s);
-        setState({editorState: s}, () => {});
+        setState({ editorState: s }, () => { });
       },
     };
   }
@@ -64,7 +67,7 @@ class DemoCollabConnector {
       return;
     }
     ReactDOM.unstable_batchedUpdates(() => {
-      this._connection.dispatch({type: 'transaction', transaction});
+      this._connection.dispatch({ type: 'transaction', transaction });
     });
   };
 }
