@@ -6,6 +6,7 @@
 <div align="center">
   Includes significant text markup including size, face, color, line spacing, strikethrough, bold, italic, etc.; multi-level bullet/number lists; images with text wrapping and resizing; and a powerful table (with images and markup within table)
 </div>
+&nbsp;
 <div align="center">
   
 ![GitHub last commit](https://img.shields.io/github/last-commit/MO-Movia/licit)
