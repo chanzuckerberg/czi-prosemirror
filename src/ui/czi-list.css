@@ -1,6 +1,5 @@
 @import './czi-vars.css';
-@import './czi-bullet-list.css';
-@import './czi-ordered-list.css';
+@import './czi-ordered-list-counters.css';
 
 /* List Styles */
 
@@ -16,15 +15,16 @@
   counter-reset: none;
   display: flow-root;
   list-style-type: none;
+  margin-block-end: 0;
+  margin-block-start: 0;
   margin: 0;
   padding: 0;
 }
 
+/* bullet indentation */
 .ProseMirror li {
-  --czi-list-font-size: 0.95em;
-  --czi-list-style-color: initial;
-
-  display: flex;
+  /* This assumes the space needed for 3 digits numbers */
+  display: block;
   list-style-type: none;
   margin: 0;
   padding: 0;
@@ -32,23 +32,122 @@
   zoom: 1;
 }
 
-.ProseMirror li > p {
-  flex: 1;
-  margin: 0;
+.ProseMirror ol {
+  counter-reset: czi-counter;
+  list-style-type: none;
 }
 
-/* generic styles for custom list style type. */
+.ProseMirror ol li {
+  counter-increment: czi-counter;
+}
 
-/* see https://css-tricks.com/numbering-in-style/ */
-.ProseMirror li::before {
-  box-sizing: border-box;
+.ProseMirror li > p {
+  margin: 0;
+  margin-block-end: 0;
+  margin-block-start: 0;
+  padding-left: 24pt;
+}
+
+/* https://css-tricks.com/numbering-in-style/ */
+.ProseMirror li > p::before {
   color: var(--czi-list-style-color);
-  content: '';
-  display: block;
-  font-size: var(--czi-list-style-font-size);
-  line-height: 120%;
+  content: counter(czi-counter) '.';
+  display: inline-block;
+  font-size: 1em;
+  line-height: 1em;
   position: relative;
   text-align: right;
-  top: 0.1em;
-  min-width: 24pt;
+  top: 0;
+  left: -5px;
+  margin-left: -24pt;
+  width: 24pt;
+}
+
+.ProseMirror ul li > p::before {
+  content: '\2022'; /* disc */
+}
+
+.ProseMirror ol[data-list-style-type='lower-latin'] li > p::before {
+  content: counter(czi-counter, lower-latin) '.';
+}
+
+.ProseMirror ol[data-list-style-type='upper-latin'] li > p::before {
+  content: counter(czi-counter, upper-latin) '.';
+}
+
+.ProseMirror ol[data-list-style-type='lower-roman'] li > p::before {
+  content: counter(czi-counter, lower-roman) '.';
+}
+
+.ProseMirror ol[data-list-style-type='upper-roman'] li > p::before {
+  content: counter(czi-counter, upper-roman) '.';
+}
+
+.ProseMirror ol[data-list-style-type='lower-alpha'] li > p::before {
+  content: counter(czi-counter, lower-alpha) '.';
+}
+
+.ProseMirror ul[data-list-style-type='dash'] li > p::before {
+  content: '\2012';
+}
+
+.ProseMirror ul[data-list-style-type='circle'] li > p::before {
+  content: '\25cb';
+  font-size: 1.3em;
+}
+
+.ProseMirror ul[data-list-style-type='square'] li > p::before {
+  content: '\25a0';
+  font-size: 1.12em;
+}
+
+.ProseMirror ul[data-list-style-type='box'] li > p::before {
+  content: '\274f';
+  font-size: 1.12em;
+  top: 1px;
+}
+
+/**
+ * Adjustment nested ordered list shall use different list style.
+ * For example:
+ *
+ *   1. text
+ *     a. text
+ *       i. text
+ *       ii. text
+ *     b. text
+ *   2. text
+ *
+ */
+
+/* prettier-ignore */
+.ProseMirror ul + ul[data-indent='1'] li > p::before,
+/* prettier-ignore */
+.ProseMirror ul + ul[data-indent='4'] li > p::before,
+/* prettier-ignore */
+.ProseMirror ul + ul[data-indent='7'] li > p::before {
+  content: '\25cb'; /* circle */
+}
+
+/* prettier-ignore */
+.ProseMirror ul + ul[data-indent='2'] li > p::before,
+/* prettier-ignore */
+.ProseMirror ul + ul[data-indent='5'] li > p::before {
+  content: '\25a0'; /* square */
+}
+
+/* prettier-ignore */
+.ProseMirror ol[data-list-style-type='decimal'] + ol[data-list-style-type='decimal'][data-indent='1'] li > p::before,
+/* prettier-ignore */
+.ProseMirror ol[data-list-style-type='decimal'] + ol[data-list-style-type='decimal'][data-indent='4'] li > p::before,
+/* prettier-ignore */
+.ProseMirror ol[data-list-style-type='decimal'] + ol[data-list-style-type='decimal'][data-indent='7'] li > p::before {
+  content: counter(czi-counter, lower-alpha) '.';
+}
+
+/* prettier-ignore */
+.ProseMirror ol[data-list-style-type='decimal'] + ol[data-list-style-type='decimal'][data-indent='2'] li > p::before,
+/* prettier-ignore */
+.ProseMirror ol[data-list-style-type='decimal'] + ol[data-list-style-type='decimal'][data-indent='5'] li > p::before {
+  content: counter(czi-counter, lower-roman) '.';
 }

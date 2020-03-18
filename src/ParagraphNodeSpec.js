@@ -81,12 +81,7 @@ function toDOM(node: Node): Array<any> {
   }
 
   if (lineSpacing) {
-    const cssLineSpacing = toCSSLineSpacing(lineSpacing);
-    style +=
-      `line-height: ${cssLineSpacing};` +
-      // This creates the local css variable `--czi-content-line-height`
-      // that its children may apply.
-      `--czi-content-line-height: ${cssLineSpacing}`;
+    style += `line-height: ${toCSSLineSpacing(lineSpacing)};`;
   }
 
   if (paddingTop && !EMPTY_CSS_VALUE.has(paddingTop)) {
