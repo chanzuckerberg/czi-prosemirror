@@ -1,66 +1,66 @@
 /* Indent */
 
-.ProseMirror *[data-indent='1'] {
-  padding-left: 18pt;
+.ProseMirror *[data-indent="1"] {
+  margin-left: 18pt;
 }
 
-.ProseMirror *[data-indent='2'] {
-  padding-left: 42pt;
+.ProseMirror *[data-indent="2"] {
+  margin-left: 42pt;
 }
 
-.ProseMirror *[data-indent='3'] {
-  padding-left: 66pt;
+.ProseMirror *[data-indent="3"] {
+  margin-left: 66pt;
 }
 
-.ProseMirror *[data-indent='4'] {
-  padding-left: 80pt;
+.ProseMirror *[data-indent="4"] {
+  margin-left: 80pt;
 }
 
-.ProseMirror *[data-indent='5'] {
-  padding-left: 98pt;
+.ProseMirror *[data-indent="5"] {
+  margin-left: 98pt;
 }
 
-.ProseMirror *[data-indent='6'] {
-  padding-left: 122pt;
+.ProseMirror *[data-indent="6"] {
+  margin-left: 122pt;
 }
 
-.ProseMirror *[data-indent='7'] {
-  padding-left: 150pt;
+.ProseMirror *[data-indent="7"] {
+  margin-left: 150pt;
 }
 
 /* list item indents */
 
-.ProseMirror ol[data-indent='1'],
-.ProseMirror ul[data-indent='1'] {
-  padding-left: 12pt;
+.ProseMirror ol[data-indent="1"],
+ul[data-indent="1"] {
+  margin-left: 12pt;
 }
 
-.ProseMirror ol[data-indent='2'],
-.ProseMirror ul[data-indent='2'] {
-  padding-left: 24pt;
+.ProseMirror ol[data-indent="2"],
+ul[data-indent="2"] {
+  margin-left: 24pt;
 }
 
-.ProseMirror ol[data-indent='3'],
-.ProseMirror ul[data-indent='3'] {
-  padding-left: 36pt;
+.ProseMirror ol[data-indent="3"],
+ul[data-indent="3"] {
+  margin-left: 36pt;
 }
 
-.ProseMirror ol[data-indent='4'],
-.ProseMirror ul[data-indent='4'] {
-  padding-left: 48pt;
+.ProseMirror ol[data-indent="4"],
+ul[data-indent="4"] {
+  margin-left: 48pt;
 }
 
-.ProseMirror ol[data-indent='5'],
-.ProseMirror ul[data-indent='5'] {
-  padding-left: 60pt;
+.ProseMirror ol[data-indent="5"],
+ul[data-indent="5"] {
+  margin-left: 60pt;
 }
 
-.ProseMirror ol[data-indent='6'],
-.ProseMirror ul[data-indent='6'] {
-  padding-left: 72pt;
+.ProseMirror ol[data-indent="6"],
+ul[data-indent="6"] {
+  margin-left: 72pt;
 }
 
-.ProseMirror ol[data-indent='7'],
-.ProseMirror ul[data-indent='7'] {
-  padding-left: 84pt;
+.ProseMirror ol[data-indent="7"],
+ul[data-indent="7"] {
+  margin-left: 84pt;
 }

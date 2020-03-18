@@ -48,7 +48,7 @@ class SetDocAttrStep extends Step {
     };
   }
 
-  static fromJSON(json: SetDocAttrStepJSONValue) {
+  static fromJSON(schema, json: SetDocAttrStepJSONValue) {
     return new SetDocAttrStep(json.key, json.value, json.stepType);
   }
 }
