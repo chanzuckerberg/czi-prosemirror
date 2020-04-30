@@ -87,7 +87,7 @@
     "classnames": "2.2.6",
     "color": "3.0.0",
     "invariant": "2.2.4",
-    "jquery": "2.2.1",
+    "jquery": "3.5.0",
     "katex": "0.10.1",
     "node-mathquill": "0.10.0",
     "nullthrows": "1.0.1",
