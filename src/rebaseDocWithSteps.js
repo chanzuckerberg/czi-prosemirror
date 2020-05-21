@@ -1,7 +1,6 @@
 // @flow
 
 import {Step} from 'prosemirror-transform';
-
 import EditorSchema from './EditorSchema';
 
 type RebaseResult = {

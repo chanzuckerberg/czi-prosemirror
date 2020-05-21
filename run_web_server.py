@@ -4,16 +4,16 @@
 import os
 import platform
 import logging
-import socket 
+import socket    
 from subprocess import check_output
 
-
-# [FS-NK][03-MAR-2020]
+# [FS][03-MAR-2020]
 # IRAD-892 Correct licit windows build
 # gracefully handling commands WRT OS.
 hostname = socket.gethostname()    
 IPAddr = socket.gethostbyname(hostname)  
 port = '3001'
+
 if platform.system()=="Windows": cmd = 'node utils/build_web_server.js ' + ' PORT=' + port + ' IP='+ IPAddr
 else: cmd = 'PORT=' + port + ' IP=' + IPAddr + ' node utils/build_web_server.js'
 

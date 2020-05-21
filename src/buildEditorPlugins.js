@@ -31,7 +31,6 @@ export default function buildEditorPlugins(schema: Schema): Array<Plugin> {
     dropCursor(),
     gapCursor(),
     history(),
-
     keymap(createEditorKeyMap()),
     keymap(baseKeymap),
   ].concat(TablePlugins);
