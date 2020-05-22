@@ -88,13 +88,17 @@ function addEvents(
     checkVersion(docModel, version);
 
     if (docModel.version !== version) {
-      const error: Object = new Error(
+      // [FS][18-MAY-2020][IRAD-901]
+      // skip throwing errors if found a version mismatch and
+      // used the server side version to rebase doc steps.
+      version = docModel.version;
+      /*const error: Object = new Error(
         'Version not current. docModel.version = ' + docModel.version + ', ' +
         'params.version = ' + version
       );
       error.status = 409;
       reject(error);
-      return;
+      return;*/
     }
 
     // PM Process Start
@@ -148,12 +152,10 @@ function getEvents(docModel: DemoDocModel, version: number): ?Object {
 
 function checkVersion(docModel: DemoDocModel, version: number): void {
   if (version < 0 || version > docModel.version) {
-    const err: Object = new Error(
-      'Invalid version. docModel.version = ' + docModel.version + ', ' +
-      'version = ' + version
-    );
-    err.status = 400;
-    throw err;
+    // [FS][18-MAY-2020][IRAD-901]
+    // skip throwing errors if found a version mismatch and
+    // used the server side version to rebase doc steps.
+    version = docModel.version;
   }
 }
 

@@ -24,7 +24,7 @@ const {
   BOOKMARK,
   BULLET_LIST,
   CODE_BLOCK,
-  DOC,  
+  DOC,
   HARD_BREAK,
   HEADING,
   HORIZONTAL_RULE,
@@ -41,7 +41,7 @@ const {
 // !! Be careful with the order of these nodes, which may effect the parsing
 // outcome.!!
 const nodes = {
-  [DOC]: DocNodeSpec, 
+  [DOC]: DocNodeSpec,
   [PARAGRAPH]: ParagraphNodeSpec,
   [BLOCKQUOTE]: BlockquoteNodeSpec,
   [HORIZONTAL_RULE]: HorizontalRuleNodeSpec,

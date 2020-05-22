@@ -25,7 +25,7 @@ module.exports = {
     "prefer-const": "error",
     "quotes": [2, "single", { "avoidEscape": true }],
     "semi": [2, "always"],
-    "strict": 0,
+    "strict": 0
   },
   "globals": {
     "__dirname": false,

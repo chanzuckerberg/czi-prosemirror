@@ -63,6 +63,6 @@ const marks = {
   [MARK_UNDERLINE]: TextUnderlineMarkSpec,
 };
 
-const schema = new Schema({nodes, marks});
+const schema = new Schema({ nodes, marks });
 const EditorMarks = schema.spec.marks;
 export default EditorMarks;

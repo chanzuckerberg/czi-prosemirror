@@ -1,9 +1,9 @@
 // @flow
 
 import applyDevTools from 'prosemirror-dev-tools';
-import {EditorState} from 'prosemirror-state';
-import {Transform} from 'prosemirror-transform';
-import {EditorView} from 'prosemirror-view';
+import { EditorState, TextSelection } from 'prosemirror-state';
+import { Transform } from 'prosemirror-transform';
+import { EditorView } from 'prosemirror-view';
 import React from 'react';
 
 import createEmptyEditorState from '../../src/createEmptyEditorState';
@@ -56,7 +56,6 @@ class DemoApp extends React.PureComponent<any, any, any> {
         height="100vh"
         onChange={this._onChange}
         onReady={this._onReady}
-        placeholder={readOnly ? '' : 'Type Something...'}
         readOnly={readOnly}
         runtime={this._runtime}
         width="100vw"
@@ -70,6 +69,12 @@ class DemoApp extends React.PureComponent<any, any, any> {
   };
 
   _onReady = (editorView: EditorView): void => {
+    // [FS][06-APR-2020][IRAD-922]
+    // Showing focus in the editor.
+    const { state, dispatch } = editorView;
+    const tr = state.tr;
+    dispatch(tr.setSelection(TextSelection.create(tr.doc, 0)));
+    editorView.focus();
     window.debugProseMirror = () => {
       applyDevTools(editorView);
     };

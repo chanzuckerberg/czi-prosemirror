@@ -38,6 +38,18 @@ git clone https://github.com/MO-Movia/licit.git
 cd licit
 npm install
 ```
+### Install Prerequisite
+
+
+```
+
+Make(0.8.1)
+
+Python(3.8.2) 
+
+```
+  
+  
 
 ### Install dependencies
 
@@ -120,3 +132,12 @@ docID;
 Run *ng serve* to see the collaborative licit editor inside the angular application.
 
 You may find the latest commit hash at https://github.com/MO-Movia/licit/commits/master
+## Workaround to avoid build error in prosemirror-tables plugin in windows machine
+
+  
+
+After npm install copy the whole file from folder prosemirror-tables/src to prosemirror-tables/dist
+
+## Windows Specific
+
+Use Git bash or Windows Power Shell to install build and run the project
