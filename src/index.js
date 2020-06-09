@@ -8,3 +8,6 @@ export {default as convertToJSON} from './convertToJSON';
 export {default as createEmptyEditorState} from './createEmptyEditorState';
 export {default as isEditorStateEmpty} from './isEditorStateEmpty';
 export {default as uuid} from './ui/uuid';
+// [FS] IRAD-978 2020-06-05
+// Export Licit as a component
+export {default as Licit} from './client/Licit.js';

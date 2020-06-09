@@ -1,3 +1,5 @@
+
+
 <h1 align="center">Licit Editor</h1>
 
 <div align="center">
@@ -60,7 +62,11 @@ npm install
 
 In order to upload image work correctly, "images" folder is expected outside the root folder 'licit'.
 
+  ## Workaround to avoid build error in prosemirror-tables plugin in windows machine
+
   
+
+After npm install copy the whole file from folder prosemirror-tables/src to prosemirror-tables/dist
 
 ### Start the collaboration server
 
@@ -94,6 +100,55 @@ Test http://localhost:3001/ from your browser.
 
 npm run build:dist
 ``` 
+## Use Licit as a component
+
+For using licit in your project you should follow these steps:  
+ 
+ To build the licit pack, run the bellow commands:
+```
+# At the working directory `licit`
+
+npm run build:dist
+npm pack
+```  
+
+Now you will find a *licit-0.0.1.tgz* file in the licit directory. 
+
+Add this *.tgz* file to your own angular project and install it using the below command:
+```
+# At your angular working directory
+
+npm install ./licit-0.0.1.tgz 
+```  
+In  windows machine, make sure to copy *src* contents of *node_modules\prosemirror-tables* to *node_modules\prosemirror-tables\dist*
+
+**After this you can import licit component in your application like:**
+```
+import { Licit } from 'licit';
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
+
+// To create multiple instances:
+ReactDOM.render(<Licit docID={1}/>, document.getElementById('root'));
+ReactDOM.render(<Licit docID={1}/>, document.getElementById('root2'));
+ReactDOM.render(<Licit docID={2}/>, document.getElementById('root3'));
+ReactDOM.render(<Licit docID={3}/>, document.getElementById('root4'));
+
+// OR
+ReactDOM.render(React.createElement(Licit, {docID:1}), document.getElementById("root"));
+ReactDOM.render(React.createElement(Licit, {docID:2}), document.getElementById("root2"));
+
+ ```  
+To load the styles:
+Either in *angular.json*, add
+ *"styles": [
+ "node_modules/licit/dist/styles.css",
+]*
+OR 
+in the default global CSS file *src\styles.scss*, add
+*@import  "~licit/dist/styles.css"*
+
+Run *npm start* to see the licit editor inside the angular application.
 
 ## Use it for your own project  
 
@@ -132,11 +187,8 @@ docID;
 Run *ng serve* to see the collaborative licit editor inside the angular application.
 
 You may find the latest commit hash at https://github.com/MO-Movia/licit/commits/master
-## Workaround to avoid build error in prosemirror-tables plugin in windows machine
 
-  
 
-After npm install copy the whole file from folder prosemirror-tables/src to prosemirror-tables/dist
 
 ## Windows Specific
 

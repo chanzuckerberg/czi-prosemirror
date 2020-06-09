@@ -1,11 +1,9 @@
 // @flow
 
 import {Schema} from 'prosemirror-model';
-
 import BlockquoteNodeSpec from './BlockquoteNodeSpec';
 import BookmarkNodeSpec from './BookmarkNodeSpec';
 import BulletListNodeSpec from './BulletListNodeSpec';
-import CodeBlockNodeSpec from './CodeBlockNodeSpec';
 import DocNodeSpec from './DocNodeSpec';
 import HardBreakNodeSpec from './HardBreakNodeSpec';
 import HeadingNodeSpec from './HeadingNodeSpec';
@@ -23,7 +21,7 @@ const {
   BLOCKQUOTE,
   BOOKMARK,
   BULLET_LIST,
-  CODE_BLOCK,
+  //CODE_BLOCK,
   DOC,
   HARD_BREAK,
   HEADING,
@@ -46,7 +44,6 @@ const nodes = {
   [BLOCKQUOTE]: BlockquoteNodeSpec,
   [HORIZONTAL_RULE]: HorizontalRuleNodeSpec,
   [HEADING]: HeadingNodeSpec,
-  [CODE_BLOCK]: CodeBlockNodeSpec,
   [TEXT]: TextNodeSpec,
   [IMAGE]: ImageNodeSpec,
   [MATH]: MathNodeSpec,

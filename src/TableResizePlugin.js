@@ -30,11 +30,11 @@
 // - Let user set the right margin of the table.
 
 import TableNodeView from './ui/TableNodeView';
-import {Node} from 'prosemirror-model';
-import {EditorState, Plugin, PluginKey} from 'prosemirror-state';
-import {Transform} from 'prosemirror-transform';
-import {Decoration, DecorationSet, EditorView} from 'prosemirror-view';
-import {findParentNodeOfTypeClosestToPos} from 'prosemirror-utils';
+import { Node } from 'prosemirror-model';
+import { EditorState, Plugin, PluginKey } from 'prosemirror-state';
+import { Transform } from 'prosemirror-transform';
+import { Decoration, DecorationSet, EditorView } from 'prosemirror-view';
+import { findParentNodeOfTypeClosestToPos } from 'prosemirror-utils';
 import nullthrows from 'nullthrows';
 import {
   cellAround,
@@ -57,14 +57,20 @@ type DraggingInfo = {
 };
 
 type PointerEvent = {
-  target: EventTarget,
+  target: null,
   clientX: number,
   clientY: number,
 };
 
 const PLUGIN_KEY = new PluginKey('tableColumnResizing');
-const CELL_MIN_WIDTH = 25;
-const HANDLE_WIDTH = 20;
+
+// [FS] IRAD-949 2020-05-27
+// Fix:Cell Resize Handler causes edit diificult to firsrst/last two chars in the cell.
+// Rezie cursor position issue fixed.
+
+const CELL_MIN_WIDTH = 30;
+const HANDLE_WIDTH = 5;
+const HANDLE_RIGHT_WIDTH = 20;
 
 let cancelDrag: ?Function = null;
 
@@ -126,8 +132,11 @@ function handleMouseMove(view: EditorView, event: PointerEvent): void {
   let cell = -1;
 
   if (target instanceof HTMLElement) {
-    const {left, right} = target.getBoundingClientRect();
+    const { left, right } = target.getBoundingClientRect();
     const offsetLeft = event.clientX - left;
+    // [FS] IRAD-949 2020-05-27
+    // Fix:Cell Resize Handler causes edit diificult to firsrst/last two chars in the cell.
+    // Rezie cursor position issue fixed.
     if (offsetLeft <= HANDLE_WIDTH) {
       if (target.cellIndex === 0) {
         forMarginLeft = true;
@@ -159,7 +168,7 @@ function handleMouseMove(view: EditorView, event: PointerEvent): void {
 // Function that handles the mouseleave event from the table cell.
 function handleMouseLeave(view: EditorView): void {
   const resizeState = PLUGIN_KEY.getState(view.state);
-  const {cellPos, draggingInfo} = resizeState;
+  const { cellPos, draggingInfo } = resizeState;
   if (cellPos > -1 && !draggingInfo) {
     updateResizeHandle(view, -1, false);
   }
@@ -226,7 +235,7 @@ function handleDragStart(view: EditorView, event: MouseEvent): void {
 // This will temporarily updates the table's style until the resize ends.
 function handleDragMove(view: EditorView, event: PointerEvent): void {
   const resizeState = PLUGIN_KEY.getState(view.state);
-  const {draggingInfo, forMarginLeft} = resizeState;
+  const { draggingInfo, forMarginLeft } = resizeState;
   if (!draggingInfo) {
     return;
   }
@@ -293,11 +302,11 @@ function handleDragMove(view: EditorView, event: PointerEvent): void {
 // Function that handles the mouse event while stop resizing the table cell.
 function handleDragEnd(view: EditorView, event: PointerEvent): void {
   const resizeState = PLUGIN_KEY.getState(view.state);
-  const {cellPos, draggingInfo} = resizeState;
+  const { cellPos, draggingInfo } = resizeState;
   if (!draggingInfo) {
     return;
   }
-  const {columnElements, tableElement} = draggingInfo;
+  const { columnElements, tableElement } = draggingInfo;
   const widths = columnElements.map(colEl => {
     return parseFloat(colEl.style.width);
   });
@@ -315,7 +324,7 @@ function handleDragEnd(view: EditorView, event: PointerEvent): void {
         continue;
       }
       const pos = map.map[mapIndex];
-      const {attrs} = table.nodeAt(pos);
+      const { attrs } = table.nodeAt(pos);
       const colspan = attrs.colspan || 1;
       const colwidth = widths.slice(col, col + colspan);
 
@@ -357,7 +366,7 @@ function handleDragEnd(view: EditorView, event: PointerEvent): void {
     view.dispatch(tr);
   }
   // Hides the resize handle bars.
-  view.dispatch(view.state.tr.setMeta(PLUGIN_KEY, {setDraggingInfo: null}));
+  view.dispatch(view.state.tr.setMeta(PLUGIN_KEY, { setDraggingInfo: null }));
 }
 
 // Helper that prepares the information needed before the resizing starts.
@@ -366,7 +375,7 @@ function calculateDraggingInfo(
   event: MouseEvent,
   resizeState: ResizeState
 ): ?DraggingInfo {
-  const {cellPos, forMarginLeft} = resizeState;
+  const { cellPos, forMarginLeft } = resizeState;
   const dom = view.domAtPos(cellPos);
   const tableEl = dom.node.closest('table');
   const tableWrapper = tableEl.closest('.tableWrapper');
@@ -407,8 +416,10 @@ function calculateDraggingInfo(
     }
 
     // The edges of the column's right border.
-    const edgeLeft = tableWidth + colWidth - HANDLE_WIDTH / 2;
-    const edgeRight = tableWidth + colWidth + HANDLE_WIDTH / 2;
+    // [FS] IRAD-949 2020-05-27
+    // Fix:Cell Resize Handler causes edit diificult to firsrst/last two chars in the cell.
+    const edgeLeft = tableWidth + colWidth - HANDLE_RIGHT_WIDTH / 2;
+    const edgeRight = tableWidth + colWidth + HANDLE_RIGHT_WIDTH / 2;
     if (offsetLeft >= edgeLeft && offsetLeft <= edgeRight) {
       // This is the column to resize.
       taregtColumnIndex = ii;
@@ -454,7 +465,7 @@ function domCellAround(target: any): ?Element {
 // Helper that resolves the prose-mirror node postion of a cell from a given
 // event target.
 function edgeCell(view: EditorView, event: PointerEvent, side: string): number {
-  const {pos} = view.posAtCoords({left: event.clientX, top: event.clientY});
+  const { pos } = view.posAtCoords({ left: event.clientX, top: event.clientY });
   const $cell = cellAround(view.state.doc.resolve(pos));
   if (!$cell) {
     return -1;
@@ -542,7 +553,7 @@ function batchMouseHandler(
       handler(view, pointerEvent);
     }
   };
-  return function(ev: EditorView, me: MouseEvent) {
+  return function (ev: EditorView, me: MouseEvent) {
     target = me.target;
     clientX = me.clientX;
     clientY = me.clientY;
@@ -580,7 +591,7 @@ export default class TableResizePlugin extends Plugin {
       props: {
         attributes(state: EditorState): ?Object {
           const resizeState = PLUGIN_KEY.getState(state);
-          return resizeState.cellPos > -1 ? {class: 'resize-cursor'} : null;
+          return resizeState.cellPos > -1 ? { class: 'resize-cursor' } : null;
         },
         handleDOMEvents: {
           // Move events should be batched to avoid over-handling the mouse

@@ -1,4 +1,4 @@
-import {Schema} from 'prosemirror-model';
+import { Schema } from 'prosemirror-model';
 
 import CodeMarkSpec from './CodeMarkSpec';
 import DocNodeSpec from './DocNodeSpec';

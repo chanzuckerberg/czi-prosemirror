@@ -79,10 +79,11 @@ export const KEY_INSERT_NEW_LINE = makeKeyMapWithCommon(
   'Insert new line',
   'Shift-Enter'
 );
-export const KEY_INSERT_NEW_LINE_IN_BLOCKQUOTE = makeKeyMapWithCommon(
-  'Insert new line in blockquote',
-  'Shift-Enter'
-);
+// [FS][07-MAY-2020][IRAD-956]
+// export const KEY_INSERT_NEW_LINE_IN_BLOCKQUOTE = makeKeyMapWithCommon(
+//   'Insert new line in blockquote',
+//   'Shift-Enter'
+// );
 export const KEY_INSERT_NEW_LINE_IN_LIST_ITEM = makeKeyMapWithCommon(
   'Insert new line in list item',
   'Shift-Enter'
@@ -176,7 +177,8 @@ export const ALL_KEYS = [
   KEY_FORWARD_DELETE,
   KEY_INSERT_HORIZONTAL_RULE,
   KEY_INSERT_NEW_LINE,
-  KEY_INSERT_NEW_LINE_IN_BLOCKQUOTE,
+  // [FS][07-MAY-2020][IRAD-956]
+  // KEY_INSERT_NEW_LINE_IN_BLOCKQUOTE,
   KEY_INSERT_NEW_LINE_IN_LIST_ITEM,
   KEY_SET_NORMAL_TEXT,
   KEY_SHIFT_BACKSPACE,

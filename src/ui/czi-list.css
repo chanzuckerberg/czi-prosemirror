@@ -43,7 +43,8 @@ html {
 /* https://css-tricks.com/numbering-in-style/ */
 .ProseMirror ul li > p::before {
   color: var(--czi-list-style-color);
-  content: counter(czi-counter) '.';
+
+  /* content: '\2022'; */
   display: inline-block;
   font-size: 1em;
   line-height: 1em;
@@ -55,15 +56,13 @@ html {
   width: 24pt;
 }
 
-/* .ProseMirror ul li > p::before {
-  content: '\2022';
-} */
 .ProseMirror ol {
   /* counter-reset: czi-counter;
   list-style-type: none; */
   --czi-counter-name: czi-counter-0;
   --czi-list-style-type: decimal;
   --czi-counter-reset: 0;
+
   counter-reset: none;
 }
 
@@ -173,18 +172,27 @@ html {
   content: counter(czi-counter-0, lower-roman) '. ';
 }
 
+/* [FS] IRAD-947 2020-05-26
+Bullet list type changing fix */
+
 /* prettier-ignore */
-.ProseMirror ul + ul[data-indent='7'] li > p::before,
+.ProseMirror ul[data-indent='7'] li > p::before,
 /* prettier-ignore */
-.ProseMirror ul + ul[data-indent='4'] li > p::before,
+.ProseMirror ul[data-indent='4'] li > p::before,
 /* prettier-ignore */
-.ProseMirror ul + ul[data-indent='1'] li > p::before {
+.ProseMirror ul[data-indent='1'] li > p::before {
   content: '\25cb'; /* circle */
 }
 
 /* prettier-ignore */
-.ProseMirror ul + ul[data-indent='5'] li > p::before,
+.ProseMirror ul[data-indent='5'] li > p::before,
 /* prettier-ignore */
-.ProseMirror ul + ul[data-indent='2'] li > p::before {
+.ProseMirror ul[data-indent='2'] li > p::before {
   content: '\25a0'; /* square */
+}
+
+.ProseMirror ul[data-indent='6'] li > p::before,
+.ProseMirror ul[data-indent='3'] li > p::before,
+.ProseMirror ul[data-indent='0'] li > p::before {
+  content: '\2022'; /* circle */
 }

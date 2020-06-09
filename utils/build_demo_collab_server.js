@@ -60,7 +60,7 @@ const config = {
     new WriteFilePlugin(),
   ],
   // to enable debug
-  devtool: "source-map"
+  devtool: 'source-map'
 };
 
 webpack(
