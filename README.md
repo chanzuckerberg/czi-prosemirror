@@ -1,4 +1,5 @@
 
+
 <h1 align="center">Licit Editor</h1>
 
 <div align="center">
@@ -111,15 +112,15 @@ npm run build:dist
 npm pack
 ```  
 
-Now you will find a licit-0.0.1.tgz file in the licit directory. 
+Now you will find a *licit-0.0.1.tgz* file in the licit directory. 
 
-Add this .tgz file to your own angular project and install it using the below command:
+Add this *.tgz* file to your own angular project and install it using the below command:
 ```
 # At your angular working directory
 
 npm install ./licit-0.0.1.tgz 
 ```  
-In  windows machine , make sure to copy src contents of node_modules\prosemirror-tables to node_modules\prosemirror-tables\dist
+In  windows machine, make sure to copy *src* contents of *node_modules\prosemirror-tables* to *node_modules\prosemirror-tables\dist*
 
 **After this you can import licit component in your application like:**
 ```
@@ -139,13 +140,13 @@ ReactDOM.render(React.createElement(Licit, {docID:2}), document.getElementById("
 
  ```  
 To load the styles:
-Either in angular.json, add
- "styles": [
+Either in *angular.json*, add
+ *"styles": [
  "node_modules/licit/dist/styles.css",
-]
+]*
 OR 
-in the default global CSS file src\styles.scss, add
-@import  "~licit/dist/styles.css"
+in the default global CSS file *src\styles.scss*, add
+*@import  "~licit/dist/styles.css"*
 
 Run *npm start* to see the licit editor inside the angular application.
 
