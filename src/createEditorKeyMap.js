@@ -1,8 +1,8 @@
 // @flow
 
-import {EditorState} from 'prosemirror-state';
-import {Transform} from 'prosemirror-transform';
-import {EditorView} from 'prosemirror-view';
+import { EditorState } from 'prosemirror-state';
+import { Transform } from 'prosemirror-transform';
+import { EditorView } from 'prosemirror-view';
 
 import * as EditorCommands from './EditorCommands';
 import * as EditorKeyMap from './EditorKeyMap';
@@ -21,7 +21,8 @@ type UserKeyMap = {
 const {
   KEY_BACK_DELETE,
   KEY_FORWARD_DELETE,
-  KEY_INSERT_NEW_LINE_IN_BLOCKQUOTE,
+  // [FS][07-MAY-2020][IRAD-956]
+  // KEY_INSERT_NEW_LINE_IN_BLOCKQUOTE,
   KEY_INSERT_NEW_LINE_IN_LIST_ITEM,
   KEY_REDO,
   KEY_SPLIT_LIST_ITEM,
@@ -33,7 +34,8 @@ const {
 } = EditorKeyMap;
 
 const {
-  BLOCKQUOTE_INSERT_NEW_LINE,
+  // [FS][07-MAY-2020][IRAD-956]
+  // BLOCKQUOTE_INSERT_NEW_LINE,
   EM,
   HISTORY_REDO,
   HISTORY_UNDO,
@@ -50,7 +52,7 @@ const {
 } = EditorCommands;
 
 function bindCommands(...commands: Array<UICommand>): UserKeyCommand {
-  return function(
+  return function (
     state: EditorState,
     dispatch: ?(tr: Transform) => void,
     view: ?EditorView
@@ -84,8 +86,9 @@ export default function createEditorKeyMap(): UserKeyMap {
     [KEY_TOGGLE_BOLD.common]: STRONG.execute,
     [KEY_TOGGLE_ITALIC.common]: EM.execute,
     [KEY_UNDO.common]: HISTORY_UNDO.execute,
-    [KEY_INSERT_NEW_LINE_IN_BLOCKQUOTE.common]:
-      BLOCKQUOTE_INSERT_NEW_LINE.execute,
+    // [FS][07-MAY-2020][IRAD-956]
+    // [KEY_INSERT_NEW_LINE_IN_BLOCKQUOTE.common]:
+    //   BLOCKQUOTE_INSERT_NEW_LINE.execute,
     [KEY_INSERT_NEW_LINE_IN_LIST_ITEM.common]:
       LIST_ITEM_INSERT_NEW_LINE.execute,
   };

@@ -1,11 +1,11 @@
 // @flow
 
-import {EditorState} from 'prosemirror-state';
-import {AllSelection, TextSelection} from 'prosemirror-state';
-import {Transform} from 'prosemirror-transform';
-import {EditorView} from 'prosemirror-view';
+import { EditorState } from 'prosemirror-state';
+import { AllSelection, TextSelection } from 'prosemirror-state';
+import { Transform } from 'prosemirror-transform';
+import { EditorView } from 'prosemirror-view';
 
-import clearMarks from './clearMarks';
+import { clearMarks, clearHeading } from './clearMarks';
 import UICommand from './ui/UICommand';
 
 class MarksClearCommand extends UICommand {
@@ -14,7 +14,7 @@ class MarksClearCommand extends UICommand {
   };
 
   isEnabled = (state: EditorState) => {
-    const {selection} = state;
+    const { selection } = state;
     return (
       !selection.empty &&
       (selection instanceof TextSelection || selection instanceof AllSelection)
@@ -26,7 +26,10 @@ class MarksClearCommand extends UICommand {
     dispatch: ?(tr: Transform) => void,
     view: ?EditorView
   ): boolean => {
-    const tr = clearMarks(state.tr.setSelection(state.selection), state.schema);
+    let tr = clearMarks(state.tr.setSelection(state.selection), state.schema);
+    // [FS] IRAD-948 2020-05-22
+    // Clear Header formatting
+    tr = clearHeading(tr, state.schema);
     if (dispatch && tr.docChanged) {
       dispatch(tr);
       return true;

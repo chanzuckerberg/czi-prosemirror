@@ -105,9 +105,9 @@ function setListNodeIndent(
   const { from, to } = selection;
 
   // [FS] IRAD-947 2020-05-19
-  // Fix for Multi-level lists lose multi-levels when indenting/de-indenting
+  // Fix for Multi-level lists lose multi-levels when indenting/de-indenting 
   // Earlier they checked the to postion value to >= pos + listNode.nodeSize
-  // It wont satisfy the list hve childrens
+  // It wont satisfy the list hve childrens 
 
   if (from <= pos && to >= pos) {
     return setNodeIndentMarkup(tr, schema, pos, delta);

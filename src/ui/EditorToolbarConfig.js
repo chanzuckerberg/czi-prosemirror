@@ -31,6 +31,8 @@ export function parseLabel(input: string): Object {
 }
 
 const {
+  // [FS][07-MAY-2020][IRAD-956]
+  // BLOCKQUOTE_TOGGLE,
   CLEAR_FORMAT,
   DOC_LAYOUT,
   EM,
@@ -181,6 +183,8 @@ export const COMMAND_GROUPS = [
     '[hr] Horizontal line': HR,
     '[functions] Math': MATH_EDIT,
     '[format_strikethrough] Strike through': STRIKE,
+    // [FS][07-MAY-2020][IRAD-956]
+    // '[format_quote] Block quote': BLOCKQUOTE_TOGGLE,
   },
   {
     '[settings_overscan] Page layout': DOC_LAYOUT,

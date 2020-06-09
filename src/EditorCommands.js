@@ -1,10 +1,9 @@
 // @flow
 
 import * as ProsemirrorTables from 'prosemirror-tables';
-
-import BlockquoteInsertNewLineCommand from './BlockquoteInsertNewLineCommand';
-import BlockquoteToggleCommand from './BlockquoteToggleCommand';
-import CodeBlockCommand from './CodeBlockCommand';
+// [FS][07-MAY-2020][IRAD-956]
+// import BlockquoteInsertNewLineCommand from './BlockquoteInsertNewLineCommand';
+// import BlockquoteToggleCommand from './BlockquoteToggleCommand';
 import DocLayoutCommand from './DocLayoutCommand';
 import HeadingCommand from './HeadingCommand';
 import HistoryRedoCommand from './HistoryRedoCommand';
@@ -69,11 +68,10 @@ const {
 // following code:
 document.execCommand('enableObjectResizing', false, 'false');
 document.execCommand('enableInlineTableEditing', false, 'false');
-
-export const BLOCKQUOTE_TOGGLE = new BlockquoteToggleCommand();
-export const BLOCKQUOTE_INSERT_NEW_LINE = new BlockquoteInsertNewLineCommand();
+// [FS][07-MAY-2020][IRAD-956]
+//  export const BLOCKQUOTE_TOGGLE = new BlockquoteToggleCommand();
+//  export const BLOCKQUOTE_INSERT_NEW_LINE = new BlockquoteInsertNewLineCommand();
 export const CLEAR_FORMAT = new MarksClearCommand();
-export const CODE = new CodeBlockCommand();
 export const DOC_LAYOUT = new DocLayoutCommand();
 export const EM = new MarkToggleCommand(MARK_EM);
 export const H1 = new HeadingCommand(1);
