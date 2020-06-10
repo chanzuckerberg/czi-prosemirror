@@ -15,7 +15,8 @@
     "flow": "flow",
     "lint:css": "stylelint \"**/*.css\"",
     "lint:js": "eslint \"**/*.js\"",
-    "start": "node scripts/webserver.js"
+    "start": "node scripts/webserver.js",
+    "postinstall": "node fix_pm_tables_dist.js"
   },
   "devDependencies": {
     "async-await": "0.1.40",
@@ -76,7 +77,6 @@
     "prettier": "^1.17.0",
     "prop-types": "15.6.2",
     "prop-types-extra": "1.1.0",
-    "prosemirror-dev-tools": "2.1.1",
     "react-loadable": "5.5.0",
     "regenerator": "0.12.3",
     "stylelint": "^10.0.1",
@@ -114,6 +114,7 @@
     "prosemirror-transform": "1.1.3",
     "prosemirror-utils": "0.6.6",
     "prosemirror-view": "1.6.7",
+    "prosemirror-dev-tools": "3.0.0",
     "query-string": "3.0.3",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",

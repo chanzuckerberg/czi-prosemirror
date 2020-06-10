@@ -17,9 +17,7 @@ var isDev = env.NODE_ENV === 'development' || 0;
 
 var options = {
   entry: {
-    convert: path.join(__dirname, 'demo', 'client', 'ConvertApp.js'),
     demo: path.join(__dirname, 'demo', 'client', 'index.js'),
-    ui: path.join(__dirname, 'demo', 'client', 'UIExamples.js'),
   },
   output: {
     path: path.join(__dirname, 'bin'),
@@ -95,24 +93,6 @@ var options = {
       template: path.join(__dirname, 'demo', 'index.html'),
       filename: 'index.html',
       chunks: ['demo'],
-      inlineSource: isDev ? '$^' : '.(js|css)$'
-    }),
-    new HtmlWebpackPlugin({
-      template: path.join(__dirname, 'demo', 'index.html'),
-      filename: 'playground.html',
-      chunks: ['playground'],
-      inlineSource: isDev ? '$^' : '.(js|css)$'
-    }),
-    new HtmlWebpackPlugin({
-      template: path.join(__dirname, 'demo', 'index.html'),
-      filename: 'ui.html',
-      chunks: ['ui'],
-      inlineSource: isDev ? '$^' : '.(js|css)$'
-    }),
-    new HtmlWebpackPlugin({
-      template: path.join(__dirname, 'demo', 'index.html'),
-      filename: 'convert.html',
-      chunks: ['convert'],
       inlineSource: isDev ? '$^' : '.(js|css)$'
     }),
     new HtmlWebpackInlineSourcePlugin(),
