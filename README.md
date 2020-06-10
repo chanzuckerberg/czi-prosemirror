@@ -1,5 +1,7 @@
 
 
+
+
 <h1 align="center">Licit Editor</h1>
 
 <div align="center">
@@ -61,12 +63,7 @@ npm install
 ``` 
 
 In order to upload image work correctly, "images" folder is expected outside the root folder 'licit'.
-
-  ## Workaround to avoid build error in prosemirror-tables plugin in windows machine
-
   
-
-After npm install copy the whole file from folder prosemirror-tables/src to prosemirror-tables/dist
 
 ### Start the collaboration server
 
@@ -120,7 +117,6 @@ Add this *.tgz* file to your own angular project and install it using the below 
 
 npm install ./licit-0.0.1.tgz 
 ```  
-In  windows machine, make sure to copy *src* contents of *node_modules\prosemirror-tables* to *node_modules\prosemirror-tables\dist*
 
 **After this you can import licit component in your application like:**
 ```
@@ -139,6 +135,19 @@ ReactDOM.render(React.createElement(Licit, {docID:1}), document.getElementById("
 ReactDOM.render(React.createElement(Licit, {docID:2}), document.getElementById("root2"));
 
  ```  
+ By default, the *collaboration* and the *prosemirror dev tool* are disabled for the editor.
+ User can enable the same using the below configuration:
+ ```
+ ReactDOM.render(React.createElement(Licit, {collaborative: true, docID: 1, debug: true}), document.getElementById('root'));
+```
+|Property Name| Description|Default Value| 
+|--|--|--|
+|collaborative  | Enable/disable the collaborative functionality of this editor. |false
+|docID  |Id of the collaborative document. Used only when the collaboration is enabled. |1
+| debug |Show/hide prosemirror dev tools|false
+
+
+
 To load the styles:
 Either in *angular.json*, add
  *"styles": [

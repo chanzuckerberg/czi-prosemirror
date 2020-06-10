@@ -1,5 +1,6 @@
 // @flow
 
+import applyDevTools from 'prosemirror-dev-tools';
 import { EditorState, TextSelection } from 'prosemirror-state';
 import { Transform } from 'prosemirror-transform';
 import { EditorView } from 'prosemirror-view';
@@ -14,13 +15,11 @@ import SimpleConnector from './SimpleConnector';
 
 import './licit.css';
 
-// If load from localhost, assumes collab-edit is enabled.
-const COLLAB_EDITING = /^https?:\/\/localhost:\d+/.test(window.location.href) || 1;
-
 class Licit extends React.PureComponent<any, any, any> {
   _runtime: any;
   _connector: any;
   _clientID: string;
+  _debug: boolean;
 
   constructor(props: any, context: any) {
     super(props, context);
@@ -28,7 +27,11 @@ class Licit extends React.PureComponent<any, any, any> {
     this._runtime = new LicitRuntime();
     this._clientID = uuid();
 
-    const docID = props.docID;
+    // [FS] IRAD-981 2020-06-10
+    // Component's configurations.
+    const docID = props.docID; // This is used only if collaborative.
+    const COLLAB_EDITING = props.collaborative || false;
+    this._debug = props.debug || false;
 
     const editorState = createEmptyEditorState();
 
@@ -74,6 +77,12 @@ class Licit extends React.PureComponent<any, any, any> {
     const tr = state.tr;
     dispatch(tr.setSelection(TextSelection.create(tr.doc, 0)));
     editorView.focus();
+    if(this._debug) {
+      window.debugProseMirror = () => {
+          applyDevTools(editorView);
+      };
+      window.debugProseMirror();
+    }
   };
 }
 
