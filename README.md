@@ -2,6 +2,7 @@
 
 
 
+
 <h1 align="center">Licit Editor</h1>
 
 <div align="center">
@@ -105,7 +106,6 @@ For using licit in your project you should follow these steps:
 ```
 # At the working directory `licit`
 
-npm run build:dist
 npm pack
 ```  
 

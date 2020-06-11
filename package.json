@@ -16,7 +16,8 @@
     "lint:css": "stylelint \"**/*.css\"",
     "lint:js": "eslint \"**/*.js\"",
     "start": "node scripts/webserver.js",
-    "postinstall": "node fix_pm_tables_dist.js"
+    "postinstall": "node fix_pm_tables_dist.js",
+    "prepack": "rm -f licit-*.*.*.tgz && npm run build:dist"
   },
   "devDependencies": {
     "async-await": "0.1.40",

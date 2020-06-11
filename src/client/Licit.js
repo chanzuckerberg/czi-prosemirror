@@ -29,7 +29,7 @@ class Licit extends React.PureComponent<any, any, any> {
 
     // [FS] IRAD-981 2020-06-10
     // Component's configurations.
-    const docID = props.docID; // This is used only if collaborative.
+    const docID = props.docID || 1; // This is used only if collaborative.
     const COLLAB_EDITING = props.collaborative || false;
     this._debug = props.debug || false;
 
