@@ -3,6 +3,7 @@
 
 
 
+
 <h1 align="center">Licit Editor</h1>
 
 <div align="center">
@@ -147,7 +148,6 @@ ReactDOM.render(React.createElement(Licit, {docID:2}), document.getElementById("
 | debug |Show/hide prosemirror dev tools|false
 
 
-
 To load the styles:
 Either in *angular.json*, add
  *"styles": [
@@ -195,9 +195,20 @@ docID;
 ```
 Run *ng serve* to see the collaborative licit editor inside the angular application.
 
+
+
+**You can install licit using the commit hash to include in your own `package.json`.**
+ 
+
+For install the latest commit on master branch:
+```
+npm install --save "MO-Movia/licit"
+```
+For install a specific commit:
+```
+npm install --save "MO-Movia/licit#3de185eaccdfd745bc567d5358cf3281472d8df8"
+```
 You may find the latest commit hash at https://github.com/MO-Movia/licit/commits/master
-
-
 
 ## Windows Specific
 
