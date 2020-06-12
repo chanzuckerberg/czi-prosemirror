@@ -103,7 +103,7 @@ npm run build:dist
 
 For using licit in your project you should follow these steps:  
  
- To build the licit pack, run the bellow commands:
+ To build the licit pack, run the below commands:
 ```
 # At the working directory `licit`
 
