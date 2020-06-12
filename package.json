@@ -6,7 +6,7 @@
   "main": "dist/index.js",
   "style": "dist/styles.css",
   "scripts": {
-    "build:clean": "rm -rf dist/",
+    "build:clean": "rm -rf dist/ && rm -f licit-*.*.*.tgz",
     "build:css": "cp src/ui/*.css dist/ui && cp src/ui/mathquill-editor/*.css dist/ui/mathquill-editor && cp src/client/*.css dist/client && cp src/*.css dist",
     "build:babel": "babel src --out-dir dist",
     "build:flow": "flow-copy-source -v -i '**/__tests__/**' src dist",
@@ -16,7 +16,8 @@
     "lint:css": "stylelint \"**/*.css\"",
     "lint:js": "eslint \"**/*.js\"",
     "start": "node scripts/webserver.js",
-    "postinstall": "node fix_pm_tables_dist.js"
+    "postinstall": "node fix_pm_tables_dist.js",
+    "prepare": "npm run build:dist"
   },
   "devDependencies": {
     "async-await": "0.1.40",

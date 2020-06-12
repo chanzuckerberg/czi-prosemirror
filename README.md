@@ -2,6 +2,8 @@
 
 
 
+
+
 <h1 align="center">Licit Editor</h1>
 
 <div align="center">
@@ -105,7 +107,6 @@ For using licit in your project you should follow these steps:
 ```
 # At the working directory `licit`
 
-npm run build:dist
 npm pack
 ```  
 
@@ -145,7 +146,6 @@ ReactDOM.render(React.createElement(Licit, {docID:2}), document.getElementById("
 |collaborative  | Enable/disable the collaborative functionality of this editor. |false
 |docID  |Id of the collaborative document. Used only when the collaboration is enabled. |1
 | debug |Show/hide prosemirror dev tools|false
-
 
 
 To load the styles:
@@ -195,9 +195,20 @@ docID;
 ```
 Run *ng serve* to see the collaborative licit editor inside the angular application.
 
+
+
+**You can install licit using the commit hash to include in your own `package.json`.**
+ 
+
+For install the latest commit on master branch:
+```
+npm install --save "MO-Movia/licit"
+```
+For install a specific commit:
+```
+npm install --save "MO-Movia/licit#3de185eaccdfd745bc567d5358cf3281472d8df8"
+```
 You may find the latest commit hash at https://github.com/MO-Movia/licit/commits/master
-
-
 
 ## Windows Specific
 
