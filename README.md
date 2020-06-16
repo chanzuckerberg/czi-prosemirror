@@ -4,6 +4,7 @@
 
 
 
+
 <h1 align="center">Licit Editor</h1>
 
 <div align="center">
@@ -40,25 +41,15 @@
 ### Getting repository
 
 ```
-git clone https://github.com/MO-Movia/licit.git
-cd licit
-npm install
+git clone https://github.com/MO-Movia/licit.git 
 ```
 ### Install Prerequisite
-
-
 ```
-
 Make(0.8.1)
-
 Python(3.8.2) 
-
-```
-  
-  
+``` 
 
 ### Install dependencies
-
 ```
 cd licit 
 npm install
@@ -68,16 +59,13 @@ In order to upload image work correctly, "images" folder is expected outside the
   
 
 ### Start the collaboration server
-
 ```
 In Windows
 py run_collab_server.py  
 
 In MacOS/Linux
 python run_collab_server.py
-```
-
-  
+```  
 
 ### Start the web server
 
@@ -88,15 +76,11 @@ py run_web_server.py
 In MacOS/Linux
 python run_web_server.py
 ```
-
-Test http://localhost:3001/ from your browser.
-  
+Test http://localhost:3001/ from your browser.  
 
 ### Build the distribution files 
-
 ```
 # At the working directory `licit` 
-
 npm run build:dist
 ``` 
 ## Use Licit as a component
@@ -106,7 +90,6 @@ For using licit in your project you should follow these steps:
  To build the licit pack, run the below commands:
 ```
 # At the working directory `licit`
-
 npm pack
 ```  
 
@@ -115,7 +98,6 @@ Now you will find a *licit-0.0.1.tgz* file in the licit directory.
 Add this *.tgz* file to your own angular project and install it using the below command:
 ```
 # At your angular working directory
-
 npm install ./licit-0.0.1.tgz 
 ```  
 
@@ -168,15 +150,15 @@ For example (in an Angular app):
 ```
 # At the working directory `licit`
 
-npm run build:demo
+npm run build:licit
 ```  
 
-Now you will find a new directory (*bin*) with *demo.bundle.js* file. 
+Now you will find a new directory (*bin*) with *licit.bundle.js* file. 
 
-Add this *bin* folder to your own project and also include the *demo.bundle.js* file in the scripts array of *angular.json* file as follows: 
+Add this *bin* folder to your own project and also include the *licit.bundle.js* file in the scripts array of *angular.json* file as follows: 
 
 "scripts": [
-"src/bin/demo.bundle.js"
+"src/bin/licit.bundle.js"
 ] 
 
 To start the collaboration server, follow the steps below:
@@ -184,10 +166,10 @@ To start the collaboration server, follow the steps below:
 Run the Collaborative server in licit/servers directory using following command:
 
 ```
-node run_demo_collab_server.bundle.js PORT='<yourPort>' IP='<yourIP/Hostname>'
+node run_licit_collab_server.bundle.js PORT='<yourPort>' IP='<yourIP/Hostname>'
 ```
 
-NOTE: In case if you are hosting collab server in a different location or machine then you need to change the host name and port number in *licit\demo\client\DemoCollabConnector.js* accordingly. 
+NOTE: In case if you are hosting collab server in a different location or machine then you need to change the host name and port number in *licit\src\client\CollabConnector.js* accordingly. 
 ```
 const url = <yourLocationProtocol> + '\/\/' +
 <yourIP/Hostname>+ ':<yourPort>/docs/' +

@@ -2,13 +2,13 @@
 
 import url from 'url';
 
-import DemoCollabController from './DemoCollabController';
+import LicitCollabController from './LicitCollabController';
 
-class DemoCollabServer {
-  controller: DemoCollabController;
+class LicitCollabServer {
+  controller: LicitCollabController;
 
   constructor() {
-    this.controller = new DemoCollabController();
+    this.controller = new LicitCollabController();
   }
 
   handleRequest = (request: any, response: any): void => {
@@ -53,10 +53,10 @@ class DemoCollabServer {
 
 function handleServerRequest(server, request, response) {
   try {
-    if (!(server instanceof DemoCollabServer)) {
+    if (!(server instanceof LicitCollabServer)) {
       throw new Error('invalid server ' + String(server));
     }
-    if (!(server.controller instanceof DemoCollabController)) {
+    if (!(server.controller instanceof LicitCollabController)) {
       throw new Error('invalid controller ' + String(server.controller));
     }
     if (!request.params) {
@@ -137,7 +137,7 @@ function handleServerRequest(server, request, response) {
 }
 
 function getResponseData(
-  controller: DemoCollabController,
+  controller: LicitCollabController,
   action: string,
   params: Object,
   request: any,
@@ -170,4 +170,4 @@ function log(...args: any): void {
   console.log('----------------------------------------------------------\n');
 }
 
-export default DemoCollabServer;
+export default LicitCollabServer;

@@ -1,9 +1,9 @@
 // @flow
 
 import rebaseDocWithSteps from '../../src/rebaseDocWithSteps';
-import DemoDocChangeModel from './DemoDocChangeModel';
-import DemoDocModel from './DemoDocModel';
-import DemoDocRevisionModel from './DemoDocRevisionModel';
+import LicitDocChangeModel from './LicitDocChangeModel';
+import LicitDocModel from './LicitDocModel';
+import LicitDocRevisionModel from './LicitDocRevisionModel';
 import * as assetion from './assertion';
 
 const EMPTY_DOC_JSON = {
@@ -21,9 +21,9 @@ const EMPTY_DOC_JSON = {
   ],
 };
 
-class DemoCollabController {
+class LicitCollabController {
   get_all(params: Object): Array<Object> {
-    return DemoDocModel.where(() => true).map(m => m.toJSON());
+    return LicitDocModel.where(() => true).map(m => m.toJSON());
   }
 
   get_doc(params: Object): Object  {
@@ -51,7 +51,7 @@ class DemoCollabController {
       return outputEvents(docModel, eventsData);
     }
 
-    const revModel = DemoDocRevisionModel.findOrCreate(x => {
+    const revModel = LicitDocRevisionModel.findOrCreate(x => {
       return x.doc_id = docId && x.version === version;
     }, () => {
       return {doc_id: docId, version: version, confirmed: false};
@@ -70,7 +70,7 @@ class DemoCollabController {
     assetion.present(clientID, 'clientID');
     assetion.number(nonNegInteger(version), 'version');
 
-    const docModel = DemoDocModel.find(docId);
+    const docModel = LicitDocModel.find(docId);
     return new Promise((resolve, reject) => {
       addEvents(docModel, version, steps, clientID).then(resolve).catch(reject);
     });
@@ -80,7 +80,7 @@ class DemoCollabController {
 // Mutations
 
 function addEvents(
-  docModel: DemoDocModel,
+  docModel: LicitDocModel,
   version: number,
   stepsJSON: Array<Object>,
   clientID: string): Promise<Object> {
@@ -104,7 +104,7 @@ function addEvents(
       stepsJSON,
     ).then(changed => {
       changed.stepsJSON.forEach(step => {
-        DemoDocChangeModel.create({
+        LicitDocChangeModel.create({
           client_id: clientID,
           doc_id: docModel.id,
           step_json: step,
@@ -125,7 +125,7 @@ function addEvents(
 }
 
 function confirmVersion(docId: number, version: number): void {
-  const revModels = DemoDocRevisionModel.where((x) => {
+  const revModels = LicitDocRevisionModel.where((x) => {
     return x.doc_id === docId && x.version === version;
   });
   revModels.forEach(x => {
@@ -133,10 +133,10 @@ function confirmVersion(docId: number, version: number): void {
   });
 }
 
-function getEvents(docModel: DemoDocModel, version: number): ?Object {
+function getEvents(docModel: LicitDocModel, version: number): ?Object {
   checkVersion(docModel, version);
   const docId = docModel.id;
-  const changeModels = DemoDocChangeModel.where(x => x.doc_id === docId);
+  const changeModels = LicitDocChangeModel.where(x => x.doc_id === docId);
   const startIndex = changeModels.length - (docModel.version - version);
   if (startIndex < 0) {
     return null;
@@ -146,7 +146,7 @@ function getEvents(docModel: DemoDocModel, version: number): ?Object {
   };
 }
 
-function checkVersion(docModel: DemoDocModel, version: number): void {
+function checkVersion(docModel: LicitDocModel, version: number): void {
   if (version < 0 || version > docModel.version) {
     const err: Object = new Error(
       'Invalid version. docModel.version = ' + docModel.version + ', ' +
@@ -161,7 +161,7 @@ function checkVersion(docModel: DemoDocModel, version: number): void {
   }
 }
 
-function outputEvents(docModel: DemoDocModel, eventsData: Object): Object {
+function outputEvents(docModel: LicitDocModel, eventsData: Object): Object {
   return {
     version: docModel.version,
     steps: eventsData.changes.map(x => {
@@ -174,11 +174,11 @@ function outputEvents(docModel: DemoDocModel, eventsData: Object): Object {
   };
 }
 
-function ensureDocModel(docId: number): DemoDocModel {
+function ensureDocModel(docId: number): LicitDocModel {
   assetion.number(docId, 'ensuredocModel.docId');
-  let model = DemoDocModel.findBy(x => x.id === docId);
+  let model = LicitDocModel.findBy(x => x.id === docId);
   if (!model) {
-    model = DemoDocModel.create({
+    model = LicitDocModel.create({
       id: docId,
       doc_json: EMPTY_DOC_JSON,
       version: 0,
@@ -197,4 +197,4 @@ function nonNegInteger(val: any): number {
   throw err;
 }
 
-export default DemoCollabController;
+export default LicitCollabController;

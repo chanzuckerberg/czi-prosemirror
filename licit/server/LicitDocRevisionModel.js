@@ -1,10 +1,10 @@
 // @node-only
 import createModelClass from './createModelClass';
 
-const DemoDocRevisionModel = createModelClass({
+const LicitDocRevisionModel = createModelClass({
   confirmed: false,
   doc_id: '',
   version: 0,
 });
 
-export default DemoDocRevisionModel;
+export default LicitDocRevisionModel;

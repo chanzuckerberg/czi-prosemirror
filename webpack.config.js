@@ -17,7 +17,7 @@ var isDev = env.NODE_ENV === 'development' || 0;
 
 var options = {
   entry: {
-    demo: path.join(__dirname, 'demo', 'client', 'index.js'),
+    licit: path.join(__dirname, 'licit', 'client', 'index.js'),
   },
   output: {
     path: path.join(__dirname, 'bin'),
@@ -90,9 +90,9 @@ var options = {
       'process.env.NODE_ENV': JSON.stringify(env.NODE_ENV)
     }),
     new HtmlWebpackPlugin({
-      template: path.join(__dirname, 'demo', 'index.html'),
+      template: path.join(__dirname, 'licit', 'index.html'),
       filename: 'index.html',
-      chunks: ['demo'],
+      chunks: ['licit'],
       inlineSource: isDev ? '$^' : '.(js|css)$'
     }),
     new HtmlWebpackInlineSourcePlugin(),

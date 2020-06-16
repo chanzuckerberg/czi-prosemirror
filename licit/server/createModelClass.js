@@ -57,7 +57,7 @@ export default function createModelClass(spec: Object): Function {
   };
 
   function purge() {
-    // Need this so we don't kill the demo server with too much memory
+    // Need this so we don't kill the Licit server with too much memory
     // consumption
     if (models.length > 5000) {
       const t24hous = 24 * 60 * 60 * 1000;

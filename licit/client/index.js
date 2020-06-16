@@ -13,7 +13,7 @@ function main(): void {
   body && body.appendChild(el);
   // [FS] IRAD-982 2020-06-10
   // Use the licit component for demo.  
-  ReactDOM.render(<Licit docID={1} collaborative={false} debug={false}/>, el);
+  ReactDOM.render(<Licit docID={1} collaborative={true} debug={false}/>, el);
 }
 
 window.onload = main;

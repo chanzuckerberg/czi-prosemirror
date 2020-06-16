@@ -7,7 +7,7 @@ const path = require('path');
 
 const config = {
   entry: {
-    run_demo_collab_server: path.join(__dirname, '../demo', 'server', 'runDemoCollabServer.js'),
+    run_licit_collab_server: path.join(__dirname, '../licit', 'server', 'runLicitCollabServer.js'),
   },
   target: 'node',
   output: {
