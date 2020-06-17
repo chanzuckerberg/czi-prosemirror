@@ -29,7 +29,7 @@
     <a href="https://github.com/MO-Movia/licit/wiki">Wiki
     </a>
     <span> | </span>
-    <a href="http://greathints.com:3001/">Demo
+    <a href="http://greathints.com/licit">Demo
     </a>
     <span> | </span>
     <a href="https://prosemirror.net/">Based on...
