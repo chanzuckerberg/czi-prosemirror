@@ -11,7 +11,7 @@
     "build:babel": "babel src --out-dir dist",
     "build:flow": "flow-copy-source -v -i '**/__tests__/**' src dist",
     "build:dist": "npm run build:clean && npm run build:babel && npm run build:flow && npm run build:css",
-    "build:licit": "node scripts/build_bin.js",
+    "build:licit": "node utils/build_bin.js",
     "flow": "flow",
     "lint:css": "stylelint \"**/*.css\"",
     "lint:js": "eslint \"**/*.js\"",

@@ -5,6 +5,7 @@
 
 
 
+
 <h1 align="center">Licit Editor</h1>
 
 <div align="center">
@@ -127,7 +128,12 @@ ReactDOM.render(React.createElement(Licit, {docID:2}), document.getElementById("
 |--|--|--|
 |collaborative  | Enable/disable the collaborative functionality of this editor. |false
 |docID  |Id of the collaborative document. Used only when the collaboration is enabled. |1
-| debug |Show/hide prosemirror dev tools|false
+| debug|Show/hide prosemirror dev tools|false
+| width|Width of the editor|100%
+| height|Height of the editor|100%
+| readOnly |To enable/disable editing mode|false
+| onChange |Fires after each significant change|null
+| data |Document data to be loaded into the editor|null
 
 
 To load the styles:
@@ -177,7 +183,13 @@ docID;
 ```
 Run *ng serve* to see the collaborative licit editor inside the angular application.
 
-
+**To deploy LICIT in a server:**
+```
+# At the working directory `licit`
+npm install 
+npm run build:licit
+```
+Now you will find a *bin* directory, copy the files from bin to the server to run the *Licit* as a standalone application.
 
 **You can install licit using the commit hash to include in your own `package.json`.**
  

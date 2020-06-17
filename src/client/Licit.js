@@ -24,8 +24,7 @@ import './licit.css';
  *  height {height} [100%] Height of the editor.
  *  readOnly {boolean} [false] To enable/disable editing mode.
  *  onChange {@callback} [null] Fires after each significant change. 
- *      @param state {EditorState} 
- *      @param transaction {Transform}
+ *      @param data {JSON} Modified document data.
  *  data {JSON} [null] Document data to be loaded into the editor.
  */
 class Licit extends React.PureComponent<any, any, any> {
@@ -88,8 +87,8 @@ class Licit extends React.PureComponent<any, any, any> {
   _onChange = (data: {state: EditorState, transaction: Transform}): void => {
     const {transaction} = data;
     this._connector.onEdit(transaction);
-    if(this._onChangeCB) {
-      this._onChangeCB(data.state, data.transaction);
+    if(this._onChangeCB && transaction) {
+      this._onChangeCB(transaction.doc.toJSON());
     }
   };
 
