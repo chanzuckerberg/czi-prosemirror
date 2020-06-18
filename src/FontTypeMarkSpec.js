@@ -8,6 +8,9 @@ import type {MarkSpec} from './Types';
 
 export const FONT_TYPE_NAMES = [
   // SERIF
+  'Aclonica',
+  'Acme',
+  'Alegreya',
   'Arial',
   'Arial Black',
   'Georgia',
@@ -22,7 +25,24 @@ export const FONT_TYPE_NAMES = [
   'monospace',
 ];
 
-const RESOLVED_FONT_NAMES = new Set(FONT_TYPE_NAMES);
+// FS IRAD-988 2020-06-18
+// Preload fonts that are listed by default,
+// so that even if the font is not available locally, load from web.
+export function preLoadFonts() {
+  FONT_TYPE_NAMES.forEach(name => {
+    loadAndCacheFont(name);
+  });
+}
+
+function loadAndCacheFont(name) {
+  // Cache custom fonts
+  RESOLVED_FONT_NAMES.add(name);
+  // https://github.com/typekit/webfontloader
+  WebFontLoader.load({google: {families: [name]}});
+}
+
+// resolve each font after it is loaded.
+const RESOLVED_FONT_NAMES = new Set([]);
 
 const FontTypeMarkSpec: MarkSpec = {
   attrs: {
@@ -46,10 +66,7 @@ const FontTypeMarkSpec: MarkSpec = {
     const attrs = {};
     if (name) {
       if (!RESOLVED_FONT_NAMES.has(name)) {
-        // TODO: Cache custom fonts and preload them earlier.
-        RESOLVED_FONT_NAMES.add(name);
-        // https://github.com/typekit/webfontloader
-        WebFontLoader.load({google: {families: [name]}});
+        loadAndCacheFont(name);
       }
       attrs.style = `font-family: ${name}`;
     }
