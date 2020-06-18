@@ -19,6 +19,7 @@ import {
 } from '../CZIProseMirror';
 import { BOOKMARK, IMAGE, LIST_ITEM, MATH } from '../NodeNames';
 import WebFontLoader from '../WebFontLoader';
+import { preLoadFonts } from '../FontTypeMarkSpec';
 import createEmptyEditorState from '../createEmptyEditorState';
 import normalizeHTML from '../normalizeHTML';
 import BookmarkNodeView from './BookmarkNodeView';
@@ -89,6 +90,8 @@ Transaction.prototype.scrollIntoView = scrollIntoViewPatched;
 
 // Sets the implementation so that `FontTypeMarkSpec` can load custom fonts.
 WebFontLoader.setImplementation(webfontloader);
+// FS IRAD-988 2020-06-18
+preLoadFonts();
 
 const handleDOMEvents = {
   drop: handleEditorDrop,
