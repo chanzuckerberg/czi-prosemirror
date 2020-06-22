@@ -6,11 +6,10 @@ import ReactDOM from 'react-dom';
 
 type SetStateCall = (
   state: {editorState: EditorState},
-  callback: Function,
+  callback: Function
 ) => void;
 
 class SimpleConnector {
-
   _setState: SetStateCall;
   _editorState: EditorState;
 
@@ -24,11 +23,18 @@ class SimpleConnector {
       const editorState = this._editorState.apply(transaction);
       const state = {
         editorState,
+        data: transaction.doc.toJSON(),
       };
       this._setState(state, () => {
         this._editorState = editorState;
       });
     });
+  };
+
+  // FS IRAD-989 2020-18-06
+  // updating properties should automatically render the changes
+  getState = (): EditorState => {
+    return this._editorState;
   };
 }
 

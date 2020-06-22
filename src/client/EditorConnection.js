@@ -1,7 +1,12 @@
 // @flow
 
 import nullthrows from 'nullthrows';
-import {collab, getVersion, receiveTransaction, sendableSteps} from 'prosemirror-collab';
+import {
+  collab,
+  getVersion,
+  receiveTransaction,
+  sendableSteps,
+} from 'prosemirror-collab';
 import {EditorState} from 'prosemirror-state';
 import {Step} from 'prosemirror-transform';
 import {EditorView} from 'prosemirror-view';
@@ -60,7 +65,7 @@ class EditorConnection {
             clientID: uuid(),
             version: action.version,
           }),
-        ])
+        ]),
       });
       this.state = new State(editState, 'poll');
       this.ready = true;
@@ -81,9 +86,9 @@ class EditorConnection {
         this.recover(action.error);
       }
     } else if (action.type == 'transaction') {
-      newEditState = this.state.edit ?
-        this.state.edit.apply(action.transaction) :
-        null;
+      newEditState = this.state.edit
+        ? this.state.edit.apply(action.transaction)
+        : null;
     }
 
     if (newEditState) {
@@ -116,19 +121,22 @@ class EditorConnection {
 
   // Load the document from the server and start up
   start(): void {
-    this.run(GET(this.url)).then(data => {
-      data = JSON.parse(data);
-      this.report.success();
-      this.backOff = 0;
-      this.dispatch({
-        type: 'loaded',
-        doc: EditorSchema.nodeFromJSON(data.doc_json),
-        version: data.version,
-        users: data.users,
-      });
-    }, err => {
-      this.report.failure(err);
-    });
+    this.run(GET(this.url)).then(
+      data => {
+        data = JSON.parse(data);
+        this.report.success();
+        this.backOff = 0;
+        this.dispatch({
+          type: 'loaded',
+          doc: EditorSchema.nodeFromJSON(data.doc_json),
+          version: data.version,
+          users: data.users,
+        });
+      },
+      err => {
+        this.report.failure(err);
+      }
+    );
   }
 
   // Send a request for events that have happened since the version
@@ -137,37 +145,40 @@ class EditorConnection {
   // is already up-to-date.
   poll(): void {
     const query = 'version=' + getVersion(this.state.edit);
-    this.run(GET(this.url + '/events?' + query)).then(data => {
-      this.report.success();
-      data = JSON.parse(data);
-      if (data.confirmed === false) {
-        this.poll();
-        return;
+    this.run(GET(this.url + '/events?' + query)).then(
+      data => {
+        this.report.success();
+        data = JSON.parse(data);
+        if (data.confirmed === false) {
+          this.poll();
+          return;
+        }
+        this.backOff = 0;
+        if (data.steps && data.steps.length) {
+          const tr = receiveTransaction(
+            this.state.edit,
+            data.steps.map(j => Step.fromJSON(EditorSchema, j)),
+            data.clientIDs
+          );
+          this.dispatch({
+            type: 'transaction',
+            transaction: tr,
+            requestDone: true,
+          });
+        } else {
+          this.poll();
+        }
+      },
+      err => {
+        if (err.status == 410 || badVersion(err)) {
+          // Too far behind. Revert to server state
+          this.report.failure(err);
+          this.dispatch({type: 'restart'});
+        } else if (err) {
+          this.dispatch({type: 'recover', error: err});
+        }
       }
-      this.backOff = 0;
-      if (data.steps && (data.steps.length)) {
-        const tr = receiveTransaction(
-          this.state.edit,
-          data.steps.map(j => Step.fromJSON(EditorSchema, j)),
-          data.clientIDs,
-        );
-        this.dispatch({
-          type: 'transaction',
-          transaction: tr,
-          requestDone: true,
-        });
-      } else {
-        this.poll();
-      }
-    }, err => {
-      if (err.status == 410 || badVersion(err)) {
-        // Too far behind. Revert to server state
-        this.report.failure(err);
-        this.dispatch({type: 'restart'});
-      } else if (err) {
-        this.dispatch({type: 'recover', error: err});
-      }
-    });
+    );
   }
 
   sendable(editState: EditorState): ?{steps: Array<Step>} {
@@ -186,36 +197,39 @@ class EditorConnection {
       steps: steps ? steps.steps.map(s => s.toJSON()) : [],
       clientID: steps ? steps.clientID : 0,
     });
-    this.run(POST(this.url + '/events', json, 'application/json')).then(data => {
-      this.report.success();
-      this.backOff = 0;
-      const edit = nullthrows(this.state.edit);
-      const tr = steps ?
-          receiveTransaction(
-            edit,
-            steps.steps,
-            repeat(steps.clientID, steps.steps.length),
-          ) :
-          edit.tr;
-
-      this.dispatch({
-        type: 'transaction',
-        transaction: tr,
-        requestDone: true,
-      });
-    }, err => {
-      if (err.status == 409) {
-        // The client's document conflicts with the server's version.
-        // Poll for changes and then try again.
+    this.run(POST(this.url + '/events', json, 'application/json')).then(
+      data => {
+        this.report.success();
         this.backOff = 0;
-        this.dispatch({type: 'poll'});
-      } else if (badVersion(err)) {
-        this.report.failure(err);
-        this.dispatch({type: 'restart'});
-      } else {
-        this.dispatch({type: 'recover', error: err});
+        const edit = nullthrows(this.state.edit);
+        const tr = steps
+          ? receiveTransaction(
+              edit,
+              steps.steps,
+              repeat(steps.clientID, steps.steps.length)
+            )
+          : edit.tr;
+
+        this.dispatch({
+          type: 'transaction',
+          transaction: tr,
+          requestDone: true,
+        });
+      },
+      err => {
+        if (err.status == 409) {
+          // The client's document conflicts with the server's version.
+          // Poll for changes and then try again.
+          this.backOff = 0;
+          this.dispatch({type: 'poll'});
+        } else if (badVersion(err)) {
+          this.report.failure(err);
+          this.dispatch({type: 'restart'});
+        } else {
+          this.dispatch({type: 'recover', error: err});
+        }
       }
-    });
+    );
   }
 
   // Try to recover from an error
@@ -240,7 +254,7 @@ class EditorConnection {
   }
 
   run(request: any): Promise<any> {
-    return this.request = request;
+    return (this.request = request);
   }
 
   close(): void {
