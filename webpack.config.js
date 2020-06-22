@@ -82,7 +82,7 @@ var options = {
       // jQuery (for Mathquill)
       'window.jQuery': 'jquery',
     }),
-    new FlowWebpackPlugin(),
+    //new FlowWebpackPlugin(), //  For now disable flow
     // clean the web folder
     new CleanWebpackPlugin(['bin']),
     // expose and write the allowed env vars on the compiled bundle

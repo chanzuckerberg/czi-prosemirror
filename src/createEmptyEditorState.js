@@ -6,7 +6,7 @@ import {Plugin} from 'prosemirror-state';
 
 import convertFromJSON from './convertFromJSON';
 
-const EMPTY_DOC_JSON = {
+export const EMPTY_DOC_JSON = {
   type: 'doc',
   content: [
     {

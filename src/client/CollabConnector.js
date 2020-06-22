@@ -1,27 +1,18 @@
 // @flow
 
-import { EditorState } from 'prosemirror-state';
-import { Transform } from 'prosemirror-transform';
-import ReactDOM from 'react-dom';
 
+import SimpleConnector from './SimpleConnector';
 import EditorConnection from './EditorConnection';
 import Reporter from './Reporter';
+import ReactDOM from 'react-dom';
 
 type IdStrict = number;
 
-type ReactSetStateCall = (
-  state: { editorState: EditorState },
-  callback: Function,
-) => void;
-
-
-class CollabConnector {
+class CollabConnector extends SimpleConnector {
   _clientID: string;
   _connected: boolean;
   _connection: any;
   _docID: IdStrict;
-  _editorState: EditorState;
-  _setState: ReactSetStateCall;
   _stepKeys: Object;
 
   constructor(
@@ -31,9 +22,8 @@ class CollabConnector {
       docID: IdStrict,
     },
   ) {
+    super(editorState, setState);
     const {docID} = config;
-    this._editorState = editorState;
-    this._setState = setState;
     this._docID = docID;
 
     // [FS][11-MAR-2020]
