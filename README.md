@@ -6,6 +6,7 @@
 
 
 
+
 <h1 align="center">Licit Editor</h1>
 
 <div align="center">
@@ -122,19 +123,27 @@ ReactDOM.render(React.createElement(Licit, {docID:2}), document.getElementById("
  By default, the *collaboration* and the *prosemirror dev tool* are disabled for the editor.
  User can enable the same using the below configuration:
  ```
- ReactDOM.render(React.createElement(Licit, {collaborative: true, docID: 1, debug: true}), document.getElementById('root'));
+ ReactDOM.render(React.createElement(Licit, {docID: 1, debug: true}), document.getElementById('root'));
 ```
+
+Please refer *licit\client\index.js* for getting more detailed idea on passing properties and fires events.
+
 |Property Name| Description|Default Value| 
 |--|--|--|
-|collaborative  | Enable/disable the collaborative functionality of this editor. |false
-|docID  |Id of the collaborative document. Used only when the collaboration is enabled. |1
+|docID  |Id of the collaborative document. Based on the value of _docID_ decides the collaboration communication |0
 | debug|Show/hide prosemirror dev tools|false
 | width|Width of the editor|100%
 | height|Height of the editor|100%
 | readOnly |To enable/disable editing mode|false
-| onChange |Fires after each significant change|null
 | data |Document data to be loaded into the editor|null
+| disabled|To disable the editor|false
 
+
+|Event Name| Description|Parameter| 
+|--|--|--|
+|onChange | Fires after each significant change |data
+|onReady| Fires once when the editor is ready |licit reference
+ 
 
 To load the styles:
 Either in *angular.json*, add
