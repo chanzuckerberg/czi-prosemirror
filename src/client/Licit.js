@@ -178,7 +178,7 @@ class Licit extends React.Component<any, any, any> {
     editorView.focus();
 
     if (this.state.onReadyCB) {
-      this.state.onReadyCB(this.ref);
+      this.state.onReadyCB(this);
     }
 
     if (state.debug) {
