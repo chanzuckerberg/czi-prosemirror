@@ -16,11 +16,15 @@ function main(): void {
   // docJSON = null;
   // [FS] IRAD-982 2020-06-10
   // Use the licit component for demo.
-  ReactDOM.render(<Licit docID={1} collaborative={false} debug={false} width={'100vw'} height={'100vh'} onChange={onChangeCB} data={docJSON}/>, el);
+  ReactDOM.render(<Licit docID={1} debug={false} width={'100vw'} height={'100vh'} onChange={onChangeCB} onReady={onReadyCB} data={docJSON}/>, el);
 }
 
 function onChangeCB(data) {
   console.log('data: ' + JSON.stringify(data));
+}
+
+function onReadyCB(ref) {
+  console.log('ref: ' + ref);
 }
 
 window.onload = main;
