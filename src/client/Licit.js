@@ -94,7 +94,6 @@ class Licit extends React.Component<any, any, any> {
 
     this._skipSCU = true;
     this._editorView.dispatch(transaction);
-    this._editorView.focus();
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -103,24 +102,21 @@ class Licit extends React.Component<any, any, any> {
       this._skipSCU = false;
       var dataChanged = false;
 
-      // no need to update if the state is in readyonly
-      if (!this.state.readOnly) {
-        // Compare data, if found difference, update editorState
-        if (this.state.data !== nextState.data) {
+      // Compare data, if found difference, update editorState
+      if (this.state.data !== nextState.data) {
+        dataChanged = true;
+      } else if (null === nextState.data) {
+        if (
+          this.state.editorState.doc.textContent &&
+          0 < this.state.editorState.doc.textContent.trim().length
+        ) {
           dataChanged = true;
-        } else if (null === nextState.data) {
-          if (
-            this.state.editorState.doc.textContent &&
-            0 < this.state.editorState.doc.textContent.trim().length
-          ) {
-            dataChanged = true;
-          }
         }
+      }
 
-        if (dataChanged) {
-          // data changed, so update document content
-          this.setContent(nextState.data);
-        }
+      if (dataChanged) {
+        // data changed, so update document content
+        this.setContent(nextState.data);
       }
 
       if (this.state.docID !== nextState.docID) {
@@ -174,11 +170,12 @@ class Licit extends React.Component<any, any, any> {
     const { state, dispatch } = editorView;
     this._editorView = editorView;
     const tr = state.tr;
-    dispatch(tr.setSelection(TextSelection.create(tr.doc, 0)));
+    const doc = state.doc;
+    dispatch(tr.setSelection(TextSelection.create(doc, 0, doc.content.size)));
     editorView.focus();
 
     if (this.state.onReadyCB) {
-      this.state.onReadyCB(this.ref);
+      this.state.onReadyCB(this);
     }
 
     if (state.debug) {
@@ -204,6 +201,17 @@ class Licit extends React.Component<any, any, any> {
   *  disabled {boolean} [false] Disable the editor.
   */
   setProps = (props): void => {
+    if (this.state.readOnly) {
+      // It should be possible to load content into the editor in readonly as well.
+      // It should not be necessary to make the component writable any time during the process
+      var propsCopy = {};
+      this._skipSCU = true;
+      Object.assign(propsCopy, props);
+      // make writable without content change
+      propsCopy.readOnly = false;
+      delete propsCopy.data;
+      this.setState(propsCopy);
+    }
     // Need to go through shouldComponentUpdate lifecycle here, when updated from outside,
     // so that content is modified gracefully using transaction so that undo/redo works too.
     this._skipSCU = false;
