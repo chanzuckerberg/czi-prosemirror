@@ -7,6 +7,8 @@
 
 
 
+
+
 <h1 align="center">Licit Editor</h1>
 
 <div align="center">
@@ -121,6 +123,7 @@ ReactDOM.render(React.createElement(Licit, {docID:2}), document.getElementById("
 
  ```  
  By default, the *collaboration* and the *prosemirror dev tool* are disabled for the editor.
+ set  *docID* to *"0"* for disable the collaboration.
  User can enable the same using the below configuration:
  ```
  ReactDOM.render(React.createElement(Licit, {docID: 1, debug: true}), document.getElementById('root'));
@@ -130,7 +133,7 @@ Please refer *licit\client\index.js* for getting more detailed idea on passing p
 
 |Property Name| Description|Default Value| 
 |--|--|--|
-|docID  |Id of the collaborative document. Based on the value of _docID_ decides the collaboration communication |0
+|docID  |Id of the collaborative document. *docID "0"* means collaboration disabled. Based on the value of *docID* decides the collaboration communication |0
 | debug|Show/hide prosemirror dev tools|false
 | width|Width of the editor|100%
 | height|Height of the editor|100%
@@ -164,7 +167,6 @@ For example (in an Angular app):
  
 ```
 # At the working directory `licit`
-
 npm run build:licit
 ```  
 
