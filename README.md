@@ -9,6 +9,7 @@
 
 
 
+
 <h1 align="center">Licit Editor</h1>
 
 <div align="center">
@@ -140,6 +141,7 @@ Please refer *licit\client\index.js* for getting more detailed idea on passing p
 | readOnly |To enable/disable editing mode|false
 | data |Document data to be loaded into the editor|null
 | disabled|To disable the editor|false
+| embedded|To disable/enable inline behavior of the editor|false
 
 
 |Event Name| Description|Parameter| 
