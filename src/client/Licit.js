@@ -29,6 +29,7 @@ import './licit.css';
  *      @param ref {LICIT} Rerefence of the editor. 
  *  data {JSON} [null] Document data to be loaded into the editor.
  *  disabled {boolean} [false] Disable the editor.
+ *  embedded {boolean} [false] Disable/Enable inline behaviour.
  */
 class Licit extends React.Component<any, any, any> {
   _runtime: any;
@@ -57,6 +58,7 @@ class Licit extends React.Component<any, any, any> {
     const readOnly = props.readOnly || false;
     const data = props.data || null;
     const disabled = props.disabled || false;
+    const embedded = props.embedded || false;// [FS] IRAD-996 2020-06-30
 
     const editorState = convertFromJSON(data);
 
@@ -77,7 +79,8 @@ class Licit extends React.Component<any, any, any> {
       onChangeCB,
       onReadyCB,
       debug,
-      disabled
+      disabled,
+      embedded
     };
   }
 
@@ -136,14 +139,14 @@ class Licit extends React.Component<any, any, any> {
   }
 
   render(): React.Element<any> {
-    const { editorState, width, height, readOnly, disabled } = this.state;
+    const { editorState, width, height, readOnly, disabled, embedded } = this.state;
     // [FS] IRAD-978 2020-06-05
     // Using 100vw & 100vh (100% viewport) is not ideal for a component which is expected to be a part of a page,
     // so changing it to 100%  width & height which will occupy the area relative to its parent.
     return (
       <RichTextEditor
         editorState={editorState}
-        embedded={false}
+        embedded={embedded}
         height={height}
         onChange={this._onChange}
         onReady={this._onReady}
@@ -199,6 +202,7 @@ class Licit extends React.Component<any, any, any> {
   *      @param ref {LICIT} Rerefence of the editor. 
   *  data {JSON} [null] Document data to be loaded into the editor.
   *  disabled {boolean} [false] Disable the editor.
+  *  embedded {boolean} [false] Disable/Enable inline behaviour.  
   */
   setProps = (props): void => {
     if (this.state.readOnly) {

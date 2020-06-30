@@ -16,7 +16,7 @@ function main(): void {
   // docJSON = null;
   // [FS] IRAD-982 2020-06-10
   // Use the licit component for demo.
-  ReactDOM.render(<Licit docID={1} debug={false} width={'100vw'} height={'100vh'} onChange={onChangeCB} onReady={onReadyCB} data={docJSON}/>, el);
+  ReactDOM.render(<Licit docID={0} debug={false} width={'100vw'} height={'100vh'} onChange={onChangeCB} onReady={onReadyCB} data={docJSON} embedded={false}/>, el);
 }
 
 function onChangeCB(data) {
