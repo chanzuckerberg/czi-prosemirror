@@ -5,7 +5,7 @@ import {gapCursor} from 'prosemirror-gapcursor';
 import {history} from 'prosemirror-history';
 import {keymap} from 'prosemirror-keymap';
 import {Schema} from 'prosemirror-model';
-import {Plugin} from 'prosemirror-state';
+import {Plugin, PluginKey} from 'prosemirror-state';
 
 import ContentPlaceholderPlugin from './ContentPlaceholderPlugin';
 import CursorPlaceholderPlugin from './CursorPlaceholderPlugin';
@@ -27,13 +27,22 @@ export default function buildEditorPlugins(schema: Schema): Array<Plugin> {
     new LinkTooltipPlugin(),
     new SelectionPlaceholderPlugin(),
 
-    buildInputRules(schema),
-    dropCursor(),
-    gapCursor(),
+    setPluginKey(buildInputRules(schema), 'InputRules'),
+    setPluginKey(dropCursor(), 'DropCursor'),
+    setPluginKey(gapCursor(), 'GapCursor'),
     history(),
-    keymap(createEditorKeyMap()),
-    keymap(baseKeymap),
+    setPluginKey(keymap(createEditorKeyMap()), 'EditorKeyMap'),
+    setPluginKey(keymap(baseKeymap), 'BaseKeymap'),
   ].concat(TablePlugins);
 
   return plugins;
+}
+
+// [FS] IRAD-1005 2020-07-07
+// Upgrade outdated packages.
+// set plugin keys so that to avoid duplicate key error when keys are assigned automatically.
+function setPluginKey(plugin, key) {
+  plugin.spec.key = new PluginKey(key + 'Plugin');
+  plugin.key = plugin.spec.key.key;
+  return plugin;
 }

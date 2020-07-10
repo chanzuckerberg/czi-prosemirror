@@ -1,10 +1,13 @@
 // @flow
 
-import {EditorState, Plugin} from 'prosemirror-state';
+import {EditorState, Plugin, PluginKey} from 'prosemirror-state';
 
 import {ATTRIBUTE_LAYOUT, LAYOUT} from './DocNodeSpec';
 
 const SPEC = {
+  // [FS] IRAD-1005 2020-07-07
+  // Upgrade outdated packages.
+  key: new PluginKey('EditorPageLayoutPlugin'),
   props: {
     attributes: renderAttributes,
   },

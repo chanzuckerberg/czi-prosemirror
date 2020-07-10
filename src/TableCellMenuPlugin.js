@@ -1,6 +1,6 @@
 // @flow
 
-import {EditorState, Plugin} from 'prosemirror-state';
+import {EditorState, Plugin, PluginKey} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
 /* eslint-disable-next-line */
 import React from 'react';
@@ -104,6 +104,9 @@ class TableCellTooltipView {
 
 // https://prosemirror.net/examples/tooltip/
 const SPEC = {
+  // [FS] IRAD-1005 2020-07-07
+  // Upgrade outdated packages.
+  key: new PluginKey('TableCellMenuPlugin'),
   view(editorView: EditorView) {
     return new TableCellTooltipView(editorView);
   },

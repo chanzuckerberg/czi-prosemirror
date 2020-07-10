@@ -572,7 +572,9 @@ function compareNumbersList(one: Array<number>, two: Array<number>): boolean {
 
 // Plugin that supports table columns resizing.
 export default class TableResizePlugin extends Plugin {
-  spec: Object;
+  // [FS] IRAD-1005 2020-07-07
+  // Upgrade outdated packages.
+  //spec: Object;
 
   constructor() {
     super({

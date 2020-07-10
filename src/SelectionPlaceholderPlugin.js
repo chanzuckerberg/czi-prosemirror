@@ -1,6 +1,6 @@
 // @flow
 
-import {EditorState, Plugin} from 'prosemirror-state';
+import {EditorState, Plugin, PluginKey} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
 import {Decoration, DecorationSet} from 'prosemirror-view';
 
@@ -12,6 +12,9 @@ let singletonInstance = null;
 
 // https://prosemirror.net/examples/upload/
 const SPEC = {
+  // [FS] IRAD-1005 2020-07-07
+  // Upgrade outdated packages.
+  key: new PluginKey('SelectionPlaceholderPlugin'),
   state: {
     init() {
       return DecorationSet.empty;

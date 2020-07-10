@@ -28,8 +28,25 @@ type State = {
 
 class DocLayoutEditor extends React.PureComponent<any, any, any> {
   _unmounted = false;
+  
+  // [FS] IRAD-1005 2020-07-07
+  // Upgrade outdated packages.
+  // To take care of the property type declaration.
+  static propsTypes = {
+    initialValue: PropTypes.shape({
+      layout: PropTypes.string,
+      width: PropTypes.number,
+	}),
+	close: function(props, propName, componentName) {
+        var fn = props[propName];
+        if(!fn.prototype ||
+           (typeof fn.prototype.constructor !== 'function' &&
+            fn.prototype.constructor.length !== 1)) {
+            return new Error(propName + 'must be a function with 1 arg of type DocLayoutEditorValue');
+        }
+    }
+  }
 
-  props: Props;
   state: State;
 
   constructor(props: Object, context: Object) {

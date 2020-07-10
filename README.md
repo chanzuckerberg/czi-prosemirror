@@ -10,6 +10,9 @@
 
 
 
+
+
+
 <h1 align="center">Licit Editor</h1>
 
 <div align="center">
@@ -66,10 +69,18 @@ In order to upload image work correctly, "images" folder is expected outside the
 ### Start the collaboration server
 ```
 In Windows
-py run_collab_server.py  
+To build collab server:
+py build_collab_server.py
+
+To run collab server:
+py run_collab_server.py 
 
 In MacOS/Linux
-python run_collab_server.py
+To build collab server:
+python build_collab_server.py
+
+To run collab server:
+python run_collab_server.py 
 ```  
 
 ### Start the web server
@@ -142,7 +153,7 @@ Please refer *licit\client\index.js* for getting more detailed idea on passing p
 | data |Document data to be loaded into the editor|null
 | disabled|To disable the editor|false
 | embedded|To disable/enable inline behavior of the editor|false
-
+| runtime|To pass runtime to the editor. No value means default EditorRuntime | Expects a post method '*saveimage?fn=*' in the server with input parameters *File name and File object*, and this post method parse the form data and return response in JSON format (*{id: string, height: < height of the image>, src: <relative/full_path_of_the_image>, width: < width_of_the_image>}*). Please refer *licit\utils\build_web_server.js* for '*saveimage*' method sample.
 
 |Event Name| Description|Parameter| 
 |--|--|--|

@@ -1,6 +1,7 @@
 // @flow
 
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import CustomButton from './CustomButton';
 import preventEventDefault from './preventEventDefault';
@@ -11,14 +12,29 @@ import './czi-image-url-editor.css';
 
 import type {ImageLike} from '../Types';
 
+type Props = {
+  initialValue: ?ImageLike,
+  close: (href: ?ImageLike) => void,
+}; 
+
 class ImageURLEditor extends React.PureComponent<any, any, any> {
   _img = null;
   _unmounted = false;
 
-  props: {
-    initialValue: ?ImageLike,
-    close: (val: ?ImageLike) => void,
-  };
+  // [FS] IRAD-1005 2020-07-07
+  // Upgrade outdated packages.
+  // To take care of the property type declaration.
+  static propsTypes = {
+    initialValue: PropTypes.object,
+	close: function(props, propName, componentName) {
+        var fn = props[propName];
+        if(!fn.prototype ||
+           (typeof fn.prototype.constructor !== 'function' &&
+            fn.prototype.constructor.length !== 1)) {
+            return new Error(propName + 'must be a function with 1 arg of type ImageLike');
+        }
+    }
+  }
 
   state = {
     ...(this.props.initialValue || {}),

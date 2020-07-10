@@ -13,6 +13,7 @@ import LicitRuntime from './LicitRuntime';
 import SimpleConnector from './SimpleConnector';
 import CollabConnector from './CollabConnector';
 import { EMPTY_DOC_JSON } from '../createEmptyEditorState';
+import {EditorRuntime} from '../Types'
 
 import './licit.css';
 
@@ -26,13 +27,13 @@ import './licit.css';
  *  onChange {@callback} [null] Fires after each significant change.
  *      @param data {JSON} Modified document data.
  *  onReady {@callback} [null] Fires when the editor is fully ready.
- *      @param ref {LICIT} Rerefence of the editor. 
+ *      @param ref {LICIT} Rerefence of the editor.
  *  data {JSON} [null] Document data to be loaded into the editor.
  *  disabled {boolean} [false] Disable the editor.
  *  embedded {boolean} [false] Disable/Enable inline behaviour.
  */
 class Licit extends React.Component<any, any, any> {
-  _runtime: any;
+  _runtime:  EditorRuntime;
   _connector: any;
   _clientID: string;
   _editorView: EditorView; // This will be handy in updating document's content.
@@ -41,7 +42,6 @@ class Licit extends React.Component<any, any, any> {
   constructor(props: any, context: any) {
     super(props, context);
 
-    this._runtime = new LicitRuntime();
     this._clientID = uuid();
     this._editorView = null;
     this._skipSCU = true;
@@ -53,13 +53,15 @@ class Licit extends React.Component<any, any, any> {
     const debug = props.debug || false;
     const width = props.width || '100%';
     const height = props.height || '100%';
-    const onChangeCB = props.onChange || null;
-    const onReadyCB = props.onReady || null;
+    const onChangeCB = (typeof props.onChange === 'function') ? props.onChange : noop;
+    const onReadyCB = (typeof props.onReady === 'function') ? props.onReady : noop;
     const readOnly = props.readOnly || false;
     const data = props.data || null;
     const disabled = props.disabled || false;
     const embedded = props.embedded || false;// [FS] IRAD-996 2020-06-30
-
+    // [FS] 2020-07-03
+    // Handle Image Upload from Angular App
+    const runtime = props.runtime ? props.runtime : new LicitRuntime();
     const editorState = convertFromJSON(data);
 
     const setState = this.setState.bind(this);
@@ -80,7 +82,8 @@ class Licit extends React.Component<any, any, any> {
       onReadyCB,
       debug,
       disabled,
-      embedded
+      embedded,
+      runtime
     };
   }
 
@@ -103,7 +106,7 @@ class Licit extends React.Component<any, any, any> {
     // Only interested if properties are set from outside.
     if (!this._skipSCU) {
       this._skipSCU = false;
-      var dataChanged = false;
+      let dataChanged = false;
 
       // Compare data, if found difference, update editorState
       if (this.state.data !== nextState.data) {
@@ -139,7 +142,7 @@ class Licit extends React.Component<any, any, any> {
   }
 
   render(): React.Element<any> {
-    const { editorState, width, height, readOnly, disabled, embedded } = this.state;
+    const { editorState, width, height, readOnly, disabled, embedded, runtime } = this.state;
     // [FS] IRAD-978 2020-06-05
     // Using 100vw & 100vh (100% viewport) is not ideal for a component which is expected to be a part of a page,
     // so changing it to 100%  width & height which will occupy the area relative to its parent.
@@ -151,7 +154,7 @@ class Licit extends React.Component<any, any, any> {
         onChange={this._onChange}
         onReady={this._onReady}
         readOnly={readOnly}
-        runtime={this._runtime}
+        runtime={runtime}
         width={width}
         disabled={disabled}
       />
@@ -159,9 +162,9 @@ class Licit extends React.Component<any, any, any> {
   }
 
   _onChange = (data: { state: EditorState, transaction: Transform }): void => {
-    const { transaction, state } = data;
+    const { transaction } = data;
     this._connector.onEdit(transaction);
-    if (this.state.onChangeCB && transaction) {
+    if (transaction.docChanged) {
       const docJson = transaction.doc.toJSON();
       this.state.onChangeCB(docJson);
     }
@@ -199,16 +202,16 @@ class Licit extends React.Component<any, any, any> {
   *  onChange {@callback} [null] Fires after each significant change.
   *      @param data {JSON} Modified document data.
   *  onReady {@callback} [null] Fires when the editor is fully ready.
-  *      @param ref {LICIT} Rerefence of the editor. 
+  *      @param ref {LICIT} Rerefence of the editor.
   *  data {JSON} [null] Document data to be loaded into the editor.
   *  disabled {boolean} [false] Disable the editor.
-  *  embedded {boolean} [false] Disable/Enable inline behaviour.  
+  *  embedded {boolean} [false] Disable/Enable inline behaviour.
   */
   setProps = (props): void => {
     if (this.state.readOnly) {
       // It should be possible to load content into the editor in readonly as well.
       // It should not be necessary to make the component writable any time during the process
-      var propsCopy = {};
+      let propsCopy = {};
       this._skipSCU = true;
       Object.assign(propsCopy, props);
       // make writable without content change

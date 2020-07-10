@@ -14,8 +14,6 @@ hostname = socket.gethostname()
 IPAddr = socket.gethostbyname(hostname)  
 port = '3002'
 
-os.system('node utils/build_licit_collab_server.js')
-
 if platform.system()=="Windows": cmd = 'node servers/run_licit_collab_server.bundle.js ' + ' PORT=' + port + ' IP='+ IPAddr
 else: cmd = 'PORT=' + port + ' IP=' + IPAddr + ' node servers/run_licit_collab_server.bundle.js'
 print('=' * 80)

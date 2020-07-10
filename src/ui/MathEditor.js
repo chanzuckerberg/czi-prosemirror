@@ -1,6 +1,7 @@
 // @flow
 
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import CustomButton from './CustomButton';
 import preventEventDefault from './preventEventDefault';
@@ -8,11 +9,26 @@ import uuid from './uuid';
 
 import './czi-form.css';
 
+type Props = {
+  initialValue: ?string,
+  close: (latex: ?string) => void,
+};
+
 class MathEditor extends React.PureComponent<any, any, any> {
-  props: {
-    initialValue: ?string,
-    close: (latex: ?string) => void,
-  };
+  // [FS] IRAD-1005 2020-07-07
+  // Upgrade outdated packages.
+  // To take care of the property type declaration.
+  static propsTypes = {
+    initialValue: PropTypes.string,
+	close: function(props, propName, componentName) {
+        var fn = props[propName];
+        if(!fn.prototype ||
+           (typeof fn.prototype.constructor !== 'function' &&
+            fn.prototype.constructor.length !== 1)) {
+            return new Error(propName + 'must be a function with 1 arg of type string');
+        }
+    }
+  }
 
   state = {
     initialValue: this.props.initialValue,

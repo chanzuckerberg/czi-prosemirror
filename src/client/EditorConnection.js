@@ -48,7 +48,9 @@ class EditorConnection {
     this.request = null;
     this.backOff = 0;
     this.view = null;
-    this.poll = throttle(this.poll, 1000, this);
+    // [FS] IRAD-1005 2020-07-07
+    // Upgrade outdated packages.
+    this.poll = throttle(this.pollRequest, 1000, this);
     this.ready = false;
     this.onReady = onReady;
     this.start();
@@ -143,7 +145,7 @@ class EditorConnection {
   // of the document that the client knows about. This request waits
   // for a new version of the document to be created if the client
   // is already up-to-date.
-  poll(): void {
+  pollRequest(): void {
     const query = 'version=' + getVersion(this.state.edit);
     this.run(GET(this.url + '/events?' + query)).then(
       data => {

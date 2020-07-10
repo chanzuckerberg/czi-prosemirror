@@ -1,21 +1,26 @@
 /*eslint-disable */
 
 var webpack = require('webpack'),
-  CleanWebpackPlugin = require('clean-webpack-plugin'),
   CopyWebpackPlugin = require('copy-webpack-plugin'),
   FlowWebpackPlugin = require('flow-webpack-plugin'),
   HtmlWebpackInlineSourcePlugin = require('html-webpack-inline-source-plugin'),
   HtmlWebpackPlugin = require('html-webpack-plugin'),
-  UglifyJsPlugin = require('uglifyjs-webpack-plugin'),
-  WriteFilePlugin = require('write-file-webpack-plugin');
-env = require('./utils/env'),
+  TerserPlugin = require('terser-webpack-plugin'),
+  
+  WriteFilePlugin = require('write-file-webpack-plugin'),
+  env = require('./utils/env'),
   fileSystem = require('fs'),
   path = require('path');
+
+// [FS] IRAD-1005 2020-07-07
+// Upgrade outdated packages.
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 var isDev = env.NODE_ENV === 'development' || 0;
 // isDev = false;
 
 var options = {
+  mode: 'production',
   entry: {
     licit: path.join(__dirname, 'licit', 'client', 'index.js'),
   },
@@ -32,22 +37,21 @@ var options = {
         options: {
         // https://stackoverflow.com/questions/51860043/javascript-es6-typeerror-class-constructor-client-cannot-be-invoked-without-ne
         // ES6 classes are supported in any recent Node version, they shouldn't be transpiled. es2015 should be excluded from Babel configuration, it's preferable to use env preset set to node target.
-          presets: [['env', { 'targets': { 'node': true } }], 'react', 'flow'],
+          presets: [['@babel/preset-env', { 'targets': { 'node': true } }], '@babel/preset-react', '@babel/preset-flow'],
           plugins: [
-            'transform-export-extensions',
-            'transform-class-properties',
+            '@babel/plugin-proposal-class-properties',
+            '@babel/plugin-proposal-export-default-from',
             [
-              'transform-runtime',
+              '@babel/plugin-transform-runtime',
               {
                 helpers: true,
-                polyfill: true,
                 regenerator: true,
               },
             ],
             'flow-react-proptypes',
-            'transform-object-rest-spread',
-            'transform-flow-strip-types',
-            'syntax-dynamic-import',
+            '@babel/plugin-proposal-object-rest-spread',
+            '@babel/plugin-transform-flow-strip-types',
+            '@babel/plugin-syntax-dynamic-import',
           ],
         },
       },
@@ -84,7 +88,7 @@ var options = {
     }),
     //new FlowWebpackPlugin(), //  For now disable flow
     // clean the web folder
-    new CleanWebpackPlugin(['bin']),
+    new CleanWebpackPlugin(),
     // expose and write the allowed env vars on the compiled bundle
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(env.NODE_ENV)
@@ -95,7 +99,7 @@ var options = {
       chunks: ['licit'],
       inlineSource: isDev ? '$^' : '.(js|css)$'
     }),
-    new HtmlWebpackInlineSourcePlugin(),
+    new HtmlWebpackInlineSourcePlugin(HtmlWebpackPlugin),
     new WriteFilePlugin()
   ]
 };
@@ -103,7 +107,12 @@ var options = {
 if (env.NODE_ENV === 'development') {
   options.devtool = 'cheap-module-eval-source-map';
 } else {
-  options.plugins.push(new UglifyJsPlugin());
+// [FS] IRAD-1005 2020-07-10
+// Upgrade outdated packages.  
+  options.optimization =  {
+    minimize: true,
+    minimizer: [new TerserPlugin()],
+  }
 }
 
 module.exports = options;

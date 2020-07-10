@@ -30,24 +30,26 @@ class LinkTooltip extends React.PureComponent<any, any, any> {
 
   render(): ?React.Element<any> {
     const {href, editorView, onEdit, onRemove} = this.props;
-    const useBookMark = isBookMarkHref(href);
-    const editButton = !!useBookMark && (
-      <CustomButton label="Change" onClick={onEdit} value={editorView} />
-    );
+    // [FS] 2020-07-09
+    // Added the "change" custom button.
 
     return (
       <div className="czi-link-tooltip">
         <div className="czi-link-tooltip-body">
           <div className="czi-link-tooltip-row">
-            <CustomButton
-              className={useBookMark ? null : 'czi-link-tooltip-href'}
-              label={useBookMark ? 'Jump To Bookmark' : href}
+          <CustomButton
+              className="czi-link-tooltip-href"
+              label={href}
               onClick={this._openLink}
               target="new"
-              title={useBookMark ? null : href}
+              title={href}
               value={href}
             />
-            {editButton}
+            <CustomButton
+              label="Change"
+              onClick={onEdit}
+              value={editorView}
+            />
             <CustomButton
               label="Remove"
               onClick={onRemove}

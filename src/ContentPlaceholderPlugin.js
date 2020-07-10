@@ -1,6 +1,6 @@
 // @flow
 
-import {Plugin} from 'prosemirror-state';
+import {Plugin, PluginKey} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -174,6 +174,9 @@ class ContentPlaceholderView {
 class ContentPlaceholderPlugin extends Plugin {
   constructor() {
     super({
+      // [FS] IRAD-1005 2020-07-07
+      // Upgrade outdated packages.    
+      key: new PluginKey('ContentPlaceholderPlugin'),
       view(editorView: EditorView) {
         return new ContentPlaceholderView(editorView);
       },

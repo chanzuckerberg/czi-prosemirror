@@ -1,6 +1,7 @@
 // @flow
 
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import sanitizeURL from '../sanitizeURL';
 import CustomButton from './CustomButton';
@@ -12,11 +13,27 @@ import './czi-image-url-editor.css';
 
 const BAD_CHARACTER_PATTER = /\s/;
 
+type Props = {
+  href: ?string,
+  close: (href: ?string) => void,
+};  
+  
 class LinkURLEditor extends React.PureComponent<any, any, any> {
-  props: {
-    href: ?string,
-    close: (href: ?string) => void,
-  };
+
+  // [FS] IRAD-1005 2020-07-07
+  // Upgrade outdated packages.
+  // To take care of the property type declaration.
+  static propsTypes = {
+    href: PropTypes.string,
+	close: function(props, propName, componentName) {
+        var fn = props[propName];
+        if(!fn.prototype ||
+           (typeof fn.prototype.constructor !== 'function' &&
+            fn.prototype.constructor.length !== 1)) {
+            return new Error(propName + 'must be a function with 1 arg of type string');
+        }
+    }
+  }
 
   state = {
     url: this.props.href,
