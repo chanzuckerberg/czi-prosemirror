@@ -1,10 +1,14 @@
 {
-  "name": "licit",
+  "name": "@modusoperandi/licit",
   "version": "0.0.1",
   "subversion": "1",
   "description": "Rich text editor built with React and ProseMirror",
   "main": "dist/index.js",
   "style": "dist/styles.css",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MO-Movia/licit.git"
+  },
   "scripts": {
     "build:clean": "rm -rf dist/ && rm -f licit-*.*.*.tgz",
     "build:css": "cp src/ui/*.css dist/ui && cp src/ui/mathquill-editor/*.css dist/ui/mathquill-editor && cp src/client/*.css dist/client && cp src/*.css dist",
