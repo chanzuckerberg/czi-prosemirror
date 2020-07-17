@@ -61,11 +61,10 @@ function processPromise(
   }
 
   const parsedURL = url.parse(srcStr);
-  const {protocol, port} = parsedURL;
-  if (
-    !/(http:|https:|data:)/.test(protocol || window.location.protocol) ||
-    port
-  ) {
+  // [FS] IRAD-1007 2020-07-13
+  // Removed the port validation from here
+  const {protocol} = parsedURL;
+  if (!/(http:|https:|data:)/.test(protocol || window.location.protocol)) {
     resolve(result);
     return;
   }

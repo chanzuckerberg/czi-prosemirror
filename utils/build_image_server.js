@@ -1,6 +1,4 @@
 const webpack = require('webpack');
-// [FS] IRAD-1005 2020-07-07
-// Upgrade outdated packages.
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const FlowWebpackPlugin = require('flow-webpack-plugin');
 const WriteFilePlugin = require('write-file-webpack-plugin');
@@ -9,12 +7,12 @@ const path = require('path');
 
 const config = {
   mode: 'development',//production
-  entry: {// [FS] IRAD-901 2020-07-15 New collab server reusing base PM collab server  
-    run_licit_collab_server: path.join(__dirname, '../licit', 'server/collab', 'start.js'),
+  entry: { 
+    run_image_server: path.join(__dirname, '../licit', 'server/image', 'start.js'),
   },
   target: 'node',
   output: {
-    path: path.join(__dirname, '../servers/collab'),
+    path: path.join(__dirname, '../servers/image'),
     filename: '[name].bundle.js'
   },
   module: {
@@ -31,9 +29,8 @@ const config = {
     ],
   },
   plugins: [
-    // type checker
+    // type checker 
     ... (env.NODE_ENV === 'development') ? [new FlowWebpackPlugin()] : [],
-    // [FS] 2020-07-13
     // To take care of formidable.
     new webpack.DefinePlugin({ "global.GENTLY": false }),
     // clean the web folder
@@ -45,7 +42,7 @@ const config = {
     new WriteFilePlugin(),
   ],
   // to enable debug
-  //devtool: 'source-map'
+  devtool: 'source-map'
 };
 
 webpack(
@@ -57,6 +54,5 @@ webpack(
   }
 );
 
-// [FS] 2020-07-13
 // To take care of formidable.
 module.exports = config;

@@ -61,13 +61,15 @@ class TableCellTooltipView {
       // Creates a new popup.
       popUp && popUp.close();
       this._cellElement = cellEl;
-      this._popUp = createPopUp(TableCellMenu, viewPops, {
-        anchor: cellEl,
-        autoDismiss: false,
-        onClose: this._onClose,
-        position: atAnchorTopRight,
-      });
-      this._onOpen();
+      if (!view.disabled) {
+        this._popUp = createPopUp(TableCellMenu, viewPops, {
+          anchor: cellEl,
+          autoDismiss: false,
+          onClose: this._onClose,
+          position: atAnchorTopRight,
+        });
+        this._onOpen();
+      }
     }
   }
 

@@ -33,6 +33,7 @@ class FontTypeCommandMenuButton extends React.PureComponent<any, any, any> {
     return (
       <CommandMenuButton
         className="width-100"
+        disabled={editorView && editorView.disabled? true:false}
         commandGroups={COMMAND_GROUPS}
         dispatch={dispatch}
         editorState={editorState}

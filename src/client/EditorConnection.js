@@ -33,7 +33,6 @@ class State {
 class EditorConnection {
   backOff: number;
   onReady: Function;
-  poll: Function;
   ready: boolean;
   report: any;
   request: any;
@@ -48,9 +47,7 @@ class EditorConnection {
     this.request = null;
     this.backOff = 0;
     this.view = null;
-    // [FS] IRAD-1005 2020-07-07
-    // Upgrade outdated packages.
-    this.poll = throttle(this.pollRequest, 1000, this);
+    this.dispatch = this.dispatch.bind(this);
     this.ready = false;
     this.onReady = onReady;
     this.start();
@@ -145,16 +142,12 @@ class EditorConnection {
   // of the document that the client knows about. This request waits
   // for a new version of the document to be created if the client
   // is already up-to-date.
-  pollRequest(): void {
+  poll(): void {
     const query = 'version=' + getVersion(this.state.edit);
     this.run(GET(this.url + '/events?' + query)).then(
       data => {
         this.report.success();
         data = JSON.parse(data);
-        if (data.confirmed === false) {
-          this.poll();
-          return;
-        }
         this.backOff = 0;
         if (data.steps && data.steps.length) {
           const tr = receiveTransaction(
@@ -203,14 +196,13 @@ class EditorConnection {
       data => {
         this.report.success();
         this.backOff = 0;
-        const edit = nullthrows(this.state.edit);
         const tr = steps
           ? receiveTransaction(
-              edit,
+              this.state.edit,
               steps.steps,
               repeat(steps.clientID, steps.steps.length)
             )
-          : edit.tr;
+          : this.state.edit.tr;
 
         this.dispatch({
           type: 'transaction',

@@ -10,9 +10,6 @@
 
 
 
-
-
-
 <h1 align="center">Licit Editor</h1>
 
 <div align="center">
@@ -81,6 +78,15 @@ python build_collab_server.py
 
 To run collab server:
 python run_collab_server.py 
+```  
+
+### Start the image server for Upload image 
+```
+In Windows
+py run_image_server.py  
+
+In MacOS/Linux
+python run_image_server.py
 ```  
 
 ### Start the web server

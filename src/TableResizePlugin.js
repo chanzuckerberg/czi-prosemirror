@@ -73,6 +73,7 @@ const HANDLE_WIDTH = 5;
 const HANDLE_RIGHT_WIDTH = 20;
 
 let cancelDrag: ?Function = null;
+let isEnabled = true;
 
 // The immutable plugin state that stores the information for resizing.
 class ResizeState {
@@ -533,6 +534,7 @@ function handleDecorations(
 
 // Creates a custom table view that renders the margin-left style.
 function createTableView(node: Node, view: EditorView): TableView {
+  isEnabled = view.editable;
   return new TableNodeView(node, CELL_MIN_WIDTH, view);
 }
 
@@ -604,7 +606,7 @@ export default class TableResizePlugin extends Plugin {
         },
         decorations(state: EditorState): ?DecorationSet {
           const resizeState = PLUGIN_KEY.getState(state);
-          return resizeState.cellPos > -1
+          return resizeState.cellPos > -1 && isEnabled
             ? handleDecorations(state, resizeState)
             : undefined;
         },
