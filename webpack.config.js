@@ -20,7 +20,7 @@ var isDev = env.NODE_ENV === 'development' || 0;
 // isDev = false;
 
 var options = {
-  mode: 'production',
+  mode: 'production',//development
   entry: {
     licit: path.join(__dirname, 'licit', 'client', 'index.js'),
   },
@@ -87,7 +87,7 @@ var options = {
       'window.jQuery': 'jquery',
     }),
     // type checker 
-    ... (env.NODE_ENV === 'development') ? [new FlowWebpackPlugin()] : [],
+    ... (env.NODE_ENV === 'development') ? [new FlowWebpackPlugin({flowArgs: ['--show-all-errors']})] : [],
     // clean the web folder
     new CleanWebpackPlugin(),
     // expose and write the allowed env vars on the compiled bundle
