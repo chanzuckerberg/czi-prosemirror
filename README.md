@@ -178,6 +178,8 @@ in the default global CSS file *src\styles.scss*, add
 
 Run *npm start* to see the licit editor inside the angular application.
 
+Note: there is a nice Angular test app designed to test the component interface of licit here: https://github.com/melgish/licit-playground - which also allows you to load and save the JSON file.
+
 ## Use it for your own project  
 
 For using licit in your project you should follow these steps:  
