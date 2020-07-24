@@ -4,6 +4,7 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 
 import CustomButton from './CustomButton';
+import MathQuillEditor from './mathquill-editor/MathQuillEditor';
 import preventEventDefault from './preventEventDefault';
 import uuid from './uuid';
 
@@ -45,6 +46,7 @@ class MathEditor extends React.PureComponent<any, any, any> {
         <form className="czi-form" onSubmit={preventEventDefault}>
           <fieldset>
             <legend>Insert Math</legend>
+              <MathQuillEditor onChange={this._onChange} value={value} />
           </fieldset>
           <div className="czi-form-buttons">
             <CustomButton label="Cancel" onClick={this._cancel} />
