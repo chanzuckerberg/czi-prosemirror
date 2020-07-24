@@ -3,7 +3,7 @@
 import './czi-math-view.css';
 import CustomNodeView from './CustomNodeView';
 import MathInlineEditor from './MathInlineEditor';
-import React from 'react';
+import * as React from 'react';
 import createPopUp from './createPopUp';
 import cx from 'classnames';
 import renderLaTeXAsHTML from './renderLaTeXAsHTML';

@@ -3,7 +3,7 @@
 import './czi-tooltip-surface.css';
 import './czi-animations.css';
 
-import React from 'react';
+import * as React from 'react';
 import createPopUp from './createPopUp';
 import {atAnchorBottomCenter} from './PopUpPosition';
 import uuid from './uuid';

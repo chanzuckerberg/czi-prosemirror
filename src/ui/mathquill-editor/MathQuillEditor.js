@@ -4,7 +4,7 @@ import './czi-mathquill-editor.css';
 import * as MathQuillEditorSymbols from './MathQuillEditorSymbols';
 import MathQuill from 'node-mathquill/build/mathquill.js';
 import MathQuillEditorSymbolsPanel from './MathQuillEditorSymbolsPanel';
-import React from 'react';
+import * as React from 'react';
 import ReactDOM from 'react-dom';
 import canUseCSSFont from './../canUseCSSFont';
 import cx from 'classnames';

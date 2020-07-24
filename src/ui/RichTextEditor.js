@@ -2,7 +2,7 @@
 
 import {Transform} from 'prosemirror-transform';
 import {EditorView} from 'prosemirror-view';
-import React from 'react';
+import * as React from 'react';
 
 import createEmptyEditorState from '../createEmptyEditorState';
 import Editor from './Editor';

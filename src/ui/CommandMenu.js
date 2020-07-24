@@ -3,7 +3,7 @@
 import {EditorState} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
 import {EditorView} from 'prosemirror-view';
-import React from 'react';
+import * as React from 'react';
 
 import CustomMenu from './CustomMenu';
 import CustomMenuItem from './CustomMenuItem';
@@ -53,7 +53,7 @@ class CommandMenu extends React.PureComponent<any, any, any> {
     return <CustomMenu>{children}</CustomMenu>;
   }
 
-  _onUIEnter = (command: UICommand, event: SyntheticEvent): void => {
+  _onUIEnter = (command: UICommand, event: SyntheticEvent<>): void => {
     if (command.shouldRespondToUIEvent(event)) {
       this._activeCommand && this._activeCommand.cancel();
       this._activeCommand = command;
@@ -61,7 +61,7 @@ class CommandMenu extends React.PureComponent<any, any, any> {
     }
   };
 
-  _execute = (command: UICommand, e: SyntheticEvent) => {
+  _execute = (command: UICommand, e: SyntheticEvent<>) => {
     const {dispatch, editorState, editorView, onCommand} = this.props;
     if (command.execute(editorState, dispatch, editorView, e)) {
       onCommand && onCommand();

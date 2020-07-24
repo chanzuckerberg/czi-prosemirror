@@ -4,15 +4,18 @@ import {parse} from "url"
 
 // A URL router for the server.
 class Router {
+  // fix_flow_errors:  declarion to  avoid flow errors
+  routes = [];
+  // end
   constructor() { this.routes = [] }
 
-  add(method, url, handler) {
+  add(method:any, url:any, handler:any) {
     this.routes.push({method, url, handler})
   }
 
   // : (union<string, RegExp, Array>, string) → union<Array, null>
   // Check whether a route pattern matches a given URL path.
-  match(pattern, path) {
+  match(pattern:any, path:any) {
     if (typeof pattern == "string") {
       if (pattern == path) return []
     } else if (pattern instanceof RegExp) {

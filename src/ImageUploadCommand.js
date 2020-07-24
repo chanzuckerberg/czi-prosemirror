@@ -2,7 +2,7 @@
 
 import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
-import React from 'react';
+import * as React from 'react';
 
 import ImageSourceCommand from './ImageSourceCommand';
 import ImageUploadEditor from './ui/ImageUploadEditor';

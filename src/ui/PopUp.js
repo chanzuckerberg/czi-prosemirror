@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 
 import PopUpManager from './PopUpManager';
 import {atAnchorBottomLeft, atViewportCenter} from './PopUpPosition';

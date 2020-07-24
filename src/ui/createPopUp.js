@@ -7,7 +7,7 @@ import type {PopUpParams, ViewProps} from './PopUp';
 
 import PopUp from './PopUp';
 // eslint-disable-next-line no-unused-vars
-import React from 'react';
+import * as React from 'react';
 import ReactDOM from 'react-dom';
 import uuid from './uuid';
 

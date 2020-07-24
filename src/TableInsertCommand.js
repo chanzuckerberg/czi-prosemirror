@@ -11,13 +11,13 @@ import {atAnchorRight} from './ui/PopUpPosition';
 import TableGridSizeEditor from './ui/TableGridSizeEditor';
 import UICommand from './ui/UICommand';
 import createPopUp from './ui/createPopUp';
-
+import { SyntheticEvent } from 'react';
 import type {TableGridSizeEditorValue} from './ui/TableGridSizeEditor';
 
 class TableInsertCommand extends UICommand {
   _popUp = null;
 
-  shouldRespondToUIEvent = (e: SyntheticEvent | MouseEvent): boolean => {
+  shouldRespondToUIEvent = (e: SyntheticEvent<> | MouseEvent): boolean => {
     return e.type === UICommand.EventType.MOUSEENTER;
   };
 
@@ -34,7 +34,7 @@ class TableInsertCommand extends UICommand {
     state: EditorState,
     dispatch: ?(tr: Transform) => void,
     view: ?EditorView,
-    event: ?SyntheticEvent
+    event: ?SyntheticEvent<>
   ): Promise<any> => {
     if (this._popUp) {
       return Promise.resolve(undefined);

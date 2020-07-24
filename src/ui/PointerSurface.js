@@ -1,7 +1,7 @@
 // @flow
 
 import cx from 'classnames';
-import React from 'react';
+import * as React from 'react';
 
 import preventEventDefault from './preventEventDefault';
 
@@ -11,8 +11,8 @@ export type PointerSurfaceProps = {
   className?: ?string,
   disabled?: ?boolean,
   id?: ?string,
-  onClick?: ?(val: any, e: SyntheticEvent) => void,
-  onMouseEnter?: ?(val: any, e: SyntheticEvent) => void,
+  onClick?: ?(val: any, e: SyntheticEvent<>) => void,
+  onMouseEnter?: ?(val: any, e: SyntheticEvent<>) => void,
   style?: ?Object,
   title?: ?string,
   value?: any,
@@ -76,20 +76,20 @@ class PointerSurface extends React.PureComponent<any, any, any> {
     }
   }
 
-  _onMouseEnter = (e: SyntheticEvent): void => {
+  _onMouseEnter = (e: SyntheticEvent<>): void => {
     this._pressedTarget = null;
     e.preventDefault();
     const {onMouseEnter, value} = this.props;
     onMouseEnter && onMouseEnter(value, e);
   };
 
-  _onMouseLeave = (e: SyntheticEvent): void => {
+  _onMouseLeave = (e: SyntheticEvent<>): void => {
     this._pressedTarget = null;
     const mouseUpEvent: any = e;
     this._onMouseUpCapture(mouseUpEvent);
   };
 
-  _onMouseDown = (e: SyntheticEvent): void => {
+  _onMouseDown = (e: SyntheticEvent<>): void => {
     e.preventDefault();
 
     this._pressedTarget = null;
@@ -110,7 +110,7 @@ class PointerSurface extends React.PureComponent<any, any, any> {
     }
   };
 
-  _onMouseUp = (e: SyntheticEvent): void => {
+  _onMouseUp = (e: SyntheticEvent<>): void => {
     e.preventDefault();
 
     if (this._clicked || e.type === 'keypress') {

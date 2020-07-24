@@ -1,7 +1,7 @@
 // @flow
 
 import cx from 'classnames';
-import React from 'react';
+import * as React from 'react';
 
 import canUseCSSFont from './canUseCSSFont';
 import injectStyleSheet from './injectStyleSheet';

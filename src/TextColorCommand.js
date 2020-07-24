@@ -10,7 +10,8 @@ import nullthrows from 'nullthrows';
 import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
 import {MARK_TEXT_COLOR} from './MarkNames';
-import {Transform} from 'prosemirror-transform';
+import { Transform } from 'prosemirror-transform';
+import { SyntheticEvent } from 'react';
 
 class TextColorCommand extends UICommand {
   _popUp = null;
@@ -23,7 +24,7 @@ class TextColorCommand extends UICommand {
     state: EditorState,
     dispatch: ?(tr: Transform) => void,
     view: ?EditorView,
-    event: ?SyntheticEvent
+    event: ?SyntheticEvent<>
   ): Promise<any> => {
     if (this._popUp) {
       return Promise.resolve(undefined);

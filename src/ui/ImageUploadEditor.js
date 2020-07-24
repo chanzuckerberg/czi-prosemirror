@@ -1,7 +1,7 @@
 // @flow
 
 import cx from 'classnames';
-import React from 'react';
+import * as React from 'react';
 
 import CustomButton from './CustomButton';
 import LoadingIndicator from './LoadingIndicator';

@@ -4,7 +4,7 @@ import cx from 'classnames';
 import {EditorState} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
 import {EditorView} from 'prosemirror-view';
-import React from 'react';
+import * as React from 'react';
 
 import CommandMenu from './CommandMenu';
 import CustomButton from './CustomButton';

@@ -13,6 +13,7 @@ export const MIN_INDENT_LEVEL = 0;
 export const MAX_INDENT_LEVEL = 7;
 export const ATTRIBUTE_INDENT = 'data-indent';
 
+// const STATUS = ['', '0%', '0pt', '0px']
 export const EMPTY_CSS_VALUE = new Set(['', '0%', '0pt', '0px']);
 
 const ALIGN_PATTERN = /(left|right|center|justify)/;

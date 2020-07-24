@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 
 import {LAYOUT} from '../DocNodeSpec';
 import CustomButton from './CustomButton';

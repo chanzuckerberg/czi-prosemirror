@@ -2,7 +2,7 @@
 
 import './czi-custom-menu-item.css';
 import CustomButton from './CustomButton';
-import React from 'react';
+import * as React from 'react';
 
 class CustomMenuItemSeparator extends React.PureComponent<any, any, any> {
   render(): React.Element<any> {
@@ -16,8 +16,8 @@ class CustomMenuItem extends React.PureComponent<any, any, any> {
   props: {
     label: string,
     disabled?: ?boolean,
-    onClick: ?(value: any, e: SyntheticEvent) => void,
-    onMouseEnter: ?(value: any, e: SyntheticEvent) => void,
+    onClick: ?(value: any, e: SyntheticEvent<>) => void,
+    onMouseEnter: ?(value: any, e: SyntheticEvent<>) => void,
     value: any,
   };
 

@@ -4,7 +4,7 @@ import cx from 'classnames';
 import { Node } from 'prosemirror-model';
 import { Decoration } from 'prosemirror-view';
 import { NodeSelection } from 'prosemirror-state';
-import React from 'react';
+import * as React from 'react';
 import ReactDOM from 'react-dom';
 
 import CustomNodeView from './CustomNodeView';

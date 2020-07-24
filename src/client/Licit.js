@@ -4,7 +4,7 @@ import applyDevTools from 'prosemirror-dev-tools';
 import { EditorState, TextSelection } from 'prosemirror-state';
 import { Transform } from 'prosemirror-transform';
 import { EditorView } from 'prosemirror-view';
-import React from 'react';
+import * as React from 'react';
 
 import convertFromJSON from '../convertFromJSON';
 import RichTextEditor from '../ui/RichTextEditor';
@@ -13,7 +13,7 @@ import LicitRuntime from './LicitRuntime';
 import SimpleConnector from './SimpleConnector';
 import CollabConnector from './CollabConnector';
 import { EMPTY_DOC_JSON } from '../createEmptyEditorState';
-import {EditorRuntime} from '../Types'
+import type { EditorRuntime } from '../Types'
 
 import './licit.css';
 
@@ -102,7 +102,7 @@ class Licit extends React.Component<any, any, any> {
     this._editorView.dispatch(transaction);
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
+  shouldComponentUpdate(nextProps:any, nextState:any) {
     // Only interested if properties are set from outside.
     if (!this._skipSCU) {
       this._skipSCU = false;
@@ -184,7 +184,7 @@ class Licit extends React.Component<any, any, any> {
       this.state.onReadyCB(this);
     }
 
-    if (state.debug) {
+    if (this.state.debug) {
       window.debugProseMirror = () => {
         applyDevTools(editorView);
       };

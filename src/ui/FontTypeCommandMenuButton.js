@@ -2,7 +2,7 @@
 
 import CommandMenuButton from './CommandMenuButton';
 import FontTypeCommand from '../FontTypeCommand';
-import React from 'react';
+import * as React from 'react';
 import findActiveFontType from './findActiveFontType';
 import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';

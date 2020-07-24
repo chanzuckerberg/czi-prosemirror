@@ -1,7 +1,7 @@
 // @flow
 
 import {EditorView} from 'prosemirror-view';
-import React from 'react';
+import * as React from 'react';
 import scrollIntoView from 'smooth-scroll-into-view-if-needed';
 
 import sanitizeURL from '../sanitizeURL';

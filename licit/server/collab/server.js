@@ -8,7 +8,7 @@ import {getInstance, instanceInfo} from "./instance"
 
 const router = new Router();
 
-function handleCollabRequest(req, resp) {  
+function handleCollabRequest(req:any, resp:any) {  
   if(!router.resolve(req, resp)) {  
     const method = req.method.toUpperCase();
     if (method === 'OPTIONS') {
@@ -33,6 +33,11 @@ export default handleCollabRequest
 
 // Object that represents an HTTP response.
 class Output {
+  // fix_flow_errors:  declarion to  avoid flow errors
+  code = null;
+  body = null;
+  type = "text/plain";
+  //end
   constructor(code, body, type) {
     this.code = code
     this.body = body
@@ -44,13 +49,14 @@ class Output {
   }
 
   // Write the response.
-  resp(resp) {
+  resp(resp:any) {
     const headers = {
       'Access-Control-Allow-Origin': '*',
       'Content-Type': this.type
     };
     resp.writeHead(this.code, headers)
     resp.end(this.body)
+    
   }
 }
 
@@ -111,7 +117,7 @@ function nonNegInteger(str) {
   let num = Number(str)
   if (!isNaN(num) && Math.floor(num) == num && num >= 0) return num
   let err = new Error("Not a non-negative integer: " + str)
-  err.status = 400
+  err.message = '400';
   throw err
 }
 
@@ -119,6 +125,13 @@ function nonNegInteger(str) {
 // instance to publish a new version before sending the version
 // event data to the client.
 class Waiting {
+  // fix_flow_errors:  declarion to  avoid flow errors
+    resp = null
+    inst = null
+    ip = ''
+    finish = null
+    done = false
+    //end
   constructor(resp, inst, ip, finish) {
     this.resp = resp
     this.inst = inst
@@ -132,8 +145,10 @@ class Waiting {
   }
 
   abort() {
-    let found = this.inst.waiting.indexOf(this)
-    if (found > -1) this.inst.waiting.splice(found, 1)
+    if (this.inst.waiting) {
+      let found = this.inst.waiting.indexOf(this)
+      if (found > -1) this.inst.waiting.splice(found, 1)
+    }
   }
 
   send(output) {

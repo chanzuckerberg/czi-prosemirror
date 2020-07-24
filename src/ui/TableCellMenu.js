@@ -1,7 +1,7 @@
 // @flow
 import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
-import React from 'react';
+import * as React from 'react';
 
 import CommandMenuButton from './CommandMenuButton';
 import {TABLE_COMMANDS_GROUP} from './EditorToolbarConfig';

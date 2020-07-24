@@ -1,7 +1,7 @@
 // @flow
 
 import cx from 'classnames';
-import React from 'react';
+import * as React from 'react';
 import ReactDOM from 'react-dom';
 
 import clamp from './clamp';
@@ -173,7 +173,7 @@ class TableGridSizeEditor extends React.PureComponent<any, any, any> {
     }
   };
 
-  _onMouseDown = (e: SyntheticEvent): void => {
+  _onMouseDown = (e: SyntheticEvent<>): void => {
     e.preventDefault();
     this.props.close(this.state);
   };

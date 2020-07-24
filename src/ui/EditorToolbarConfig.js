@@ -1,7 +1,7 @@
 // @flow
 
 // eslint-disable-next-line no-unused-vars
-import React from 'react';
+import * as React from 'react';
 
 import * as EditorCommands from '../EditorCommands';
 import FontSizeCommandMenuButton from './FontSizeCommandMenuButton';

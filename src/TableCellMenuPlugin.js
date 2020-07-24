@@ -3,7 +3,7 @@
 import {EditorState, Plugin, PluginKey} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
 /* eslint-disable-next-line */
-import React from 'react';
+import * as React from 'react';
 
 import findActionableCell from './findActionableCell';
 import {atAnchorTopRight} from './ui/PopUpPosition';

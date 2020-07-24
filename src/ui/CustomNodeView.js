@@ -2,7 +2,7 @@
 
 import {Node} from 'prosemirror-model';
 import {Decoration, EditorView} from 'prosemirror-view';
-import React from 'react';
+import * as React from 'react';
 import ReactDOM from 'react-dom';
 
 import SelectionObserver from './SelectionObserver';

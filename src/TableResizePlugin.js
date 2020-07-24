@@ -301,7 +301,7 @@ function handleDragMove(view: EditorView, event: PointerEvent): void {
 }
 
 // Function that handles the mouse event while stop resizing the table cell.
-function handleDragEnd(view: EditorView, event: PointerEvent): void {
+function handleDragEnd(view: EditorView, event: any): void {
   const resizeState = PLUGIN_KEY.getState(view.state);
   const { cellPos, draggingInfo } = resizeState;
   if (!draggingInfo) {
@@ -547,7 +547,9 @@ function batchMouseHandler(
   let view = null;
   const onMouseEvent = () => {
     if (view && target) {
-      const pointerEvent = {
+      let pointerEvent: PointerEvent;
+      
+        pointerEvent = {
         target,
         clientX,
         clientY,

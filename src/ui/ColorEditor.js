@@ -1,7 +1,7 @@
 // @flow
 
 import Color from 'color';
-import React from 'react';
+import * as React from 'react';
 
 import CustomButton from './CustomButton';
 import clamp from './clamp';

@@ -2,7 +2,7 @@
 
 import cx from 'classnames';
 import nullthrows from 'nullthrows';
-import React from 'react';
+import * as React from 'react';
 
 import clamp from './clamp';
 import uuid from './uuid';

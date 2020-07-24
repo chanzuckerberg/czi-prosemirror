@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 
 import './czi-custom-menu.css';
 import './czi-custom-scrollbar.css';

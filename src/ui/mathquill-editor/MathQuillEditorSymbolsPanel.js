@@ -3,7 +3,7 @@
 import renderLaTeXAsHTML from '../renderLaTeXAsHTML';
 import './czi-mathquill-editor-symbols-panel.css';
 import CustomButton from '../CustomButton';
-import React from 'react';
+import * as React from 'react';
 
 import type {MathQuillEditorSymbol} from './MathQuillEditorSymbols';
 

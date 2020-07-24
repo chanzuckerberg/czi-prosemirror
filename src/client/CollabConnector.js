@@ -1,6 +1,7 @@
 // @flow
 
-
+import { Transform } from 'prosemirror-transform';
+import { EditorState } from 'prosemirror-state';
 import SimpleConnector from './SimpleConnector';
 import EditorConnection from './EditorConnection';
 import Reporter from './Reporter';
