@@ -68,17 +68,6 @@ var options = {
         loader: 'html-loader',
         exclude: /node_modules/
       },
-      {
-        test: /mathquill\.js$/,
-        include: [/node-mathquill/],
-        // Grab the MathQuill export
-        // NOTE: window.jQuery needs to be provided through the providePlugin
-        // unless https://github.com/webpack/imports-loader/pull/21 is merged
-        // [FS] IRAD-1010 2020-07-23
-        // With the latest to generate export default MathQuill these options need to be passed into exports loader
-        // exports=default|MathQuill&type=module
-        use: ['exports-loader?exports=default|MathQuill&type=module'],
-      },
     ]
   },
   resolve: {

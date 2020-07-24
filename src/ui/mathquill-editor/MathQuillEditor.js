@@ -2,7 +2,6 @@
 
 import './czi-mathquill-editor.css';
 import * as MathQuillEditorSymbols from './MathQuillEditorSymbols';
-import MathQuill from 'node-mathquill/build/mathquill.js';
 import MathQuillEditorSymbolsPanel from './MathQuillEditorSymbolsPanel';
 import * as React from 'react';
 import ReactDOM from 'react-dom';
@@ -15,6 +14,12 @@ import injectStyleSheet from './../injectStyleSheet';
 import jquery from 'jquery';
 
 import type {MathQuillEditorSymbol} from './MathQuillEditorSymbols';
+
+// [FS] IRAD-1010 2020-07-24
+// With the latest to generate export default MathQuill these options need to be passed into exports loader
+// Moved this from webpack config to here, so that package could load fine with other application.
+const MQLoader = require('exports-loader?exports=default|MathQuill&type=module!node-mathquill/build/mathquill.js');
+const MathQuill = MQLoader.default;
 
 const MQ = MathQuill.getInterface(2);
 const CSS_CDN_URL =
