@@ -17,7 +17,7 @@ export type TableGridSizeEditorValue = {
 
 const GUTTER_SIZE = 5;
 const CELL_SIZE = 16;
-const MAX_SIZE = 20;
+const MAX_SIZE = 10;
 
 class GridCell extends React.PureComponent<any, any, any> {
   render(): React.Element<any> {

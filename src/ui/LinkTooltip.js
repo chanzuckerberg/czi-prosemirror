@@ -30,8 +30,8 @@ class LinkTooltip extends React.PureComponent<any, any, any> {
 
   render(): ?React.Element<any> {
     const {href, editorView, onEdit, onRemove} = this.props;
-    // [FS] 2020-07-09
-    // Added the "change" custom button.
+    // [FS] IRAD-1013 2020-07-09
+    // Change button in "Apply Link" missing in LICIT.
 
     return (
       <div className="czi-link-tooltip">

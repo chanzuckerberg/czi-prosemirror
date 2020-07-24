@@ -293,7 +293,9 @@ function handleDragMove(view: EditorView, event: PointerEvent): void {
 
   const tableElementStyle = tableElement.style;
   tableElementStyle.marginLeft = `${ml}px`;
-  tableElementStyle.width = Math.round(totalWidth) + 'px';
+  // [FS] IRAD-993 2020-06-26
+  // Fix:Table exceeds the canvas
+  tableElementStyle.width = Math.round(totalWidth - ml) + 'px';
   tableElementStyle.minWidth = '';
   columnElements.forEach((colEl, index) => {
     colEl.style.width = Math.round(widths[index]) + 'px';
@@ -413,7 +415,11 @@ function calculateDraggingInfo(
 
     if (tableWidth + colWidth > tableWrapperRect.width) {
       // column is too wide, make it fit.
-      colWidth -= tableWrapperRect.width - (tableWidth + colWidth);
+      // colWidth -= tableWrapperRect.width - (tableWidth + colWidth);
+      // [FS] IRAD-993 2020-06-24
+      // Fix:Table exceeds the canvas
+      const tosub = Math.abs(tableWrapperRect.width - (tableWidth + colWidth));
+      colWidth = colWidth - tosub;
     }
 
     // The edges of the column's right border.
@@ -422,8 +428,13 @@ function calculateDraggingInfo(
     const edgeLeft = tableWidth + colWidth - HANDLE_RIGHT_WIDTH / 2;
     const edgeRight = tableWidth + colWidth + HANDLE_RIGHT_WIDTH / 2;
     if (offsetLeft >= edgeLeft && offsetLeft <= edgeRight) {
-      // This is the column to resize.
-      taregtColumnIndex = ii;
+
+      // [FS] IRAD-993 2020-06-24
+      // Fix:Table exceeds the canvas
+      if (taregtColumnIndex === -1) {
+        // This is the column to resize.
+        taregtColumnIndex = ii;
+      }
     }
     tableWidth += colWidth;
     return colWidth;
@@ -534,6 +545,8 @@ function handleDecorations(
 
 // Creates a custom table view that renders the margin-left style.
 function createTableView(node: Node, view: EditorView): TableView {
+   // [FS] IRAD-1008 2020-07-16
+   // Does not allow Table cell Resize in disable mode
   isEnabled = view.editable;
   return new TableNodeView(node, CELL_MIN_WIDTH, view);
 }
@@ -608,6 +621,8 @@ export default class TableResizePlugin extends Plugin {
         },
         decorations(state: EditorState): ?DecorationSet {
           const resizeState = PLUGIN_KEY.getState(state);
+           // [FS] IRAD-1008 2020-07-16
+           // Does not allow Table cell Resize in disable mode
           return resizeState.cellPos > -1 && isEnabled
             ? handleDecorations(state, resizeState)
             : undefined;

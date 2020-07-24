@@ -70,9 +70,8 @@ export class Instance {
   // document version.
   checkVersion(version:any) {
     if (version < 0 || version > this.version) {
-      let err ={};
-      err.message= "Invalid version " + version;
-      err.status = '400';
+      let err = new Error("Invalid version " + version)
+      err.status = 400;
       throw err
     }
   }

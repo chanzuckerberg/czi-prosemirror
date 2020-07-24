@@ -12,11 +12,9 @@ export function req(conf) {
       } else {
         let text = req.responseText
         if (text && /html/.test(req.getResponseHeader("content-type"))) text = makePlain(text)
-        // let err = new Error("Request failed: " + req.statusText + (text ? "\n\n" + text : ""))
-        // err.status = req.status
-        let err = {};
-        err.message = "Request failed: " + req.statusText + (text ? "\n\n" + text : "");
-        err.status = req.status
+         let err = new Error("Request failed: " + req.statusText + (text ? "\n\n" + text : ""))
+         err.status = req.status
+        
         failure(err)
       }
     })

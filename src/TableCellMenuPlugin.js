@@ -61,6 +61,8 @@ class TableCellTooltipView {
       // Creates a new popup.
       popUp && popUp.close();
       this._cellElement = cellEl;
+      // [FS] IRAD-1009 2020-07-16
+      // Does not allow Table Menu Popuup button in disable mode
       if (!view.disabled) {
         this._popUp = createPopUp(TableCellMenu, viewPops, {
           anchor: cellEl,

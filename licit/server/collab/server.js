@@ -117,7 +117,7 @@ function nonNegInteger(str) {
   let num = Number(str)
   if (!isNaN(num) && Math.floor(num) == num && num >= 0) return num
   let err = new Error("Not a non-negative integer: " + str)
-  err.message = '400';
+  err.status = 400
   throw err
 }
 
