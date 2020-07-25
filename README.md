@@ -115,17 +115,17 @@ For using licit in your project you should follow these steps:
 npm pack
 ```  
 
-Now you will find a *licit-0.0.1.tgz* file in the licit directory. 
+Now you will find a *modusoperandi-licit-0.0.2.tgz* file in the licit directory. 
 
 Add this *.tgz* file to your own angular project and install it using the below command:
 ```
 # At your angular working directory
-npm install ./licit-0.0.1.tgz 
+npm install ./modusoperandi-licit-0.0.2.tgz 
 ```  
 
 **After this you can import licit component in your application like:**
 ```
-import { Licit } from 'licit';
+import { Licit } from '@modusoperandi/licit';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 

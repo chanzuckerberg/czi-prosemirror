@@ -45,6 +45,8 @@ class Licit extends React.Component<any, any, any> {
     this._clientID = uuid();
     this._editorView = null;
     this._skipSCU = true;
+	
+    const noop = function() {};
 
     // [FS] IRAD-981 2020-06-10
     // Component's configurations.
