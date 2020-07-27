@@ -197,7 +197,7 @@ function handleMouseDown(view: EditorView, event: MouseEvent): boolean {
     cancelDrag = null;
   };
 
-  const move = (event: MouseEvent) => {
+  const move = (event: any) => {
     if (event.which) {
       if (!dragStarted) {
         handleDragStart(view, event);
@@ -545,8 +545,8 @@ function handleDecorations(
 
 // Creates a custom table view that renders the margin-left style.
 function createTableView(node: Node, view: EditorView): TableView {
-   // [FS] IRAD-1008 2020-07-16
-   // Does not allow Table cell Resize in disable mode
+  // [FS] IRAD-1008 2020-07-16
+  // Does not allow Table cell Resize in disable mode
   isEnabled = view.editable;
   return new TableNodeView(node, CELL_MIN_WIDTH, view);
 }
@@ -561,8 +561,8 @@ function batchMouseHandler(
   const onMouseEvent = () => {
     if (view && target) {
       let pointerEvent: PointerEvent;
-      
-        pointerEvent = {
+
+      pointerEvent = {
         target,
         clientX,
         clientY,
@@ -621,8 +621,8 @@ export default class TableResizePlugin extends Plugin {
         },
         decorations(state: EditorState): ?DecorationSet {
           const resizeState = PLUGIN_KEY.getState(state);
-           // [FS] IRAD-1008 2020-07-16
-           // Does not allow Table cell Resize in disable mode
+          // [FS] IRAD-1008 2020-07-16
+          // Does not allow Table cell Resize in disable mode
           return resizeState.cellPos > -1 && isEnabled
             ? handleDecorations(state, resizeState)
             : undefined;

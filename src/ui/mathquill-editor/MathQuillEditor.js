@@ -13,7 +13,7 @@ import injectStyleSheet from './../injectStyleSheet';
 // eslint-disable-next-line no-unused-vars
 import jquery from 'jquery';
 
-import type {MathQuillEditorSymbol} from './MathQuillEditorSymbols';
+import type { MathQuillEditorSymbol } from './MathQuillEditorSymbols';
 
 // [FS] IRAD-1010 2020-07-24
 // With the latest to generate export default MathQuill these options need to be passed into exports loader
@@ -26,7 +26,7 @@ const CSS_CDN_URL =
   '//cdnjs.cloudflare.com/ajax/libs/mathquill/0.10.1/mathquill.css';
 const CSS_FONT = 'Symbola';
 
-(async function() {
+(async function () {
   const fontSupported = await canUseCSSFont(CSS_FONT);
   if (!fontSupported) {
     console.info('Add CSS from ', CSS_CDN_URL);
@@ -35,7 +35,7 @@ const CSS_FONT = 'Symbola';
   // injectStyleSheet(CSS_CDN_URL);
 })();
 
-class MathQuillElement extends React.Component<any, any, any> {
+class MathQuillElement extends React.Component<any, any> {
   shouldComponentUpdate(): boolean {
     return false;
   }
@@ -44,13 +44,13 @@ class MathQuillElement extends React.Component<any, any, any> {
     return (
       <div
         className="czi-mathquill-editor-element"
-        dangerouslySetInnerHTML={{__html: this.props.value}}
+        dangerouslySetInnerHTML={{ __html: this.props.value }}
       />
     );
   }
 }
 
-class MathQuillEditor extends React.PureComponent<any, any, any> {
+class MathQuillEditor extends React.PureComponent<any, any> {
   props: {
     value: string,
     onChange?: ?(latex: string) => void,
@@ -63,7 +63,7 @@ class MathQuillEditor extends React.PureComponent<any, any, any> {
   _latex = '';
 
   render(): React.Element<any> {
-    const {value} = this.props;
+    const { value } = this.props;
     const panels = [
       MathQuillEditorSymbols.OPERATORS,
       MathQuillEditorSymbols.STRUCTURE,
@@ -72,7 +72,7 @@ class MathQuillEditor extends React.PureComponent<any, any, any> {
     ].map(this._renderPanel);
 
     const empty = !value;
-    const className = cx('czi-mathquill-editor', {empty});
+    const className = cx('czi-mathquill-editor', { empty });
     return (
       <div className={className}>
         <div className="czi-mathquill-editor-main">
@@ -114,7 +114,7 @@ class MathQuillEditor extends React.PureComponent<any, any, any> {
   }
 
   _renderPanel = (
-    symbols: {title: string, symbols: Array<MathQuillEditorSymbol>},
+    symbols: { title: string, symbols: Array<MathQuillEditorSymbol> },
     ii: number
   ): React.Element<any> => {
     return (
@@ -127,7 +127,7 @@ class MathQuillEditor extends React.PureComponent<any, any, any> {
   };
 
   _onSymbolSelect = (symbol: MathQuillEditorSymbol): void => {
-    const {latex, cmd} = symbol;
+    const { latex, cmd } = symbol;
     const mathField = this._mathField;
     if (!mathField || !cmd || !latex) {
       return;
@@ -146,7 +146,7 @@ class MathQuillEditor extends React.PureComponent<any, any, any> {
       return;
     }
 
-    const {onChange} = this.props;
+    const { onChange } = this.props;
     const latex = mathField.latex();
     this._latex = latex;
     onChange && onChange(latex);

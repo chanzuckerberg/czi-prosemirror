@@ -4,7 +4,7 @@ import {Step} from "prosemirror-transform"
 
 import Router from "./route"
 import EditorSchema from "../../../src/EditorSchema"
-import {getInstance, instanceInfo} from "./instance"
+import {getInstance, instanceInfo,CustomError} from "./instance"
 
 const router = new Router();
 
@@ -116,7 +116,7 @@ handle("GET", ["docs", null], (id, req) => {
 function nonNegInteger(str) {
   let num = Number(str)
   if (!isNaN(num) && Math.floor(num) == num && num >= 0) return num
-  let err = new Error("Not a non-negative integer: " + str)
+  let err = new CustomError("Not a non-negative integer: " + str)
   err.status = 400
   throw err
 }

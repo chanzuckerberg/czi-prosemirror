@@ -36,7 +36,7 @@ const COMMAND_GROUPS = [
   FONT_PT_SIZE_COMMANDS,
 ];
 
-class FontSizeCommandMenuButton extends React.PureComponent<any, any, any> {
+class FontSizeCommandMenuButton extends React.PureComponent<any, any> {
   props: {
     dispatch: (tr: Transform) => void,
     editorState: EditorState,

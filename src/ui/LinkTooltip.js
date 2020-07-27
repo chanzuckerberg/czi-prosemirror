@@ -13,7 +13,7 @@ function isBookMarkHref(href: string): boolean {
   return !!href && href.indexOf('#') === 0 && href.length >= 2;
 }
 
-class LinkTooltip extends React.PureComponent<any, any, any> {
+class LinkTooltip extends React.PureComponent<any, any> {
   props: {
     editorView: EditorView,
     href: string,

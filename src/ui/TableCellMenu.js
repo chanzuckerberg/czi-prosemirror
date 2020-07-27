@@ -14,12 +14,12 @@ type Props = {
   editorView: EditorView,
 };
 
-class TableCellMenu extends React.PureComponent<any, any, any> {
+class TableCellMenu extends React.PureComponent<any, any> {
   _menu = null;
 
   props: Props;
 
-  render(): ?React.Element<any> {
+  render(): React.Element<any> {
     const {editorState, editorView} = this.props;
     return (
       <CommandMenuButton

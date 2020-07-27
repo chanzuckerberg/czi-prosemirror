@@ -14,7 +14,7 @@ import uuid from './uuid';
 
 import './czi-custom-menu-button.css';
 
-class CommandMenuButton extends React.PureComponent<any, any, any> {
+class CommandMenuButton extends React.PureComponent<any, any> {
   props: {
     className?: ?string,
     commandGroups: Array<{[string]: UICommand}>,

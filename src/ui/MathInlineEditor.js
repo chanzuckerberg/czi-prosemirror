@@ -23,7 +23,7 @@ export type MathInlineEditorValue = {
   latex: string,
 };
 
-class MathInlineEditor extends React.PureComponent<any, any, any> {
+class MathInlineEditor extends React.PureComponent<any, any> {
   props: {
     onEditEnd: () => void,
     onEditStart: () => void,

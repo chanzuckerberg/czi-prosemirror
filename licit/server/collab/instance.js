@@ -1,6 +1,6 @@
 // @flow
 
-const {readFileSync, writeFile} = require("fs")
+const { readFileSync, writeFile } = require("fs")
 
 import EditorSchema from "../../../src/EditorSchema"
 
@@ -11,15 +11,15 @@ export class Instance {
   // fix_flow_errors:  declarion to  avoid flow errors
   id = null;
   doc = null;
-  version :any;
+  version: any;
   steps = [];
   lastActive = Date.now();
   users = Object.create(null);
   userCount = 0;
   waiting = [];
-  collecting = null;
+  collecting: any;
   // end 
-  constructor(id:any, doc:any) {
+  constructor(id: any, doc: any) {
     this.id = id
     this.doc = doc || EditorSchema.node("doc", null, [EditorSchema.node("paragraph", null, [
       EditorSchema.text(" ")
@@ -39,7 +39,7 @@ export class Instance {
     if (this.collecting != null) clearInterval(this.collecting)
   }
 
-  addEvents(version:any, steps:any, clientID:any) {
+  addEvents(version: any, steps: any, clientID: any) {
     this.checkVersion(version)
     if (this.version != version) return false
     let doc = this.doc, maps = []
@@ -58,7 +58,7 @@ export class Instance {
     }
     this.sendUpdates()
     scheduleSave()
-    return {version: this.version}
+    return { version: this.version }
   }
 
   sendUpdates() {
@@ -68,9 +68,9 @@ export class Instance {
   // : (Number)
   // Check if a document version number relates to an existing
   // document version.
-  checkVersion(version:any) {
+  checkVersion(version: any) {
     if (version < 0 || version > this.version) {
-      let err = new Error("Invalid version " + version)
+      let err = new CustomError("Invalid version " + version)
       err.status = 400;
       throw err
     }
@@ -79,13 +79,15 @@ export class Instance {
   // : (Number, Number)
   // Get events between a given document version and
   // the current document version.
-  getEvents(version:any) {
+  getEvents(version: any) {
     this.checkVersion(version)
     let startIndex = this.steps.length - (this.version - version)
     if (startIndex < 0) return false
 
-    return {steps: this.steps.slice(startIndex),
-            users: this.userCount}
+    return {
+      steps: this.steps.slice(startIndex),
+      users: this.userCount
+    }
   }
 
   collectUsers() {
@@ -98,14 +100,14 @@ export class Instance {
     if (this.userCount != oldUserCount) this.sendUpdates()
   }
 
-  registerUser(ip:any) {
+  registerUser(ip: any) {
     if (!(ip in this.users)) {
       this._registerUser(ip)
       this.sendUpdates()
     }
   }
 
-  _registerUser(ip:any) {
+  _registerUser(ip: any) {
     if (!(ip in this.users)) {
       this.users[ip] = true
       this.userCount++
@@ -123,7 +125,7 @@ let saveFile = __dirname + "/../demo-instances.json", json
 if (process.argv.indexOf("--fresh") == -1) {
   try {
     json = JSON.parse(readFileSync(saveFile, "utf8"))
-  } catch (e) {}
+  } catch (e) { }
 }
 
 if (json) {
@@ -140,20 +142,20 @@ function doSave() {
   saveTimeout = null
   let out = {}
   for (var prop in instances)
-    out[prop] = {doc: instances[prop].doc.toJSON()}
+    out[prop] = { doc: instances[prop].doc.toJSON() }
   writeFile(saveFile, JSON.stringify(out), () => null)
 }
 
-export function getInstance(id:any, ip:any) {
+export function getInstance(id: any, ip: any) {
   let inst = instances[id] || newInstance(id)
   if (ip) inst.registerUser(ip)
   inst.lastActive = Date.now()
   return inst
 }
 
-function newInstance(id:any, doc:any) {
+function newInstance(id: any, doc: any) {
   if (++instanceCount > maxCount) {
-    let oldest:any = null
+    let oldest: any = null
     for (let id in instances) {
       let inst = instances[id]
       if (!oldest || inst.lastActive < oldest.lastActive) oldest = inst
@@ -168,8 +170,14 @@ function newInstance(id:any, doc:any) {
 export function instanceInfo() {
   let found = []
   for (let id in instances)
-    found.push({id: id, users: instances[id].userCount})
+    found.push({ id: id, users: instances[id].userCount })
   return found
+}
+export class CustomError extends Error {
+  status: number
+  constructor(message: string) {
+    super(message);
+  }
 }
 
 export default instanceInfo

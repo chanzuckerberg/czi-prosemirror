@@ -43,7 +43,7 @@ const ResizeDirection = {
   top_left: setSize,
 };
 
-class ImageResizeBoxControl extends React.PureComponent<any, any, any> {
+class ImageResizeBoxControl extends React.PureComponent<any, any> {
   props: {
     boxID: string,
     direction: string,
@@ -69,7 +69,7 @@ class ImageResizeBoxControl extends React.PureComponent<any, any, any> {
   }
 
   render(): React.Element<any> {
-    const {direction} = this.props;
+    const { direction } = this.props;
 
     const className = cx({
       'czi-image-resize-box-control': true,
@@ -83,7 +83,7 @@ class ImageResizeBoxControl extends React.PureComponent<any, any, any> {
     if (!this._active) {
       return;
     }
-    const {direction, width, height} = this.props;
+    const { direction, width, height } = this.props;
 
     const dx = (this._x2 - this._x1) * (/left/.test(direction) ? -1 : 1);
     const dy = (this._y2 - this._y1) * (/top/.test(direction) ? -1 : 1);
@@ -104,14 +104,14 @@ class ImageResizeBoxControl extends React.PureComponent<any, any, any> {
     this._hh = hh;
   };
 
-  _start(e: SyntheticMouseEvent): void {
+  _start(e: SyntheticMouseEvent<>): void {
     if (this._active) {
       this._end();
     }
 
     this._active = true;
 
-    const {boxID, direction, width, height} = this.props;
+    const { boxID, direction, width, height } = this.props;
     const el = nullthrows(document.getElementById(boxID));
     el.className += ' ' + direction;
 
@@ -148,7 +148,7 @@ class ImageResizeBoxControl extends React.PureComponent<any, any, any> {
     this._rafID = null;
   }
 
-  _onMouseDown = (e: SyntheticMouseEvent): void => {
+  _onMouseDown = (e: SyntheticMouseEvent<>): void => {
     e.preventDefault();
     e.stopPropagation();
     this._end();
@@ -169,7 +169,7 @@ class ImageResizeBoxControl extends React.PureComponent<any, any, any> {
     this._x2 = e.clientX;
     this._y2 = e.clientY;
 
-    const {direction} = this.props;
+    const { direction } = this.props;
     const el = nullthrows(this._el);
     el.classList.remove(direction);
 
@@ -178,13 +178,13 @@ class ImageResizeBoxControl extends React.PureComponent<any, any, any> {
   };
 }
 
-class ImageResizeBox extends React.PureComponent<any, any, any> {
+class ImageResizeBox extends React.PureComponent<any, any> {
   props: Props;
 
   _id = uuid();
 
   render(): React.Element<any> {
-    const {onResizeEnd, width, height, src} = this.props;
+    const { onResizeEnd, width, height, src } = this.props;
 
     const style = {
       height: height + 'px',

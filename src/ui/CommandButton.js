@@ -8,7 +8,7 @@ import * as React from 'react';
 import CustomButton from './CustomButton';
 import UICommand from './UICommand';
 
-class CommandButton extends React.PureComponent<any, any, any> {
+class CommandButton extends React.PureComponent<any, any> {
   props: {
     className?: ?string,
     command: UICommand,

@@ -9,7 +9,7 @@ import CustomMenu from './CustomMenu';
 import CustomMenuItem from './CustomMenuItem';
 import UICommand from './UICommand';
 
-class CommandMenu extends React.PureComponent<any, any, any> {
+class CommandMenu extends React.PureComponent<any, any> {
   _activeCommand: ?UICommand = null;
 
   props: {

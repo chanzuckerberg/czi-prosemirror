@@ -82,7 +82,7 @@ function resolveURL(runtime: ?EditorRuntime, src: ?string): ?string {
   return src;
 }
 
-class ImageViewBody extends React.PureComponent<any, any, any> {
+class ImageViewBody extends React.PureComponent<any, any> {
   props: NodeViewProps;
 
   _body = null;

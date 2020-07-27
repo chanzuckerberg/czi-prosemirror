@@ -11,7 +11,6 @@ import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
 import {MARK_TEXT_COLOR} from './MarkNames';
 import { Transform } from 'prosemirror-transform';
-import { SyntheticEvent } from 'react';
 
 class TextColorCommand extends UICommand {
   _popUp = null;

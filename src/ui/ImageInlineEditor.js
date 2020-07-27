@@ -27,7 +27,7 @@ export type ImageInlineEditorValue = {
   align: ?string,
 };
 
-class ImageInlineEditor extends React.PureComponent<any, any, any> {
+class ImageInlineEditor extends React.PureComponent<any, any> {
   props: {
     onSelect: (val: ImageInlineEditorValue) => void,
     value: ?ImageInlineEditorValue,

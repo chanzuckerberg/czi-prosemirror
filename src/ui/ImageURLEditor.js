@@ -17,7 +17,7 @@ type Props = {
   close: (href: ?ImageLike) => void,
 }; 
 
-class ImageURLEditor extends React.PureComponent<any, any, any> {
+class ImageURLEditor extends React.PureComponent<any, any> {
   _img = null;
   _unmounted = false;
 
@@ -26,7 +26,7 @@ class ImageURLEditor extends React.PureComponent<any, any, any> {
   // To take care of the property type declaration.
   static propsTypes = {
     initialValue: PropTypes.object,
-	close: function(props, propName, componentName) {
+	close: function(props:any, propName:string) {
         var fn = props[propName];
         if(!fn.prototype ||
            (typeof fn.prototype.constructor !== 'function' &&
@@ -88,7 +88,7 @@ class ImageURLEditor extends React.PureComponent<any, any, any> {
     );
   }
 
-  _onSrcChange = (e: SyntheticInputEvent) => {
+  _onSrcChange = (e: SyntheticInputEvent<>) => {
     const src = e.target.value;
     this.setState(
       {

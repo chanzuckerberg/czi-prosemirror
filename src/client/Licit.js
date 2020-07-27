@@ -32,8 +32,8 @@ import './licit.css';
  *  disabled {boolean} [false] Disable the editor.
  *  embedded {boolean} [false] Disable/Enable inline behaviour.
  */
-class Licit extends React.Component<any, any, any> {
-  _runtime:  EditorRuntime;
+class Licit extends React.Component<any, any> {
+  _runtime: EditorRuntime;
   _connector: any;
   _clientID: string;
   _editorView: EditorView; // This will be handy in updating document's content.
@@ -45,8 +45,8 @@ class Licit extends React.Component<any, any, any> {
     this._clientID = uuid();
     this._editorView = null;
     this._skipSCU = true;
-	
-    const noop = function() {};
+
+    const noop = function () { };
 
     // [FS] IRAD-981 2020-06-10
     // Component's configurations.
@@ -89,7 +89,7 @@ class Licit extends React.Component<any, any, any> {
     };
   }
 
-  setContent = (content = {}): void => {
+  setContent = (content: any = {}): void => {
     const { doc, tr, schema } = this._connector.getState();
     const document = content
       ? schema.nodeFromJSON(content)
@@ -104,7 +104,7 @@ class Licit extends React.Component<any, any, any> {
     this._editorView.dispatch(transaction);
   }
 
-  shouldComponentUpdate(nextProps:any, nextState:any) {
+  shouldComponentUpdate(nextProps: any, nextState: any) {
     // Only interested if properties are set from outside.
     if (!this._skipSCU) {
       this._skipSCU = false;
@@ -209,7 +209,7 @@ class Licit extends React.Component<any, any, any> {
   *  disabled {boolean} [false] Disable the editor.
   *  embedded {boolean} [false] Disable/Enable inline behaviour.
   */
-  setProps = (props): void => {
+  setProps = (props: any): void => {
     if (this.state.readOnly) {
       // It should be possible to load content into the editor in readonly as well.
       // It should not be necessary to make the component writable any time during the process

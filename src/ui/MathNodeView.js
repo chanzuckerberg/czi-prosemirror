@@ -20,7 +20,7 @@ const EMPTY_SRC =
   'data:image/gif;base64,' +
   'R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
 
-class MathViewBody extends React.PureComponent<any, any, any> {
+class MathViewBody extends React.PureComponent<any, any> {
   props: NodeViewProps;
 
   state = {

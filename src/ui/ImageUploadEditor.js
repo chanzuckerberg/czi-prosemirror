@@ -13,7 +13,7 @@ import './czi-image-upload-editor.css';
 
 import type {EditorRuntime, ImageLike} from '../Types';
 
-class ImageUploadEditor extends React.PureComponent<any, any, any> {
+class ImageUploadEditor extends React.PureComponent<any, any> {
   _img = null;
   _unmounted = false;
 
@@ -69,7 +69,7 @@ class ImageUploadEditor extends React.PureComponent<any, any, any> {
     );
   }
 
-  _onSelectFile = (event: SyntheticInputEvent): void => {
+  _onSelectFile = (event: SyntheticInputEvent<>): void => {
     const file = event.target.files && event.target.files[0];
     if (file && typeof file === 'object') {
       this._upload(file);

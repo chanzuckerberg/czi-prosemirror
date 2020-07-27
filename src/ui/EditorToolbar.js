@@ -18,7 +18,7 @@ import isReactClass from './isReactClass';
 
 import './czi-editor-toolbar.css';
 
-class EditorToolbar extends React.PureComponent<any, any, any> {
+class EditorToolbar extends React.PureComponent<any, any> {
   _body = null;
 
   props: {

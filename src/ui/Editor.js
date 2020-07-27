@@ -109,7 +109,7 @@ function getSchema(editorState: ?EditorState): Schema {
   return editorState ? editorState.schema : EDITOR_EMPTY_STATE.schema;
 }
 
-class Editor extends React.PureComponent<any, any, any> {
+class Editor extends React.PureComponent<any, any> {
   static EDITOR_EMPTY_STATE = EDITOR_EMPTY_STATE;
 
   _autoFocusTimer = 0;

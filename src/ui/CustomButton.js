@@ -8,7 +8,7 @@ import cx from 'classnames';
 
 import type {PointerSurfaceProps} from './PointerSurface';
 
-class CustomButton extends React.PureComponent<any, any, any> {
+class CustomButton extends React.PureComponent<any, any> {
   props: PointerSurfaceProps & {
     icon?: string | React.Element<any> | null,
     label?: string | React.Element<any> | null,

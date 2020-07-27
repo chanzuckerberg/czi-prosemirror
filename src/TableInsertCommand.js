@@ -11,7 +11,6 @@ import {atAnchorRight} from './ui/PopUpPosition';
 import TableGridSizeEditor from './ui/TableGridSizeEditor';
 import UICommand from './ui/UICommand';
 import createPopUp from './ui/createPopUp';
-import { SyntheticEvent } from 'react';
 import type {TableGridSizeEditorValue} from './ui/TableGridSizeEditor';
 
 class TableInsertCommand extends UICommand {

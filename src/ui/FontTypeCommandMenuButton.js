@@ -20,7 +20,7 @@ FONT_TYPE_NAMES.forEach(name => {
 
 const COMMAND_GROUPS = [FONT_TYPE_COMMANDS];
 
-class FontTypeCommandMenuButton extends React.PureComponent<any, any, any> {
+class FontTypeCommandMenuButton extends React.PureComponent<any, any> {
   props: {
     dispatch: (tr: Transform) => void,
     editorState: EditorState,

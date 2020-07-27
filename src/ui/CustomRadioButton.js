@@ -9,7 +9,7 @@ import preventEventDefault from './preventEventDefault';
 
 import type {PointerSurfaceProps} from './PointerSurface';
 
-class CustomRadioButton extends React.PureComponent<any, any, any> {
+class CustomRadioButton extends React.PureComponent<any, any> {
   props: PointerSurfaceProps & {
     checked?: ?boolean,
     inline?: ?boolean,

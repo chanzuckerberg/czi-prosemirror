@@ -15,7 +15,7 @@ import './czi-bookmark-view.css';
 
 import type {NodeViewProps} from './CustomNodeView';
 
-class BookmarkViewBody extends React.PureComponent<any, any, any> {
+class BookmarkViewBody extends React.PureComponent<any, any> {
   props: NodeViewProps;
 
   render(): React.Element<any> {

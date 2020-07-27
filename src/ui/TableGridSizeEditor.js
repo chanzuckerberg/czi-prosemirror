@@ -19,7 +19,7 @@ const GUTTER_SIZE = 5;
 const CELL_SIZE = 16;
 const MAX_SIZE = 10;
 
-class GridCell extends React.PureComponent<any, any, any> {
+class GridCell extends React.PureComponent<any, any> {
   render(): React.Element<any> {
     const {x, y, selected} = this.props;
     const style = {
@@ -35,7 +35,7 @@ class GridCell extends React.PureComponent<any, any, any> {
   }
 }
 
-class TableGridSizeEditor extends React.PureComponent<any, any, any> {
+class TableGridSizeEditor extends React.PureComponent<any, any> {
   _ex = 0;
   _ey = 0;
   _mx = 0;

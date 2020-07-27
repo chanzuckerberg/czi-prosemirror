@@ -3,6 +3,7 @@
 import { Transform } from 'prosemirror-transform';
 import { EditorState } from 'prosemirror-state';
 import SimpleConnector from './SimpleConnector';
+import type { SetStateCall } from './SimpleConnector';
 import EditorConnection from './EditorConnection';
 import Reporter from './Reporter';
 import ReactDOM from 'react-dom';
@@ -18,13 +19,13 @@ class CollabConnector extends SimpleConnector {
 
   constructor(
     editorState: EditorState,
-    setState: ReactSetStateCall,
+    setState: SetStateCall,
     config: {
       docID: IdStrict,
     },
   ) {
     super(editorState, setState);
-    const {docID} = config;
+    const { docID } = config;
     this._docID = docID;
 
     // [FS][11-MAR-2020]
@@ -36,13 +37,13 @@ class CollabConnector extends SimpleConnector {
     this._connection = new EditorConnection(
       setState,
       new Reporter(),
-       url,
+      url,
     );
 
     this._connection.view = {
       updateState: (s) => {
         console.log('update', s);
-        setState({editorState: s}, () => {});
+        setState({ editorState: s }, () => { });
       },
     };
   }
@@ -53,7 +54,7 @@ class CollabConnector extends SimpleConnector {
       return;
     }
     ReactDOM.unstable_batchedUpdates(() => {
-      this._connection.dispatch({type: 'transaction', transaction});
+      this._connection.dispatch({ type: 'transaction', transaction });
     });
   };
 }
