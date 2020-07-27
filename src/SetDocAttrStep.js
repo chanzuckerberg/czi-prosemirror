@@ -1,7 +1,7 @@
 // @flow
 
 import {Node} from 'prosemirror-model';
-import {Step, StepResult} from 'prosemirror-transform';
+import {Step, StepResult, Mappable} from 'prosemirror-transform';
 
 type SetDocAttrStepJSONValue = {
   key: string,
@@ -36,8 +36,17 @@ class SetDocAttrStep extends Step {
     return new SetDocAttrStep(this.key, this.prevValue, 'revertSetDocAttr');
   }
 
-  map(): ?Object {
-    return null;
+  map(mapping: Mappable): ?SetDocAttrStep {
+    var from = mapping.mapResult(this.from, 1), to = mapping.mapResult(this.to, -1);
+    if (from.deleted && to.deleted) { return null }
+    return new SetDocAttrStep(this.key, this.value, 'SetDocAttr');
+  }
+
+  merge(other: SetDocAttrStep): ?SetDocAttrStep {
+    if (other instanceof SetDocAttrStep &&
+        other.mark.eq(this.mark) &&
+        this.from <= other.to && this.to >= other.from)
+      { return new SetDocAttrStep(this.key, this.value, 'SetDocAttr') }
   }
 
   toJSON(): SetDocAttrStepJSONValue {
