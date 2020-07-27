@@ -36,6 +36,8 @@ class SetDocAttrStep extends Step {
     return new SetDocAttrStep(this.key, this.prevValue, 'revertSetDocAttr');
   }
 
+  // [FS] IRAD-1010 2020-07-27
+  // Handle map properly so that undo works correctly for document attritube changes.  
   map(mapping: Mappable): ?SetDocAttrStep {
     var from = mapping.mapResult(this.from, 1), to = mapping.mapResult(this.to, -1);
     if (from.deleted && to.deleted) { return null }
