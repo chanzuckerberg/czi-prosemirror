@@ -22,7 +22,7 @@ function badVersion(err: Object) {
 }
 
 class State {
-  edit: ?EditorState;
+  edit: EditorState;
   comm: ?string;
 
   constructor(edit: ?EditorState, comm: ?string) {

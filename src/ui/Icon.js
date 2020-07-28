@@ -52,7 +52,7 @@ class Icon extends React.PureComponent<any, any> {
     const {type, title} = this.props;
     let className = '';
     let children = '';
-    if (type === 'superscript') {
+    if (type == 'superscript') {
       className = cx('czi-icon', {[type]: true});
       children = <SuperscriptIcon />;
     } else if (!type || !VALID_CHARS.test(type)) {

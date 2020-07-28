@@ -27,7 +27,7 @@ class MathInlineEditor extends React.PureComponent<any, any> {
   props: {
     onEditEnd: () => void,
     onEditStart: () => void,
-    onSelect: (val: MathInlineEditorValue) => void,
+    onSelect: (val: any) => void,
     value: ?MathInlineEditorValue,
     editorView: ?CustomEditorView,
   };
@@ -39,10 +39,10 @@ class MathInlineEditor extends React.PureComponent<any, any> {
   }
 
   render(): React.Element<any> {
-    const {align, latex} = this.props.value || {};
+    const { align, latex } = this.props.value || {};
     const onClick = this._onClick;
     const buttons = Object.keys(MathAlignValues).map(key => {
-      const {value, text} = MathAlignValues[key];
+      const { value, text } = MathAlignValues[key];
       return (
         <CustomButton
           active={align === value}
@@ -69,14 +69,14 @@ class MathInlineEditor extends React.PureComponent<any, any> {
 
   _onClick = (align: ?string): void => {
     const value = this.props.value || {};
-    this.props.onSelect({...value, align});
+    this.props.onSelect({ ...value, align });
   };
 
   _editLatex = (latex: string): void => {
     if (this._popUp) {
       return;
     }
-    const {editorView, value} = this.props;
+    const { editorView, value } = this.props;
     const props = {
       runtime: editorView ? editorView.runtime : null,
       initialValue: (value && value.latex) || '',
@@ -89,7 +89,7 @@ class MathInlineEditor extends React.PureComponent<any, any> {
           this._popUp = null;
           if (latex !== undefined) {
             const value = this.props.value || {};
-            this.props.onSelect({...value, latex});
+            this.props.onSelect({ ...value, latex });
           }
           this.props.onEditEnd();
         }

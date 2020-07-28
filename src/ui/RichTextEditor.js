@@ -3,7 +3,6 @@
 import {Transform} from 'prosemirror-transform';
 import {EditorView} from 'prosemirror-view';
 import * as React from 'react';
-import  ReactChildren from 'react';
 
 import createEmptyEditorState from '../createEmptyEditorState';
 import Editor from './Editor';
@@ -16,8 +15,7 @@ import type {EditorFramesetProps} from './EditorFrameset';
 import type {EditorProps} from './Editor';
 
 type Props = EditorFramesetProps &
-  EditorProps & {
-    children?: ?React.Children,
+  EditorProps & { children?: ?any,
   };
 
 type State = {

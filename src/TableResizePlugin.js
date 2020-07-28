@@ -132,7 +132,7 @@ function handleMouseMove(view: EditorView, event: PointerEvent): void {
   let forMarginLeft = false;
   let cell = -1;
 
-  if (target instanceof HTMLElement) {
+  if (target instanceof HTMLTableCellElement){
     const { left, right } = target.getBoundingClientRect();
     const offsetLeft = event.clientX - left;
     // [FS] IRAD-949 2020-05-27
@@ -554,7 +554,7 @@ function createTableView(node: Node, view: EditorView): TableView {
 function batchMouseHandler(
   handler: (view: EditorView, pe: PointerEvent) => void
 ): (view: EditorView, me: MouseEvent) => void {
-  let target = null;
+  let target: any = null;
   let clientX = 0;
   let clientY = 0;
   let view = null;

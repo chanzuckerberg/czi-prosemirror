@@ -1,7 +1,6 @@
 // @flow
 
 import * as React from 'react';
-
 import { LAYOUT } from '../DocNodeSpec';
 import CustomButton from './CustomButton';
 import CustomRadioButton from './CustomRadioButton';
@@ -33,10 +32,12 @@ class DocLayoutEditor extends React.PureComponent<any, any> {
   // Upgrade outdated packages.
   // To take care of the property type declaration.
   static propsTypes = {
-    initialValue: PropTypes.shape({
-      layout: PropTypes.string,
-      width: PropTypes.number,
-    }),
+
+    // initialValue: PropTypes.shape({
+    //   layout: PropTypes.string,
+    //   width: PropTypes.number,
+    // }),
+    
     close: function (props: any, propName: string) {
       var fn = props[propName];
       if (!fn.prototype ||

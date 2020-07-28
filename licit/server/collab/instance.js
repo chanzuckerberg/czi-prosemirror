@@ -12,7 +12,7 @@ export class Instance {
   id = null;
   doc = null;
   version: any;
-  steps = [];
+  steps: any[] = [];
   lastActive = Date.now();
   users = Object.create(null);
   userCount = 0;
@@ -26,7 +26,7 @@ export class Instance {
     ])])
     // The version number of the document instance.
     this.version = 0
-    this.steps = []
+    this.steps = [];
     this.lastActive = Date.now()
     this.users = Object.create(null)
     this.userCount = 0
@@ -84,10 +84,15 @@ export class Instance {
     let startIndex = this.steps.length - (this.version - version)
     if (startIndex < 0) return false
 
-    return {
-      steps: this.steps.slice(startIndex),
-      users: this.userCount
-    }
+    // return {
+    //   steps: this.steps.slice(startIndex),
+    //   users: this.userCount
+    // }
+
+
+    let steps: any[] = this.steps.slice(startIndex);
+    let users = this.userCount;
+    return { 'steps': steps, 'users': users }
   }
 
   collectUsers() {
@@ -143,7 +148,7 @@ function doSave() {
   let out = {}
   for (var prop in instances)
     out[prop] = { doc: instances[prop].doc.toJSON() }
-  writeFile(saveFile, JSON.stringify(out), () => null)
+  writeFile(saveFile, JSON.stringify(out), () => { null })
 }
 
 export function getInstance(id: any, ip: any) {

@@ -28,7 +28,7 @@ class LinkTooltip extends React.PureComponent<any, any> {
     hidden: false,
   };
 
-  render(): ?React.Element<any> {
+  render(): React.Element<any> {
     const {href, editorView, onEdit, onRemove} = this.props;
     // [FS] IRAD-1013 2020-07-09
     // Change button in "Apply Link" missing in LICIT.

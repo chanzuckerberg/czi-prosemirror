@@ -98,7 +98,7 @@ var options = {
 };
 
 if (env.NODE_ENV === 'development') {
-  options.devtool = 'cheap-module-eval-source-map';
+  options.devtool = 'source-map';
 } else {
 // [FS] IRAD-1005 2020-07-10
 // Upgrade outdated packages.  

@@ -22,7 +22,7 @@ function main(): void {
   // To pass runtime to handle the upload image from angular App
   // null means it will take licit EditorRuntime
   const runTime = new CustomLicitRuntime();  
-  ReactDOM.render(<Licit docID={0} debug={false} width={'100vw'} height={'100vh'} onChange={onChangeCB} onReady={onReadyCB} data={docJSON} embedded={false} runtime={null} />, el);
+  ReactDOM.render(<Licit docID={1} debug={false} width={'100vw'} height={'100vh'} onChange={onChangeCB} onReady={onReadyCB} data={docJSON} embedded={false} runtime={null} />, el);
 }
 
 function onChangeCB(data) {

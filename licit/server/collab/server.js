@@ -1,15 +1,15 @@
 // @flow
 
-import {Step} from "prosemirror-transform"
+import { Step } from "prosemirror-transform"
 
 import Router from "./route"
 import EditorSchema from "../../../src/EditorSchema"
-import {getInstance, instanceInfo,CustomError} from "./instance"
+import { getInstance, instanceInfo, CustomError } from "./instance"
 
 const router = new Router();
 
-function handleCollabRequest(req:any, resp:any) {  
-  if(!router.resolve(req, resp)) {  
+function handleCollabRequest(req: any, resp: any) {
+  if (!router.resolve(req, resp)) {
     const method = req.method.toUpperCase();
     if (method === 'OPTIONS') {
       const headers = {
@@ -18,13 +18,13 @@ function handleCollabRequest(req:any, resp:any) {
         'Access-Control-Allow-Credential': false,
         'Access-Control-Max-Age': 86400, // 24hrs
         'Access-Control-Allow-Headers':
-        'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept'
-        };
-        resp.writeHead(200, headers);
-        resp.end();
+          'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept'
+      };
+      resp.writeHead(200, headers);
+      resp.end();
     } else {
-        resp.writeHead(404, {'Content-Type': 'text/plain'});
-        resp.end('Not found');
+      resp.writeHead(404, { 'Content-Type': 'text/plain' });
+      resp.end('Not found');
     }
   }
 }
@@ -49,14 +49,14 @@ class Output {
   }
 
   // Write the response.
-  resp(resp:any) {
+  resp(resp: any) {
     const headers = {
       'Access-Control-Allow-Origin': '*',
       'Content-Type': this.type
     };
     resp.writeHead(this.code, headers)
     resp.end(this.body)
-    
+
   }
 }
 
@@ -108,9 +108,11 @@ handle("GET", ["docs"], () => {
 // Output the current state of a document instance.
 handle("GET", ["docs", null], (id, req) => {
   let inst = getInstance(id, reqIP(req))
-  return Output.json({doc_json: inst.doc.toJSON(),
-                      users: inst.userCount,
-                      version: inst.version})
+  return Output.json({
+    doc_json: inst.doc.toJSON(),
+    users: inst.userCount,
+    version: inst.version
+  })
 })
 
 function nonNegInteger(str) {
@@ -126,12 +128,12 @@ function nonNegInteger(str) {
 // event data to the client.
 class Waiting {
   // fix_flow_errors:  declarion to  avoid flow errors
-    resp = null
-    inst = null
-    ip = ''
-    finish = null
-    done = false
-    //end
+  resp = null
+  inst: any = null
+  ip = ''
+  finish = null
+  done = false
+  //end
   constructor(resp, inst, ip, finish) {
     this.resp = resp
     this.inst = inst
@@ -159,10 +161,12 @@ class Waiting {
 }
 
 function outputEvents(inst, data) {
-  return Output.json({version: inst.version,
-                      steps: data.steps.map(s => s.toJSON()),
-                      clientIDs: data.steps.map(step => step.clientID),
-                      users: data.users})
+  return Output.json({
+    version: inst.version,
+    steps: data.steps.map(s => s.toJSON()),
+    clientIDs: data.steps.map(step => step.clientID),
+    users: data.users
+  })
 }
 
 // An endpoint for a collaborative document instance which
