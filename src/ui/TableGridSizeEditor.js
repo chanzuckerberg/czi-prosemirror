@@ -17,7 +17,9 @@ export type TableGridSizeEditorValue = {
 
 const GUTTER_SIZE = 5;
 const CELL_SIZE = 16;
-const MAX_SIZE = 10;
+// [FS] IRAD-1012 2020-07-14
+// Fix: Limited Table Grid size from 20 to 7
+const MAX_SIZE = 7;
 
 class GridCell extends React.PureComponent<any, any> {
   render(): React.Element<any> {

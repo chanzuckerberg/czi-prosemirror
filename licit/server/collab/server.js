@@ -4,9 +4,9 @@ import { Step } from "prosemirror-transform"
 
 import Router from "./route"
 import EditorSchema from "../../../src/EditorSchema"
-import { getInstance, instanceInfo, CustomError } from "./instance"
+import { getInstance, instanceInfo } from "./instance"
 // [FS] IRAD-899 2020-03-13
-// This is for document attributes. Shared Step, so that capcomode can be dealt collaboratively.
+// This is for Capcomode document attribute. Shared Step, so that capcomode can be dealt collaboratively.
 import SetDocAttrStep from "../../../src/SetDocAttrStep";
 
 const router = new Router();
@@ -60,6 +60,13 @@ class Output {
     resp.writeHead(this.code, headers)
     resp.end(this.body)
 
+  }
+}
+
+class CustomError extends Error {
+  status: number
+  constructor(message: string) {
+    super(message);
   }
 }
 
