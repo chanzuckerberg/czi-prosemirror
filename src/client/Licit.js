@@ -31,6 +31,7 @@ import './licit.css';
  *  data {JSON} [null] Document data to be loaded into the editor.
  *  disabled {boolean} [false] Disable the editor.
  *  embedded {boolean} [false] Disable/Enable inline behaviour.
+ *  plugins [plugins] External Plugins into the editor.
  */
 class Licit extends React.Component<any, any> {
   _runtime: EditorRuntime;
@@ -40,6 +41,7 @@ class Licit extends React.Component<any, any> {
   _skipSCU: boolean; // Flag to decide whether to skip shouldComponentUpdate
 
   constructor(props: any, context: any) {
+
     super(props, context);
 
     this._clientID = uuid();
@@ -64,8 +66,8 @@ class Licit extends React.Component<any, any> {
     // [FS] 2020-07-03
     // Handle Image Upload from Angular App
     const runtime = props.runtime ? props.runtime : new LicitRuntime();
-    const editorState = convertFromJSON(data);
-
+    const plugins = props.plugins || null;
+    const editorState = convertFromJSON(data, null, plugins);
     const setState = this.setState.bind(this);
     this._connector = collaborative
       ? new CollabConnector(editorState, setState, { docID })
