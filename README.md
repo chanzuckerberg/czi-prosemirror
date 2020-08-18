@@ -160,7 +160,7 @@ Please refer *licit\client\index.js* for getting more detailed idea on passing p
 | disabled|To disable the editor|false
 | embedded|To disable/enable inline behavior of the editor|false
 | runtime|To pass runtime to the editor. No value means default EditorRuntime | Expects a post method '*saveimage?fn=*' in the server with input parameters *File name and File object*, and this post method parse the form data and return response in JSON format (*{id: string, height: < height of the image>, src: <relative/full_path_of_the_image>, width: < width_of_the_image>}*). Please refer *licit\utils\build_web_server.js* for '*saveimage*' method sample.
-| plugins| Array of prosemirror plugin object to pass external prosemirror plugins to the editor. No value means no external plugins | Expects a  method '*getEffectiveSchema*' in the prosemirror plugin object that return new schema(editor schema+plugin schema) with input parameters *schema*
+| plugins| Array of prosemirror plugin object to pass external prosemirror plugins to the editor. No value means no external plugins | Expects a method '*getEffectiveSchema*' in the prosemirror plugin object that returns new schema object which is the effective schema modified with the current editor schema, that is passed as the input parameter to this method.
 
 |Event Name| Description|Parameter| 
 |--|--|--|
