@@ -1,6 +1,6 @@
 [include]
 .*/src/.*
-
+.*/licit/.*
 [ignore]
 .*/dist/.*
 .*/bin/.*
