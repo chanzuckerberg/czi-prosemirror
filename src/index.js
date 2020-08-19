@@ -7,3 +7,4 @@ export { default as uuid } from './ui/uuid';
 // Export Licit as a component
 export { default as Licit } from './client/Licit.js';
 export { ImageLike, EditorRuntime } from './Types';
+export { GET, POST } from './client/http';
