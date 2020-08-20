@@ -1,7 +1,7 @@
 // @flow
 
 import cx from 'classnames';
-import React from 'react';
+import * as React from 'react';
 
 import canUseCSSFont from './canUseCSSFont';
 import injectStyleSheet from './injectStyleSheet';
@@ -23,7 +23,7 @@ const CSS_FONT = 'Material Icons';
   }
 })();
 
-class SuperscriptIcon extends React.PureComponent<any, any, any> {
+class SuperscriptIcon extends React.PureComponent<any, any> {
   render(): React.Element<any> {
     return (
       <span className="superscript-wrap">
@@ -34,7 +34,7 @@ class SuperscriptIcon extends React.PureComponent<any, any, any> {
   }
 }
 
-class Icon extends React.PureComponent<any, any, any> {
+class Icon extends React.PureComponent<any, any> {
   // Get the static Icon.
   static get(type: string, title: ?string): React.Element<any> {
     const key = `${type || ''}-${title || ''}`;
@@ -52,7 +52,7 @@ class Icon extends React.PureComponent<any, any, any> {
     const {type, title} = this.props;
     let className = '';
     let children = '';
-    if (type === 'superscript') {
+    if (type == 'superscript') {
       className = cx('czi-icon', {[type]: true});
       children = <SuperscriptIcon />;
     } else if (!type || !VALID_CHARS.test(type)) {

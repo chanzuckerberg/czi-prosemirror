@@ -35,7 +35,7 @@ export type ResizeObserverEntry = {
 
 let instance: ?ResizeObserver = null;
 
-const nodesObserving: Map<Element, Array<ResizeCallback>> = new Map();
+const nodesObserving: Map<Element, Array<ResizeCallback>> = new Map<any, any>();
 
 function onResizeObserve(entries: Entries): void {
   entries.forEach(handleResizeObserverEntry);

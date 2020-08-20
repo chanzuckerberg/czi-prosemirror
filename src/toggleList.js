@@ -24,18 +24,30 @@ export default function toggleList(
     return tr;
   }
 
-  const { from } = selection;
+  // [FS][04-AUG-2020][IRAD-955]
+  // Fix Unable to apply list using Ctrl+A selection
+  let { from, to } = selection;
+  let newselection = null;
+
+  if (from === 0) {
+    from = 1;
+    newselection = TextSelection.create(doc, from, to);
+    tr = tr.setSelection(newselection);
+  }
 
   const fromSelection = TextSelection.create(doc, from, from);
   const paragraph = schema.nodes[PARAGRAPH];
   const heading = schema.nodes[HEADING];
   const result = findParentNodeOfType(listNodeType)(fromSelection);
+  const p = findParentNodeOfType(paragraph)(fromSelection);
+  const h = findParentNodeOfType(heading)(fromSelection);
+
   if (result) {
     tr = unwrapNodesFromList(tr, schema, result.pos);
-  } else if (paragraph && findParentNodeOfType(paragraph)(fromSelection)) {
-    tr = wrapNodesWithList(tr, schema, listNodeType);
-  } else if (heading && findParentNodeOfType(heading)(fromSelection)) {
-    tr = wrapNodesWithList(tr, schema, listNodeType);
+  } else if (paragraph && p) {
+    tr = wrapNodesWithList(tr, schema, listNodeType, newselection);
+  } else if (heading && h) {
+    tr = wrapNodesWithList(tr, schema, listNodeType, newselection);
   }
   return tr;
 }
@@ -56,24 +68,33 @@ export function unwrapNodesFromList(
 function wrapNodesWithList(
   tr: Transform,
   schema: Schema,
-  listNodeType: NodeType
+  listNodeType: NodeType, newselection = null
 ): Transform {
+
   return transformAndPreserveTextSelection(tr, schema, memo => {
-    return consolidateListNodes(wrapNodesWithListInternal(memo, listNodeType));
+    // [FS][04-AUG-2020][IRAD-955]
+    // Fix Unable to apply list using Ctrl+A selection
+    return consolidateListNodes(wrapNodesWithListInternal(memo, listNodeType, newselection));
   });
+
 }
 
 function wrapNodesWithListInternal(
   memo: SelectionMemo,
-  listNodeType: NodeType
+  listNodeType: NodeType, newselection = null
 ): Transform {
   const { schema } = memo;
   let { tr } = memo;
   const { doc, selection } = tr;
+  let { from, to } = selection;
   if (!tr || !selection) {
     return tr;
   }
-  const { from, to } = selection;
+  if (newselection) {
+    from = newselection.from;
+    to = newselection.to;
+  }
+
 
   const paragraph = schema.nodes[PARAGRAPH];
   const heading = schema.nodes[HEADING];

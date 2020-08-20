@@ -68,14 +68,6 @@ var options = {
         loader: 'html-loader',
         exclude: /node_modules/
       },
-      {
-        test: /mathquill\.js$/,
-        include: [/node-mathquill/],
-        // Grab the MathQuill export
-        // NOTE: window.jQuery needs to be provided through the providePlugin
-        // unless https://github.com/webpack/imports-loader/pull/21 is merged
-        use: ['exports-loader?MathQuill'],
-      },
     ]
   },
   resolve: {
@@ -87,7 +79,7 @@ var options = {
       'window.jQuery': 'jquery',
     }),
     // type checker 
-    ... (env.NODE_ENV === 'development') ? [new FlowWebpackPlugin()] : [],
+    ... (env.NODE_ENV === 'development') ? [new FlowWebpackPlugin({flowArgs: ['--show-all-errors']})] : [],
     // clean the web folder
     new CleanWebpackPlugin(),
     // expose and write the allowed env vars on the compiled bundle
@@ -106,7 +98,7 @@ var options = {
 };
 
 if (env.NODE_ENV === 'development') {
-  options.devtool = 'cheap-module-eval-source-map';
+  options.devtool = 'source-map';
 } else {
 // [FS] IRAD-1005 2020-07-10
 // Upgrade outdated packages.  

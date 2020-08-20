@@ -6,7 +6,7 @@ const env = require('./env');
 const path = require('path');
 
 const config = {
-  mode: 'development',//production
+  mode: 'production',//development
   entry: { 
     run_image_server: path.join(__dirname, '../licit', 'server/image', 'start.js'),
   },
@@ -22,8 +22,22 @@ const config = {
         exclude: /node_modules/,
         loader: 'babel-loader',
         options: {
-          presets: [['@babel/preset-env', { 'targets': { 'esmodules': true } }], '@babel/preset-react'],
-          plugins: ['@babel/plugin-proposal-class-properties'],
+          presets: [['@babel/preset-env', { 'targets': { 'esmodules': true } }], '@babel/preset-react', '@babel/preset-flow'],
+          plugins: [
+            '@babel/plugin-proposal-class-properties',
+            '@babel/plugin-proposal-export-default-from',
+            [
+              '@babel/plugin-transform-runtime',
+              {
+                helpers: true,
+                regenerator: true,
+              },
+            ],
+            'flow-react-proptypes',
+            '@babel/plugin-proposal-object-rest-spread',
+            '@babel/plugin-transform-flow-strip-types',
+            '@babel/plugin-syntax-dynamic-import',
+          ],
         },
       },
     ],
@@ -42,7 +56,7 @@ const config = {
     new WriteFilePlugin(),
   ],
   // to enable debug
-  devtool: 'source-map'
+  //devtool: 'source-map'
 };
 
 webpack(

@@ -2,7 +2,7 @@
 
 import {Plugin, PluginKey} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
-import React from 'react';
+import * as React from 'react';
 import ReactDOM from 'react-dom';
 
 import isEditorStateEmpty from './isEditorStateEmpty';

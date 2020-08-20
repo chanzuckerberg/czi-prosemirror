@@ -115,17 +115,17 @@ For using licit in your project you should follow these steps:
 npm pack
 ```  
 
-Now you will find a *licit-0.0.1.tgz* file in the licit directory. 
+Now you will find a *modusoperandi-licit-0.0.2.tgz* file in the licit directory. 
 
 Add this *.tgz* file to your own angular project and install it using the below command:
 ```
 # At your angular working directory
-npm install ./licit-0.0.1.tgz 
+npm install ./modusoperandi-licit-0.0.2.tgz 
 ```  
 
 **After this you can import licit component in your application like:**
 ```
-import { Licit } from 'licit';
+import { Licit } from '@modusoperandi/licit';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
@@ -160,6 +160,7 @@ Please refer *licit\client\index.js* for getting more detailed idea on passing p
 | disabled|To disable the editor|false
 | embedded|To disable/enable inline behavior of the editor|false
 | runtime|To pass runtime to the editor. No value means default EditorRuntime | Expects a post method '*saveimage?fn=*' in the server with input parameters *File name and File object*, and this post method parse the form data and return response in JSON format (*{id: string, height: < height of the image>, src: <relative/full_path_of_the_image>, width: < width_of_the_image>}*). Please refer *licit\utils\build_web_server.js* for '*saveimage*' method sample.
+| plugins| Array of prosemirror plugin object to pass external prosemirror plugins to the editor. No value means no external plugins | Expects a method '*getEffectiveSchema*' in the prosemirror plugin object that returns new schema object which is the effective schema modified with the current editor schema, that is passed as the input parameter to this method.
 
 |Event Name| Description|Parameter| 
 |--|--|--|
@@ -175,6 +176,13 @@ Either in *angular.json*, add
 OR 
 in the default global CSS file *src\styles.scss*, add
 *@import  "~licit/dist/styles.css"*
+
+
+MathQuill requires jQuery 1.5.2+ to be loaded first:
+In *angular.json*, add
+ *"scripts": [
+ "node_modules/jquery/dist/jquery.min.js",
+]*
 
 Run *npm start* to see the licit editor inside the angular application.
 

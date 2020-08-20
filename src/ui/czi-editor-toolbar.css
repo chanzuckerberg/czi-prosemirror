@@ -56,7 +56,9 @@
   background: #fff;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.26);
   box-sizing: border-box;
-  min-width: 450px;
+  /* [FS] IRAD-1018 2020-08-13
+     Handle map properly so that undo works correctly for */
+   /* min-width: 450px; */
   overflow: hidden;
   padding: 2px 40px 2px 0;
   position: relative;

@@ -23,7 +23,7 @@ class TextHighlightCommand extends UICommand {
     state: EditorState,
     dispatch: ?(tr: Transform) => void,
     view: ?EditorView,
-    event: ?SyntheticEvent
+    event: ?SyntheticEvent<>
   ): Promise<any> => {
     if (this._popUp) {
       return Promise.resolve(undefined);

@@ -1,8 +1,8 @@
 // @flow
 
-import {Schema} from 'prosemirror-model';
-import {EditorState} from 'prosemirror-state';
-import {Plugin} from 'prosemirror-state';
+import { Schema } from 'prosemirror-model';
+import { EditorState } from 'prosemirror-state';
+import { Plugin } from 'prosemirror-state';
 
 import EditorPlugins from './EditorPlugins';
 import EditorSchema from './EditorSchema';
@@ -13,8 +13,20 @@ export default function convertFromJSON(
   schema: ?Schema,
   plugins: ?Array<Plugin>
 ): EditorState {
-  const effectiveSchema = schema || EditorSchema;
-  const effectivePlugins = plugins || EditorPlugins;
+
+  let editorSchema = schema || EditorSchema;
+
+  // [FS][IRAD-???? 2020-08-17]
+  // Loads plugins and its curresponding schema in editor
+  let effectivePlugins = EditorPlugins;
+  if (plugins) {
+    for (let p of plugins) {
+      effectivePlugins.push(p);
+      if (p.getEffectiveSchema) {
+        editorSchema = p.getEffectiveSchema(editorSchema);
+      }
+    }
+  }
   if (typeof json === 'string') {
     try {
       json = JSON.parse(json);
@@ -30,8 +42,8 @@ export default function convertFromJSON(
   }
 
   return EditorState.create({
-    doc: effectiveSchema.nodeFromJSON(json),
-    schema: effectiveSchema,
+    doc: editorSchema.nodeFromJSON(json),
+    schema: editorSchema,
     plugins: effectivePlugins,
   });
 }

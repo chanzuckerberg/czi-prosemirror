@@ -3,7 +3,7 @@
 import {EditorState, Plugin, PluginKey} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
 /* eslint-disable-next-line */
-import React from 'react';
+import * as React from 'react';
 
 import findActionableCell from './findActionableCell';
 import {atAnchorTopRight} from './ui/PopUpPosition';
@@ -61,6 +61,8 @@ class TableCellTooltipView {
       // Creates a new popup.
       popUp && popUp.close();
       this._cellElement = cellEl;
+      // [FS] IRAD-1009 2020-07-16
+      // Does not allow Table Menu Popuup button in disable mode
       if (!view.disabled) {
         this._popUp = createPopUp(TableCellMenu, viewPops, {
           anchor: cellEl,

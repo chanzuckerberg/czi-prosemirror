@@ -8,7 +8,7 @@ const env = require('./env');
 const path = require('path');
 
 const config = {
-  mode: 'development',//production
+  mode: 'production',//development
   entry: {// [FS] IRAD-901 2020-07-15 New collab server reusing base PM collab server  
     run_licit_collab_server: path.join(__dirname, '../licit', 'server/collab', 'start.js'),
   },
@@ -24,8 +24,22 @@ const config = {
         exclude: /node_modules/,
         loader: 'babel-loader',
         options: {
-          presets: [['@babel/preset-env', { 'targets': { 'esmodules': true } }], '@babel/preset-react'],
-          plugins: ['@babel/plugin-proposal-class-properties'],
+          presets: [['@babel/preset-env', { 'targets': { 'esmodules': true } }], '@babel/preset-react', '@babel/preset-flow'],
+          plugins: [
+            '@babel/plugin-proposal-class-properties',
+            '@babel/plugin-proposal-export-default-from',
+            [
+              '@babel/plugin-transform-runtime',
+              {
+                helpers: true,
+                regenerator: true,
+              },
+            ],
+            'flow-react-proptypes',
+            '@babel/plugin-proposal-object-rest-spread',
+            '@babel/plugin-transform-flow-strip-types',
+            '@babel/plugin-syntax-dynamic-import',
+          ],
         },
       },
     ],

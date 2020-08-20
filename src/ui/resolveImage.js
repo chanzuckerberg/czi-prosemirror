@@ -81,7 +81,10 @@ function processPromise(
     }
     resolve(result);
     dispose();
-    cache[srcStr] = {...result};
+   // [FS] IRAD-1006 2020-07-17
+   // Fix: Inconsistent behavior on image load
+   // Removed caching cache[srcStr] = {...result};
+    
   };
 
   const onError = () => {

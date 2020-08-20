@@ -1,10 +1,10 @@
 // @flow
 
 import clamp from './clamp';
-import {fromHTMlElement, fromXY, isIntersected} from './rects';
+import { fromHTMlElement, fromXY, isIntersected } from './rects';
 
-import type {PositionHandler} from './PopUpPosition';
-import type {Rect} from './rects';
+import type { PositionHandler } from './PopUpPosition';
+import type { Rect } from './rects';
 
 export type PopUpDetails = {
   anchor: ?HTMLElement,
@@ -22,11 +22,11 @@ export type PopUpBridge = {
 };
 
 const CLICK_INTERVAL = 350;
-const DUMMY_RECT = {x: -10000, y: -10000, w: 0, h: 0};
+const DUMMY_RECT = { x: -10000, y: -10000, w: 0, h: 0 };
 
 class PopUpManager {
-  _bridges = new Map();
-  _positions = new Map();
+  _bridges = new Map<any, any>();
+  _positions = new Map<any, any>();
 
   _mx = 0;
   _my = 0;
@@ -98,7 +98,7 @@ class PopUpManager {
     if (!detailsWithModalToDismiss) {
       return;
     }
-    const {body, close} = detailsWithModalToDismiss;
+    const { body, close } = detailsWithModalToDismiss;
     const pointer = fromXY(e.clientX, e.clientY, 1);
     const bodyRect = body ? fromHTMlElement(body) : null;
     if (!bodyRect || !isIntersected(pointer, bodyRect)) {
@@ -109,7 +109,7 @@ class PopUpManager {
   _syncPosition = (): void => {
     this._rafID = 0;
 
-    const bridgeToDetails = new Map();
+    const bridgeToDetails = new Map<any, any>();
     for (const [
       bridge,
       // eslint-disable-next-line no-unused-vars
@@ -117,7 +117,7 @@ class PopUpManager {
     ] of this._bridges) {
       const details = bridge.getDetails();
       bridgeToDetails.set(bridge, details);
-      const {anchor, body} = details;
+      const { anchor, body } = details;
       if (body instanceof HTMLElement) {
         details.bodyRect = fromHTMlElement(body);
       }
@@ -129,21 +129,21 @@ class PopUpManager {
     const pointer = fromXY(this._mx, this._my, 2);
     const hoveredAnchors = new Set();
     for (const [bridge, details] of bridgeToDetails) {
-      const {anchor, bodyRect, anchorRect, position, body} = details;
+      const { anchor, bodyRect, anchorRect, position, body } = details;
       if (!bodyRect && !anchorRect) {
         continue;
       }
 
-      const {x, y} = position(anchorRect, bodyRect);
+      const { x, y } = position(anchorRect, bodyRect);
       const positionKey = `${x}-${y}`;
 
       if (body && bodyRect && this._positions.get(bridge) !== positionKey) {
         const ax = anchorRect
           ? clamp(
-              0,
-              anchorRect.x - x + anchorRect.w / 2,
-              bodyRect.w - anchorRect.w / 2
-            )
+            0,
+            anchorRect.x - x + anchorRect.w / 2,
+            bodyRect.w - anchorRect.w / 2
+          )
           : 0;
         this._positions.set(bridge, positionKey);
         const bodyStyle = body.style;
@@ -172,7 +172,7 @@ class PopUpManager {
         bridge,
         details,
       ] of bridgeToDetails) {
-        const {anchor, body} = details;
+        const { anchor, body } = details;
         for (const ha of hoveredAnchors) {
           if (
             anchor &&
@@ -193,7 +193,7 @@ class PopUpManager {
     for (const [bridge, registeredAt] of this._bridges) {
       const details = bridgeToDetails.get(bridge);
       if (details) {
-        const {autoDismiss, anchor, close, modal} = details;
+        const { autoDismiss, anchor, close, modal } = details;
         if (
           autoDismiss &&
           // Modal is handled separately at `onClick`

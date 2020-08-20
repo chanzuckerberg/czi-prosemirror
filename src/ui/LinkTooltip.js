@@ -1,7 +1,7 @@
 // @flow
 
 import {EditorView} from 'prosemirror-view';
-import React from 'react';
+import * as React from 'react';
 import scrollIntoView from 'smooth-scroll-into-view-if-needed';
 
 import sanitizeURL from '../sanitizeURL';
@@ -13,7 +13,7 @@ function isBookMarkHref(href: string): boolean {
   return !!href && href.indexOf('#') === 0 && href.length >= 2;
 }
 
-class LinkTooltip extends React.PureComponent<any, any, any> {
+class LinkTooltip extends React.PureComponent<any, any> {
   props: {
     editorView: EditorView,
     href: string,
@@ -28,10 +28,10 @@ class LinkTooltip extends React.PureComponent<any, any, any> {
     hidden: false,
   };
 
-  render(): ?React.Element<any> {
+  render(): React.Element<any> {
     const {href, editorView, onEdit, onRemove} = this.props;
-    // [FS] 2020-07-09
-    // Added the "change" custom button.
+    // [FS] IRAD-1013 2020-07-09
+    // Change button in "Apply Link" missing in LICIT.
 
     return (
       <div className="czi-link-tooltip">

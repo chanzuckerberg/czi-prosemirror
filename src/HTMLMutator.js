@@ -11,7 +11,7 @@ export default class HTMLMutator {
 
   constructor(doc: Document) {
     this._doc = doc;
-    this._htmls = new Map();
+    this._htmls = new Map<any, any>();
   }
 
   insertHTMLBefore(html: string, el: Element): HTMLMutator {

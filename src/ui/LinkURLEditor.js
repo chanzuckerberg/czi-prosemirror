@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 
 import sanitizeURL from '../sanitizeURL';
@@ -18,14 +18,14 @@ type Props = {
   close: (href: ?string) => void,
 };  
   
-class LinkURLEditor extends React.PureComponent<any, any, any> {
+class LinkURLEditor extends React.PureComponent<any, any> {
 
   // [FS] IRAD-1005 2020-07-07
   // Upgrade outdated packages.
   // To take care of the property type declaration.
   static propsTypes = {
     href: PropTypes.string,
-	close: function(props, propName, componentName) {
+	close: function(props:any, propName:string) {
         var fn = props[propName];
         if(!fn.prototype ||
            (typeof fn.prototype.constructor !== 'function' &&
@@ -83,14 +83,14 @@ class LinkURLEditor extends React.PureComponent<any, any, any> {
     );
   }
 
-  _onKeyDown = (e: SyntheticInputEvent) => {
+  _onKeyDown = (e: any) => {
     if (e.keyCode === ENTER) {
       e.preventDefault();
       this._apply();
     }
   };
 
-  _onURLChange = (e: SyntheticInputEvent) => {
+  _onURLChange = (e: SyntheticInputEvent<>) => {
     const url = e.target.value;
     this.setState({
       url,

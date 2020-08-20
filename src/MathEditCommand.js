@@ -6,7 +6,7 @@ import {TextSelection} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
 import {EditorView} from 'prosemirror-view';
 // eslint-disable-next-line no-unused-vars
-import React from 'react';
+import * as React from 'react';
 
 import {
   hideCursorPlaceholder,
@@ -58,7 +58,7 @@ class MathEditCommand extends UICommand {
     state: EditorState,
     dispatch: ?(tr: Transform) => void,
     view: ?EditorView,
-    event: ?SyntheticEvent
+    event: ?SyntheticEvent<>
   ): Promise<any> => {
     if (this._popUp) {
       return Promise.resolve(undefined);

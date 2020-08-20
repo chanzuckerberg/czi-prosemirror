@@ -34,16 +34,13 @@
 }
 
 .czi-icon.hr {
+  /* [FS] IRAD-1009 2020-07-16
+  hr not grayed out on editor disable state
+  Temporary Fix need to bring image instead of content */
   content: '---';
  
 
-  /* font-size: 12px;
-  width: 20px;
-  height: 2px;
-  border-radius: 1px;
-  overflow: hidden; */
-  /*background: #222;*/
-  /* background:var(--czi-button-text-color); */
+ 
   margin-top: -12px !important;
   margin-left: 0 !important;
   margin-right: 0 !important;
@@ -55,9 +52,7 @@
 .czi-icon.hr::before {
    content: '---';
    font-weight: bold;
-  /*font-size: 100px;
-  
-  line-height: 0; */
+ 
 }
 
 .czi-icon.superscript {

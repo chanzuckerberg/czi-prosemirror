@@ -42,7 +42,11 @@
 }
 
 .ProseMirror .tableWrapper {
-  overflow-x: visible;
+  /* [FS] IRAD-993 2020-06-26
+  Fix:Table exceeds the canvas */
+
+  /* overflow-x: visible; */
+  width: 100%;
 }
 
 .ProseMirror.czi-has-placeholder {

@@ -3,12 +3,12 @@
 import {EditorState} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
 import {EditorView} from 'prosemirror-view';
-import React from 'react';
+import * as React from 'react';
 
 import CustomButton from './CustomButton';
 import UICommand from './UICommand';
 
-class CommandButton extends React.PureComponent<any, any, any> {
+class CommandButton extends React.PureComponent<any, any> {
   props: {
     className?: ?string,
     command: UICommand,
@@ -50,13 +50,13 @@ class CommandButton extends React.PureComponent<any, any, any> {
     );
   }
 
-  _onUIEnter = (command: UICommand, event: SyntheticEvent): void => {
+  _onUIEnter = (command: UICommand, event: SyntheticEvent<HTMLButtonElement>): void => {
     if (command.shouldRespondToUIEvent(event)) {
       this._execute(command, event);
     }
   };
 
-  _execute = (value: any, event: SyntheticEvent): void => {
+  _execute = (value: any, event: SyntheticEvent<HTMLButtonElement>): void => {
     const {command, editorState, dispatch, editorView} = this.props;
     command.execute(editorState, dispatch, editorView, event);
   };

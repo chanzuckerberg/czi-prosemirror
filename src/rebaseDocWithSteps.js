@@ -3,6 +3,10 @@
 import {Step} from 'prosemirror-transform';
 import EditorSchema from './EditorSchema';
 
+// [FS-AFQ][13-MAR-2020][IRAD-899]
+// This is Capcomode. Shared Step, so that capcomode can be dealt collaboratively.
+import SetDocAttrStep from './SetDocAttrStep';
+
 type RebaseResult = {
   docJSON: Object,
   stepsJSON: Array<Object>,

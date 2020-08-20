@@ -2,7 +2,7 @@
 
 import CommandMenuButton from './CommandMenuButton';
 import FontTypeCommand from '../FontTypeCommand';
-import React from 'react';
+import * as React from 'react';
 import findActiveFontType from './findActiveFontType';
 import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
@@ -20,7 +20,7 @@ FONT_TYPE_NAMES.forEach(name => {
 
 const COMMAND_GROUPS = [FONT_TYPE_COMMANDS];
 
-class FontTypeCommandMenuButton extends React.PureComponent<any, any, any> {
+class FontTypeCommandMenuButton extends React.PureComponent<any, any> {
   props: {
     dispatch: (tr: Transform) => void,
     editorState: EditorState,
@@ -33,6 +33,8 @@ class FontTypeCommandMenuButton extends React.PureComponent<any, any, any> {
     return (
       <CommandMenuButton
         className="width-100"
+         // [FS] IRAD-1008 2020-07-16
+         // Disable font type menu on editor disable state
         disabled={editorView && editorView.disabled? true:false}
         commandGroups={COMMAND_GROUPS}
         dispatch={dispatch}

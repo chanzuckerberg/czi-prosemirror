@@ -4,7 +4,7 @@ import applyDevTools from 'prosemirror-dev-tools';
 import { EditorState, TextSelection } from 'prosemirror-state';
 import { Transform } from 'prosemirror-transform';
 import { EditorView } from 'prosemirror-view';
-import React from 'react';
+import * as React from 'react';
 
 import convertFromJSON from '../convertFromJSON';
 import RichTextEditor from '../ui/RichTextEditor';
@@ -13,7 +13,7 @@ import LicitRuntime from './LicitRuntime';
 import SimpleConnector from './SimpleConnector';
 import CollabConnector from './CollabConnector';
 import { EMPTY_DOC_JSON } from '../createEmptyEditorState';
-import {EditorRuntime} from '../Types'
+import type { EditorRuntime } from '../Types'
 
 import './licit.css';
 
@@ -31,20 +31,24 @@ import './licit.css';
  *  data {JSON} [null] Document data to be loaded into the editor.
  *  disabled {boolean} [false] Disable the editor.
  *  embedded {boolean} [false] Disable/Enable inline behaviour.
+ *  plugins [plugins] External Plugins into the editor.
  */
-class Licit extends React.Component<any, any, any> {
-  _runtime:  EditorRuntime;
+class Licit extends React.Component<any, any> {
+  _runtime: EditorRuntime;
   _connector: any;
   _clientID: string;
   _editorView: EditorView; // This will be handy in updating document's content.
   _skipSCU: boolean; // Flag to decide whether to skip shouldComponentUpdate
 
   constructor(props: any, context: any) {
+
     super(props, context);
 
     this._clientID = uuid();
     this._editorView = null;
     this._skipSCU = true;
+
+    const noop = function () { };
 
     // [FS] IRAD-981 2020-06-10
     // Component's configurations.
@@ -62,8 +66,8 @@ class Licit extends React.Component<any, any, any> {
     // [FS] 2020-07-03
     // Handle Image Upload from Angular App
     const runtime = props.runtime ? props.runtime : new LicitRuntime();
-    const editorState = convertFromJSON(data);
-
+    const plugins = props.plugins || null;
+    const editorState = convertFromJSON(data, null, plugins);
     const setState = this.setState.bind(this);
     this._connector = collaborative
       ? new CollabConnector(editorState, setState, { docID })
@@ -87,7 +91,7 @@ class Licit extends React.Component<any, any, any> {
     };
   }
 
-  setContent = (content = {}): void => {
+  setContent = (content: any = {}): void => {
     const { doc, tr, schema } = this._connector.getState();
     const document = content
       ? schema.nodeFromJSON(content)
@@ -102,7 +106,7 @@ class Licit extends React.Component<any, any, any> {
     this._editorView.dispatch(transaction);
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
+  shouldComponentUpdate(nextProps: any, nextState: any) {
     // Only interested if properties are set from outside.
     if (!this._skipSCU) {
       this._skipSCU = false;
@@ -184,7 +188,7 @@ class Licit extends React.Component<any, any, any> {
       this.state.onReadyCB(this);
     }
 
-    if (state.debug) {
+    if (this.state.debug) {
       window.debugProseMirror = () => {
         applyDevTools(editorView);
       };
@@ -207,7 +211,7 @@ class Licit extends React.Component<any, any, any> {
   *  disabled {boolean} [false] Disable the editor.
   *  embedded {boolean} [false] Disable/Enable inline behaviour.
   */
-  setProps = (props): void => {
+  setProps = (props: any): void => {
     if (this.state.readOnly) {
       // It should be possible to load content into the editor in readonly as well.
       // It should not be necessary to make the component writable any time during the process

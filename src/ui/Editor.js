@@ -5,7 +5,7 @@ import { DOMSerializer, Schema } from 'prosemirror-model';
 import { EditorState, Transaction } from 'prosemirror-state';
 import { Transform } from 'prosemirror-transform';
 import { EditorView } from 'prosemirror-view';
-import React from 'react';
+import * as React from 'react';
 import webfontloader from 'webfontloader';
 
 import 'prosemirror-gapcursor/style/gapcursor.css';
@@ -109,7 +109,7 @@ function getSchema(editorState: ?EditorState): Schema {
   return editorState ? editorState.schema : EDITOR_EMPTY_STATE.schema;
 }
 
-class Editor extends React.PureComponent<any, any, any> {
+class Editor extends React.PureComponent<any, any> {
   static EDITOR_EMPTY_STATE = EDITOR_EMPTY_STATE;
 
   _autoFocusTimer = 0;

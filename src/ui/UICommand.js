@@ -37,7 +37,7 @@ function dryRunEditorStateProxySetter(
 class UICommand {
   static EventType = EventType;
 
-  shouldRespondToUIEvent = (e: SyntheticEvent | MouseEvent): boolean => {
+  shouldRespondToUIEvent = (e: SyntheticEvent<> | MouseEvent): boolean => {
     return e.type === UICommand.EventType.CLICK;
   };
 
@@ -70,7 +70,7 @@ class UICommand {
     state: EditorState,
     dispatch: ?(tr: Transform) => void,
     view: ?EditorView,
-    event: ?SyntheticEvent
+    event: ?SyntheticEvent<>
   ): boolean => {
     this.waitForUserInput(state, dispatch, view, event)
       .then(inputs => {
@@ -86,7 +86,7 @@ class UICommand {
     state: EditorState,
     dispatch: ?(tr: Transform) => void,
     view: ?EditorView,
-    event: ?SyntheticEvent
+    event: ?SyntheticEvent<>
   ): Promise<any> => {
     return Promise.resolve(undefined);
   };

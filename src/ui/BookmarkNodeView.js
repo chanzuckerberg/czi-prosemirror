@@ -2,7 +2,7 @@
 
 import {Node} from 'prosemirror-model';
 import {Decoration} from 'prosemirror-view';
-import React from 'react';
+import * as React from 'react';
 
 import {
   ATTRIBUTE_BOOKMARK_ID,
@@ -15,7 +15,7 @@ import './czi-bookmark-view.css';
 
 import type {NodeViewProps} from './CustomNodeView';
 
-class BookmarkViewBody extends React.PureComponent<any, any, any> {
+class BookmarkViewBody extends React.PureComponent<any, any> {
   props: NodeViewProps;
 
   render(): React.Element<any> {
@@ -24,7 +24,7 @@ class BookmarkViewBody extends React.PureComponent<any, any, any> {
     return <span onClick={this._onClick}>{icon}</span>;
   }
 
-  _onClick = (e: SyntheticEvent): void => {
+  _onClick = (e: SyntheticEvent<>): void => {
     e.preventDefault();
     const {id} = this.props.node.attrs;
     const hash = '#' + id;

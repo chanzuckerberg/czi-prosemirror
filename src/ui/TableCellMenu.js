@@ -1,7 +1,7 @@
 // @flow
 import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
-import React from 'react';
+import * as React from 'react';
 
 import CommandMenuButton from './CommandMenuButton';
 import {TABLE_COMMANDS_GROUP} from './EditorToolbarConfig';
@@ -14,12 +14,12 @@ type Props = {
   editorView: EditorView,
 };
 
-class TableCellMenu extends React.PureComponent<any, any, any> {
+class TableCellMenu extends React.PureComponent<any, any> {
   _menu = null;
 
   props: Props;
 
-  render(): ?React.Element<any> {
+  render(): React.Element<any> {
     const {editorState, editorView} = this.props;
     return (
       <CommandMenuButton

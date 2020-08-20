@@ -132,7 +132,7 @@ function handleMouseMove(view: EditorView, event: PointerEvent): void {
   let forMarginLeft = false;
   let cell = -1;
 
-  if (target instanceof HTMLElement) {
+  if (target instanceof HTMLTableCellElement){
     const { left, right } = target.getBoundingClientRect();
     const offsetLeft = event.clientX - left;
     // [FS] IRAD-949 2020-05-27
@@ -197,7 +197,7 @@ function handleMouseDown(view: EditorView, event: MouseEvent): boolean {
     cancelDrag = null;
   };
 
-  const move = (event: MouseEvent) => {
+  const move = (event: any) => {
     if (event.which) {
       if (!dragStarted) {
         handleDragStart(view, event);
@@ -293,7 +293,9 @@ function handleDragMove(view: EditorView, event: PointerEvent): void {
 
   const tableElementStyle = tableElement.style;
   tableElementStyle.marginLeft = `${ml}px`;
-  tableElementStyle.width = Math.round(totalWidth) + 'px';
+  // [FS] IRAD-993 2020-06-26
+  // Fix:Table exceeds the canvas
+  tableElementStyle.width = Math.round(totalWidth - ml) + 'px';
   tableElementStyle.minWidth = '';
   columnElements.forEach((colEl, index) => {
     colEl.style.width = Math.round(widths[index]) + 'px';
@@ -301,7 +303,7 @@ function handleDragMove(view: EditorView, event: PointerEvent): void {
 }
 
 // Function that handles the mouse event while stop resizing the table cell.
-function handleDragEnd(view: EditorView, event: PointerEvent): void {
+function handleDragEnd(view: EditorView, event: any): void {
   const resizeState = PLUGIN_KEY.getState(view.state);
   const { cellPos, draggingInfo } = resizeState;
   if (!draggingInfo) {
@@ -413,7 +415,11 @@ function calculateDraggingInfo(
 
     if (tableWidth + colWidth > tableWrapperRect.width) {
       // column is too wide, make it fit.
-      colWidth -= tableWrapperRect.width - (tableWidth + colWidth);
+      // colWidth -= tableWrapperRect.width - (tableWidth + colWidth);
+      // [FS] IRAD-993 2020-06-24
+      // Fix:Table exceeds the canvas
+      const tosub = Math.abs(tableWrapperRect.width - (tableWidth + colWidth));
+      colWidth = colWidth - tosub;
     }
 
     // The edges of the column's right border.
@@ -422,8 +428,13 @@ function calculateDraggingInfo(
     const edgeLeft = tableWidth + colWidth - HANDLE_RIGHT_WIDTH / 2;
     const edgeRight = tableWidth + colWidth + HANDLE_RIGHT_WIDTH / 2;
     if (offsetLeft >= edgeLeft && offsetLeft <= edgeRight) {
-      // This is the column to resize.
-      taregtColumnIndex = ii;
+
+      // [FS] IRAD-993 2020-06-24
+      // Fix:Table exceeds the canvas
+      if (taregtColumnIndex === -1) {
+        // This is the column to resize.
+        taregtColumnIndex = ii;
+      }
     }
     tableWidth += colWidth;
     return colWidth;
@@ -534,6 +545,8 @@ function handleDecorations(
 
 // Creates a custom table view that renders the margin-left style.
 function createTableView(node: Node, view: EditorView): TableView {
+  // [FS] IRAD-1008 2020-07-16
+  // Does not allow Table cell Resize in disable mode
   isEnabled = view.editable;
   return new TableNodeView(node, CELL_MIN_WIDTH, view);
 }
@@ -541,13 +554,15 @@ function createTableView(node: Node, view: EditorView): TableView {
 function batchMouseHandler(
   handler: (view: EditorView, pe: PointerEvent) => void
 ): (view: EditorView, me: MouseEvent) => void {
-  let target = null;
+  let target: any = null;
   let clientX = 0;
   let clientY = 0;
   let view = null;
   const onMouseEvent = () => {
     if (view && target) {
-      const pointerEvent = {
+      let pointerEvent: PointerEvent;
+
+      pointerEvent = {
         target,
         clientX,
         clientY,
@@ -606,6 +621,8 @@ export default class TableResizePlugin extends Plugin {
         },
         decorations(state: EditorState): ?DecorationSet {
           const resizeState = PLUGIN_KEY.getState(state);
+          // [FS] IRAD-1008 2020-07-16
+          // Does not allow Table cell Resize in disable mode
           return resizeState.cellPos > -1 && isEnabled
             ? handleDecorations(state, resizeState)
             : undefined;

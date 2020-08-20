@@ -2,7 +2,7 @@
 
 import './czi-inline-editor.css';
 import CustomButton from './CustomButton';
-import React from 'react';
+import * as React from 'react';
 
 const ImageAlignValues = {
   NONE: {
@@ -27,7 +27,7 @@ export type ImageInlineEditorValue = {
   align: ?string,
 };
 
-class ImageInlineEditor extends React.PureComponent<any, any, any> {
+class ImageInlineEditor extends React.PureComponent<any, any> {
   props: {
     onSelect: (val: ImageInlineEditorValue) => void,
     value: ?ImageInlineEditorValue,

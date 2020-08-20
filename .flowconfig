@@ -1,8 +1,8 @@
 [include]
 .*/src/.*
-.*/demo/.*
-
+.*/licit/.*
 [ignore]
+.*/dist/.*
 .*/bin/.*
 .*/node_modules/@babel.*
 .*/node_modules/@emotion/.*

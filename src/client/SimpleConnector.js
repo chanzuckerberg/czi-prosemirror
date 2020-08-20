@@ -4,7 +4,7 @@ import {EditorState} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
 import ReactDOM from 'react-dom';
 
-type SetStateCall = (
+export type SetStateCall = (
   state: {editorState: EditorState},
   callback: Function
 ) => void;

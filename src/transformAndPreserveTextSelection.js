@@ -89,7 +89,11 @@ export default function transformAndPreserveTextSelection(
       return tr;
     }
     tr = tr.setSelection(
-      TextSelection.create(doc, from + fromOffset, to + toOffset)
+      // [FS] IRAD-1005 2020-07-29
+      // Upgrade outdated packages.
+      // reset selection using the latest doc.
+      // This fixes IRAD-1023
+      TextSelection.create(tr.doc, from + fromOffset, to + toOffset)
     );
   }
 

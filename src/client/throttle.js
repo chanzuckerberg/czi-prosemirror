@@ -6,7 +6,7 @@ export default function throttle(
   context: any,
 ): Function {
   let last;
-  let deferTimer = 0;
+  let deferTimer: TimeoutID;
   const boundFn = fn.bind(context);
 
   return function () {
