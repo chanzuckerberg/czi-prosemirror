@@ -14,7 +14,8 @@ var found = false;
  
 found = fs.existsSync(pmtDir);	
 if(!found) {
-    pmtDir = path.resolve(cwd, "../prosemirror-tables");
+	// New path is @modusoperandi/licit
+    pmtDir = path.resolve(cwd, "../../prosemirror-tables");
     found = fs.existsSync(pmtDir);
 }
 
