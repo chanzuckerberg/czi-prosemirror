@@ -3,11 +3,11 @@
 // This implements the interface of `EditorRuntime`.
 import type {
     ImageLike
-} from '../../src/Types';
+} from '../Types';
 import {
     GET,
     POST
-} from '../../src/client/http';
+} from './http';
 
 class LicitRuntime {
 
