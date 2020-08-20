@@ -61,11 +61,10 @@ function processPromise(
   }
 
   const parsedURL = url.parse(srcStr);
-  const {protocol, port} = parsedURL;
-  if (
-    !/(http:|https:|data:)/.test(protocol || window.location.protocol) ||
-    port
-  ) {
+  // [FS] IRAD-1007 2020-07-13
+  // Removed the port validation from here
+  const {protocol} = parsedURL;
+  if (!/(http:|https:|data:)/.test(protocol || window.location.protocol)) {
     resolve(result);
     return;
   }
@@ -82,7 +81,10 @@ function processPromise(
     }
     resolve(result);
     dispose();
-    cache[srcStr] = {...result};
+   // [FS] IRAD-1006 2020-07-17
+   // Fix: Inconsistent behavior on image load
+   // Removed caching cache[srcStr] = {...result};
+    
   };
 
   const onError = () => {

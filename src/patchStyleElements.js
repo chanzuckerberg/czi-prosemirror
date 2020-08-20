@@ -95,7 +95,7 @@ export default function patchStyleElements(doc: Document): void {
 
   // Sort selector by
   stable(selectorTextToCSSTexts, sortBySpecificity)
-    .reduce(buildElementToCSSTexts.bind(null, doc), new Map())
+    .reduce(buildElementToCSSTexts.bind(null, doc), new Map<any, any>())
     .forEach(applyInlineStyleSheetCSSTexts);
 }
 

@@ -16,7 +16,7 @@ const setCellBorderBlack = setCellAttr('borderColor', '#000000');
 class TableBorderColorCommand extends UICommand {
   _popUp = null;
 
-  shouldRespondToUIEvent = (e: SyntheticEvent | MouseEvent): boolean => {
+  shouldRespondToUIEvent = (e: SyntheticEvent<> | MouseEvent): boolean => {
     return e.type === UICommand.EventType.MOUSEENTER;
   };
 
@@ -28,7 +28,7 @@ class TableBorderColorCommand extends UICommand {
     state: EditorState,
     dispatch: ?(tr: Transform) => void,
     view: ?EditorView,
-    event: ?SyntheticEvent
+    event: ?SyntheticEvent<>
   ): Promise<any> => {
     if (this._popUp) {
       return Promise.resolve(undefined);

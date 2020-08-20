@@ -1,6 +1,6 @@
 // @flow
 import cx from 'classnames';
-import React from 'react';
+import * as React from 'react';
 
 import './czi-editor-frameset.css';
 
@@ -27,7 +27,7 @@ function toCSS(val: ?(number | string)): string {
   return String(val);
 }
 
-class EditorFrameset extends React.PureComponent<any, any, any> {
+class EditorFrameset extends React.PureComponent<any, any> {
   props: EditorFramesetProps;
 
   render(): React.Element<any> {

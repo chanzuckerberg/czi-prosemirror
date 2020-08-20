@@ -3,17 +3,18 @@
 import clamp from './ui/clamp';
 import convertToCSSPTValue from './convertToCSSPTValue';
 import toCSSLineSpacing from './ui/toCSSLineSpacing';
-import {Node} from 'prosemirror-model';
+import { Node } from 'prosemirror-model';
 
-import type {NodeSpec} from './Types';
+import type { NodeSpec } from './Types';
 
 // This assumes that every 36pt maps to one indent level.
 export const INDENT_MARGIN_PT_SIZE = 36;
 export const MIN_INDENT_LEVEL = 0;
 export const MAX_INDENT_LEVEL = 7;
 export const ATTRIBUTE_INDENT = 'data-indent';
+const cssVal = new Set<string>(['', '0%', '0pt', '0px'])
 
-export const EMPTY_CSS_VALUE = new Set(['', '0%', '0pt', '0px']);
+export const EMPTY_CSS_VALUE = cssVal;
 
 const ALIGN_PATTERN = /(left|right|center|justify)/;
 
@@ -22,19 +23,19 @@ const ALIGN_PATTERN = /(left|right|center|justify)/;
 // as a `<p>` element.
 const ParagraphNodeSpec: NodeSpec = {
   attrs: {
-    align: {default: null},
-    color: {default: null},
-    id: {default: null},
-    indent: {default: null},
-    lineSpacing: {default: null},
+    align: { default: null },
+    color: { default: null },
+    id: { default: null },
+    indent: { default: null },
+    lineSpacing: { default: null },
     // TODO: Add UI to let user edit / clear padding.
-    paddingBottom: {default: null},
+    paddingBottom: { default: null },
     // TODO: Add UI to let user edit / clear padding.
-    paddingTop: {default: null},
+    paddingTop: { default: null },
   },
   content: 'inline*',
   group: 'block',
-  parseDOM: [{tag: 'p', getAttrs}],
+  parseDOM: [{ tag: 'p', getAttrs }],
   toDOM,
 };
 
@@ -61,7 +62,7 @@ function getAttrs(dom: HTMLElement): Object {
   const lineSpacing = lineHeight ? toCSSLineSpacing(lineHeight) : null;
 
   const id = dom.getAttribute('id') || '';
-  return {align, indent, lineSpacing, paddingTop, paddingBottom, id};
+  return { align, indent, lineSpacing, paddingTop, paddingBottom, id };
 }
 
 function toDOM(node: Node): Array<any> {

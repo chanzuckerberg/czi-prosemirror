@@ -63,7 +63,7 @@ class TextInsertTabSpaceCommand extends UICommand {
     state: EditorState,
     dispatch: ?(tr: Transform) => void,
     view: ?EditorView,
-    event: ?SyntheticEvent
+    event: ?SyntheticEvent<>
   ): boolean => {
     const {schema, tr} = state;
     const trNext = insertTabSpace(tr, schema);

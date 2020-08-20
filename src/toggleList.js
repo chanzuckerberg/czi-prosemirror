@@ -1,40 +1,53 @@
 // @flow
 
 import consolidateListNodes from './consolidateListNodes';
+import compareNumber from './compareNumber';
 import nullthrows from 'nullthrows';
-import {Fragment, Node, NodeType, Schema} from 'prosemirror-model';
-import {TextSelection} from 'prosemirror-state';
-import {Transform} from 'prosemirror-transform';
-import {findParentNodeOfType} from 'prosemirror-utils';
+import { Fragment, Node, NodeType, Schema } from 'prosemirror-model';
+import { TextSelection } from 'prosemirror-state';
+import { Transform } from 'prosemirror-transform';
+import { findParentNodeOfType } from 'prosemirror-utils';
 
-import {HEADING, LIST_ITEM, PARAGRAPH} from './NodeNames';
+import { HEADING, LIST_ITEM, PARAGRAPH } from './NodeNames';
 import isListNode from './isListNode';
 import transformAndPreserveTextSelection from './transformAndPreserveTextSelection';
 
-import type {SelectionMemo} from './transformAndPreserveTextSelection';
+import type { SelectionMemo } from './transformAndPreserveTextSelection';
 
 export default function toggleList(
   tr: Transform,
   schema: Schema,
   listNodeType: NodeType
 ): Transform {
-  const {selection, doc} = tr;
+  const { selection, doc } = tr;
   if (!selection || !doc) {
     return tr;
   }
 
-  const {from} = selection;
+  // [FS][04-AUG-2020][IRAD-955]
+  // Fix Unable to apply list using Ctrl+A selection
+  let { from, to } = selection;
+  let newselection = null;
+
+  if (from === 0) {
+    from = 1;
+    newselection = TextSelection.create(doc, from, to);
+    tr = tr.setSelection(newselection);
+  }
 
   const fromSelection = TextSelection.create(doc, from, from);
   const paragraph = schema.nodes[PARAGRAPH];
   const heading = schema.nodes[HEADING];
   const result = findParentNodeOfType(listNodeType)(fromSelection);
+  const p = findParentNodeOfType(paragraph)(fromSelection);
+  const h = findParentNodeOfType(heading)(fromSelection);
+
   if (result) {
     tr = unwrapNodesFromList(tr, schema, result.pos);
-  } else if (paragraph && findParentNodeOfType(paragraph)(fromSelection)) {
-    tr = wrapNodesWithList(tr, schema, listNodeType);
-  } else if (heading && findParentNodeOfType(heading)(fromSelection)) {
-    tr = wrapNodesWithList(tr, schema, listNodeType);
+  } else if (paragraph && p) {
+    tr = wrapNodesWithList(tr, schema, listNodeType, newselection);
+  } else if (heading && h) {
+    tr = wrapNodesWithList(tr, schema, listNodeType, newselection);
   }
   return tr;
 }
@@ -55,24 +68,33 @@ export function unwrapNodesFromList(
 function wrapNodesWithList(
   tr: Transform,
   schema: Schema,
-  listNodeType: NodeType
+  listNodeType: NodeType, newselection = null
 ): Transform {
+
   return transformAndPreserveTextSelection(tr, schema, memo => {
-    return consolidateListNodes(wrapNodesWithListInternal(memo, listNodeType));
+    // [FS][04-AUG-2020][IRAD-955]
+    // Fix Unable to apply list using Ctrl+A selection
+    return consolidateListNodes(wrapNodesWithListInternal(memo, listNodeType, newselection));
   });
+
 }
 
 function wrapNodesWithListInternal(
   memo: SelectionMemo,
-  listNodeType: NodeType
+  listNodeType: NodeType, newselection = null
 ): Transform {
-  const {schema} = memo;
-  let {tr} = memo;
-  const {doc, selection} = tr;
+  const { schema } = memo;
+  let { tr } = memo;
+  const { doc, selection } = tr;
+  let { from, to } = selection;
   if (!tr || !selection) {
     return tr;
   }
-  const {from, to} = selection;
+  if (newselection) {
+    from = newselection.from;
+    to = newselection.to;
+  }
+
 
   const paragraph = schema.nodes[PARAGRAPH];
   const heading = schema.nodes[HEADING];
@@ -103,7 +125,7 @@ function wrapNodesWithListInternal(
 
     if (nodeType === heading || nodeType === paragraph) {
       items = items || [];
-      items.push({node, pos});
+      items.push({ node, pos });
     } else {
       items && items.length && lists.push(items);
       items = null;
@@ -136,7 +158,7 @@ function wrapItemsWithListInternal(
   tr: Transform,
   schema: Schema,
   listNodeType: NodeType,
-  items: Array<{node: Node, pos: number}>
+  items: Array<{ node: Node, pos: number }>
 ): Transform {
   const initialTr = tr;
   const paragraph = schema.nodes[PARAGRAPH];
@@ -148,10 +170,10 @@ function wrapItemsWithListInternal(
 
   const paragraphNodes = [];
   items.forEach(item => {
-    const {node, pos} = item;
+    const { node, pos } = item;
     // Temporarily annotate each node with an unique ID.
     const uniqueID = {};
-    const nodeAttrs = {...node.attrs, id: uniqueID};
+    const nodeAttrs = { ...node.attrs, id: uniqueID };
     // Replace the original node with the node annotated by the uniqueID.
     tr = tr.setNodeMarkup(pos, paragraph, nodeAttrs, node.marks);
     paragraphNodes.push(tr.doc.nodeAt(pos));
@@ -188,7 +210,7 @@ function wrapItemsWithListInternal(
 
   const listItemNodes = [];
   items.forEach(item => {
-    const {node} = item;
+    const { node } = item;
     // Restore the annotated nodes with the copy of the original ones.
     const paragraphNode = paragraph.create(
       node.attrs,
@@ -202,7 +224,7 @@ function wrapItemsWithListInternal(
     listItemNodes.push(listItemNode);
   });
 
-  const listNodeAttrs = {indent: 0, start: 1};
+  const listNodeAttrs = { indent: 0, start: 1 };
   const $fromPos = tr.doc.resolve(fromPos);
   const $toPos = tr.doc.resolve(toPos);
 
@@ -237,40 +259,25 @@ function wrapItemsWithListInternal(
   return tr;
 }
 
-function unwrapNodesFromListInternal(
-  memo: SelectionMemo,
+// [FS] IRAD-966 2020-05-20
+// Fix: Toggling issue for Multi-level list.
+
+function unwrapNodesFromSelection(
+  tr: Transform,
   listNodePos: number,
-  unwrapParagraphNode?: ?(Node) => Node
+  nodes: Node,
+  unwrapParagraphNode?: Node,
+  from: number,
+  to: number,
 ): Transform {
-  const {schema} = memo;
-  let {tr} = memo;
 
-  if (!tr.doc || !tr.selection) {
-    return tr;
-  }
 
-  const {nodes} = schema;
-  const paragraph = nodes[PARAGRAPH];
-  const listItem = nodes[LIST_ITEM];
-
-  if (!listItem || !paragraph) {
-    return tr;
-  }
-
-  const listNode = tr.doc.nodeAt(listNodePos);
-  if (!isListNode(listNode)) {
-    return tr;
-  }
-
-  const initialSelection = tr.selection;
-  const {from, to} = initialSelection;
-
-  if (from === to && from < 1) {
-    return tr;
-  }
   const contentBlocksBefore = [];
   const contentBlocksSelected = [];
   const contentBlocksAfter = [];
+  const paragraph = nodes[PARAGRAPH];
+  const listItem = nodes[LIST_ITEM];
+  const listNode = tr.doc.nodeAt(listNodePos);
 
   tr.doc.nodesBetween(
     listNodePos,
@@ -304,7 +311,7 @@ function unwrapNodesFromListInternal(
   tr = tr.delete(listNodePos, listNodePos + listNode.nodeSize);
 
   const listNodeType = listNode.type;
-  const attrs = {indent: listNode.attrs.indent, start: 1};
+  const attrs = { indent: listNode.attrs.indent, start: 1 };
 
   if (contentBlocksAfter.length) {
     const nodes = contentBlocksAfter.map(block => {
@@ -337,5 +344,59 @@ function unwrapNodesFromListInternal(
     );
     tr = tr.insert(listNodePos, frag);
   }
+
+  return tr;
+
+}
+
+function unwrapNodesFromListInternal(
+  memo: SelectionMemo,
+  listNodePos: number,
+  unwrapParagraphNode?: ?(Node) => Node
+): Transform {
+
+  const { schema } = memo;
+  let { tr } = memo;
+
+  if (!tr.doc || !tr.selection) {
+    return tr;
+  }
+
+  const { nodes } = schema;
+  const paragraph = nodes[PARAGRAPH];
+  const listItem = nodes[LIST_ITEM];
+
+  if (!listItem || !paragraph) {
+    return tr;
+  }
+
+  const listNode = tr.doc.nodeAt(listNodePos);
+  if (!isListNode(listNode)) {
+    return tr;
+  }
+
+  const initialSelection = tr.selection;
+  const { from, to } = initialSelection;
+
+  const listNodePoses = [];
+
+  // keep all list type nodes starting position
+  tr.doc.nodesBetween(from, to, (node, pos) => {
+    if (isListNode(node)) {
+      listNodePoses.push(pos);
+    }
+  });
+
+  if (from === to && from < 1) {
+    return tr;
+  }
+  // Unwraps all selected list
+  listNodePoses
+    .sort(compareNumber)
+    .reverse()
+    .forEach(pos => {
+      tr = unwrapNodesFromSelection(tr, pos, nodes, unwrapParagraphNode, from, to);
+    });
+
   return tr;
 }

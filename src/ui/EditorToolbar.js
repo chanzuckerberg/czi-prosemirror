@@ -4,7 +4,7 @@ import cx from 'classnames';
 import {EditorState} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
 import {EditorView} from 'prosemirror-view';
-import React from 'react';
+import * as React from 'react';
 import ReactDOM from 'react-dom';
 
 import CommandButton from './CommandButton';
@@ -18,7 +18,7 @@ import isReactClass from './isReactClass';
 
 import './czi-editor-toolbar.css';
 
-class EditorToolbar extends React.PureComponent<any, any, any> {
+class EditorToolbar extends React.PureComponent<any, any> {
   _body = null;
 
   props: {

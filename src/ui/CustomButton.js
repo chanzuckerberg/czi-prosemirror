@@ -2,13 +2,13 @@
 
 import './czi-custom-button.css';
 import PointerSurface from './PointerSurface';
-import React from 'react';
+import * as React from 'react';
 import TooltipSurface from './TooltipSurface';
 import cx from 'classnames';
 
 import type {PointerSurfaceProps} from './PointerSurface';
 
-class CustomButton extends React.PureComponent<any, any, any> {
+class CustomButton extends React.PureComponent<any, any> {
   props: PointerSurfaceProps & {
     icon?: string | React.Element<any> | null,
     label?: string | React.Element<any> | null,

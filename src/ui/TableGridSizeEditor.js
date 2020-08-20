@@ -1,7 +1,7 @@
 // @flow
 
 import cx from 'classnames';
-import React from 'react';
+import * as React from 'react';
 import ReactDOM from 'react-dom';
 
 import clamp from './clamp';
@@ -17,9 +17,11 @@ export type TableGridSizeEditorValue = {
 
 const GUTTER_SIZE = 5;
 const CELL_SIZE = 16;
-const MAX_SIZE = 20;
+// [FS] IRAD-1012 2020-07-14
+// Fix: Limited Table Grid size from 20 to 7
+const MAX_SIZE = 7;
 
-class GridCell extends React.PureComponent<any, any, any> {
+class GridCell extends React.PureComponent<any, any> {
   render(): React.Element<any> {
     const {x, y, selected} = this.props;
     const style = {
@@ -35,7 +37,7 @@ class GridCell extends React.PureComponent<any, any, any> {
   }
 }
 
-class TableGridSizeEditor extends React.PureComponent<any, any, any> {
+class TableGridSizeEditor extends React.PureComponent<any, any> {
   _ex = 0;
   _ey = 0;
   _mx = 0;
@@ -173,7 +175,7 @@ class TableGridSizeEditor extends React.PureComponent<any, any, any> {
     }
   };
 
-  _onMouseDown = (e: SyntheticEvent): void => {
+  _onMouseDown = (e: SyntheticEvent<>): void => {
     e.preventDefault();
     this.props.close(this.state);
   };

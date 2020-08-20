@@ -2,7 +2,7 @@ language: node_js
 node_js:
   - node
 cache: npm
-jobs:
+jobs: 
   include: 
     - name: "Lint JS Files"
       script: npm run lint:js

@@ -1,12 +1,12 @@
 // @flow
 
-import {Schema} from 'prosemirror-model';
-import {TextSelection} from 'prosemirror-state';
-import {Transform} from 'prosemirror-transform';
+import { Schema } from 'prosemirror-model';
+import { TextSelection } from 'prosemirror-state';
+import { Transform } from 'prosemirror-transform';
 
-import {MARK_LINK} from './MarkNames';
-import {BLOCKQUOTE, CODE_BLOCK, HEADING, PARAGRAPH} from './NodeNames';
-import clearMarks from './clearMarks';
+import { MARK_LINK } from './MarkNames';
+import { BLOCKQUOTE, CODE_BLOCK, HEADING, PARAGRAPH } from './NodeNames';
+import { clearMarks } from './clearMarks';
 import compareNumber from './compareNumber';
 import isListNode from './isListNode';
 
@@ -14,8 +14,8 @@ export default function toggleCodeBlock(
   tr: Transform,
   schema: Schema
 ): Transform {
-  const {nodes} = schema;
-  const {selection, doc} = tr;
+  const { nodes } = schema;
+  const { selection, doc } = tr;
   const codeBlock = nodes[CODE_BLOCK];
   const paragraph = nodes[PARAGRAPH];
   const heading = nodes[HEADING];
@@ -25,7 +25,7 @@ export default function toggleCodeBlock(
   }
 
   const poses = [];
-  const {from, to} = tr.selection;
+  const { from, to } = tr.selection;
   let allowed = true;
   let startWithCodeBlock = null;
   doc.nodesBetween(from, to, (node, pos) => {
@@ -33,7 +33,7 @@ export default function toggleCodeBlock(
     if (startWithCodeBlock === null) {
       startWithCodeBlock = nodeType === codeBlock;
     }
-    const {type, isBlock} = node;
+    const { type, isBlock } = node;
     if (isBlock) {
       allowed =
         allowed &&
@@ -69,7 +69,7 @@ function setCodeBlockNodeEnabled(
   pos: number,
   enabled: boolean
 ): Transform {
-  const {doc} = tr;
+  const { doc } = tr;
   if (!doc) {
     return tr;
   }
@@ -82,14 +82,14 @@ function setCodeBlockNodeEnabled(
     return tr;
   }
 
-  const {nodes} = schema;
+  const { nodes } = schema;
   const codeBlock = nodes[CODE_BLOCK];
   const paragraph = nodes[PARAGRAPH];
 
   if (codeBlock && !enabled && node.type === codeBlock) {
     tr = tr.setNodeMarkup(pos, paragraph, node.attrs, node.marks);
   } else if (enabled && node.type !== codeBlock) {
-    const {selection} = tr;
+    const { selection } = tr;
     tr = tr.setSelection(
       TextSelection.create(tr.doc, pos, pos + node.nodeSize)
     );

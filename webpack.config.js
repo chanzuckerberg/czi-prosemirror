@@ -1,27 +1,32 @@
-/*eslint-env node*/
+/*eslint-disable */
 
-const webpack = require('webpack'),
-  CleanWebpackPlugin = require('clean-webpack-plugin'),
+var webpack = require('webpack'),
+  CopyWebpackPlugin = require('copy-webpack-plugin'),
   FlowWebpackPlugin = require('flow-webpack-plugin'),
   HtmlWebpackInlineSourcePlugin = require('html-webpack-inline-source-plugin'),
   HtmlWebpackPlugin = require('html-webpack-plugin'),
-  UglifyJsPlugin = require('uglifyjs-webpack-plugin'),
+  TerserPlugin = require('terser-webpack-plugin'),
+  
   WriteFilePlugin = require('write-file-webpack-plugin'),
-  env = require('./scripts/env'),
+  env = require('./utils/env'),
+  fileSystem = require('fs'),
   path = require('path');
 
-const isDev = env.NODE_ENV === 'development' || 0;
+// [FS] IRAD-1005 2020-07-07
+// Upgrade outdated packages.
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
-const options = {
+var isDev = env.NODE_ENV === 'development' || 0;
+// isDev = false;
+
+var options = {
+  mode: 'production',
   entry: {
-    convert: path.join(__dirname, 'demo', 'ConvertApp.js'),
-    demo: path.join(__dirname, 'demo', 'index.js'),
-    playground: path.join(__dirname, 'playground', 'playground.js'),
-    ui: path.join(__dirname, 'demo', 'UIExamples.js'),
+    licit: path.join(__dirname, 'licit', 'client', 'index.js'),
   },
   output: {
     path: path.join(__dirname, 'bin'),
-    filename: '[name].bundle.js',
+    filename: '[name].bundle.js'
   },
   module: {
     rules: [
@@ -30,93 +35,77 @@ const options = {
         exclude: /node_modules/,
         loader: 'babel-loader',
         options: {
-          presets: [['env', {modules: false}], 'react', 'flow'],
+        // https://stackoverflow.com/questions/51860043/javascript-es6-typeerror-class-constructor-client-cannot-be-invoked-without-ne
+        // ES6 classes are supported in any recent Node version, they shouldn't be transpiled. es2015 should be excluded from Babel configuration, it's preferable to use env preset set to node target.
+          presets: [['@babel/preset-env', { 'targets': { 'node': true } }], '@babel/preset-react', '@babel/preset-flow'],
           plugins: [
-            'transform-export-extensions',
-            'transform-class-properties',
+            '@babel/plugin-proposal-class-properties',
+            '@babel/plugin-proposal-export-default-from',
             [
-              'transform-runtime',
+              '@babel/plugin-transform-runtime',
               {
                 helpers: true,
-                polyfill: true,
                 regenerator: true,
               },
             ],
             'flow-react-proptypes',
-            'transform-object-rest-spread',
-            'transform-flow-strip-types',
-            'syntax-dynamic-import',
+            '@babel/plugin-proposal-object-rest-spread',
+            '@babel/plugin-transform-flow-strip-types',
+            '@babel/plugin-syntax-dynamic-import',
           ],
         },
       },
 
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
+        use: [
+          'style-loader',
+          'css-loader',
+        ],
       },
       {
         test: /\.html$/,
         loader: 'html-loader',
-        exclude: /node_modules/,
+        exclude: /node_modules/
       },
-      {
-        test: /mathquill\.js$/,
-        include: [/node-mathquill/],
-        // Grab the MathQuill export
-        // NOTE: window.jQuery needs to be provided through the providePlugin
-        // unless https://github.com/webpack/imports-loader/pull/21 is merged
-        use: ['exports-loader?MathQuill'],
-      },
-    ],
+    ]
   },
   resolve: {
-    alias: {},
+    alias: {}
   },
   plugins: [
     new webpack.ProvidePlugin({
       // jQuery (for Mathquill)
       'window.jQuery': 'jquery',
     }),
-    new FlowWebpackPlugin(),
+    // type checker 
+    ... (env.NODE_ENV === 'development') ? [new FlowWebpackPlugin({flowArgs: ['--show-all-errors']})] : [],
     // clean the web folder
-    new CleanWebpackPlugin(['bin']),
+    new CleanWebpackPlugin(),
     // expose and write the allowed env vars on the compiled bundle
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(env.NODE_ENV),
+      'process.env.NODE_ENV': JSON.stringify(env.NODE_ENV)
     }),
     new HtmlWebpackPlugin({
-      template: path.join(__dirname, 'demo', 'index.html'),
+      template: path.join(__dirname, 'licit', 'index.html'),
       filename: 'index.html',
-      chunks: ['demo'],
-      inlineSource: isDev ? '$^' : '.(js|css)$',
+      chunks: ['licit'],
+      inlineSource: isDev ? '$^' : '.(js|css)$'
     }),
-    new HtmlWebpackPlugin({
-      template: path.join(__dirname, 'demo', 'index.html'),
-      filename: 'playground.html',
-      chunks: ['playground'],
-      inlineSource: isDev ? '$^' : '.(js|css)$',
-    }),
-    new HtmlWebpackPlugin({
-      template: path.join(__dirname, 'demo', 'index.html'),
-      filename: 'ui.html',
-      chunks: ['ui'],
-      inlineSource: isDev ? '$^' : '.(js|css)$',
-    }),
-    new HtmlWebpackPlugin({
-      template: path.join(__dirname, 'demo', 'index.html'),
-      filename: 'convert.html',
-      chunks: ['convert'],
-      inlineSource: isDev ? '$^' : '.(js|css)$',
-    }),
-    new HtmlWebpackInlineSourcePlugin(),
-    new WriteFilePlugin(),
-  ],
+    new HtmlWebpackInlineSourcePlugin(HtmlWebpackPlugin),
+    new WriteFilePlugin()
+  ]
 };
 
 if (env.NODE_ENV === 'development') {
-  options.devtool = 'cheap-module-eval-source-map';
+  options.devtool = 'source-map';
 } else {
-  options.plugins.push(new UglifyJsPlugin());
+// [FS] IRAD-1005 2020-07-10
+// Upgrade outdated packages.  
+  options.optimization =  {
+    minimize: true,
+    minimizer: [new TerserPlugin()],
+  }
 }
 
 module.exports = options;

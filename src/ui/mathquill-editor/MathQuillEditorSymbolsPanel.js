@@ -3,11 +3,11 @@
 import renderLaTeXAsHTML from '../renderLaTeXAsHTML';
 import './czi-mathquill-editor-symbols-panel.css';
 import CustomButton from '../CustomButton';
-import React from 'react';
+import * as React from 'react';
 
 import type {MathQuillEditorSymbol} from './MathQuillEditorSymbols';
 
-class MathQuillEditorSymbolsPanel extends React.PureComponent<any, any, any> {
+class MathQuillEditorSymbolsPanel extends React.PureComponent<any, any> {
   props: {
     onSelect: (symbol: MathQuillEditorSymbol) => void,
     symbols: {

@@ -1,13 +1,13 @@
 .ProseMirror ul li::before {
   /* Default bullet style to "disc" */
-  content: '\2022\2009';
+  /* content: '\2022\2009'; */
 }
 
 .ProseMirror ul[type='square'] li::before {
-  content: '\25aa\2009';
+  /* content: '\25aa\2009'; */
 }
 
 .ProseMirror ul[type='circle'] li::before {
-  content: '\25cb\2009';
-  transform: scale(0.6);
+  /* content: '\25cb\2009'; */
+  /* transform: scale(0.6); */
 }

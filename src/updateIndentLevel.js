@@ -5,18 +5,18 @@ import compareNumber from './compareNumber';
 import consolidateListNodes from './consolidateListNodes';
 import isListNode from './isListNode';
 import transformAndPreserveTextSelection from './transformAndPreserveTextSelection';
-import {AllSelection, TextSelection} from 'prosemirror-state';
-import {BLOCKQUOTE, HEADING, LIST_ITEM, PARAGRAPH} from './NodeNames';
-import {Fragment, Schema} from 'prosemirror-model';
-import {MAX_INDENT_LEVEL, MIN_INDENT_LEVEL} from './ParagraphNodeSpec';
-import {Transform} from 'prosemirror-transform';
+import { AllSelection, TextSelection } from 'prosemirror-state';
+import { BLOCKQUOTE, HEADING, LIST_ITEM, PARAGRAPH } from './NodeNames';
+import { Fragment, Schema } from 'prosemirror-model';
+import { MAX_INDENT_LEVEL, MIN_INDENT_LEVEL } from './ParagraphNodeSpec';
+import { Transform } from 'prosemirror-transform';
 
 export default function updateIndentLevel(
   tr: Transform,
   schema: Schema,
   delta: number
 ): Transform {
-  const {doc, selection} = tr;
+  const { doc, selection } = tr;
   if (!doc || !selection) {
     return tr;
   }
@@ -27,8 +27,8 @@ export default function updateIndentLevel(
     return tr;
   }
 
-  const {nodes} = schema;
-  const {from, to} = selection;
+  const { nodes } = schema;
+  const { from, to } = selection;
   const listNodePoses = [];
 
   const blockquote = nodes[BLOCKQUOTE];
@@ -57,7 +57,7 @@ export default function updateIndentLevel(
   }
 
   tr = transformAndPreserveTextSelection(tr, schema, memo => {
-    const {schema} = memo;
+    const { schema } = memo;
     let tr2 = memo.tr;
     listNodePoses
       .sort(compareNumber)
@@ -83,7 +83,7 @@ function setListNodeIndent(
     return tr;
   }
 
-  const {doc, selection} = tr;
+  const { doc, selection } = tr;
   if (!doc) {
     return tr;
   }
@@ -102,9 +102,14 @@ function setListNodeIndent(
     return tr;
   }
 
-  const {from, to} = selection;
+  const { from, to } = selection;
 
-  if (from <= pos && to >= pos + listNode.nodeSize) {
+  // [FS] IRAD-947 2020-05-19
+  // Fix for Multi-level lists lose multi-levels when indenting/de-indenting 
+  // Earlier they checked the to postion value to >= pos + listNode.nodeSize
+  // It wont satisfy the list hve childrens 
+
+  if (from <= pos && to >= pos) {
     return setNodeIndentMarkup(tr, schema, pos, delta);
   }
 

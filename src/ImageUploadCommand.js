@@ -1,8 +1,8 @@
 // @flow
 
-import {EditorState} from 'prosemirror-state';
-import {EditorView} from 'prosemirror-view';
-import React from 'react';
+import { EditorState } from 'prosemirror-state';
+import { EditorView } from 'prosemirror-view';
+import * as React from 'react';
 
 import ImageSourceCommand from './ImageSourceCommand';
 import ImageUploadEditor from './ui/ImageUploadEditor';
@@ -13,12 +13,12 @@ class ImageUploadCommand extends ImageSourceCommand {
       return false;
     }
 
-    const {runtime} = view;
+    const { runtime } = view;
     if (!runtime) {
       return false;
     }
 
-    const {canUploadImage, uploadImage} = runtime;
+    const { canUploadImage, uploadImage } = runtime;
     if (!canUploadImage || !uploadImage) {
       return false;
     }
@@ -29,7 +29,7 @@ class ImageUploadCommand extends ImageSourceCommand {
     return this.__isEnabled(state, view);
   };
 
-  getEditor(): Class<React.Component<any, any, any>> {
+  getEditor(): Class<React.Component<any, any>> {
     return ImageUploadEditor;
   }
 }

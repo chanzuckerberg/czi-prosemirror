@@ -1,7 +1,7 @@
 // @flow
 
 import Color from 'color';
-import React from 'react';
+import * as React from 'react';
 
 import CustomButton from './CustomButton';
 import clamp from './clamp';
@@ -40,7 +40,7 @@ function generateRainbowColors(
   return colors;
 }
 
-class ColorEditor extends React.PureComponent<any, any, any> {
+class ColorEditor extends React.PureComponent<any, any> {
   props: {
     close: (?string) => void,
     hex?: ?string,

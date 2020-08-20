@@ -1,8 +1,8 @@
 [include]
 .*/src/.*
-.*/demo/.*
-
+.*/licit/.*
 [ignore]
+.*/dist/.*
 .*/bin/.*
 .*/node_modules/@babel.*
 .*/node_modules/@emotion/.*
@@ -29,6 +29,7 @@
 .*/node_modules/react-emotion/.*
 .*/node_modules/unstated/.*
 .*/node_modules/stylelint/.*
+.*/node_modules/gensync/.*
 
 [libs]
 ./flow-typed/.*

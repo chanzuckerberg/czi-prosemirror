@@ -1,10 +1,10 @@
 // @flow
 
 import './czi-loading-indicator.css';
-import React from 'react';
+import * as React from 'react';
 
 // https://loading.io/css/
-class LoadingIndicator extends React.PureComponent {
+class LoadingIndicator extends React.PureComponent<any, any>{
   render(): React.Element<any> {
     return (
       <div className="czi-loading-indicator">

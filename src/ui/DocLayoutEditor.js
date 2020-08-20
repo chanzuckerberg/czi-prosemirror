@@ -1,8 +1,7 @@
 // @flow
 
-import React from 'react';
-
-import {LAYOUT} from '../DocNodeSpec';
+import * as React from 'react';
+import { LAYOUT } from '../DocNodeSpec';
 import CustomButton from './CustomButton';
 import CustomRadioButton from './CustomRadioButton';
 import preventEventDefault from './preventEventDefault';
@@ -26,15 +25,34 @@ type State = {
   width: ?number,
 };
 
-class DocLayoutEditor extends React.PureComponent<any, any, any> {
+class DocLayoutEditor extends React.PureComponent<any, any> {
   _unmounted = false;
 
-  props: Props;
+  // [FS] IRAD-1005 2020-07-07
+  // Upgrade outdated packages.
+  // To take care of the property type declaration.
+  static propsTypes = {
+
+    // initialValue: PropTypes.shape({
+    //   layout: PropTypes.string,
+    //   width: PropTypes.number,
+    // }),
+    
+    close: function (props: any, propName: string) {
+      var fn = props[propName];
+      if (!fn.prototype ||
+        (typeof fn.prototype.constructor !== 'function' &&
+          fn.prototype.constructor.length !== 1)) {
+        return new Error(propName + 'must be a function with 1 arg of type DocLayoutEditorValue');
+      }
+    }
+  }
+
   state: State;
 
   constructor(props: Object, context: Object) {
     super(props, context);
-    const {width, layout} = this.props.initialValue || {};
+    const { width, layout } = this.props.initialValue || {};
     this.state = {
       width,
       layout,
@@ -43,7 +61,7 @@ class DocLayoutEditor extends React.PureComponent<any, any, any> {
   }
 
   render(): React.Element<any> {
-    const {width, selectedValue} = this.state;
+    const { width, selectedValue } = this.state;
     const customOption = width ? (
       <CustomRadioButton
         checked={selectedValue === width}
@@ -96,7 +114,7 @@ class DocLayoutEditor extends React.PureComponent<any, any, any> {
   }
 
   _onSelect = (selectedValue: any): void => {
-    this.setState({selectedValue});
+    this.setState({ selectedValue });
   };
 
   _cancel = (): void => {
@@ -104,11 +122,11 @@ class DocLayoutEditor extends React.PureComponent<any, any, any> {
   };
 
   _apply = (): void => {
-    const {selectedValue} = this.state;
+    const { selectedValue } = this.state;
     if (typeof selectedValue === 'string') {
-      this.props.close({width: null, layout: selectedValue});
+      this.props.close({ width: null, layout: selectedValue });
     } else {
-      this.props.close({width: selectedValue, layout: null});
+      this.props.close({ width: selectedValue, layout: null });
     }
   };
 }

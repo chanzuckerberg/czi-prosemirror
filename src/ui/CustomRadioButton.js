@@ -2,20 +2,20 @@
 
 import './czi-custom-radio-button.css';
 import PointerSurface from './PointerSurface';
-import React from 'react';
+import * as React from 'react';
 import cx from 'classnames';
 import uuid from './uuid';
 import preventEventDefault from './preventEventDefault';
 
 import type {PointerSurfaceProps} from './PointerSurface';
 
-class CustomRadioButton extends React.PureComponent<any, any, any> {
+class CustomRadioButton extends React.PureComponent<any, any> {
   props: PointerSurfaceProps & {
     checked?: ?boolean,
     inline?: ?boolean,
     label?: string | React.Element<any> | null,
     name?: ?string,
-    onSelect?: ?(val: any, e: SyntheticEvent) => void,
+    onSelect?: ?(val: any, e: SyntheticEvent<>) => void,
   };
 
   _name = uuid();

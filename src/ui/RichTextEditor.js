@@ -2,7 +2,7 @@
 
 import {Transform} from 'prosemirror-transform';
 import {EditorView} from 'prosemirror-view';
-import React from 'react';
+import * as React from 'react';
 
 import createEmptyEditorState from '../createEmptyEditorState';
 import Editor from './Editor';
@@ -15,18 +15,17 @@ import type {EditorFramesetProps} from './EditorFrameset';
 import type {EditorProps} from './Editor';
 
 type Props = EditorFramesetProps &
-  EditorProps & {
-    children?: ?React.Children,
+  EditorProps & { children?: ?any,
   };
 
 type State = {
   editorView: ?EditorView,
 };
 
-const EMPTY_EDITOR_STATE = createEmptyEditorState();
+
 const EMPTY_EDITOR_RUNTIME = {};
 
-class RichTextEditor extends React.PureComponent<any, any, any> {
+class RichTextEditor extends React.PureComponent<any, any> {
   props: Props;
 
   state: State;
@@ -61,7 +60,7 @@ class RichTextEditor extends React.PureComponent<any, any, any> {
 
     let {editorState, runtime} = this.props;
 
-    editorState = editorState || EMPTY_EDITOR_STATE;
+    editorState = editorState || createEmptyEditorState();
     runtime = runtime || EMPTY_EDITOR_RUNTIME;
 
     const {editorView} = this.state;
@@ -117,9 +116,15 @@ class RichTextEditor extends React.PureComponent<any, any, any> {
     }
 
     if (onChange) {
-      const nextState = (editorState || Editor.EDITOR_EMPTY_STATE).apply(tr);
-      onChange(nextState);
+      // [FS-AFQ][20-FEB-2020]
+      // Collaboration
+      onChange({
+        state: editorState || Editor.EDITOR_EMPTY_STATE,
+        transaction: tr        
+      });
     }
+
+    
   };
 
   _onReady = (editorView: EditorView): void => {

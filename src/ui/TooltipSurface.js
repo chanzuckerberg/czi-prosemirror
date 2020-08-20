@@ -3,12 +3,12 @@
 import './czi-tooltip-surface.css';
 import './czi-animations.css';
 
-import React from 'react';
+import * as React from 'react';
 import createPopUp from './createPopUp';
 import {atAnchorBottomCenter} from './PopUpPosition';
 import uuid from './uuid';
 
-class TooltipView extends React.PureComponent<any, any, any> {
+class TooltipView extends React.PureComponent<any, any> {
   render(): React.Element<any> {
     const {tooltip} = this.props;
     return (
@@ -17,7 +17,7 @@ class TooltipView extends React.PureComponent<any, any, any> {
   }
 }
 
-class TooltipSurface extends React.PureComponent<any, any, any> {
+class TooltipSurface extends React.PureComponent<any, any> {
   _id = uuid();
   _popUp = null;
 

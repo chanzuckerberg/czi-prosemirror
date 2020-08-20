@@ -3,7 +3,7 @@
 import './czi-math-view.css';
 import CustomNodeView from './CustomNodeView';
 import MathInlineEditor from './MathInlineEditor';
-import React from 'react';
+import * as React from 'react';
 import createPopUp from './createPopUp';
 import cx from 'classnames';
 import renderLaTeXAsHTML from './renderLaTeXAsHTML';
@@ -12,6 +12,7 @@ import {Decoration} from 'prosemirror-view';
 import {FRAMESET_BODY_CLASSNAME} from './EditorFrameset';
 import {Node} from 'prosemirror-model';
 import {atAnchorBottomCenter} from './PopUpPosition';
+import { NodeSelection } from 'prosemirror-state';
 
 import type {NodeViewProps} from './CustomNodeView';
 
@@ -19,7 +20,7 @@ const EMPTY_SRC =
   'data:image/gif;base64,' +
   'R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
 
-class MathViewBody extends React.PureComponent<any, any, any> {
+class MathViewBody extends React.PureComponent<any, any> {
   props: NodeViewProps;
 
   state = {
@@ -131,7 +132,14 @@ class MathViewBody extends React.PureComponent<any, any, any> {
     let tr = editorView.state.tr;
     const {selection} = editorView.state;
     tr = tr.setNodeMarkup(pos, null, attrs);
-    tr = tr.setSelection(selection);
+    // [FS] IRAD-1005 2020-07-23
+    // Upgrade outdated packages.
+    // reset selection to original using the latest doc.
+    const origSelection = NodeSelection.create(
+      tr.doc,
+      selection.from
+    );
+    tr = tr.setSelection(origSelection);
     editorView.dispatch(tr);
   };
 }

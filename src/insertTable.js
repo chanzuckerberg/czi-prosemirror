@@ -1,12 +1,12 @@
 // @flow
 
-import {Fragment, Schema} from 'prosemirror-model';
-import {TextSelection} from 'prosemirror-state';
-import {Transform} from 'prosemirror-transform';
+import { Fragment, Schema } from 'prosemirror-model';
+import { TextSelection } from 'prosemirror-state';
+import { Transform } from 'prosemirror-transform';
 
-import {PARAGRAPH, TABLE, TABLE_CELL, TABLE_ROW} from './NodeNames';
+import { PARAGRAPH, TABLE, TABLE_CELL, TABLE_ROW } from './NodeNames';
 
-const ZERO_WIDTH_SPACE_CHAR = '\u200b';
+// const ZERO_WIDTH_SPACE_CHAR = '\u200b';
 
 export default function insertTable(
   tr: Transform,
@@ -17,12 +17,12 @@ export default function insertTable(
   if (!tr.selection || !tr.doc) {
     return tr;
   }
-  const {from, to} = tr.selection;
+  const { from, to } = tr.selection;
   if (from !== to) {
     return tr;
   }
 
-  const {nodes} = schema;
+  const { nodes } = schema;
   const cell = nodes[TABLE_CELL];
   const paragraph = nodes[PARAGRAPH];
   const row = nodes[TABLE_ROW];
@@ -35,9 +35,9 @@ export default function insertTable(
   for (let rr = 0; rr < rows; rr++) {
     const cellNodes = [];
     for (let cc = 0; cc < cols; cc++) {
-      const textNode = schema.text(ZERO_WIDTH_SPACE_CHAR);
-      const paragraphNode = paragraph.create({}, Fragment.from(textNode));
-      const cellNode = cell.create({}, Fragment.from(paragraphNode));
+      // [FS] IRAD-950 2020-05-25
+      // Fix:Extra arrow key required for cell navigation using arrow right/Left
+      const cellNode = cell.create(undefined, Fragment.fromArray([paragraph.create()]));
       cellNodes.push(cellNode);
     }
     const rowNode = row.create({}, Fragment.from(cellNodes));

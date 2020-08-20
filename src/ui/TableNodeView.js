@@ -1,6 +1,6 @@
-import {Node} from 'prosemirror-model';
-import {EditorView} from 'prosemirror-view';
-import {TableView} from 'prosemirror-tables';
+import { Node } from 'prosemirror-model';
+import { EditorView } from 'prosemirror-view';
+import { TableView } from 'prosemirror-tables';
 
 // A custom table view that renders the margin-left style.
 export default class TableNodeView extends TableView {

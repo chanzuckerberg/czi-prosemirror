@@ -3,6 +3,7 @@
   "rules": {
     "selector-type-no-unknown": [true, {
       "ignoreTypes": ["nobr"]
-    }]
+    }],
+    "no-descending-specificity":null
   }
 }

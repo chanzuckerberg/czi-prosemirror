@@ -6,8 +6,8 @@ import convertToJSON from './convertToJSON';
 import CustomEditorView from './ui/CustomEditorView';
 import UICommand from './ui/UICommand';
 
-const commandsRegistery = new Map();
-const viewsRegistery = new Map();
+const commandsRegistery = new Map<any, any>();
+const viewsRegistery = new Map<any, any>();
 
 // This file exports methods to help developer to debug editor from web
 // inspector. To use this, add the following lines to export the utility.

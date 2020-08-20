@@ -1,7 +1,7 @@
 // @flow
 
 import {EditorView} from 'prosemirror-view';
-import React from 'react';
+import * as React from 'react';
 import scrollIntoView from 'smooth-scroll-into-view-if-needed';
 
 import sanitizeURL from '../sanitizeURL';
@@ -13,7 +13,7 @@ function isBookMarkHref(href: string): boolean {
   return !!href && href.indexOf('#') === 0 && href.length >= 2;
 }
 
-class LinkTooltip extends React.PureComponent<any, any, any> {
+class LinkTooltip extends React.PureComponent<any, any> {
   props: {
     editorView: EditorView,
     href: string,
@@ -28,26 +28,28 @@ class LinkTooltip extends React.PureComponent<any, any, any> {
     hidden: false,
   };
 
-  render(): ?React.Element<any> {
+  render(): React.Element<any> {
     const {href, editorView, onEdit, onRemove} = this.props;
-    const useBookMark = isBookMarkHref(href);
-    const editButton = !!useBookMark && (
-      <CustomButton label="Change" onClick={onEdit} value={editorView} />
-    );
+    // [FS] IRAD-1013 2020-07-09
+    // Change button in "Apply Link" missing in LICIT.
 
     return (
       <div className="czi-link-tooltip">
         <div className="czi-link-tooltip-body">
           <div className="czi-link-tooltip-row">
-            <CustomButton
-              className={useBookMark ? null : 'czi-link-tooltip-href'}
-              label={useBookMark ? 'Jump To Bookmark' : href}
+          <CustomButton
+              className="czi-link-tooltip-href"
+              label={href}
               onClick={this._openLink}
               target="new"
-              title={useBookMark ? null : href}
+              title={href}
               value={href}
             />
-            {editButton}
+            <CustomButton
+              label="Change"
+              onClick={onEdit}
+              value={editorView}
+            />
             <CustomButton
               label="Remove"
               onClick={onRemove}

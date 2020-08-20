@@ -41,7 +41,6 @@
   border: solid 1px #fff;
   border-width: 0 1px;
   bottom: 0;
-  pointer-events: none;
   position: absolute;
   right: -2px;
   top: 0;
@@ -59,7 +58,10 @@
   right: auto;
 }
 
-.ProseMirror.resize-cursor {
+/* [FS] IRAD-949 2020-05-27
+Rezie cursor position issue fixed. */
+.ProseMirror .column-resize-handle:focus,
+.ProseMirror .column-resize-handle:hover {
   cursor: ew-resize;
   cursor: col-resize;
 }

@@ -1,37 +1,27 @@
 // @flow
 
-import nullthrows from 'nullthrows';
-
-import {LAYOUT, getAttrs} from './DocNodeSpec';
 import {PT_TO_PX_RATIO} from './convertToCSSPTValue';
 import convertToCSSPTValue from './convertToCSSPTValue';
-import toCSSColor from './ui/toCSSColor';
-
-// This value is originally defined at prosemirror-table.
-const ATTRIBUTE_CELL_WIDTH = 'data-colwidth';
+import toHexColor from './ui/toHexColor';
 
 export default function patchTableElements(doc: Document): void {
-  const layout = doc.body ? getAttrs(doc.body).layout : null;
-  Array.from(doc.querySelectorAll('td')).forEach(tdEl => {
-    patchTableCell(tdEl, layout);
-  });
+  Array.from(doc.querySelectorAll('td')).forEach(patchTableCell);
   Array.from(doc.querySelectorAll('tr[style^=height]')).forEach(patchTableRow);
 }
 
-// The height of each line: ~= 21px
-const LINE_HEIGHT_PX_VALUE = 21;
+ // The height of each line: ~= 21px
 const LINE_HEIGHT_PT_VALUE = 15.81149997;
 
 // Workaround to patch HTML from Google Doc that Table Cells will apply
 // its background colr to all its inner <span />.
-function patchTableCell(tdElement: HTMLElement, layout: ?string): void {
+function patchTableCell(tdElement: HTMLElement): void {
   const {style} = tdElement;
   if (!style) {
     return;
   }
   const {backgroundColor, width} = style;
   if (backgroundColor) {
-    const tdBgColor = toCSSColor(backgroundColor);
+    const tdBgColor = toHexColor(backgroundColor);
     const selector = 'span[style*=background-color]';
     const spans = Array.from(tdElement.querySelectorAll(selector));
     spans.some(spanElement => {
@@ -39,7 +29,7 @@ function patchTableCell(tdElement: HTMLElement, layout: ?string): void {
       if (!spanStyle || !spanStyle.backgroundColor) {
         return;
       }
-      const spanBgColor = toCSSColor(spanStyle.backgroundColor);
+      const spanBgColor = toHexColor(spanStyle.backgroundColor);
       if (spanBgColor === tdBgColor) {
         // The span has the same bg color as the cell does, erase its bg color.
         spanStyle.backgroundColor = '';
@@ -52,41 +42,9 @@ function patchTableCell(tdElement: HTMLElement, layout: ?string): void {
     if (!ptValue) {
       return;
     }
-
-    // This value is arbitrary. It assumes the page use the default size
-    // with default padding.
-    let defaultTableWidth = 0;
-
-    if (layout === LAYOUT.US_LETTER_LANDSCAPE) {
-      defaultTableWidth = 960;
-    } else if (layout === LAYOUT.US_LETTER_PORTRAIT) {
-      defaultTableWidth = 700;
-    } else {
-      defaultTableWidth = 700;
-    }
-
     const pxValue = ptValue * PT_TO_PX_RATIO;
     // Attribute "data-colwidth" is defined at 'prosemirror-tables';
-    const rowEl = nullthrows(tdElement.parentElement);
-    tdElement.setAttribute(ATTRIBUTE_CELL_WIDTH, String(Math.floor(pxValue)));
-
-    if (rowEl.lastElementChild === tdElement) {
-      const cells = Array.from(rowEl.children);
-      const tableWidth = cells.reduce((sum, td) => {
-        const ww = parseInt(td.getAttribute(ATTRIBUTE_CELL_WIDTH), 10);
-        sum += ww;
-        return sum;
-      }, 0);
-      if (isNaN(tableWidth) || tableWidth <= defaultTableWidth) {
-        return;
-      }
-
-      const scale = defaultTableWidth / tableWidth;
-      cells.forEach(cell => {
-        const ww = parseInt(cell.getAttribute(ATTRIBUTE_CELL_WIDTH), 10);
-        cell.setAttribute(ATTRIBUTE_CELL_WIDTH, String(Math.floor(ww * scale)));
-      });
-    }
+    tdElement.setAttribute('data-colwidth', String(Math.round(pxValue)));
   }
 }
 
@@ -110,19 +68,12 @@ function patchTableRow(trElement: HTMLElement): void {
     return;
   }
 
-  const cellPxHeight = Array.from(firstCell.children).reduce(
-    (sum, childNode) => {
-      return sum + getEstimatedPxHeight(childNode);
-    },
-    0
-  );
-
-  const cellPtHeight = convertToCSSPTValue(String(cellPxHeight) + 'px');
-  if (cellPtHeight >= ptValue) {
+  const pEls = firstCell.querySelectorAll('p');
+  const heightNeeded = ptValue - (LINE_HEIGHT_PT_VALUE * pEls.length);
+  if (heightNeeded < 0) {
     return;
   }
-
-  let pElsNeeded = Math.round((ptValue - cellPtHeight) / LINE_HEIGHT_PT_VALUE);
+  let pElsNeeded = Math.round(heightNeeded / LINE_HEIGHT_PT_VALUE);
   if (pElsNeeded <= 0) {
     return;
   }
@@ -133,20 +84,4 @@ function patchTableRow(trElement: HTMLElement): void {
     frag.appendChild(line.cloneNode(false));
   }
   firstCell.appendChild(frag);
-}
-
-function getEstimatedPxHeight(el: HTMLElement): number {
-  const imgs = el.querySelectorAll('img');
-  if (imgs.length) {
-    return Array.from(imgs).reduce((sum, nn) => {
-      return sum + getEstimatedPxHeight(nn);
-    }, 0);
-  }
-  if (el.height) {
-    return parseFloat(el.height) || LINE_HEIGHT_PX_VALUE;
-  }
-  if (el.style && el.style.height) {
-    return convertToCSSPTValue(el.style.height) || LINE_HEIGHT_PX_VALUE;
-  }
-  return LINE_HEIGHT_PX_VALUE;
 }

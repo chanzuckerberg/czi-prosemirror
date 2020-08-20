@@ -1,20 +1,20 @@
 // @flow
 
-import {Node} from 'prosemirror-model';
+import { Node } from 'prosemirror-model';
 
-import {ATTRIBUTE_LIST_STYLE_TYPE} from './ListItemNodeSpec';
-import {LIST_ITEM} from './NodeNames';
-import {ATTRIBUTE_INDENT, MIN_INDENT_LEVEL} from './ParagraphNodeSpec';
+import { ATTRIBUTE_LIST_STYLE_TYPE } from './ListItemNodeSpec';
+import { LIST_ITEM } from './NodeNames';
+import { ATTRIBUTE_INDENT, MIN_INDENT_LEVEL } from './ParagraphNodeSpec';
 
-import type {NodeSpec} from './Types';
+import type { NodeSpec } from './Types';
 
 const AUTO_LIST_STYLE_TYPES = ['disc', 'square', 'circle'];
 
 const BulletListNodeSpec: NodeSpec = {
   attrs: {
-    id: {default: null},
-    indent: {default: 0},
-    listStyleType: {default: null},
+    id: { default: null },
+    indent: { default: 0 },
+    listStyleType: { default: null },
   },
   group: 'block',
   content: LIST_ITEM + '+',
@@ -38,13 +38,11 @@ const BulletListNodeSpec: NodeSpec = {
   ],
 
   toDOM(node: Node) {
-    const {indent, listStyleType} = node.attrs;
+    const { indent, listStyleType } = node.attrs;
     const attrs = {};
-
-    if (indent) {
-      attrs[ATTRIBUTE_INDENT] = indent;
-    }
-
+    // [FS] IRAD-947 2020-05-26
+    // Bullet list type changing fix
+    attrs[ATTRIBUTE_INDENT] = indent;
     if (listStyleType) {
       attrs[ATTRIBUTE_LIST_STYLE_TYPE] = listStyleType;
     }

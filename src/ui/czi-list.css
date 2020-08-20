@@ -1,10 +1,10 @@
 @import './czi-vars.css';
-@import './czi-bullet-list.css';
-@import './czi-ordered-list.css';
 
-/* List Styles */
-
-/* https://css-tricks.com/custom-list-number-styling/ */
+html {
+  counter-reset:
+    czi-counter-0 czi-counter-1 czi-counter-2 czi-counter-3
+    czi-counter-4 czi-counter-5 czi-counter-6 czi-counter-7;
+}
 
 .ProseMirror ol,
 .ProseMirror ul {
@@ -16,15 +16,16 @@
   counter-reset: none;
   display: flow-root;
   list-style-type: none;
+  margin-block-end: 0;
+  margin-block-start: 0;
   margin: 0;
   padding: 0;
 }
 
+/* bullet indentation */
 .ProseMirror li {
-  --czi-list-font-size: 0.95em;
-  --czi-list-style-color: initial;
-
-  display: flex;
+  /* This assumes the space needed for 3 digits numbers */
+  display: block;
   list-style-type: none;
   margin: 0;
   padding: 0;
@@ -33,22 +34,165 @@
 }
 
 .ProseMirror li > p {
-  flex: 1;
   margin: 0;
+  margin-block-end: 0;
+  margin-block-start: 0;
+  padding-left: 24pt;
 }
 
-/* generic styles for custom list style type. */
-
-/* see https://css-tricks.com/numbering-in-style/ */
-.ProseMirror li::before {
-  box-sizing: border-box;
+/* https://css-tricks.com/numbering-in-style/ */
+.ProseMirror ul li > p::before {
   color: var(--czi-list-style-color);
-  content: '';
-  display: block;
-  font-size: var(--czi-list-style-font-size);
-  line-height: 120%;
+
+  /* content: '\2022'; */
+  display: inline-block;
+  font-size: 1em;
+  line-height: 1em;
   position: relative;
   text-align: right;
-  top: 0.1em;
-  min-width: 24pt;
+  top: 0;
+  left: -5px;
+  margin-left: -24pt;
+  width: 24pt;
+}
+
+.ProseMirror ol {
+  /* counter-reset: czi-counter;
+  list-style-type: none; */
+  --czi-counter-name: czi-counter-0;
+  --czi-list-style-type: decimal;
+  --czi-counter-reset: 0;
+
+  counter-reset: none;
+}
+
+.ProseMirror ol > li {
+  counter-increment: var(--czi-counter-name);
+}
+
+.ProseMirror ol:not([data-counter-reset='none']) {
+  counter-reset: var(--czi-counter-name) var(--czi-counter-reset);
+}
+
+.ProseMirror ol[data-counter-reset='none'] {
+  counter-reset: none;
+}
+
+.ProseMirror ol[type='decimal'][data-indent='6'] > li > ::before {
+  content: counter(czi-counter-6, decimal) '. ';
+}
+
+.ProseMirror ol[type='decimal'][data-indent='5'] > li > p ::before {
+  content: counter(czi-counter-5, decimal) '. ';
+}
+
+.ProseMirror ol[type='decimal'][data-indent='4'] > li > p ::before {
+  content: counter(czi-counter-4, decimal) '. ';
+}
+
+.ProseMirror ol[type='decimal'][data-indent='3'] > li > ::before {
+  content: counter(czi-counter-3, decimal) '. ';
+}
+
+.ProseMirror ol[type='decimal'][data-indent='2'] > li > p::before {
+  content: counter(czi-counter-2, decimal) '. ';
+}
+
+.ProseMirror ol[type='decimal'][data-indent='1'] > li > p::before {
+  content: counter(czi-counter-1, decimal) '. ';
+}
+
+.ProseMirror ol[type='decimal'][data-indent='0'] > li > p::before {
+  color: var(--czi-list-style-color);
+  content: counter(czi-counter-0, decimal) '. ';
+  display: inline-block;
+  font-size: 1em;
+  line-height: 1em;
+  position: relative;
+  text-align: right;
+  top: 0;
+  left: -5px;
+  margin-left: -24pt;
+  width: 24pt;
+}
+
+.ProseMirror ol[type='lower-alpha'][data-indent='6'] > li > p::before {
+  content: counter(czi-counter-6, lower-alpha) '. ';
+}
+
+.ProseMirror ol[type='lower-alpha'][data-indent='5'] > li > p::before {
+  content: counter(czi-counter-5, lower-alpha) '. ';
+}
+
+.ProseMirror ol[type='lower-alpha'][data-indent='4'] > li > p::before {
+  content: counter(czi-counter-4, lower-alpha) '. ';
+}
+
+.ProseMirror ol[type='lower-alpha'][data-indent='3'] > li > p::before {
+  content: counter(czi-counter-3, lower-alpha) '. ';
+}
+
+.ProseMirror ol[type='lower-alpha'][data-indent='2'] > li > p::before {
+  content: counter(czi-counter-2, lower-alpha) '. ';
+}
+
+.ProseMirror ol[type='lower-alpha'][data-indent='1'] > li > p::before {
+  content: counter(czi-counter-1, lower-alpha) '. ';
+}
+
+.ProseMirror ol[type='lower-alpha'][data-indent='0'] > li > p::before {
+  content: counter(czi-counter-0, lower-alpha) '. ';
+}
+
+.ProseMirror ol[type='lower-roman'][data-indent='6'] > li > p::before {
+  content: counter(czi-counter-6, lower-roman) '. ';
+}
+
+.ProseMirror ol[type='lower-roman'][data-indent='5'] > li > p::before {
+  content: counter(czi-counter-5, lower-roman) '. ';
+}
+
+.ProseMirror ol[type='lower-roman'][data-indent='4'] > li > p::before {
+  content: counter(czi-counter-4, lower-roman) '. ';
+}
+
+.ProseMirror ol[type='lower-roman'][data-indent='3'] > li > p::before {
+  content: counter(czi-counter-3, lower-roman) '. ';
+}
+
+.ProseMirror ol[type='lower-roman'][data-indent='2'] > li > p::before {
+  content: counter(czi-counter-2, lower-roman) '. ';
+}
+
+.ProseMirror ol[type='lower-roman'][data-indent='1'] > li > ::before {
+  content: counter(czi-counter-1, lower-roman) '. ';
+}
+
+.ProseMirror ol[type='lower-roman'][data-indent='0'] > li::before {
+  content: counter(czi-counter-0, lower-roman) '. ';
+}
+
+/* [FS] IRAD-947 2020-05-26
+Bullet list type changing fix */
+
+/* prettier-ignore */
+.ProseMirror ul[data-indent='7'] li > p::before,
+/* prettier-ignore */
+.ProseMirror ul[data-indent='4'] li > p::before,
+/* prettier-ignore */
+.ProseMirror ul[data-indent='1'] li > p::before {
+  content: '\25cb'; /* circle */
+}
+
+/* prettier-ignore */
+.ProseMirror ul[data-indent='5'] li > p::before,
+/* prettier-ignore */
+.ProseMirror ul[data-indent='2'] li > p::before {
+  content: '\25a0'; /* square */
+}
+
+.ProseMirror ul[data-indent='6'] li > p::before,
+.ProseMirror ul[data-indent='3'] li > p::before,
+.ProseMirror ul[data-indent='0'] li > p::before {
+  content: '\2022'; /* circle */
 }

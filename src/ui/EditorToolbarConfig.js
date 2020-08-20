@@ -1,7 +1,7 @@
 // @flow
 
 // eslint-disable-next-line no-unused-vars
-import React from 'react';
+import * as React from 'react';
 
 import * as EditorCommands from '../EditorCommands';
 import FontSizeCommandMenuButton from './FontSizeCommandMenuButton';
@@ -31,9 +31,9 @@ export function parseLabel(input: string): Object {
 }
 
 const {
-  BLOCKQUOTE_TOGGLE,
+  // [FS][07-MAY-2020][IRAD-956]
+  // BLOCKQUOTE_TOGGLE,
   CLEAR_FORMAT,
-  CODE,
   DOC_LAYOUT,
   EM,
   H1,
@@ -116,15 +116,47 @@ export const TABLE_COMMANDS_GROUP = [
   },
 ];
 
+// [FS] IRAD-1012 2020-07-14
+// Fix: Toolbar is poorly organized.
+
 export const COMMAND_GROUPS = [
   {
-    '[undo] Undo': HISTORY_UNDO,
-    '[redo] Redo': HISTORY_REDO,
+    '[font_download] Font Type': FontTypeCommandMenuButton,
   },
   {
-    '[grid_on] Table...': TABLE_COMMANDS_GROUP,
+    '[format_size] Text Size': FontSizeCommandMenuButton,
   },
   {
+    '[format_bold] Bold': STRONG,
+    '[format_italic] Italic': EM,
+    '[format_underline] Underline': UNDERLINE,
+    '[format_strikethrough] Strike through': STRIKE,
+    '[superscript] Superscript': SUPER,
+    '[format_color_text] Text color': TEXT_COLOR,
+    '[border_color] Highlight color': TEXT_HIGHLIGHT,
+    
+  // },
+  // {
+    '[format_clear] Clear formats': CLEAR_FORMAT,
+  },
+  {
+    '[format_align_left] Left align': TEXT_ALIGN_LEFT,
+    '[format_align_center] Center Align': TEXT_ALIGN_CENTER,
+    '[format_align_right] Right Align': TEXT_ALIGN_RIGHT,
+    '[format_align_justify] Justify': TEXT_ALIGN_JUSTIFY,
+  },
+  {
+    '[format_indent_increase] Indent more': INDENT_MORE,
+    '[format_indent_decrease] Indent less': INDENT_LESS,
+  // },
+  // {
+    '[format_line_spacing] Line spacing': TEXT_LINE_SPACINGS,
+  },
+  {
+    '[format_list_numbered] Ordered list': OL,
+    '[format_list_bulleted] Bulleted list': UL,
+  // },
+  // {
     '[H1] Header 1': H1,
     '[H2] Heading 2': H2,
     '[keyboard_arrow_down] Headings...': [
@@ -137,20 +169,6 @@ export const COMMAND_GROUPS = [
     ],
   },
   {
-    '[font_download] Font Type': FontTypeCommandMenuButton,
-  },
-  {
-    '[format_size] Text Size': FontSizeCommandMenuButton,
-  },
-  {
-    '[format_bold] Bold': STRONG,
-    '[format_italic] Italic': EM,
-    '[format_underline] Underline': UNDERLINE,
-    '[format_color_text] Text color': TEXT_COLOR,
-    '[border_color] Highlight color': TEXT_HIGHLIGHT,
-    '[superscript] Superscript': SUPER,
-  },
-  {
     '[link] Apply link': LINK_SET_URL,
     '[image] Insert image': [
       {
@@ -158,35 +176,23 @@ export const COMMAND_GROUPS = [
         'Upload image from computer': IMAGE_UPLOAD,
       },
     ],
-  },
-  {
-    '[format_align_left] Left align': TEXT_ALIGN_LEFT,
-    '[format_align_center] Center Align': TEXT_ALIGN_CENTER,
-    '[format_align_right] Right Align': TEXT_ALIGN_RIGHT,
-    '[format_align_justify] Justify': TEXT_ALIGN_JUSTIFY,
-  },
-  {
-    '[format_line_spacing] Line spacing': TEXT_LINE_SPACINGS,
-  },
-  {
-    '[format_list_numbered] Ordered list': OL,
-    '[format_list_bulleted] Bulleted list': UL,
-  },
-  {
-    '[format_indent_increase] Indent more': INDENT_MORE,
-    '[format_indent_decrease] Indent less': INDENT_LESS,
-  },
-  {
-    '[format_clear] Clear formats': CLEAR_FORMAT,
-  },
-  {
+  // },
+  // {
+    '[grid_on] Table...': TABLE_COMMANDS_GROUP,
+  // },
+  // {
     '[hr] Horizontal line': HR,
     '[functions] Math': MATH_EDIT,
-    '[code] Code': CODE,
-    '[format_strikethrough] Strike through': STRIKE,
-    '[format_quote] Block quote': BLOCKQUOTE_TOGGLE,
+   
+    // [FS][07-MAY-2020][IRAD-956]
+    // '[format_quote] Block quote': BLOCKQUOTE_TOGGLE,
   },
   {
     '[settings_overscan] Page layout': DOC_LAYOUT,
   },
+  {
+    '[undo] Undo': HISTORY_UNDO,
+    '[redo] Redo': HISTORY_REDO,
+  },  
+ 
 ];
