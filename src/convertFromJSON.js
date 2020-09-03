@@ -21,9 +21,11 @@ export default function convertFromJSON(
   let effectivePlugins = EditorPlugins;
   if (plugins) {
     for (let p of plugins) {
-      effectivePlugins.push(p);
-      if (p.getEffectiveSchema) {
-        editorSchema = p.getEffectiveSchema(editorSchema);
+      if (!effectivePlugins.includes(p)) {
+        effectivePlugins.push(p);
+        if (p.getEffectiveSchema) {
+          editorSchema = p.getEffectiveSchema(editorSchema);
+        }
       }
     }
   }

@@ -1,28 +1,38 @@
 // @flow
 
 import { Step } from "prosemirror-transform"
+import { Schema } from 'prosemirror-model'
 
 import Router from "./route"
 import EditorSchema from "../../../src/EditorSchema"
-import { getInstance, instanceInfo } from "./instance"
+import { getInstance, instanceInfo, setEditorSchema, initEditorSchema } from "./instance"
 // [FS] IRAD-899 2020-03-13
 // This is for Capcomode document attribute. Shared Step, so that capcomode can be dealt collaboratively.
 import SetDocAttrStep from "../../../src/SetDocAttrStep";
+// [FS] IRAD-1040 2020-09-02
+import * as Flatted from 'flatted';
 
 const router = new Router();
 
+// [FS] IRAD-1040 2020-09-02
+let effectiveSchema = EditorSchema;
+let lastUpdatedSchema = null;
+
 function handleCollabRequest(req: any, resp: any) {
+  // [FS] IRAD-1040 2020-09-02
+  initEditorSchema(effectiveSchema);
+  const headers = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': ';POST, GET, PUT, DELETE, OPTIONS',
+    'Access-Control-Allow-Credential': false,
+    'Access-Control-Max-Age': 86400, // 24hrs
+    'Access-Control-Allow-Headers':
+      'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept'
+  };
   if (!router.resolve(req, resp)) {
     const method = req.method.toUpperCase();
     if (method === 'OPTIONS') {
-      const headers = {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': ';POST, GET, PUT, DELETE, OPTIONS',
-        'Access-Control-Allow-Credential': false,
-        'Access-Control-Max-Age': 86400, // 24hrs
-        'Access-Control-Allow-Headers':
-          'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept'
-      };
+
       resp.writeHead(200, headers);
       resp.end();
     } else {
@@ -84,9 +94,23 @@ function readStreamAsJSON(stream, callback) {
   stream.on("error", e => callback(e))
 }
 
+// : (stream.Readable, Function)
+// Invoke a callback with a stream's data.
+function readStreamAsFlatted(stream, callback) {
+  let data = ""
+  stream.on("data", chunk => data += chunk)
+  stream.on("end", () => {
+    let result, error
+    try { result = Flatted.parse(data) }
+    catch (e) { error = e }
+    callback(error, result)
+  })
+  stream.on("error", e => callback(e))
+}
+
 // : (string, Array, Function)
 // Register a server route.
-function handle(method, url, f) {
+function handle(method, url, f, readFlatted = false) {
   router.add(method, url, (req, resp, ...args) => {
     function finish() {
       let output
@@ -99,11 +123,13 @@ function handle(method, url, f) {
       if (output) output.resp(resp)
     }
 
-    if (method == "PUT" || method == "POST")
-      readStreamAsJSON(req, (err, val) => {
+    if (method == "PUT" || method == "POST") {
+      const readMethod = readFlatted ? readStreamAsFlatted : readStreamAsJSON;
+      readMethod(req, (err, val) => {
         if (err) new Output(500, err.toString()).resp(resp)
         else { args.unshift(val); finish() }
       })
+    }
     else
       finish()
   })
@@ -209,10 +235,37 @@ function reqIP(request) {
 // The event submission endpoint, which a client sends an event to.
 handle("POST", ["docs", null, "events"], (data, id, req) => {
   let version = nonNegInteger(data.version)
-  let steps = data.steps.map(s => Step.fromJSON(EditorSchema, s))
+  let steps = data.steps.map(s => Step.fromJSON(effectiveSchema, s))
   let result = getInstance(id, reqIP(req)).addEvents(version, steps, data.clientID)
   if (!result)
     return new Output(409, "Version not current")
   else
     return Output.json(result)
 })
+
+// [FS] IRAD-1040 2020-09-02
+// set the effective schema from client to work the plugins collaboratively
+handle("POST", ["docs", null, "schema"], (data, id, req) => {
+  const updatedSchema = Flatted.stringify(data);
+  // Do a string comparison to see if they are same or not.
+  // if same, don't update
+  if(lastUpdatedSchema !== updatedSchema) {
+    lastUpdatedSchema = updatedSchema;
+	  const spec = data['spec'];  
+	  updateSpec(spec, 'nodes');
+	  updateSpec(spec, 'marks');
+	  effectiveSchema = new Schema({ nodes: effectiveSchema.spec.nodes, marks: effectiveSchema.spec.marks });
+	  setEditorSchema(effectiveSchema);
+  }
+  return Output.json({ result: 'success' });
+}, true)
+
+function updateSpec(spec, attrName) {
+  // clear current array
+  effectiveSchema.spec[attrName].content.splice(0, effectiveSchema.spec[attrName].content.length);
+  const collection = spec[attrName]['content'];
+  // update current array with the latest info
+  for (var i = 0; i < collection.length; i += 2) {
+    effectiveSchema.spec[attrName] = effectiveSchema.spec[attrName].update(collection[i], collection[i+1]);
+  }
+}

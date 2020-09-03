@@ -2,7 +2,10 @@
 
 const { readFileSync, writeFile } = require("fs")
 
-import EditorSchema from "../../../src/EditorSchema"
+// [FS] IRAD-1040 2020-09-02
+import { Schema } from 'prosemirror-model';
+
+let _editorSchema: Schema = null;
 
 const MAX_STEP_HISTORY = 10000
 
@@ -19,10 +22,11 @@ export class Instance {
   waiting = [];
   collecting: any;
   // end 
-  constructor(id: any, doc: any) {
+  constructor(id: any, doc: any, effectiveSchema: Schema) {
     this.id = id
-    this.doc = doc || EditorSchema.node("doc", null, [EditorSchema.node("paragraph", null, [
-      EditorSchema.text(" ")
+    // [FS] IRAD-1040 2020-09-02
+    this.doc = doc || _editorSchema.node("doc", null, [_editorSchema.node("paragraph", null, [
+      _editorSchema.text(" ")
     ])])
     // The version number of the document instance.
     this.version = 0
@@ -135,7 +139,8 @@ if (process.argv.indexOf("--fresh") == -1) {
 
 if (json) {
   for (let prop in json)
-    newInstance(prop, EditorSchema.nodeFromJSON(json[prop].doc))
+    // [FS] IRAD-1040 2020-09-02
+    newInstance(prop, _editorSchema.nodeFromJSON(json[prop].doc))
 }
 
 let saveTimeout = null, saveEvery = 1e4
@@ -143,12 +148,31 @@ function scheduleSave() {
   if (saveTimeout != null) return
   saveTimeout = setTimeout(doSave, saveEvery)
 }
+
 function doSave() {
   saveTimeout = null
   let out = {}
   for (var prop in instances)
     out[prop] = { doc: instances[prop].doc.toJSON() }
   writeFile(saveFile, JSON.stringify(out), () => { null })
+}
+
+// [FS] IRAD-1040 2020-09-02
+function updateDocs() {
+  for (var prop in instances) {
+	instances[prop].doc = _editorSchema.nodeFromJSON(instances[prop].doc.toJSON());
+  }
+}
+
+export function setEditorSchema(effectiveSchema: Schema) {
+  _editorSchema = effectiveSchema;
+  updateDocs();
+}
+
+export function initEditorSchema(effectiveSchema: Schema) {
+  if(null == _editorSchema) {
+    _editorSchema = effectiveSchema;
+  }
 }
 
 export function getInstance(id: any, ip: any) {

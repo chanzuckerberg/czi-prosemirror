@@ -29,7 +29,7 @@ function main(): void {
   const plugins = null;
   ReactDOM.render(<Licit docID={0} debug={false} width={'100vw'} height={'100vh'}
     onChange={onChangeCB} onReady={onReadyCB} data={docJSON} embedded={false}
-    runtime={null} plugins={null} />, el);
+    runtime={null} plugins={plugins} />, el);
 }
 
 function onChangeCB(data) {

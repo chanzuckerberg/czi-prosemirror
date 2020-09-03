@@ -2,6 +2,7 @@
 
 import {EditorState} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
+import {Schema} from 'prosemirror-model';
 import ReactDOM from 'react-dom';
 
 export type SetStateCall = (
@@ -35,6 +36,11 @@ class SimpleConnector {
   // updating properties should automatically render the changes
   getState = (): EditorState => {
     return this._editorState;
+  };
+  
+  // FS IRAD-1040 2020-09-02
+  // Send the modified schema to server
+  updateSchema = (schema: Schema) => {    
   };
 }
 

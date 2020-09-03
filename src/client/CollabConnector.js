@@ -2,6 +2,7 @@
 
 import { Transform } from 'prosemirror-transform';
 import { EditorState } from 'prosemirror-state';
+import { Schema } from 'prosemirror-model';
 import SimpleConnector from './SimpleConnector';
 import type { SetStateCall } from './SimpleConnector';
 import EditorConnection from './EditorConnection';
@@ -29,7 +30,7 @@ class CollabConnector extends SimpleConnector {
     this._docID = docID;
 
     // [FS][11-MAR-2020]
-    //  Modified the scripts to ensure not to always replace 3001 with 3002 to run both servers together,
+    // Modified the scripts to ensure not to always replace 3001 with 3002 to run both servers together,
     // instead used running hostname and configured port.
     const url = window.location.protocol + '\/\/' +
       window.location.hostname + ':3002/docs/' +
@@ -56,6 +57,12 @@ class CollabConnector extends SimpleConnector {
     ReactDOM.unstable_batchedUpdates(() => {
       this._connection.dispatch({ type: 'transaction', transaction });
     });
+  };
+
+  // FS IRAD-1040 2020-09-02
+  // Send the modified schema to server
+  updateSchema = (schema: Schema) => {
+    this._connection.updateSchema(schema);
   };
 }
 
