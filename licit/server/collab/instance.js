@@ -137,7 +137,7 @@ if (process.argv.indexOf("--fresh") == -1) {
   } catch (e) { }
 }
 
-if (json) {
+if (json && null != _editorSchema) {
   for (let prop in json)
     // [FS] IRAD-1040 2020-09-02
     newInstance(prop, _editorSchema.nodeFromJSON(json[prop].doc))
@@ -159,8 +159,10 @@ function doSave() {
 
 // [FS] IRAD-1040 2020-09-02
 function updateDocs() {
-  for (var prop in instances) {
-	instances[prop].doc = _editorSchema.nodeFromJSON(instances[prop].doc.toJSON());
+  if (null != _editorSchema) {
+    for (var prop in instances) {
+      instances[prop].doc = _editorSchema.nodeFromJSON(instances[prop].doc.toJSON());
+    }
   }
 }
 
