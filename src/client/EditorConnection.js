@@ -39,8 +39,10 @@ class EditorConnection {
   state: State;
   url: string;
   view: ?EditorView;
+  schema: Schema;
 
   constructor(onReady: Function, report: any, url: string) {
+    this.schema = null;  
     this.report = report;
     this.url = url;
     this.state = new State(null, 'start');
@@ -50,7 +52,11 @@ class EditorConnection {
     this.dispatch = this.dispatch.bind(this);
     this.ready = false;
     this.onReady = onReady;
-    this.start();
+  }
+  
+  // [FS] IRAD-1040 2020-09-08
+  getEffectiveSchema(): Schema {
+    return (null != this.schema) ? this.schema : EditorSchema;
   }
 
   // All state changes go through this
@@ -127,7 +133,7 @@ class EditorConnection {
         this.backOff = 0;
         this.dispatch({
           type: 'loaded',
-          doc: EditorSchema.nodeFromJSON(data.doc_json),
+          doc: this.getEffectiveSchema().nodeFromJSON(data.doc_json),
           version: data.version,
           users: data.users,
         });
@@ -152,7 +158,7 @@ class EditorConnection {
         if (data.steps && data.steps.length) {
           const tr = receiveTransaction(
             this.state.edit,
-            data.steps.map(j => Step.fromJSON(EditorSchema, j)),
+            data.steps.map(j => Step.fromJSON(this.getEffectiveSchema(), j)),
             data.clientIDs
           );
           this.dispatch({
@@ -233,7 +239,10 @@ class EditorConnection {
 	const schemaFlatted = stringify(schema);	
     this.run(POST(this.url + '/schema/', schemaFlatted, 'text/plain')).then(
       data => {
-        console.log('schema updated');
+        console.log("collab server's schema updated");
+        // [FS] IRAD-1040 2020-09-08
+        this.schema = schema;
+        this.start();
       },
       err => {
         this.report.failure(err);
