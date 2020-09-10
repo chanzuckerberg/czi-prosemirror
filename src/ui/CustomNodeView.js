@@ -119,8 +119,11 @@ class CustomNodeView {
     dom.onClick = this._onClick;
 
     if (pendingViews.size === 1) {
-      mutationObserver.observe(document, {childList: true, subtree: true});
-      selectionObserver.observe(document);
+      // [FS] IRAD-1060 2020-09-10
+      // Observe the editorview's dom insteadof root document so that 
+      // if multiple instances of editor in a page shouldn't cross-talk
+      mutationObserver.observe(/*document*/editorView.dom, {childList: true, subtree: true});
+      selectionObserver.observe(/*document*/editorView.dom);
     }
   }
 
