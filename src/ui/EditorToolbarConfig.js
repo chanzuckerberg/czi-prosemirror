@@ -178,8 +178,8 @@ export const COMMAND_GROUPS = [
     '[format_list_numbered] Lista Ordenada': OL,
   },
   {
-    '[format_indent_increase] Identar mais': INDENT_MORE,
-    '[format_indent_decrease] Identar menos': INDENT_LESS,
+    '[format_indent_increase] Indentar mais': INDENT_MORE,
+    '[format_indent_decrease] Indentar menos': INDENT_LESS,
   },
   {
     '[format_clear] Limpar formatação': CLEAR_FORMAT,
