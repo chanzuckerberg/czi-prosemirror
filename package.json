@@ -39,7 +39,7 @@
     "clean-webpack-plugin": "0.1.17",
     "command-line-args": "5.0.2",
     "copy-webpack-plugin": "4.2.0",
-    "css-loader": "0.25.0",
+    "css-loader": "6.7.3",
     "es6-promise": "3.1.2",
     "es6-shim": "0.35.0",
     "es6-symbol": "3.1.1",
